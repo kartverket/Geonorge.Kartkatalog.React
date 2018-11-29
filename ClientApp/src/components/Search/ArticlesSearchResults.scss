@@ -1,0 +1,11 @@
+:local(.list) {
+	margin: 0;
+	margin-left: 20px;
+	padding: 0;
+	margin-bottom: 20px;
+	list-style-position: outside;
+	font-size: 16px;
+	> div {
+		line-height: 1.6;
+	}
+}
