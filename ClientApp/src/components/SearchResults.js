@@ -40,9 +40,8 @@ export class SearchResults extends Component {
     renderTabs() {
         let tabs = this.state.tabs.map( (tab, i) => {
             let tabClass = this.state.activeTabId == tab.id ? style.tab + ' active' : style.tab;
-//            let counter = React.createElement('span', { className: 'badge ' + style.badge }, tab.count);
-            let counter = () => {return(<span className={'badge ' + style.badge}>tab.count</span>)};
-            let tabContent = tab.name + '' + counter;
+            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, tab.count);
+            let tabContent = [tab.name, counter];
             return React.createElement('li', { onClick: () => this.setActiveTabId(tab.id), key: i, className: tabClass }, tabContent);
         });
         return React.createElement('ul', { className: style.tabs }, tabs);

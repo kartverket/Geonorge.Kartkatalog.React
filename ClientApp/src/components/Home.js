@@ -7,6 +7,7 @@ export class Home extends Component {
   render() {
     return (
       <div>
+        <h1>Kartkatalogen</h1>
         <SearchResults></SearchResults>        
       </div>
     );

@@ -27,8 +27,6 @@ export class ArticlesSearchResults extends Component {
     let listItems = this.state.articles.map(function(listItem, i){
         return <ListItem listItem={listItem} key={i}/>;
     });
-    console.log(style.list);
-
     let listElement = React.createElement('div', { className: style.list }, listItems);
     return listElement;
 }
@@ -37,11 +35,7 @@ export class ArticlesSearchResults extends Component {
   render() {
     return (
       <div>
-        <h1>ArticlesSearchResults</h1>
-
-        <p>This is a simple example of a React component.</p>
         {this.renderList()}
-
       </div>
     );
   }

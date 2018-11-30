@@ -9,12 +9,10 @@ export class MapContainer extends Component {
         this.state = {
         };
     }
-
-
   
     render() {
       return (
-        <div>
+        <div className={style.map}>
             Map
         </div>
       );
