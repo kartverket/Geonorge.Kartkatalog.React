@@ -7,25 +7,37 @@ import style from './SearchResults.scss';
 export class SearchResults extends Component {
     displayName = SearchResults.name
 
+    getMapItems() {
+        return localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
+    }
+    updateNumberOfMapItems() {
+        this.setState({
+            mapItems: this.getMapItems()
+          });
+    }
+
     constructor(props) {
         super(props);
         this.state = {
             activeTabId: 'mapCatalog',
+            mapItems: this.getMapItems(),
+            articleItems: [],
+            metadataItems: [],
             tabs: [
                 {
                     id: 'mapCatalog',
                     name: 'Kartkatalog',
-                    count: 0,
+                    itemArrayProperty: 'metadataItems'
                 },
                 {
                     id: 'articles',
                     name: 'Artikler',
-                    count: 0
+                    itemArrayProperty: 'articleItems'
                 },
                 {
                     id: 'map',
                     name: 'Vis i kart',
-                    count: 0
+                    itemArrayProperty: 'mapItems'
                 }
             ]
         };
@@ -40,7 +52,7 @@ export class SearchResults extends Component {
     renderTabs() {
         let tabs = this.state.tabs.map( (tab, i) => {
             let tabClass = this.state.activeTabId == tab.id ? style.tab + ' active' : style.tab;
-            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, tab.count);
+            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, this.state[tab.itemArrayProperty].length);
             let tabContent = [tab.name, counter];
             return React.createElement('li', { onClick: () => this.setActiveTabId(tab.id), key: i, className: tabClass }, tabContent);
         });
@@ -52,15 +64,20 @@ export class SearchResults extends Component {
         let activeTabContent = null;
         
         if (activeTabId == 'articles') {
-            activeTabContent = ArticlesSearchResults;
+            return (
+                <ArticlesSearchResults/>
+            );
         }
         else if (activeTabId == 'map') {
-            activeTabContent = MapContainer;
+            return (
+                <MapContainer items={this.state.mapItems}/>
+            );
         }
         else {
-            activeTabContent = MetadataSearchResults;
+            return (
+                <MetadataSearchResults updateNumberOfItems={this.updateNumberOfMapItems.bind(this)} />
+            );
         }
-        return React.createElement(activeTabContent);
     }
   
     render() {
