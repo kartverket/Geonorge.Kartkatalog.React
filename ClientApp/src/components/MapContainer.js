@@ -9,11 +9,18 @@ export class MapContainer extends Component {
         this.state = {
         };
     }
+
+    renderList() {
+      let listItems = this.props.items.map( (listItem) => {
+        return  React.createElement('li', null, listItem);
+      });
+      return React.createElement('ul', { className: style.list }, listItems);
+  }
   
     render() {
       return (
         <div className={style.map}>
-            Map
+            { this.renderList() }
         </div>
       );
     }
