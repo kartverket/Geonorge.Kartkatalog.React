@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { SearchResults } from './SearchResults';
+import style from './Home.scss';
 
 export class Home extends Component {
   displayName = Home.name
@@ -7,7 +8,9 @@ export class Home extends Component {
   render() {
     return (
       <div>
-        <h1>Kartkatalogen</h1>
+        <div className={style.header}>
+          <h1>Kartkatalogen</h1>
+        </div>
         <SearchResults></SearchResults>        
       </div>
     );

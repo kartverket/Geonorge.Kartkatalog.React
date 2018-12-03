@@ -52,19 +52,24 @@ class ListItem extends React.Component {
       let buttonClass = this.state.isAdded ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-success';
       return React.createElement('span', { onClick: action, className: buttonClass }, content);
     }else {
-      return null;
+      let content = 'Utilgjengelig';
+      let buttonClass = 'btn btn-sm disabled';
+      return React.createElement('span', { className: buttonClass }, content);
     }
   }
 
 
 	render() {
 		return (
-      <Row>
+      <Row className={style.listItem}>
           <Col sm={9}>
-          { this.props.listItem.Title }
+            <span className={style.listItemTitle}>{ this.props.listItem.Title }</span>
+            <span className={style.listItemInfo}>{this.props.listItem.TypeTranslated} fra <a href="#">{this.props.listItem.OrganizationShortName}</a></span>
           </Col>
           <Col sm={3}>
-          { this.renderMapButton() }
+          <span className={style.listItemButton}>
+            { this.renderMapButton() }
+          </span>
           </Col>
         </Row>
 		);
@@ -83,7 +88,7 @@ export class MetadataSearchResults extends Component {
 
   renderList() {
       let listItems = this.state.items.map( (listItem, i) => {
-        return <ListItem listItem={listItem} addToMap={this.props.updateNumberOfItems.bind(this)} className={style.listItem} key={i}/>;
+        return <ListItem listItem={listItem} addToMap={this.props.updateNumberOfItems.bind(this)} key={i}/>;
       });
       return React.createElement('div', { className: style.list }, listItems);
   }
