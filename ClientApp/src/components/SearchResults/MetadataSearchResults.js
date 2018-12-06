@@ -7,47 +7,47 @@ class ListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      isAdded: this.isAddedToLocalStorage(this.props.listItem.Uuid)
+      isAdded: this.isAddedToLocalStorage(this.props.listItem.GetCapabilitiesUrl)
     };
   }
 
-  addToLocalStorage(uuid) {
+  addToLocalStorage(GetCapabilitiesUrl) {
     let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
-    mapItems.push(uuid);
+    mapItems.push(GetCapabilitiesUrl);
     localStorage.mapItems = JSON.stringify(mapItems);
   }
-  removeFromLocalStorage(uuid) {
+  removeFromLocalStorage(GetCapabilitiesUrl) {
     let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
-    localStorage.mapItems = JSON.stringify(mapItems.filter(mapItem => mapItem !== uuid));
+    localStorage.mapItems = JSON.stringify(mapItems.filter(mapItem => mapItem !== GetCapabilitiesUrl));
   }
-  isAddedToLocalStorage(uuid) {
+  isAddedToLocalStorage(GetCapabilitiesUrl) {
     if ( localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ) {
-      return JSON.parse(localStorage.mapItems).includes(uuid);
+      return JSON.parse(localStorage.mapItems).includes(GetCapabilitiesUrl);
     }else {
       return false;
     }
   }
 
-  addToMap(uuid) {
+  addToMap(GetCapabilitiesUrl) {
     this.setState({
       isAdded: true
     });
-    this.addToLocalStorage(uuid);
+    this.addToLocalStorage(GetCapabilitiesUrl);
     this.props.addToMap();
   }
-  removeFromMap(uuid) {
+  removeFromMap(GetCapabilitiesUrl) {
     this.setState({
       isAdded: false
     });
-    this.removeFromLocalStorage(uuid);
+    this.removeFromLocalStorage(GetCapabilitiesUrl);
     this.props.addToMap();
   }
 
   renderMapButton() {
     if (this.props.listItem.ShowMapLink){
       let action = this.state.isAdded 
-      ? () => this.removeFromMap(this.props.listItem.Uuid)
-      : () => this.addToMap(this.props.listItem.Uuid);
+      ? () => this.removeFromMap(this.props.listItem.GetCapabilitiesUrl)
+      : () => this.addToMap(this.props.listItem.GetCapabilitiesUrl);
       let content = this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart';
       let buttonClass = this.state.isAdded ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-success';
       return React.createElement('span', { onClick: action, className: buttonClass }, content);
