@@ -7,27 +7,43 @@ class ListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      isAdded: this.isAddedToLocalStorage(this.props.listItem.GetCapabilitiesUrl)
+      isAdded: this.isAddedToLocalStorage(this.getMapItem())
     };
   }
-
-  addToLocalStorage(GetCapabilitiesUrl) {
+  addToLocalStorage(mapItemToAdd) {
     let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
-    mapItems.push(GetCapabilitiesUrl);
+    mapItems.push(mapItemToAdd);
     localStorage.mapItems = JSON.stringify(mapItems);
   }
-  removeFromLocalStorage(GetCapabilitiesUrl) {
+  removeFromLocalStorage(mapItemToRemove) {
     let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
-    localStorage.mapItems = JSON.stringify(mapItems.filter(mapItem => mapItem !== GetCapabilitiesUrl));
+    localStorage.mapItems = JSON.stringify(mapItems.filter(mapItemToKeep => mapItemToKeep.GetCapabilitiesUrl !== mapItemToRemove.GetCapabilitiesUrl));
   }
-  isAddedToLocalStorage(GetCapabilitiesUrl) {
+  compareMapItems(mapItemToCompare, mapItemToCompareWith) {
+    return mapItemToCompare.GetCapabilitiesUrl == mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title == mapItemToCompareWith.Title;
+  }
+  isAddedToLocalStorage(mapItemToCompare) {
     if ( localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ) {
-      return JSON.parse(localStorage.mapItems).includes(GetCapabilitiesUrl);
+      let isAddedToLocalStorage = false;
+      JSON.parse(localStorage.mapItems).forEach( (mapItemToCompareWith) => {
+        if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)){
+          isAddedToLocalStorage = true;
+        }
+      });
+      return isAddedToLocalStorage;
     }else {
       return false;
     }
   }
-
+  getMapItem() {
+    return {
+      Uuid: this.props.listItem.Uuid,
+      Title: this.props.listItem.Title,
+      DistributionProtocol: this.props.listItem.DistributionProtocol,
+      GetCapabilitiesUrl: this.props.listItem.GetCapabilitiesUrl,
+      addLayers: []
+    }
+  }
   addToMap(GetCapabilitiesUrl) {
     this.setState({
       isAdded: true
@@ -42,12 +58,12 @@ class ListItem extends React.Component {
     this.removeFromLocalStorage(GetCapabilitiesUrl);
     this.props.addToMap();
   }
-
   renderMapButton() {
+    let mapItem = this.getMapItem();
     if (this.props.listItem.ShowMapLink){
       let action = this.state.isAdded 
-      ? () => this.removeFromMap(this.props.listItem.GetCapabilitiesUrl)
-      : () => this.addToMap(this.props.listItem.GetCapabilitiesUrl);
+      ? () => this.removeFromMap(mapItem)
+      : () => this.addToMap(mapItem);
       let content = this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart';
       let buttonClass = this.state.isAdded ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-success';
       return React.createElement('span', { onClick: action, className: buttonClass }, content);
@@ -57,8 +73,6 @@ class ListItem extends React.Component {
       return React.createElement('span', { className: buttonClass }, content);
     }
   }
-
-
 	render() {
 		return (
       <Row className={style.listItem}>
@@ -78,7 +92,6 @@ class ListItem extends React.Component {
 
 export class MetadataSearchResults extends Component {
   displayName = MetadataSearchResults.name
-
   constructor(props) {
     super(props);
     this.state = { 
