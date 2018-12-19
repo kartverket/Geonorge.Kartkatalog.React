@@ -1,0 +1,169 @@
+:local(.mainNavigationContainer) {
+    position: relative;
+    background-color: #f8f8f7;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+}
+
+:local(.mainNavigation) {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+
+    @media (min-width: 35em) {
+        flex-wrap: nowrap;
+    }
+
+    :local(.logo) {
+        flex: 1;
+        min-width: 150px;
+
+        @media (min-width: 35em) {
+            flex: 0;
+            min-width: 200px;
+        }
+
+        @media (min-width: 62em) {
+            min-width: 248px;
+        }
+
+        a {
+            display: inline-block;
+        }
+
+        img {
+            height: 24px;
+            width: 150px;
+
+            @media (min-width: 35em) {
+                height: 28px;
+                width: 175px;
+            }
+
+            @media (min-width: 62em) {
+                height: 37px;
+                width: 233px;
+            }
+        }
+    }
+
+    :local(.search) {
+        order: 3;
+        width: 100%;
+
+        @media (min-width: 35em) {
+            flex: 1;
+            order: 0;
+            padding: 0 1em;
+        }
+
+        :local(.searchInput) {
+            display: flex;
+            height: 3.5em;
+            padding-top: .75em;
+            position: relative;
+
+            @media (min-width: 35em) {
+                height: 100%;
+                padding-top: 0;
+            }
+
+            input {
+                outline-offset: -2px;
+                -webkit-appearance: none;
+                background: #fff;
+                border: 1px solid #dfdcda;
+                border-right: 0;
+                border-radius: 2px 0 0 2px;
+                font-size: 16px;
+                flex: 1;
+                padding: 0 .75em;
+            }
+
+            button {
+                -webkit-appearance: button;
+                background: #fff;
+                border: 1px solid #dfdcda;
+                border-left: 0;
+                border-radius: 0 2px 2px 0;
+                display: inline-block;
+                padding: 0 .75em;
+
+                img {
+                    height: 1.544em;
+                    width: 1.5em;
+                }
+            }
+        }
+
+    }
+
+    :local(.iconButton) {
+        flex: 0 1;
+        display: block;
+        margin-left: 12px;
+
+        img {
+            width: 37px;
+            height: 37px;
+            vertical-align: middle;
+        }
+
+        :local(.counter) {
+            background-color: #FE5002;
+            border-radius: 50%;
+            color: #fff;
+            font-size: .857em;
+            height: 1.5em;
+            line-height: 1.5;
+            margin-top: -.25em;
+            margin-left: -.5em;
+            position: absolute;
+            text-align: center;
+            width: 1.5em;
+        }
+
+    }
+}
+
+:local(.searchResults) {
+    position: absolute;
+    background: #fbfcfd;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+    border-radius: 2px 0 0 2px;
+    display: none;
+    top: 37px;
+    z-index: 1;
+
+    &.active {
+        display: block;
+        width: 100%;
+    }
+
+    :local(.searchResultsSectionHeading) {
+        font-size: 14pt;
+        padding: 0 10px;
+    }
+
+    :local(.searchResultsSection) {
+        display: block;
+        margin-bottom: 12px;
+        :local(.searchResultsItem) {
+            display: block;
+            font-size: 12pt;
+            color: #333435;
+            padding: 6px 20px;
+            -moz-transition: background-color .2s ease-in-out;
+            -o-transition: background-color .2s ease-in-out;
+            -webkit-transition: background-color .2s ease-in-out;
+            transition: background-color .2s ease-in-out;
+            cursor: pointer;
+        }
+        :local(.searchResultsItem:hover) {
+            background: #f0f1f2;
+        }
+    }
+}
