@@ -33,11 +33,6 @@ export class SearchResults extends Component {
                     id: 'articles',
                     name: 'Artikler',
                     itemArrayProperty: 'articleItems'
-                },
-                {
-                    id: 'map',
-                    name: 'Vis i kart',
-                    itemArrayProperty: 'mapItems'
                 }
             ]
         };
@@ -65,11 +60,6 @@ export class SearchResults extends Component {
         if (activeTabId === 'articles') {
             return (
                 <ArticlesSearchResults/>
-            );
-        }
-        else if (activeTabId === 'map') {
-            return (
-                <MapContainer items={this.state.mapItems}/>
             );
         }
         else {
