@@ -20,7 +20,7 @@ class ListItem extends React.Component {
     localStorage.mapItems = JSON.stringify(mapItems.filter(mapItemToKeep => mapItemToKeep.GetCapabilitiesUrl !== mapItemToRemove.GetCapabilitiesUrl));
   }
   compareMapItems(mapItemToCompare, mapItemToCompareWith) {
-    return mapItemToCompare.GetCapabilitiesUrl == mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title == mapItemToCompareWith.Title;
+    return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
   }
   isAddedToLocalStorage(mapItemToCompare) {
     if ( localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ) {
@@ -101,7 +101,7 @@ export class MetadataSearchResults extends Component {
 
   renderList() {
       let listItems = this.state.items.map( (listItem, i) => {
-        return <ListItem listItem={listItem} addToMap={this.props.updateNumberOfItems.bind(this)} key={i}/>;
+        return <ListItem listItem={listItem} addToMap={this.props.updateMapItems.bind(this)} key={i}/>;
       });
       return React.createElement('div', { className: style.list }, listItems);
   }

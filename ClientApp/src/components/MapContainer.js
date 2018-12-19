@@ -12,8 +12,8 @@ export class MapContainer extends Component {
   
     render() {
       return (
-        <div className={style.map}>        
-            <Map services = { this.props.items }/>
+        <div className={style.map}>  
+          <Map services={ this.props.mapItems }/> 
         </div>
       );
     }
