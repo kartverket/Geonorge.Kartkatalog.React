@@ -1,0 +1,7 @@
+<svg width="48px" height="32px" viewBox="0 0 48 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+<g transform="translate(-1.000000, -9.000000)" fill="#7d746d" class="downloads__cloud">
+<path d="M25,9 C19.22,9 14.2,12.28 11.7,17.08 C5.68,17.72 1,22.82 1,29 C1,35.62 6.38,41 13,41 L39,41 C44.52,41 49,36.52 49,31 C49,25.72 44.9,21.44 39.7,21.08 C38.34,14.18 32.28,9 25,9 Z M35,27 L25,37 L15,27 L21,27 L21,19 L29,19 L29,27 L35,27 L35,27 Z" id="Shape"></path>
+</g>
+</g>
+</svg>
