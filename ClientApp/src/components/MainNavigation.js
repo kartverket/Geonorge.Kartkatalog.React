@@ -42,41 +42,46 @@ class MetadataSearchResultsList extends React.Component {
         }
     }
 }
-/*
+
 class ArticleSearchResultsListItem extends React.Component {
     render() {
         return (
-            <div>
-                {this.props.searchResult.Title}
+            <div className={style.searchResultsItem}>
+                {this.props.listItem.Title}
             </div>
         );
     }
-}*/
-/*
-class ArticleSearchResultsListItem extends React.Component {
+}
+
+class ArticleSearchResultsList extends React.Component {
     constructor(props) {
         super(props);
     }
-
-    renderArticlesSearchResults() {
-        let articlesSearchResultsElement = null;
-        if (this.state.articlesSearchResults) {
-            let articlesSearchResults = this.props.listItems.map(function (listItem, i) {
-                return <ArticleSearchResultsList searchResult={listItem} key={i} />;
+    renderArticleSearchResults() {
+        let listItemsElement = null;
+        if (this.props.listItems) {
+            let listItems = this.props.listItems.map(function (listItem, i) {
+                return <ArticleSearchResultsListItem listItem={listItem} key={i} />;
             });
-            articlesSearchResultsElement = React.createElement('div', { className: style.searchResultsSection }, articlesSearchResults);
+            listItemsElement = React.createElement('div', { className: style.searchResultsSection }, listItems);
         }
-        return articlesSearchResultsElement;
+
+        return listItemsElement;
     }
 
     render() {
-        return (
-            <div>
-                {this.renderArticlesSearchResults()}
-            </div>
-        );
+        if (this.props.listItems && this.props.listItems.length) {
+            return (
+                <div>
+                    <h3 className={style.searchResultsSectionHeading}>{this.props.heading}</h3>
+                    {this.renderArticleSearchResults()}
+                </div>
+            );
+        } else {
+            return null;
+        }
     }
-}*/
+}
 
 export class MainNavigation extends Component {
     displayName = MainNavigation.name
@@ -91,7 +96,7 @@ export class MainNavigation extends Component {
                 metadataServiceSearchResults: null,
                 metadataDatasetSearchResults: null,
             },
-            articlesSearchResults: null,
+            articleSearchResults: null,
         };
         this.performSearch = this.performSearch.bind(this);
         this.showResults = this.showResults.bind(this);
@@ -135,7 +140,7 @@ export class MainNavigation extends Component {
             axios.get('https://kartkatalog.dev.geonorge.no/api/articles?text=' + event.target.value)
                 .then((response) => {
                     this.setState({
-                        articlesSearchResults: response.data.Results
+                        articleSearchResults: response.data.Results
                     });
                 })
                 .catch(function (error) {
@@ -194,6 +199,7 @@ export class MainNavigation extends Component {
                                 <MetadataSearchResultsList heading="Dataset" listItems={this.state.metadataSearchResults.metadataDatasetSearchResults}></MetadataSearchResultsList>
                                 <MetadataSearchResultsList heading="Applikasjoner" listItems={this.state.metadataSearchResults.metadataSoftwareSearchResults}></MetadataSearchResultsList>
                                 <MetadataSearchResultsList heading="Tjenester" listItems={this.state.metadataSearchResults.metadataServiceSearchResults}></MetadataSearchResultsList>
+                                <ArticleSearchResultsList heading="Artikler" listItems={this.state.articleSearchResults}></ArticleSearchResultsList>
                             </div>
                         </div>
                     </div>
