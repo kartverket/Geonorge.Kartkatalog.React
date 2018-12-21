@@ -5,11 +5,6 @@ import {Map} from 'r_map';
 
 export class MapContainer extends Component {
     displayName = MapContainer.name
-
-    constructor(props) {
-        super(props);
-    }
-  
     render() {
       return (
         <div className={style.map}>  
