@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.1.3",
     "node-sass": "^4.10.0",
     "r_map": "https://github.com/kartverket/r_map.git",
     "react": "^16.0.0",
