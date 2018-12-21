@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { MetadataSearchResults } from './SearchResults/MetadataSearchResults';
 import { ArticlesSearchResults } from './SearchResults/ArticlesSearchResults';
-import { MapContainer } from './MapContainer';
 import style from './SearchResults.scss';
 
 export class SearchResults extends Component {
@@ -13,69 +12,117 @@ export class SearchResults extends Component {
     updateNumberOfMapItems() {
         this.setState({
             mapItems: this.getMapItems()
-          });
+        });
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            activeTabId: 'mapCatalog',
             mapItems: this.getMapItems(),
             articleItems: [],
             metadataItems: [],
             tabs: [
                 {
-                    id: 'mapCatalog',
+                    id: 'metadata',
                     name: 'Kartkatalog',
-                    itemArrayProperty: 'metadataItems'
+                    counterProperty: 'NumFound'
                 },
                 {
                     id: 'articles',
                     name: 'Artikler',
-                    itemArrayProperty: 'articleItems'
+                    counterProperty: 'NumFound'
                 }
-            ]
+            ],
+            subTabs: {
+                metadata: [
+                    {
+                        id: 'all',
+                        name: 'Alle',
+                        counterProperty: 'NumFound'
+                    },
+                    {
+                        id: 'dataset',
+                        name: 'Datasett',
+                        counterProperty: 'NumFound'
+                    },
+                    {
+                        id: 'service',
+                        name: 'Tjenester',
+                        counterProperty: 'NumFound'
+                    },
+                    {
+                        id: 'software',
+                        name: 'Applikasjoner',
+                        counterProperty: 'NumFound'
+                    }
+                ],
+                articles: []
+            }
         };
     }
 
-    setActiveTabId(tabId) {
-        this.setState({
-            activeTabId: tabId
-        });
+    setActiveTab(tabId) {
+        this.props.updateRootState('selectedType', tabId);
+    }
+
+    setActiveSubTab(tabId) {
+        this.props.updateRootState('selectedSubType', tabId);
+    }
+
+    getCounterValue(type, subType, counterProperty) {
+        let counterValue = 0;
+        if (this.props.searchResults[type][subType] && this.props.searchResults[type][subType][counterProperty]) {
+            counterValue = this.props.searchResults[type][subType][counterProperty];
+        }
+        return counterValue;
     }
 
     renderTabs() {
-        let tabs = this.state.tabs.map( (tab, i) => {
-            let tabClass = this.state.activeTabId === tab.id ? style.tab + ' active' : style.tab;
-            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, this.state[tab.itemArrayProperty].length);
+        let tabs = this.state.tabs.map((tab, i) => {
+            let tabClass = this.props.getRootStateValue('selectedType') === tab.id ? style.tab + ' active' : style.tab;
+            let counterValue = this.getCounterValue(tab.id, 'all', tab.counterProperty);
+            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, counterValue);
             let tabContent = [tab.name, counter];
-            return React.createElement('li', { onClick: () => this.setActiveTabId(tab.id), key: i, className: tabClass }, tabContent);
+            return React.createElement('li', { onClick: () => this.setActiveTab(tab.id), key: i, className: tabClass }, tabContent);
         });
         return React.createElement('ul', { className: style.tabs }, tabs);
     }
 
+    renderSubTabs() {
+        let selectedType = this.props.getRootStateValue('selectedType');
+        let selectedSubType = this.props.getRootStateValue('selectedSubType');
+        let subTabs = this.state.subTabs[selectedType].map((subTab, i) => {
+            let tabClass = selectedSubType === subTab.id ? style.tab + ' active' : style.tab;
+            let counterValue = this.getCounterValue(selectedType, subTab.id, subTab.counterProperty);
+            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, counterValue);
+            let tabContent = [subTab.name, counter];
+            return React.createElement('li', { onClick: () => this.setActiveSubTab(subTab.id), key: i, className: tabClass }, tabContent);
+        });
+        return React.createElement('ul', { className: style.subTabs }, subTabs);
+    }
+
     renderActiveTabContent() {
-        let activeTabId = this.state.activeTabId;
-        
+        let activeTabId = this.props.getRootStateValue('selectedType');
+
         if (activeTabId === 'articles') {
             return (
-                <ArticlesSearchResults/>
+                <ArticlesSearchResults />
             );
         }
         else {
             return (
-                <MetadataSearchResults updateMapItems={this.props.updateMapItems.bind(this)} />
+                <MetadataSearchResults searchResults={this.props.searchResults} updateMapItems={this.props.updateMapItems.bind(this)} updateRootState={this.props.updateRootState.bind(this)} getRootStateValue={this.props.getRootStateValue.bind(this)} />
             );
         }
     }
-  
+
     render() {
-      return (
-        <div>
-            { this.renderTabs() }
-            { this.renderActiveTabContent() }
-        </div>
-      );
+        return (
+            <div>
+                {this.renderTabs()}
+                {this.renderSubTabs()}
+                {this.renderActiveTabContent()}
+            </div>
+        );
     }
-  }
-  
+}

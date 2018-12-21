@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import style from './MainNavigation.scss';
-import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { BrowserRouter as Link } from 'react-router-dom'
 
 class MetadataSearchResultsListItem extends React.Component {
     render() {
@@ -14,9 +14,6 @@ class MetadataSearchResultsListItem extends React.Component {
 }
 
 class MetadataSearchResultsList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     renderMetadataSearchResults() {
         let listItemsElement = null;
         if (this.props.listItems) {
@@ -35,6 +32,9 @@ class MetadataSearchResultsList extends React.Component {
                 <div>
                     <h3 className={style.searchResultsSectionHeading}>{this.props.heading}</h3>
                     {this.renderMetadataSearchResults()}
+                    <span onClick={() => this.props.showResults(this.props.searchString, 'metadata', this.props.subType )} className="btn btn-default">
+                        Vis alle
+                    </span>
                 </div>
             );
         } else {
@@ -54,9 +54,6 @@ class ArticleSearchResultsListItem extends React.Component {
 }
 
 class ArticleSearchResultsList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     renderArticleSearchResults() {
         let listItemsElement = null;
         if (this.props.listItems) {
@@ -91,10 +88,15 @@ export class MainNavigation extends Component {
         this.state = {
             searchString: '',
             showResults: false,
+            metadataSearchApiUrls: {
+                software: null,
+                service: null,
+                dataset: null,
+            },
             metadataSearchResults: {
-                metadataSoftwareSearchResults: null,
-                metadataServiceSearchResults: null,
-                metadataDatasetSearchResults: null,
+                software: null,
+                service: null,
+                dataset: null,
             },
             articleSearchResults: null,
         };
@@ -102,13 +104,13 @@ export class MainNavigation extends Component {
         this.showResults = this.showResults.bind(this);
     }
 
-    updateStateValuesFromApi(url, statePropertyName) {
+    updateMetadataValuesFromApi(name, url) {
         axios.get(url)
             .then((response) => {
                 this.setState(prevState => ({
                     metadataSearchResults: {
                         ...prevState.metadataSearchResults,
-                        [statePropertyName]: response.data.Results
+                        [name]: response.data.Results
                     }
                 }));
             })
@@ -119,22 +121,17 @@ export class MainNavigation extends Component {
 
     performSearch(event) {
         if (event.target.value) {
-            let apiUrls = [
-                {
-                    statePropertyName: 'metadataSoftwareSearchResults',
-                    url: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + event.target.value
-                },
-                {
-                    statePropertyName: 'metadataServiceSearchResults',
-                    url: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + event.target.value
-                },
-                {
-                    statePropertyName: 'metadataDatasetSearchResults',
-                    url: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + event.target.value
+            let searchString = event.target.value;
+            this.setState(prevState => ({
+                metadataSearchApiUrls: {
+                    software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + searchString,
+                    service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + searchString,
+                    dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + searchString
                 }
-            ]
-            apiUrls.forEach((apiUrl) => {
-                this.updateStateValuesFromApi(apiUrl.url, apiUrl.statePropertyName);
+            }));
+            Object.keys(this.state.metadataSearchApiUrls).map((name) => {
+                let url = this.state.metadataSearchApiUrls[name];
+                this.updateMetadataValuesFromApi(name, url);
             })
 
             axios.get('https://kartkatalog.dev.geonorge.no/api/articles?text=' + event.target.value)
@@ -166,7 +163,6 @@ export class MainNavigation extends Component {
 
     handleClick = (e) => {
         if (this.node.contains(e.target)) {
-            console.log("inside");
             return;
         }
 
@@ -179,6 +175,22 @@ export class MainNavigation extends Component {
 
     componentWillUnMount() {
         document.addEventListener('mousedown', this.handleClick, false);
+    }
+
+    getMetadataSearchResults(name) {
+        if (name) {
+            return this.state.metadataSearchResults[name];
+        } else {
+            return this.state.metadataSearchResults;
+        }
+    }
+
+    getMetadataSearchApiUrl(name) {
+        if (name) {
+            return this.state.metadataSearchApiUrls[name];
+        } else {
+            return this.state.metadataSearchApiUrls;
+        }
     }
 
     render() {
@@ -194,11 +206,29 @@ export class MainNavigation extends Component {
                         <div className={style.searchInput}>
                             <input placeholder="Søk" onFocus={this.showResults} onChange={this.performSearch}></input>
                             <button><img src={require('../images/svg/search-icon.svg')}></img></button>
-
                             <div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
-                                <MetadataSearchResultsList heading="Dataset" listItems={this.state.metadataSearchResults.metadataDatasetSearchResults}></MetadataSearchResultsList>
-                                <MetadataSearchResultsList heading="Applikasjoner" listItems={this.state.metadataSearchResults.metadataSoftwareSearchResults}></MetadataSearchResultsList>
-                                <MetadataSearchResultsList heading="Tjenester" listItems={this.state.metadataSearchResults.metadataServiceSearchResults}></MetadataSearchResultsList>
+                                <MetadataSearchResultsList
+                                    heading="Dataset"
+                                    subType="dataset"
+                                    listItems={this.getMetadataSearchResults('dataset')}
+                                    searchString={this.state.searchString}
+                                    showResults={this.props.showResults.bind(this)}>
+                                </MetadataSearchResultsList>
+                                <MetadataSearchResultsList
+                                    heading="Applikasjoner"
+                                    subType="software"
+                                    listItems={this.getMetadataSearchResults('software')}
+                                    searchString={this.state.searchString}
+                                    showResults={this.props.showResults.bind(this)}>
+                                </MetadataSearchResultsList>
+                                <MetadataSearchResultsList
+                                    heading="Tjenester"
+                                    subType="service"
+                                    listItems={this.getMetadataSearchResults('service')}
+                                    searchString={this.state.searchString}
+                                    showResults={this.props.showResults.bind(this)}>
+                                </MetadataSearchResultsList>
+
                                 <ArticleSearchResultsList heading="Artikler" listItems={this.state.articleSearchResults}></ArticleSearchResultsList>
                             </div>
                         </div>
@@ -214,7 +244,7 @@ export class MainNavigation extends Component {
                         </span>
                     </Link>
                 </div>
-            </div>
+            </div >
         );
     }
 }

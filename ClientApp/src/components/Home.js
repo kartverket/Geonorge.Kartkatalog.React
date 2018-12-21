@@ -13,7 +13,7 @@ export class Home extends Component {
         <div className={style.header}>
           <h1>Kartkatalogen</h1>
         </div>
-        <SearchResults updateMapItems={this.props.updateMapItems.bind(this)}></SearchResults>
+        <SearchResults searchResults={this.props.searchResults} updateMapItems={this.props.updateMapItems.bind(this)} updateRootState={this.props.updateRootState.bind(this)} getRootStateValue={this.props.getRootStateValue.bind(this)}></SearchResults>
       </div>
     );
   }
