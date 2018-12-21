@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import style from './MainNavigation.scss';
-import { BrowserRouter as Link } from 'react-router-dom'
+import { BrowserRouter as Router, Link } from 'react-router-dom'
 
 class MetadataSearchResultsListItem extends React.Component {
     render() {
