@@ -29,3 +29,40 @@
         }
     }
 }
+
+:local(.subTabs) {
+    margin: 0 0 16px 0;
+    padding: 0 20px;
+    list-style: none;
+
+    :local(.tab) {
+        display: inline-block;
+        border-bottom: 6px solid transparent;
+        color: #333;
+        font-size: 12pt;
+        font-weight: 600;
+        margin-right: 16px;
+        cursor: pointer;
+
+        &:before {
+            font-family: "Font Awesome 5 Free";
+            content: "\f0c8";
+            font-weight: 400;
+            margin-right: 5px;
+        }
+
+        &.active:before {
+            content: "\f14a";
+        }
+
+        :local(.badge) {
+            margin-left: 4px;
+            height: 18px;
+            padding: 2px 4px;
+            color: #fff;
+            vertical-align: middle;
+            border-radius: 4px;
+            background-color: #fe5000;
+        }
+    }
+}
