@@ -146,25 +146,53 @@
         width: 100%;
     }
 
-    :local(.searchResultsSectionHeading) {
-        font-size: 14pt;
-        padding: 0 10px;
+    :local(.searchResultsSectionHeadingContainer) {
+        padding: 4px 10px;
+
+        :local(.searchResultsSectionHeading) {
+            font-size: 14pt;
+            display: inline-block;
+        }
+
+        :local(.counter) {
+            padding: 2px 4px;
+            color: #fff;
+            border-radius: 4px;
+            background-color: #fe5000;
+            display: inline-block;
+            font-size: 9pt;
+            vertical-align: text-bottom;
+            margin-left: 4px;
+
+        }
+
+        :local(.showAllButton) {
+            float: right;
+            cursor: pointer;
+            font-size: 14pt;
+        }
     }
 
     :local(.searchResultsSection) {
         display: block;
         margin-bottom: 12px;
+
+        &:nth-child(odd){
+            background: #f5f6f7;
+        }
+
         :local(.searchResultsItem) {
             display: block;
             font-size: 12pt;
             color: #333435;
-            padding: 6px 20px;
+            padding: 4px 20px;
             -moz-transition: background-color .2s ease-in-out;
             -o-transition: background-color .2s ease-in-out;
             -webkit-transition: background-color .2s ease-in-out;
             transition: background-color .2s ease-in-out;
             cursor: pointer;
         }
+
         :local(.searchResultsItem:hover) {
             background: #f0f1f2;
         }
