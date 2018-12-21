@@ -90,31 +90,45 @@ export default class App extends Component {
     }
   }
 
+  getSearchApiUrls(searchString) {
+    return {
+      metadata: {
+        all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&text=' + searchString,
+        software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + searchString,
+        service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + searchString,
+        dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + searchString
+      },
+      articles: {
+        all: 'https://kartkatalog.dev.geonorge.no/api/articles?limit=' + this.state.itemsPerSubType + '&text=' + searchString
+      }
+    }
+  }
+
   showResults(searchString, type, subType) {
-    
     let metadataSearchApiUrls = this.getSearchApiUrls(searchString);
     this.setState({
       selectedType: type,
-      selectedSubType: subType,
-      metadataSearchApiUrls: metadataSearchApiUrls
+      selectedSubType: subType
     });
-    Object.keys(this.state.metadataSearchApiUrls).map((name) => {
-      let url = metadataSearchApiUrls[name];
-      axios.get(url)
-        .then((response) => {
-          this.setState(prevState => ({
-            searchResults: {
-              ...prevState.searchResults,
-              'metadata': {
-                ...prevState.searchResults[type],
-                [name]: response.data
+    Object.keys(metadataSearchApiUrls).map((type) => {
+      Object.keys(metadataSearchApiUrls[type]).map((subType) => {
+        let url = metadataSearchApiUrls[type][subType];
+        axios.get(url)
+          .then((response) => {
+            this.setState(prevState => ({
+              searchResults: {
+                ...prevState.searchResults,
+                [type]: {
+                  ...prevState.searchResults[type],
+                  [subType]: response.data
+                }
               }
-            }
-          }));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+            }));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
     })
   }
 

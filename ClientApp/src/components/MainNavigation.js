@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import style from './MainNavigation.scss';
-import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { Browser as Router, Link } from 'react-router-dom'
 
-class MetadataSearchResultsListItem extends React.Component {
+class SearchResultsListItem extends React.Component {
     render() {
         return (
             <div className={style.searchResultsItem}>
@@ -13,28 +13,42 @@ class MetadataSearchResultsListItem extends React.Component {
     }
 }
 
-class MetadataSearchResultsList extends React.Component {
-    renderMetadataSearchResults() {
-        let listItemsElement = null;
-        if (this.props.listItems) {
-            let listItems = this.props.listItems.map(function (listItem, i) {
-                return <MetadataSearchResultsListItem listItem={listItem} key={i} />;
-            });
-            listItemsElement = React.createElement('div', { className: style.searchResultsSection }, listItems);
-        }
+class SearchResultsList extends React.Component {
 
+    renderSearchResults() {
+        let listItemsElement = null;
+        let listItemsResults = this.props.listItems && this.props.listItems.Results ? this.props.listItems.Results : null;
+        if (listItemsResults) {
+            let listItems = listItemsResults.map(function (listItem, i) {
+                return <SearchResultsListItem listItem={listItem} key={i} />;
+            });
+            listItemsElement = React.createElement('div', null, listItems);
+        }
         return listItemsElement;
     }
 
+    getCounterValue(counterProperty) {
+        let counterValue = 0;
+        let listItems = this.props.listItems ? this.props.listItems : null;
+        if (listItems && listItems[counterProperty]) {
+            counterValue = listItems[counterProperty];
+        }
+        return counterValue;
+    }
+
     render() {
-        if (this.props.listItems && this.props.listItems.length) {
+        let listItemsResults = this.props.listItems && this.props.listItems.Results ? this.props.listItems.Results : null;
+        if (listItemsResults && listItemsResults.length) {
             return (
-                <div>
-                    <h3 className={style.searchResultsSectionHeading}>{this.props.heading}</h3>
-                    {this.renderMetadataSearchResults()}
-                    <span onClick={() => this.props.showResults(this.props.searchString, 'metadata', this.props.subType )} className="btn btn-default">
-                        Vis alle
-                    </span>
+                <div className={style.searchResultsSection}>
+                    <div className={style.searchResultsSectionHeadingContainer}>
+                        <span className={style.searchResultsSectionHeading}>{this.props.heading}</span>
+                        <span className={style.counter}>{this.getCounterValue('NumFound')}</span>
+                        <span onClick={() => this.props.showResults(this.props.searchString, this.props.type, this.props.subType)} className={style.showAllButton}>
+                            Vis alle
+                        </span>
+                    </div>
+                    {this.renderSearchResults()}
                 </div>
             );
         } else {
@@ -43,42 +57,6 @@ class MetadataSearchResultsList extends React.Component {
     }
 }
 
-class ArticleSearchResultsListItem extends React.Component {
-    render() {
-        return (
-            <div className={style.searchResultsItem}>
-                {this.props.listItem.Title}
-            </div>
-        );
-    }
-}
-
-class ArticleSearchResultsList extends React.Component {
-    renderArticleSearchResults() {
-        let listItemsElement = null;
-        if (this.props.listItems) {
-            let listItems = this.props.listItems.map(function (listItem, i) {
-                return <ArticleSearchResultsListItem listItem={listItem} key={i} />;
-            });
-            listItemsElement = React.createElement('div', { className: style.searchResultsSection }, listItems);
-        }
-
-        return listItemsElement;
-    }
-
-    render() {
-        if (this.props.listItems && this.props.listItems.length) {
-            return (
-                <div>
-                    <h3 className={style.searchResultsSectionHeading}>{this.props.heading}</h3>
-                    {this.renderArticleSearchResults()}
-                </div>
-            );
-        } else {
-            return null;
-        }
-    }
-}
 
 export class MainNavigation extends Component {
     displayName = MainNavigation.name
@@ -88,64 +66,65 @@ export class MainNavigation extends Component {
         this.state = {
             searchString: '',
             showResults: false,
-            metadataSearchApiUrls: {
-                software: null,
-                service: null,
-                dataset: null,
-            },
-            metadataSearchResults: {
-                software: null,
-                service: null,
-                dataset: null,
-            },
-            articleSearchResults: null,
+            itemsPerSubType: 5,
+            searchResults: {
+                metadata: {
+                    all: null,
+                    dataset: null,
+                    service: null,
+                    software: null
+                },
+                articles: {
+                    all: null
+                }
+            }
         };
         this.performSearch = this.performSearch.bind(this);
         this.showResults = this.showResults.bind(this);
     }
 
-    updateMetadataValuesFromApi(name, url) {
-        axios.get(url)
-            .then((response) => {
-                this.setState(prevState => ({
-                    metadataSearchResults: {
-                        ...prevState.metadataSearchResults,
-                        [name]: response.data.Results
-                    }
-                }));
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    getSearchApiUrls(searchString) {
+        return {
+            metadata: {
+                all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&text=' + searchString,
+                software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + searchString,
+                service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + searchString,
+                dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + searchString
+            },
+            articles: {
+                all: 'https://kartkatalog.dev.geonorge.no/api/articles?text=' + searchString
+            }
+        }
     }
 
     performSearch(event) {
         if (event.target.value) {
             let searchString = event.target.value;
-            this.setState(prevState => ({
-                metadataSearchApiUrls: {
-                    software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + searchString,
-                    service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + searchString,
-                    dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=5&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + searchString
-                }
-            }));
-            Object.keys(this.state.metadataSearchApiUrls).map((name) => {
-                let url = this.state.metadataSearchApiUrls[name];
-                this.updateMetadataValuesFromApi(name, url);
-            })
-
-            axios.get('https://kartkatalog.dev.geonorge.no/api/articles?text=' + event.target.value)
-                .then((response) => {
-                    this.setState({
-                        articleSearchResults: response.data.Results
-                    });
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
             this.setState({
-                searchString: event.target.value
+                searchString: searchString
             });
+
+            let searchApiUrls = this.getSearchApiUrls(searchString);
+            Object.keys(searchApiUrls).map((type) => {
+                Object.keys(searchApiUrls[type]).map((subType) => {
+                    let url = searchApiUrls[type][subType];
+                    axios.get(url)
+                        .then((response) => {
+                            this.setState(prevState => ({
+                                searchResults: {
+                                    ...prevState.searchResults,
+                                    [type]: {
+                                        ...prevState.searchResults[type],
+                                        [subType]: response.data
+                                    }
+                                }
+                            }));
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                })
+            })
         }
     }
 
@@ -177,19 +156,13 @@ export class MainNavigation extends Component {
         document.addEventListener('mousedown', this.handleClick, false);
     }
 
-    getMetadataSearchResults(name) {
-        if (name) {
-            return this.state.metadataSearchResults[name];
+    getSearchResults(type, subType) {
+        if (type && subType) {
+            return this.state.searchResults[type][subType];
+        } else if (type) {
+            return this.state.searchResults[type];
         } else {
-            return this.state.metadataSearchResults;
-        }
-    }
-
-    getMetadataSearchApiUrl(name) {
-        if (name) {
-            return this.state.metadataSearchApiUrls[name];
-        } else {
-            return this.state.metadataSearchApiUrls;
+            return this.state.searchResults;
         }
     }
 
@@ -207,33 +180,42 @@ export class MainNavigation extends Component {
                             <input placeholder="Søk" onFocus={this.showResults} onChange={this.performSearch}></input>
                             <button><img src={require('../images/svg/search-icon.svg')}></img></button>
                             <div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
-                                <MetadataSearchResultsList
+                                <SearchResultsList
                                     heading="Dataset"
+                                    type="metadata"
                                     subType="dataset"
-                                    listItems={this.getMetadataSearchResults('dataset')}
+                                    listItems={this.getSearchResults('metadata', 'dataset')}
                                     searchString={this.state.searchString}
                                     showResults={this.props.showResults.bind(this)}>
-                                </MetadataSearchResultsList>
-                                <MetadataSearchResultsList
+                                </SearchResultsList>
+                                <SearchResultsList
                                     heading="Applikasjoner"
+                                    type="metadata"
                                     subType="software"
-                                    listItems={this.getMetadataSearchResults('software')}
+                                    listItems={this.getSearchResults('metadata', 'software')}
                                     searchString={this.state.searchString}
                                     showResults={this.props.showResults.bind(this)}>
-                                </MetadataSearchResultsList>
-                                <MetadataSearchResultsList
+                                </SearchResultsList>
+                                <SearchResultsList
                                     heading="Tjenester"
+                                    type="metadata"
                                     subType="service"
-                                    listItems={this.getMetadataSearchResults('service')}
+                                    listItems={this.getSearchResults('metadata', 'service')}
                                     searchString={this.state.searchString}
                                     showResults={this.props.showResults.bind(this)}>
-                                </MetadataSearchResultsList>
-
-                                <ArticleSearchResultsList heading="Artikler" listItems={this.state.articleSearchResults}></ArticleSearchResultsList>
+                                </SearchResultsList>
+                                <SearchResultsList
+                                    heading="Artikler"
+                                    type="articles"
+                                    subType="all"
+                                    listItems={this.getSearchResults('articles', 'all')}
+                                    searchString={this.state.searchString}
+                                    showResults={this.props.showResults.bind(this)}>
+                                </SearchResultsList>
                             </div>
                         </div>
                     </div>
-                    <span className={style.iconButton}>
+                    <span className={style.iconButton} style={{display: "none"}}>
                         <span className={style.counter}>12</span>
                         <img src={require('../images/svg/download-icon.svg')}></img>
                     </span>

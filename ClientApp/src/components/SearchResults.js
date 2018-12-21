@@ -106,7 +106,7 @@ export class SearchResults extends Component {
 
         if (activeTabId === 'articles') {
             return (
-                <ArticlesSearchResults />
+                <ArticlesSearchResults searchResults={this.props.searchResults} updateMapItems={this.props.updateMapItems.bind(this)} updateRootState={this.props.updateRootState.bind(this)} getRootStateValue={this.props.getRootStateValue.bind(this)} />
             );
         }
         else {

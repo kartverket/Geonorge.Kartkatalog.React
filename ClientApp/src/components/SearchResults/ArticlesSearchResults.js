@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import style from './ArticlesSearchResults.scss';
 
 class ListItem extends React.Component {
-	render() {
-		return (
-			<div>{ this.props.listItem.title }</div>
-		);
-	}
+  render() {
+    return (
+      <div>{this.props.listItem.Title}</div>
+    );
+  }
 }
 
 export class ArticlesSearchResults extends Component {
@@ -14,22 +14,28 @@ export class ArticlesSearchResults extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
-        articles: [
-            { title: 'Artikkel 1' },
-            { title: 'Artikkel 2' }
-        ]
+    this.state = {
+      articles: [
+        { title: 'Artikkel 1' },
+        { title: 'Artikkel 2' }
+      ]
     };
   }
 
-  renderList() {
 
-    let listItems = this.state.articles.map(function(listItem, i){
-        return <ListItem listItem={listItem} key={i}/>;
+  getListItems() {
+    let type = this.props.getRootStateValue('selectedType');
+    let subType = this.props.getRootStateValue('selectedSubType');
+    return this.props.searchResults[type][subType] && this.props.searchResults[type][subType].Results ? this.props.searchResults[type][subType].Results : [];
+  }
+
+  renderList() {
+    let listItems = this.getListItems();
+    let listItemElements = listItems.map((listItem, i) => {
+      return <ListItem listItem={listItem} addToMap={this.props.updateMapItems.bind(this)} key={i} />;
     });
-    let listElement = React.createElement('div', { className: style.list }, listItems);
-    return listElement;
-}
+    return React.createElement('div', { className: style.list }, listItemElements);
+  }
 
 
   render() {
