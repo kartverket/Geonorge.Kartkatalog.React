@@ -7,7 +7,7 @@ class SearchResultsListItem extends React.Component {
     render() {
         return (
             <div className={style.searchResultsItem}>
-                {this.props.listItem.Title}
+                <a href={this.props.listItem.ShowDetailsUrl}>{this.props.listItem.Title}</a>
             </div>
         );
     }

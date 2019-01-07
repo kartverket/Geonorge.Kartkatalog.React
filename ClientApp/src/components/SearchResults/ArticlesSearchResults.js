@@ -4,7 +4,7 @@ import style from './ArticlesSearchResults.scss';
 class ListItem extends React.Component {
   render() {
     return (
-      <div>{this.props.listItem.Title}</div>
+      <div><a href={this.props.listItem.ShowDetailsUrl}>{this.props.listItem.Title}</a></div>
     );
   }
 }
