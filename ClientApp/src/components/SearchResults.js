@@ -63,6 +63,7 @@ export class SearchResults extends Component {
 
     setActiveTab(tabId) {
         this.props.updateRootState('selectedType', tabId);
+        this.props.updateRootState('selectedSubType', 'all');
     }
 
     setActiveSubTab(tabId) {
