@@ -1,0 +1,36 @@
+$imagePath: "../../../../../";
+
+:local(.facet) {
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        &+label {
+            position: relative;
+            padding-left: 25px;
+            margin: 5px 0;
+            font-weight: normal;
+            cursor: pointer;
+            &:before {
+                position: absolute;
+                left: 0;
+                top: -2px;
+                width: 20px;
+                height: 20px;
+                content: url($imagePath + 'src/images/svg/checkbox-unchecked.svg');
+            }
+        }
+        &:checked+label {
+            &:before {
+               content: url($imagePath + 'src/images/svg/checkbox-checked.svg');
+            }
+        }
+    }
+    &:local(.empty) {
+        opacity: .7;
+    }
+}
+
+:local(.filterItems){
+    list-style: none;
+}

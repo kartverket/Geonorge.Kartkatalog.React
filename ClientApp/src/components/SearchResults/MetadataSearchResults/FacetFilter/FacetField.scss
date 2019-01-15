@@ -1,0 +1,31 @@
+$imagePath: "../../../../../";
+
+:local(.filterItem) {
+    :local(.filterName) {
+        font-size: 16px;
+        line-height: 1.25;
+        :local(.expandArrow) {
+            width: 17px;
+            height: 17px;
+            content: url($imagePath + 'src/images/svg/arrow-right.svg');
+        }
+    }
+
+    :local(.facets) {
+        display: none;
+        list-style: none;
+    }
+
+    &:local(.expanded) {
+        :local(.filterName) {
+            :local(.expandArrow) {
+                content: url($imagePath + 'src/images/svg/arrow-down.svg');
+            }
+        }
+
+        :local(.facets) {
+            display: block;
+            padding: 0;
+        }
+    }
+}
