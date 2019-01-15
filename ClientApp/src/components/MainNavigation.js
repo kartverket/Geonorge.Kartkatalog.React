@@ -44,7 +44,7 @@ class SearchResultsList extends React.Component {
                     <div className={style.searchResultsSectionHeadingContainer}>
                         <span className={style.searchResultsSectionHeading}>{this.props.heading}</span>
                         <span className={style.counter}>{this.getCounterValue('NumFound')}</span>
-                        <span onClick={() => this.props.showResults(this.props.searchString, this.props.type, this.props.subType)} className={style.showAllButton}>
+                        <span onClick={() => this.props.showResults(this.props.urlParametersString, this.props.type, this.props.subType)} className={style.showAllButton}>
                             Vis alle
                         </span>
                     </div>
@@ -65,6 +65,7 @@ export class MainNavigation extends Component {
         super(props);
         this.state = {
             searchString: '',
+            urlParametersString: '',
             showResults: false,
             itemsPerSubType: 5,
             searchResults: {
@@ -83,16 +84,16 @@ export class MainNavigation extends Component {
         this.showResults = this.showResults.bind(this);
     }
 
-    getSearchApiUrls(searchString) {
+    getSearchApiUrls(urlParametersString) {
         return {
             metadata: {
-                all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&text=' + searchString,
-                software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + searchString,
-                service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + searchString,
-                dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + searchString
+                all: `https://kartkatalog.dev.geonorge.no/api/search?limit=${this.state.itemsPerSubType}&${urlParametersString}`,
+                software: `https://kartkatalog.dev.geonorge.no/api/search?limit=${this.state.itemsPerSubType}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&${urlParametersString}`,
+                service: `https://kartkatalog.dev.geonorge.no/api/search?limit=${this.state.itemsPerSubType}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&${urlParametersString}`,
+                dataset: `https://kartkatalog.dev.geonorge.no/api/search?limit=${this.state.itemsPerSubType}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&${urlParametersString}`
             },
             articles: {
-                all: 'https://kartkatalog.dev.geonorge.no/api/articles?text=' + searchString
+                all: `https://kartkatalog.dev.geonorge.no/api/articles?${urlParametersString}`
             }
         }
     }
@@ -100,11 +101,13 @@ export class MainNavigation extends Component {
     performSearch(event) {
         if (event.target.value) {
             let searchString = event.target.value;
+            let urlParametersString = `text=${searchString}`;
             this.setState({
-                searchString: searchString
+                searchString: searchString,
+                urlParametersString: urlParametersString
             });
 
-            let searchApiUrls = this.getSearchApiUrls(searchString);
+            let searchApiUrls = this.getSearchApiUrls(urlParametersString);
             Object.keys(searchApiUrls).map((type) => {
                 Object.keys(searchApiUrls[type]).map((subType) => {
                     let url = searchApiUrls[type][subType];
@@ -185,7 +188,7 @@ export class MainNavigation extends Component {
                                     type="metadata"
                                     subType="dataset"
                                     listItems={this.getSearchResults('metadata', 'dataset')}
-                                    searchString={this.state.searchString}
+                                    urlParametersString={this.state.urlParametersString}
                                     showResults={this.props.showResults.bind(this)}>
                                 </SearchResultsList>
                                 <SearchResultsList
@@ -193,7 +196,7 @@ export class MainNavigation extends Component {
                                     type="metadata"
                                     subType="software"
                                     listItems={this.getSearchResults('metadata', 'software')}
-                                    searchString={this.state.searchString}
+                                    urlParametersString={this.state.urlParametersString}
                                     showResults={this.props.showResults.bind(this)}>
                                 </SearchResultsList>
                                 <SearchResultsList
@@ -201,7 +204,7 @@ export class MainNavigation extends Component {
                                     type="metadata"
                                     subType="service"
                                     listItems={this.getSearchResults('metadata', 'service')}
-                                    searchString={this.state.searchString}
+                                    urlParametersString={this.state.urlParametersString}
                                     showResults={this.props.showResults.bind(this)}>
                                 </SearchResultsList>
                                 <SearchResultsList
@@ -209,7 +212,7 @@ export class MainNavigation extends Component {
                                     type="articles"
                                     subType="all"
                                     listItems={this.getSearchResults('articles', 'all')}
-                                    searchString={this.state.searchString}
+                                    urlParametersString={this.state.urlParametersString}
                                     showResults={this.props.showResults.bind(this)}>
                                 </SearchResultsList>
                             </div>
