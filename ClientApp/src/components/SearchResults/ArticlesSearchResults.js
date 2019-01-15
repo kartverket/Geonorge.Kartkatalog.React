@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
+import { Col, Grid, Row } from 'react-bootstrap';
 import style from './ArticlesSearchResults.scss';
 
 class ListItem extends React.Component {
   render() {
     return (
-      <div><a href={this.props.listItem.ShowDetailsUrl}>{this.props.listItem.Title}</a></div>
+      <Row className={style.listItem}>
+        <Col sm={12}>
+          <span className={style.listItemTitle}>
+            <a href={this.props.listItem.ShowDetailsUrl}>{this.props.listItem.Title}</a>
+            <span className={style.listItemType}>
+              {this.props.listItem.Type}
+            </span>
+          </span>
+          <span className={style.listItemInfo}>
+            {this.props.listItem.Intro}
+          </span>
+          <span className={style.listItemDate}>
+            {this.props.listItem.Date}
+          </span>
+        </Col>
+      </Row>
     );
   }
 }
