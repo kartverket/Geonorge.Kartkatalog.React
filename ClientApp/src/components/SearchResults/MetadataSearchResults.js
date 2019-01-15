@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Grid, Row } from 'react-bootstrap';
+import { FacetFilter } from './MetadataSearchResults/FacetFilter';
 import style from './MetadataSearchResults.scss';
 
 class ListItem extends React.Component {
@@ -95,22 +96,34 @@ export class MetadataSearchResults extends Component {
   getListItems() {
     let type = this.props.getRootStateValue('selectedType');
     let subType = this.props.getRootStateValue('selectedSubType');
-    return this.props.searchResults[type][subType] && this.props.searchResults[type][subType].Results ? this.props.searchResults[type][subType].Results : [];
+   // return this.props.searchResults[type][subType] && this.props.searchResults[type][subType].Results ? this.props.searchResults[type][subType].Results : [];
+    return this.props.searchResults[type] && this.props.searchResults[type].Results ? this.props.searchResults[type].Results : [];
   }
 
   renderList() {
     let listItems = this.getListItems();
     let listItemElements = listItems.map((listItem, i) => {
-      return <ListItem listItem={listItem} addToMap={this.props.updateMapItems.bind(this)} key={i} />;
+      return <ListItem listItem={listItem} addToMap={this.props.updateRootState.bind(this)} key={i} />;
     });
     return React.createElement('div', { className: style.list }, listItemElements);
   }
 
   render() {
     return (
-      <Grid fluid>
-        {this.renderList()}
-      </Grid>
+      <Row>
+        <Col sm={3}>
+          <FacetFilter
+            getRootStateValue={this.props.getRootStateValue.bind(this)}
+            updateRootState={this.props.updateRootState.bind(this)}
+            showResults={this.props.showResults.bind(this)}>
+          </FacetFilter>
+        </Col>
+        <Col sm={9}>
+          <Grid fluid>
+            {this.renderList()}
+          </Grid>
+        </Col>
+      </Row>
     );
   }
 }

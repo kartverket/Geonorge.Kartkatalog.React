@@ -72,8 +72,8 @@ export class SearchResults extends Component {
 
     getCounterValue(type, subType, counterProperty) {
         let counterValue = 0;
-        if (this.props.searchResults[type][subType] && this.props.searchResults[type][subType][counterProperty]) {
-            counterValue = this.props.searchResults[type][subType][counterProperty];
+        if (this.props.searchResults[type] && this.props.searchResults[type][counterProperty]) {
+            counterValue = this.props.searchResults[type][counterProperty];
         }
         return counterValue;
     }
@@ -89,7 +89,7 @@ export class SearchResults extends Component {
         return React.createElement('ul', { className: style.tabs }, tabs);
     }
 
-    renderSubTabs() {
+    /*renderSubTabs() {
         let selectedType = this.props.getRootStateValue('selectedType');
         let selectedSubType = this.props.getRootStateValue('selectedSubType');
         let subTabs = this.state.subTabs[selectedType].map((subTab, i) => {
@@ -100,19 +100,28 @@ export class SearchResults extends Component {
             return React.createElement('li', { onClick: () => this.setActiveSubTab(subTab.id), key: i, className: tabClass }, tabContent);
         });
         return React.createElement('ul', { className: style.subTabs }, subTabs);
-    }
+    }*/
 
     renderActiveTabContent() {
         let activeTabId = this.props.getRootStateValue('selectedType');
 
         if (activeTabId === 'articles') {
             return (
-                <ArticlesSearchResults searchResults={this.props.searchResults} updateMapItems={this.props.updateMapItems.bind(this)} updateRootState={this.props.updateRootState.bind(this)} getRootStateValue={this.props.getRootStateValue.bind(this)} />
+                <ArticlesSearchResults
+                    searchResults={this.props.searchResults}
+                    updateMapItems={this.props.updateMapItems.bind(this)}
+                    updateRootState={this.props.updateRootState.bind(this)}
+                    getRootStateValue={this.props.getRootStateValue.bind(this)} />
             );
         }
         else {
             return (
-                <MetadataSearchResults searchResults={this.props.searchResults} updateMapItems={this.props.updateMapItems.bind(this)} updateRootState={this.props.updateRootState.bind(this)} getRootStateValue={this.props.getRootStateValue.bind(this)} />
+                <MetadataSearchResults
+                    searchResults={this.props.searchResults}
+                    updateMapItems={this.props.updateMapItems.bind(this)}
+                    updateRootState={this.props.updateRootState.bind(this)}
+                    getRootStateValue={this.props.getRootStateValue.bind(this)}
+                    showResults={this.props.showResults.bind(this)} />
             );
         }
     }
@@ -121,7 +130,6 @@ export class SearchResults extends Component {
         return (
             <div>
                 {this.renderTabs()}
-                {this.renderSubTabs()}
                 {this.renderActiveTabContent()}
             </div>
         );

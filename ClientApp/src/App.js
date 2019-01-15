@@ -19,25 +19,14 @@ export default class App extends Component {
     this.state = {
       mapItems: this.getMapItems(),
       itemsPerSubType: 30,
-      metadataSearchApiUrls: {
-        all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=30',
-        software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=30&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software',
-        service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=30&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service',
-        dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=30&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset'
-      },
       searchResults: {
-        metadata: {
-          all: null,
-          dataset: null,
-          service: null,
-          software: null
-        },
-        articles: {
-          all: null
-        }
+        metadata: {},
+        articles: {}
       },
       selectedType: 'metadata',
       selectedSubType: 'all',
+      selectedFacets: {},
+      availableFacets: {},
       routes: [
         {
           path: '/',
@@ -81,54 +70,64 @@ export default class App extends Component {
     return this.state[key];
   }
 
-  getSearchApiUrls(searchString) {
-    return {
-      all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&text=' + searchString,
-      software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + searchString,
-      service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + searchString,
-      dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + searchString
-    }
-  }
-
-  getSearchApiUrls(searchString) {
+  getSearchApiUrls(urlParameterString) {
+    urlParameterString = urlParameterString ? "&" + encodeURI(urlParameterString) : "";
     return {
       metadata: {
-        all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&text=' + searchString,
-        software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software&text=' + searchString,
-        service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service&text=' + searchString,
-        dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset&text=' + searchString
+        all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + urlParameterString,
+        //   software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software' + urlParameterString,
+        //   service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service' + urlParameterString,
+        //   dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset' + urlParameterString
       },
       articles: {
-        all: 'https://kartkatalog.dev.geonorge.no/api/articles?limit=' + this.state.itemsPerSubType + '&text=' + searchString
+        all: 'https://kartkatalog.dev.geonorge.no/api/articles?limit=' + this.state.itemsPerSubType + urlParameterString
       }
     }
   }
 
-  showResults(searchString, type, subType) {
-    let metadataSearchApiUrls = this.getSearchApiUrls(searchString);
+
+
+  showResults(urlParameterString, type, subType) {
+    let metadataSearchApiUrls = this.getSearchApiUrls(urlParameterString);
+    type = type ? type : this.state.selectedType;
+    subType = subType ? subType : this.state.selectedSubType;
     this.setState({
-      selectedType: type,
-      selectedSubType: subType
+      selectedType: type
     });
     Object.keys(metadataSearchApiUrls).map((type) => {
-      Object.keys(metadataSearchApiUrls[type]).map((subType) => {
-        let url = metadataSearchApiUrls[type][subType];
-        axios.get(url)
-          .then((response) => {
-            this.setState(prevState => ({
-              searchResults: {
-                ...prevState.searchResults,
-                [type]: {
-                  ...prevState.searchResults[type],
-                  [subType]: response.data
+      //  Object.keys(metadataSearchApiUrls[type]).map((subType) => {
+      let url = metadataSearchApiUrls[type][subType];
+      axios.get(url)
+        .then((response) => {
+          this.setState(prevState => ({
+            searchResults: {
+              ...prevState.searchResults,
+              [type]: response.data
+            }
+          }));
+
+          if (response.data.Facets) {
+            console.log(response.data.Facets);
+            response.data.Facets.map(facet => {
+              console.log(facet);
+              this.setState(prevState => ({
+                availableFacets: {
+                  ...prevState.availableFacets,
+                  [type]: {
+                    ...prevState.availableFacets[type],
+                    [facet.FacetField]: facet.FacetResults
+                  }
                 }
-              }
-            }));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      })
+              }))
+            })
+          }
+
+
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      // })
     })
   }
 
@@ -141,8 +140,14 @@ export default class App extends Component {
       <Layout>
         <MainNavigation showResults={this.showResults.bind(this)} mapItems={this.state.mapItems} />
         <div className={style.pageContent}>
-          {this.state.routes.map(({ path, component: C, updateMapItems }, i) => (
-            <Route exact path={path} key={i} render={(props) => <C {...props} searchResults={this.state.searchResults} mapItems={this.state.mapItems} updateMapItems={this.updateMapItems.bind(this)} updateRootState={this.updateRootState.bind(this)} getRootStateValue={this.getRootStateValue.bind(this)} />} />
+          {this.state.routes.map(({ path, component: C }, i) => (
+            <Route exact path={path} key={i} render={(props) => <C {...props}
+              searchResults={this.state.searchResults}
+              mapItems={this.state.mapItems}
+              updateMapItems={this.updateMapItems.bind(this)}
+              updateRootState={this.updateRootState.bind(this)}
+              getRootStateValue={this.getRootStateValue.bind(this)}
+              showResults={this.showResults.bind(this)} />} />
           ))}
         </div>
       </Layout>
