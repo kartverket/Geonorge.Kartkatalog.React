@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Facet } from './Facet';
 import style from './FacetField.scss';
 
@@ -12,6 +13,20 @@ export class FacetField extends Component {
         };
     }
 
+
+    static propTypes = {
+        facetField: PropTypes.string.isRequired,
+        facets: PropTypes.arrayOf(
+            PropTypes.shape({
+                Count: PropTypes.number.isRequired,
+                Name: PropTypes.string.isRequired
+            })
+        ),
+        getRootStateValue: PropTypes.func.isRequired,
+        updateRootState: PropTypes.func.isRequired,
+        showResults: PropTypes.func.isRequired
+    }
+
     toggleExpand() {
         this.setState(prevState => ({
             expanded: !prevState.expanded
@@ -21,12 +36,12 @@ export class FacetField extends Component {
     renderList() {
         if (this.props.facets) {
             let facetElements = this.props.facets.map((facet, i) => {
-                    return <Facet
-                        getRootStateValue={this.props.getRootStateValue.bind(this)}
-                        updateRootState={this.props.updateRootState.bind(this)}
-                        facet={facet}
-                        facetField={this.props.facetField} key={i}
-                        showResults={this.props.showResults.bind(this)} />;
+                return <Facet
+                    getRootStateValue={this.props.getRootStateValue.bind(this)}
+                    updateRootState={this.props.updateRootState.bind(this)}
+                    facet={facet}
+                    facetField={this.props.facetField} key={i}
+                    showResults={this.props.showResults.bind(this)} />;
             });
             return React.createElement('ul', { className: style.facets, onClick: () => this.toggleExpand() }, facetElements);
         }

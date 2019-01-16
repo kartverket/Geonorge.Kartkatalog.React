@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import classNames from 'classnames/bind';
 import { FacetField } from './FacetField';
 import style from './Facet.scss';
@@ -11,6 +13,17 @@ export class Facet extends Component {
         this.state = {
             checked: false
         };
+    }
+
+    static propTypes = {
+        facetField: PropTypes.string.isRequired,
+        facet: PropTypes.shape({
+            Count: PropTypes.number.isRequired,
+            Name: PropTypes.string.isRequired
+        }),
+        getRootStateValue: PropTypes.func.isRequired,
+        updateRootState: PropTypes.func.isRequired,
+        showResults: PropTypes.func.isRequired
     }
 
     removeFacetFromArray(array, value) {
@@ -103,7 +116,7 @@ export class Facet extends Component {
 
     render() {
         let liClassNames = classNames({
-            [style.facet]: true, 
+            [style.facet]: true,
             [style.empty]: this.props.facet.Count == 0,
             'facetelement': true
         });
