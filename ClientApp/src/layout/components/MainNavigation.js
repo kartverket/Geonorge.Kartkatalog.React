@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import style from './MainNavigation.scss';
-import { Browser as Router, Link } from 'react-router-dom'
+import { Browser as Router, Link } from 'react-router-dom';
+
 
 class SearchResultsListItem extends React.Component {
     render() {
@@ -45,7 +46,7 @@ class SearchResultsList extends React.Component {
                         <span className={style.searchResultsSectionHeading}>{this.props.heading}</span>
                         <span className={style.counter}>{this.getCounterValue('NumFound')}</span>
                         <span onClick={() => this.props.showResults(this.props.urlParametersString, this.props.type, this.props.subType)} className={style.showAllButton}>
-                            Vis alle
+                          Vis alle
                         </span>
                     </div>
                     {this.renderSearchResults()}

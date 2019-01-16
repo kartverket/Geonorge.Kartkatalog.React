@@ -1,10 +1,10 @@
 :local(.list) {
 	margin: 0;
-	margin-left: 20px;
+	
 	padding: 0;
 	margin-bottom: 20px;
 	list-style-position: outside;
-	font-size: 16px;
+	font-size: 1.2em;
 
 	:local(.listItem) {
 		line-height: 1.6;
@@ -20,12 +20,12 @@
 
 		:local(.listItemTitle) {
 			display: block;
-			font-size: 14pt;
+			font-size: 1em;
 		}
 
 		:local(.listItemInfo) {
 			display: block;
-			font-size: 12pt;
+			font-size: .8em;
 		}
 	}
 

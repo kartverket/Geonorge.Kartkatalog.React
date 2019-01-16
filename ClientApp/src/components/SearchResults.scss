@@ -1,3 +1,4 @@
+@import '../scss/abstracts/all';
 :local(.tabs) {
     margin: 0 0 16px 0;
     padding: 0 20px;
@@ -8,13 +9,16 @@
         display: inline-block;
         border-bottom: 6px solid transparent;
         color: #333;
-        font-size: 12pt;
+        padding: 10px;
+        font-size: 1em;
+        @include transition(all .3s ease-in-out);
         font-weight: 600;
         margin-right: 16px;
         cursor: pointer;
 
         &.active {
             border-color: #fe5000;
+            background: white;
         }
 
         :local(.badge) {
@@ -38,7 +42,7 @@
         display: inline-block;
         border-bottom: 6px solid transparent;
         color: #333;
-        font-size: 12pt;
+        font-size: .8em;
         font-weight: 600;
         margin-right: 16px;
         cursor: pointer;

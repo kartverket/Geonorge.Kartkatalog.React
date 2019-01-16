@@ -1,9 +1,11 @@
+@import '../../scss/abstracts/all';
+
 :local(.mainNavigationContainer) {
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1;
-    background-color: #f8f8f7;
+    background-color: $primary-background;
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
     -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
     box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
@@ -81,7 +83,7 @@
                 border: 1px solid #dfdcda;
                 border-right: 0;
                 border-radius: 2px 0 0 2px;
-                font-size: 16px;
+                font-size: 1.2em;
                 flex: 1;
                 padding: 0 .75em;
             }
@@ -152,7 +154,7 @@
         padding: 4px 10px;
 
         :local(.searchResultsSectionHeading) {
-            font-size: 14pt;
+            font-size: 1em;
             display: inline-block;
         }
 
@@ -162,7 +164,7 @@
             border-radius: 4px;
             background-color: #fe5000;
             display: inline-block;
-            font-size: 9pt;
+            font-size: 1em;
             vertical-align: text-bottom;
             margin-left: 4px;
 
@@ -171,7 +173,7 @@
         :local(.showAllButton) {
             float: right;
             cursor: pointer;
-            font-size: 14pt;
+            font-size: 1em;
         }
     }
 
@@ -185,7 +187,7 @@
 
         :local(.searchResultsItem) {
             display: block;
-            font-size: 12pt;
+            font-size: .8em;
             color: #333435;
             padding: 4px 20px;
             -moz-transition: background-color .2s ease-in-out;

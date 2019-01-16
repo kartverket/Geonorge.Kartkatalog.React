@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Facet } from './Facet';
 import style from './FacetField.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class FacetField extends Component {
     displayName = FacetField.name
@@ -50,6 +51,7 @@ export class FacetField extends Component {
     render() {
         return (
             <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem} onClick={() => this.toggleExpand()}>
+            <FontAwesomeIcon icon={this.state.expanded ? "angle-down" : "angle-right"} className={style.expandArrow} />
                 <p className={style.filterName}>
                     <span className={style.expandArrow}></span> {this.props.facetField}
                 </p>

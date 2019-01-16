@@ -76,11 +76,11 @@ class ListItem extends React.Component {
   render() {
     return (
       <Row className={style.listItem}>
-        <Col sm={9}>
+        <Col sm={10}>
           <span className={style.listItemTitle}><a href={this.props.listItem.ShowDetailsUrl}>{this.props.listItem.Title}</a></span>
           <span className={style.listItemInfo}>{this.props.listItem.TypeTranslated} fra <a href={this.props.listItem.OrganizationUrl}>{this.props.listItem.Organization}</a></span>
         </Col>
-        <Col sm={3}>
+        <Col sm={2}>
           <span className={style.listItemButton}>
             {this.renderMapButton()}
           </span>
@@ -109,14 +109,14 @@ export class MetadataSearchResults extends Component {
   render() {
     return (
       <Row>
-        <Col sm={3}>
+        <Col sm={2}>
           <FacetFilter
             getRootStateValue={this.props.getRootStateValue.bind(this)}
             updateRootState={this.props.updateRootState.bind(this)}
             showResults={this.props.showResults.bind(this)}>
           </FacetFilter>
         </Col>
-        <Col sm={9}>
+        <Col sm={10}>
           <Grid fluid>
             {this.renderList()}
           </Grid>
