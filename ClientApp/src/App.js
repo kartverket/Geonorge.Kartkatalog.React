@@ -75,9 +75,6 @@ export default class App extends Component {
     return {
       metadata: {
         all: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + urlParameterString,
-        //   software: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software' + urlParameterString,
-        //   service: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service' + urlParameterString,
-        //   dataset: 'https://kartkatalog.dev.geonorge.no/api/search?limit=' + this.state.itemsPerSubType + '&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset' + urlParameterString
       },
       articles: {
         all: 'https://kartkatalog.dev.geonorge.no/api/articles?limit=' + this.state.itemsPerSubType + urlParameterString
@@ -95,7 +92,6 @@ export default class App extends Component {
       selectedType: type
     });
     Object.keys(metadataSearchApiUrls).map((type) => {
-      //  Object.keys(metadataSearchApiUrls[type]).map((subType) => {
       let url = metadataSearchApiUrls[type][subType];
       axios.get(url)
         .then((response) => {
@@ -125,7 +121,6 @@ export default class App extends Component {
         .catch(function (error) {
           console.log(error);
         });
-      // })
     })
   }
 

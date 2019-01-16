@@ -95,8 +95,6 @@ export class MetadataSearchResults extends Component {
 
   getListItems() {
     let type = this.props.getRootStateValue('selectedType');
-    let subType = this.props.getRootStateValue('selectedSubType');
-   // return this.props.searchResults[type][subType] && this.props.searchResults[type][subType].Results ? this.props.searchResults[type][subType].Results : [];
     return this.props.searchResults[type] && this.props.searchResults[type].Results ? this.props.searchResults[type].Results : [];
   }
 

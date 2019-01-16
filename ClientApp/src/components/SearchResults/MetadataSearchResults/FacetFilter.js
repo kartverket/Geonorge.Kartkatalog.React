@@ -21,9 +21,6 @@ export class FacetFilter extends Component {
 
     getFacetFields() {
         let selectedType = this.props.getRootStateValue('selectedType');
-        //let selectedSubType = this.props.getRootStateValue('selectedSubType');
-        //let searchResults = this.props.getRootStateValue('searchResults');
-        //let filterItems = searchResults[selectedType][selectedSubType] ? searchResults[selectedType][selectedSubType].Facets : [];
         let availableFacets = this.props.getRootStateValue('availableFacets');
         let facetFields = availableFacets[selectedType] ? availableFacets[selectedType] : [];
         return facetFields;

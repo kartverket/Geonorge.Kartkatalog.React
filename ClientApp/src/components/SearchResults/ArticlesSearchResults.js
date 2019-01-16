@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Col, Row } from 'react-bootstrap';
 import style from './ArticlesSearchResults.scss';
 
 class ListItem extends React.Component {
@@ -30,14 +31,14 @@ export class ArticlesSearchResults extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      articles: [
-        { title: 'Artikkel 1' },
+    this.state = {};
+  }
+
   static propTypes = {
     getRootStateValue: PropTypes.func.isRequired,
     updateRootState: PropTypes.func.isRequired,
     updateMapItems: PropTypes.func.isRequired
-  }
+}
 
 
   getListItems() {
