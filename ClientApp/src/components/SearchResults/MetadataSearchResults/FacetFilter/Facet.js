@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FacetField } from './FacetField';
 import style from './Facet.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class Facet extends Component {
     displayName = Facet.name
@@ -123,7 +124,7 @@ export class Facet extends Component {
         return (
             <li className={liClassNames}>
                 <input type="checkbox" checked={this.state.checked} onChange={() => this.toggleFacet()} id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name} />
-                <label htmlFor={this.props.facet.Name}>{this.props.facet.Name} ({this.props.facet.Count})</label>
+                <FontAwesomeIcon icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} /><label htmlFor={this.props.facet.Name}><span> {this.props.facet.Name} </span>({this.props.facet.Count})</label>
                 {this.renderList()}
             </li>
         );

@@ -1,6 +1,7 @@
 $imagePath: "../../../../../";
 
 :local(.facet) {
+    white-space: nowrap;
     input {
         position: absolute;
         opacity: 0;
@@ -11,23 +12,23 @@ $imagePath: "../../../../../";
             margin: 5px 0;
             font-weight: normal;
             cursor: pointer;
-            &:before {
-                position: absolute;
-                left: 0;
-                top: -2px;
-                width: 20px;
-                height: 20px;
-                content: url($imagePath + 'src/images/svg/checkbox-unchecked.svg');
-            }
-        }
-        &:checked+label {
-            &:before {
-               content: url($imagePath + 'src/images/svg/checkbox-checked.svg');
-            }
+            
         }
     }
     &:local(.empty) {
         opacity: .7;
+    }
+    label  {
+        padding-left: 10px;
+        > span {
+            max-width: 200px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-block;
+            position: relative;
+            top: 4px;
+            margin-right: 4px;
+        }
     }
 }
 

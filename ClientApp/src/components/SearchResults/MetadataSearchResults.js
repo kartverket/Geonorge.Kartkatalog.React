@@ -109,14 +109,14 @@ export class MetadataSearchResults extends Component {
   render() {
     return (
       <Row>
-        <Col sm={2}>
+        <Col sm={3}>
           <FacetFilter
             getRootStateValue={this.props.getRootStateValue.bind(this)}
             updateRootState={this.props.updateRootState.bind(this)}
             showResults={this.props.showResults.bind(this)}>
           </FacetFilter>
         </Col>
-        <Col sm={10}>
+        <Col sm={9}>
           <Grid fluid>
             {this.renderList()}
           </Grid>

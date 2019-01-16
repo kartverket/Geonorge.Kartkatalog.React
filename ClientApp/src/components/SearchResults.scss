@@ -25,10 +25,16 @@
             margin-left: 4px;
             height: 18px;
             padding: 2px 4px;
-            color: #fff;
+            background: transparent;
+            color: #333;
             vertical-align: middle;
             border-radius: 4px;
-            background-color: #fe5000;
+           &:before {
+               content: '( '
+           }
+           &:after {
+            content: ' )'
+        }
         }
     }
 }
