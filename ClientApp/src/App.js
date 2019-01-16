@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
-import { MainNavigation } from './components/MainNavigation';
-import { Home } from './components/Home';
-import { MapContainer } from './components/MapContainer';
+import { MainNavigation } from './layout/components/MainNavigation';
+import { Home } from './routes/components/Home';
+import { MapContainer } from './routes/components/MapContainer';
 
 import axios from 'axios';
 
@@ -107,9 +107,7 @@ export default class App extends Component {
           }));
 
           if (response.data.Facets) {
-            console.log(response.data.Facets);
             response.data.Facets.map(facet => {
-              console.log(facet);
               this.setState(prevState => ({
                 availableFacets: {
                   ...prevState.availableFacets,

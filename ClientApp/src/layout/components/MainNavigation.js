@@ -175,13 +175,13 @@ export class MainNavigation extends Component {
                 <div className={style.mainNavigation + ' container'}>
                     <Link to={'/'}>
                         <div className={style.logo}>
-                            <img src={require('../images/svg/geonorge-navbar-logo_dev.svg')}></img>
+                            <img src={require('../../images/svg/geonorge-navbar-logo_dev.svg')}></img>
                         </div>
                     </Link>
                     <div ref={node => this.node = node} className={style.search}>
                         <div className={style.searchInput}>
                             <input placeholder="Søk" onFocus={this.showResults} onChange={this.performSearch}></input>
-                            <button><img src={require('../images/svg/search-icon.svg')}></img></button>
+                            <button><img src={require('../../images/svg/search-icon.svg')}></img></button>
                             <div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
                                 <SearchResultsList
                                     heading="Dataset"
@@ -220,12 +220,12 @@ export class MainNavigation extends Component {
                     </div>
                     <span className={style.iconButton} style={{display: "none"}}>
                         <span className={style.counter}>12</span>
-                        <img src={require('../images/svg/download-icon.svg')}></img>
+                        <img src={require('../../images/svg/download-icon.svg')}></img>
                     </span>
                     <Link to={'/kart'}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <img src={require('../images/svg/map-icon.svg')}></img>
+                            <img src={require('../../images/svg/map-icon.svg')}></img>
                         </span>
                     </Link>
                 </div>
