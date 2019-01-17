@@ -51,7 +51,7 @@ export class FacetField extends Component {
     render() {
         return (
             <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem} onClick={() => this.toggleExpand()}>
-            <FontAwesomeIcon icon={this.state.expanded ? "angle-down" : "angle-right"} className={style.expandArrow} />
+            <FontAwesomeIcon icon={this.state.expanded ? "angle-up" : "angle-down"} className={style.expandArrow} />
                 <p className={style.filterName}>
                     <span className={style.expandArrow}></span> {this.props.facetField}
                 </p>

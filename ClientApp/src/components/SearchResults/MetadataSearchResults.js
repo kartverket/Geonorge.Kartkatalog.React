@@ -78,7 +78,7 @@ class ListItem extends React.Component {
       <Row className={style.listItem}>
         <Col sm={10}>
           <span className={style.listItemTitle}><a href={this.props.listItem.ShowDetailsUrl}>{this.props.listItem.Title}</a></span>
-          <span className={style.listItemInfo}>{this.props.listItem.TypeTranslated} fra <a href={this.props.listItem.OrganizationUrl}>{this.props.listItem.Organization}</a></span>
+          <span className={style.listItemInfo}>{this.props.listItem.Type} fra <a href={this.props.listItem.OrganizationUrl}>{this.props.listItem.Organization}</a></span>
         </Col>
         <Col sm={2}>
           <span className={style.listItemButton}>

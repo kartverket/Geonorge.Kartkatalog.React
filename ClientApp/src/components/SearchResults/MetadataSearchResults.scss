@@ -1,3 +1,4 @@
+@import '../../scss/abstracts/all';
 :local(.list) {
 	margin: 0;
 	
@@ -8,7 +9,7 @@
 
 	:local(.listItem) {
 		line-height: 1.6;
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid $primary-border;
 		-webkit-box-align: center;
 		-webkit-align-items: center;
 		-ms-flex-align: center;
@@ -17,16 +18,22 @@
 		-webkit-justify-content: center;
 		-ms-flex-pack: center;
 		justify-content: center;
+		padding-top: 10px;
 
 		:local(.listItemTitle) {
 			display: block;
-			font-size: 1em;
+			font-size: 1.2em;
+			margin-bottom: 5px;
 		}
 
 		:local(.listItemInfo) {
 			display: block;
 			font-size: .8em;
 		}
+		&:first-of-type {
+			border-top: 1px solid $primary-border;			
+		}
+
 	}
 
 }

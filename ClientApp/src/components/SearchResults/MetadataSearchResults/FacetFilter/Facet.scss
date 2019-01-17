@@ -2,6 +2,9 @@ $imagePath: "../../../../../";
 
 :local(.facet) {
     white-space: nowrap;
+    &:hover {
+        cursor: pointer;
+    }
     input {
         position: absolute;
         opacity: 0;
@@ -19,6 +22,9 @@ $imagePath: "../../../../../";
         opacity: .7;
     }
     label  {
+        &:hover {
+            cursor: pointer;
+        }
         padding-left: 10px;
         > span {
             max-width: 200px;
@@ -28,8 +34,12 @@ $imagePath: "../../../../../";
             position: relative;
             top: 4px;
             margin-right: 4px;
+            font-weight: 400;
         }
-    }
+    }  
+    .svg-checkbox {
+        font-size: 1.2em;
+    } 
 }
 
 :local(.filterItems){
