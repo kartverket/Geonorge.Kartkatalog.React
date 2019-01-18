@@ -110,6 +110,14 @@
         flex: 0 1;
         display: block;
         margin-left: 12px;
+        svg {
+            font-size: 2.5em;
+            color: $icon-disabled;
+           
+        }
+        :local(.content) {
+            color:$icon-enabled;
+        }
 
         img {
             width: 37px;
@@ -118,7 +126,7 @@
         }
 
         :local(.counter) {
-            background-color: $primary-brand-color;
+            background-color: $primary-brand;
             border-radius: 50%;
             color: #fff;
             font-size: .857em;
@@ -133,7 +141,6 @@
 
     }
 }
-
 :local(.searchResults) {
     position: absolute;
     background: #fbfcfd;

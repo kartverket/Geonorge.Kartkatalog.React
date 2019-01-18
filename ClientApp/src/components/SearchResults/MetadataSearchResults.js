@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Col, Grid, Row } from 'react-bootstrap';
 import { FacetFilter } from './MetadataSearchResults/FacetFilter';
 import style from './MetadataSearchResults.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class ListItem extends React.Component {
   constructor(props) {
@@ -64,9 +65,13 @@ class ListItem extends React.Component {
       let action = this.state.isAdded
         ? () => this.removeFromMap(mapItem)
         : () => this.addToMap(mapItem);
-      let content = this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart';
-      let buttonClass = this.state.isAdded ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-success';
-      return React.createElement('span', { onClick: action, className: buttonClass }, content);
+      let icon = <FontAwesomeIcon icon={this.state.isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} />    
+      let buttonClass = this.state.isAdded ? 'off' : 'on';      
+      let textContent = React.createElement('span', null, this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart')      
+
+      let childElements = [icon, textContent];
+      return React.createElement('span', { onClick: action, className: buttonClass }, childElements);     
+      
     } else {
       let content = 'Utilgjengelig';
       let buttonClass = 'btn btn-sm disabled';
@@ -109,14 +114,14 @@ export class MetadataSearchResults extends Component {
   render() {
     return (
       <Row>
-        <Col sm={3}>
+        <Col sm={2}>
           <FacetFilter
             getRootStateValue={this.props.getRootStateValue.bind(this)}
             updateRootState={this.props.updateRootState.bind(this)}
             showResults={this.props.showResults.bind(this)}>
           </FacetFilter>
         </Col>
-        <Col sm={9}>
+        <Col sm={10}>
           <Grid fluid>
             {this.renderList()}
           </Grid>

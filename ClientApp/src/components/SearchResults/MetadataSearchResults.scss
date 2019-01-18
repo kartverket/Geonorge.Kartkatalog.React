@@ -22,7 +22,7 @@
 
 		:local(.listItemTitle) {
 			display: block;
-			font-size: 1.2em;
+			
 			margin-bottom: 5px;
 		}
 
@@ -32,6 +32,27 @@
 		}
 		&:first-of-type {
 			border-top: 1px solid $primary-border;			
+		}
+
+		.on {
+			font-size: 1em;
+			> svg {
+				color: green;
+				font-size: 1.5em;
+				margin-right: 5px;
+			} 
+			> span {
+				font-size: .8em;
+			}
+		}
+		.off {
+			> svg  {
+				color: red;
+				font-size: 1.5em;
+			}
+			> span {
+				font-size: .8em;
+			}
 		}
 
 	}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import style from './MainNavigation.scss';
 import { Browser as Router, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 class SearchResultsListItem extends React.Component {
@@ -226,7 +227,7 @@ export class MainNavigation extends Component {
                     <Link to={'/kart'}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <img src={require('../../images/svg/map-icon.svg')}></img>
+                            <FontAwesomeIcon icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.fisk}/>
                         </span>
                     </Link>
                 </div>

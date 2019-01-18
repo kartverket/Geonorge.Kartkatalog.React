@@ -1,20 +1,24 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleRight, faAngleLeft, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
-import { faSquare,faCheckSquare, faAngry } from '@fortawesome/free-regular-svg-icons'
+import { faAngleRight, faAngleLeft, faAngleDown, faAngleUp, faMapMarkerAlt, faMapMarker, faMapPin } from '@fortawesome/pro-solid-svg-icons'
+import { faSquare,faCheckSquare, faAngry, faMap, faMapMarkerPlus, faMapMarkerMinus } from '@fortawesome/pro-regular-svg-icons'
+
 
 library.add(
     [faAngleRight,
      faAngleLeft,
      faAngleDown,
      faAngleUp,
-     faCheckSquare
+     faCheckSquare,
+     faMapMarkerAlt,
+     faMapMarker,
+     faMapPin,
+     faSquare,
+    faAngry,
+    faCheckSquare,
+    faMap,
+    faMapMarkerPlus,
+    faMapMarkerMinus
     ]
 );
 
-library.add(
-    [
-    faSquare,
-    faAngry,
-    faCheckSquare
-    ]
-);
+
