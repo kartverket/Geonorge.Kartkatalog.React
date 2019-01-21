@@ -1,9 +1,10 @@
 @import '../scss/abstracts/all';
 :local(.tabs) {
-    margin: 0 0 16px 0;
+    margin: 0 0 32px 0;
     padding: 0 20px;
     list-style: none;
     background-color: #f8f8f7;
+
 
     :local(.tab) {
         display: inline-block;

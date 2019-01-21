@@ -18,7 +18,8 @@
 		-webkit-justify-content: center;
 		-ms-flex-pack: center;
 		justify-content: center;
-		padding-top: 10px;
+		
+		padding: 20px 0;
 
 		:local(.listItemTitle) {
 			display: block;
@@ -37,7 +38,7 @@
 		.on {
 			font-size: 1em;
 			> svg {
-				color: green;
+				color: $primary-success;
 				font-size: 1.5em;
 				margin-right: 5px;
 			} 
@@ -47,7 +48,7 @@
 		}
 		.off {
 			> svg  {
-				color: red;
+				color: $primary-brand;
 				font-size: 1.5em;
 			}
 			> span {
