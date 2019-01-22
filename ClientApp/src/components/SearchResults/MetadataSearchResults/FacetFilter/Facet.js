@@ -12,7 +12,7 @@ export class Facet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checked: false
+            checked: false,
         };
     }
 
@@ -20,7 +20,8 @@ export class Facet extends Component {
         facetField: PropTypes.string.isRequired,
         facet: PropTypes.shape({
             Count: PropTypes.number.isRequired,
-            Name: PropTypes.string.isRequired
+            Name: PropTypes.string.isRequired,
+            NameTranslated: PropTypes.string.isRequired
         }),
         getRootStateValue: PropTypes.func.isRequired,
         updateRootState: PropTypes.func.isRequired,
@@ -105,9 +106,14 @@ export class Facet extends Component {
 
     renderList() {
         if (this.props.facet.FacetResults) {
-            let filterItemElements = '';/*this.props.facet.FacetResults.map((facetField, i) => {
-                return <FacetField filterItem={filterItem} key={i} />;
-            });*/
+            let filterItemElements = this.props.facet.FacetResults.map((facet, i) => {
+                return <Facet
+                getRootStateValue={this.props.getRootStateValue.bind(this)}
+                updateRootState={this.props.updateRootState.bind(this)}
+                facet={facet}
+                facetField={this.props.facetField} key={i}
+                showResults={this.props.showResults.bind(this)} />;
+            });
             return React.createElement('ul', { className: style.filterItems }, filterItemElements);
         } else {
             return "";
@@ -124,7 +130,7 @@ export class Facet extends Component {
         return (
             <li className={liClassNames}>
                 <input type="checkbox" checked={this.state.checked} onChange={() => this.toggleFacet()} id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name} />
-                <FontAwesomeIcon className="svg-checkbox" icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} /><label htmlFor={this.props.facet.Name}><span> {this.props.facet.Name} </span>({this.props.facet.Count})</label>
+                <FontAwesomeIcon className="svg-checkbox" icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} /><label htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span>({this.props.facet.Count})</label>
                 {this.renderList()}
             </li>
         );

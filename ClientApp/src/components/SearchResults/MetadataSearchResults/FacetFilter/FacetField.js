@@ -16,11 +16,13 @@ export class FacetField extends Component {
 
 
     static propTypes = {
-        facetField: PropTypes.string.isRequired,
+        facetField: PropTypes.string.isRequired, 
+        NameTranslated: PropTypes.string.isRequired,
         facets: PropTypes.arrayOf(
             PropTypes.shape({
                 Count: PropTypes.number.isRequired,
-                Name: PropTypes.string.isRequired
+                Name: PropTypes.string.isRequired,
+                NameTranslated: PropTypes.string.isRequired
             })
         ),
         getRootStateValue: PropTypes.func.isRequired,
@@ -53,7 +55,7 @@ export class FacetField extends Component {
             <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem} onClick={() => this.toggleExpand()}>
             <FontAwesomeIcon icon={this.state.expanded ? "angle-up" : "angle-down"} className={style.expandArrow} />
                 <p className={style.filterName}>
-                    <span className={style.expandArrow}></span> {this.props.facetField}
+                    <span className={style.expandArrow}></span> {this.props.NameTranslated}
                 </p>
                 {this.renderList()}
             </li>

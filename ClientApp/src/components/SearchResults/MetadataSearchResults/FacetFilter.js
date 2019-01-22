@@ -33,7 +33,8 @@ export class FacetFilter extends Component {
             getRootStateValue={this.props.getRootStateValue.bind(this)} 
             updateRootState={this.props.updateRootState.bind(this)} 
             facetField={key}
-            facets={facetFields[key]} key={key} 
+            NameTranslated={facetFields[key].NameTranslated}
+            facets={facetFields[key].FacetResults} key={key} 
             showResults={this.props.showResults.bind(this)} />;
         });
         return React.createElement('ul', { className: style.facetFilter }, facetFieldElements);

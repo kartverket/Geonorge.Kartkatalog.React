@@ -109,7 +109,8 @@ export default class App extends Component {
                   ...prevState.availableFacets,
                   [type]: {
                     ...prevState.availableFacets[type],
-                    [facet.FacetField]: facet.FacetResults
+                    [facet.FacetField]: {FacetResults: facet.FacetResults,
+                    NameTranslated: facet.NameTranslated}
                   }
                 }
               }))

@@ -239,3 +239,5 @@ ClientApp/\.npmrc
 
 ClientApp/yarn\.lock
 ClientApp/package-lock\.json
+
+package-lock\.json
