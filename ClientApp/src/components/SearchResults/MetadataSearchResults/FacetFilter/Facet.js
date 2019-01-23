@@ -106,6 +106,12 @@ export class Facet extends Component {
 
     renderList() {
         if (this.props.facet.FacetResults) {
+
+            let ulClassNames = classNames({
+                [style.filterItems]: true,
+                [style.hidden]: !this.state.checked
+            });
+
             let filterItemElements = this.props.facet.FacetResults.map((facet, i) => {
                 return <Facet
                 getRootStateValue={this.props.getRootStateValue.bind(this)}
@@ -114,7 +120,7 @@ export class Facet extends Component {
                 facetField={this.props.facetField} key={i}
                 showResults={this.props.showResults.bind(this)} />;
             });
-            return React.createElement('ul', { className: style.filterItems }, filterItemElements);
+            return React.createElement('ul', { className: ulClassNames }, filterItemElements);
         } else {
             return "";
         }
@@ -125,7 +131,6 @@ export class Facet extends Component {
         let liClassNames = classNames({
             [style.facet]: true,
             [style.empty]: this.props.facet.Count == 0,
-            'facetelement': true
         });
         return (
             <li className={liClassNames}>

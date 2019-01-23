@@ -40,8 +40,13 @@ $imagePath: "../../../../../";
     .svg-checkbox {
         font-size: 1.2em;
     } 
+    
 }
 
 :local(.filterItems){
     list-style: none;
+
+    &:local(.hidden) {        
+        display: none;
+    }
 }
