@@ -66,10 +66,6 @@ export class SearchResults extends Component {
         this.props.updateRootState('selectedSubType', 'all');
     }
 
-    setActiveSubTab(tabId) {
-        this.props.updateRootState('selectedSubType', tabId);
-    }
-
     getCounterValue(type, subType, counterProperty) {
         let counterValue = 0;
         if (this.props.searchResults[type] && this.props.searchResults[type][counterProperty]) {
