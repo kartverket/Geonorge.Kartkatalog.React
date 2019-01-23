@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { MainNavigation } from './layout/components/MainNavigation';
-import { Home } from './routes/components/Home';
-import { MapContainer } from './routes/components/MapContainer';
+import { Route, Switch } from 'react-router';
+import { Layout } from '../components/Layout';
+import { MainNavigation } from '../layout/components/MainNavigation';
+import { Home } from '../routes/components/Home';
+import { MapContainer } from '../routes/components/MapContainer';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Counter from '../components/Counter';
+import * as CounterActions from '../actions/counter';
 
 import axios from 'axios';
 
@@ -11,8 +16,7 @@ import style from './App.scss';
 
 
 
-export default class App extends Component {
-  displayName = App.name
+class App extends Component {
 
   constructor(props) {
     super(props);
@@ -116,8 +120,6 @@ export default class App extends Component {
               }))
             })
           }
-
-
         })
         .catch(function (error) {
           console.log(error);
@@ -134,6 +136,7 @@ export default class App extends Component {
       <Layout>
         <MainNavigation showResults={this.showResults.bind(this)} mapItems={this.state.mapItems} />
         <div className={style.pageContent}>
+          <Switch>
           {this.state.routes.map(({ path, component: C }, i) => (
             <Route exact path={path} key={i} render={(props) => <C {...props}
               searchResults={this.state.searchResults}
@@ -143,8 +146,38 @@ export default class App extends Component {
               getRootStateValue={this.getRootStateValue.bind(this)}
               showResults={this.showResults.bind(this)} />} />
           ))}
+          </Switch>
         </div>
       </Layout>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    selectedType: state.selectedType,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(CounterActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
+
+/*
+function mapStateToProps(state) {
+  return {
+    counter: state.counter,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(CounterActions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+
+*/

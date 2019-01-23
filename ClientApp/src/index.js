@@ -1,16 +1,15 @@
-import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import { Provider  } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import store from './store/configureStore';
+import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 import WebFont from 'webfontloader';
 import './layout/icons';
 
 
-
-
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
+// Get the application-wide store instance, prepopulating with state from the server where available.
 const rootElement = document.getElementById('root');
 
 WebFont.load({
@@ -21,9 +20,9 @@ WebFont.load({
 
 
 ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+      <App/>
+  </Provider>,
   rootElement);
 
 registerServiceWorker();
