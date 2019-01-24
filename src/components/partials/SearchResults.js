@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from '../../actions/searchResultActions'
 
+import { Col, Row } from 'react-bootstrap';
+
+
 import MetadataSearchResult from './SearchResults/MetadataSearchResult'
 import ArticleSearchResult from './SearchResults/ArticleSearchResult'
 
@@ -68,9 +71,9 @@ class SearchResults extends Component {
 		let listItems = this.props.searchResults.metadata && this.props.searchResults.metadata.Results ? this.props.searchResults.metadata.Results : null;
 		if (listItems){
 			let listItemElements = listItems.map((searchResult, i) => {
-				return [<MetadataSearchResult searchResult={searchResult} key={i} />];
+				return <MetadataSearchResult searchResult={searchResult} key={i} />;
 			});
-			return [<FacetFilter key="facetFilter" />, React.createElement('div', {className: style.list, key: "searchResult"}, listItemElements)];
+			return React.createElement('div', {className: style.list, key: "searchResult"}, listItemElements);
 		} else {
 			return "";
 		}
@@ -88,9 +91,20 @@ class SearchResults extends Component {
 		}
 	}
 
+	renderMetadataFacetFilter() {
+
+	}
+
 	renderActiveTabContent() {
 		if (this.state.selectedTab.id === 'metadata'){
-			return this.renderMetadataSearchResults();
+			return <Row>
+				<Col md={3} sm={4}>
+					<FacetFilter key="facetFilter" />
+				</Col>
+					<Col md={9} sm={8}>
+						{this.renderMetadataSearchResults()}
+					</Col>
+				</Row>;
 		}else if(this.state.selectedTab.id === 'articles'){
 			return this.renderArticleSearchResults();
 		}else {
