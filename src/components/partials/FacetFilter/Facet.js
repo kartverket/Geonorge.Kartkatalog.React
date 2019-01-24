@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
 import { addSelectedFacet, removeSelectedFacet } from '../../../actions/FacetFilterActions'
-import { fetchMetadataSearchResults } from '../../../actions/searchResultActions'
+import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions'
 
 
 import style from './Facet.scss';

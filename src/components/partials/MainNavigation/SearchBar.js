@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchMetadataSearchResults, fetchArticleSearchResults, fetchDropdownSearchResults } from '../../../actions/searchResultActions';
+import { fetchMetadataSearchResults, fetchArticleSearchResults, fetchDropdownSearchResults } from '../../../actions/SearchResultActions';
 
 import SearchResultsTypeList from './SearchResultsTypeList';
 
