@@ -24,7 +24,7 @@ export default function(state = initialState, action) {
 			};
 		case REMOVE_SELECTEDFACET:
 			for(var i=0; i < selectedFacetsForFacetField.length; i++) {
-			   if(selectedFacetsForFacetField[i].Name == action.payload.Name)
+			   if(selectedFacetsForFacetField[i].Name === action.payload.Name)
 			   {
 			      selectedFacetsForFacetField.splice(i,1);
 			   }

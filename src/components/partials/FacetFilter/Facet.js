@@ -41,7 +41,7 @@ class Facet extends Component {
         let selectedFacets = this.props.selectedFacets;
         if (selectedFacets[this.props.facetField]) {
             selectedFacets[this.props.facetField].forEach((selectedFacet) => {
-                if (selectedFacet.Name == this.props.facet.Name) {
+                if (selectedFacet.Name === this.props.facet.Name) {
                     isChecked = true;
                     this.setState({
                         checked: true
@@ -88,7 +88,7 @@ class Facet extends Component {
     render() {
         let liClassNames = classNames({
             [style.facet]: true,
-            [style.empty]: this.props.facet.Count == 0,
+            [style.empty]: this.props.facet.Count === 0,
         });
         return (
             <li className={liClassNames}>

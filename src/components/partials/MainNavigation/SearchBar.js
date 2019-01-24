@@ -56,7 +56,6 @@ class SearchBar extends Component {
 
 	onSubmit(e) {
 		e.preventDefault();
-		const searchString = this.state.searchString;
 		this.props.fetchMetadataSearchResults(e.target.value);
 		this.props.fetchArticleSearchResults(e.target.value);
 	}
@@ -84,7 +83,7 @@ class SearchBar extends Component {
 			<form ref={node => this.node = node} onSubmit={this.onSubmit} className={style.searchInput}>
 				<input  placeholder="Søk" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus} value={this.state.searchString} />
 				<button>
-					<img src={searchIcon}></img>
+					<img src={searchIcon} alt="search icon"></img>
 				</button>
 				<div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
 					{this.renderDropdownResults()}

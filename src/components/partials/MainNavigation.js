@@ -22,7 +22,7 @@ class MainNavigation extends Component {
 				<div className={style.mainNavigation + ' container'}>
 					<Link to={'/'}>
                         <div className={style.logo}>
-                            <img src={logo}></img>
+                            <img src={logo} alt="Geonorge logo"></img>
                         </div>
                     </Link>
                     <div className={style.search}>
@@ -30,7 +30,7 @@ class MainNavigation extends Component {
                     </div>
                     <span className={style.iconButton} style={{display: "none"}}>
                         <span className={style.counter}>12</span>
-                        <img src={require('../../images/svg/download-icon.svg')}></img>
+                        <img src={require('../../images/svg/download-icon.svg')} alt="download icon"></img>
                     </span>
                     <Link to={'/kart'}>
                         <span className={style.iconButton}>
