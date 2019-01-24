@@ -1,0 +1,51 @@
+:local(.searchResultsSectionHeadingContainer) {
+        padding: 4px 10px;
+
+        :local(.searchResultsSectionHeading) {
+            font-size: 1em;
+            display: inline-block;
+        }
+
+        :local(.counter) {
+            padding: 2px 4px;
+            color: #fff;
+            border-radius: 4px;
+            background-color: #fe5000;
+            display: inline-block;
+            font-size: 1em;
+            vertical-align: text-bottom;
+            margin-left: 4px;
+
+        }
+
+        :local(.showAllButton) {
+            float: right;
+            cursor: pointer;
+            font-size: 1em;
+        }
+    }
+
+    :local(.searchResultsSection) {
+        display: block;
+        margin-bottom: 12px;
+
+        &:nth-child(odd){
+            background: #f5f6f7;
+        }
+
+        :local(.searchResultsItem) {
+            display: block;
+            font-size: .8em;
+            color: #333435;
+            padding: 4px 20px;
+            -moz-transition: background-color .2s ease-in-out;
+            -o-transition: background-color .2s ease-in-out;
+            -webkit-transition: background-color .2s ease-in-out;
+            transition: background-color .2s ease-in-out;
+            cursor: pointer;
+        }
+
+        :local(.searchResultsItem:hover) {
+            background: #f0f1f2;
+        }
+    }

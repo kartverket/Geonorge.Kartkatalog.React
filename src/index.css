@@ -1,0 +1,43 @@
+::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: none;
+    border-radius: 0;
+    background: #e0e1e2;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.btn-success {
+    background-color: #7da1c4;
+}
+
+.btn-danger {
+
+}
+
+
+body {
+    font-size: 1.6em;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-family: 'Raleway', sans-serif;
+}
+
+
+
+@media (max-width: 767px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    body {
+    }
+}

@@ -1,0 +1,8 @@
+
+@import '../../scss/abstracts/all';
+:local(.facetFilter) {
+    margin: 0 0 16px 20px;
+    padding: 10px 20px;
+    list-style: none;
+    background-color: $primary-background;
+}
