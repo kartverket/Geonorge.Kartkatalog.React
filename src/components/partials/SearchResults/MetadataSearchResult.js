@@ -103,6 +103,12 @@ class MetadataSearchResult extends Component {
   }
 }
 
+MetadataSearchResult.propTypes = {
+  fetchMapItems: PropTypes.func.isRequired,
+  mapItems: PropTypes.array.isRequired,
+  searchResult: PropTypes.object.isRequired
+}
+
 const mapStateToProps = state => ({
   mapItems: state.mapItems
 });

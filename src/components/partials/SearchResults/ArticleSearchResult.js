@@ -29,5 +29,10 @@ class ArticleSearchResult extends Component {
 	}
 }
 
+ArticleSearchResult.propTypes = {
+	searchResult: PropTypes.object.isRequired
+  }
+  
+
 
 export default connect(null)(ArticleSearchResult);
