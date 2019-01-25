@@ -56,8 +56,8 @@ class SearchBar extends Component {
 
 	onSubmit(e) {
 		e.preventDefault();
-		this.props.fetchMetadataSearchResults(e.target.value);
-		this.props.fetchArticleSearchResults(e.target.value);
+		this.props.fetchMetadataSearchResults(this.state.searchString);
+		this.props.fetchArticleSearchResults(this.state.searchString);
 	}
 
 	componentWillMount() {
@@ -69,9 +69,9 @@ class SearchBar extends Component {
     }
 
 	renderDropdownResults() {
-		if (this.props.searchResults && this.props.searchResults.dropdownResults) {
-			const resultsTypeElements = Object.keys(this.props.searchResults.dropdownResults).map((searchResultsType, i) => {
-				let searchResults = this.props.searchResults.dropdownResults[searchResultsType];
+		if (this.props.dropdownResults) {
+			const resultsTypeElements = Object.keys(this.props.dropdownResults).map((searchResultsType, i) => {
+				let searchResults = this.props.dropdownResults[searchResultsType];
 				return <SearchResultsTypeList searchResults={searchResults} searchResultsType={searchResultsType} key={i} />
 			})
 			return resultsTypeElements;
@@ -97,11 +97,11 @@ SearchBar.propTypes = {
 	fetchMetadataSearchResults: PropTypes.func.isRequired,
 	fetchArticleSearchResults: PropTypes.func.isRequired,
 	fetchDropdownSearchResults: PropTypes.func.isRequired,
-	searchResults: PropTypes.object.isRequired
+	dropdownResults: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-	searchResults: state.searchResults
+	dropdownResults: state.searchResults.dropdownResults ? state.searchResults.dropdownResults : {}
 });
 
 export default connect(mapStateToProps, { fetchMetadataSearchResults, fetchArticleSearchResults, fetchDropdownSearchResults })(SearchBar);
