@@ -12,17 +12,17 @@
 
 	:local(.listItemTitle) {
 		display: block;
-		font-size: 14pt;
+		font-size: 1.2em;
 	}
 
 	:local(.listItemInfo) {
 		display: block;
-		font-size: 12pt;
+		font-size: 1em;
 	}
 
 	:local(.listItemType) {
 		display: block;
-		font-size: 12pt;
+		font-size: 1em;
 		&:local(.StandardPage){
 			color: red;
 		}

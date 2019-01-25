@@ -20,7 +20,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <div>
+          <div className="kartkatalogen">
             <MainNavigation />
             <div className={style.pageContent}>
               <Switch>

@@ -1,3 +1,32 @@
 :local(.map) {
     display: block;
+
+    
+    :local(.layers) {
+        height: 80px;
+        width: 40px;
+        top: 100px;
+        left: 0;
+        background-color: #111;
+        position: fixed;
+        z-index: 3;
+        overflow-x: hidden;
+        transition: all .3s ease-in-out;        
+    }
+    :local(.mapContent) {
+        transition: all .3s ease-in-out;
+        padding-left: 0;
+    }
+
+    
+    &:local(.activeMenu) {
+
+        :local(.layers) {
+            width: 200px;
+            height: 100%;
+        }
+        :local(.mapContent) {
+            padding-left: 200px;
+        }
+    }
 }
