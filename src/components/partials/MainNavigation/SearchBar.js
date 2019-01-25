@@ -80,7 +80,7 @@ class SearchBar extends Component {
 	
 	render() {
 		return (
-			<form ref={node => this.node = node} onSubmit={this.onSubmit} className={style.searchInput}>
+			<form ref={node => this.node = node} autocomplete="off" onSubmit={this.onSubmit} className={style.searchInput}>
 				<input  placeholder="Søk" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus} value={this.state.searchString} />
 				<button>
 					<img src={searchIcon} alt="search icon"></img>
