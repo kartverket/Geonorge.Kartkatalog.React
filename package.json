@@ -12,6 +12,7 @@
     "classnames": "^2.2.6",
     "connected-react-router": "^6.2.2",
     "history": "^4.7.2",
+    "js-cookie": "^2.2.0",
     "node-sass": "^4.11.0",
     "r_map": "https://github.com/kartverket/r_map.git",
     "react": "^16.7.0",
