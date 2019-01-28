@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
+import { addSelectedFacet } from '../../../actions/FacetFilterActions';
 
 
 import style from './SearchResultsTypeList.scss';
@@ -23,14 +25,20 @@ class SearchResultsTypeList extends Component {
 	}
 
 	showResults() {
-
+		this.props.fetchMetadataSearchResults( this.props.searchString, 
+			{
+			type: [
+				{Name: this.props.searchResultsType}
+			]
+			}
+		);
+		this.props.addSelectedFacet({Name: this.props.searchResultsType}, 'type')
 	}
-	
 	render() {
 		return (
 			<div className={style.searchResultsSection}>
 				<div className={style.searchResultsSectionHeadingContainer}>
-	                <span className={style.searchResultsSectionHeading}>{this.props.searchResultsType}</span>
+	                <span className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
 	                <span className={style.counter}>{this.props.searchResults.NumFound}</span>
 	                <span onClick={() => this.showResults()} className={style.showAllButton}>
 	                  Vis alle
@@ -43,8 +51,9 @@ class SearchResultsTypeList extends Component {
 }
 
 SearchResultsTypeList.propTypes = {
+	searchString: PropTypes.string.isRequired,
 	searchResultsType: PropTypes.string.isRequired,
 	searchResults: PropTypes.object.isRequired
 }
 
-export default connect(null)(SearchResultsTypeList);
+export default connect(null, {fetchMetadataSearchResults, addSelectedFacet})(SearchResultsTypeList);
