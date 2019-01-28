@@ -91,7 +91,7 @@ class MetadataSearchResult extends Component {
      <Row className={style.listItem}>
      <Col sm={10}>
      <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>
-     <span className={style.listItemInfo}>{this.props.searchResult.Type} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a></span>
+     <span className={style.listItemInfo}>{this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a></span>
      </Col>
      <Col sm={2}>
      <span className={style.listItemButton}>
