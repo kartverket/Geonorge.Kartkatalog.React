@@ -1,3 +1,4 @@
+import * as Cookies from 'js-cookie';
 import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, FETCH_AVAILABLEFACETS } from './types';
 
 export const fetchMetadataSearchResults = (searchString = "", facets = null) => dispatch => {
@@ -16,7 +17,14 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null) => 
 	let facetsParameterString = facetsParameter.join('&');
 	facetsParameterString = facetsParameterString ? "&" + facetsParameterString : "";
 
-	fetch(`https://kartkatalog.dev.geonorge.no/api/search?text=${searchString}${facetsParameterString}`)
+	const selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+	const fetchOptions = {
+		headers: new Headers({
+			'Accept-Language': selectedLanguage
+		})
+	};
+
+	fetch(`https://kartkatalog.dev.geonorge.no/api/search?text=${searchString}${facetsParameterString}`, fetchOptions)
 		.then(res => res.json())
 		.then(searchResults => {
 			dispatch({
@@ -36,7 +44,14 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null) => 
 }
 
 export const fetchArticleSearchResults = (searchString = "") => dispatch => {
-	fetch(`https://kartkatalog.dev.geonorge.no/api/articles?text=${searchString}`)
+	let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+	const fetchOptions = {
+		headers: new Headers({
+			'Accept-Language': selectedLanguage
+		})
+	};
+
+	fetch(`https://kartkatalog.dev.geonorge.no/api/articles?text=${searchString}`, fetchOptions)
 		.then(res => res.json())
 		.then(searchResults => dispatch({
 			type: FETCH_ARTICLESEARCHRESULTS,
@@ -53,9 +68,16 @@ export const fetchDropdownSearchResults = (searchString = "") => dispatch => {
 		articles: `articles?text=${searchString}`
 	};
 
+	let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+	const fetchOptions = {
+		headers: new Headers({
+			'Accept-Language': selectedLanguage
+		})
+	};
+
 	Object.keys(urlParameterStrings).forEach((searchResultsType) => {
 		let urlParameterString = urlParameterStrings[searchResultsType];
-		fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}`)
+		fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}`, fetchOptions)
 			.then(res => res.json())
 			.then(searchResults => dispatch({
 				type: FETCH_DROPDOWNSEARCHRESULTS,
