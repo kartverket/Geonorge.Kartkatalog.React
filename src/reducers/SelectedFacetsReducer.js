@@ -1,4 +1,4 @@
-import { ADD_SELECTEDFACET, REMOVE_SELECTEDFACET } from '../actions/types';
+import { ADD_SELECTEDFACET, REMOVE_SELECTEDFACET, UPDATE_SELECTEDFACETS } from '../actions/types';
 
 const initialState = {
 	type: [],
@@ -16,6 +16,12 @@ export default function(state = initialState, action) {
 	const selectedFacetsForFacetField = state[action.facetField] ? state[action.facetField] : [];
 
 	switch(action.type) {
+		case UPDATE_SELECTEDFACETS:
+			return {
+				...state,
+					[action.facetField]: action.payload
+				}
+			
 		case ADD_SELECTEDFACET:
 			selectedFacetsForFacetField.push(action.payload);
 			return {
