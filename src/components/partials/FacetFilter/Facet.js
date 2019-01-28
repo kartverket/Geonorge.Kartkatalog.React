@@ -82,7 +82,12 @@ class Facet extends Component {
         } else {
             return "";
         }
+    }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.selectedFacets[this.props.facetField].length){
+            this.isChecked();
+        }
     }
 
     render() {

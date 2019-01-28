@@ -30,6 +30,14 @@ class FacetFilterItem extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.selectedFacets[this.props.facetFilterItem.FacetField].length){
+            this.setState({
+                expanded: true
+            });
+        }
+    }
+
     render() {
         return (
             <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem} onClick={() => this.toggleExpand()}>
@@ -48,5 +56,8 @@ FacetFilterItem.propTypes = {
     facetFilterItem: PropTypes.object.isRequired
 }
 
+const mapStateToProps = state => ({
+    selectedFacets: state.selectedFacets
+});
 
-export default connect(null)(FacetFilterItem);
+export default connect(mapStateToProps, null)(FacetFilterItem);
