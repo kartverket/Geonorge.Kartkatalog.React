@@ -115,8 +115,11 @@ Facet.propTypes = {
     selectedFacets: PropTypes.object.isRequired
 }
 
+// Store State mappes til lokale states
 const mapStateToProps = state => ({
     selectedFacets: state.selectedFacets
 });
 
+
+// "Blir tilgjengelig som en prop"... Store state, Actions, Klassen du er i...
 export default connect(mapStateToProps, {addSelectedFacet, removeSelectedFacet, fetchMetadataSearchResults})(Facet);

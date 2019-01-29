@@ -1,4 +1,4 @@
-import { ADD_SELECTEDFACET, REMOVE_SELECTEDFACET, UPDATE_SELECTEDFACETS } from '../actions/types';
+import { ADD_SELECTEDFACET, REMOVE_SELECTEDFACET, UPDATE_SELECTEDFACETS, UPDATE_SELECTED_FACETS_FOR_FACET_FIELD } from '../actions/types';
 
 const initialState = {
 	type: [],
@@ -12,16 +12,21 @@ const initialState = {
 	license: []
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
 	const selectedFacetsForFacetField = state[action.facetField] ? state[action.facetField] : [];
 
-	switch(action.type) {
+	switch (action.type) {
 		case UPDATE_SELECTEDFACETS:
+		action.payload.forEach(facet => {
+			state[facet.facetField] = facet.facets
+		})	
+		return state
+
+		case UPDATE_SELECTED_FACETS_FOR_FACET_FIELD:
 			return {
 				...state,
-					[action.facetField]: action.payload
-				}
-			
+				[action.facetField]: action.payload,
+			}
 		case ADD_SELECTEDFACET:
 			selectedFacetsForFacetField.push(action.payload);
 			return {
@@ -29,11 +34,10 @@ export default function(state = initialState, action) {
 				[action.facetField]: selectedFacetsForFacetField
 			};
 		case REMOVE_SELECTEDFACET:
-			for(var i=0; i < selectedFacetsForFacetField.length; i++) {
-			   if(selectedFacetsForFacetField[i].Name === action.payload.Name)
-			   {
-			      selectedFacetsForFacetField.splice(i,1);
-			   }
+			for (var i = 0; i < selectedFacetsForFacetField.length; i++) {
+				if (selectedFacetsForFacetField[i].Name === action.payload.Name) {
+					selectedFacetsForFacetField.splice(i, 1);
+				}
 			}
 			return {
 				...state,

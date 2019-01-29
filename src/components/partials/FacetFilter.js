@@ -34,10 +34,12 @@ class FacetFilter extends Component {
     }
 }
 
+// Validering av props... 
 FacetFilter.propTypes = {
     searchResults: PropTypes.object
 }
 
+// Metode som binder state til lokale props
 const mapStateToProps = state => ({
     searchResults: state.searchResults,
     availableFacets: state.availableFacets

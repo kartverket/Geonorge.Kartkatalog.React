@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
-import { addSelectedFacet } from '../../../actions/FacetFilterActions';
+import { updateSelectedFacets } from '../../../actions/FacetFilterActions';
 
 
 import style from './SearchResultsTypeList.scss';
@@ -32,7 +32,12 @@ class SearchResultsTypeList extends Component {
 			]
 			}
 		);
-		this.props.addSelectedFacet({Name: this.props.searchResultsType}, 'type')
+		this.props.updateSelectedFacets([
+			{
+				facets: [{Name: this.props.searchResultsType}],
+				facetField: 'type'
+			}
+		])
 	}
 	render() {
 		return (
@@ -56,4 +61,4 @@ SearchResultsTypeList.propTypes = {
 	searchResults: PropTypes.object.isRequired
 }
 
-export default connect(null, {fetchMetadataSearchResults, addSelectedFacet})(SearchResultsTypeList);
+export default connect(null, {fetchMetadataSearchResults, updateSelectedFacets})(SearchResultsTypeList);
