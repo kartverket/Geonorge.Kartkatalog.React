@@ -1,17 +1,40 @@
+@import '../../scss/abstracts/variables/all';
 :local(.map) {
     display: block;
 
-    
+    :local(.close) {
+       float: right;
+    }
+    :local(.open) {
+        float: left;
+        
+    }
     :local(.layers) {
         height: 80px;
-        width: 40px;
-        top: 100px;
-        left: 0;
-        background-color: #111;
+        width: 80px;
+        top: 100px;        
+        left: -5px;
+        background-color: $primary-background;
+        border-radius: 3px;
+        border: 1px solid $primary-border;
         position: fixed;
+        overflow: hidden;
         z-index: 3;
         overflow-x: hidden;
         transition: all .3s ease-in-out;        
+    }
+    :local(.toggle) {
+        font-size: 2.5em;
+        color: $primary-brand;        
+        float: right;
+        margin: 20px;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    :local(.container) {
+        clear: both;
     }
     :local(.mapContent) {
         transition: all .3s ease-in-out;

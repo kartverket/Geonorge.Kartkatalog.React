@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { fetchMapItems } from '../../actions/MapItemActions'
 import {Map} from 'r_map';
 import classNames from 'classnames/bind';
-
 import style from './MapContainer.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 class MapContainer extends Component {
@@ -27,26 +27,27 @@ class MapContainer extends Component {
 				[style.map]: true,
 				[style.activeMenu]: this.state.activeMenu
 				
-			}) 
+			}) 			
 		
 		return (			
 			<div className={mapContainerClassNames}>  
-				<div className={style.layers} onClick={() => this.openSidebar()}>Meny
-			
-					<div>Meny for kartlagene</div>
-				</div>
-				<div onClick={() => this.closeSidebar()}>lukk</div>
+				<div className={style.layers}>
 				
+
+				<FontAwesomeIcon onClick={() => this.toggleSidebar()} className={style.toggle} icon={this.state.activeMenu ? 'times' : 'bars'} />
+
+					<div className={style.container}><ul>
+							<li>Kartdata 1</li>
+							<li>Kartdata 3</li>
+						</ul>
+					</div>
+				</div>										
 				<div className={style.mapContent}><Map services={ this.props.mapItems }/> </div>
 			</div>
 			)
 	}
-	openSidebar() {				
-		this.setState({activeMenu: true});
-		}
-	closeSidebar() {
-		console.log(this.state.activeMenu)
-		this.setState({activeMenu: false})
+	toggleSidebar() {
+		this.setState({activeMenu: !this.state.activeMenu})
 	}
 }
 

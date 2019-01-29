@@ -1,16 +1,4 @@
-.kartkatalogen {
-    
-        font-size: 16px;
-        font-family: 'Open Sans', sans-serif;
-        margin: 0;
-        padding: 0;
-    
-    h1 {
-        font-family: 'Raleway', sans-serif;
-    }
-    
-}
-
+@import 'scss/abstracts/variables/all';
 
 :local(.pageContent) {
     margin-top: 57px;
@@ -18,4 +6,16 @@
     overflow-y: auto;
     width: 100%;
     position: absolute;
+}
+.kartkatalogen {
+    
+	font-size: 16px;
+	font-family: $default-font, sans-serif;
+	margin: 0;
+	padding: 0;
+
+h1 {
+	font-family: $header-font, sans-serif;
+}
+
 }

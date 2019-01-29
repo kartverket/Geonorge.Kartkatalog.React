@@ -1,38 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-
 import { Col, Row } from 'react-bootstrap';
-
 import style from './ArticleSearchResult.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Moment from 'react-moment';
+
+
 
 class ArticleSearchResult extends Component {
-	getTypeIcon() {
-		const typeIcons = {
-			StandardPage: ['far', 'square'],
-			NewsPage: ['far', 'check-square']
-		}
-		return typeIcons[this.props.searchResult.Type]
+	getArticleTypeIcon() {
+		const iconClasses = {
+			StandardPage: ['fal', 'file-alt'], 
+			NewsPage: ['fal', 'newspaper']};		
+		return iconClasses[this.props.searchResult.Type]
 	}
-
-	render() {
-		return (
+	render() {		
+		return (			
 			<Row className={style.listItem}>
 				<Col sm={12}>
 					<span className={style.listItemTitle}>
 						<a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a>
-						<span className={style.listItemType}>
-							{this.props.searchResult.Type}
-							<FontAwesomeIcon icon={this.getTypeIcon()} />
+						<span title={this.props.searchResult.Type}>
+							<FontAwesomeIcon className={style.icon} icon={this.getArticleTypeIcon()} />
 						</span>
+					
 					</span>
 					<span className={style.listItemInfo}>
 						{this.props.searchResult.Intro}
 					</span>
 					<span className={style.listItemDate}>
-						{this.props.searchResult.Date}
+						
+					<Moment format="DD.MM.YYYY">{this.props.searchResult.Date}</Moment>
+					
 					</span>
 				</Col>
 			</Row>

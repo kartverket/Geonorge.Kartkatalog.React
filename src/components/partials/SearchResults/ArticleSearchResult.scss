@@ -13,21 +13,25 @@
 	:local(.listItemTitle) {
 		display: block;
 		font-size: 1.2em;
+		margin-top: 10px;
 	}
 
 	:local(.listItemInfo) {
 		display: block;
 		font-size: 1em;
+		margin: 10px 0;
 	}
 
 	:local(.listItemType) {
 		display: block;
-		font-size: 1em;
-		&:local(.StandardPage){
-			color: red;
-		}
-		&:local(.NewsPage){
-			color: green;
-		}
+		font-size: .8em;		
+	}
+	:local(.listItemDate) {
+		font-size: .8em;
+	}
+	:local(.icon) {
+		margin-left: 10px;
+		font-size: 1.2em;
+		color: #333;
 	}
 }
