@@ -17,10 +17,10 @@ export default function (state = initialState, action) {
 
 	switch (action.type) {
 		case UPDATE_SELECTEDFACETS:
-		action.payload.forEach(facet => {
-			state[facet.facetField] = facet.facets
-		})	
-		return state
+			action.payload.forEach(facet => {
+				state[facet.facetField] = facet.facets
+			})
+			return state
 
 		case UPDATE_SELECTED_FACETS_FOR_FACET_FIELD:
 			return {
@@ -34,11 +34,24 @@ export default function (state = initialState, action) {
 				[action.facetField]: selectedFacetsForFacetField
 			};
 		case REMOVE_SELECTEDFACET:
-			for (var i = 0; i < selectedFacetsForFacetField.length; i++) {
-				if (selectedFacetsForFacetField[i].Name === action.payload.Name) {
-					selectedFacetsForFacetField.splice(i, 1);
+			const removeFacet = (facet) => {
+				for (var facetIndex = 0; facetIndex < selectedFacetsForFacetField.length; facetIndex++) {
+					if (selectedFacetsForFacetField[facetIndex].Name === facet.Name) {
+						if (selectedFacetsForFacetField[facetIndex].FacetResults) {
+							removeFacets(selectedFacetsForFacetField[facetIndex].FacetResults);
+						}
+						selectedFacetsForFacetField.splice(facetIndex, 1);
+					}
 				}
 			}
+			const removeFacets = (facets) => {
+				for (var facetIndex = 0; facetIndex < facets.length; facetIndex++) {
+					removeFacet(facets[facetIndex]);
+				}
+			}
+
+			removeFacet(action.payload);
+
 			return {
 				...state,
 				[action.facetField]: selectedFacetsForFacetField
