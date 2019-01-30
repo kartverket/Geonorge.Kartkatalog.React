@@ -6,6 +6,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import configureStore, { history } from './configureStore'
 
 import Home from './components/routes/Home';
+import Footer from './components/partials/Footer';
 import MapContainer from './components/routes/MapContainer';
 
 import MainNavigation from './components/partials/MainNavigation';
@@ -26,12 +27,17 @@ class App extends Component {
           <div className="kartkatalogen">
             <MainNavigation />
             <div className={style.pageContent}>
+            <div className={style.container}>
               <Switch>
                 <Route exact path="/" render={() => (<Home />)} />
                 <Route exact path="/kart" render={() => (<MapContainer />)} />
                 <Route render={() => (<div>Miss</div>)} />
               </Switch>
-            </div>
+              </div>
+              <footer className={style.footer}>
+                  <Route exact path="/" render={()=> (<Footer />)} />
+              </footer>
+            </div>            
           </div>
         </ConnectedRouter>
       </Provider>

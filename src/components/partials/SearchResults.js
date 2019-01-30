@@ -73,7 +73,7 @@ class SearchResults extends Component {
 			let listItemElements = listItems.map((searchResult, i) => {
 				return <MetadataSearchResult searchResult={searchResult} key={i} />;
 			});
-			return React.createElement('div', {className: style.list, key: "searchResult"}, listItemElements);
+			return React.createElement('div', {className: style.maplist, key: "searchResult"}, listItemElements);
 		} else {
 			return "";
 		}

@@ -6,6 +6,15 @@
     overflow-y: auto;
     width: 100%;
     position: absolute;
+    margin-bottom: 2px solid $primary-border;
+}
+:local(.footer) {
+    margin: 0 auto;
+}
+:local(.container) {
+    border-bottom: 2px solid $primary-brand;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
 }
 .kartkatalogen {
     

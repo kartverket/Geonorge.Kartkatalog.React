@@ -1,0 +1,27 @@
+@import '../../scss/abstracts/all';
+
+:local(.container) {
+    display: flex;
+    flex-direction: row;
+    width: 1170px;
+    margin: 0 auto;
+    justify-content: space-between;    
+    margin-bottom: 40px;
+    > div {
+        text-align: center;
+
+        &:local(.logo) {
+            width: 33%;
+            img {
+                max-width: 256px;
+            }
+
+        }
+        &:local(.about) {
+            width: 33%;
+        }
+        &:local(.contact) {
+            width: 33%;
+        }
+    }
+}
