@@ -70,7 +70,9 @@ class SearchBar extends Component {
 
 	renderDropdownResults() {
 		if (this.props.dropdownResults) {
-			const resultsTypeElements = Object.keys(this.props.dropdownResults).map((searchResultsType, i) => {
+			const resultsTypeElements = Object.keys(this.props.dropdownResults).filter(searchResultsType => {
+				return this.props.dropdownResults[searchResultsType].NumFound;
+			}).map((searchResultsType, i) => {
 				let searchResults = this.props.dropdownResults[searchResultsType];
 				return <SearchResultsTypeList searchString={this.state.searchString} searchResults={searchResults} searchResultsType={searchResultsType} key={i} />
 			})
