@@ -9,9 +9,9 @@
 		-webkit-box-pack: center;
 		-webkit-justify-content: center;
 		-ms-flex-pack: center;
-		justify-content: center;
-		
+		justify-content: center;		
 		padding: 20px 0;
+		
 
 		:local(.listItemTitle) {
 			display: block;
@@ -37,6 +37,9 @@
 			> span {
 				font-size: .8em;
 			}
+			&:hover {
+				cursor: pointer;
+			}
 		}
 		.off {
 			> svg  {
@@ -45,6 +48,9 @@
 			}
 			> span {
 				font-size: .8em;
+			}
+			&:hover {
+				cursor: pointer;
 			}
 		}
 
