@@ -8,6 +8,8 @@ $imagePath: "../../../../";
     input {
         position: absolute;
         opacity: 0;
+        height: 22px;
+        width: 22px;
         cursor: pointer;
         &+label {
             position: relative;
