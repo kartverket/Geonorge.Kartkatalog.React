@@ -1,6 +1,8 @@
+@import '../../../scss/abstracts/all';
+
 :local(.listItem) {
 	line-height: 1.6;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid $primary-border;
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	-ms-flex-align: center;
@@ -9,11 +11,15 @@
 	-webkit-justify-content: center;
 	-ms-flex-pack: center;
 	justify-content: center;
+	&:first-of-type {
+		border-top: 1px solid $primary-border;	
+	}
 
 	:local(.listItemTitle) {
 		display: block;
-		font-size: 1.2em;
+		font-size: 1.2em;		
 		margin-top: 10px;
+		
 	}
 
 	:local(.listItemInfo) {
