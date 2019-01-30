@@ -75,9 +75,11 @@ export const fetchDropdownSearchResults = (searchString = "") => dispatch => {
 		})
 	};
 
+	const limitParameterString = 'limit=5';
+
 	Object.keys(urlParameterStrings).forEach((searchResultsType) => {
 		let urlParameterString = urlParameterStrings[searchResultsType];
-		fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}`, fetchOptions)
+		fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}&${limitParameterString}`, fetchOptions)
 			.then(res => res.json())
 			.then(searchResults => dispatch({
 				type: FETCH_DROPDOWNSEARCHRESULTS,
