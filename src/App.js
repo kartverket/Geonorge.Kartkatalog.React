@@ -11,6 +11,9 @@ import MapContainer from './components/routes/MapContainer';
 import MainNavigation from './components/partials/MainNavigation';
 import style from './App.scss';
 
+import './scss/styles.scss';
+
+
 const initialState = {};
 const store = configureStore(initialState);
 
