@@ -79,4 +79,4 @@ ClientApp/package-lock\.json
 
 package-lock\.json
 
-build/
+/build/
