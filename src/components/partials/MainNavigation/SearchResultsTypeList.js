@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
 import { updateSelectedFacets } from '../../../actions/FacetFilterActions';
+import { updateSelectedSearchResultsType } from '../../../actions/SelectedSearchResultsTypeActions';
 
 
 import style from './SearchResultsTypeList.scss';
@@ -25,33 +26,34 @@ class SearchResultsTypeList extends Component {
 	}
 
 	showResults() {
-		this.props.fetchMetadataSearchResults( this.props.searchString, 
+		this.props.fetchMetadataSearchResults(this.props.searchString,
 			{
-			type: [
-				{Name: this.props.searchResultsType}
-			]
+				type: [
+					{ Name: this.props.searchResultsType }
+				]
 			}
 		);
 		this.props.updateSelectedFacets([
 			{
-				facets: [{Name: this.props.searchResultsType}],
+				facets: [{ Name: this.props.searchResultsType }],
 				facetField: 'type'
 			}
-		])
+		]);
+		this.props.updateSelectedSearchResultsType(this.props.searchResultsType);
 	}
 	render() {
 		return (
 			<div className={style.searchResultsSection}>
 				<div className={style.searchResultsSectionHeadingContainer}>
-	                <span className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
-	                <span className={style.counter}>{this.props.searchResults.NumFound}</span>
-	                <span onClick={() => this.showResults()} className={style.showAllButton}>
-	                  Vis alle
+					<span className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
+					<span className={style.counter}>{this.props.searchResults.NumFound}</span>
+					<span onClick={() => this.showResults()} className={style.showAllButton}>
+						Vis alle
 	                </span>
-	            </div>
+				</div>
 				{this.renderDropdownResults()}
 			</div>
-			)
+		)
 	}
 }
 
@@ -61,4 +63,10 @@ SearchResultsTypeList.propTypes = {
 	searchResults: PropTypes.object.isRequired
 }
 
-export default connect(null, {fetchMetadataSearchResults, updateSelectedFacets})(SearchResultsTypeList);
+const mapDispatchToProps = {
+	fetchMetadataSearchResults,
+	updateSelectedFacets,
+	updateSelectedSearchResultsType
+}
+
+export default connect(null, mapDispatchToProps)(SearchResultsTypeList);

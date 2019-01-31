@@ -106,4 +106,10 @@ const mapStateToProps = state => ({
 	dropdownResults: state.searchResults.dropdownResults ? state.searchResults.dropdownResults : {}
 });
 
-export default connect(mapStateToProps, { fetchMetadataSearchResults, fetchArticleSearchResults, fetchDropdownSearchResults })(SearchBar);
+const mapDispatchToProps = {
+	fetchMetadataSearchResults,
+	fetchArticleSearchResults,
+	fetchDropdownSearchResults
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
