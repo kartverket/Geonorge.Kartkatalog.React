@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router'
 
 import configureStore, { history } from '../utils/configureStore'
 import '../layout/icons';
+import './Wrapper.scss';
 
 const store = configureStore({})
 export default class Wrapper extends Component {
