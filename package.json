@@ -33,11 +33,17 @@
     "redux-thunk": "^2.3.0",
     "webfontloader": "^1.6.28"
   },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "react-styleguidist": "^8.0.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "eslintConfig": {
     "extends": "react-app"
