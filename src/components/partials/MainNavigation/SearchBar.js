@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMetadataSearchResults, fetchArticleSearchResults, fetchDropdownSearchResults } from '../../../actions/SearchResultActions';
@@ -23,34 +23,34 @@ class SearchBar extends Component {
 	}
 
 	hideResults() {
-        this.setState({
-            showResults: false
-        });
-    }
+		this.setState({
+			showResults: false
+		});
+	}
 
-    showResults() {
-        this.setState({
-            showResults: true
-        });
-    }
+	showResults() {
+		this.setState({
+			showResults: true
+		});
+	}
 
-    handleClick = (e) => {
-        if (this.node.contains(e.target)) {
-            return;
-        }
+	handleClick = (e) => {
+		if (this.node.contains(e.target)) {
+			return;
+		}
 
-        this.hideResults();
-    }
+		this.hideResults();
+	}
 
 	onChange(e) {
 		this.setState({
 			[e.target.name]: e.target.value
 		})
 		this.props.fetchDropdownSearchResults(e.target.value);
-		
+
 	}
 
-	onFocus(e){
+	onFocus(e) {
 		this.showResults();
 	}
 
@@ -61,12 +61,12 @@ class SearchBar extends Component {
 	}
 
 	componentWillMount() {
-        document.addEventListener('mousedown', this.handleClick, false);
-    }
+		document.addEventListener('mousedown', this.handleClick, false);
+	}
 
-    componentWillUnMount() {
-        document.addEventListener('mousedown', this.handleClick, false);
-    }
+	componentWillUnMount() {
+		document.addEventListener('mousedown', this.handleClick, false);
+	}
 
 	renderDropdownResults() {
 		if (this.props.dropdownResults) {
@@ -79,11 +79,11 @@ class SearchBar extends Component {
 			return resultsTypeElements;
 		}
 	}
-	
+
 	render() {
 		return (
 			<form ref={node => this.node = node} autoComplete="off" onSubmit={this.onSubmit} className={style.searchInput}>
-				<input  placeholder="Søk" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus} value={this.state.searchString} />
+				<input placeholder="Søk" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus} value={this.state.searchString} />
 				<button>
 					<img src={searchIcon} alt="search icon"></img>
 				</button>
@@ -91,7 +91,7 @@ class SearchBar extends Component {
 					{this.renderDropdownResults()}
 				</div>
 			</form>
-			)
+		)
 	}
 }
 
@@ -110,6 +110,6 @@ const mapDispatchToProps = {
 	fetchMetadataSearchResults,
 	fetchArticleSearchResults,
 	fetchDropdownSearchResults
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

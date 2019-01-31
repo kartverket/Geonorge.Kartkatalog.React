@@ -61,12 +61,12 @@ SearchResultsTypeList.propTypes = {
 	searchString: PropTypes.string.isRequired,
 	searchResultsType: PropTypes.string.isRequired,
 	searchResults: PropTypes.object.isRequired
-}
+};
 
 const mapDispatchToProps = {
 	fetchMetadataSearchResults,
 	updateSelectedFacets,
 	updateSelectedSearchResultsType
-}
+};
 
 export default connect(null, mapDispatchToProps)(SearchResultsTypeList);

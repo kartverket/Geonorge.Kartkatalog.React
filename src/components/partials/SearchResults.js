@@ -118,7 +118,7 @@ SearchResults.propTypes = {
 	selectedSearchResultsType: PropTypes.string.isRequired,
 	fetchMetadataSearchResults: PropTypes.func.isRequired,
 	fetchArticleSearchResults: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = state => ({
 	searchResults: state.searchResults,
@@ -129,6 +129,6 @@ const mapDispatchToProps = {
 	fetchMetadataSearchResults,
 	fetchArticleSearchResults,
 	updateSelectedSearchResultsType
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

@@ -11,12 +11,13 @@ import Moment from 'react-moment';
 class ArticleSearchResult extends Component {
 	getArticleTypeIcon() {
 		const iconClasses = {
-			StandardPage: ['fal', 'file-alt'], 
-			NewsPage: ['fal', 'newspaper']};		
+			StandardPage: ['fal', 'file-alt'],
+			NewsPage: ['fal', 'newspaper']
+		};
 		return iconClasses[this.props.searchResult.Type]
 	}
-	render() {		
-		return (			
+	render() {
+		return (
 			<Row className={style.listItem}>
 				<Col sm={12}>
 					<span className={style.listItemTitle}>
@@ -24,15 +25,15 @@ class ArticleSearchResult extends Component {
 						<span title={this.props.searchResult.Type}>
 							<FontAwesomeIcon className={style.icon} icon={this.getArticleTypeIcon()} />
 						</span>
-					
+
 					</span>
 					<span className={style.listItemInfo}>
 						{this.props.searchResult.Intro}
 					</span>
 					<span className={style.listItemDate}>
-						
-					<Moment format="DD.MM.YYYY">{this.props.searchResult.Date}</Moment>
-					
+
+						<Moment format="DD.MM.YYYY">{this.props.searchResult.Date}</Moment>
+
 					</span>
 				</Col>
 			</Row>
@@ -42,8 +43,6 @@ class ArticleSearchResult extends Component {
 
 ArticleSearchResult.propTypes = {
 	searchResult: PropTypes.object.isRequired
-}
-
-
+};
 
 export default connect(null)(ArticleSearchResult);

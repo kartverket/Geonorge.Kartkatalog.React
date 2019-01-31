@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Facet from './Facet';
@@ -31,7 +31,7 @@ class FacetFilterItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.selectedFacets[this.props.facetFilterItem.FacetField].length){
+        if (nextProps.selectedFacets[this.props.facetFilterItem.FacetField].length) {
             this.setState({
                 expanded: true
             });
@@ -41,7 +41,7 @@ class FacetFilterItem extends Component {
     render() {
         return (
             <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem} onClick={() => this.toggleExpand()}>
-            <FontAwesomeIcon icon={this.state.expanded ? "angle-up" : "angle-down"} className={style.expandArrow} />
+                <FontAwesomeIcon icon={this.state.expanded ? "angle-up" : "angle-down"} className={style.expandArrow} />
                 <p className={style.filterName}>
                     <span className={style.expandArrow}></span> {this.props.facetFilterItem.NameTranslated}
                 </p>
@@ -54,7 +54,7 @@ class FacetFilterItem extends Component {
 
 FacetFilterItem.propTypes = {
     facetFilterItem: PropTypes.object.isRequired
-}
+};
 
 const mapStateToProps = state => ({
     selectedFacets: state.selectedFacets

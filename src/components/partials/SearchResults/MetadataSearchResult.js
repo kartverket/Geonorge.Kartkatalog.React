@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMapItems } from '../../../actions/MapItemActions'
@@ -70,15 +70,15 @@ class MetadataSearchResult extends Component {
     let mapItem = this.getMapItem();
     if (this.props.searchResult.ShowMapLink) {
       let action = this.state.isAdded
-      ? () => this.removeFromMap(mapItem)
-      : () => this.addToMap(mapItem);
-      let icon = <FontAwesomeIcon icon={this.state.isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />    
-      let buttonClass = this.state.isAdded ? 'off' : 'on';      
-      let textContent = React.createElement('span', {key: "textContent"}, this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart')
+        ? () => this.removeFromMap(mapItem)
+        : () => this.addToMap(mapItem);
+      let icon = <FontAwesomeIcon icon={this.state.isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />
+      let buttonClass = this.state.isAdded ? 'off' : 'on';
+      let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart')
 
       let childElements = [icon, textContent];
-      return React.createElement('span', { onClick: action, className: buttonClass }, childElements);     
-      
+      return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+
     } else {
       let content = 'Utilgjengelig';
       let buttonClass = 'btn btn-sm disabled';
@@ -88,18 +88,18 @@ class MetadataSearchResult extends Component {
 
   render() {
     return (
-     <Row className={style.listItem}>
-     <Col sm={10}>
-     <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>
-     <span className={style.listItemInfo}>{this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a></span>
-     </Col>
-     <Col sm={2}>
-     <span className={style.listItemButton}>
-     {this.renderMapButton()}
-     </span>
-     </Col>
-     </Row>
-     )
+      <Row className={style.listItem}>
+        <Col sm={10}>
+          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>
+          <span className={style.listItemInfo}>{this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a></span>
+        </Col>
+        <Col sm={2}>
+          <span className={style.listItemButton}>
+            {this.renderMapButton()}
+          </span>
+        </Col>
+      </Row>
+    )
   }
 }
 
@@ -113,4 +113,8 @@ const mapStateToProps = state => ({
   mapItems: state.mapItems
 });
 
-export default connect(mapStateToProps, { fetchMapItems })(MetadataSearchResult);
+const mapDispatchToProps = {
+  fetchMapItems
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetadataSearchResult);

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -20,17 +20,17 @@ class FacetFilter extends Component {
     renderFacets() {
         let availableFacets = this.getFacetFilterItems();
         let facets = availableFacets.map((facetField, i) => {
-            return <FacetFilterItem facetFilterItem={this.props.availableFacets[facetField]} key={facetField}/>;
+            return <FacetFilterItem facetFilterItem={this.props.availableFacets[facetField]} key={facetField} />;
         });
         return React.createElement('ul', { className: style.facetFilter }, facets);
     }
-    
+
     render() {
         return (
             <div>
-            {this.renderFacets()}
+                {this.renderFacets()}
             </div>
-            )
+        )
     }
 }
 

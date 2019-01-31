@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
@@ -62,20 +62,19 @@ class Facet extends Component {
 
     renderList() {
         if (this.props.facet.FacetResults) {
-
             let ulClassNames = classNames({
                 [style.filterItems]: true,
                 [style.hidden]: !this.state.checked
             });
 
             let filterItemElements = this.props.facet.FacetResults.map((facet, i) => { //TODO: Check other solutions for passing props
-                return <Facet facet={facet} 
-                facetField={this.props.facetField} 
-                selectedFacets={this.props.selectedFacets}
-                addSelectedFacet={this.props.addSelectedFacet}
-                removeSelectedFacet={this.props.removeSelectedFacet}
-                fetchMetadataSearchResults={this.props.fetchMetadataSearchResults}
-                key={i} 
+                return <Facet facet={facet}
+                    facetField={this.props.facetField}
+                    selectedFacets={this.props.selectedFacets}
+                    addSelectedFacet={this.props.addSelectedFacet}
+                    removeSelectedFacet={this.props.removeSelectedFacet}
+                    fetchMetadataSearchResults={this.props.fetchMetadataSearchResults}
+                    key={i}
                 />;
             });
             return React.createElement('ul', { className: ulClassNames }, filterItemElements);
@@ -85,7 +84,7 @@ class Facet extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.selectedFacets[this.props.facetField].length){
+        if (nextProps.selectedFacets[this.props.facetField].length) {
             this.isChecked();
         }
     }
@@ -120,6 +119,12 @@ const mapStateToProps = state => ({
     selectedFacets: state.selectedFacets
 });
 
+const mapDispatchToProps = {
+    addSelectedFacet,
+    removeSelectedFacet,
+    fetchMetadataSearchResults
+};
+
 
 // "Blir tilgjengelig som en prop"... Store state, Actions, Klassen du er i...
-export default connect(mapStateToProps, {addSelectedFacet, removeSelectedFacet, fetchMetadataSearchResults})(Facet);
+export default connect(mapStateToProps, mapDispatchToProps)(Facet);
