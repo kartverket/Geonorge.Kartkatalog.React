@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router'
+
 import configureStore, { history } from '../utils/configureStore'
 import '../layout/icons';
 
@@ -8,7 +10,9 @@ export default class Wrapper extends Component {
     render() {
         return (
             <Provider store={store}>
-                {this.props.children}
+                <ConnectedRouter history={history}>
+                    {this.props.children}
+                </ConnectedRouter>
             </Provider>
         )
     }
