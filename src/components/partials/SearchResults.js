@@ -13,6 +13,8 @@ import ArticleSearchResult from './SearchResults/ArticleSearchResult'
 import FacetFilter from './FacetFilter'
 
 import style from './SearchResults.scss';
+import { Visitor } from 'handlebars';
+import { visible } from 'ansi-colors';
 
 class SearchResults extends Component {
 	constructor(props) {
@@ -48,6 +50,20 @@ class SearchResults extends Component {
 			counterValue = this.props.searchResults[type][counterProperty];
 		}
 		return counterValue;
+	}
+
+	moreItemsAvailable(){
+		if(this.props.searchResults.metadata){
+			if(this.props.searchResults.metadata.NumFound >= (this.props.searchResults.metadata.Offset + 1)){
+				return ""
+			}
+		}
+		return "hidden";
+	}
+
+	AddMoreMetadataToSearchResult(){
+		this.props.fetchMetadataSearchResults("", this.props.searchResults.metadata.Facets, this.props.searchResults.metadata.Offset + 10, true)
+		this.renderActiveTabContent()
 	}
 
 	renderTabs() {
@@ -93,6 +109,7 @@ class SearchResults extends Component {
 				</Col>
 				<Col md={9} sm={8}>
 					{this.renderMetadataSearchResults()}
+					<button class="fa fa-plus icon-button add-more-button" onClick={() => this.AddMoreMetadataToSearchResult()} className={this.moreItemsAvailable()}>Vis mer</button>
 				</Col>
 			</Row>;
 		} else if (this.props.selectedSearchResultsType === 'articles') {

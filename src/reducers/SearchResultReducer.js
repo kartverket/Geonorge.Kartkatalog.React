@@ -1,15 +1,25 @@
 import * as Cookies from 'js-cookie';
-import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS } from '../actions/types';
+import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, APPEND_TO_METADATASEARCHRESULTS } from '../actions/types';
 
 const initialState = {}
 
 export default function (state = initialState, action) {
 	switch (action.type) {
+		case APPEND_TO_METADATASEARCHRESULTS:
+		console.log('9')
+			const appendedSearchResult = state.metadata.Results.concat(action.payload.Results)
+			return {
+				...state,
+				metadata: {
+					...state.metadata,
+					Results: appendedSearchResult
+				}
+			}
 		case FETCH_METADATASEARCHRESULTS:
 			return {
 				...state,
 				metadata: action.payload
-			};
+			}
 		case FETCH_ARTICLESEARCHRESULTS:
 			return {
 				...state,

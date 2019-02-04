@@ -1,7 +1,7 @@
 import * as Cookies from 'js-cookie';
-import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, FETCH_AVAILABLEFACETS } from './types';
+import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, FETCH_AVAILABLEFACETS, APPEND_TO_METADATASEARCHRESULTS } from './types';
 
-export const fetchMetadataSearchResults = (searchString = "", facets = null) => dispatch => {
+export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
 	let facetsParameter = [];
 	if (facets) {
 		let facetIndex = -1;
@@ -24,13 +24,14 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null) => 
 		})
 	};
 
-	fetch(`https://kartkatalog.dev.geonorge.no/api/search?text=${searchString}${facetsParameterString}`, fetchOptions)
+	fetch(`https://kartkatalog.dev.geonorge.no/api/search?offset=${Offset}&text=${searchString}${facetsParameterString}`, fetchOptions)
 		.then(res => res.json())
 		.then(searchResults => {
+			
 			dispatch({
-				type: FETCH_METADATASEARCHRESULTS,
+				type: append? APPEND_TO_METADATASEARCHRESULTS: FETCH_METADATASEARCHRESULTS,
 				payload: searchResults,
-				searchString: searchString
+				searchString: searchString,
 			})
 			let availableFacets = {};
 			searchResults.Facets.forEach((facetFilterItem) => {
@@ -42,6 +43,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null) => 
 			})
 		})
 }
+
 
 export const fetchArticleSearchResults = (searchString = "") => dispatch => {
 	let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
