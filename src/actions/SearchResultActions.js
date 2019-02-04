@@ -1,5 +1,5 @@
 import * as Cookies from 'js-cookie';
-import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, FETCH_AVAILABLEFACETS, APPEND_TO_METADATASEARCHRESULTS } from './types';
+import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, FETCH_AVAILABLEFACETS, APPEND_TO_METADATASEARCHRESULTS, APPEND_TO_ARTICLESEARCHRESULTS} from './types';
 
 export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
 	let facetsParameter = [];
@@ -45,7 +45,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
 }
 
 
-export const fetchArticleSearchResults = (searchString = "") => dispatch => {
+export const fetchArticleSearchResults = (searchString = "", Offset = 1, append = false) => dispatch => {
 	let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
 	const fetchOptions = {
 		headers: new Headers({
@@ -53,10 +53,10 @@ export const fetchArticleSearchResults = (searchString = "") => dispatch => {
 		})
 	};
 
-	fetch(`https://kartkatalog.dev.geonorge.no/api/articles?text=${searchString}`, fetchOptions)
+	fetch(`https://kartkatalog.dev.geonorge.no/api/articles?offset=${Offset}&text=${searchString}`, fetchOptions)
 		.then(res => res.json())
 		.then(searchResults => dispatch({
-			type: FETCH_ARTICLESEARCHRESULTS,
+			type: append? APPEND_TO_ARTICLESEARCHRESULTS: FETCH_ARTICLESEARCHRESULTS,
 			payload: searchResults,
 			searchString: searchString
 		}))

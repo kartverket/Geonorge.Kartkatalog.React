@@ -52,17 +52,31 @@ class SearchResults extends Component {
 		return counterValue;
 	}
 
-	moreItemsAvailable(){
-		if(this.props.searchResults.metadata){
-			if(this.props.searchResults.metadata.NumFound >= (this.props.searchResults.metadata.Offset + 1)){
+	moreItemsAvailable() {
+		if (this.props.searchResults.metadata) {
+			if (this.props.searchResults.metadata.NumFound >= (this.props.searchResults.metadata.Offset + 1)) {
 				return ""
 			}
 		}
 		return "hidden";
 	}
 
-	AddMoreMetadataToSearchResult(){
+	moreArticlesAvailable() {
+		if (this.props.searchResults.articles) {
+			if (this.props.searchResults.articles.NumFound >= (this.props.searchResults.articles.Offset + 1)) {
+				return ""
+			}
+		}
+		return "hidden";
+	}
+
+	AddMoreMetadataToSearchResult() {
 		this.props.fetchMetadataSearchResults("", this.props.searchResults.metadata.Facets, this.props.searchResults.metadata.Offset + 10, true)
+		this.renderActiveTabContent()
+	}
+
+	AddMoreArticlesToSearchResult() {
+		this.props.fetchArticleSearchResults("", this.props.searchResults.articles.Offset + 10, true)
 		this.renderActiveTabContent()
 	}
 
@@ -113,7 +127,11 @@ class SearchResults extends Component {
 				</Col>
 			</Row>;
 		} else if (this.props.selectedSearchResultsType === 'articles') {
-			return this.renderArticleSearchResults();
+			return <Row>
+				{this.renderArticleSearchResults()}
+				<button class="fa fa-plus icon-button add-more-button" onClick={() => this.AddMoreArticlesToSearchResult()} className={this.moreArticlesAvailable()}>Vis mer</button>
+			</Row>;
+			// return this.renderArticleSearchResults();
 		} else {
 			return "";
 		}

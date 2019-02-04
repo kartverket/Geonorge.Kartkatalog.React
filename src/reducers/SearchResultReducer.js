@@ -1,12 +1,11 @@
 import * as Cookies from 'js-cookie';
-import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, APPEND_TO_METADATASEARCHRESULTS } from '../actions/types';
+import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, APPEND_TO_METADATASEARCHRESULTS, APPEND_TO_ARTICLESEARCHRESULTS } from '../actions/types';
 
 const initialState = {}
 
 export default function (state = initialState, action) {
 	switch (action.type) {
 		case APPEND_TO_METADATASEARCHRESULTS:
-		console.log('9')
 			const appendedSearchResult = state.metadata.Results.concat(action.payload.Results)
 			return {
 				...state,
@@ -19,6 +18,15 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				metadata: action.payload
+			}
+		case APPEND_TO_ARTICLESEARCHRESULTS:
+			const appendedArticles = state.articles.Results.concat(action.payload.Results)
+			return {
+				...state,
+				articles: {
+					...state.articles,
+					Results: appendedArticles
+				}
 			}
 		case FETCH_ARTICLESEARCHRESULTS:
 			return {
