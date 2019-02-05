@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchMapItems } from '../../../actions/MapItemActions'
+import { fetchMapItems, removeMapItem, addMapItem } from '../../../actions/MapItemActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Row } from 'react-bootstrap';
@@ -16,16 +16,7 @@ class MetadataSearchResult extends Component {
     };
   }
 
-  addToLocalStorage(mapItemToAdd) {
-    let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
-    mapItems.push(mapItemToAdd);
-    localStorage.mapItems = JSON.stringify(mapItems);
-  }
-  removeFromLocalStorage(mapItemToRemove) {
-    let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
-    localStorage.mapItems = JSON.stringify(mapItems.filter(mapItemToKeep => mapItemToKeep.GetCapabilitiesUrl !== mapItemToRemove.GetCapabilitiesUrl));
-  }
-  compareMapItems(mapItemToCompare, mapItemToCompareWith) {
+   compareMapItems(mapItemToCompare, mapItemToCompareWith) {
     return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
   }
   isAddedToLocalStorage(mapItemToCompare) {
@@ -51,19 +42,17 @@ class MetadataSearchResult extends Component {
     }
   }
 
-  addToMap(GetCapabilitiesUrl) {
+  addToMap(mapItem) {
     this.setState({
       isAdded: true
     });
-    this.addToLocalStorage(GetCapabilitiesUrl);
-    this.props.fetchMapItems();
+    this.props.addMapItem(mapItem);
   }
-  removeFromMap(GetCapabilitiesUrl) {
+  removeFromMap(mapItem) {
     this.setState({
       isAdded: false
     });
-    this.removeFromLocalStorage(GetCapabilitiesUrl);
-    this.props.fetchMapItems();
+    this.props.removeMapItem(mapItem);
   }
 
   renderMapButton() {
@@ -114,7 +103,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchMapItems
+  fetchMapItems,
+  removeMapItem,
+  addMapItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetadataSearchResult);
