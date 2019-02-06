@@ -7703,8 +7703,8 @@ quickselect@^1.0.1:
   resolved "https://registry.yarnpkg.com/quickselect/-/quickselect-1.1.1.tgz#852e412ce418f237ad5b660d70cffac647ae94c2"
 
 "r_map@https://github.com/kartverket/r_map.git":
-  version "2.0.1"
-  resolved "https://github.com/kartverket/r_map.git#33211b67856b1d79444835a1de6518392cbf9408"
+  version "2.0.6"
+  resolved "https://github.com/kartverket/r_map.git#720d1addd6dd872b4317d5fa08a3ef939e641bb1"
   dependencies:
     "@fortawesome/fontawesome-pro" "^5.7.0"
     "@fortawesome/fontawesome-svg-core" "^1.2.12"
