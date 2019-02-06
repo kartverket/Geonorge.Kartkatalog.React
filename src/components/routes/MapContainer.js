@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchMapItems } from '../../actions/MapItemActions'
+import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions'
 import { MapComponent } from 'r_map';
 import classNames from 'classnames/bind';
 
@@ -25,7 +25,7 @@ class MapContainer extends Component {
 
 		return (
 			<div>				
-				<MapComponent services={this.props.mapItems} />
+				<MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItem} />
 			</div>
 		)
 	}
@@ -41,7 +41,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	fetchMapItems
+	fetchMapItems,
+	removeMapItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
