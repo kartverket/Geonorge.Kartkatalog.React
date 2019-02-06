@@ -2,18 +2,21 @@
 
 :local(.container) {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    @include breakpoint(phablet) {
+        flex-direction: row;
+    }
     width: 1170px;
     margin: 0 auto;
     justify-content: space-between;    
     margin-bottom: 40px;
-    > div {
-        text-align: center;
-
+    > div {        
+        margin: 10px;
         &:local(.logo) {
             width: 33%;
             img {
                 max-width: 256px;
+                padding-top: 30px;
             }
 
         }
@@ -22,6 +25,9 @@
         }
         &:local(.contact) {
             width: 33%;
+            hr {
+                border-color: #333;
+            }
         }
     }
 }
