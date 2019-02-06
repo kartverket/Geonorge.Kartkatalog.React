@@ -13,8 +13,6 @@ import ArticleSearchResult from './SearchResults/ArticleSearchResult'
 import FacetFilter from './FacetFilter'
 
 import style from './SearchResults.scss';
-import { Visitor } from 'handlebars';
-import { visible } from 'ansi-colors';
 
 class SearchResults extends Component {
 	constructor(props) {
