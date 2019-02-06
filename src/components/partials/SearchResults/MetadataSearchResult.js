@@ -11,14 +11,15 @@ class MetadataSearchResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAdded: this.isAddedToLocalStorage(this.getMapItem())
+      isAdded: this.mapItemIsAddedToLocalStorage(this.getMapItem()),
+      isSelectedForDownload: this.selectedForDownloadIsAddedToLocalStorage(this.getDownloadButton())
     };
   }
 
   compareMapItems(mapItemToCompare, mapItemToCompareWith) {
     return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
   }
-  isAddedToLocalStorage(mapItemToCompare) {
+  mapItemIsAddedToLocalStorage(mapItemToCompare) {
     if (localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems))) {
       let isAddedToLocalStorage = false;
       JSON.parse(localStorage.mapItems).forEach((mapItemToCompareWith) => {
@@ -31,6 +32,20 @@ class MetadataSearchResult extends Component {
       return false;
     }
   }
+  selectedForDownloadIsAddedToLocalStorage(mapItemToCompare) {
+    if (localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems))) {
+      let isAddedToLocalStorage = false;
+      JSON.parse(localStorage.mapItems).forEach((mapItemToCompareWith) => {
+        if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)) {
+          isAddedToLocalStorage = true;
+        }
+      });
+      return isAddedToLocalStorage;
+    } else {
+      return false;
+    }
+  }
+
   getMapItem() {
     return {
       Uuid: this.props.searchResult.Uuid,
@@ -38,6 +53,11 @@ class MetadataSearchResult extends Component {
       DistributionProtocol: this.props.searchResult.DistributionProtocol,
       GetCapabilitiesUrl: this.props.searchResult.GetCapabilitiesUrl,
       addLayers: []
+    }
+  }
+  getDownloadButton(){
+    return {
+
     }
   }
 
@@ -74,6 +94,28 @@ class MetadataSearchResult extends Component {
     }
   }
 
+  renderDownloadButton() {
+    let button = this.getDownloadButton();
+    console.log(this.props.searchResult.DistributionProtocol)
+    if (this.props.searchResult.DistributionProtocol == 'GEONORGE:DOWNLOAD') {
+      
+      let action = this.state.isSelectedForDownload
+        ? () => this.removeFromMap(button)
+        : () => this.addToMap(button);
+      let icon = <FontAwesomeIcon icon={this.state.isSelectedForDownload ? ['fas', 'arrow-circle-down'] : ['fas', 'arrow-down']} key="icon" />
+      let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
+      let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern fra nedlasting' : 'Last ned')
+
+      let childElements = [icon, textContent];
+      return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+
+    } else {
+      let content = 'Utilgjengelig';
+      let buttonClass = 'btn btn-sm disabled';
+      return React.createElement('span', { className: buttonClass }, content);
+    }
+  }
+
   render() {
     return (
       <div style={{ display: "flex" }} className={style.listItem}>
@@ -84,6 +126,11 @@ class MetadataSearchResult extends Component {
         <div>
           <span className={style.listItemButton}>
             {this.renderMapButton()}
+          </span>
+        </div>
+        <div>
+          <span className={style.listItemButton}>
+            {this.renderDownloadButton()}
           </span>
         </div>
       </div>
