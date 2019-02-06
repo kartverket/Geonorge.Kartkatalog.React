@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { fetchMapItems, removeMapItem, addMapItem } from '../../../actions/MapItemActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Row } from 'react-bootstrap';
 
 import style from './MetadataSearchResult.scss';
 
@@ -16,7 +15,7 @@ class MetadataSearchResult extends Component {
     };
   }
 
-   compareMapItems(mapItemToCompare, mapItemToCompareWith) {
+  compareMapItems(mapItemToCompare, mapItemToCompareWith) {
     return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
   }
   isAddedToLocalStorage(mapItemToCompare) {
@@ -77,17 +76,17 @@ class MetadataSearchResult extends Component {
 
   render() {
     return (
-      <Row className={style.listItem}>
-        <Col sm={10}>
+      <div style={{ display: "flex" }} className={style.listItem}>
+        <div style={{ flex: "5" }}>
           <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>
           <span className={style.listItemInfo}>{this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a></span>
-        </Col>
-        <Col sm={2}>
+        </div>
+        <div>
           <span className={style.listItemButton}>
             {this.renderMapButton()}
           </span>
-        </Col>
-      </Row>
+        </div>
+      </div>
     )
   }
 }

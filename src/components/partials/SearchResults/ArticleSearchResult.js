@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Col, Row } from 'react-bootstrap';
 import style from './ArticleSearchResult.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
-
 
 
 class ArticleSearchResult extends Component {
@@ -18,25 +16,20 @@ class ArticleSearchResult extends Component {
 	}
 	render() {
 		return (
-			<Row className={style.listItem}>
-				<Col sm={12}>
-					<span className={style.listItemTitle}>
-						<a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a>
-						<span title={this.props.searchResult.Type}>
-							<FontAwesomeIcon className={style.icon} icon={this.getArticleTypeIcon()} />
-						</span>
-
+			<div className={style.listItem}>
+				<span className={style.listItemTitle}>
+					<a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a>
+					<span title={this.props.searchResult.Type}>
+						<FontAwesomeIcon className={style.icon} icon={this.getArticleTypeIcon()} />
 					</span>
-					<span className={style.listItemInfo}>
-						{this.props.searchResult.Intro}
-					</span>
-					<span className={style.listItemDate}>
-
-						<Moment format="DD.MM.YYYY">{this.props.searchResult.Date}</Moment>
-
-					</span>
-				</Col>
-			</Row>
+				</span>
+				<span className={style.listItemInfo}>
+					{this.props.searchResult.Intro}
+				</span>
+				<span className={style.listItemDate}>
+					<Moment format="DD.MM.YYYY">{this.props.searchResult.Date}</Moment>
+				</span>
+			</div>
 		)
 	}
 }

@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from '../../actions/SearchResultActions';
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
 
-import { Col, Row } from 'react-bootstrap';
-
-
 import MetadataSearchResult from './SearchResults/MetadataSearchResult'
 import ArticleSearchResult from './SearchResults/ArticleSearchResult'
 
@@ -115,21 +112,20 @@ class SearchResults extends Component {
 
 	renderActiveTabContent() {
 		if (this.props.selectedSearchResultsType === 'metadata') {
-			return <Row>
-				<Col md={3} sm={4}>
+			return <div style={{display: "flex"}}>
+				<div style={{flex: "1"}}>
 					<FacetFilter key="facetFilter" />
-				</Col>
-				<Col md={9} sm={8}>
+				</div>
+				<div style={{flex: "3"}}>
 					{this.renderMetadataSearchResults()}
-					<button class="fa fa-plus icon-button add-more-button" onClick={() => this.AddMoreMetadataToSearchResult()} className={this.moreItemsAvailable()}>Vis mer</button>
-				</Col>
-			</Row>;
+					<button className={'fa fa-plus icon-button add-more-button ' + this.moreItemsAvailable()} onClick={() => this.AddMoreMetadataToSearchResult()}>Vis mer</button>
+				</div>
+			</div>;
 		} else if (this.props.selectedSearchResultsType === 'articles') {
-			return <Row>
+			return <div>
 				{this.renderArticleSearchResults()}
-				<button class="fa fa-plus icon-button add-more-button" onClick={() => this.AddMoreArticlesToSearchResult()} className={this.moreArticlesAvailable()}>Vis mer</button>
-			</Row>;
-			// return this.renderArticleSearchResults();
+				<button className={'fa fa-plus icon-button add-more-button ' + this.moreArticlesAvailable()} onClick={() => this.AddMoreArticlesToSearchResult()}>Vis mer</button>
+			</div>;
 		} else {
 			return "";
 		}

@@ -20,7 +20,6 @@
     "node-sass": "^4.11.0",
     "r_map": "https://github.com/kartverket/r_map.git",
     "react": "^16.7.0",
-    "react-bootstrap": "^0.32.4",
     "react-dom": "^16.7.0",
     "react-dropdown-tree-select": "^1.16.0-beta.1",
     "react-fa": "^5.0.0",
