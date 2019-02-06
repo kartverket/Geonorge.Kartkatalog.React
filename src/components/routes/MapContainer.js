@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMapItems } from '../../actions/MapItemActions'
-import { Map } from 'r_map';
+import { MapComponent } from 'r_map';
 import classNames from 'classnames/bind';
 import style from './MapContainer.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -42,7 +42,7 @@ class MapContainer extends Component {
 					</ul>
 					</div>
 				</div>
-				<div className={style.mapContent}><Map services={this.props.mapItems} /> </div>
+				<div className={style.mapContent}><MapComponent services={this.props.mapItems} /> </div>
 			</div>
 		)
 	}
