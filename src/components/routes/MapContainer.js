@@ -5,9 +5,6 @@ import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions'
 import { MapComponent } from 'r_map';
 
 class MapContainer extends Component {
-	constructor(props) {
-		super(props);
-	}
 	componentWillMount() {
 		this.props.fetchMapItems();
 	}

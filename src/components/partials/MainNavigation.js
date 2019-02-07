@@ -35,8 +35,8 @@ export class MainNavigation extends Component {
         }))
     }
 renderMapitems() {
-    const mapItems = this.props.mapItems.map(mapItem => {
-        return <li><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={()=> this.props.removeMapItem(mapItem)} key={mapItem.Title} /> </li>
+    const mapItems = this.props.mapItems.map((mapItem, index) => {
+        return <li key={index}><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={()=> this.props.removeMapItem(mapItem)} key={mapItem.Title} /> </li>
     });
     return mapItems
     
@@ -73,15 +73,15 @@ renderMapitems() {
 
 
                     <div className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
-                        <Link to={'/kart'}>Åpne kart</Link>                        
+                        <Link to={'/kart'}>Åpne kart</Link>
                         <ul className={style.mapitems}>
-                            {this.renderMapitems()}                            
+                            {this.renderMapitems()}
                         </ul>
-                    </div>  
+                    </div>
                     <div className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
-                        <Link to={'/download'}>Åpne nedlastinger</Link>                        
-                       Liste over nedlastinger
-                    </div>                                        
+                        <Link to={'/download'}>Åpne nedlastinger</Link>
+                        Liste over nedlastinger
+                    </div>
                 </div>
             </div>
         )

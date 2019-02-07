@@ -58,7 +58,7 @@ class MetadataSearchResult extends Component {
       DistributionUrl: this.props.searchResult.DistributionUrl,
     }
   }
-  getDownloadButton(){
+  getDownloadButton() {
     return {
       Uuid: this.props.searchResult.Uuid,
       Title: this.props.searchResult.Title,
@@ -113,14 +113,14 @@ class MetadataSearchResult extends Component {
     }
   }
 
-  isGeonorgeDownload(){
-    return this.props.searchResult.DistributionProtocol == 'GEONORGE:DOWNLOAD'
+  isGeonorgeDownload() {
+    return this.props.searchResult.DistributionProtocol === 'GEONORGE:DOWNLOAD'
   }
-  showDownloadLink(){  
-    return this.props.searchResult.DistributionUrl && 
-            (this.props.searchResult.DistributionProtocol == 'WWW:DOWNLOAD-1.0-http--download' || 
-            this.props.searchResult.DistributionProtocol == 'GEONORGE:FILEDOWNLOAD')
-            && this.props.searchResult.Type == 'dataset'
+  showDownloadLink() {
+    return this.props.searchResult.DistributionUrl &&
+      (this.props.searchResult.DistributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' ||
+        this.props.searchResult.DistributionProtocol === 'GEONORGE:FILEDOWNLOAD')
+      && this.props.searchResult.Type === 'dataset'
   }
   restrictionsClassnames() {       
      if(this.props.searchResult.AccessConstraint === 'restricted') {
@@ -147,8 +147,8 @@ class MetadataSearchResult extends Component {
       let childElements = [icon, textContent];
       return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
-    } 
-    else if(this.showDownloadLink()){
+    }
+    else if (this.showDownloadLink()) {
       let distributionUrl = this.props.searchResult.DistributionUrl
       let icon = <FontAwesomeIcon icon={['far', 'download']} key="icon" />
       let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
@@ -198,7 +198,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   removeMapItem,
   addMapItem,
-  removeItemSelectedForDownload, 
+  removeItemSelectedForDownload,
   addItemSelectedForDownload
 };
 
