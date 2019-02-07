@@ -24,6 +24,9 @@ export class MainNavigation extends Component {
         this.props.fetchMapItems();
         this.props.fetchItemsToDownload();
     }
+    modalMapItems() {
+        return this.props.mapItems.length > 0;
+    }
     toggleExpand() {
         this.setState(prevState => ({
             expanded: !prevState.expanded && !prevState.expandedDownload
@@ -36,10 +39,29 @@ export class MainNavigation extends Component {
     }
 renderMapitems() {
     const mapItems = this.props.mapItems.map((mapItem, index) => {
-        return <li key={index}><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={()=> this.props.removeMapItem(mapItem)} key={mapItem.Title} /> </li>
+        return <li key={index}><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={()=> this.props.removeMapItem(mapItem)} /> </li>
     });
     return mapItems
     
+}
+
+renderMapbutton() {
+    if(this.props.mapItems.length > 0) {
+        return <div className={style.openmap} onClick={() => this.toggleExpand()}>
+                    <span className={style.iconButton}>
+                        <span className={style.counter}>{this.props.mapItems.length}</span>
+                        <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
+                    </span>
+                </div>
+    } return  <Link to={'/kart'}>
+                    <span className={style.iconButton}>
+                    <span className={style.counter}>{this.props.mapItems.length}</span>
+                    <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
+                    </span>
+                </Link>
+
+
+
 }
     render() {
         return (
@@ -57,13 +79,7 @@ renderMapitems() {
                         <span className={style.counter}>12</span>
                         <img src={require('../../images/svg/download-icon.svg')} alt="download icon"></img>
                     </span>
-                    <div className={style.openmap} onClick={() => this.toggleExpand()}>
-                        <span className={style.iconButton}>
-                            <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
-                        </span>
-                    </div>
-
+                    {this.renderMapbutton()}                                       
                     <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.itemsToDownload.length}</span>
@@ -100,6 +116,7 @@ const mapStateToProps = state => ({
     mapItems: state.mapItems,
     itemsToDownload: state.itemsToDownload
 });
+
 
 const mapDispatchToProps = {
     fetchMapItems,

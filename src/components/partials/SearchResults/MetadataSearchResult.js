@@ -192,10 +192,10 @@ class MetadataSearchResult extends Component {
 
   render() {
     return (
-      <div style={{ display: "flex" }} className={style.listItem}>
-        <div style={{ flex: "5" }}>
-          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>
-          <span className={style.listItemInfo}> <FontAwesomeIcon title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
+      <div  className={style.listItem}>
+        <div>
+          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>          
+          <span className={style.listItemInfo}> <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
         </div>
         <div>
           <span className={style.listItemButton}>
