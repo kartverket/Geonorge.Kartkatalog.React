@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search_string_actions updateSearchString Dispatches the correct action and payload 1`] = `
+Array [
+  Object {
+    "payload": "administrative enheter",
+    "type": "UPDATE_SEARCH_STRING",
+  },
+]
+`;
