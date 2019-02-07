@@ -113,20 +113,42 @@ class MetadataSearchResult extends Component {
     }
   }
 
+  isGeonorgeDownload(){
+    return this.props.searchResult.DistributionProtocol == 'GEONORGE:DOWNLOAD'
+  }
+  showDownloadLink(){
+    console.log(this.props.searchResult.DistributionUrl)
+    console.log(this.props.searchResult.DistributionProtocol)
+    console.log(this.props.searchResult.Type == 'dataset')
+    return this.props.searchResult.DistributionUrl && 
+            (this.props.searchResult.DistributionProtocol == 'WWW:DOWNLOAD-1.0-http--download' || 
+            this.props.searchResult.DistributionProtocol == 'GEONORGE:FILEDOWNLOAD')
+            && this.props.searchResult.Type == 'dataset'
+  }
+
   renderDownloadButton() {
     let button = this.getDownloadButton();
-    if (this.props.searchResult.DistributionProtocol == 'GEONORGE:DOWNLOAD') {
+    if (this.isGeonorgeDownload(this.props.searchResult.DistributionProtocol)) {
       let action = this.state.isSelectedForDownload
         ? () => this.removeFromDownloadList(button)
         : () => this.addToDownloadList(button);
       let icon = <FontAwesomeIcon icon={this.state.isSelectedForDownload ? ['fas', 'arrow-circle-down'] : ['fas', 'arrow-down']} key="icon" />
       let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
-      let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern fra nedlasting' : 'Last ned')
-
+      let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern fra nedlasting' : 'Legg til nedlasting')
       let childElements = [icon, textContent];
       return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
-    } else {
+    } 
+    else if(this.showDownloadLink()){
+      let distributionUrl = this.props.searchResult.DistributionUrl
+      let icon = <FontAwesomeIcon icon={['fas', 'door-closed']} key="icon" />
+      let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
+      let textContent = React.createElement('span', { key: "textContent" }, 'Last ned')
+
+      let childElements = [icon, textContent];
+      return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
+    }
+    else {
       let content = 'Utilgjengelig';
       let buttonClass = 'btn btn-sm disabled';
       return React.createElement('span', { className: buttonClass }, content);
