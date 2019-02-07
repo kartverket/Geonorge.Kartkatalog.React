@@ -13,7 +13,6 @@ export const removeMapItem = (mapItemToRemove) => dispatch => {
 	localStorage.mapItems = JSON.stringify(selectedMapItems.filter(mapItemToKeep => mapItemToKeep.Uuid !== mapItemToRemove.Uuid));
 	
 	dispatch(fetchMapItems())
-	
 }
 
 export const addMapItem = (mapItemToAdd) => dispatch => {
@@ -22,5 +21,4 @@ export const addMapItem = (mapItemToAdd) => dispatch => {
 	localStorage.mapItems = JSON.stringify(mapItems);
 	
 	dispatch(fetchMapItems())
-	
 }

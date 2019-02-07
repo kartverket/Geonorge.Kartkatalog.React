@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { fetchMapItems } from '../../actions/MapItemActions'
+import { fetchItemsToDownload } from '../../actions/DownloadItemActions'
 
 import SearchBar from './MainNavigation/SearchBar';
 
@@ -14,6 +15,7 @@ class MainNavigation extends Component {
 
     componentWillMount() {
         this.props.fetchMapItems();
+        this.props.fetchItemsToDownload();
     }
 
     render() {
@@ -38,6 +40,12 @@ class MainNavigation extends Component {
                             <FontAwesomeIcon icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.fisk} />
                         </span>
                     </Link>
+                    <Link to={'/download'}>
+                        <span className={style.iconButton}>
+                            <span className={style.counter}>{this.props.itemsToDownload.length}</span>
+                            <FontAwesomeIcon icon={'arrow-circle-down'} className={this.props.itemsToDownload.length > 0 ? style.content : style.fisk} />
+                        </span>
+                    </Link>
                 </div>
             </div>
         )
@@ -46,15 +54,19 @@ class MainNavigation extends Component {
 
 MainNavigation.propTypes = {
     fetchMapItems: PropTypes.func.isRequired,
-    mapItems: PropTypes.array.isRequired
+    fetchItemsToDownload: PropTypes.func.isRequired,
+    mapItems: PropTypes.array.isRequired,
+    itemsToDownload: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-    mapItems: state.mapItems
+    mapItems: state.mapItems,
+    itemsToDownload: state.itemsToDownload
 });
 
 const mapDispatchToProps = {
-    fetchMapItems
+    fetchMapItems,
+    fetchItemsToDownload
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavigation);
