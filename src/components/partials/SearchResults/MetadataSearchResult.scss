@@ -56,6 +56,9 @@
 			} 
 			> span {
 				font-size: .8em;
+				font-weight: 600;
+				color: $anchor-active;
+				text-decoration: underline;
 			}
 			&:hover {
 				cursor: pointer;
