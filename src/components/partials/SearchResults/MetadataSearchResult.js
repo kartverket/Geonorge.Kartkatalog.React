@@ -124,6 +124,9 @@ class MetadataSearchResult extends Component {
         this.props.searchResult.DistributionProtocol === 'GEONORGE:FILEDOWNLOAD')
       && this.props.searchResult.Type === 'dataset'
   }
+  isApplication() {
+    return this.props.searchResult.Type == "software"
+  }
   restrictionsClassnames() {       
      if(this.props.searchResult.AccessConstraint === 'restricted') {
         return 'red'
@@ -166,12 +169,33 @@ class MetadataSearchResult extends Component {
     }
   }
 
+  renderApplicationButton() {
+    if (this.isApplication(this.props.searchResult.Type)) {
+      if (this.props.searchResult.DistributionUrl) {
+        let distributionUrl = this.props.searchResult.DistributionUrl
+        let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon" />
+        let buttonClass = 'on';
+        let textContent = React.createElement('span', { key: "textContent" }, 'Til nettside')
+
+        let childElements = [icon, textContent];
+        return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
+      }
+      else {
+        let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon" />
+        let buttonClass = 'btn btn-sm disabled off'
+        let textContent = React.createElement('span', { key: "textContent" }, 'ikke tilgjengelig')
+        let childElements = [icon, textContent];
+        return React.createElement('span', { className: buttonClass }, childElements);
+      }
+    }
+  }
+
   render() {
     return (
       <div style={{ display: "flex" }} className={style.listItem}>
         <div style={{ flex: "5" }}>
-          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>          
-          <span className={style.listItemInfo}> <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
+          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>
+          <span className={style.listItemInfo}> <FontAwesomeIcon title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
         </div>
         <div>
           <span className={style.listItemButton}>
@@ -181,6 +205,11 @@ class MetadataSearchResult extends Component {
         <div>
           <span className={style.listItemButton}>
             {this.renderDownloadButton()}
+          </span>
+        </div>
+        <div>
+          <span className={style.listItemButton}>
+            {this.renderApplicationButton()}
           </span>
         </div>
       </div>
