@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchMapItems, removeMapItem, addMapItem } from '../../../actions/MapItemActions'
+import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
+import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -32,11 +33,14 @@ class MetadataSearchResult extends Component {
       return false;
     }
   }
-  selectedForDownloadIsAddedToLocalStorage(mapItemToCompare) {
-    if (localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems))) {
+  compareItemsToDownload(itemToCompare, itemToCompareWith) {
+    return itemToCompare.Uuid === itemToCompareWith.Uuid && itemToCompare.Title === itemToCompareWith.Title;
+  }
+  selectedForDownloadIsAddedToLocalStorage(itemToCompare) {
+    if (localStorage.itemsToDownload && Array.isArray(JSON.parse(localStorage.itemsToDownload))) {
       let isAddedToLocalStorage = false;
-      JSON.parse(localStorage.mapItems).forEach((mapItemToCompareWith) => {
-        if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)) {
+      JSON.parse(localStorage.itemsToDownload).forEach((mapItemToCompareWith) => {
+        if (this.compareItemsToDownload(itemToCompare, mapItemToCompareWith)) {
           isAddedToLocalStorage = true;
         }
       });
@@ -51,13 +55,15 @@ class MetadataSearchResult extends Component {
       Uuid: this.props.searchResult.Uuid,
       Title: this.props.searchResult.Title,
       DistributionProtocol: this.props.searchResult.DistributionProtocol,
-      GetCapabilitiesUrl: this.props.searchResult.GetCapabilitiesUrl,
-      addLayers: []
+      DistributionUrl: this.props.searchResult.DistributionUrl,
     }
   }
   getDownloadButton(){
     return {
-
+      Uuid: this.props.searchResult.Uuid,
+      Title: this.props.searchResult.Title,
+      DistributionProtocol: this.props.searchResult.DistributionProtocol,
+      IsOpenData: this.props.searchResult.IsOpenData
     }
   }
 
@@ -72,6 +78,19 @@ class MetadataSearchResult extends Component {
       isAdded: false
     });
     this.props.removeMapItem(mapItem);
+  }
+
+  addToDownloadList(item) {
+    this.setState({
+      isSelectedForDownload: true
+    });
+    this.props.addItemSelectedForDownload(item);
+  }
+  removeFromDownloadList(item) {
+    this.setState({
+      isSelectedForDownload: false
+    });
+    this.props.removeItemSelectedForDownload(item);
   }
 
   renderMapButton() {
@@ -96,12 +115,10 @@ class MetadataSearchResult extends Component {
 
   renderDownloadButton() {
     let button = this.getDownloadButton();
-    console.log(this.props.searchResult.DistributionProtocol)
     if (this.props.searchResult.DistributionProtocol == 'GEONORGE:DOWNLOAD') {
-      
       let action = this.state.isSelectedForDownload
-        ? () => this.removeFromMap(button)
-        : () => this.addToMap(button);
+        ? () => this.removeFromDownloadList(button)
+        : () => this.addToDownloadList(button);
       let icon = <FontAwesomeIcon icon={this.state.isSelectedForDownload ? ['fas', 'arrow-circle-down'] : ['fas', 'arrow-down']} key="icon" />
       let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
       let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern fra nedlasting' : 'Last ned')
@@ -139,7 +156,6 @@ class MetadataSearchResult extends Component {
 }
 
 MetadataSearchResult.propTypes = {
-  fetchMapItems: PropTypes.func.isRequired,
   mapItems: PropTypes.array.isRequired,
   searchResult: PropTypes.object.isRequired
 }
@@ -149,9 +165,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchMapItems,
   removeMapItem,
-  addMapItem
+  addMapItem,
+  removeItemSelectedForDownload, 
+  addItemSelectedForDownload
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetadataSearchResult);
