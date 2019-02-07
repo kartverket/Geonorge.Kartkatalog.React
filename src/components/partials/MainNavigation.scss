@@ -12,7 +12,77 @@
 }
 
 
-
+:local(.openmap) {
+    display: block;
+    &:hover {
+        cursor: pointer;
+    }
+}
+:local(.expandeddownload) {
+    overflow: hidden;
+    width: auto;
+    transition: all .3s ease-in-out;
+    height: 0;
+    position: absolute;
+    right: 20px;
+    padding: 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    top: 50px;
+    border-width: 0;
+    background-color: white;
+    &:local(.open) {
+        border-width: 2px;
+        height: auto;
+        max-height: 800px;
+        padding: 50px;
+        overflow: auto;
+    } 
+}
+:local(.selectedlayers) {
+    overflow: hidden;
+    width: auto;
+    transition: all .3s ease-in-out;
+    height: 0;
+    position: absolute;
+    right: 20px;
+    padding: 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    top: 50px;
+    border-width: 0;
+    background-color: white;
+    &:local(.open) {
+        border-width: 2px;
+        height: auto;
+        max-height: 800px;
+        padding: 10px;
+        overflow: auto;
+    }
+}
+:local(.mapitems) {
+    li {
+        padding: 10px;
+        border-bottom: 1px solid #e5e5e5;
+        width: 100%;
+        &:hover {
+            background-color: #e5e5e5;
+        }
+    
+    > span {
+        &:hover {
+            cursor: pointer;
+        }
+        padding-right: 20px;
+    }
+    > svg {
+        float: right;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+        }
+}
 :local(.mainNavigation) {
     display: flex;
     flex-wrap: wrap;

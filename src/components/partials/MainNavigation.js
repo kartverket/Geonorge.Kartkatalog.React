@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { fetchMapItems } from '../../actions/MapItemActions'
+import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions'
 import { fetchItemsToDownload } from '../../actions/DownloadItemActions'
 
 import SearchBar from './MainNavigation/SearchBar';
@@ -13,11 +13,34 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class MainNavigation extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            expanded: false
+        };
+    }
+
     componentWillMount() {
         this.props.fetchMapItems();
         this.props.fetchItemsToDownload();
     }
-
+    toggleExpand() {
+        this.setState(prevState => ({
+            expanded: !prevState.expanded && !prevState.expandedDownload
+        }))
+    }
+    toggleExpandDownload() {
+        this.setState(prevState => ({
+            expandedDownload: !prevState.expandedDownload && !prevState.expanded
+        }))
+    }
+renderMapitems() {
+    const mapItems = this.props.mapItems.map(mapItem => {
+        return <li><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={()=> this.props.removeMapItem(mapItem)} /> </li>
+    });
+    return mapItems
+    
+}
     render() {
         return (
             <div className={style.mainNavigationContainer}>
@@ -34,23 +57,37 @@ class MainNavigation extends Component {
                         <span className={style.counter}>12</span>
                         <img src={require('../../images/svg/download-icon.svg')} alt="download icon"></img>
                     </span>
-                    <Link to={'/kart'}>
+                    <div className={style.openmap} onClick={() => this.toggleExpand()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <FontAwesomeIcon icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.fisk} />
+                            <FontAwesomeIcon icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
                         </span>
-                    </Link>
-                    <Link to={'/download'}>
+                    </div>
+
+                    <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.itemsToDownload.length}</span>
-                            <FontAwesomeIcon icon={'arrow-circle-down'} className={this.props.itemsToDownload.length > 0 ? style.content : style.fisk} />
+                            <FontAwesomeIcon icon={'cloud-download'} className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
                         </span>
-                    </Link>
+                    </div>
+
+
+                    <div className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
+                        <Link to={'/kart'}>Åpne kart</Link>                        
+                        <ul className={style.mapitems}>
+                            {this.renderMapitems()}                            
+                        </ul>
+                    </div>  
+                    <div className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
+                        <Link to={'/download'}>Åpne nedlastinger</Link>                        
+                       Liste over nedlastinger
+                    </div>                                        
                 </div>
             </div>
         )
     }
 }
+
 
 MainNavigation.propTypes = {
     fetchMapItems: PropTypes.func.isRequired,
@@ -66,6 +103,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     fetchMapItems,
+    removeMapItem,
     fetchItemsToDownload
 };
 

@@ -23,13 +23,23 @@
 		:local(.listItemInfo) {
 			display: block;
 			font-size: .8em;
+			> svg {
+				margin-right: 5px;
+				font-size: 1.2em;
+			}
 		}
 		&:first-of-type {
 			border-top: 1px solid $primary-border;			
 		}
 
+		
+
 		.on {
-			font-size: 1em;
+			display: flex;
+			width: 120px;
+			flex-direction: column;
+			font-size: 1.2em;
+			align-items: center;			
 			> svg {
 				color: $primary-success;
 				font-size: 1.5em;
@@ -43,9 +53,15 @@
 			}
 		}
 		.off {
+			display: flex;
+			width: 120px;
+			flex-direction: column;
+			align-items: center;
+			font-size: 1.2em;
 			> svg  {
-				color: $primary-brand;
-				font-size: 1.5em;
+				color: $primary-brand;		
+				margin-right: 5px;	
+				font-size: 1.5em;	
 			}
 			> span {
 				font-size: .8em;

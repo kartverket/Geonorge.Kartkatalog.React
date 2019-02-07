@@ -107,7 +107,7 @@ class MetadataSearchResult extends Component {
       return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
     } else {
-      let content = 'Utilgjengelig';
+      let content = '';
       let buttonClass = 'btn btn-sm disabled';
       return React.createElement('span', { className: buttonClass }, content);
     }
@@ -116,15 +116,14 @@ class MetadataSearchResult extends Component {
   isGeonorgeDownload(){
     return this.props.searchResult.DistributionProtocol == 'GEONORGE:DOWNLOAD'
   }
-  showDownloadLink(){
-    console.log(this.props.searchResult.DistributionUrl)
-    console.log(this.props.searchResult.DistributionProtocol)
-    console.log(this.props.searchResult.Type == 'dataset')
+  showDownloadLink(){  
     return this.props.searchResult.DistributionUrl && 
             (this.props.searchResult.DistributionProtocol == 'WWW:DOWNLOAD-1.0-http--download' || 
             this.props.searchResult.DistributionProtocol == 'GEONORGE:FILEDOWNLOAD')
             && this.props.searchResult.Type == 'dataset'
   }
+
+
 
   renderDownloadButton() {
     let button = this.getDownloadButton();
@@ -132,24 +131,25 @@ class MetadataSearchResult extends Component {
       let action = this.state.isSelectedForDownload
         ? () => this.removeFromDownloadList(button)
         : () => this.addToDownloadList(button);
-      let icon = <FontAwesomeIcon icon={this.state.isSelectedForDownload ? ['fas', 'arrow-circle-down'] : ['fas', 'arrow-down']} key="icon" />
+      let icon = <FontAwesomeIcon icon={this.state.isSelectedForDownload ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />
       let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
-      let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern fra nedlasting' : 'Legg til nedlasting')
+      let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern nedlasting' : 'Last ned')
+
       let childElements = [icon, textContent];
       return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
     } 
     else if(this.showDownloadLink()){
       let distributionUrl = this.props.searchResult.DistributionUrl
-      let icon = <FontAwesomeIcon icon={['fas', 'door-closed']} key="icon" />
+      let icon = <FontAwesomeIcon icon={['far', 'download']} key="icon" />
       let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
-      let textContent = React.createElement('span', { key: "textContent" }, 'Last ned')
+      let textContent = React.createElement('span', { key: "textContent" }, 'Til nedlasting')
 
       let childElements = [icon, textContent];
       return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
     }
     else {
-      let content = 'Utilgjengelig';
+      let content = '';
       let buttonClass = 'btn btn-sm disabled';
       return React.createElement('span', { className: buttonClass }, content);
     }
@@ -159,8 +159,8 @@ class MetadataSearchResult extends Component {
     return (
       <div style={{ display: "flex" }} className={style.listItem}>
         <div style={{ flex: "5" }}>
-          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>
-          <span className={style.listItemInfo}>{this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a></span>
+          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>          
+          <span className={style.listItemInfo}> <FontAwesomeIcon title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
         </div>
         <div>
           <span className={style.listItemButton}>
