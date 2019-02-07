@@ -1,41 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import style from './MetadataSearchResult.scss';
+import MapButton from '../Buttons/MapButton';
 
 class MetadataSearchResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAdded: this.mapItemIsAddedToLocalStorage(this.getMapItem()),
       isSelectedForDownload: this.selectedForDownloadIsAddedToLocalStorage(this.getDownloadButton())
     };
   }
+  
+  compareItemsToDownload(itemToCompare, itemToCompareWith)
+  {
+    return itemToCompare.Uuid === itemToCompareWith.Uuid && itemToCompare.Title === itemToCompareWith.Title
+  }
 
-  compareMapItems(mapItemToCompare, mapItemToCompareWith) {
-    return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
-  }
-  mapItemIsAddedToLocalStorage(mapItemToCompare) {
-    if (localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems))) {
-      let isAddedToLocalStorage = false;
-      JSON.parse(localStorage.mapItems).forEach((mapItemToCompareWith) => {
-        if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)) {
-          isAddedToLocalStorage = true;
-        }
-      });
-      return isAddedToLocalStorage;
-    } else {
-      return false;
-    }
-  }
-  compareItemsToDownload(itemToCompare, itemToCompareWith) {
-    return itemToCompare.Uuid === itemToCompareWith.Uuid && itemToCompare.Title === itemToCompareWith.Title;
-  }
   selectedForDownloadIsAddedToLocalStorage(itemToCompare) {
     if (localStorage.itemsToDownload && Array.isArray(JSON.parse(localStorage.itemsToDownload))) {
       let isAddedToLocalStorage = false;
@@ -49,16 +33,6 @@ class MetadataSearchResult extends Component {
       return false;
     }
   }
-
-  getMapItem() {
-    return {
-      Uuid: this.props.searchResult.Uuid,
-      Title: this.props.searchResult.Title,
-      DistributionProtocol: this.props.searchResult.DistributionProtocol,
-      GetCapabilitiesUrl: this.props.searchResult.GetCapabilitiesUrl,
-      addLayers: []
-    }
-  }
   getDownloadButton() {
     return {
       Uuid: this.props.searchResult.Uuid,
@@ -68,20 +42,6 @@ class MetadataSearchResult extends Component {
       DistributionUrl: this.props.searchResult.DistributionUrl
     }
   }
-
-  addToMap(mapItem) {
-    this.setState({
-      isAdded: true
-    });
-    this.props.addMapItem(mapItem);
-  }
-  removeFromMap(mapItem) {
-    this.setState({
-      isAdded: false
-    });
-    this.props.removeMapItem(mapItem);
-  }
-
   addToDownloadList(item) {
     this.setState({
       isSelectedForDownload: true
@@ -94,27 +54,6 @@ class MetadataSearchResult extends Component {
     });
     this.props.removeItemSelectedForDownload(item);
   }
-
-  renderMapButton() {
-    let mapItem = this.getMapItem();
-    if (this.props.searchResult.ShowMapLink) {
-      let action = this.state.isAdded
-        ? () => this.removeFromMap(mapItem)
-        : () => this.addToMap(mapItem);
-      let icon = <FontAwesomeIcon icon={this.state.isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />
-      let buttonClass = this.state.isAdded ? 'off' : 'on';
-      let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart')
-
-      let childElements = [icon, textContent];
-      return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
-
-    } else {
-      let content = '';
-      let buttonClass = 'btn btn-sm disabled';
-      return React.createElement('span', { className: buttonClass }, content);
-    }
-  }
-
   isGeonorgeDownload() {
     return this.props.searchResult.DistributionProtocol === 'GEONORGE:DOWNLOAD'
   }
@@ -136,8 +75,6 @@ class MetadataSearchResult extends Component {
       return "green" 
      }          
   }
-
-
 
   renderDownloadButton() {
     let button = this.getDownloadButton();
@@ -199,7 +136,7 @@ class MetadataSearchResult extends Component {
         </div>        
         <div>
         <span className={style.listItemButton}>
-            {this.renderMapButton()}
+            <MapButton searchResult={this.props.searchResult}></MapButton>
           </span>
           <span className={style.listItemButton}>
             {this.renderDownloadButton()}
@@ -223,8 +160,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  removeMapItem,
-  addMapItem,
   removeItemSelectedForDownload,
   addItemSelectedForDownload
 };
