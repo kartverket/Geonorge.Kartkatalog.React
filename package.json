@@ -34,6 +34,10 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "identity-obj-proxy": "^3.0.0",
     "react-styleguidist": "^8.0.2",
     "redux-devtools-extension": "^2.13.7",
     "redux-mock-store": "^1.5.3"
@@ -41,7 +45,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(ol|r_map|react-dropdown-tree-select|bootstrap)/)\"",
+    "test": "jest --config jest.config.js",
     "eject": "react-scripts eject",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build"
