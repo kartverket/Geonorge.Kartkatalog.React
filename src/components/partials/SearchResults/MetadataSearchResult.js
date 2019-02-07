@@ -55,7 +55,8 @@ class MetadataSearchResult extends Component {
       Uuid: this.props.searchResult.Uuid,
       Title: this.props.searchResult.Title,
       DistributionProtocol: this.props.searchResult.DistributionProtocol,
-      DistributionUrl: this.props.searchResult.DistributionUrl,
+      GetCapabilitiesUrl: this.props.searchResult.GetCapabilitiesUrl,
+      addLayers: []
     }
   }
   getDownloadButton() {
@@ -63,7 +64,8 @@ class MetadataSearchResult extends Component {
       Uuid: this.props.searchResult.Uuid,
       Title: this.props.searchResult.Title,
       DistributionProtocol: this.props.searchResult.DistributionProtocol,
-      IsOpenData: this.props.searchResult.IsOpenData
+      IsOpenData: this.props.searchResult.IsOpenData,
+      DistributionUrl: this.props.searchResult.DistributionUrl
     }
   }
 
