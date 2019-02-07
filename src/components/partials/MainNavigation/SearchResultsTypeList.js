@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
 import { updateSelectedFacets } from '../../../actions/FacetFilterActions';
 import { updateSelectedSearchResultsType } from '../../../actions/SelectedSearchResultsTypeActions';
+import { updateSearchString } from '../../../actions/SearchStringActions';
 
 
 import style from './SearchResultsTypeList.scss';
@@ -40,6 +41,7 @@ class SearchResultsTypeList extends Component {
 			}
 		]);
 		this.props.updateSelectedSearchResultsType(this.props.searchResultsType);
+		this.props.updateSearchString(this.props.searchString);
 	}
 	render() {
 		return (
@@ -66,7 +68,8 @@ SearchResultsTypeList.propTypes = {
 const mapDispatchToProps = {
 	fetchMetadataSearchResults,
 	updateSelectedFacets,
-	updateSelectedSearchResultsType
+	updateSelectedSearchResultsType,
+	updateSearchString
 };
 
 export default connect(null, mapDispatchToProps)(SearchResultsTypeList);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMetadataSearchResults, fetchArticleSearchResults, fetchDropdownSearchResults } from '../../../actions/SearchResultActions';
+import { updateSearchString } from '../../../actions/SearchStringActions';
 
 import SearchResultsTypeList from './SearchResultsTypeList';
 
@@ -58,6 +59,7 @@ class SearchBar extends Component {
 		e.preventDefault();
 		this.props.fetchMetadataSearchResults(this.state.searchString);
 		this.props.fetchArticleSearchResults(this.state.searchString);
+		this.props.updateSearchString(this.state.searchString);
 	}
 
 	componentWillMount() {
@@ -109,7 +111,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
 	fetchMetadataSearchResults,
 	fetchArticleSearchResults,
-	fetchDropdownSearchResults
+	fetchDropdownSearchResults,
+	updateSearchString
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

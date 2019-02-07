@@ -67,7 +67,7 @@ class SearchResults extends Component {
 	}
 
 	addMoreMetadataToSearchResult() {
-		this.props.fetchMetadataSearchResults("", this.props.searchResults.metadata.Facets, this.props.searchResults.metadata.Offset + 10, true)
+		this.props.fetchMetadataSearchResults(this.props.searchString, this.props.selectedFacets, this.props.searchResults.metadata.Offset + 10, true)
 		this.renderActiveTabContent()
 	}
 
@@ -157,7 +157,9 @@ SearchResults.propTypes = {
 
 const mapStateToProps = state => ({
 	searchResults: state.searchResults,
-	selectedSearchResultsType: state.selectedSearchResultsType
+	selectedSearchResultsType: state.selectedSearchResultsType,
+	selectedFacets: state.selectedFacets,
+	searchString: state.searchString
 });
 
 const mapDispatchToProps = {
