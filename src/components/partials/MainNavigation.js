@@ -36,7 +36,7 @@ export class MainNavigation extends Component {
     }
 renderMapitems() {
     const mapItems = this.props.mapItems.map(mapItem => {
-        return <li><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={()=> this.props.removeMapItem(mapItem)} /> </li>
+        return <li><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={()=> this.props.removeMapItem(mapItem)} key={mapItem.Title} /> </li>
     });
     return mapItems
     
@@ -60,14 +60,14 @@ renderMapitems() {
                     <div className={style.openmap} onClick={() => this.toggleExpand()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <FontAwesomeIcon icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
+                            <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
                         </span>
                     </div>
 
                     <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.itemsToDownload.length}</span>
-                            <FontAwesomeIcon icon={'cloud-download'} className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
+                            <FontAwesomeIcon key="download-icon" icon={'cloud-download'} className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
                         </span>
                     </div>
 

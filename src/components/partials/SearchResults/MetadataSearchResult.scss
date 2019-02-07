@@ -26,6 +26,15 @@
 			> svg {
 				margin-right: 5px;
 				font-size: 1.2em;
+				&.red {
+					color: $primary-brand;
+				}
+				&.yellow {
+					color: $primary-warning;
+				}
+				&.green {
+					color: $primary-success;
+				}
 			}
 		}
 		&:first-of-type {

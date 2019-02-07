@@ -122,6 +122,15 @@ class MetadataSearchResult extends Component {
             this.props.searchResult.DistributionProtocol == 'GEONORGE:FILEDOWNLOAD')
             && this.props.searchResult.Type == 'dataset'
   }
+  restrictionsClassnames() {       
+     if(this.props.searchResult.AccessConstraint === 'restricted') {
+        return 'red'
+     } if (this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') {
+       return 'yellow'
+     } else {
+      return "green" 
+     }          
+  }
 
 
 
@@ -160,7 +169,7 @@ class MetadataSearchResult extends Component {
       <div style={{ display: "flex" }} className={style.listItem}>
         <div style={{ flex: "5" }}>
           <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>          
-          <span className={style.listItemInfo}> <FontAwesomeIcon title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
+          <span className={style.listItemInfo}> <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
         </div>
         <div>
           <span className={style.listItemButton}>
