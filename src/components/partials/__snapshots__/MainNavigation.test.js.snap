@@ -86,9 +86,9 @@ ShallowWrapper {
             src="test-file-stub"
           />
         </span>
-        <div
-          className="openmap"
-          onClick={[Function]}
+        <Link
+          replace={false}
+          to="/kart"
         >
           <span
             className="iconButton"
@@ -117,7 +117,7 @@ ShallowWrapper {
               transform={null}
             />
           </span>
-        </div>
+        </Link>
         <div
           className="openmap"
           onClick={[Function]}
@@ -220,9 +220,9 @@ ShallowWrapper {
               src="test-file-stub"
             />
           </span>,
-          <div
-            className="openmap"
-            onClick={[Function]}
+          <Link
+            replace={false}
+            to="/kart"
           >
             <span
               className="iconButton"
@@ -251,7 +251,7 @@ ShallowWrapper {
                 transform={null}
               />
             </span>
-          </div>,
+          </Link>,
           <div
             className="openmap"
             onClick={[Function]}
@@ -431,7 +431,7 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "host",
+          "nodeType": "class",
           "props": Object {
             "children": <span
               className="iconButton"
@@ -460,8 +460,8 @@ ShallowWrapper {
                 transform={null}
               />
             </span>,
-            "className": "openmap",
-            "onClick": [Function],
+            "replace": false,
+            "to": "/kart",
           },
           "ref": null,
           "rendered": Object {
@@ -512,7 +512,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": undefined,
+                "key": "map-alt",
                 "nodeType": "function",
                 "props": Object {
                   "border": false,
@@ -539,7 +539,7 @@ ShallowWrapper {
             ],
             "type": "span",
           },
-          "type": "div",
+          "type": [Function],
         },
         Object {
           "instance": null,
@@ -625,7 +625,7 @@ ShallowWrapper {
               },
               Object {
                 "instance": null,
-                "key": undefined,
+                "key": "download-icon",
                 "nodeType": "function",
                 "props": Object {
                   "border": false,
@@ -787,9 +787,9 @@ ShallowWrapper {
               src="test-file-stub"
             />
           </span>
-          <div
-            className="openmap"
-            onClick={[Function]}
+          <Link
+            replace={false}
+            to="/kart"
           >
             <span
               className="iconButton"
@@ -818,7 +818,7 @@ ShallowWrapper {
                 transform={null}
               />
             </span>
-          </div>
+          </Link>
           <div
             className="openmap"
             onClick={[Function]}
@@ -921,9 +921,9 @@ ShallowWrapper {
                 src="test-file-stub"
               />
             </span>,
-            <div
-              className="openmap"
-              onClick={[Function]}
+            <Link
+              replace={false}
+              to="/kart"
             >
               <span
                 className="iconButton"
@@ -952,7 +952,7 @@ ShallowWrapper {
                   transform={null}
                 />
               </span>
-            </div>,
+            </Link>,
             <div
               className="openmap"
               onClick={[Function]}
@@ -1132,7 +1132,7 @@ ShallowWrapper {
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "host",
+            "nodeType": "class",
             "props": Object {
               "children": <span
                 className="iconButton"
@@ -1161,8 +1161,8 @@ ShallowWrapper {
                   transform={null}
                 />
               </span>,
-              "className": "openmap",
-              "onClick": [Function],
+              "replace": false,
+              "to": "/kart",
             },
             "ref": null,
             "rendered": Object {
@@ -1213,7 +1213,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": undefined,
+                  "key": "map-alt",
                   "nodeType": "function",
                   "props": Object {
                     "border": false,
@@ -1240,7 +1240,7 @@ ShallowWrapper {
               ],
               "type": "span",
             },
-            "type": "div",
+            "type": [Function],
           },
           Object {
             "instance": null,
@@ -1326,7 +1326,7 @@ ShallowWrapper {
                 },
                 Object {
                   "instance": null,
-                  "key": undefined,
+                  "key": "download-icon",
                   "nodeType": "function",
                   "props": Object {
                     "border": false,
