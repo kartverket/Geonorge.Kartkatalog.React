@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`map_item_actions addMapItems Dispatches the correct action and payload 1`] = `[Function]`;
-
 exports[`map_item_actions fetchMapItems Dispatches the correct action and payload 1`] = `
 Array [
   Object {
