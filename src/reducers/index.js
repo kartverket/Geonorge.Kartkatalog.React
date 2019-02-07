@@ -6,6 +6,7 @@ import DownloadItemReducer from './DownloadItemReducer';
 import SelectedFacetsReducer from './SelectedFacetsReducer';
 import AvailableFacetsReducer from './AvailableFacetsReducer';
 import SelectedSearchResultsTypeReducer from './SelectedSearchResultsTypeReducer';
+import SearchStringReducer from './SearchStringReducer';
 
 export default (history) => combineReducers({
 	router: connectRouter(history),
@@ -14,5 +15,6 @@ export default (history) => combineReducers({
 	mapItems: MapItemReducer,
 	itemsToDownload: DownloadItemReducer,
 	selectedFacets: SelectedFacetsReducer,
-	availableFacets: AvailableFacetsReducer
+	availableFacets: AvailableFacetsReducer,
+	searchString: SearchStringReducer
 });
