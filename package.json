@@ -45,7 +45,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --config jest.config.js",
+    "test": "jest --config jest.config.js --verbose",
+    "test:watch": "jest --config jest.config.js --verbose --watchAll",
+    "test:status": "jest --config jest.config.js --verbose --coverage",
     "eject": "react-scripts eject",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build"
