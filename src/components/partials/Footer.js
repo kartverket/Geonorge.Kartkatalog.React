@@ -4,7 +4,7 @@ import logo_dev from '../../images/svg/geonorge-navbar-logo_dev.svg';
 import logo_kart_dev from '../../images/kartverket.png';
 import style from './Footer.scss';
 
-class Footer extends Component {
+export class Footer extends Component {
 
 	render() {
 		return (

@@ -1,0 +1,664 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer should render self and subcomponents 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Footer />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="logo"
+        >
+          <img
+            alt="logo geonorge"
+            src="test-file-stub"
+            title="Logo for Geonorge"
+          />
+        </div>,
+        <div
+          className="about"
+        >
+          <h3>
+            OM NETTSTEDET
+          </h3>
+          <p>
+            <a
+              href="https://www.geonorge.no/aktuelt/om-geonorge/"
+            >
+              Om Geonorge
+            </a>
+          </p>
+          <p>
+            <a
+              href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
+            >
+              Personvern og bruk av cookies
+            </a>
+          </p>
+        </div>,
+        <div
+          className="contact"
+        >
+          <h3>
+            KONTAKT
+          </h3>
+          <p>
+            Telefon: 32 11 80 00
+          </p>
+          <p>
+            post@norgedigitalt.no
+          </p>
+          <p>
+            Org. nr.: 971 040 238
+          </p>
+          <hr />
+          En løsning fra
+          <div
+            className="logo"
+          >
+            <img
+              alt="logo geonorge"
+              src="test-file-stub"
+              title="Logo for Kartverket"
+            />
+          </div>
+        </div>,
+      ],
+      "className": "container",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <img
+            alt="logo geonorge"
+            src="test-file-stub"
+            title="Logo for Geonorge"
+          />,
+          "className": "logo",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "alt": "logo geonorge",
+            "src": "test-file-stub",
+            "title": "Logo for Geonorge",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "img",
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <h3>
+              OM NETTSTEDET
+            </h3>,
+            <p>
+              <a
+                href="https://www.geonorge.no/aktuelt/om-geonorge/"
+              >
+                Om Geonorge
+              </a>
+            </p>,
+            <p>
+              <a
+                href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
+              >
+                Personvern og bruk av cookies
+              </a>
+            </p>,
+          ],
+          "className": "about",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "OM NETTSTEDET",
+            },
+            "ref": null,
+            "rendered": "OM NETTSTEDET",
+            "type": "h3",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <a
+                href="https://www.geonorge.no/aktuelt/om-geonorge/"
+              >
+                Om Geonorge
+              </a>,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Om Geonorge",
+                "href": "https://www.geonorge.no/aktuelt/om-geonorge/",
+              },
+              "ref": null,
+              "rendered": "Om Geonorge",
+              "type": "a",
+            },
+            "type": "p",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <a
+                href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
+              >
+                Personvern og bruk av cookies
+              </a>,
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Personvern og bruk av cookies",
+                "href": "http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570",
+              },
+              "ref": null,
+              "rendered": "Personvern og bruk av cookies",
+              "type": "a",
+            },
+            "type": "p",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <h3>
+              KONTAKT
+            </h3>,
+            <p>
+              Telefon: 32 11 80 00
+            </p>,
+            <p>
+              post@norgedigitalt.no
+            </p>,
+            <p>
+              Org. nr.: 971 040 238
+            </p>,
+            <hr />,
+            "En løsning fra",
+            <div
+              className="logo"
+            >
+              <img
+                alt="logo geonorge"
+                src="test-file-stub"
+                title="Logo for Kartverket"
+              />
+            </div>,
+          ],
+          "className": "contact",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "KONTAKT",
+            },
+            "ref": null,
+            "rendered": "KONTAKT",
+            "type": "h3",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Telefon: 32 11 80 00",
+            },
+            "ref": null,
+            "rendered": "Telefon: 32 11 80 00",
+            "type": "p",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "post@norgedigitalt.no",
+            },
+            "ref": null,
+            "rendered": "post@norgedigitalt.no",
+            "type": "p",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Org. nr.: 971 040 238",
+            },
+            "ref": null,
+            "rendered": "Org. nr.: 971 040 238",
+            "type": "p",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {},
+            "ref": null,
+            "rendered": null,
+            "type": "hr",
+          },
+          "En løsning fra",
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <img
+                alt="logo geonorge"
+                src="test-file-stub"
+                title="Logo for Kartverket"
+              />,
+              "className": "logo",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "alt": "logo geonorge",
+                "src": "test-file-stub",
+                "title": "Logo for Kartverket",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="logo"
+          >
+            <img
+              alt="logo geonorge"
+              src="test-file-stub"
+              title="Logo for Geonorge"
+            />
+          </div>,
+          <div
+            className="about"
+          >
+            <h3>
+              OM NETTSTEDET
+            </h3>
+            <p>
+              <a
+                href="https://www.geonorge.no/aktuelt/om-geonorge/"
+              >
+                Om Geonorge
+              </a>
+            </p>
+            <p>
+              <a
+                href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
+              >
+                Personvern og bruk av cookies
+              </a>
+            </p>
+          </div>,
+          <div
+            className="contact"
+          >
+            <h3>
+              KONTAKT
+            </h3>
+            <p>
+              Telefon: 32 11 80 00
+            </p>
+            <p>
+              post@norgedigitalt.no
+            </p>
+            <p>
+              Org. nr.: 971 040 238
+            </p>
+            <hr />
+            En løsning fra
+            <div
+              className="logo"
+            >
+              <img
+                alt="logo geonorge"
+                src="test-file-stub"
+                title="Logo for Kartverket"
+              />
+            </div>
+          </div>,
+        ],
+        "className": "container",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <img
+              alt="logo geonorge"
+              src="test-file-stub"
+              title="Logo for Geonorge"
+            />,
+            "className": "logo",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "alt": "logo geonorge",
+              "src": "test-file-stub",
+              "title": "Logo for Geonorge",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "img",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <h3>
+                OM NETTSTEDET
+              </h3>,
+              <p>
+                <a
+                  href="https://www.geonorge.no/aktuelt/om-geonorge/"
+                >
+                  Om Geonorge
+                </a>
+              </p>,
+              <p>
+                <a
+                  href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
+                >
+                  Personvern og bruk av cookies
+                </a>
+              </p>,
+            ],
+            "className": "about",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "OM NETTSTEDET",
+              },
+              "ref": null,
+              "rendered": "OM NETTSTEDET",
+              "type": "h3",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <a
+                  href="https://www.geonorge.no/aktuelt/om-geonorge/"
+                >
+                  Om Geonorge
+                </a>,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Om Geonorge",
+                  "href": "https://www.geonorge.no/aktuelt/om-geonorge/",
+                },
+                "ref": null,
+                "rendered": "Om Geonorge",
+                "type": "a",
+              },
+              "type": "p",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <a
+                  href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
+                >
+                  Personvern og bruk av cookies
+                </a>,
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Personvern og bruk av cookies",
+                  "href": "http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570",
+                },
+                "ref": null,
+                "rendered": "Personvern og bruk av cookies",
+                "type": "a",
+              },
+              "type": "p",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <h3>
+                KONTAKT
+              </h3>,
+              <p>
+                Telefon: 32 11 80 00
+              </p>,
+              <p>
+                post@norgedigitalt.no
+              </p>,
+              <p>
+                Org. nr.: 971 040 238
+              </p>,
+              <hr />,
+              "En løsning fra",
+              <div
+                className="logo"
+              >
+                <img
+                  alt="logo geonorge"
+                  src="test-file-stub"
+                  title="Logo for Kartverket"
+                />
+              </div>,
+            ],
+            "className": "contact",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "KONTAKT",
+              },
+              "ref": null,
+              "rendered": "KONTAKT",
+              "type": "h3",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Telefon: 32 11 80 00",
+              },
+              "ref": null,
+              "rendered": "Telefon: 32 11 80 00",
+              "type": "p",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "post@norgedigitalt.no",
+              },
+              "ref": null,
+              "rendered": "post@norgedigitalt.no",
+              "type": "p",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Org. nr.: 971 040 238",
+              },
+              "ref": null,
+              "rendered": "Org. nr.: 971 040 238",
+              "type": "p",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": "hr",
+            },
+            "En løsning fra",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <img
+                  alt="logo geonorge"
+                  src="test-file-stub"
+                  title="Logo for Kartverket"
+                />,
+                "className": "logo",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "alt": "logo geonorge",
+                  "src": "test-file-stub",
+                  "title": "Logo for Kartverket",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": "img",
+              },
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
