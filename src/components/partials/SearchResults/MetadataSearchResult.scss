@@ -13,10 +13,7 @@
 		align-content: stretch;		
 		> div:first-child {
 			flex: 5;
-		}
-		> div:nth-child(2) {
-			flex: 1;
-		}
+		}		
 		> div:last-child {
 			flex: 1;
 		}

@@ -196,22 +196,18 @@ class MetadataSearchResult extends Component {
         <div>
           <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>          
           <span className={style.listItemInfo}> <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['far', 'lock-open'] : ['far', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
-        </div>
+        </div>        
         <div>
-          <span className={style.listItemButton}>
+        <span className={style.listItemButton}>
             {this.renderMapButton()}
           </span>
-        </div>
-        <div>
           <span className={style.listItemButton}>
             {this.renderDownloadButton()}
           </span>
-        </div>
-        <div>
           <span className={style.listItemButton}>
             {this.renderApplicationButton()}
           </span>
-        </div>
+        </div>        
       </div>
     )
   }
