@@ -66,12 +66,12 @@ class SearchResults extends Component {
 		return "hidden";
 	}
 
-	AddMoreMetadataToSearchResult() {
+	addMoreMetadataToSearchResult() {
 		this.props.fetchMetadataSearchResults("", this.props.searchResults.metadata.Facets, this.props.searchResults.metadata.Offset + 10, true)
 		this.renderActiveTabContent()
 	}
 
-	AddMoreArticlesToSearchResult() {
+	addMoreArticlesToSearchResult() {
 		this.props.fetchArticleSearchResults("", this.props.searchResults.articles.Offset + 10, true)
 		this.renderActiveTabContent()
 	}
@@ -120,7 +120,7 @@ class SearchResults extends Component {
 				<div style={{flex: "3"}}>
 					{this.renderMetadataSearchResults()}					
 				<div className={style.morecontainer}>
-					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.moreItemsAvailable()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.addMoreMetadataToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
 				</div>
 					
 				</div>
@@ -129,7 +129,7 @@ class SearchResults extends Component {
 			return <div>
 				{this.renderArticleSearchResults()}
 				<div className={style.morecontainer}>
-					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.AddMoreArticlesToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.addMoreArticlesToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
 				</div>
 			</div>;
 		} else {
