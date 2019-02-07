@@ -3,33 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions'
 import { MapComponent } from 'r_map';
-import classNames from 'classnames/bind';
-
-
-
 
 class MapContainer extends Component {
 	constructor(props) {
 		super(props);
-		
 	}
-
 	componentWillMount() {
 		this.props.fetchMapItems();
 	}
 
-
 	render() {
-
-	
-
 		return (
-			<div>				
+			<div>
 				<MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItem} />
 			</div>
 		)
 	}
-	
 }
 
 MapContainer.propTypes = {

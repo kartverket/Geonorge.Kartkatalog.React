@@ -10,6 +10,7 @@ import ArticleSearchResult from './SearchResults/ArticleSearchResult'
 import FacetFilter from './FacetFilter'
 
 import style from './SearchResults.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class SearchResults extends Component {
 	constructor(props) {
@@ -117,14 +118,19 @@ class SearchResults extends Component {
 					<FacetFilter key="facetFilter" />
 				</div>
 				<div style={{flex: "3"}}>
-					{this.renderMetadataSearchResults()}
-					<button className={'fa fa-plus icon-button add-more-button ' + this.moreItemsAvailable()} onClick={() => this.AddMoreMetadataToSearchResult()}>Vis mer</button>
+					{this.renderMetadataSearchResults()}					
+				<div className={style.morecontainer}>
+					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.moreItemsAvailable()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+				</div>
+					
 				</div>
 			</div>;
 		} else if (this.props.selectedSearchResultsType === 'articles') {
 			return <div>
 				{this.renderArticleSearchResults()}
-				<button className={'fa fa-plus icon-button add-more-button ' + this.moreArticlesAvailable()} onClick={() => this.AddMoreArticlesToSearchResult()}>Vis mer</button>
+				<div className={style.morecontainer}>
+					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.AddMoreArticlesToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+				</div>
 			</div>;
 		} else {
 			return "";
