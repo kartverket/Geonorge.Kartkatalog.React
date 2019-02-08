@@ -14,13 +14,13 @@ class DownloadButton extends Component {
     }
 
     compareItemsToDownload(itemToCompare, itemToCompareWith) {
-        return itemToCompare.Uuid === itemToCompareWith.Uuid && itemToCompare.Title === itemToCompareWith.Title
+        return itemToCompare.Uuid === itemToCompareWith
     }
 
     selectedForDownloadIsAddedToLocalStorage(itemToCompare) {
-        if (localStorage.itemsToDownload && Array.isArray(JSON.parse(localStorage.itemsToDownload))) {
+        if (localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems))) {
             let isAddedToLocalStorage = false;
-            JSON.parse(localStorage.itemsToDownload).forEach((mapItemToCompareWith) => {
+            JSON.parse(localStorage.orderItems).forEach((mapItemToCompareWith) => {
                 if (this.compareItemsToDownload(itemToCompare, mapItemToCompareWith)) {
                     isAddedToLocalStorage = true;
                 }
@@ -33,10 +33,11 @@ class DownloadButton extends Component {
     getDownloadButton() {
         return {
             Uuid: this.props.searchResult.Uuid,
-            Title: this.props.searchResult.Title,
-            DistributionProtocol: this.props.searchResult.DistributionProtocol,
-            IsOpenData: this.props.searchResult.IsOpenData,
-            DistributionUrl: this.props.searchResult.DistributionUrl
+            Url: this.props.searchResult.ShowDetailsUrl,
+            theme: this.props.searchResult.Theme,
+            organizationName: this.props.searchResult.Organization,
+            name: this.props.searchResult.Title,
+            distributionUrl: this.props.searchResult.DistributionUrl
         }
     }
     addToDownloadList(item) {

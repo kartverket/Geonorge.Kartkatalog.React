@@ -28,14 +28,14 @@ describe('download_item_actions', () => {
     describe('addItemSelectedForDownload', () => {
         test('Add item to download', () => {
             store.dispatch(downloadItemActions.addItemSelectedForDownload(downloadItem)); 
-            expect(localStorage.itemsToDownload).toContain("123456");
+            expect(localStorage.orderItems).toContain("123456");
         });
     });
 
     describe('removeItemSelectedForDownload', () => {
         test('Remove item to download', () => {
             store.dispatch(downloadItemActions.removeItemSelectedForDownload(downloadItem)); 
-            expect(localStorage.itemsToDownload).not.toContain("123456");
+            expect(localStorage.orderItems).not.toContain("123456");
         });
     });
 
