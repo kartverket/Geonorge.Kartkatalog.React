@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from '../../actions/SearchResultActions';
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
+import classNames from 'classnames/bind';
 
 import MetadataSearchResult from './SearchResults/MetadataSearchResult'
 import ArticleSearchResult from './SearchResults/ArticleSearchResult'
@@ -50,20 +51,22 @@ class SearchResults extends Component {
 
 	moreItemsAvailable() {
 		if (this.props.searchResults.metadata) {
-			if (this.props.searchResults.metadata.NumFound >= (this.props.searchResults.metadata.Offset + 1)) {
-				return ""
+			const numberOfRequestedItems = this.props.searchResults.metadata.Limit + (this.props.searchResults.metadata.Offset - 1);
+			if (this.props.searchResults.metadata.NumFound > numberOfRequestedItems) {
+				return true
 			}
 		}
-		return "hidden";
+		return false;
 	}
 
 	moreArticlesAvailable() {
 		if (this.props.searchResults.articles) {
-			if (this.props.searchResults.articles.NumFound >= (this.props.searchResults.articles.Offset + 1)) {
-				return ""
+			const numberOfRequestedItems = this.props.searchResults.articles.Limit + (this.props.searchResults.articles.Offset - 1);
+			if (this.props.searchResults.articles.NumFound > numberOfRequestedItems) {
+				return true
 			}
 		}
-		return "hidden";
+		return false;
 	}
 
 	addMoreMetadataToSearchResult() {
@@ -113,23 +116,30 @@ class SearchResults extends Component {
 
 	renderActiveTabContent() {
 		if (this.props.selectedSearchResultsType === 'metadata') {
-			return <div style={{display: "flex"}}>
-				<div style={{flex: "1"}}>
+			const moreItemButtonClassNames = classNames({
+				[style.morebtn]: true,
+				hidden: !this.moreItemsAvailable()
+			});
+			return <div style={{ display: "flex" }}>
+				<div style={{ flex: "1" }}>
 					<FacetFilter key="facetFilter" />
 				</div>
-				<div style={{flex: "3"}}>
-					{this.renderMetadataSearchResults()}					
-				<div className={style.morecontainer}>
-					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.addMoreMetadataToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
-				</div>
-					
+				<div style={{ flex: "3" }}>
+					{this.renderMetadataSearchResults()}
+					<div className={style.morecontainer}>
+						<div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+					</div>
 				</div>
 			</div>;
 		} else if (this.props.selectedSearchResultsType === 'articles') {
+			const moreItemButtonClassNames = classNames({
+				[style.morebtn]: true,
+				hidden: !this.moreArticlesAvailable()
+			});
 			return <div>
 				{this.renderArticleSearchResults()}
 				<div className={style.morecontainer}>
-					<div className={style.morebtn + this.moreArticlesAvailable()} onClick={() => this.addMoreArticlesToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+					<div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
 				</div>
 			</div>;
 		} else {
