@@ -97,13 +97,9 @@ DownloadButton.propTypes = {
     searchResult: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({
-
-});
-
 const mapDispatchToProps = {
     removeItemSelectedForDownload,
     addItemSelectedForDownload
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DownloadButton);
+export default connect(null, mapDispatchToProps)(DownloadButton);

@@ -50,16 +50,7 @@ class MetadataSearchResult extends Component {
 }
 
 MetadataSearchResult.propTypes = {
-  mapItems: PropTypes.array.isRequired,
   searchResult: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({
-  mapItems: state.mapItems
-});
-
-const mapDispatchToProps = {
-  
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MetadataSearchResult);
+export default connect(null, null)(MetadataSearchResult);

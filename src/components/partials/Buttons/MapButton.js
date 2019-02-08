@@ -72,17 +72,12 @@ class MapButton extends Component {
 }
 
 MapButton.propTypes = {
-    mapItems: PropTypes.array.isRequired,
     searchResult: PropTypes.object.isRequired
   }
-  
-  const mapStateToProps = state => ({
-    mapItems: state.mapItems
-  });
   
   const mapDispatchToProps = {
     removeMapItem,
     addMapItem,
   };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapButton);
+export default connect(null, mapDispatchToProps)(MapButton);

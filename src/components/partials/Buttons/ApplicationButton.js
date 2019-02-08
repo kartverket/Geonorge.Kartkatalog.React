@@ -44,11 +44,4 @@ ApplicationButton.propTypes = {
     searchResult: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({
-
-});
-
-const mapDispatchToProps = {
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationButton);
+export default connect(null, null)(ApplicationButton);
