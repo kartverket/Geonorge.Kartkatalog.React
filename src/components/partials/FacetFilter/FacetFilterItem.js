@@ -10,10 +10,16 @@ class FacetFilterItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false
+            expanded: this.defaultExpanded()
         };
     }
 
+    defaultExpanded() {
+        if (this.props.facetFilterItem.Name === 'type') {
+            return true;
+        }
+        return false;
+    }
 
     toggleExpand() {
         this.setState(prevState => ({
