@@ -168,7 +168,7 @@ ShallowWrapper {
         >
           <Link
             replace={false}
-            to="/download"
+            to="/nedlasting"
           >
             Åpne nedlastinger
           </Link>
@@ -302,7 +302,7 @@ ShallowWrapper {
           >
             <Link
               replace={false}
-              to="/download"
+              to="/nedlasting"
             >
               Åpne nedlastinger
             </Link>
@@ -710,7 +710,7 @@ ShallowWrapper {
             "children": Array [
               <Link
                 replace={false}
-                to="/download"
+                to="/nedlasting"
               >
                 Åpne nedlastinger
               </Link>,
@@ -727,7 +727,7 @@ ShallowWrapper {
               "props": Object {
                 "children": "Åpne nedlastinger",
                 "replace": false,
-                "to": "/download",
+                "to": "/nedlasting",
               },
               "ref": null,
               "rendered": "Åpne nedlastinger",
@@ -869,7 +869,7 @@ ShallowWrapper {
           >
             <Link
               replace={false}
-              to="/download"
+              to="/nedlasting"
             >
               Åpne nedlastinger
             </Link>
@@ -1003,7 +1003,7 @@ ShallowWrapper {
             >
               <Link
                 replace={false}
-                to="/download"
+                to="/nedlasting"
               >
                 Åpne nedlastinger
               </Link>
@@ -1411,7 +1411,7 @@ ShallowWrapper {
               "children": Array [
                 <Link
                   replace={false}
-                  to="/download"
+                  to="/nedlasting"
                 >
                   Åpne nedlastinger
                 </Link>,
@@ -1428,7 +1428,7 @@ ShallowWrapper {
                 "props": Object {
                   "children": "Åpne nedlastinger",
                   "replace": false,
-                  "to": "/download",
+                  "to": "/nedlasting",
                 },
                 "ref": null,
                 "rendered": "Åpne nedlastinger",
