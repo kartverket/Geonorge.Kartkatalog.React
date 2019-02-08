@@ -94,11 +94,11 @@ class DownloadButton extends Component {
 }
 
 DownloadButton.propTypes = {
-    mapItems: PropTypes.array.isRequired,
     searchResult: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
+
 });
 
 const mapDispatchToProps = {
