@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './MetadataSearchResult.scss';
 import MapButton from '../Buttons/MapButton';
 import DownloadButton from '../Buttons/DownloadButton';
+import ApplicationButton from '../Buttons/ApplicationButton';
 
 class MetadataSearchResult extends Component {
   constructor(props) {
@@ -15,9 +16,6 @@ class MetadataSearchResult extends Component {
     };
   }
   
-  isApplication() {
-    return this.props.searchResult.Type == "software"
-  }
   restrictionsClassnames() {       
      if(this.props.searchResult.AccessConstraint === 'restricted') {
         return 'red'
@@ -28,28 +26,7 @@ class MetadataSearchResult extends Component {
      }          
   }
 
-  renderApplicationButton() {
-    if (this.isApplication(this.props.searchResult.Type)) {
-      if (this.props.searchResult.DistributionUrl) {
-        let distributionUrl = this.props.searchResult.DistributionUrl
-        let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon" />
-        let buttonClass = 'on';
-        let textContent = React.createElement('span', { key: "textContent" }, 'Til nettside')
-
-        let childElements = [icon, textContent];
-        return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
-      }
-      else {
-        let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon" />
-        let buttonClass = 'btn btn-sm disabled off'
-        let textContent = React.createElement('span', { key: "textContent" }, 'ikke tilgjengelig')
-        let childElements = [icon, textContent];
-        return React.createElement('span', { className: buttonClass }, childElements);
-      }
-    }
-  }
-
-  render() {
+   render() {
     return (
       <div  className={style.listItem}>
         <div>
@@ -64,7 +41,7 @@ class MetadataSearchResult extends Component {
             <DownloadButton searchResult={this.props.searchResult}></DownloadButton>
           </span>
           <span className={style.listItemButton}>
-            {this.renderApplicationButton()}
+            <ApplicationButton searchResult={this.props.searchResult}></ApplicationButton>
           </span>
         </div>        
       </div>
