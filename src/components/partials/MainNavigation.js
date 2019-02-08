@@ -95,7 +95,7 @@ renderMapbutton() {
                         </ul>
                     </div>
                     <div className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
-                        <Link to={'/download'}>Åpne nedlastinger</Link>
+                        <Link to={'/nedlasting'}>Åpne nedlastinger</Link>
                         Liste over nedlastinger
                     </div>
                 </div>
