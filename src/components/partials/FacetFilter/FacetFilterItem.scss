@@ -11,13 +11,16 @@ $imagePath: "../../../../";
     }
 
     :local(.facets) {
-        display: none;
+        display: block;        
+        max-height: 0;
+        overflow: hidden;
+        transition: all .3s ease-in-out;
         list-style: none;
     }
 
     &:local(.expanded) {        
         :local(.facets) {            
-            display: block;
+            max-height: 1000px;
             padding: 0;
         }
     }

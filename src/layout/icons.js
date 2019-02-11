@@ -14,6 +14,7 @@ library.add(
      faMapMarker,
      faMapPin,
      faSquare,
+     
     faAngry,
     faCheckSquare,
     faMap,

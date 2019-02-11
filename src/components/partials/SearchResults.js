@@ -120,11 +120,12 @@ class SearchResults extends Component {
 				[style.morebtn]: true,
 				hidden: !this.moreItemsAvailable()
 			});
-			return <div style={{ display: "flex" }}>
-				<div style={{ flex: "1" }}>
+			return <div className={style.activeContent}>
+					<div className={style.facets}>
 					<FacetFilter key="facetFilter" />
-				</div>
-				<div style={{ flex: "3" }}>
+					</div>
+				
+				<div className={style.searchResultContainer}>
 					{this.renderMetadataSearchResults()}
 					<div className={style.morecontainer}>
 						<div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}><span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>

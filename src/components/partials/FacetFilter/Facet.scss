@@ -47,6 +47,7 @@ $imagePath: "../../../../";
 
 :local(.filterItems){
     list-style: none;
+    
 
     &:local(.hidden) {        
         display: none;

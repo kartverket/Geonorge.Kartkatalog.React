@@ -1,8 +1,43 @@
 
 @import '../../scss/abstracts/all';
-:local(.facetFilter) {
-    margin: 0 0 16px 20px;
-    padding: 10px 20px;
+:local(.facetFilter) {    
+    
+    
+    @include breakpoint(tablet) {
+        margin: 0 0 16px 20px;
+        padding: 10px 20px;
+    }
     list-style: none;
     background-color: $primary-background;
+    max-height: 20px;
+    width: 0;
+    transition: all .3s ease-in-out;
+    overflow: hidden;
+    position: absolute;
+    opacity: 1;
+    flex: 1;
+    &.open {
+        width: auto;
+        max-height: 1000px;
+        margin: 0 0 16px 20px;
+        padding: 10px 20px;
+        overflow: auto;
+        @include breakpoint(tablet) {
+            overflow: hidden;
+        }
+    }
+
+    @include breakpoint(tablet) {
+        width: auto;
+        max-height: 1000px;
+        position: relative;        
+    }
+    
+}
+:local(.togglefacet) {
+    display: block;
+    position: absolute;
+    @include breakpoint(tablet) {
+        display: none;
+    }
 }
