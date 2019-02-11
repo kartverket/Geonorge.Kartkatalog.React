@@ -1,5 +1,5 @@
 import * as Cookies from 'js-cookie';
-import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, FETCH_AVAILABLEFACETS, APPEND_TO_METADATASEARCHRESULTS, APPEND_TO_ARTICLESEARCHRESULTS} from './types';
+import { FETCH_METADATASEARCHRESULTS, FETCH_ARTICLESEARCHRESULTS, FETCH_DROPDOWNSEARCHRESULTS, FETCH_AVAILABLEFACETS, APPEND_TO_METADATASEARCHRESULTS, APPEND_TO_ARTICLESEARCHRESULTS } from './types';
 
 export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
 	let facetsParameter = [];
@@ -24,12 +24,11 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
 		})
 	};
 
-	fetch(`https://kartkatalog.dev.geonorge.no/api/search?offset=${Offset}&text=${searchString}${facetsParameterString}`, fetchOptions)
+	return fetch(`https://kartkatalog.dev.geonorge.no/api/search?offset=${Offset}&text=${searchString}${facetsParameterString}`, fetchOptions)
 		.then(res => res.json())
 		.then(searchResults => {
-			
 			dispatch({
-				type: append? APPEND_TO_METADATASEARCHRESULTS: FETCH_METADATASEARCHRESULTS,
+				type: append ? APPEND_TO_METADATASEARCHRESULTS : FETCH_METADATASEARCHRESULTS,
 				payload: searchResults,
 				searchString: searchString,
 			})
@@ -56,7 +55,7 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
 	fetch(`https://kartkatalog.dev.geonorge.no/api/articles?offset=${Offset}&text=${searchString}`, fetchOptions)
 		.then(res => res.json())
 		.then(searchResults => dispatch({
-			type: append? APPEND_TO_ARTICLESEARCHRESULTS: FETCH_ARTICLESEARCHRESULTS,
+			type: append ? APPEND_TO_ARTICLESEARCHRESULTS : FETCH_ARTICLESEARCHRESULTS,
 			payload: searchResults,
 			searchString: searchString
 		}))
