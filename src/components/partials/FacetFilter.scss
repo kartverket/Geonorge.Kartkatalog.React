@@ -6,10 +6,10 @@
     @include breakpoint(tablet) {
         margin: 0 0 16px 20px;
         padding: 10px 20px;
+        max-height: auto;
     }
     list-style: none;
     background-color: $primary-background;
-    max-height: 20px;
     width: 0;
     transition: all .3s ease-in-out;
     overflow: hidden;
@@ -20,20 +20,19 @@
         width: auto;
         position: fixed;
         top: 324px;
-        bottom: 0;        
-        max-height: 1000px;
+        bottom: 0;                  
         border: 1px solid $primary-border;
         margin: 0 0 0 0;
         padding: 10px 20px;
         overflow: auto;
-        @include breakpoint(tablet) {
+        @include breakpoint(tablet) {            
             overflow: hidden;
         }
     }
 
     @include breakpoint(tablet) {
         width: auto;
-        max-height: 1000px;
+        
         position: relative;        
     }
     
