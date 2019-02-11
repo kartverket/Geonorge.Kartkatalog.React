@@ -46,7 +46,7 @@ export class MainNavigation extends Component {
     }
 
     renderMapbutton() {
-        if (this.props.router.location && this.props.router.location.pathname === '/kart') {
+        if (this.props.router && this.props.router.location && this.props.router.location.pathname === '/kart') {
             return (
                 <Link to={'/'}>
                     <span className={style.iconButton}>

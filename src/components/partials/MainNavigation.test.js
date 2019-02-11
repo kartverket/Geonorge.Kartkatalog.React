@@ -26,7 +26,7 @@ describe('MainNavigation', () => {
   it('should render self and subcomponents', () => {
     const { wrapper } = setup()
     expect(wrapper.hasClass(style.mainNavigationContainer)).toBe(true);
-    expect(wrapper.find('img').length).toBe(2);
+    expect(wrapper.find('img').length).toBe(1);
     expect(wrapper.find(SearchBar).length).toBe(1);
     expect(wrapper).toMatchSnapshot();
   })
