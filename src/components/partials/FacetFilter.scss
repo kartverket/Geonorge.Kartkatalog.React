@@ -18,8 +18,12 @@
     flex: 1;
     &.open {
         width: auto;
+        position: fixed;
+        top: 324px;
+        bottom: 0;        
         max-height: 1000px;
-        margin: 0 0 16px 20px;
+        border: 1px solid $primary-border;
+        margin: 0 0 0 0;
         padding: 10px 20px;
         overflow: auto;
         @include breakpoint(tablet) {
@@ -35,9 +39,22 @@
     
 }
 :local(.togglefacet) {
+    
     display: block;
     position: absolute;
+    top: 150px;
+    font-size: 2em;
+    border: 1px solid $primary-border;
+    background: $primary-background;
+    width: 60px;
+    height: 60px;
+    color: $primary-brand;
+    > svg {
+        margin-left: 15px;
+        margin-top: 12px;
+    }
     @include breakpoint(tablet) {
         display: none;
-    }
+        }
+    
 }
