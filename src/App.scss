@@ -1,12 +1,15 @@
-@import 'scss/abstracts/variables/all';
+@import 'scss/abstracts/all';
 
 :local(.pageContent) {
-    margin-top: 57px;
+    margin-top: 115px;
     height: calc(100% - 57px);
     overflow-y: auto;
     width: 100%;
     position: absolute;
     margin-bottom: 2px solid $primary-border;
+    @include breakpoint(phablet) {
+        margin-top: 57px;
+    }
 }
 :local(.footer) {
     margin: 0 auto;
