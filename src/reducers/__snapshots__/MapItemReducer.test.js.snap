@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search_string_reducer should handle FETCH_MAPITEMS 1`] = `
+Array [
+  Object {
+    "DistributionProtocol": "OGC:WMS",
+    "GetCapabilitiesUrl": "https://kart.mattilsynet.no/wmscache/service?request=GetCapabilities&service=WMS",
+    "Title": "Mattilsynets WMS2",
+    "Uuid": "cf630753-508a-4e7a-99da-ae1111090248",
+    "addLayers": Array [],
+  },
+  Object {
+    "DistributionProtocol": "OGC:WMS",
+    "GetCapabilitiesUrl": "https://kart.tromso.kommune.no/arcgis/services/Temadata/SkolerOgBarnehager/MapServer/WMSServer?request=GetCapabilities&service=WMS",
+    "Title": "Skoler - WMS",
+    "Uuid": "7a50578c-c2b5-4be9-9046-663008016da8",
+    "addLayers": Array [],
+  },
+]
+`;
