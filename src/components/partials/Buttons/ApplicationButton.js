@@ -12,7 +12,7 @@ class ApplicationButton extends Component {
     }
 
     isApplication() {
-        return this.props.searchResult.Type == "software"
+        return this.props.searchResult.Type === "software"
     }
 
     render() {
