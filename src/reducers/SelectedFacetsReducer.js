@@ -12,11 +12,19 @@ const initialState = {
 	license: []
 }
 
+function clearState(state) {
+	Object.keys(state).forEach(facetField => {
+		state[facetField] = [];
+	});
+	return state;
+}
+
 export default function (state = initialState, action) {
 	const selectedFacetsForFacetField = state[action.facetField] ? state[action.facetField] : [];
 
 	switch (action.type) {
 		case UPDATE_SELECTEDFACETS:
+			state = clearState(state);
 			action.payload.forEach(facet => {
 				state[facet.facetField] = facet.facets
 			})
