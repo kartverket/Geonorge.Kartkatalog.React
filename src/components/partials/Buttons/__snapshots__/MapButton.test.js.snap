@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MapButton should render self 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <MapButton
+    searchResult={
+      Object {
+        "ShowMapLink": true,
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <FontAwesomeIcon
+          border={false}
+          className=""
+          fixedWidth={false}
+          flip={null}
+          icon={
+            Array [
+              "far",
+              "map-marker-plus",
+            ]
+          }
+          inverse={false}
+          listItem={false}
+          mask={null}
+          pull={null}
+          pulse={false}
+          rotation={null}
+          size={null}
+          spin={false}
+          symbol={false}
+          title=""
+          transform={null}
+        />,
+        <span>
+          Legg til i kart
+        </span>,
+      ],
+      "className": "on",
+      "onClick": [Function],
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": "icon",
+        "nodeType": "function",
+        "props": Object {
+          "border": false,
+          "className": "",
+          "fixedWidth": false,
+          "flip": null,
+          "icon": Array [
+            "far",
+            "map-marker-plus",
+          ],
+          "inverse": false,
+          "listItem": false,
+          "mask": null,
+          "pull": null,
+          "pulse": false,
+          "rotation": null,
+          "size": null,
+          "spin": false,
+          "symbol": false,
+          "title": "",
+          "transform": null,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": "textContent",
+        "nodeType": "host",
+        "props": Object {
+          "children": "Legg til i kart",
+        },
+        "ref": null,
+        "rendered": "Legg til i kart",
+        "type": "span",
+      },
+    ],
+    "type": "span",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <FontAwesomeIcon
+            border={false}
+            className=""
+            fixedWidth={false}
+            flip={null}
+            icon={
+              Array [
+                "far",
+                "map-marker-plus",
+              ]
+            }
+            inverse={false}
+            listItem={false}
+            mask={null}
+            pull={null}
+            pulse={false}
+            rotation={null}
+            size={null}
+            spin={false}
+            symbol={false}
+            title=""
+            transform={null}
+          />,
+          <span>
+            Legg til i kart
+          </span>,
+        ],
+        "className": "on",
+        "onClick": [Function],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": "icon",
+          "nodeType": "function",
+          "props": Object {
+            "border": false,
+            "className": "",
+            "fixedWidth": false,
+            "flip": null,
+            "icon": Array [
+              "far",
+              "map-marker-plus",
+            ],
+            "inverse": false,
+            "listItem": false,
+            "mask": null,
+            "pull": null,
+            "pulse": false,
+            "rotation": null,
+            "size": null,
+            "spin": false,
+            "symbol": false,
+            "title": "",
+            "transform": null,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": "textContent",
+          "nodeType": "host",
+          "props": Object {
+            "children": "Legg til i kart",
+          },
+          "ref": null,
+          "rendered": "Legg til i kart",
+          "type": "span",
+        },
+      ],
+      "type": "span",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-class MapButton extends Component {
+export class MapButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
