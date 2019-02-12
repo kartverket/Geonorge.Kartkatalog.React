@@ -149,6 +149,9 @@
         :local(.content) {
             color:$icon-enabled;
         }
+        :local(.noContent) {
+            color: $icon-disabled;
+        }
 
         img {
             width: 37px;
@@ -170,6 +173,18 @@
             width: 1.5em;
         }
 
+    }
+}
+:local(.openMaplink) {
+    display: block;
+    text-align: center;
+
+    > svg {
+        margin-left: 15px;
+        margin-top: 10px;
+        position: relative;
+        top: 5px;
+        font-size: 2em;
     }
 }
 :local(.searchResults) {
