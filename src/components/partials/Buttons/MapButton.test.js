@@ -35,8 +35,6 @@ function setupSearchResultWithShowMapLinkFalse() {
     }
 }
 
-
-
 describe('MapButton', () => {
     
     it('should render self', () => {

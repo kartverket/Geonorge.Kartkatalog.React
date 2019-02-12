@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-class DownloadButton extends Component {
+export class DownloadButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -80,7 +80,7 @@ class DownloadButton extends Component {
         else if (this.showDownloadLink()) {
             let distributionUrl = this.props.searchResult.DistributionUrl
             let icon = <FontAwesomeIcon icon={['far', 'download']} key="icon" />
-            let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
+            let buttonClass = 'on';
             let textContent = React.createElement('span', { key: "textContent" }, 'Til nedlasting')
 
             let childElements = [icon, textContent];
