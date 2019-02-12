@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
-import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions'
-import { fetchItemsToDownload } from '../../actions/DownloadItemActions'
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom'
+import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions'
+import {fetchItemsToDownload} from '../../actions/DownloadItemActions'
 
 import SearchBar from './MainNavigation/SearchBar';
 
 import logo from '../../images/svg/geonorge-navbar-logo.svg';
 import style from './MainNavigation.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export class MainNavigation extends Component {
 
@@ -24,25 +24,36 @@ export class MainNavigation extends Component {
         this.props.fetchMapItems();
         this.props.fetchItemsToDownload();
     }
+
     modalMapItems() {
         return this.props.mapItems.length > 0;
     }
+
     toggleExpand() {
         this.setState(prevState => ({
             expanded: !prevState.expanded && !prevState.expandedDownload
         }))
     }
+
     toggleExpandDownload() {
         this.setState(prevState => ({
             expandedDownload: !prevState.expandedDownload && !prevState.expanded
         }))
     }
+
     renderMapitems() {
         const mapItems = this.props.mapItems.map((mapItem, index) => {
-            return <li key={index}><span><a href="#">{mapItem.Title}</a></span> <FontAwesomeIcon icon="times" onClick={() => this.props.removeMapItem(mapItem)} /> </li>
+            return (
+                <li key={index}>
+                    <span>
+                        <a href="#">{mapItem.Title}</a>
+                    </span>
+                    <FontAwesomeIcon icon="times"
+                                     onClick={() => this.props.removeMapItem(mapItem)}/>
+                </li>
+            )
         });
         return mapItems
-
     }
 
     renderMapbutton() {
@@ -51,21 +62,23 @@ export class MainNavigation extends Component {
                 <Link to={'/'}>
                     <span className={style.iconButton}>
                         <span className={style.counter}>{this.props.mapItems.length}</span>
-                        <FontAwesomeIcon icon={'door-open'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
+                        <FontAwesomeIcon icon={'door-open'}
+                                         className={this.props.mapItems.length > 0 ? style.content : style.content1}/>
                     </span>
                 </Link>
             )
-        }
-        else if (this.props.mapItems.length > 0) {
+        } else if (this.props.mapItems.length > 0) {
             return (
                 <div>
                     <div className={style.openmap} onClick={() => this.toggleExpand()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
+                            <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'}
+                                             className={this.props.mapItems.length > 0 ? style.content : style.content1}/>
                         </span>
                     </div>
-                    <div className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
+                    <div
+                        className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
                         <Link to={'/kart'}>Åpne kart</Link>
                         <ul className={style.mapitems}>
                             {this.renderMapitems()}
@@ -74,21 +87,16 @@ export class MainNavigation extends Component {
                 </div>
             )
 
-        } return <Link to={'/kart'}>
+        }
+        return <Link to={'/kart'}>
             <span className={style.iconButton}>
                 <span className={style.counter}>{this.props.mapItems.length}</span>
-                <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
+                <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'}
+                                 className={this.props.mapItems.length > 0 ? style.content : style.content1}/>
             </span>
         </Link>
     }
 
-    renderMapLink() {
-        if (this.props.router.location && this.props.router.location.pathname === '/kart') {
-            return <span>HYHOOY</span>
-        } else {
-            return <Link to={'/kart'}>Åpne kart</Link>
-        }
-    }
     render() {
         return (
             <div className={style.mainNavigationContainer}>
@@ -99,20 +107,19 @@ export class MainNavigation extends Component {
                         </div>
                     </Link>
                     <div className={style.search}>
-                        <SearchBar />
+                        <SearchBar/>
                     </div>
                     {this.renderMapbutton()}
 
                     <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.itemsToDownload.length}</span>
-                            <FontAwesomeIcon icon={'cloud-download'} className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
+                            <FontAwesomeIcon icon={'cloud-download'}
+                                             className={this.props.itemsToDownload.length > 0 ? style.content : style.content1}/>
                         </span>
                     </div>
-
-
-
-                    <div className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
+                    <div
+                        className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
                         <Link to={'/nedlasting'}>Åpne nedlastinger</Link>
                         Liste over nedlastinger
                     </div>
@@ -121,8 +128,6 @@ export class MainNavigation extends Component {
         )
     }
 }
-
-
 
 
 MainNavigation.propTypes = {
