@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-class ApplicationButton extends Component {
+export class ApplicationButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,9 +34,7 @@ class ApplicationButton extends Component {
                 return React.createElement('span', { className: buttonClass }, childElements);
             }
         }
-        let content = '';
-            let buttonClass = 'btn btn-sm disabled';
-            return React.createElement('span', { className: buttonClass }, content);
+            return React.createElement('span');
     }
 }
 
