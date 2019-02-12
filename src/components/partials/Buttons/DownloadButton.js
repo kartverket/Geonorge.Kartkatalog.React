@@ -86,11 +86,7 @@ class DownloadButton extends Component {
             let childElements = [icon, textContent];
             return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
         }
-        else {
-            let content = '';
-            let buttonClass = 'btn btn-sm disabled';
-            return React.createElement('span', { className: buttonClass }, content);
-        }
+        else return null
     }
 }
 

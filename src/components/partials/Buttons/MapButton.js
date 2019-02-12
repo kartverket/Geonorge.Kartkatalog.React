@@ -62,12 +62,8 @@ class MapButton extends Component {
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
-
-        } else {
-            let content = '';
-            let buttonClass = 'btn btn-sm disabled';
-            return React.createElement('span', { className: buttonClass }, content);
-        }
+        } 
+        return null;
     }
 }
 

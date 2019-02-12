@@ -34,7 +34,7 @@ export class ApplicationButton extends Component {
                 return React.createElement('span', { className: buttonClass }, childElements);
             }
         }
-            return React.createElement('span');
+            return null
     }
 }
 
