@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "10"
 before_install:
-  - echo "//npm.fontawesome.com/:_authToken=\${FONTAWESOME_TOKEN}" > .npmrc
+  - echo "//npm.fontawesome.com/:_authToken=${FONTAWESOME_TOKEN}" > .npmrc
