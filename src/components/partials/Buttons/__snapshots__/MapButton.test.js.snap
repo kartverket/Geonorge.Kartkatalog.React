@@ -4,6 +4,8 @@ exports[`MapButton should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <MapButton
+    addMapItem={[MockFunction]}
+    removeMapItem={[MockFunction]}
     searchResult={
       Object {
         "ShowMapLink": true,

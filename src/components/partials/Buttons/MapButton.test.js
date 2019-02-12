@@ -9,6 +9,8 @@ function setupSearchResultWithShowMapLinkTrue() {
     }
     const props = {
         searchResult: searchResult,
+        addMapItem: jest.fn(),
+        removeMapItem: jest.fn()
     }
     const wrapper = shallow(<MapButton {...props} />)
 
@@ -51,6 +53,23 @@ describe('MapButton', () => {
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')        
         expect(wrapper.find("span").first().html()).toContain('Legg til i kart')
     })
+
+    it('Add mapItem', () => {
+        let { wrapper } = setupSearchResultWithShowMapLinkTrue()
+        wrapper = wrapper.setState({isAdded: false})
+
+        wrapper.simulate("click")
+        expect(wrapper.state().isAdded).toEqual(true);
+    })
+
+    it('Remove mapItem', () => {
+        let { wrapper } = setupSearchResultWithShowMapLinkTrue()
+        wrapper = wrapper.setState({isAdded: true})
+
+        wrapper.simulate("click")
+        expect(wrapper.state().isAdded).toEqual(false);
+    })
+
 
     it('Searchresult with ShowMapLink true and isAdded true', () => {
         let { wrapper } = setupSearchResultWithShowMapLinkTrue()
