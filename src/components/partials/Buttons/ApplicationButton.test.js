@@ -84,6 +84,6 @@ describe('ApplicationButton', () => {
         expect(wrapper.hasClass()).toBe(false)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)        
-        expect(wrapper.find("span").first().html()).toBe("<span></span>")
+        expect(wrapper.find("span")).toHaveLength(0)
     })
 })
