@@ -23,7 +23,7 @@ class SearchBar extends Component {
 		this.showResults = this.showResults.bind(this);
 	}
 
-	hideResults() {
+	hideDropdownResults() {
 		this.setState({
 			showResults: false
 		});
@@ -40,7 +40,7 @@ class SearchBar extends Component {
 			return;
 		}
 
-		this.hideResults();
+		this.hideDropdownResults();
 	}
 
 	onChange(e) {
@@ -57,6 +57,7 @@ class SearchBar extends Component {
 
 	onSubmit(e) {
 		e.preventDefault();
+		this.hideDropdownResults();
 		this.props.fetchMetadataSearchResults(this.state.searchString);
 		this.props.fetchArticleSearchResults(this.state.searchString);
 		this.props.updateSearchString(this.state.searchString);
@@ -76,7 +77,7 @@ class SearchBar extends Component {
 				return this.props.dropdownResults[searchResultsType].NumFound;
 			}).map((searchResultsType, i) => {
 				let searchResults = this.props.dropdownResults[searchResultsType];
-				return <SearchResultsTypeList searchString={this.state.searchString} searchResults={searchResults} searchResultsType={searchResultsType} key={i} />
+				return <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()} searchString={this.state.searchString} searchResults={searchResults} searchResultsType={searchResultsType} key={i} />
 			})
 			return resultsTypeElements;
 		}

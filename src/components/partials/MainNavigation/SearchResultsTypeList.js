@@ -40,6 +40,7 @@ class SearchResultsTypeList extends Component {
 				facetField: 'type'
 			}
 		]);
+		this.props.onShowResults();
 		this.props.updateSelectedSearchResultsType(this.props.searchResultsType);
 		this.props.updateSearchString(this.props.searchString);
 	}
