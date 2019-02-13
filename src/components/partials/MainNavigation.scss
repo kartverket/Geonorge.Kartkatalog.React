@@ -83,6 +83,13 @@
     }
         }
 }
+:local(.mapBtnlink) {
+    border: none;
+    background: transparent;
+    color: $anchor-active;
+    text-decoration: underline;
+    font-size: 1.2em;
+}
 :local(.mainNavigation) {
     display: flex;
     flex-wrap: wrap;
@@ -178,13 +185,14 @@
 :local(.openMaplink) {
     display: block;
     text-align: center;
+    font-size: 1.4em;
 
     > svg {
         margin-left: 15px;
         margin-top: 10px;
         position: relative;
         top: 5px;
-        font-size: 2em;
+        font-size: 1.6em;
     }
 }
 :local(.searchResults) {

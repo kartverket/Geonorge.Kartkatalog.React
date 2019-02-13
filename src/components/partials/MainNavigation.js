@@ -46,7 +46,7 @@ export class MainNavigation extends Component {
             return (
                 <li key={index}>
                     <span>
-                        <a href="#">{mapItem.Title}</a>
+                        <button className={style.mapBtnlink}>{mapItem.Title}</button>
                     </span>
                     <FontAwesomeIcon icon="times"
                                      onClick={() => this.props.removeMapItem(mapItem)}/>
@@ -76,7 +76,7 @@ export class MainNavigation extends Component {
                         </span>
                     </div>
                     <div className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
-                        <Link to={'/kart'} className={style.openMaplink}>Åpne kart <FontAwesomeIcon icon={'map-marker'} /></Link>
+                        <Link to={'/kart'} className={style.openMaplink}>Åpne kart <FontAwesomeIcon icon={['fal','globe-europe']} /></Link>
                         <ul className={style.mapitems}>
                             {this.renderMapitems()}
                         </ul>

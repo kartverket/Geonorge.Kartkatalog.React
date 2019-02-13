@@ -33,7 +33,7 @@ class MetadataSearchResult extends Component {
           <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>          
           <span className={style.listItemInfo}> <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['fas', 'lock-open'] : ['fas', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
         </div>        
-        <div>
+        <div className={style.btnContainer}>
         <span className={style.listItemButton}>
             <MapButton searchResult={this.props.searchResult}></MapButton>
           </span>

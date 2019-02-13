@@ -46,13 +46,17 @@
 		}
 
 		
-
+		:local(.btnContainer) {
+			display: flex;
+			justify-content: flex-end;
+		
+		}
 		.on {
 			display: flex;
-			width: 120px;
+			width: 140px;
 			flex-direction: column;
 			font-size: 1.2em;
-			align-items: center;			
+			align-items: center;						
 			> svg {
 				color: $primary-success;
 				font-size: 1.5em;
@@ -70,7 +74,7 @@
 		}
 		.off {
 			display: flex;
-			width: 120px;
+			width: 140px;
 			flex-direction: column;
 			align-items: center;
 			font-size: 1.2em;
@@ -81,6 +85,9 @@
 			}
 			> span {
 				font-size: .8em;
+				text-decoration: underline;
+				color: $anchor-active;
+				font-weight: 600;
 			}
 			&:hover {
 				cursor: pointer;
