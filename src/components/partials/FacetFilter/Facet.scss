@@ -28,8 +28,8 @@ $imagePath: "../../../../";
             cursor: pointer;
         }
         padding-left: 10px;
-        > span {
-            max-width: 200px;
+        > span {   
+            max-width: 80%;         
             text-overflow: ellipsis;
             overflow: hidden;
             display: inline-block;

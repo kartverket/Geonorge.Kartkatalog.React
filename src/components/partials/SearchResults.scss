@@ -131,7 +131,7 @@
     margin-top: 70px;
     flex-wrap: nowrap;
     @include breakpoint(tablet) {
-        flex: 3;
+        flex: 4;
         display: flex;
         margin-top: 0;
     }
@@ -146,4 +146,5 @@
 }
 :local(.facets) {
     flex: 1;
+    max-width: 360px;
 }

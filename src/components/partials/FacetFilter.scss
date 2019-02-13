@@ -5,8 +5,7 @@
     
     @include breakpoint(tablet) {
         margin: 0 0 16px 20px;
-        padding: 10px 20px;
-        max-height: auto;
+        padding: 10px 20px;        
     }
     list-style: none;
     background-color: $primary-background;
@@ -31,8 +30,7 @@
     }
 
     @include breakpoint(tablet) {
-        width: auto;
-        
+        width: auto;        
         position: relative;        
     }
     
