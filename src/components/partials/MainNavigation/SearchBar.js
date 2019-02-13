@@ -71,7 +71,7 @@ class SearchBar extends Component {
         document.addEventListener('mousedown', this.handleClick, false);
     }
 
-    componentWillUnMount() {
+    componentWillUnmount() {
         document.addEventListener('mousedown', this.handleClick, false);
     }
 
