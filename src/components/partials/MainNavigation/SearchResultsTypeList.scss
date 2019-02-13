@@ -1,9 +1,22 @@
+@import '../../../scss/abstracts/all';
 :local(.searchResultsSectionHeadingContainer) {
         padding: 4px 10px;
+        &:hover {
+            :local(.counter) {                
+                cursor: pointer;
+                text-decoration: underline;                
+            }
+        }
 
         :local(.searchResultsSectionHeading) {
             font-size: 1em;
             display: inline-block;
+            
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+                
+            }
         }
 
         :local(.counter) {
@@ -28,6 +41,10 @@
     :local(.searchResultsSection) {
         display: block;
         margin-bottom: 12px;
+        color: $anchor-active;
+        text-decoration: underline;
+        font-size: 1.2em;
+        padding: 5px 0;
 
         &:nth-child(odd){
             background: #f5f6f7;

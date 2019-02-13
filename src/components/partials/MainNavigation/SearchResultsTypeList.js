@@ -18,10 +18,13 @@ class SearchResultsTypeList extends Component {
 	}
 
 	renderDropdownResults() {
-		if (this.props.searchResults && this.props.searchResults.Results) {
+		if (this.props.searchResults && this.props.searchResults.Results) {			
+			
 			const resultsTypeElements = this.props.searchResults.Results.map((result, i) => {
-				return <div className={style.searchResultsItem} key={i}><a href={result.ShowDetailsUrl} key={i}>{result.Title}</a></div>
-			})
+							
+					return <div className={style.searchResultsItem} key={i}><a href={result.ShowDetailsUrl} key={i}>{result.Title}</a></div>
+				
+			})						
 			return resultsTypeElements;
 		}
 	}
@@ -44,17 +47,14 @@ class SearchResultsTypeList extends Component {
 		this.props.updateSelectedSearchResultsType(this.props.searchResultsType);
 		this.props.updateSearchString(this.props.searchString);
 	}
-	render() {
+	render() {			
 		return (
-			<div className={style.searchResultsSection}>
+			<div className={style.searchResultsSection} onClick={() => this.showResults()}>
 				<div className={style.searchResultsSectionHeadingContainer}>
 					<span className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
-					<span className={style.counter}>{this.props.searchResults.NumFound}</span>
-					<span onClick={() => this.showResults()} className={style.showAllButton}>
-						Vis alle
-	                </span>
-				</div>
-				{this.renderDropdownResults()}
+					<span className={style.counter}> {this.props.searchResults.NumFound}</span>					
+				</div>				
+				 {this.renderDropdownResults()}				
 			</div>
 		)
 	}
