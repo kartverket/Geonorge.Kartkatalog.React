@@ -27,14 +27,14 @@ describe('map_item_actions', () => {
 
     describe('addMapItems', () => {
         test('Add map item', () => {
-            store.dispatch(mapItemActions.addMapItem(mapItem)); 
+            store.dispatch(mapItemActions.addMapItem([mapItem])); 
             expect(localStorage.mapItems).toContain("123456");
         });
     });
 
     describe('removeMapItems', () => {
         test('Remove map item', () => {
-            store.dispatch(mapItemActions.removeMapItem(mapItem)); 
+            store.dispatch(mapItemActions.removeMapItem([mapItem])); 
             expect(localStorage.mapItems).not.toContain("123456");
         });
     });
