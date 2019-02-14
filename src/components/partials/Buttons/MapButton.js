@@ -9,7 +9,7 @@ export class MapButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAdded: this.mapItemIsAddedToLocalStorage(this.getMapItem()),
+            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : []
         };
     }
 
@@ -17,63 +17,123 @@ export class MapButton extends Component {
         return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
     }
     mapItemIsAddedToLocalStorage(mapItemToCompare) {
-        if (localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems))) {
-            let isAddedToLocalStorage = false;
-            JSON.parse(localStorage.mapItems).forEach((mapItemToCompareWith) => {
-                if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)) {
+        let isAddedToLocalStorage = false
+        this.state.selectedMapItems.forEach((mapItemToCompareWith) => {
+            if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)) {
+                isAddedToLocalStorage = true;
+            }
+        });
+        return isAddedToLocalStorage;
+    }
+    datasetServicesIsAddedToLocalStorage() {
+        let isAddedToLocalStorage = false
+        this.state.selectedMapItems.forEach((mapItemToCompareWith) => {
+            this.props.searchResult.DatasetServicesWithShowMapLink.forEach(item => {
+                if (this.compareMapItems(item, mapItemToCompareWith)) {
                     isAddedToLocalStorage = true;
                 }
-            });
-            return isAddedToLocalStorage;
-        } else {
-            return false;
-        }
+            })
+        });
+        return isAddedToLocalStorage;
     }
-    getMapItem() {
+
+    getMapItem(service = null) {
         return {
-            Uuid: this.props.searchResult.Uuid,
-            Title: this.props.searchResult.Title,
-            DistributionProtocol: this.props.searchResult.DistributionProtocol,
-            GetCapabilitiesUrl: this.props.searchResult.GetCapabilitiesUrl,
+            Uuid: service ? service.Uuid : this.props.searchResult.Uuid,
+            Title: service ? service.Title : this.props.searchResult.Title,
+            DistributionProtocol: service ? service.DistributionProtocol : this.props.searchResult.DistributionProtocol,
+            GetCapabilitiesUrl: service ? service.GetCapabilitiesUrl : this.props.searchResult.GetCapabilitiesUrl,
             addLayers: []
         }
     }
-    addToMap(mapItem) {
-        this.setState({
-            isAdded: true
+    getMapItems() {
+        let mapItems = this.props.searchResult.DatasetServicesWithShowMapLink.map((item, i) => {
+            return this.getMapItem(item);
         });
+        return mapItems;
+    }
+    addToMap(mapItem) {
         this.props.addMapItem(mapItem);
+        this.setState({
+            isAdded: true,
+            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : []
+        });
+
     }
     removeFromMap(mapItem) {
-        this.setState({
-            isAdded: false
-        });
         this.props.removeMapItem(mapItem);
+        this.setState({
+            isAdded: false,
+            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : []
+        });
     }
-    render() {
-        let mapItem = this.getMapItem();
-        if (this.props.searchResult.ShowMapLink) {
-            let action = this.state.isAdded
-                ? () => this.removeFromMap(mapItem)
-                : () => this.addToMap(mapItem);
-            let icon = <FontAwesomeIcon icon={this.state.isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />
-            let buttonClass = this.state.isAdded ? 'off' : 'on';
-            let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern fra kart' : 'Legg til i kart')
 
-            let childElements = [icon, textContent];
-            return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
-        } 
+    renderButton(mapItem) {
+        let isAdded = this.mapItemIsAddedToLocalStorage(mapItem);
+        let action = isAdded
+            ? () => this.removeFromMap([mapItem])
+            : () => this.addToMap([mapItem]);
+        let icon = <FontAwesomeIcon icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />
+        let buttonClass = isAdded ? 'off' : 'on';
+        let textContent = React.createElement('span', { key: "textContent" }, isAdded ? 'Fjern fra kart' : 'Legg til i kart')
+
+        let childElements = [icon, textContent];
+        return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+    }
+
+    renderButtonSelectAll() {
+        let mapItems = this.getMapItems();
+        let isAdded = this.datasetServicesIsAddedToLocalStorage();
+        let action = isAdded
+            ? () => this.removeFromMap(mapItems)
+            : () => this.addToMap(mapItems);
+        let icon = <FontAwesomeIcon icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />
+        let buttonClass = isAdded ? 'off' : 'on';
+        let textContent = React.createElement('span', { key: "textContent" }, this.isAdded ? 'Fjern fra kart' : 'Legg til i kart')
+
+        let childElements = [icon, textContent];
+        return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+    }
+
+    renderButtonList() {
+        let mapItems = this.props.searchResult.DatasetServicesWithShowMapLink.map((item, i) => {
+            let mapItem = this.getMapItem(item);
+            return (
+                <span key={i} className="">
+                    <a>{mapItem.Title}</a>
+                    {this.renderButton(mapItem)}
+                </span>
+            )
+        });
+        return React.createElement('span', {}, mapItems);
+    }
+
+    render() {
+        if (this.props.searchResult.ShowMapLink) {
+            if (this.props.searchResult.Type === "dataset") {
+                return (
+                    <span>
+                        {this.renderButtonSelectAll()}
+                        {this.renderButtonList()}
+                    </span>
+                )
+            }
+            else {
+                let mapItem = this.getMapItem()
+                return this.renderButton(mapItem);
+            }
+        }
         return null;
     }
 }
 
 MapButton.propTypes = {
     searchResult: PropTypes.object.isRequired
-  }
-  
-  const mapDispatchToProps = {
+}
+
+const mapDispatchToProps = {
     removeMapItem,
     addMapItem,
-  };
+};
 
 export default connect(null, mapDispatchToProps)(MapButton);

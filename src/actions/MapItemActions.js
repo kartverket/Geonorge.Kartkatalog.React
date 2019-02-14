@@ -8,16 +8,23 @@ export const fetchMapItems = () => dispatch => {
 	})
 }
 
-export const removeMapItem = (mapItemToRemove) => dispatch => {
-	let selectedMapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];	
-	localStorage.mapItems = JSON.stringify(selectedMapItems.filter(mapItemToKeep => mapItemToKeep.Uuid !== mapItemToRemove.Uuid));
-	
+export const removeMapItem = (mapItemsToRemove) => dispatch => {
+	let selectedMapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
+	mapItemsToRemove.forEach(mapItemToRemove => {
+		localStorage.mapItems = JSON.stringify(selectedMapItems.filter(mapItemToKeep => mapItemToKeep.Uuid !== mapItemToRemove.Uuid));
+		selectedMapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
+	});
+
 	dispatch(fetchMapItems())
 }
 
-export const addMapItem = (mapItemToAdd) => dispatch => {
+export const addMapItem = (mapItemsToAdd) => dispatch => {
 	let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
-    mapItems.push(mapItemToAdd);
+	mapItemsToAdd.forEach(mapItemToAdd => {
+		mapItems.push(mapItemToAdd);
+	});
+	
+	// mapItems.push(mapItemToAdd);
 	localStorage.mapItems = JSON.stringify(mapItems);
 	
 	dispatch(fetchMapItems())
