@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import * as searchResultActions from './SearchResultActions';
 import {FETCH_AVAILABLEFACETS} from "./types";
 
-const middlewares = [thunk] // add your middlewares like `redux-thunk`
+const middlewares = [thunk]; // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);
 const store = mockStore({});
 
@@ -17,7 +17,7 @@ describe('search_result_actions', () => {
 
     describe('fetchMetadataSearchResults', () => {
         test('Set correct default value for "searchString"', async () => {
-            await store.dispatch(searchResultActions.fetchMetadataSearchResults()); // searchString = "", facets = null, Offset = 1, append = false
+            await store.dispatch(searchResultActions.fetchMetadataSearchResults());
             expect(store.getActions()[0].searchString).toBe("");
         });
 
