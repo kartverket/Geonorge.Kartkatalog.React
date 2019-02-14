@@ -51,4 +51,35 @@ describe('search_result_actions', () => {
             expect(store.getActions()[1].type).toBe("FETCH_AVAILABLEFACETS");
         });
     });
+
+    describe('fetchArticleSearchResults', () => {
+        test('Set correct default value for "searchString"', async () => {
+            await store.dispatch(searchResultActions.fetchArticleSearchResults());
+            expect(store.getActions()[0].searchString).toBe("");
+        });
+
+        test('Get correct payload from API', async () => {
+            await store.dispatch(searchResultActions.fetchArticleSearchResults());
+            expect(store.getActions()[0].payload).not.toBeNull();
+            expect(store.getActions()[0].payload).toHaveProperty('Limit');
+            expect(store.getActions()[0].payload).toHaveProperty('Offset');
+            expect(store.getActions()[0].payload).toHaveProperty('NumFound');
+        });
+
+        test('Get search results in payload from API', async () => {
+            await store.dispatch(searchResultActions.fetchArticleSearchResults());
+            expect(store.getActions()[0].payload.Results.length).toBeGreaterThan(0);
+            expect(store.getActions()[0].payload.NumFound).toBeGreaterThan(0);
+        });
+
+        test('Dispatch correct type as default', async () => {
+            await store.dispatch(searchResultActions.fetchArticleSearchResults());
+            expect(store.getActions()[0].type).toBe("FETCH_ARTICLESEARCHRESULTS");
+        });
+
+        test('Dispatch correct type if "append" is true', async () => {
+            await store.dispatch(searchResultActions.fetchArticleSearchResults(undefined, null, 1, true));
+            expect(store.getActions()[0].type).toBe("APPEND_TO_ARTICLESEARCHRESULTS");
+        });
+    });
 });

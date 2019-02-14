@@ -59,7 +59,7 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
         })
     };
 
-	fetch(`https://kartkatalog.dev.geonorge.no/api/articles?offset=${Offset}&text=${searchString}`, fetchOptions)
+    return fetch(`https://kartkatalog.dev.geonorge.no/api/articles?offset=${Offset}&text=${searchString}`, fetchOptions)
         .then(res => res.json())
         .then(searchResults => dispatch({
             type: append ? APPEND_TO_ARTICLESEARCHRESULTS : FETCH_ARTICLESEARCHRESULTS,
@@ -87,7 +87,7 @@ export const fetchDropdownSearchResults = (searchString = "") => dispatch => {
 
     Object.keys(urlParameterStrings).forEach((searchResultsType) => {
         let urlParameterString = urlParameterStrings[searchResultsType];
-		fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}&${limitParameterString}`, fetchOptions)
+        return fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}&${limitParameterString}`, fetchOptions)
             .then(res => res.json())
             .then(searchResults => dispatch({
                 type: FETCH_DROPDOWNSEARCHRESULTS,
