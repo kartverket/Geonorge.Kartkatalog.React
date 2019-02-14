@@ -82,4 +82,69 @@ describe('search_result_actions', () => {
             expect(store.getActions()[0].type).toBe("APPEND_TO_ARTICLESEARCHRESULTS");
         });
     });
+
+    describe('fetchDropdownSearchResults', () => {
+        test('Set correct default value for "searchString"', async () => {
+            await store.dispatch(searchResultActions.fetchDropdownSearchResults());
+            expect(store.getActions()[0].searchString).toBe("");
+        });
+
+        test('Dispatch correct type as default', async () => {
+            await store.dispatch(searchResultActions.fetchDropdownSearchResults());
+            expect(store.getActions()[0].type).toBe("FETCH_DROPDOWNSEARCHRESULTS");
+        });
+
+        test('Get correct payload from API', async () => {
+            await store.dispatch(searchResultActions.fetchDropdownSearchResults());
+            expect(store.getActions()[0].payload).not.toBeNull();
+            expect(store.getActions()[0].payload).toHaveProperty('NumFound');
+            expect(store.getActions()[0].payload).toHaveProperty('Limit');
+            expect(store.getActions()[0].payload).toHaveProperty('Offset');
+            expect(store.getActions()[0].payload).toHaveProperty('Results');
+        });
+
+        test('Search results contains articles', async () => {
+            await store.dispatch(searchResultActions.fetchDropdownSearchResults());
+            expect(store.getActions()).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        searchResultsType: 'articles'
+                    })
+                ])
+            );
+        });
+
+        test('Search results contains dataset', async () => {
+            await store.dispatch(searchResultActions.fetchDropdownSearchResults());
+            expect(store.getActions()).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        searchResultsType: 'dataset'
+                    })
+                ])
+            );
+        });
+
+        test('Search results contains service', async () => {
+            await store.dispatch(searchResultActions.fetchDropdownSearchResults());
+            expect(store.getActions()).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        searchResultsType: 'service'
+                    })
+                ])
+            );
+        });
+
+        test('Search results contains software', async () => {
+            await store.dispatch(searchResultActions.fetchDropdownSearchResults());
+            expect(store.getActions()).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        searchResultsType: 'software'
+                    })
+                ])
+            );
+        });
+    });
 });

@@ -68,24 +68,22 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
         }))
 };
 
-export const fetchDropdownSearchResults = (searchString = "") => dispatch => {
+export const fetchDropdownSearchResults = (searchString = "") => async dispatch => {
     const urlParameterStrings = {
         software: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software`,
         service: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service`,
         dataset: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset`,
         articles: `articles?text=${searchString}`
     };
-
     let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
     const fetchOptions = {
         headers: new Headers({
             'Accept-Language': selectedLanguage
         })
     };
-
     const limitParameterString = 'limit=5';
 
-    Object.keys(urlParameterStrings).forEach((searchResultsType) => {
+    await Promise.all(Object.keys(urlParameterStrings).map(async (searchResultsType) => {
         let urlParameterString = urlParameterStrings[searchResultsType];
         return fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}&${limitParameterString}`, fetchOptions)
             .then(res => res.json())
@@ -95,5 +93,5 @@ export const fetchDropdownSearchResults = (searchString = "") => dispatch => {
                 searchString: searchString,
                 searchResultsType: searchResultsType
             }))
-    })
+    }))
 };
