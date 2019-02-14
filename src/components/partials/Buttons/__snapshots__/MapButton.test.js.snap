@@ -8,7 +8,12 @@ ShallowWrapper {
     removeMapItem={[MockFunction]}
     searchResult={
       Object {
+        "DistributionProtocol": "test protocol",
+        "GetCapabilitiesUrl": "test url",
         "ShowMapLink": true,
+        "Title": "Test title",
+        "Uuid": "1234",
+        "addLayers": Array [],
       }
     }
   />,

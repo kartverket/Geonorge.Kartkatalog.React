@@ -2,10 +2,16 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { MapButton } from './MapButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { wrap } from 'module';
 
 function setupSearchResultWithShowMapLinkTrue() {
     const searchResult = {
-        ShowMapLink: true
+        ShowMapLink: true,
+        Uuid: "1234",
+        Title: "Test title",
+        DistributionProtocol: "test protocol",
+        GetCapabilitiesUrl: "test url",
+        addLayers: []
     }
     const props = {
         searchResult: searchResult,
@@ -36,55 +42,45 @@ function setupSearchResultWithShowMapLinkFalse() {
 }
 
 describe('MapButton', () => {
-    
+
     it('should render self', () => {
         const { wrapper } = setupSearchResultWithShowMapLinkTrue()
-        expect( wrapper).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     })
 
     it('Searchresult with ShowMapLink true and isAdded false', () => {
         let { wrapper } = setupSearchResultWithShowMapLinkTrue()
-        wrapper = wrapper.setState({isAdded: false})
 
         expect(wrapper.prop("className")).toContain("on")
-        expect(wrapper.prop("onClick").toString()).toContain("addToMap(mapItem)")
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')        
+        expect(wrapper.prop("onClick").toString()).toContain("addToMap([mapItem])")
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')
         expect(wrapper.find("span").first().html()).toContain('Legg til i kart')
     })
 
-    it('Add mapItem', () => {
-        let { wrapper } = setupSearchResultWithShowMapLinkTrue()
-        wrapper = wrapper.setState({isAdded: false})
-
-        wrapper.simulate("click")
-        expect(wrapper.state().isAdded).toEqual(true);
-    })
-
-    it('Remove mapItem', () => {
-        let { wrapper } = setupSearchResultWithShowMapLinkTrue()
-        wrapper = wrapper.setState({isAdded: true})
-
-        wrapper.simulate("click")
-        expect(wrapper.state().isAdded).toEqual(false);
-    })
-
-
     it('Searchresult with ShowMapLink true and isAdded true', () => {
         let { wrapper } = setupSearchResultWithShowMapLinkTrue()
-        wrapper = wrapper.setState({isAdded: true})
-        
+        wrapper.setState({
+            selectedMapItems: [{
+                Uuid: "1234",
+                Title: "Test title",
+                DistributionProtocol: "test protocol",
+                GetCapabilitiesUrl: "test url",
+                addLayers: Array(0)
+            }]
+        })
+
         expect(wrapper.prop("className")).toContain("off")
-        expect(wrapper.prop("onClick").toString()).toContain("removeFromMap(mapItem)")
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-minus')        
+        expect(wrapper.prop("onClick").toString()).toContain("removeFromMap([mapItem])")
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-minus')
         expect(wrapper.find("span").first().html()).toContain('Fjern fra kart')
     })
 
     it('Searchresult with ShowMapLink false', () => {
         let { wrapper } = setupSearchResultWithShowMapLinkFalse()
-        
+
         expect(wrapper.hasClass()).toBe(false)
         expect(wrapper.prop("onClick")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)        
+        expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)
         expect(wrapper.find("span")).toHaveLength(0)
 
     })
