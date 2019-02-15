@@ -1,0 +1,45 @@
+@import '../../scss/abstracts/all';
+
+:local(.maplist) {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  list-style-position: outside;
+
+}
+
+:local(.morecontainer) {
+  width: 100%;
+  text-align: center;
+}
+
+:local(.morebtn) {
+  margin: 0 auto;
+  display: block;
+  padding: 5px 0 15px 0;
+  margin: 0 80px;
+  background: white;
+  transition: all .3s ease-in-out;
+  font-size: 1.2em;
+  border: 1px solid $primary-border;
+
+  &:hover {
+    background-color: $primary-background;
+    cursor: pointer;
+  }
+
+  > span {
+    margin: 0 30px;
+    display: inline-block;
+  }
+
+  > svg {
+    font-size: 2em;
+    position: relative;
+    top: 10px;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
