@@ -76,7 +76,7 @@ export class MainNavigation extends Component {
                         </span>
                     </div>
                     <div className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
-                        <Link to={'/kart'} className={style.openMaplink}>Åpne kart <FontAwesomeIcon icon={['fal','globe-europe']} /></Link>
+                        <Link to={'/kart'} className={style.openMaplink}>Vis kart <FontAwesomeIcon icon={['fal','globe-europe']} /></Link>
                         <ul className={style.mapitems}>
                             {this.renderMapitems()}
                         </ul>

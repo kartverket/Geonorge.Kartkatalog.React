@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 
 import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import style from './Buttons.scss'
 
 export class MapButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : []
+            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [],
+            expanded: false
         };
     }
 
@@ -60,6 +62,11 @@ export class MapButton extends Component {
         });
 
     }
+    toggleExpand() {
+        this.setState(prevState => ({
+            expanded: !prevState.expanded && !prevState.expandedDownload
+        }))
+    }
     removeFromMap(mapItem) {
         this.props.removeMapItem(mapItem);
         this.setState({
@@ -72,7 +79,7 @@ export class MapButton extends Component {
         let isAdded = this.mapItemIsAddedToLocalStorage(mapItem);
         let action = isAdded
             ? () => this.removeFromMap([mapItem])
-            : () => this.addToMap([mapItem]);
+            : () => this.addToMap([mapItem]);        
         let icon = <FontAwesomeIcon icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />
         let buttonClass = isAdded ? 'off' : 'on';
         let textContent = React.createElement('span', { key: "textContent" }, isAdded ? 'Fjern fra kart' : 'Legg til i kart')
@@ -95,6 +102,10 @@ export class MapButton extends Component {
         return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
     }
 
+    renderButtonExpand() {
+        return <FontAwesomeIcon onClick={() => this.toggleExpand()} className={style.expandmapbutton} icon={this.state.expanded ? 'angle-up' : 'angle-down'} />
+    }
+
     renderButtonList() {
         let mapItems = this.props.searchResult.DatasetServicesWithShowMapLink.map((item, i) => {
             let mapItem = this.getMapItem(item);
@@ -113,8 +124,11 @@ export class MapButton extends Component {
             if (this.props.searchResult.Type === "dataset") {
                 return (
                     <span>
-                        {this.renderButtonSelectAll()}
-                        {this.renderButtonList()}
+                        {this.renderButtonExpand()}
+                        <span className={this.state.expanded ? 'sublist open' : 'sublist'}>
+                            {this.renderButtonSelectAll()}
+                            {this.renderButtonList()}
+                        </span>
                     </span>
                 )
             }

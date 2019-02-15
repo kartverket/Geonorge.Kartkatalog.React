@@ -1,0 +1,17 @@
+@import '../../../scss/abstracts/all';
+:local(.open) {
+    display: inline;
+}
+.sublist {
+    max-height: 0;    
+    overflow: hidden;
+    display: block;
+    transition: all .5s ease-in-out;
+    &.open {
+        max-height: 1000px;
+    }
+}
+:local(.expandmapbutton) {
+    font-size: 3em;
+    color: $primary-brand;
+}
