@@ -31,7 +31,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
         })
     };
 
-    return fetch(`https://kartkatalog.dev.geonorge.no/api/search?offset=${Offset}&text=${searchString}${facetsParameterString}`, fetchOptions)
+    return fetch(`https://kartkatalog.dev.geonorge.no/api/search?offset=${Offset}&text=${searchString}${facetsParameterString}&orderby=updated`, fetchOptions)
         .then(res => res.json())
         .then(searchResults => {
             dispatch({
