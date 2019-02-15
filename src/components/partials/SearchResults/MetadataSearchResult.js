@@ -7,6 +7,7 @@ import style from './MetadataSearchResult.scss';
 import MapButton from '../Buttons/MapButton';
 import DownloadButton from '../Buttons/DownloadButton';
 import ApplicationButton from '../Buttons/ApplicationButton';
+import {Link} from "react-router-dom";
 
 class MetadataSearchResult extends Component {
   constructor(props) {
@@ -30,7 +31,9 @@ class MetadataSearchResult extends Component {
     return (
       <div  className={style.listItem}>
         <div>
-          <span className={style.listItemTitle}><a href={this.props.searchResult.ShowDetailsUrl}>{this.props.searchResult.Title}</a></span>          
+          <span className={style.listItemTitle}>
+              <Link to={`/metadata/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link>
+          </span>
           <span className={style.listItemInfo}> <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['fas', 'lock-open'] : ['fas', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
         </div>        
         <div className={style.btnContainer}>        
