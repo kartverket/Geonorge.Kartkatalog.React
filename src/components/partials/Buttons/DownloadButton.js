@@ -79,7 +79,7 @@ export class DownloadButton extends Component {
         }
         else if (this.showDownloadLink()) {
             let distributionUrl = this.props.searchResult.DistributionUrl
-            let icon = <FontAwesomeIcon icon={['far', 'download']} key="icon" />
+            let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon" />
             let buttonClass = 'on';
             let textContent = React.createElement('span', { key: "textContent" }, 'Til nedlasting')
 
