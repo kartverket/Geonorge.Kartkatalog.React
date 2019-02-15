@@ -7,11 +7,11 @@ import WebFont from 'webfontloader';
 import './layout/icons';
 
 WebFont.load({
-  google: {
-    families: ['Raleway:100,400,500,700', 'Open Sans:400,600,700', 'sans-serif']
-  }
+    google: {
+        families: ['Raleway:100,400,500,700', 'Open Sans:400,600,700', 'sans-serif']
+    }
 });
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
 
 serviceWorker.unregister();

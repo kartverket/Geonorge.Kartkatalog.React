@@ -62,7 +62,8 @@ export class MainNavigation extends Component {
                 <Link to={'/'}>
                     <span className={style.iconButton}>
                         <span className={style.counter}>{this.props.mapItems.length}</span>
-                        <FontAwesomeIcon title="Tilbake til katalogen" icon={'map-marker-times'} className={this.props.mapItems.length > 0 ? style.content : style.content1} />
+                        <FontAwesomeIcon title="Tilbake til katalogen" icon={'map-marker-times'}
+                                         className={this.props.mapItems.length > 0 ? style.content : style.content1}/>
                     </span>
                 </Link>
             )
@@ -72,11 +73,14 @@ export class MainNavigation extends Component {
                     <div className={style.openmap} onClick={() => this.toggleExpand()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'} className={this.props.mapItems.length > 0 ? style.content : style.noCsontent} />
+                            <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'}
+                                             className={this.props.mapItems.length > 0 ? style.content : style.noCsontent}/>
                         </span>
                     </div>
-                    <div className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
-                        <Link to={'/kart'} className={style.openMaplink}>Vis kart <FontAwesomeIcon icon={['fal','globe-europe']} /></Link>
+                    <div
+                        className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
+                        <Link to={'/kart'} className={style.openMaplink}>Vis kart <FontAwesomeIcon
+                            icon={['fal', 'globe-europe']}/></Link>
                         <ul className={style.mapitems}>
                             {this.renderMapitems()}
                         </ul>
@@ -94,7 +98,7 @@ export class MainNavigation extends Component {
         </Link>
     }
 
-    
+
     render() {
         return (
             <div className={style.mainNavigationContainer}>

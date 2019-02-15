@@ -1,34 +1,34 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions'
-import { MapComponent } from 'r_map';
+import {connect} from 'react-redux';
+import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions'
+import {MapComponent} from 'r_map';
 
 class MapContainer extends Component {
-	componentWillMount() {
-		this.props.fetchMapItems();
-	}
+    componentWillMount() {
+        this.props.fetchMapItems();
+    }
 
-	render() {
-		return (
-			<div>
-				<MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItems} />
-			</div>
-		)
-	}
+    render() {
+        return (
+            <div>
+                <MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItems}/>
+            </div>
+        )
+    }
 }
 
 MapContainer.propTypes = {
-	mapItems: PropTypes.array.isRequired
+    mapItems: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
-	mapItems: state.mapItems
+    mapItems: state.mapItems
 });
 
 const mapDispatchToProps = {
-	fetchMapItems,
-	removeMapItem
+    fetchMapItems,
+    removeMapItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);

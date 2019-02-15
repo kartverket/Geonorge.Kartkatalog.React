@@ -5,7 +5,6 @@ import logo_kart_dev from '../../images/kartverket.png';
 import style from './Footer.scss';
 
 export class Footer extends Component {
-
 	render() {
 		return (
 			<div className={style.container}>
@@ -25,8 +24,6 @@ export class Footer extends Component {
 					<div className={style.logo}><img src={logo_kart_dev} alt="logo geonorge" title="Logo for Kartverket" /></div>
 				</div>
 			</div>
-
-
 		)
 	}
 }

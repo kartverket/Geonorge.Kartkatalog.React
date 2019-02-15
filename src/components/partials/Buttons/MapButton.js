@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import style from './Buttons.scss'
+import {removeMapItem, addMapItem} from '../../../actions/MapItemActions'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export class MapButton extends Component {
     constructor(props) {
@@ -18,8 +17,9 @@ export class MapButton extends Component {
     compareMapItems(mapItemToCompare, mapItemToCompareWith) {
         return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
     }
+
     mapItemIsAddedToLocalStorage(mapItemToCompare) {
-        let isAddedToLocalStorage = false
+        let isAddedToLocalStorage = false;
         this.state.selectedMapItems.forEach((mapItemToCompareWith) => {
             if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)) {
                 isAddedToLocalStorage = true;
@@ -27,8 +27,9 @@ export class MapButton extends Component {
         });
         return isAddedToLocalStorage;
     }
+
     datasetServicesIsAddedToLocalStorage() {
-        let isAddedToLocalStorage = false
+        let isAddedToLocalStorage = false;
         this.state.selectedMapItems.forEach((mapItemToCompareWith) => {
             this.props.searchResult.DatasetServicesWithShowMapLink.forEach(item => {
                 if (this.compareMapItems(item, mapItemToCompareWith)) {
@@ -48,6 +49,7 @@ export class MapButton extends Component {
             addLayers: []
         }
     }
+
     addToMap(mapItem) {
         this.props.addMapItem(mapItem);
         this.setState({
@@ -56,11 +58,13 @@ export class MapButton extends Component {
         });
 
     }
+
     toggleExpand() {
         this.setState(prevState => ({
             expanded: !prevState.expanded && !prevState.expandedDownload
         }))
     }
+
     removeFromMap(mapItem) {
         this.props.removeMapItem(mapItem);
         this.setState({
@@ -70,22 +74,23 @@ export class MapButton extends Component {
     }
 
     renderButton() {
-        let mapItem = this.props.searchResult.Type === "dataset" ? this.getMapItem(this.props.searchResult.DatasetServicesWithShowMapLink[0]) : this.getMapItem()
+        let mapItem = this.props.searchResult.Type === "dataset" ? this.getMapItem(this.props.searchResult.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
         let isAdded = this.mapItemIsAddedToLocalStorage(mapItem);
         let action = isAdded
             ? () => this.removeFromMap([mapItem])
             : () => this.addToMap([mapItem]);
-        let icon = <FontAwesomeIcon icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']} key="icon" />
+        let icon = <FontAwesomeIcon icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
+                                    key="icon"/>;
         let buttonClass = isAdded ? 'off' : 'on';
-        let textContent = React.createElement('span', { key: "textContent" }, isAdded ? 'Fjern fra kart' : 'Legg til i kart')
+        let textContent = React.createElement('span', {key: "textContent"}, isAdded ? 'Fjern fra kart' : 'Legg til i kart');
 
         let childElements = [icon, textContent];
-        return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+        return React.createElement('span', {onClick: action, className: buttonClass}, childElements);
     }
 
     render() {
         if (this.props.searchResult.ShowMapLink) {
-            let mapItem = this.getMapItem()
+            let mapItem = this.getMapItem();
             return this.renderButton(mapItem);
         }
         return null;
@@ -94,7 +99,7 @@ export class MapButton extends Component {
 
 MapButton.propTypes = {
     searchResult: PropTypes.object.isRequired
-}
+};
 
 const mapDispatchToProps = {
     removeMapItem,

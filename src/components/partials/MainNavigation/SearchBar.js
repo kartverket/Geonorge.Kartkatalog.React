@@ -98,19 +98,22 @@ class SearchBar extends Component {
         }
     }
 
-	render() {
-		return (
-			<form ref={node => this.node = node} autoComplete="off" onSubmit={this.onSubmit} className={style.searchInput}>
-				<label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label><input placeholder="Søk" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus} value={this.state.searchString} id="searchString" />
-				<button>
-					<img src={searchIcon} alt="search icon"></img>
-				</button>
-				<div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
-					{this.renderDropdownResults()}
-				</div>
-			</form>
-		)
-	}
+    render() {
+        return (
+            <form ref={node => this.node = node} autoComplete="off" onSubmit={this.onSubmit}
+                  className={style.searchInput}>
+                <label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label><input
+                placeholder="Søk" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
+                value={this.state.searchString} id="searchString"/>
+                <button>
+                    <img src={searchIcon} alt="search icon"></img>
+                </button>
+                <div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
+                    {this.renderDropdownResults()}
+                </div>
+            </form>
+        )
+    }
 }
 
 SearchBar.propTypes = {

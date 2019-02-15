@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Facet from './Facet';
 import style from './FacetFilterItem.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class FacetFilterItem extends Component {
 
@@ -15,10 +15,8 @@ class FacetFilterItem extends Component {
     }
 
     defaultExpanded() {
-        if (this.props.facetFilterItem.Name === 'type') {
-            return true;
-        }
-        return false;
+        return this.props.facetFilterItem.Name === 'type';
+
     }
 
     toggleExpand() {
@@ -30,9 +28,12 @@ class FacetFilterItem extends Component {
     renderList() {
         if (this.props.facetFilterItem && this.props.facetFilterItem.FacetResults) {
             let facetElements = this.props.facetFilterItem.FacetResults.map((facet, i) => {
-                return <Facet facet={facet} facetField={this.props.facetFilterItem.FacetField} key={i} />;
+                return <Facet facet={facet} facetField={this.props.facetFilterItem.FacetField} key={i}/>;
             });
-            return React.createElement('ul', { className: style.facets, onClick: () => this.toggleExpand() }, facetElements);
+            return React.createElement('ul', {
+                className: style.facets,
+                onClick: () => this.toggleExpand()
+            }, facetElements);
         }
     }
 
@@ -46,8 +47,9 @@ class FacetFilterItem extends Component {
 
     render() {
         return (
-            <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem} onClick={() => this.toggleExpand()}>
-                <FontAwesomeIcon icon={this.state.expanded ? "angle-up" : "angle-down"} className={style.expandArrow} />
+            <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem}
+                onClick={() => this.toggleExpand()}>
+                <FontAwesomeIcon icon={this.state.expanded ? "angle-up" : "angle-down"} className={style.expandArrow}/>
                 <p className={style.filterName}>
                     <span className={style.expandArrow}></span> {this.props.facetFilterItem.NameTranslated}
                 </p>

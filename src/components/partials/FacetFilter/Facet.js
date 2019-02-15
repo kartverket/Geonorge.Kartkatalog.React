@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import classNames from 'classnames/bind';
 
-import { addSelectedFacet, removeSelectedFacet } from '../../../actions/FacetFilterActions'
-import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions'
+import {addSelectedFacet, removeSelectedFacet} from '../../../actions/FacetFilterActions'
+import {fetchMetadataSearchResults} from '../../../actions/SearchResultActions'
 
 
 import style from './Facet.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class Facet extends Component {
 
@@ -21,7 +21,7 @@ class Facet extends Component {
 
     toggleFacet() {
         if (this.state.checked) {
-            this.props.removeSelectedFacet(this.props.facet, this.props.facetField)
+            this.props.removeSelectedFacet(this.props.facet, this.props.facetField);
             this.setState({
                 checked: false
             });
@@ -54,7 +54,7 @@ class Facet extends Component {
                 checked: false
             });
         }
-    }
+    };
 
     componentDidMount() {
         this.isChecked();
@@ -69,15 +69,15 @@ class Facet extends Component {
 
             let filterItemElements = this.props.facet.FacetResults.map((facet, i) => { //TODO: Check other solutions for passing props
                 return <Facet facet={facet}
-                    facetField={this.props.facetField}
-                    selectedFacets={this.props.selectedFacets}
-                    addSelectedFacet={this.props.addSelectedFacet}
-                    removeSelectedFacet={this.props.removeSelectedFacet}
-                    fetchMetadataSearchResults={this.props.fetchMetadataSearchResults}
-                    key={i}
+                              facetField={this.props.facetField}
+                              selectedFacets={this.props.selectedFacets}
+                              addSelectedFacet={this.props.addSelectedFacet}
+                              removeSelectedFacet={this.props.removeSelectedFacet}
+                              fetchMetadataSearchResults={this.props.fetchMetadataSearchResults}
+                              key={i}
                 />;
             });
-            return React.createElement('ul', { className: ulClassNames }, filterItemElements);
+            return React.createElement('ul', {className: ulClassNames}, filterItemElements);
         } else {
             return "";
         }
@@ -94,8 +94,11 @@ class Facet extends Component {
         });
         return (
             <li className={liClassNames}>
-                <input type="checkbox" checked={this.state.checked} onChange={() => this.toggleFacet()} id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name} />
-                <FontAwesomeIcon className="svg-checkbox" icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} /><label htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span>({this.props.facet.Count})</label>
+                <input type="checkbox" checked={this.state.checked} onChange={() => this.toggleFacet()}
+                       id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name}/>
+                <FontAwesomeIcon className="svg-checkbox"
+                                 icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']}/><label
+                htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span>({this.props.facet.Count})</label>
                 {this.renderList()}
             </li>
         );
@@ -110,7 +113,7 @@ Facet.propTypes = {
         NameTranslated: PropTypes.string.isRequired
     }),
     selectedFacets: PropTypes.object.isRequired
-}
+};
 
 // Store State mappes til lokale states
 const mapStateToProps = state => ({

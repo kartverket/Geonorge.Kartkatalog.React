@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {removeItemSelectedForDownload, addItemSelectedForDownload} from '../../../actions/DownloadItemActions'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export class DownloadButton extends Component {
     constructor(props) {
@@ -30,6 +30,7 @@ export class DownloadButton extends Component {
             return false;
         }
     }
+
     getDownloadButton() {
         return {
             Uuid: this.props.searchResult.Uuid,
@@ -40,12 +41,14 @@ export class DownloadButton extends Component {
             distributionUrl: this.props.searchResult.DistributionUrl
         }
     }
+
     addToDownloadList(item) {
         this.setState({
             isSelectedForDownload: true
         });
         this.props.addItemSelectedForDownload(item);
     }
+
     removeFromDownloadList(item) {
         this.setState({
             isSelectedForDownload: false
@@ -56,6 +59,7 @@ export class DownloadButton extends Component {
     isGeonorgeDownload() {
         return this.props.searchResult.DistributionProtocol === 'GEONORGE:DOWNLOAD'
     }
+
     showDownloadLink() {
         return this.props.searchResult.DistributionUrl &&
             (this.props.searchResult.DistributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' ||
@@ -69,30 +73,29 @@ export class DownloadButton extends Component {
             let action = this.state.isSelectedForDownload
                 ? () => this.removeFromDownloadList(button)
                 : () => this.addToDownloadList(button);
-            let icon = <FontAwesomeIcon icon={this.state.isSelectedForDownload ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />
+            let icon = <FontAwesomeIcon
+                icon={this.state.isSelectedForDownload ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon"/>;
             let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
-            let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern nedlasting' : 'Last ned')
+            let textContent = React.createElement('span', {key: "textContent"}, this.state.isSelectedForDownload ? 'Fjern nedlasting' : 'Last ned');
 
             let childElements = [icon, textContent];
-            return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+            return React.createElement('span', {onClick: action, className: buttonClass}, childElements);
 
-        }
-        else if (this.showDownloadLink()) {
-            let distributionUrl = this.props.searchResult.DistributionUrl
-            let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon" />
+        } else if (this.showDownloadLink()) {
+            let distributionUrl = this.props.searchResult.DistributionUrl;
+            let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon"/>;
             let buttonClass = 'on';
-            let textContent = React.createElement('span', { key: "textContent" }, 'Til nedlasting')
+            let textContent = React.createElement('span', {key: "textContent"}, 'Til nedlasting');
 
             let childElements = [icon, textContent];
-            return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
-        }
-        else return null
+            return React.createElement('a', {href: distributionUrl, className: buttonClass}, childElements);
+        } else return null
     }
 }
 
 DownloadButton.propTypes = {
     searchResult: PropTypes.object.isRequired
-}
+};
 
 const mapDispatchToProps = {
     removeItemSelectedForDownload,
