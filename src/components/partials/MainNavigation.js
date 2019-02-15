@@ -49,7 +49,7 @@ export class MainNavigation extends Component {
                         <button className={style.mapBtnlink}>{mapItem.Title}</button>
                     </span>
                     <FontAwesomeIcon icon="times"
-                                     onClick={() => this.props.removeMapItem(mapItem)}/>
+                                     onClick={() => this.props.removeMapItem([mapItem])}/>
                 </li>
             )
         });

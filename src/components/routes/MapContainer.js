@@ -12,7 +12,7 @@ class MapContainer extends Component {
 	render() {
 		return (
 			<div>
-				<MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItem} />
+				<MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItems} />
 			</div>
 		)
 	}
