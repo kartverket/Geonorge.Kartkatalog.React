@@ -12,6 +12,7 @@ ShallowWrapper {
         "GetCapabilitiesUrl": "test url",
         "ShowMapLink": true,
         "Title": "Test title",
+        "Type": "service",
         "Uuid": "1234",
         "addLayers": Array [],
       }
