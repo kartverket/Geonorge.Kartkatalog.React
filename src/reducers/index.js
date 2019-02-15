@@ -8,12 +8,14 @@ import AvailableFacetsReducer from './AvailableFacetsReducer';
 import SelectedSearchResultsTypeReducer from './SelectedSearchResultsTypeReducer';
 import SearchStringReducer from './SearchStringReducer';
 import MetadataReducer from "./MetadataReducer";
+import MetadataDistributionReducer from "./MetadataDistributionReducer";
 
 export default (history) => combineReducers({
     router: connectRouter(history),
     searchResults: SearchResultReducer,
     selectedSearchResultsType: SelectedSearchResultsTypeReducer,
     metadata: MetadataReducer,
+    metadataDistributions: MetadataDistributionReducer,
     mapItems: MapItemReducer,
     itemsToDownload: DownloadItemReducer,
     selectedFacets: SelectedFacetsReducer,
