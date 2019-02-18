@@ -146,4 +146,6 @@
     font-size: 1em;
     @include transition(all .3s ease-in-out);
     font-weight: 600;
+    display: block;
+    margin-bottom: 10px
 }
