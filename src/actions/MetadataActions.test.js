@@ -9,7 +9,7 @@ const middlewares = [thunk]; // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);
 const store = mockStore({});
 
-describe('search_result_actions', () => {
+describe('metadata_actions', () => {
     beforeEach(() => { // Runs before each test in the suite
         store.clearActions();
         // before running each test
