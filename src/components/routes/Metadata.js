@@ -115,25 +115,31 @@ class Metadata extends Component {
 
 
     render() {
-        return (
-            <div>
-                <h1>{this.props.metadata.Title}</h1>
-                <div>{this.props.metadata.Abstract}</div>
+        if(this.props.metadata.Title){
+            return (
+                <div>
+                    <h1>{this.props.metadata.Title}</h1>
+                    <div>{this.props.metadata.Abstract}</div>
 
-                <h2>Bruksområde</h2>
-                <div>{this.props.metadata.SpecificUsage}</div>
+                    <h2>Bruksområde</h2>
+                    <div>{this.props.metadata.SpecificUsage}</div>
 
-                <h2>Distribusjoner</h2>
-                {this.renderSelfDistributions()}
-                {this.renderRelatedViewServices()}
-                {this.renderRelatedDownloadServices()}
+                    <h2>Distribusjoner</h2>
+                    {this.renderSelfDistributions()}
+                    {this.renderRelatedViewServices()}
+                    {this.renderRelatedDownloadServices()}
 
-                <h2>Kontaktinforsmasjon</h2>
-                {this.renderContactMetadata()}
-                {this.renderContactOwner()}
-                {this.renderContactPublisher()}
-            </div>
-        )
+                    <h2>Kontaktinforsmasjon</h2>
+                    {this.renderContactMetadata()}
+                    {this.renderContactOwner()}
+                    {this.renderContactPublisher()}
+                </div>
+            )
+        }
+        else {
+            return <div className={style.searchResultContainer}><span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span></div>
+        }
+        
     }
 }
 
