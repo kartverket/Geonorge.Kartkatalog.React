@@ -124,30 +124,20 @@ class SearchResults extends Component {
             if(this.props.searchString){
                 searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.metadata.NumFound + ' treff'
             }
-            if (this.props.searchResults.metadata){
-                return <div className={style.activeContent}>
-                    <div className={style.facets}>
-                        <FacetFilter key="facetFilter"/>
-                    </div>
+            return <div className={style.activeContent}>
+                <div className={style.facets}>
+                    <FacetFilter key="facetFilter"/>
+                </div>
 
-                    <div className={style.searchResultContainer}>
-                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}</span>
-                        {this.renderMetadataSearchResults()}
-                        <div className={style.morecontainer}>
-                            <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
-                                <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon"/></div>
-                        </div>
+                <div className={style.searchResultContainer}>
+                    <span className={searchString != "" ? style.searchResultInformation : ""}>{searchString}</span>
+                    {this.renderMetadataSearchResults()}
+                    <div className={style.morecontainer}>
+                        <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
+                            <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon"/></div>
                     </div>
                 </div>
-            }
-            else{
-                // TODO logging
-                return <div className={style.activeContent}>
-                    <div className={style.searchResultContainer}>
-                    <span>En feil har oppstått ved henting av kartkatalog data...</span> 
-                    </div>
-                </div>
-            }
+            </div>;
         } else if (this.props.selectedSearchResultsType === 'articles') {
             if(this.props.searchString){
                 searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
@@ -156,27 +146,15 @@ class SearchResults extends Component {
                 [style.morebtn]: true,
                 hidden: !this.moreArticlesAvailable()
             });
-            if(this.props.searchResults.articles){
-                return <div className={style.searchResultContainer}>
-                <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}</span>
+            return <div className={style.searchResultContainer}>
+                <span className={searchString != "" ? style.searchResultInformation : ""}>{searchString}</span>
                 {this.renderArticleSearchResults()}
                 <div className={style.morecontainer}>
                     <div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}>
                         <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon"/></div>
                 </div>
             </div>;
-            }
-            else {
-                // TODO logging
-                return <div className={style.activeContent}>
-                    <div className={style.searchResultContainer}>
-                    <span>En feil har oppstått ved henting av artikler...</span>
-                    </div>
-                </div>
-            }
-            
         } else {
-            console.log("selectedSearchResultsType - " + this.props.selectedSearchResultsType)
             return "";
         }
     }
