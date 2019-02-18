@@ -16,7 +16,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 class SearchResults extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = {        
             tabs: [
                 {
                     id: 'metadata',
@@ -95,7 +95,7 @@ class SearchResults extends Component {
             let listItemElements = listItems.map((searchResult, i) => {
                 return <MetadataSearchResult searchResult={searchResult} key={i}/>;
             });
-            return React.createElement('div', {className: style.maplist, key: "searchResult"}, listItemElements);
+            return React.createElement('div', {className: style.list, key: "searchResult"}, listItemElements);
         } else {
             return "";
         }
@@ -114,17 +114,23 @@ class SearchResults extends Component {
     }
 
     renderActiveTabContent() {
+        let searchString = "";
         if (this.props.selectedSearchResultsType === 'metadata') {
             const moreItemButtonClassNames = classNames({
                 [style.morebtn]: true,
                 hidden: !this.moreItemsAvailable()
             });
+            
+            if(this.props.searchString){
+                searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.metadata.NumFound + ' treff'
+            }
             return <div className={style.activeContent}>
                 <div className={style.facets}>
                     <FacetFilter key="facetFilter"/>
                 </div>
 
                 <div className={style.searchResultContainer}>
+                    <span className={searchString != "" ? style.searchResultInformation : ""}>{searchString}</span>
                     {this.renderMetadataSearchResults()}
                     <div className={style.morecontainer}>
                         <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
@@ -133,11 +139,15 @@ class SearchResults extends Component {
                 </div>
             </div>;
         } else if (this.props.selectedSearchResultsType === 'articles') {
+            if(this.props.searchString){
+                searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
+            }
             const moreItemButtonClassNames = classNames({
                 [style.morebtn]: true,
                 hidden: !this.moreArticlesAvailable()
             });
-            return <div>
+            return <div className={style.searchResultContainer}>
+                <span className={searchString != "" ? style.searchResultInformation : ""}>{searchString}</span>
                 {this.renderArticleSearchResults()}
                 <div className={style.morecontainer}>
                     <div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}>
@@ -153,7 +163,6 @@ class SearchResults extends Component {
         return (
             <div>
                 {this.renderTabs()}
-
                 {this.renderActiveTabContent()}
             </div>
         )

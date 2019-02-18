@@ -84,18 +84,11 @@
 :local(.list) {
     margin: 0;
     padding: 0;
-    padding-left: 30px;
     margin-bottom: 20px;
     list-style-position: outside;
    
 }
-:local(.maplist) {
-    margin: 0;
-    padding: 0;    
-    margin-bottom: 20px;
-    list-style-position: outside;
-   
-}:local(.morecontainer) {
+:local(.morecontainer) {
     width: 100%;
     text-align: center;
 }
@@ -139,7 +132,7 @@
 }
 :local(.searchResultContainer) {
     flex: 100%;
-    margin-left: 20px;
+    margin: 0 20px;
     @include breakpoint(tablet) {
         flex: 3;
     }
@@ -147,4 +140,10 @@
 :local(.facets) {
     flex: 1;
     max-width: 360px;
+}
+:local(.searchResultInformation) {
+    padding: 4px;
+    font-size: 1em;
+    @include transition(all .3s ease-in-out);
+    font-weight: 600;
 }
