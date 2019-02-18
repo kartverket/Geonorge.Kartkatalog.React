@@ -115,7 +115,10 @@ class Metadata extends Component {
 
 
     render() {
-        if(this.props.metadata.Title){
+        if(this.props.metadata.Message === "An error has occurred."){
+            return <div className={style.searchResultContainer}><span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span></div>
+        }
+        else {
             return (
                 <div>
                     <h1>{this.props.metadata.Title}</h1>
@@ -136,10 +139,6 @@ class Metadata extends Component {
                 </div>
             )
         }
-        else {
-            return <div className={style.searchResultContainer}><span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span></div>
-        }
-        
     }
 }
 
