@@ -1,7 +1,14 @@
 import * as Cookies from 'js-cookie';
 import {
+    CLEAR_METADATA,
     FETCH_METADATA
 } from './types';
+
+export const clearMetadata = () => dispatch => {
+    return dispatch({
+        type: CLEAR_METADATA
+    })
+};
 
 export const fetchMetadata = (uuid = "") => dispatch => {
     let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';

@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {fetchMetadata} from '../../actions/MetadataActions'
-import {fetchMetadataDistributions} from '../../actions/MetadataDistributionActions'
+import {clearMetadata, fetchMetadata} from '../../actions/MetadataActions'
+import {clearMetadataDistributions, fetchMetadataDistributions} from '../../actions/MetadataDistributionActions'
 import MetadataSearchResult from "../partials/SearchResults/MetadataSearchResult";
 import style from "./Metadata.scss";
 
 class Metadata extends Component {
     componentWillMount() {
+        this.props.clearMetadata();
         this.props.fetchMetadata(this.props.match.params.uuid);
+        this.props.clearMetadataDistributions();
         this.props.fetchMetadataDistributions(this.props.match.params.uuid);
     }
 
@@ -137,7 +139,9 @@ class Metadata extends Component {
 
 Metadata.propTypes = {
     metadata: PropTypes.object.isRequired,
+    clearMetadata: PropTypes.func.isRequired,
     fetchMetadata: PropTypes.func.isRequired,
+    clearMetadataDistributions: PropTypes.func.isRequired,
     fetchMetadataDistributions: PropTypes.func.isRequired
 };
 
@@ -147,8 +151,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+    clearMetadata,
     fetchMetadata,
-    fetchMetadataDistributions,
+    clearMetadataDistributions,
+    fetchMetadataDistributions
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Metadata);
