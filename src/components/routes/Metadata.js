@@ -93,6 +93,18 @@ class Metadata extends Component {
         const hasSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.SelfDistribution && this.props.metadataDistributions.SelfDistribution.length;
         const showSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.ShowSelfDistribution;
 
+        const hasRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDataset && this.props.metadataDistributions.RelatedDataset.length;
+        const showRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDataset;
+
+        const hasRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.RelatedApplications && this.props.metadataDistributions.RelatedApplications.length;
+        const showRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedApplications;
+
+        const hasRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServices && this.props.metadataDistributions.RelatedServices.length;
+        const showRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServices;
+
+        const hasRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServiceLayer && this.props.metadataDistributions.RelatedServiceLayer.length;
+        const showRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServiceLayer;
+
         const hasRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedViewServices && this.props.metadataDistributions.RelatedViewServices.length;
         const showRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedViewServices;
 
@@ -103,6 +115,30 @@ class Metadata extends Component {
             <div>
                 <h3>{this.props.metadataDistributions.TitleSelf}</h3>
                 <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.SelfDistribution}/></ErrorBoundary>
+            </div>
+        ) : '';
+        const relatedDatasetList = hasRelatedDataset && showRelatedDataset ? (
+            <div>
+                <h3>Datasett</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset}/>
+            </div>
+        ) : '';
+        const relatedApplicationsList = hasRelatedApplications && showRelatedApplications ? (
+            <div>
+                <h3>{this.props.clearMetadataDistributions.TitleRelatedApplications}</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedApplications}/>
+            </div>
+        ) : '';
+        const relatedServicesList = hasRelatedServices && showRelatedServices ? (
+            <div>
+                <h3>Tjenester</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedServices}/>
+            </div>
+        ) : '';
+        const relatedServiceLayersList = hasRelatedServiceLayers && showRelatedServiceLayers ? (
+            <div>
+                <h3>Tjenestelag</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedServiceLayer}/>
             </div>
         ) : '';
         const relatedViewServicesList = hasRelatedViewServices && showRelatedViewServices ? (
@@ -119,6 +155,11 @@ class Metadata extends Component {
         ) : '';
 
         const showDistributions = (hasSelfDistributions && showSelfDistributions)
+            || (hasRelatedDataset && showRelatedDataset)
+            || (hasRelatedApplications && showRelatedApplications)
+            || (hasRelatedServices && showRelatedServices)
+            || (hasRelatedServiceLayers && showRelatedServiceLayers)
+            || (hasRelatedServices && showRelatedServices)
             || (hasRelatedViewServices && showRelatedViewServices)
             || (hasRelatedDownloadServices && showRelatedDownloadServices);
 
@@ -126,6 +167,10 @@ class Metadata extends Component {
             <div>
                 <h2>Distribusjoner</h2>
                 {selfDistributionsList}
+                {relatedDatasetList}
+                {relatedApplicationsList}
+                {relatedServiceLayersList}
+                {relatedServicesList}
                 {relatedViewServicesList}
                 {relatedDownloadServicesList}
             </div>
