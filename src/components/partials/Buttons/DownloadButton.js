@@ -73,7 +73,7 @@ export class DownloadButton extends Component {
             let action = this.state.isSelectedForDownload
                 ? () => this.removeFromDownloadList(button)
                 : () => this.addToDownloadList(button);
-            let icon = <FontAwesomeIcon
+            let icon = <FontAwesomeIcon title="Last ned"
                 icon={this.state.isSelectedForDownload ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon"/>;
             let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
             let textContent = React.createElement('span', {key: "textContent"}, this.state.isSelectedForDownload ? 'Fjern nedlasting' : 'Last ned');
@@ -83,7 +83,7 @@ export class DownloadButton extends Component {
 
         } else if (this.showDownloadLink()) {
             let distributionUrl = this.props.searchResult.DistributionUrl;
-            let icon = <FontAwesomeIcon icon={['far', 'external-link-square']} key="icon"/>;
+            let icon = <FontAwesomeIcon title="Gå til nedlasting" icon={['far', 'external-link-square']} key="icon"/>;
             let buttonClass = 'on';
             let textContent = React.createElement('span', {key: "textContent"}, 'Til nedlasting');
 

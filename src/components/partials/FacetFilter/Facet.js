@@ -16,7 +16,7 @@ class Facet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checked: false,
+            checked: false,            
         };
     }
 
@@ -59,15 +59,14 @@ class Facet extends Component {
 
     componentDidMount() {
         this.isChecked();
-    }
+    }  
 
     renderList() {
         if (this.props.facet.FacetResults) {
             let ulClassNames = classNames({
                 [style.filterItems]: true,
                 [style.hidden]: !this.state.checked
-            });
-
+            });            
             let filterItemElements = this.props.facet.FacetResults.map((facet, i) => { //TODO: Check other solutions for passing props
                 return <ErrorBoundary key={i}><Facet facet={facet}
                               facetField={this.props.facetField}
@@ -87,8 +86,7 @@ class Facet extends Component {
     componentWillReceiveProps(nextProps) {
         this.isChecked();
     }
-
-    render() {
+    renderFacet() {
         let liClassNames = classNames({
             [style.facet]: true,
             [style.empty]: this.props.facet.Count === 0,
@@ -99,9 +97,34 @@ class Facet extends Component {
                        id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name}/>
                 <FontAwesomeIcon className="svg-checkbox"
                                  icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']}/><label
-                htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span>({this.props.facet.Count})</label>
+                htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span>({this.props.facet.Count})</label>                
                 {this.renderList()}
             </li>
+        );
+    }
+    renderRemableFacet() {
+        let liClassNames = classNames({
+            [style.facet]: true,
+            [style.empty]: this.props.facet.Count === 0,
+        });
+        return (
+            <span className={liClassNames}>
+                <input type="checkbox" checked={this.state.checked} onChange={() => this.toggleFacet()}
+                       id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name}/>                <label
+                htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span> <FontAwesomeIcon className="svg-checkbox"
+                icon={this.state.checked ? ['fas', 'times'] : ['far', 'square']}/></label>                
+                {this.renderList()}
+            </span>
+        );
+    }
+    render() {
+        if(this.props.removable) {
+        return (<span className={style.badge}>
+            {this.renderRemableFacet()}
+            </span>);    
+        }
+        return (            
+            <div>{this.renderFacet()}</div>
         );
     }
 }
@@ -113,7 +136,8 @@ Facet.propTypes = {
         Name: PropTypes.string.isRequired,
         NameTranslated: PropTypes.string.isRequired
     }),
-    selectedFacets: PropTypes.object.isRequired
+    selectedFacets: PropTypes.object.isRequired,
+    removable: PropTypes.string
 };
 
 // Store State mappes til lokale states

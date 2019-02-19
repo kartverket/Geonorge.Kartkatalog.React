@@ -79,7 +79,7 @@ export class MapButton extends Component {
         let action = isAdded
             ? () => this.removeFromMap([mapItem])
             : () => this.addToMap([mapItem]);
-        let icon = <FontAwesomeIcon icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
+        let icon = <FontAwesomeIcon title={isAdded ? "Fjern fra kart" : "Legg til i kart" } icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
                                     key="icon"/>;
         let buttonClass = isAdded ? 'off' : 'on';
         let textContent = React.createElement('span', {key: "textContent"}, isAdded ? 'Fjern fra kart' : 'Legg til i kart');

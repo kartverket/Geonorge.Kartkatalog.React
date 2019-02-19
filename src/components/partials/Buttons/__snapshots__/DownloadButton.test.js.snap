@@ -47,7 +47,7 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title=""
+          title="Last ned"
           transform={null}
         />,
         <span>
@@ -81,7 +81,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "",
+          "title": "Last ned",
           "transform": null,
         },
         "ref": null,
@@ -129,7 +129,7 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title=""
+            title="Last ned"
             transform={null}
           />,
           <span>
@@ -163,7 +163,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "",
+            "title": "Last ned",
             "transform": null,
           },
           "ref": null,
@@ -206,5 +206,6 @@ ShallowWrapper {
       },
     },
   },
+  Symbol(enzyme.__childContext__): null,
 }
 `;

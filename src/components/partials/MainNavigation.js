@@ -74,14 +74,13 @@ export class MainNavigation extends Component {
                     <div className={style.openmap} onClick={() => this.toggleExpand()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
-                            <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'}
+                            <FontAwesomeIcon title="Vis kartet" key="map-alt" icon={'map-marker-alt'}
                                              className={this.props.mapItems.length > 0 ? style.content : style.noCsontent}/>
                         </span>
                     </div>
                     <div
                         className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
-                        <Link to={'/kart'} className={style.openMaplink}>Vis kart <FontAwesomeIcon
-                            icon={['fal', 'globe-europe']}/></Link>
+                        <Link to={'/kart'} className={style.openMaplink}>Vis kart </Link>
                         <ul className={style.mapitems}>
                             {this.renderMapitems()}
                         </ul>
@@ -117,14 +116,18 @@ export class MainNavigation extends Component {
                     <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.itemsToDownload.length}</span>
-                            <FontAwesomeIcon icon={'cloud-download'}
+                            <FontAwesomeIcon title="Vis nedlastede elementer" icon={'cloud-download'}
                                              className={this.props.itemsToDownload.length > 0 ? style.content : style.content1}/>
                         </span>
                     </div>
                     <div
                         className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
-                        <Link to={'/nedlasting'}>Åpne nedlastinger</Link>
-                        Liste over nedlastinger
+                        <Link to={'/nedlasting'} className={style.openMaplink}>Åpne nedlastinger</Link>
+                        <ul className={style.mapitems}>
+                            <li>
+                                Liste over nedlastinger
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

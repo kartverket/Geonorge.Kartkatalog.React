@@ -33,8 +33,15 @@
         width: auto;        
         position: relative;        
     }
-    
+   
 }
+:local(.showLabel) {
+    display: inline-block;
+}
+:local(.showLabel) {
+    display: none;
+}
+
 :local(.togglefacet) {
     
     display: block;

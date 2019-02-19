@@ -1,3 +1,4 @@
+@import './../../../scss/abstracts/all';
 $imagePath: "../../../../";
 
 :local(.facet) {
@@ -51,5 +52,15 @@ $imagePath: "../../../../";
 
     &:local(.hidden) {        
         display: none;
+    }
+}
+:local(.badge) {    
+    display: inline-block;        
+    margin: 0 5px;
+    input + label {               
+        display: block; 
+        padding-left: 0; 
+        padding: 5px;
+        border: 1px solid $primary-border;      
     }
 }

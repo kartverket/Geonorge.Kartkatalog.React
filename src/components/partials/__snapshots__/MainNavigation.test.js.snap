@@ -129,7 +129,7 @@ ShallowWrapper {
               size={null}
               spin={false}
               symbol={false}
-              title=""
+              title="Vis nedlastede elementer"
               transform={null}
             />
           </span>
@@ -138,12 +138,19 @@ ShallowWrapper {
           className="expandeddownload"
         >
           <Link
+            className="openMaplink"
             replace={false}
             to="/nedlasting"
           >
             Åpne nedlastinger
           </Link>
-          Liste over nedlastinger
+          <ul
+            className="mapitems"
+          >
+            <li>
+              Liste over nedlastinger
+            </li>
+          </ul>
         </div>
       </div>,
       "className": "mainNavigationContainer",
@@ -234,7 +241,7 @@ ShallowWrapper {
                 size={null}
                 spin={false}
                 symbol={false}
-                title=""
+                title="Vis nedlastede elementer"
                 transform={null}
               />
             </span>
@@ -243,12 +250,19 @@ ShallowWrapper {
             className="expandeddownload"
           >
             <Link
+              className="openMaplink"
               replace={false}
               to="/nedlasting"
             >
               Åpne nedlastinger
             </Link>
-            Liste over nedlastinger
+            <ul
+              className="mapitems"
+            >
+              <li>
+                Liste over nedlastinger
+              </li>
+            </ul>
           </div>,
         ],
         "className": "mainNavigation container",
@@ -473,7 +487,7 @@ ShallowWrapper {
                 size={null}
                 spin={false}
                 symbol={false}
-                title=""
+                title="Vis nedlastede elementer"
                 transform={null}
               />
             </span>,
@@ -507,7 +521,7 @@ ShallowWrapper {
                   size={null}
                   spin={false}
                   symbol={false}
-                  title=""
+                  title="Vis nedlastede elementer"
                   transform={null}
                 />,
               ],
@@ -546,7 +560,7 @@ ShallowWrapper {
                   "size": null,
                   "spin": false,
                   "symbol": false,
-                  "title": "",
+                  "title": "Vis nedlastede elementer",
                   "transform": null,
                 },
                 "ref": null,
@@ -565,12 +579,19 @@ ShallowWrapper {
           "props": Object {
             "children": Array [
               <Link
+                className="openMaplink"
                 replace={false}
                 to="/nedlasting"
               >
                 Åpne nedlastinger
               </Link>,
-              "Liste over nedlastinger",
+              <ul
+                className="mapitems"
+              >
+                <li>
+                  Liste over nedlastinger
+                </li>
+              </ul>,
             ],
             "className": "expandeddownload",
           },
@@ -582,6 +603,7 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "children": "Åpne nedlastinger",
+                "className": "openMaplink",
                 "replace": false,
                 "to": "/nedlasting",
               },
@@ -589,7 +611,30 @@ ShallowWrapper {
               "rendered": "Åpne nedlastinger",
               "type": [Function],
             },
-            "Liste over nedlastinger",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <li>
+                  Liste over nedlastinger
+                </li>,
+                "className": "mapitems",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": "Liste over nedlastinger",
+                },
+                "ref": null,
+                "rendered": "Liste over nedlastinger",
+                "type": "li",
+              },
+              "type": "ul",
+            },
           ],
           "type": "div",
         },
@@ -686,7 +731,7 @@ ShallowWrapper {
                 size={null}
                 spin={false}
                 symbol={false}
-                title=""
+                title="Vis nedlastede elementer"
                 transform={null}
               />
             </span>
@@ -695,12 +740,19 @@ ShallowWrapper {
             className="expandeddownload"
           >
             <Link
+              className="openMaplink"
               replace={false}
               to="/nedlasting"
             >
               Åpne nedlastinger
             </Link>
-            Liste over nedlastinger
+            <ul
+              className="mapitems"
+            >
+              <li>
+                Liste over nedlastinger
+              </li>
+            </ul>
           </div>
         </div>,
         "className": "mainNavigationContainer",
@@ -791,7 +843,7 @@ ShallowWrapper {
                   size={null}
                   spin={false}
                   symbol={false}
-                  title=""
+                  title="Vis nedlastede elementer"
                   transform={null}
                 />
               </span>
@@ -800,12 +852,19 @@ ShallowWrapper {
               className="expandeddownload"
             >
               <Link
+                className="openMaplink"
                 replace={false}
                 to="/nedlasting"
               >
                 Åpne nedlastinger
               </Link>
-              Liste over nedlastinger
+              <ul
+                className="mapitems"
+              >
+                <li>
+                  Liste over nedlastinger
+                </li>
+              </ul>
             </div>,
           ],
           "className": "mainNavigation container",
@@ -1030,7 +1089,7 @@ ShallowWrapper {
                   size={null}
                   spin={false}
                   symbol={false}
-                  title=""
+                  title="Vis nedlastede elementer"
                   transform={null}
                 />
               </span>,
@@ -1064,7 +1123,7 @@ ShallowWrapper {
                     size={null}
                     spin={false}
                     symbol={false}
-                    title=""
+                    title="Vis nedlastede elementer"
                     transform={null}
                   />,
                 ],
@@ -1103,7 +1162,7 @@ ShallowWrapper {
                     "size": null,
                     "spin": false,
                     "symbol": false,
-                    "title": "",
+                    "title": "Vis nedlastede elementer",
                     "transform": null,
                   },
                   "ref": null,
@@ -1122,12 +1181,19 @@ ShallowWrapper {
             "props": Object {
               "children": Array [
                 <Link
+                  className="openMaplink"
                   replace={false}
                   to="/nedlasting"
                 >
                   Åpne nedlastinger
                 </Link>,
-                "Liste over nedlastinger",
+                <ul
+                  className="mapitems"
+                >
+                  <li>
+                    Liste over nedlastinger
+                  </li>
+                </ul>,
               ],
               "className": "expandeddownload",
             },
@@ -1139,6 +1205,7 @@ ShallowWrapper {
                 "nodeType": "class",
                 "props": Object {
                   "children": "Åpne nedlastinger",
+                  "className": "openMaplink",
                   "replace": false,
                   "to": "/nedlasting",
                 },
@@ -1146,7 +1213,30 @@ ShallowWrapper {
                 "rendered": "Åpne nedlastinger",
                 "type": [Function],
               },
-              "Liste over nedlastinger",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": <li>
+                    Liste over nedlastinger
+                  </li>,
+                  "className": "mapitems",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Liste over nedlastinger",
+                  },
+                  "ref": null,
+                  "rendered": "Liste over nedlastinger",
+                  "type": "li",
+                },
+                "type": "ul",
+              },
             ],
             "type": "div",
           },
@@ -1177,5 +1267,6 @@ ShallowWrapper {
       },
     },
   },
+  Symbol(enzyme.__childContext__): null,
 }
 `;

@@ -103,7 +103,7 @@ class SearchBar extends Component {
             <form ref={node => this.node = node} autoComplete="off" onSubmit={this.onSubmit}
                   className={style.searchInput}>
                 <label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label><input
-                placeholder="Søk" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
+                placeholder="Søk etter kartdata og artikler" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
                 value={this.state.searchString} id="searchString"/>
                 <button>
                     <img src={searchIcon} alt="search icon"></img>
