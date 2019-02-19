@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 
 import {addSelectedFacet, removeSelectedFacet} from '../../../actions/FacetFilterActions'
 import {fetchMetadataSearchResults} from '../../../actions/SearchResultActions'
+import { ErrorBoundary } from '../../ErrorBoundary'
 
 
 import style from './Facet.scss';
@@ -68,14 +69,14 @@ class Facet extends Component {
             });
 
             let filterItemElements = this.props.facet.FacetResults.map((facet, i) => { //TODO: Check other solutions for passing props
-                return <Facet facet={facet}
+                return <ErrorBoundary key={i}><Facet facet={facet}
                               facetField={this.props.facetField}
                               selectedFacets={this.props.selectedFacets}
                               addSelectedFacet={this.props.addSelectedFacet}
                               removeSelectedFacet={this.props.removeSelectedFacet}
                               fetchMetadataSearchResults={this.props.fetchMetadataSearchResults}
-                              key={i}
-                />;
+                              key={i}/>
+                        </ErrorBoundary>;
             });
             return React.createElement('ul', {className: ulClassNames}, filterItemElements);
         } else {

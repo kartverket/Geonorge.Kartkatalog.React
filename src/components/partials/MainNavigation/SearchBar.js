@@ -7,7 +7,7 @@ import {
     fetchDropdownSearchResults
 } from '../../../actions/SearchResultActions';
 import {updateSearchString} from '../../../actions/SearchStringActions';
-
+import { ErrorBoundary } from '../../ErrorBoundary'
 import SearchResultsTypeList from './SearchResultsTypeList';
 
 import style from './SearchBar.scss';
@@ -87,9 +87,9 @@ class SearchBar extends Component {
                 if (searchResults) {
                     hasResults = true;
                 }
-                return <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
+                return <ErrorBoundary><SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                                               searchString={this.state.searchString} searchResults={searchResults}
-                                              searchResultsType={searchResultsType} key={i}/>
+                                              searchResultsType={searchResultsType} key={i}/></ErrorBoundary>
             });
             if (!hasResults) {
                 resultsTypeElements = <div>Ingen treff for {this.state.searchString}</div>;

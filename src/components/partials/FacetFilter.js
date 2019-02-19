@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
 import FacetFilterItem from './FacetFilter/FacetFilterItem';
+import { ErrorBoundary } from '../../components/ErrorBoundary'
 
 
 import style from './FacetFilter.scss';
@@ -16,8 +17,6 @@ class FacetFilter extends Component {
             expanded: false
         }
     }
-
-
 
     getFacetFilterItems() {
         return this.props.availableFacets ? Object.keys(this.props.availableFacets) : [];
@@ -37,7 +36,7 @@ class FacetFilter extends Component {
         
         let availableFacets = this.getFacetFilterItems();
         let facets = availableFacets.map((facetField, i) => {
-            return <FacetFilterItem facetFilterItem={this.props.availableFacets[facetField]} key={facetField} />;
+            return <ErrorBoundary key={facetField} ><FacetFilterItem facetFilterItem={this.props.availableFacets[facetField]} key={facetField} /></ErrorBoundary>;
         });
         return React.createElement('ul', { className: togglefacetClassnames }, facets);
     }

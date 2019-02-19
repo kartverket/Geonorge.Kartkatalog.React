@@ -1,22 +1,23 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {fetchMetadataSearchResults, fetchArticleSearchResults} from '../../actions/SearchResultActions';
-import {updateSelectedSearchResultsType} from '../../actions/SelectedSearchResultsTypeActions';
+import { connect } from 'react-redux';
+import { fetchMetadataSearchResults, fetchArticleSearchResults } from '../../actions/SearchResultActions';
+import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
 import classNames from 'classnames/bind';
 
 import MetadataSearchResult from './SearchResults/MetadataSearchResult'
 import ArticleSearchResult from './SearchResults/ArticleSearchResult'
-
+import { ErrorBoundary } from '../../components/ErrorBoundary'
 import FacetFilter from './FacetFilter'
 
 import style from './SearchResults.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 class SearchResults extends Component {
     constructor(props) {
         super(props);
-        this.state = {        
+        this.state = {
             tabs: [
                 {
                     id: 'metadata',
@@ -78,7 +79,7 @@ class SearchResults extends Component {
         let tabs = this.state.tabs.map((tab, i) => {
             let tabClass = this.props.selectedSearchResultsType === tab.id ? style.tab + ' active' : style.tab;
             let counterValue = this.getCounterValue(tab.id, tab.counterProperty);
-            let counter = React.createElement('span', {className: 'badge ' + style.badge, key: i}, counterValue);
+            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, counterValue);
             let tabContent = [tab.name, counter];
             return React.createElement('li', {
                 onClick: () => this.setActiveTab(tab),
@@ -86,16 +87,16 @@ class SearchResults extends Component {
                 className: tabClass
             }, tabContent);
         });
-        return React.createElement('ul', {className: style.tabs}, tabs);
+        return React.createElement('ul', { className: style.tabs }, tabs);
     }
 
     renderMetadataSearchResults() {
         let listItems = this.props.searchResults.metadata && this.props.searchResults.metadata.Results ? this.props.searchResults.metadata.Results : null;
         if (listItems) {
             let listItemElements = listItems.map((searchResult, i) => {
-                return <MetadataSearchResult searchResult={searchResult} key={i}/>;
+                return <ErrorBoundary key={i}><MetadataSearchResult searchResult={searchResult} key={i} /></ErrorBoundary>;
             });
-            return React.createElement('div', {className: style.list, key: "searchResult"}, listItemElements);
+            return React.createElement('div', { className: style.list, key: "searchResult" }, listItemElements);
         } else {
             return "";
         }
@@ -105,9 +106,9 @@ class SearchResults extends Component {
         let listItems = this.props.searchResults.articles && this.props.searchResults.articles.Results ? this.props.searchResults.articles.Results : null;
         if (listItems) {
             let listItemElements = listItems.map((searchResult, i) => {
-                return <ArticleSearchResult searchResult={searchResult} key={i}/>;
+                return <ErrorBoundary key={i}><ArticleSearchResult searchResult={searchResult} key={i} /></ErrorBoundary>;
             });
-            return React.createElement('div', {className: style.list}, listItemElements);
+            return React.createElement('div', { className: style.list }, listItemElements);
         } else {
             return "";
         }
@@ -120,42 +121,46 @@ class SearchResults extends Component {
                 [style.morebtn]: true,
                 hidden: !this.moreItemsAvailable()
             });
-            
-            if(this.props.searchString){
-                searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.metadata.NumFound + ' treff'
-            }
-            return <div className={style.activeContent}>
-                <div className={style.facets}>
-                    <FacetFilter key="facetFilter"/>
-                </div>
 
-                <div className={style.searchResultContainer}>
-                    <span className={searchString != "" ? style.searchResultInformation : ""}>{searchString}</span>
-                    {this.renderMetadataSearchResults()}
-                    <div className={style.morecontainer}>
-                        <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
-                            <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon"/></div>
+                if (this.props.searchString) {
+                    searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.metadata.NumFound + ' treff'
+                }
+                return <div className={style.activeContent}>
+                    <div className={style.facets}>
+                    <ErrorBoundary key="facetFilter"><FacetFilter key="facetFilter" /></ErrorBoundary>
                     </div>
-                </div>
-            </div>;
+                    <div className={style.searchResultContainer}>
+                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}</span>
+                        {this.renderMetadataSearchResults()}
+                        <div className={style.morecontainer}>
+                            <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
+                                <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+                        </div>
+                    </div>
+                </div>;
+
         } else if (this.props.selectedSearchResultsType === 'articles') {
-            if(this.props.searchString){
-                searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
-            }
-            const moreItemButtonClassNames = classNames({
-                [style.morebtn]: true,
-                hidden: !this.moreArticlesAvailable()
-            });
-            return <div className={style.searchResultContainer}>
-                <span className={searchString != "" ? style.searchResultInformation : ""}>{searchString}</span>
-                {this.renderArticleSearchResults()}
-                <div className={style.morecontainer}>
-                    <div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}>
-                        <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon"/></div>
-                </div>
-            </div>;
+            
+                if (this.props.searchString) {
+                    searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
+                }
+                const moreItemButtonClassNames = classNames({
+                    [style.morebtn]: true,
+                    hidden: !this.moreArticlesAvailable()
+                });
+                return <div className={style.searchResultContainer}>
+                    <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}</span>
+                    {this.renderArticleSearchResults()}
+                    <div className={style.morecontainer}>
+                        <div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}>
+                            <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
+                    </div>
+                </div>;
+            
         } else {
-            return "";
+            return (
+                ""
+            )
         }
     }
 

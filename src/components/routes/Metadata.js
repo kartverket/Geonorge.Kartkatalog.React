@@ -7,6 +7,7 @@ import {clearMetadataDistributions, fetchMetadataDistributions} from '../../acti
 import DistributionsList from "./Metadata/DistributionsList";
 
 import style from "./Metadata.scss";
+import { ErrorBoundary } from '../ErrorBoundary'
 
 class Metadata extends Component {
     fetchApiData() {
@@ -101,19 +102,19 @@ class Metadata extends Component {
         const selfDistributionsList = hasSelfDistributions && showSelfDistributions ? (
             <div>
                 <h3>{this.props.metadataDistributions.TitleSelf}</h3>
-                <DistributionsList distributions={this.props.metadataDistributions.SelfDistribution}/>
+                <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.SelfDistribution}/></ErrorBoundary>
             </div>
         ) : '';
         const relatedViewServicesList = hasRelatedViewServices && showRelatedViewServices ? (
             <div>
                 <h3>Visningstjenester</h3>
-                <DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices}/>
+                <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices}/></ErrorBoundary>
             </div>
         ) : '';
         const relatedDownloadServicesList = hasRelatedDownloadServices && showRelatedDownloadServices ? (
             <div>
                 <h3>Nedlastingstjenester</h3>
-                <DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices}/>
+                <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices}/></ErrorBoundary>
             </div>
         ) : '';
 

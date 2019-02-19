@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import style from './MetadataSearchResult.scss';
+import { ErrorBoundary } from '../../ErrorBoundary'
 import MapButton from '../Buttons/MapButton';
 import DownloadButton from '../Buttons/DownloadButton';
 import ApplicationButton from '../Buttons/ApplicationButton';
@@ -32,19 +33,19 @@ class MetadataSearchResult extends Component {
       <div  className={style.listItem}>
         <div>
           <span className={style.listItemTitle}>
-              <Link to={`/metadata/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link>
+          <ErrorBoundary><Link to={`/metadata/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link></ErrorBoundary>
           </span>
           <span className={style.listItemInfo}> <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['fas', 'lock-open'] : ['fas', 'lock']} /> {this.props.searchResult.TypeTranslated} fra <a href={this.props.searchResult.OrganizationUrl}>{this.props.searchResult.Organization}</a> </span>
         </div>        
         <div className={style.btnContainer}>        
           <span className={style.listItemButton}>
-            <DownloadButton searchResult={this.props.searchResult}></DownloadButton>
+          <ErrorBoundary><DownloadButton searchResult={this.props.searchResult}></DownloadButton></ErrorBoundary>
           </span>
           <span className={style.listItemButton}>
-            <MapButton searchResult={this.props.searchResult}></MapButton>
+          <ErrorBoundary><MapButton searchResult={this.props.searchResult}></MapButton></ErrorBoundary>
           </span>
           <span className={style.listItemButton}>
-            <ApplicationButton searchResult={this.props.searchResult}></ApplicationButton>
+          <ErrorBoundary><ApplicationButton searchResult={this.props.searchResult}></ApplicationButton></ErrorBoundary>
           </span>
         </div>        
       </div>

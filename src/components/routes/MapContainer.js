@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions'
+import { ErrorBoundary } from '../ErrorBoundary'
 import {MapComponent} from 'r_map';
 
 class MapContainer extends Component {
@@ -12,7 +13,7 @@ class MapContainer extends Component {
     render() {
         return (
             <div>
-                <MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItems}/>
+                <ErrorBoundary><MapComponent services={this.props.mapItems} removeMapItem={this.props.removeMapItems}/></ErrorBoundary>
             </div>
         )
     }

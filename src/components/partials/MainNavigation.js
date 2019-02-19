@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom'
 import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions'
 import {fetchItemsToDownload} from '../../actions/DownloadItemActions'
+import { ErrorBoundary } from '../ErrorBoundary'
 
 import SearchBar from './MainNavigation/SearchBar';
 
@@ -109,7 +110,7 @@ export class MainNavigation extends Component {
                         </div>
                     </Link>
                     <div className={style.search}>
-                        <SearchBar/>
+                        <ErrorBoundary><SearchBar/></ErrorBoundary>
                     </div>
                     {this.renderMapbutton()}
 
