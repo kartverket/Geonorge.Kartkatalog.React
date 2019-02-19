@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {clearMetadata, fetchMetadata} from '../../actions/MetadataActions'
 import {clearMetadataDistributions, fetchMetadataDistributions} from '../../actions/MetadataDistributionActions'
-import MetadataSearchResult from "../partials/SearchResults/MetadataSearchResult";
+
+import DistributionsList from "./Metadata/DistributionsList";
+
 import style from "./Metadata.scss";
 
 class Metadata extends Component {
@@ -24,51 +26,14 @@ class Metadata extends Component {
         }
     }
 
-    renderSelfDistributions() {
-        if (this.props.metadataDistributions && this.props.metadataDistributions.SelfDistribution && this.props.metadataDistributions.SelfDistribution.length) {
-            const selfDistributions = this.props.metadataDistributions.SelfDistribution.map((selfDistribution, i) => {
-                return <MetadataSearchResult searchResult={selfDistribution} key={i}/>;
-            });
+    renderSpecificUsage() {
+        if (this.props.metadata.SpecificUsage) {
             return (
                 <div>
-                    <h3>{this.props.metadataDistributions.TitleSelf}</h3>
-                    <div className={style.maplist}>{selfDistributions}</div>
+                    <h2>Bruksområde</h2>
+                    <div>{this.props.metadata.SpecificUsage}</div>
                 </div>
             )
-        } else {
-            return "";
-        }
-    }
-
-    renderRelatedViewServices() {
-        if (this.props.metadataDistributions && this.props.metadataDistributions.RelatedViewServices && this.props.metadataDistributions.RelatedViewServices.length) {
-            const relatedViewServices = this.props.metadataDistributions.RelatedViewServices.map((relatedViewService, i) => {
-                return <MetadataSearchResult searchResult={relatedViewService} key={i}/>;
-            });
-            return (
-                <div>
-                    <h3>Visningstjenester</h3>
-                    <div className={style.maplist}>{relatedViewServices}</div>
-                </div>
-            )
-        } else {
-            return "";
-        }
-    }
-
-    renderRelatedDownloadServices() {
-        if (this.props.metadataDistributions && this.props.metadataDistributions.RelatedDownloadServices && this.props.metadataDistributions.RelatedDownloadServices.length) {
-            const relatedDownloadServices = this.props.metadataDistributions.RelatedDownloadServices.map((relatedDownloadService, i) => {
-                return <MetadataSearchResult searchResult={relatedDownloadService} key={i}/>;
-            });
-            return (
-                <div>
-                    <h3>Nedlastingstjenester</h3>
-                    <div className={style.maplist}>{relatedDownloadServices}</div>
-                </div>
-            );
-        } else {
-            return "";
         }
     }
 
@@ -123,6 +88,49 @@ class Metadata extends Component {
         }
     }
 
+    renderDistributions() {
+        const hasSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.SelfDistribution && this.props.metadataDistributions.SelfDistribution.length;
+        const showSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.ShowSelfDistribution;
+
+        const hasRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedViewServices && this.props.metadataDistributions.RelatedViewServices.length;
+        const showRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedViewServices;
+
+        const hasRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDownloadServices && this.props.metadataDistributions.RelatedDownloadServices.length;
+        const showRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDownloadServices;
+
+        const selfDistributionsList = hasSelfDistributions && showSelfDistributions ? (
+            <div>
+                <h3>{this.props.metadataDistributions.TitleSelf}</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.SelfDistribution}/>
+            </div>
+        ) : '';
+        const relatedViewServicesList = hasRelatedViewServices && showRelatedViewServices ? (
+            <div>
+                <h3>Visningstjenester</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices}/>
+            </div>
+        ) : '';
+        const relatedDownloadServicesList = hasRelatedDownloadServices && showRelatedDownloadServices ? (
+            <div>
+                <h3>Nedlastingstjenester</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices}/>
+            </div>
+        ) : '';
+
+        const showDistributions = (hasSelfDistributions && showSelfDistributions)
+            || (hasRelatedViewServices && showRelatedViewServices)
+            || (hasRelatedDownloadServices && showRelatedDownloadServices);
+
+        return showDistributions ? (
+            <div>
+                <h2>Distribusjoner</h2>
+                {selfDistributionsList}
+                {relatedViewServicesList}
+                {relatedDownloadServicesList}
+            </div>
+        ) : '';
+    }
+
 
     render() {
         if (this.props.metadata.Message === "An error has occurred.") {
@@ -134,13 +142,9 @@ class Metadata extends Component {
                     <h1>{this.props.metadata.Title}</h1>
                     <div>{this.props.metadata.Abstract}</div>
 
-                    <h2>Bruksområde</h2>
-                    <div>{this.props.metadata.SpecificUsage}</div>
+                    <div>{this.renderSpecificUsage()}</div>
 
-                    <h2>Distribusjoner</h2>
-                    {this.renderSelfDistributions()}
-                    {this.renderRelatedViewServices()}
-                    {this.renderRelatedDownloadServices()}
+                    {this.renderDistributions()}
 
                     <h2>Kontaktinforsmasjon</h2>
                     {this.renderContactMetadata()}
