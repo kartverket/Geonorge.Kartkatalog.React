@@ -7,11 +7,21 @@ import MetadataSearchResult from "../partials/SearchResults/MetadataSearchResult
 import style from "./Metadata.scss";
 
 class Metadata extends Component {
-    componentWillMount() {
+    fetchApiData() {
         this.props.clearMetadata();
         this.props.fetchMetadata(this.props.match.params.uuid);
         this.props.clearMetadataDistributions();
         this.props.fetchMetadataDistributions(this.props.match.params.uuid);
+    }
+
+    componentWillMount() {
+        this.fetchApiData();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location.pathname !== prevProps.location.pathname) {
+            this.fetchApiData();
+        }
     }
 
     renderSelfDistributions() {
@@ -115,10 +125,10 @@ class Metadata extends Component {
 
 
     render() {
-        if(this.props.metadata.Message === "An error has occurred."){
-            return <div className={style.searchResultContainer}><span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span></div>
-        }
-        else {
+        if (this.props.metadata.Message === "An error has occurred.") {
+            return <div className={style.searchResultContainer}>
+                <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span></div>
+        } else {
             return (
                 <div>
                     <h1>{this.props.metadata.Title}</h1>
