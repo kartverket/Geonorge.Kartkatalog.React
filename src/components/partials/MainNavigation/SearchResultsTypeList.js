@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from "react-router-dom";
 import {fetchMetadataSearchResults} from '../../../actions/SearchResultActions';
 import {updateSelectedFacets} from '../../../actions/FacetFilterActions';
 import {updateSelectedSearchResultsType} from '../../../actions/SelectedSearchResultsTypeActions';
 import {updateSearchString} from '../../../actions/SearchStringActions';
-
 
 import style from './SearchResultsTypeList.scss';
 
@@ -18,12 +18,10 @@ class SearchResultsTypeList extends Component {
 
     renderDropdownResults() {
         if (this.props.searchResults && this.props.searchResults.Results) {
-
             const resultsTypeElements = this.props.searchResults.Results.map((result, i) => {
-
-                return <div className={style.searchResultsItem} key={i}><a href={result.ShowDetailsUrl}
-                                                                           key={i}>{result.Title}</a></div>
-
+                return <div className={style.searchResultsItem} key={i}>
+                    <Link to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
+                </div>
             });
             return resultsTypeElements;
         }
