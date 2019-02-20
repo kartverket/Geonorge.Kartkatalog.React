@@ -235,7 +235,7 @@ class Metadata extends Component {
     }
 
     renderReferenceSystems() {
-        const hasReferenceSystems = this.props.metadata.ReferenceSystems && this.props.metadata.ReferenceSystems.length;
+        const hasReferenceSystems = this.props.metadata && this.props.metadata.ReferenceSystems && this.props.metadata.ReferenceSystems.length;
         const referenceSystemList = hasReferenceSystems && this.props.metadata.ReferenceSystems.map((referenceSystem, index) => {
             return (
                 <li key={index}>
@@ -252,7 +252,7 @@ class Metadata extends Component {
     }
 
     renderUseLimitations() {
-        const hasUseLimitations = this.props.metadata.Constraints && this.props.metadata.Constraints.UseLimitations;
+        const hasUseLimitations = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.UseLimitations;
         return hasUseLimitations ? (
             <div>
                 <strong>Bruksbegrensninger: </strong>{this.props.metadata.Constraints.UseLimitations}
@@ -261,7 +261,7 @@ class Metadata extends Component {
     }
 
     renderAccessConstraints() {
-        const hasAccessConstraints = this.props.metadata.Constraints && this.props.metadata.Constraints.AccessConstraints;
+        const hasAccessConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.AccessConstraints;
         return hasAccessConstraints ? (
             <div>
                 <strong>Tilgangsrestriksjoner: </strong>{this.props.metadata.Constraints.AccessConstraints}
@@ -270,7 +270,7 @@ class Metadata extends Component {
     }
 
     renderUseConstraints() {
-        const hasUseConstraints = this.props.metadata.Constraints && this.props.metadata.Constraints.UseConstraints;
+        const hasUseConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.UseConstraints;
         return hasUseConstraints ? (
             <div>
                 <strong>Brukerrestriksjoner: </strong>{this.props.metadata.Constraints.UseConstraints}
@@ -279,7 +279,7 @@ class Metadata extends Component {
     }
 
     renderOtherConstraintsLinkText() {
-        const hasOtherConstraintsLinkText = this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraintsLinkText;
+        const hasOtherConstraintsLinkText = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraintsLinkText;
         return hasOtherConstraintsLinkText ? (
             <div>
                 <strong>Lisens: </strong>{this.props.metadata.Constraints.OtherConstraintsLinkText}
@@ -288,7 +288,7 @@ class Metadata extends Component {
     }
 
     renderSecurityConstraints() {
-        const hasSecurityConstraints = this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
+        const hasSecurityConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
         return hasSecurityConstraints ? (
             <div>
                 <strong>Sikkerhetsnivå: </strong>{this.props.metadata.Constraints.SecurityConstraints}
