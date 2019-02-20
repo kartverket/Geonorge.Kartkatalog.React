@@ -239,6 +239,51 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderUseLimitations() {
+        const hasUseLimitations = this.props.metadata.Constraints && this.props.metadata.Constraints.UseLimitations;
+        return hasUseLimitations ? (
+            <div>
+                <strong>Bruksbegrensninger: </strong>{this.props.metadata.Constraints.UseLimitations}
+            </div>
+        ) : '';
+    }
+
+    renderAccessConstraints() {
+        const hasAccessConstraints = this.props.metadata.Constraints && this.props.metadata.Constraints.AccessConstraints;
+        return hasAccessConstraints ? (
+            <div>
+                <strong>Tilgangsrestriksjoner: </strong>{this.props.metadata.Constraints.AccessConstraints}
+            </div>
+        ) : '';
+    }
+
+    renderUseConstraints() {
+        const hasUseConstraints = this.props.metadata.Constraints && this.props.metadata.Constraints.UseConstraints;
+        return hasUseConstraints ? (
+            <div>
+                <strong>Brukerrestriksjoner: </strong>{this.props.metadata.Constraints.UseConstraints}
+            </div>
+        ) : '';
+    }
+
+    renderOtherConstraintsLinkText() {
+        const hasOtherConstraintsLinkText = this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraintsLinkText;
+        return hasOtherConstraintsLinkText ? (
+            <div>
+                <strong>Lisens: </strong>{this.props.metadata.Constraints.OtherConstraintsLinkText}
+            </div>
+        ) : '';
+    }
+
+    renderSecurityConstraints() {
+        const hasSecurityConstraints = this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
+        return hasSecurityConstraints ? (
+            <div>
+                <strong>Sikkerhetsnivå: </strong>{this.props.metadata.Constraints.SecurityConstraints}
+            </div>
+        ) : '';
+    }
+
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -268,6 +313,15 @@ class Metadata extends Component {
                     {this.renderDistributionDetails()}
                     {this.renderUnitsOfDistribution()}
                     {this.renderReferenceSystems()}
+                </div>
+
+                <h2>Restriksjoner</h2>
+                <div>
+                    {this.renderUseLimitations()}
+                    {this.renderAccessConstraints()}
+                    {this.renderUseConstraints()}
+                    {this.renderOtherConstraintsLinkText()}
+                    {this.renderSecurityConstraints()}
                 </div>
             </div>
         )
