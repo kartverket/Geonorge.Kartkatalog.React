@@ -70,9 +70,9 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
 
 export const fetchDropdownSearchResults = (searchString = "") => async dispatch => {
     const urlParameterStrings = {
-        software: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software`,
-        service: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service`,
         dataset: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset`,
+        service: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service`,
+        software: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software`,
         articles: `articles?text=${searchString}`
     };
     let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
