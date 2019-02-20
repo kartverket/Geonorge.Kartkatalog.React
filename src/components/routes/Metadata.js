@@ -179,6 +179,14 @@ class Metadata extends Component {
         }
     }
 
+    renderSpatialRepresentation() {
+        return this.props.metadata && this.props.metadata.SpatialRepresentation ? (
+            <div>
+                <strong>Representasjonsform: </strong>{this.props.metadata.SpatialRepresentation}
+            </div>
+        ) : '';
+    }
+
     renderDistributionFormats() {
         const hasDistributionFormats = this.props.metadata.DistributionFormats && this.props.metadata.DistributionFormats.length;
         const distributionFormatsList = hasDistributionFormats && this.props.metadata.DistributionFormats.map((distributionFormat, index) => {
@@ -190,21 +198,47 @@ class Metadata extends Component {
         });
         return hasDistributionFormats ? (
             <div>
-                <h3>Format</h3>
+                <h3>Format:</h3>
                 {distributionFormatsList}
             </div>
         ) : '';
     }
 
-    renderSpatialRepresentation() {
-        return this.props.metadata && this.props.metadata.SpatialRepresentation ? (
+
+    renderDistributionDetails() {
+        const hasProtocolName = this.props.metadata && this.props.metadata.DistributionDetails && this.props.metadata.DistributionDetails.ProtocolName;
+        return hasProtocolName ? (
             <div>
-                <strong>Representasjonsform: </strong>{this.props.metadata.SpatialRepresentation}
-                <div>
-                </div>
+                <strong>Distribusjonstype: </strong>{this.props.metadata.DistributionDetails.ProtocolName}
             </div>
         ) : '';
     }
+
+    renderUnitsOfDistribution() {
+        return this.props.metadata.UnitsOfDistribution ? (
+            <div>
+                <strong>Geografisk distribusjonsinndeling: </strong>{this.props.metadata.UnitsOfDistribution}
+            </div>
+        ) : '';
+    }
+
+    renderReferenceSystems() {
+        const hasReferenceSystems = this.props.metadata.ReferenceSystems && this.props.metadata.ReferenceSystems.length;
+        const referenceSystemList = hasReferenceSystems && this.props.metadata.ReferenceSystems.map((referenceSystem, index) => {
+            return (
+                <li key={index}>
+                    {referenceSystem.CoordinateSystem}
+                </li>
+            )
+        });
+        return hasReferenceSystems ? (
+            <div>
+                <h3>Romlig referansesystem:</h3>
+                {referenceSystemList}
+            </div>
+        ) : '';
+    }
+
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -221,14 +255,20 @@ class Metadata extends Component {
                 {this.renderDistributions()}
 
                 <h2>Kontaktinforsmasjon</h2>
-                {this.renderContactMetadata()}
-                {this.renderContactOwner()}
-                {this.renderContactPublisher()}
+                <div>
+                    {this.renderContactMetadata()}
+                    {this.renderContactOwner()}
+                    {this.renderContactPublisher()}
+                </div>
 
                 <h2>Distribusjon</h2>
-                {this.renderSpatialRepresentation()}
-                {this.renderDistributionFormats()}
-
+                <div>
+                    {this.renderSpatialRepresentation()}
+                    {this.renderDistributionFormats()}
+                    {this.renderDistributionDetails()}
+                    {this.renderUnitsOfDistribution()}
+                    {this.renderReferenceSystems()}
+                </div>
             </div>
         )
     }
