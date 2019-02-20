@@ -296,6 +296,15 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderSupplementalDescription() {
+        return this.props.metadata && this.props.metadata.SupplementalDescription && this.props.metadata.HelpUrl ? (
+            <div>
+                <p>{this.props.metadata.SupplementalDescription}</p>
+                <a href={this.props.metadata.HelpUrl}>Vis hjelp</a>
+            </div>
+        ) : ''
+    }
+
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -334,6 +343,11 @@ class Metadata extends Component {
                     {this.renderUseConstraints()}
                     {this.renderOtherConstraintsLinkText()}
                     {this.renderSecurityConstraints()}
+                </div>
+
+                <h2>Hjelp</h2>
+                <div>
+                    {this.renderSupplementalDescription()}
                 </div>
             </div>
         )
