@@ -305,6 +305,60 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderResolutionScale() {
+        return this.props.metadata && this.props.metadata.ResolutionScale ? (
+            <div>
+                <strong>Målestokkstall: </strong>{this.props.metadata.ResolutionScale}
+            </div>
+        ) : ''
+    }
+
+    renderStatus() {
+        return this.props.metadata && this.props.metadata.Status ? (
+            <div>
+                <strong>Status: </strong>{this.props.metadata.Status}
+            </div>
+        ) : ''
+    }
+
+    renderProcessHistory() {
+        return this.props.metadata && this.props.metadata.ProcessHistory ? (
+            <div>
+                <strong>Prosesshistorie: </strong>{this.props.metadata.ProcessHistory}
+            </div>
+        ) : ''
+    }
+
+    renderQualitySpecifications() {
+        const hasQualitySpecifications = this.props.metadata && this.props.metadata.QualitySpecifications && this.props.metadata.QualitySpecifications.length;
+        const qualitySpecificationsList = hasQualitySpecifications && this.props.metadata.QualitySpecifications.map((qualitySpecification, index) => {
+            return (
+                <div key={index}>
+                    <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
+                    <p><strong>Dato: </strong>{qualitySpecification.Date} ({qualitySpecification.DateType})</p>
+                    <p><strong>Forklaring av resultat: </strong>{qualitySpecification.Explanation}</p>
+                    <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
+                    <hr/>
+                </div>
+            )
+        });
+        return hasQualitySpecifications ? (
+            <div>
+                <h2>Konformitet</h2>
+                {qualitySpecificationsList}
+            </div>
+        ) : '';
+    }
+
+    renderPurpose() {
+        return this.props.metadata && this.props.metadata.Purpose ? (
+            <div>
+                <h2>Formål</h2>
+                {this.props.metadata.Purpose}
+            </div>
+        ) : ''
+    }
+
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -348,6 +402,20 @@ class Metadata extends Component {
                 <h2>Hjelp</h2>
                 <div>
                     {this.renderSupplementalDescription()}
+                </div>
+
+                <span>Detaljert informasjon</span>
+                <div>
+                    <h2>Kvalitet</h2>
+                    <div>
+                        {this.renderResolutionScale()}
+                        {this.renderStatus()}
+                        {this.renderProcessHistory()}
+                    </div>
+
+                    {this.renderQualitySpecifications()}
+                    {this.renderPurpose()}
+
                 </div>
             </div>
         )
