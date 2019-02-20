@@ -212,7 +212,7 @@ class Metadata extends Component {
                 <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span>
             </div>
         ) : (
-            <div>
+            <div className={style.content}>
                 <h1>{this.props.metadata.Title}</h1>
                 <div>{this.props.metadata.Abstract}</div>
 
