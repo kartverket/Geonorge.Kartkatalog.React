@@ -7,7 +7,7 @@ import {clearMetadataDistributions, fetchMetadataDistributions} from '../../acti
 import DistributionsList from "./Metadata/DistributionsList";
 
 import style from "./Metadata.scss";
-import { ErrorBoundary } from '../ErrorBoundary'
+import {ErrorBoundary} from '../ErrorBoundary'
 
 class Metadata extends Component {
     fetchApiData() {
@@ -36,6 +36,96 @@ class Metadata extends Component {
                 </div>
             )
         }
+    }
+
+    renderDistributions() {
+        const hasSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.SelfDistribution && this.props.metadataDistributions.SelfDistribution.length;
+        const showSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.ShowSelfDistribution;
+
+        const hasRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDataset && this.props.metadataDistributions.RelatedDataset.length;
+        const showRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDataset;
+
+        const hasRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.RelatedApplications && this.props.metadataDistributions.RelatedApplications.length;
+        const showRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedApplications;
+
+        const hasRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServices && this.props.metadataDistributions.RelatedServices.length;
+        const showRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServices;
+
+        const hasRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServiceLayer && this.props.metadataDistributions.RelatedServiceLayer.length;
+        const showRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServiceLayer;
+
+        const hasRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedViewServices && this.props.metadataDistributions.RelatedViewServices.length;
+        const showRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedViewServices;
+
+        const hasRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDownloadServices && this.props.metadataDistributions.RelatedDownloadServices.length;
+        const showRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDownloadServices;
+
+        const selfDistributionsList = hasSelfDistributions && showSelfDistributions ? (
+            <div>
+                <h3>{this.props.metadataDistributions.TitleSelf}</h3>
+                <ErrorBoundary><DistributionsList
+                    distributions={this.props.metadataDistributions.SelfDistribution}/></ErrorBoundary>
+            </div>
+        ) : '';
+        const relatedDatasetList = hasRelatedDataset && showRelatedDataset ? (
+            <div>
+                <h3>Datasett</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset}/>
+            </div>
+        ) : '';
+        const relatedApplicationsList = hasRelatedApplications && showRelatedApplications ? (
+            <div>
+                <h3>{this.props.clearMetadataDistributions.TitleRelatedApplications}</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedApplications}/>
+            </div>
+        ) : '';
+        const relatedServicesList = hasRelatedServices && showRelatedServices ? (
+            <div>
+                <h3>Tjenester</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedServices}/>
+            </div>
+        ) : '';
+        const relatedServiceLayersList = hasRelatedServiceLayers && showRelatedServiceLayers ? (
+            <div>
+                <h3>Tjenestelag</h3>
+                <DistributionsList distributions={this.props.metadataDistributions.RelatedServiceLayer}/>
+            </div>
+        ) : '';
+        const relatedViewServicesList = hasRelatedViewServices && showRelatedViewServices ? (
+            <div>
+                <h3>Visningstjenester</h3>
+                <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices}/></ErrorBoundary>
+            </div>
+        ) : '';
+        const relatedDownloadServicesList = hasRelatedDownloadServices && showRelatedDownloadServices ? (
+            <div>
+                <h3>Nedlastingstjenester</h3>
+                <ErrorBoundary><DistributionsList
+                    distributions={this.props.metadataDistributions.RelatedDownloadServices}/></ErrorBoundary>
+            </div>
+        ) : '';
+
+        const showDistributions = (hasSelfDistributions && showSelfDistributions)
+            || (hasRelatedDataset && showRelatedDataset)
+            || (hasRelatedApplications && showRelatedApplications)
+            || (hasRelatedServices && showRelatedServices)
+            || (hasRelatedServiceLayers && showRelatedServiceLayers)
+            || (hasRelatedServices && showRelatedServices)
+            || (hasRelatedViewServices && showRelatedViewServices)
+            || (hasRelatedDownloadServices && showRelatedDownloadServices);
+
+        return showDistributions ? (
+            <div>
+                <h2>Distribusjoner</h2>
+                {selfDistributionsList}
+                {relatedDatasetList}
+                {relatedApplicationsList}
+                {relatedServiceLayersList}
+                {relatedServicesList}
+                {relatedViewServicesList}
+                {relatedDownloadServicesList}
+            </div>
+        ) : '';
     }
 
     renderContactMetadata() {
@@ -89,116 +179,58 @@ class Metadata extends Component {
         }
     }
 
-    renderDistributions() {
-        const hasSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.SelfDistribution && this.props.metadataDistributions.SelfDistribution.length;
-        const showSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.ShowSelfDistribution;
-
-        const hasRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDataset && this.props.metadataDistributions.RelatedDataset.length;
-        const showRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDataset;
-
-        const hasRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.RelatedApplications && this.props.metadataDistributions.RelatedApplications.length;
-        const showRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedApplications;
-
-        const hasRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServices && this.props.metadataDistributions.RelatedServices.length;
-        const showRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServices;
-
-        const hasRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServiceLayer && this.props.metadataDistributions.RelatedServiceLayer.length;
-        const showRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServiceLayer;
-
-        const hasRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedViewServices && this.props.metadataDistributions.RelatedViewServices.length;
-        const showRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedViewServices;
-
-        const hasRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDownloadServices && this.props.metadataDistributions.RelatedDownloadServices.length;
-        const showRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDownloadServices;
-
-        const selfDistributionsList = hasSelfDistributions && showSelfDistributions ? (
+    renderDistributionFormats() {
+        const hasDistributionFormats = this.props.metadata.DistributionFormats && this.props.metadata.DistributionFormats.length;
+        const distributionFormatsList = hasDistributionFormats && this.props.metadata.DistributionFormats.map((distributionFormat, index) => {
+            return (
+                <li key={index}>
+                    {distributionFormat.Name} {distributionFormat.Version}
+                </li>
+            )
+        });
+        return hasDistributionFormats ? (
             <div>
-                <h3>{this.props.metadataDistributions.TitleSelf}</h3>
-                <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.SelfDistribution}/></ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedDatasetList = hasRelatedDataset && showRelatedDataset ? (
-            <div>
-                <h3>Datasett</h3>
-                <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset}/>
-            </div>
-        ) : '';
-        const relatedApplicationsList = hasRelatedApplications && showRelatedApplications ? (
-            <div>
-                <h3>{this.props.clearMetadataDistributions.TitleRelatedApplications}</h3>
-                <DistributionsList distributions={this.props.metadataDistributions.RelatedApplications}/>
-            </div>
-        ) : '';
-        const relatedServicesList = hasRelatedServices && showRelatedServices ? (
-            <div>
-                <h3>Tjenester</h3>
-                <DistributionsList distributions={this.props.metadataDistributions.RelatedServices}/>
-            </div>
-        ) : '';
-        const relatedServiceLayersList = hasRelatedServiceLayers && showRelatedServiceLayers ? (
-            <div>
-                <h3>Tjenestelag</h3>
-                <DistributionsList distributions={this.props.metadataDistributions.RelatedServiceLayer}/>
-            </div>
-        ) : '';
-        const relatedViewServicesList = hasRelatedViewServices && showRelatedViewServices ? (
-            <div>
-                <h3>Visningstjenester</h3>
-                <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices}/></ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedDownloadServicesList = hasRelatedDownloadServices && showRelatedDownloadServices ? (
-            <div>
-                <h3>Nedlastingstjenester</h3>
-                <ErrorBoundary><DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices}/></ErrorBoundary>
-            </div>
-        ) : '';
-
-        const showDistributions = (hasSelfDistributions && showSelfDistributions)
-            || (hasRelatedDataset && showRelatedDataset)
-            || (hasRelatedApplications && showRelatedApplications)
-            || (hasRelatedServices && showRelatedServices)
-            || (hasRelatedServiceLayers && showRelatedServiceLayers)
-            || (hasRelatedServices && showRelatedServices)
-            || (hasRelatedViewServices && showRelatedViewServices)
-            || (hasRelatedDownloadServices && showRelatedDownloadServices);
-
-        return showDistributions ? (
-            <div>
-                <h2>Distribusjoner</h2>
-                {selfDistributionsList}
-                {relatedDatasetList}
-                {relatedApplicationsList}
-                {relatedServiceLayersList}
-                {relatedServicesList}
-                {relatedViewServicesList}
-                {relatedDownloadServicesList}
+                <h3>Format</h3>
+                {distributionFormatsList}
             </div>
         ) : '';
     }
 
+    renderSpatialRepresentation() {
+        return this.props.metadata && this.props.metadata.SpatialRepresentation ? (
+            <div>
+                <strong>Representasjonsform: </strong>{this.props.metadata.SpatialRepresentation}
+                <div>
+                </div>
+            </div>
+        ) : '';
+    }
 
     render() {
-        if (this.props.metadata.Message === "An error has occurred.") {
-            return <div className={style.searchResultContainer}>
-                <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span></div>
-        } else {
-            return (
-                <div>
-                    <h1>{this.props.metadata.Title}</h1>
-                    <div>{this.props.metadata.Abstract}</div>
+        return this.props.metadata.Message === "An error has occurred." ? (
+            <div className={style.searchResultContainer}>
+                <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span>
+            </div>
+        ) : (
+            <div>
+                <h1>{this.props.metadata.Title}</h1>
+                <div>{this.props.metadata.Abstract}</div>
 
-                    <div>{this.renderSpecificUsage()}</div>
+                <div>{this.renderSpecificUsage()}</div>
 
-                    {this.renderDistributions()}
+                {this.renderDistributions()}
 
-                    <h2>Kontaktinforsmasjon</h2>
-                    {this.renderContactMetadata()}
-                    {this.renderContactOwner()}
-                    {this.renderContactPublisher()}
-                </div>
-            )
-        }
+                <h2>Kontaktinforsmasjon</h2>
+                {this.renderContactMetadata()}
+                {this.renderContactOwner()}
+                {this.renderContactPublisher()}
+
+                <h2>Distribusjon</h2>
+                {this.renderSpatialRepresentation()}
+                {this.renderDistributionFormats()}
+
+            </div>
+        )
     }
 }
 
