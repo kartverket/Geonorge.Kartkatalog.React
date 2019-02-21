@@ -66,12 +66,12 @@ class SearchResults extends Component {
     }
 
     addMoreMetadataToSearchResult() {
-        this.props.fetchMetadataSearchResults(this.props.searchString, this.props.selectedFacets, this.props.searchResults.metadata.Offset + 10, true)
+        this.props.fetchMetadataSearchResults(this.props.searchString, this.props.selectedFacets, this.props.searchResults.metadata.Offset + 25, true)
         this.renderActiveTabContent()
     }
 
     addMoreArticlesToSearchResult() {
-        this.props.fetchArticleSearchResults("", this.props.searchResults.articles.Offset + 10, true);
+        this.props.fetchArticleSearchResults("", this.props.searchResults.articles.Offset + 25, true);
         this.renderActiveTabContent()
     }
 
