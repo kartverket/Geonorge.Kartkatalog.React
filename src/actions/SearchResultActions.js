@@ -31,7 +31,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
         })
     };
 
-    return fetch(`https://kartkatalog.dev.geonorge.no/api/search?offset=${Offset}&text=${searchString}${facetsParameterString}&orderby=updated`, fetchOptions)
+    return fetch(`https://kartkatalog.dev.geonorge.no/api/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}&orderby=updated`, fetchOptions)
         .then(res => res.json())
         .then(searchResults => {
             dispatch({
@@ -59,7 +59,7 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
         })
     };
 
-    return fetch(`https://kartkatalog.dev.geonorge.no/api/articles?offset=${Offset}&text=${searchString}`, fetchOptions)
+    return fetch(`https://kartkatalog.dev.geonorge.no/api/articles?limit=25&offset=${Offset}&text=${searchString}`, fetchOptions)
         .then(res => res.json())
         .then(searchResults => dispatch({
             type: append ? APPEND_TO_ARTICLESEARCHRESULTS : FETCH_ARTICLESEARCHRESULTS,

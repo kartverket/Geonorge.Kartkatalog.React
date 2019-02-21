@@ -11,7 +11,7 @@ export default function (state = initialState, action) {
 				...state,
 				metadata: {
 					...state.metadata,
-					Offset: state.metadata.Offset + 10,
+					Offset: state.metadata.Offset + 25,
 					Results: appendedSearchResult
 				}
 			}
@@ -26,7 +26,7 @@ export default function (state = initialState, action) {
 				...state,
 				articles: {
 					...state.articles,
-					Offset: state.articles.Offset + 10,
+					Offset: state.articles.Offset + 25,
 					Results: appendedArticles
 				}
 			}
