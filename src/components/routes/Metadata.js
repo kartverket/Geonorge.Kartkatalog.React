@@ -279,6 +279,107 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderKeywordsTheme() {
+        const hasKeywordsTheme = this.props.metadata.KeywordsTheme && this.props.metadata.KeywordsTheme.length;
+        const keywordsThemeList = hasKeywordsTheme && this.props.metadata.KeywordsTheme.map((keywordTheme, index) => {
+            return (
+                <li key={index}>
+                    {keywordTheme.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsTheme ? (
+            <div>
+                <h3>Tema:</h3>
+                {keywordsThemeList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsNationalTheme() {
+        const hasKeywordsNationalTheme = this.props.metadata.KeywordsNationalTheme && this.props.metadata.KeywordsNationalTheme.length;
+        const keywordsNationalThemeList = hasKeywordsNationalTheme && this.props.metadata.KeywordsNationalTheme.map((keywordNationalTheme, index) => {
+            return (
+                <li key={index}>
+                    {keywordNationalTheme.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsNationalTheme ? (
+            <div>
+                <h3>Nasjonale tema:</h3>
+                {keywordsNationalThemeList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsNationalInitiative() {
+        const hasKeywordsNationalInitiative = this.props.metadata.KeywordsNationalInitiative && this.props.metadata.KeywordsNationalInitiative.length;
+        const keywordsNationalInitiativeList = hasKeywordsNationalInitiative && this.props.metadata.KeywordsNationalInitiative.map((keywordNationalInitiative, index) => {
+            return (
+                <li key={index}>
+                    {keywordNationalInitiative.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsNationalInitiative ? (
+            <div>
+                <h3>Samarbeid og lover:</h3>
+                {keywordsNationalInitiativeList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsInspire() {
+        const hasKeywordsInspire = this.props.metadata.KeywordsInspire && this.props.metadata.KeywordsInspire.length;
+        const keywordsInspireList = hasKeywordsInspire && this.props.metadata.KeywordsInspire.map((keywordInspire, index) => {
+            return (
+                <li key={index}>
+                    {keywordInspire.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsInspire ? (
+            <div>
+                <h3>Inspire:</h3>
+                {keywordsInspireList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsAdministrativeUnits() {
+        const hasKeywordsAdministrativeUnits = this.props.metadata.KeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.length;
+        const keywordsAdministrativeUnitsList = hasKeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.map((keywordAdministrativeUnits, index) => {
+            return keywordAdministrativeUnits.KeywordLink ? (
+                <li key={index}>
+                    <a href={keywordAdministrativeUnits.KeywordLink}>
+                        {keywordAdministrativeUnits.KeywordValue}
+                    </a>
+                </li>
+            ) : (
+                <li key={index}>
+                    <span>
+                        {keywordAdministrativeUnits.KeywordValue}
+                    </span>
+                </li>
+            )
+        });
+        return hasKeywordsAdministrativeUnits ? (
+            <div>
+                <h3>Administrative enheter:</h3>
+                {keywordsAdministrativeUnitsList}
+            </div>
+        ) : '';
+    }
+
+    renderTopicCategory() {
+        return this.props.metadata && this.props.metadata.TopicCategory ? (
+            <div>
+                <strong>Tematisk hovedkategori: </strong>{this.props.metadata.TopicCategory}
+            </div>
+        ) : ''
+    }
+
     renderSpecificUsageSection() {
         if (this.props.metadata.SpecificUsage) {
             return (
@@ -505,6 +606,25 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderKeywordsSection() {
+        const hasChildren = this.renderKeywordsTheme()
+            || this.renderKeywordsNationalTheme()
+            || this.renderKeywordsNationalInitiative()
+            || this.renderKeywordsInspire()
+            || this.renderKeywordsAdministrativeUnits()
+            || this.renderTopicCategory();
+        return hasChildren ? (
+            <div>
+                <h2>Nøkkelord</h2>
+                {this.renderKeywordsTheme()}
+                {this.renderKeywordsNationalTheme()}
+                {this.renderKeywordsNationalInitiative()}
+                {this.renderKeywordsAdministrativeUnits()}
+                {this.renderTopicCategory()}
+            </div>
+        ) : '';
+    }
+
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
             <div className={style.searchResultContainer}>
@@ -528,6 +648,7 @@ class Metadata extends Component {
                     {this.renderQualitySpecificationsSection()}
                     {this.renderPurposeSection()}
                     {this.renderTimeAndSpaceSection()}
+                    {this.renderKeywordsSection()}
                 </div>
             </div>
         )
