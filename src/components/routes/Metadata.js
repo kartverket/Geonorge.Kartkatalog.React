@@ -27,7 +27,6 @@ class Metadata extends Component {
         }
     }
 
-
     renderContactMetadata() {
         if (this.props.metadata && this.props.metadata.ContactMetadata) {
             return (
@@ -103,7 +102,6 @@ class Metadata extends Component {
             </div>
         ) : '';
     }
-
 
     renderDistributionDetails() {
         const hasProtocolName = this.props.metadata && this.props.metadata.DistributionDetails && this.props.metadata.DistributionDetails.ProtocolName;
@@ -184,7 +182,6 @@ class Metadata extends Component {
         ) : '';
     }
 
-
     renderResolutionScale() {
         return this.props.metadata && this.props.metadata.ResolutionScale ? (
             <div>
@@ -209,6 +206,78 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderDateUpdated() {
+        return this.props.metadata && this.props.metadata.DateUpdated ? (
+            <div>
+                <strong>Oppdatert (Ressurs): </strong>{this.props.metadata.DateUpdated}
+            </div>
+        ) : ''
+    }
+
+    renderMetadataDateUpdated() {
+        return this.props.metadata && this.props.metadata.MetadataDateUpdated ? (
+            <div>
+                <strong>Oppdatert (Metadata): </strong>{this.props.metadata.MetadataDateUpdated}
+            </div>
+        ) : ''
+    }
+
+    renderDatePublished() {
+        return this.props.metadata && this.props.metadata.DatePublished ? (
+            <div>
+                <strong>Publisert: </strong>{this.props.metadata.DatePublished}
+            </div>
+        ) : ''
+    }
+
+    renderDateValidityPeriod() {
+        const validFrom = this.props.metadata && this.props.metadata.DatePublished ? this.props.metadata.DateMetadataValidFrom : '';
+        const validTo = this.props.metadata && this.props.metadata.DatePublished ? this.props.metadata.DateMetadataValidTo : '';
+        return validFrom || validTo ? (
+            <div>
+                <strong>Gyldighetsperiode: </strong>{validFrom} - {validTo}
+            </div>
+        ) : ''
+    }
+
+    renderMaintenanceFrequency() {
+        return this.props.metadata && this.props.metadata.MaintenanceFrequency ? (
+            <div>
+                <strong>Oppdateringshyppighet: </strong>{this.props.metadata.MaintenanceFrequency}
+            </div>
+        ) : ''
+    }
+
+    renderKeywordsPlace() {
+        const hasKeywordsPlace = this.props.metadata.KeywordsPlace && this.props.metadata.KeywordsPlace.length;
+        const keywordsPlaceList = hasKeywordsPlace && this.props.metadata.KeywordsPlace.map((keywordPlace, index) => {
+            return (
+                <li key={index}>
+                    {keywordPlace.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsPlace ? (
+            <div>
+                <h3>Geografisk område:</h3>
+                {keywordsPlaceList}
+            </div>
+        ) : '';
+    }
+
+    renderBoundingBox() {
+        return this.props.metadata.BoundingBox ? (
+            <div>
+                <h3>Geografisk utstrekning:</h3>
+                <ul>
+                    <li>Nord: {this.props.metadata.BoundingBox.NorthBoundLatitude}</li>
+                    <li>Sør: {this.props.metadata.BoundingBox.SouthBoundLatitude}</li>
+                    <li>Øst: {this.props.metadata.BoundingBox.EastBoundLongitude}</li>
+                    <li>Vest: {this.props.metadata.BoundingBox.WestBoundLongitude}</li>
+                </ul>
+            </div>
+        ) : '';
+    }
 
     renderSpecificUsageSection() {
         if (this.props.metadata.SpecificUsage) {
@@ -415,6 +484,26 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderTimeAndSpaceSection() {
+        const hasChildren = this.renderDateUpdated()
+            || this.renderMetadataDateUpdated()
+            || this.renderDatePublished()
+            || this.renderDateValidityPeriod()
+            || this.renderMaintenanceFrequency()
+            || this.renderKeywordsPlace()
+            || this.renderBoundingBox();
+        return hasChildren ? (
+            <div>
+                <h2>Tid og rom</h2>
+                {this.renderDateUpdated()}
+                {this.renderMetadataDateUpdated()}
+                {this.renderDatePublished()}
+                {this.renderDateValidityPeriod()}
+                {this.renderKeywordsPlace()}
+                {this.renderBoundingBox()}
+            </div>
+        ) : '';
+    }
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -438,6 +527,7 @@ class Metadata extends Component {
                     {this.renderQualitySection()}
                     {this.renderQualitySpecificationsSection()}
                     {this.renderPurposeSection()}
+                    {this.renderTimeAndSpaceSection()}
                 </div>
             </div>
         )
