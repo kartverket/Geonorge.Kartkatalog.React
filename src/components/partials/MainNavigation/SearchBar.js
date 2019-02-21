@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
     fetchDropdownSearchResults
 } from '../../../actions/SearchResultActions';
-import {updateSearchString} from '../../../actions/SearchStringActions';
+import { updateSearchString } from '../../../actions/SearchStringActions';
 import { ErrorBoundary } from '../../ErrorBoundary'
 import SearchResultsTypeList from './SearchResultsTypeList';
 
@@ -80,19 +80,59 @@ class SearchBar extends Component {
 
         if (this.props.dropdownResults && Object.keys(this.props.dropdownResults).length) {
             let hasResults = false;
-            let resultsTypeElements = Object.keys(this.props.dropdownResults).filter(searchResultsType => {
-                return this.props.dropdownResults[searchResultsType].NumFound;
-            }).map((searchResultsType, i) => {
-                let searchResults = this.props.dropdownResults[searchResultsType];
-                if (searchResults) {
-                    hasResults = true;
-                }
-                return <ErrorBoundary><SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
-                                              searchString={this.state.searchString} searchResults={searchResults}
-                                              searchResultsType={searchResultsType} key={i}/></ErrorBoundary>
-            });
+
+            // Dataset
+            let datasetSearchResult = this.props.dropdownResults.dataset;
+            let datasetList
+            if (datasetSearchResult && datasetSearchResult.NumFound) {
+                hasResults = true;
+                datasetList = <ErrorBoundary key={"dataset"}>
+                    <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
+                        searchString={this.state.searchString} searchResults={datasetSearchResult}
+                        searchResultsType="dataset"/>
+                </ErrorBoundary>
+            }
+
+            // Service
+            let serviceSearchResult = this.props.dropdownResults.service;
+            let serviceList;
+            if (serviceSearchResult && serviceSearchResult.NumFound) {
+                hasResults = true;
+                serviceList = <ErrorBoundary key={"service"} >
+                    <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
+                        searchString={this.state.searchString} searchResults={serviceSearchResult}
+                        searchResultsType="service"/>
+                </ErrorBoundary>
+            }
+
+            // Software
+            let softwareSearchResult = this.props.dropdownResults.software;
+            let softwareList;
+            if (softwareSearchResult && softwareSearchResult.NumFound) {
+                hasResults = true;
+                softwareList = <ErrorBoundary key={"software"}>
+                    <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
+                        searchString={this.state.searchString} searchResults={softwareSearchResult}
+                        searchResultsType="software"/>
+                </ErrorBoundary>
+            }
+            
+            // Articles
+            let articlesSearchResult = this.props.dropdownResults.articles;
+            let articlesList;
+            if (articlesSearchResult && articlesSearchResult.NumFound) {
+                hasResults = true;
+                articlesList = <ErrorBoundary key={"articles"}>
+                    <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
+                        searchString={this.state.searchString} searchResults={articlesSearchResult}
+                        searchResultsType="articles"/>
+                </ErrorBoundary>
+            }
+
+            let resultsTypeElements = [datasetList, serviceList, softwareList, articlesList]
+
             if (!hasResults) {
-                resultsTypeElements = <div>Ingen treff for {this.state.searchString}</div>;
+                return <div>Ingen treff for {this.state.searchString}</div>;
             }
             return resultsTypeElements;
         }
@@ -101,10 +141,10 @@ class SearchBar extends Component {
     render() {
         return (
             <form ref={node => this.node = node} autoComplete="off" onSubmit={this.onSubmit}
-                  className={style.searchInput}>
+                className={style.searchInput}>
                 <label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label><input
-                placeholder="Søk etter kartdata og artikler" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
-                value={this.state.searchString} id="searchString"/>
+                    placeholder="Søk etter kartdata og artikler" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
+                    value={this.state.searchString} id="searchString" />
                 <button>
                     <img src={searchIcon} alt="search icon"></img>
                 </button>
