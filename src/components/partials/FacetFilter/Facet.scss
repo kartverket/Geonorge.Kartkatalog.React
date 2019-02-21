@@ -55,12 +55,26 @@ $imagePath: "../../../../";
     }
 }
 :local(.badge) {    
-    display: inline-block;        
+    display: inline-block;    
+    font-size: .8em;    
     margin: 0 5px;
     input + label {               
-        display: block; 
-        padding-left: 0; 
-        padding: 5px;
-        border: 1px solid $primary-border;      
+        display: flex;
+        align-items: center;   
+        padding: 0 4px 4px 4px;
+        
+        border: 1px solid $primary-border; 
+          
+        > span {
+            overflow: visible;
+            max-width: 100%;
+            padding-bottom: 4px;
+            padding-right: 5px;
+        }   
+        > svg.svg-checkbox {
+            position: relative;
+            top: 2px;
+            font-size: 1em;
+        }
     }
 }

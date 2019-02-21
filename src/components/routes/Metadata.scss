@@ -43,3 +43,10 @@
     display: none;
   }
 }
+:local(.content) {
+  margin: 40px;
+  > h1 {
+    font-weight: 100;
+    font-size: 3em;
+  }
+}

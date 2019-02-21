@@ -110,8 +110,8 @@ class Facet extends Component {
         return (
             <span className={liClassNames}>
                 <input type="checkbox" checked={this.state.checked} onChange={() => this.toggleFacet()}
-                       id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name}/>                <label
-                htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span> <FontAwesomeIcon className="svg-checkbox"
+                       id={this.props.facet.Name} name={this.props.facet.Name} value={this.props.facet.Name}/>
+                       <label htmlFor={this.props.facet.Name}><span> {this.props.facet.NameTranslated} </span> <FontAwesomeIcon title={this.state.checked ? 'Velg' : 'Fjern'} className="svg-checkbox"
                 icon={this.state.checked ? ['fas', 'times'] : ['far', 'square']}/></label>                
                 {this.renderList()}
             </span>
