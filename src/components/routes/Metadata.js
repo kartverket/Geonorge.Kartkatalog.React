@@ -393,7 +393,7 @@ class Metadata extends Component {
 
     renderDistributionsListSection() {
         const hasSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.SelfDistribution && this.props.metadataDistributions.SelfDistribution.length;
-        const showSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.ShowSelfDistribution;
+        const showSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.ShowSelfDistributions;
 
         const hasRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDataset && this.props.metadataDistributions.RelatedDataset.length;
         const showRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDataset;
