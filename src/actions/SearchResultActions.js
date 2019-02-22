@@ -1,11 +1,12 @@
 import * as Cookies from 'js-cookie';
+import { getKartkatalogApiUrl } from './ApiUrlActions';
 import {
-    FETCH_METADATASEARCHRESULTS,
-    FETCH_ARTICLESEARCHRESULTS,
-    FETCH_DROPDOWNSEARCHRESULTS,
-    FETCH_AVAILABLEFACETS,
+    APPEND_TO_ARTICLESEARCHRESULTS,
     APPEND_TO_METADATASEARCHRESULTS,
-    APPEND_TO_ARTICLESEARCHRESULTS
+    FETCH_ARTICLESEARCHRESULTS,
+    FETCH_AVAILABLEFACETS,
+    FETCH_DROPDOWNSEARCHRESULTS,
+    FETCH_METADATASEARCHRESULTS
 } from './types';
 
 export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
@@ -30,8 +31,8 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
             'Accept-Language': selectedLanguage
         })
     };
-
-    return fetch(`https://kartkatalog.dev.geonorge.no/api/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}&orderby=updated`, fetchOptions)
+    const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
+    return fetch(`${kartkatalogApiUrl}/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}&orderby=updated`, fetchOptions)
         .then(res => res.json())
         .then(searchResults => {
             dispatch({
@@ -58,8 +59,8 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
             'Accept-Language': selectedLanguage
         })
     };
-
-    return fetch(`https://kartkatalog.dev.geonorge.no/api/articles?limit=25&offset=${Offset}&text=${searchString}`, fetchOptions)
+    const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
+    return fetch(`${kartkatalogApiUrl}/articles?limit=25&offset=${Offset}&text=${searchString}`, fetchOptions)
         .then(res => res.json())
         .then(searchResults => dispatch({
             type: append ? APPEND_TO_ARTICLESEARCHRESULTS : FETCH_ARTICLESEARCHRESULTS,
@@ -84,8 +85,9 @@ export const fetchDropdownSearchResults = (searchString = "") => async dispatch 
     const limitParameterString = 'limit=5';
 
     await Promise.all(Object.keys(urlParameterStrings).map(async (searchResultsType) => {
+        const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
         let urlParameterString = urlParameterStrings[searchResultsType];
-        return fetch(`https://kartkatalog.dev.geonorge.no/api/${urlParameterString}&${limitParameterString}`, fetchOptions)
+        return fetch(`${kartkatalogApiUrl}/${urlParameterString}&${limitParameterString}`, fetchOptions)
             .then(res => res.json())
             .then(searchResults => dispatch({
                 type: FETCH_DROPDOWNSEARCHRESULTS,
