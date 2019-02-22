@@ -3,6 +3,7 @@ import {
     CLEAR_METADATA,
     FETCH_METADATA
 } from './types';
+import {getKartkatalogApiUrl} from "./ApiUrlActions";
 
 export const clearMetadata = () => dispatch => {
     return dispatch({
@@ -17,8 +18,8 @@ export const fetchMetadata = (uuid = "") => dispatch => {
             'Accept-Language': selectedLanguage
         })
     };
-
-    return fetch(`https://kartkatalog.dev.geonorge.no/api/getdata/${uuid}`, fetchOptions)
+    const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
+    return fetch(`${kartkatalogApiUrl}/getdata/${uuid}`, fetchOptions)
         .then(res => res.json())
         .then(metadata => dispatch({
             type: FETCH_METADATA,
