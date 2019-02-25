@@ -10,6 +10,7 @@ import style from "./Metadata.scss";
 import {ErrorBoundary} from '../ErrorBoundary'
 import ProductsheetButton from '../partials/Buttons/ProductsheetButton';
 import { ProductspesificationButton } from '../partials/Buttons/ProductspesificationButton';
+import { LegendDescriptionButton } from '../partials/Buttons/LegendDescriptionButton';
 
 class Metadata extends Component {
     fetchApiData() {
@@ -637,16 +638,15 @@ class Metadata extends Component {
                 <h1>{this.props.metadata.Title}</h1>
                 <div>{this.props.metadata.Abstract}</div>
 
-                <div>
                 <ErrorBoundary>
                     <ProductsheetButton metadata={this.props.metadata}/>
                 </ErrorBoundary>
-                </div>
-                <div>
                 <ErrorBoundary>
                     <ProductspesificationButton metadata={this.props.metadata}/>
                 </ErrorBoundary>
-                </div>
+                <ErrorBoundary>
+                    <LegendDescriptionButton metadata={this.props.metadata}/>
+                </ErrorBoundary>
                 {this.renderSpecificUsageSection()}
                 {this.renderDistributionsListSection()}
                 {this.renderContactSection()}

@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductsheetButton should render self 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <LegendDescriptionButton
+    metadata={
+      Object {
+        "LegendDescriptionUrl": "test",
+        "Uuid": "1234",
+      }
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <FontAwesomeIcon
+          border={false}
+          className=""
+          fixedWidth={false}
+          flip={null}
+          icon={
+            Array [
+              "far",
+              "external-link-square",
+            ]
+          }
+          inverse={false}
+          listItem={false}
+          mask={null}
+          pull={null}
+          pulse={false}
+          rotation={null}
+          size={null}
+          spin={false}
+          symbol={false}
+          title="Vis tegneregler"
+          transform={null}
+        />,
+        <span>
+          Vis tegneregler
+        </span>,
+      ],
+      "className": "btn btn-default",
+      "href": "test",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": "icon",
+        "nodeType": "function",
+        "props": Object {
+          "border": false,
+          "className": "",
+          "fixedWidth": false,
+          "flip": null,
+          "icon": Array [
+            "far",
+            "external-link-square",
+          ],
+          "inverse": false,
+          "listItem": false,
+          "mask": null,
+          "pull": null,
+          "pulse": false,
+          "rotation": null,
+          "size": null,
+          "spin": false,
+          "symbol": false,
+          "title": "Vis tegneregler",
+          "transform": null,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": "textContent",
+        "nodeType": "host",
+        "props": Object {
+          "children": "Vis tegneregler",
+        },
+        "ref": null,
+        "rendered": "Vis tegneregler",
+        "type": "span",
+      },
+    ],
+    "type": "a",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <FontAwesomeIcon
+            border={false}
+            className=""
+            fixedWidth={false}
+            flip={null}
+            icon={
+              Array [
+                "far",
+                "external-link-square",
+              ]
+            }
+            inverse={false}
+            listItem={false}
+            mask={null}
+            pull={null}
+            pulse={false}
+            rotation={null}
+            size={null}
+            spin={false}
+            symbol={false}
+            title="Vis tegneregler"
+            transform={null}
+          />,
+          <span>
+            Vis tegneregler
+          </span>,
+        ],
+        "className": "btn btn-default",
+        "href": "test",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": "icon",
+          "nodeType": "function",
+          "props": Object {
+            "border": false,
+            "className": "",
+            "fixedWidth": false,
+            "flip": null,
+            "icon": Array [
+              "far",
+              "external-link-square",
+            ],
+            "inverse": false,
+            "listItem": false,
+            "mask": null,
+            "pull": null,
+            "pulse": false,
+            "rotation": null,
+            "size": null,
+            "spin": false,
+            "symbol": false,
+            "title": "Vis tegneregler",
+            "transform": null,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": "textContent",
+          "nodeType": "host",
+          "props": Object {
+            "children": "Vis tegneregler",
+          },
+          "ref": null,
+          "rendered": "Vis tegneregler",
+          "type": "span",
+        },
+      ],
+      "type": "a",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+  Symbol(enzyme.__childContext__): null,
+}
+`;
