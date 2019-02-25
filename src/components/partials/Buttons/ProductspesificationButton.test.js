@@ -1,17 +1,17 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import { ApplicationButton, ProductSheetButton } from './ProductsheetButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ProductspesificationButton } from './ProductspesificationButton';
 
-function setupItemWithProductsheetUrl() {
+function setupItemWithProductSpecificationUrl() {
     const metadata = {
         Uuid: '1234',
-        ProductSheetUrl: 'test'
+        ProductSpecificationUrl: 'test'
     }
     const props = {
         metadata: metadata
     }
-    const wrapper = shallow(<ProductSheetButton {...props} />)
+    const wrapper = shallow(<ProductspesificationButton {...props} />)
 
     return {
         props,
@@ -19,14 +19,14 @@ function setupItemWithProductsheetUrl() {
     }
 }
 
-function setupItemWithoutProductsheetUrl() {
+function setupItemWithoutProductSpecificationUrl() {
     const metadata = {
         Uuid: '1234',
     }
     const props = {
         metadata: metadata
     }
-    const wrapper = shallow(<ProductSheetButton {...props} />)
+    const wrapper = shallow(<ProductspesificationButton {...props} />)
 
     return {
         props,
@@ -38,25 +38,25 @@ function setupItemWithoutProductsheetUrl() {
 describe('ProductsheetButton', () => {
     
     it('should render self', () => {
-        const { wrapper } = setupItemWithProductsheetUrl()
+        const { wrapper } = setupItemWithProductSpecificationUrl()
         expect(wrapper).toMatchSnapshot();
     })
 
-    it('Application with DistributionUrl', () => {
-        const { wrapper } = setupItemWithProductsheetUrl()
+    it('Item with DistributionUrl', () => {
+        const { wrapper } = setupItemWithProductSpecificationUrl()
 
         expect(wrapper.hasClass('btn btn-default')).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-        expect(wrapper.find("span").first().html()).toContain('Vis produktark')
+        expect(wrapper.find("span").first().html()).toContain('Vis produktspesifikasjon')
     })
 
-    it('Application without DistributionUrl', () => {
-        const { wrapper } = setupItemWithoutProductsheetUrl()
+    it('Item without DistributionUrl', () => {
+        const { wrapper } = setupItemWithoutProductSpecificationUrl()
         
         expect(wrapper.hasClass('btn btn-default disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-        expect(wrapper.find("span").first().html()).toContain('Vis produktark')
+        expect(wrapper.find("span").first().html()).toContain('Vis produktspesifikasjon')
     })
 })

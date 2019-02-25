@@ -3,10 +3,10 @@
 exports[`ProductsheetButton should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <ProductSheetButton
+  Symbol(enzyme.__unrendered__): <ProductspesificationButton
     metadata={
       Object {
-        "ProductSheetUrl": "test",
+        "ProductSpecificationUrl": "test",
         "Uuid": "1234",
       }
     }
@@ -46,11 +46,11 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title="Vis produktark"
+          title="Vis produktspesifikasjon"
           transform={null}
         />,
         <span>
-          Vis produktark
+          Vis produktspesifikasjon
         </span>,
       ],
       "className": "btn btn-default",
@@ -80,7 +80,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "Vis produktark",
+          "title": "Vis produktspesifikasjon",
           "transform": null,
         },
         "ref": null,
@@ -92,10 +92,10 @@ ShallowWrapper {
         "key": "textContent",
         "nodeType": "host",
         "props": Object {
-          "children": "Vis produktark",
+          "children": "Vis produktspesifikasjon",
         },
         "ref": null,
-        "rendered": "Vis produktark",
+        "rendered": "Vis produktspesifikasjon",
         "type": "span",
       },
     ],
@@ -128,11 +128,11 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Vis produktark"
+            title="Vis produktspesifikasjon"
             transform={null}
           />,
           <span>
-            Vis produktark
+            Vis produktspesifikasjon
           </span>,
         ],
         "className": "btn btn-default",
@@ -162,7 +162,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "Vis produktark",
+            "title": "Vis produktspesifikasjon",
             "transform": null,
           },
           "ref": null,
@@ -174,10 +174,10 @@ ShallowWrapper {
           "key": "textContent",
           "nodeType": "host",
           "props": Object {
-            "children": "Vis produktark",
+            "children": "Vis produktspesifikasjon",
           },
           "ref": null,
-          "rendered": "Vis produktark",
+          "rendered": "Vis produktspesifikasjon",
           "type": "span",
         },
       ],
