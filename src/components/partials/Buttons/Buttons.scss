@@ -21,10 +21,12 @@
     color: $default-text;
     width: 100%;
     text-align: center;
-    padding: 10px 20px;
-    transition: all .3s ease-in;
+    padding: 10px 10px;
+    transition: all .3s ease-in-out;
     border: 1px solid rgba($primary-brand, .2);
-    border-right-width: 0;
+    border-right-width: 1px;
+    margin-left: -1px;
+    margin-bottom: -1px;
     &:last-child {
         border-right-width: 1px;
     }
