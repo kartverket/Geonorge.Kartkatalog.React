@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LegendDescriptionButton } from './LegendDescriptionButton';
+import style from './Buttons.scss';
 
 function setupItemWithLegendDescriptionButtonUrl() {
     const metadata = {
@@ -45,7 +46,7 @@ describe('ProductsheetButton', () => {
     it('Item with DistributionUrl', () => {
         const { wrapper } = setupItemWithLegendDescriptionButtonUrl()
 
-        expect(wrapper.hasClass('btn btn-default')).toBe(true)
+        expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
         expect(wrapper.find("span").first().html()).toContain('Vis tegneregler')
@@ -54,7 +55,7 @@ describe('ProductsheetButton', () => {
     it('Item without DistributionUrl', () => {
         const { wrapper } = setupItemWithoutLegendDescriptionButtonUrl()
         
-        expect(wrapper.hasClass('btn btn-default disabled')).toBe(true)
+        expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
         expect(wrapper.find("span").first().html()).toContain('Vis tegneregler')

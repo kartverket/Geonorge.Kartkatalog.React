@@ -53,7 +53,7 @@ ShallowWrapper {
           Vis tegneregler
         </span>,
       ],
-      "className": "btn btn-default",
+      "className": "btn",
       "href": "test",
     },
     "ref": null,
@@ -135,7 +135,7 @@ ShallowWrapper {
             Vis tegneregler
           </span>,
         ],
-        "className": "btn btn-default",
+        "className": "btn",
         "href": "test",
       },
       "ref": null,
