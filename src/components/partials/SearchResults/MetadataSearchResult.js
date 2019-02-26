@@ -45,7 +45,7 @@ class MetadataSearchResult extends Component {
           <ErrorBoundary><MapButton searchResult={this.props.searchResult}></MapButton></ErrorBoundary>
           </span>
           <span className={style.listItemButton}>
-          <ErrorBoundary><ApplicationButton searchResult={this.props.searchResult}></ApplicationButton></ErrorBoundary>
+          <ErrorBoundary><ApplicationButton metadata={this.props.searchResult}></ApplicationButton></ErrorBoundary>
           </span>
         </div>        
       </div>

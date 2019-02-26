@@ -4,7 +4,8 @@ exports[`ApplicationButton should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <ApplicationButton
-    searchResult={
+    listButton={true}
+    metadata={
       Object {
         "DistributionUrl": "test",
         "Type": "software",

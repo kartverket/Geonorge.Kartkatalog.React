@@ -2,15 +2,16 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { ApplicationButton } from './ApplicationButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import style from './Buttons.scss'
 
 function setupApplicationWithDistributionUrl() {
-    const searchResult = {
+    const metadata = {
         Uuid: '1234',
         Type: 'software',
         DistributionUrl: 'test'
     }
     const props = {
-        searchResult: searchResult
+        metadata: metadata,
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -21,12 +22,12 @@ function setupApplicationWithDistributionUrl() {
 }
 
 function setupApplicationWithoutDistributionUrl() {
-    const searchResult = {
+    const metadata = {
         Uuid: '1234',
         Type: 'software',
     }
     const props = {
-        searchResult: searchResult
+        metadata: metadata
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -37,12 +38,81 @@ function setupApplicationWithoutDistributionUrl() {
 }
 
 function setupIsDatasetType() {
-    const searchResult = {
+    const metadata = {
         Uuid: '1234',
         Type: 'dataset',
     }
     const props = {
-        searchResult: searchResult
+        metadata: metadata
+    }
+    const wrapper = shallow(<ApplicationButton {...props} />)
+
+    return {
+        props,
+        wrapper
+    }
+}
+
+function setupListButtonFalse() {
+    const metadata = {
+
+    }
+    const props = {
+        metadata: metadata,
+        listButton: false
+    }
+    const wrapper = shallow(<ApplicationButton {...props} />)
+
+    return {
+        props,
+        wrapper
+    }
+}
+
+function setupItemWithListButtonFalseAndCanShowWebsiteUrlAndDistributionUrl() {
+    const metadata = {
+        Uuid: '1234',
+        CanShowWebsiteUrl: true,
+        DistributionUrl: 'test'
+    }
+    const props = {
+        metadata: metadata,
+        listButton: false
+    }
+    const wrapper = shallow(<ApplicationButton {...props} />)
+
+    return {
+        props,
+        wrapper
+    }
+}
+
+function setupItemWithListButtonFalseAndCanShowWebsiteUrl() {
+    const metadata = {
+        Uuid: '1234',
+        CanShowWebsiteUrl: true,
+    }
+    const props = {
+        metadata: metadata,
+        listButton: false
+    }
+    const wrapper = shallow(<ApplicationButton {...props} />)
+
+    return {
+        props,
+        wrapper
+    }
+}
+
+function setupItemWithListButtonFalseAndCanShowWebsiteUrlFalseAndDistributionUrl() {
+    const metadata = {
+        Uuid: '1234',
+        DistributionUrl: 'test',
+        CanShowWebsiteUrl: false,
+    }
+    const props = {
+        metadata: metadata,
+        listButton: false
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -75,7 +145,7 @@ describe('ApplicationButton', () => {
         expect(wrapper.hasClass('off')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-        expect(wrapper.find("span").first().html()).toContain('ikke tilgjengelig')
+        expect(wrapper.find("span").first().html()).toContain('Til nettside')
     })
 
     it('Is dataset type', () => {
@@ -86,4 +156,40 @@ describe('ApplicationButton', () => {
         expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)        
         expect(wrapper.find("span")).toHaveLength(0)
     })
+})
+
+it('List button false', () => {
+    const { wrapper } = setupListButtonFalse()
+
+    expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+    expect(wrapper.prop("href")).toBeUndefined()
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find("span").first().html()).toContain('Nettside')
+})
+
+it('List button false and Item with CanShowWebsiteUrl and DistributionUrl', () => {
+    const { wrapper } = setupItemWithListButtonFalseAndCanShowWebsiteUrlAndDistributionUrl()
+
+    expect(wrapper.hasClass(style.btn)).toBe(true)
+    expect(wrapper.prop("href")).toBe('test')
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find("span").first().html()).toContain('Nettside')
+})
+
+it('List button false and Item with CanShowWebsiteUrl and no DistributionUrl', () => {
+    const { wrapper } = setupItemWithListButtonFalseAndCanShowWebsiteUrl()
+    
+    expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+    expect(wrapper.prop("href")).toBeUndefined()
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find("span").first().html()).toContain('Nettside')
+})
+
+it('List button false and Item with DistributionUrl and CanShowWebsiteUrl false', () => {
+    const { wrapper } = setupItemWithListButtonFalseAndCanShowWebsiteUrlFalseAndDistributionUrl()
+    
+    expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+    expect(wrapper.prop("href")).toBeUndefined()
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find("span").first().html()).toContain('Nettside')
 })
