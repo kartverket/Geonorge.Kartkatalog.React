@@ -1,18 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {clearMetadata, fetchMetadata} from '../../actions/MetadataActions'
-import {clearMetadataDistributions, fetchMetadataDistributions} from '../../actions/MetadataDistributionActions'
+import { connect } from 'react-redux';
+import { clearMetadata, fetchMetadata } from '../../actions/MetadataActions'
+import { clearMetadataDistributions, fetchMetadataDistributions } from '../../actions/MetadataDistributionActions'
 
 import DistributionsList from "./Metadata/DistributionsList";
 
 import style from "./Metadata.scss";
-import {ErrorBoundary} from '../ErrorBoundary'
+import { ErrorBoundary } from '../ErrorBoundary'
 import ProductsheetButton from '../partials/Buttons/ProductsheetButton';
 import { ProductspesificationButton } from '../partials/Buttons/ProductspesificationButton';
 import { LegendDescriptionButton } from '../partials/Buttons/LegendDescriptionButton';
 import { ContactOwnerButton } from '../partials/Buttons/ContactOwnerButton';
 import { ProductPageButton } from '../partials/Buttons/ProductPageButton';
+import { ApplicationButton } from '../partials/Buttons/ApplicationButton';
 
 class Metadata extends Component {
     fetchApiData() {
@@ -362,12 +363,12 @@ class Metadata extends Component {
                     </a>
                 </li>
             ) : (
-                <li key={index}>
-                    <span>
-                        {keywordAdministrativeUnits.KeywordValue}
-                    </span>
-                </li>
-            )
+                    <li key={index}>
+                        <span>
+                            {keywordAdministrativeUnits.KeywordValue}
+                        </span>
+                    </li>
+                )
         });
         return hasKeywordsAdministrativeUnits ? (
             <div>
@@ -422,7 +423,7 @@ class Metadata extends Component {
             <div>
                 <h3>{this.props.metadataDistributions.TitleSelf}</h3>
                 <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.SelfDistribution}/>
+                    <DistributionsList distributions={this.props.metadataDistributions.SelfDistribution} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -430,7 +431,7 @@ class Metadata extends Component {
             <div>
                 <h3>Datasett</h3>
                 <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset}/>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -438,7 +439,7 @@ class Metadata extends Component {
             <div>
                 <h3>{this.props.clearMetadataDistributions.TitleRelatedApplications}</h3>
                 <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedApplications}/>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedApplications} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -446,7 +447,7 @@ class Metadata extends Component {
             <div>
                 <h3>Tjenester</h3>
                 <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedServices}/>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedServices} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -454,7 +455,7 @@ class Metadata extends Component {
             <div>
                 <h3>Tjenestelag</h3>
                 <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedServiceLayer}/>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedServiceLayer} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -462,7 +463,7 @@ class Metadata extends Component {
             <div>
                 <h3>Visningstjenester</h3>
                 <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices}/>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -470,7 +471,7 @@ class Metadata extends Component {
             <div>
                 <h3>Nedlastingstjenester</h3>
                 <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices}/>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -569,7 +570,7 @@ class Metadata extends Component {
                     <p><strong>Dato: </strong>{qualitySpecification.Date} ({qualitySpecification.DateType})</p>
                     <p><strong>Forklaring av resultat: </strong>{qualitySpecification.Explanation}</p>
                     <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
-                    <hr/>
+                    <hr />
                 </div>
             )
         });
@@ -636,43 +637,46 @@ class Metadata extends Component {
                 <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span>
             </div>
         ) : (
-            <div className={style.content}>
-                <h1>{this.props.metadata.Title}</h1>
-                <div>{this.props.metadata.Abstract}</div>
-                <div className={style.btns}>
-                    <ErrorBoundary>
-                        <ProductsheetButton metadata={this.props.metadata}/>
-                    </ErrorBoundary>
-                    <ErrorBoundary>
-                        <ProductspesificationButton metadata={this.props.metadata}/>
-                    </ErrorBoundary>
-                    <ErrorBoundary>
-                        <LegendDescriptionButton metadata={this.props.metadata}/>
-                    </ErrorBoundary>
-                    <ErrorBoundary>
-                        <ContactOwnerButton metadata={this.props.metadata}/>
-                    </ErrorBoundary>
-                    <ErrorBoundary>
-                        <ProductPageButton metadata={this.props.metadata}/>
-                    </ErrorBoundary>
-                </div>
-                {this.renderSpecificUsageSection()}
-                {this.renderDistributionsListSection()}
-                {this.renderContactSection()}
-                {this.renderDistributionSection()}
-                {this.renderConstraintsSection()}
-                {this.renderSupplementalDescriptionSection()}
+                <div className={style.content}>
+                    <h1>{this.props.metadata.Title}</h1>
+                    <div>{this.props.metadata.Abstract}</div>
+                    <div className={style.btns}>
+                        <ErrorBoundary>
+                            <ProductsheetButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ProductspesificationButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <LegendDescriptionButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ContactOwnerButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ProductPageButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ApplicationButton listButton={false} metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                    </div>
+                    {this.renderSpecificUsageSection()}
+                    {this.renderDistributionsListSection()}
+                    {this.renderContactSection()}
+                    {this.renderDistributionSection()}
+                    {this.renderConstraintsSection()}
+                    {this.renderSupplementalDescriptionSection()}
 
-                <span>Detaljert informasjon</span>
-                <div>
-                    {this.renderQualitySection()}
-                    {this.renderQualitySpecificationsSection()}
-                    {this.renderPurposeSection()}
-                    {this.renderTimeAndSpaceSection()}
-                    {this.renderKeywordsSection()}
+                    <span>Detaljert informasjon</span>
+                    <div>
+                        {this.renderQualitySection()}
+                        {this.renderQualitySpecificationsSection()}
+                        {this.renderPurposeSection()}
+                        {this.renderTimeAndSpaceSection()}
+                        {this.renderKeywordsSection()}
+                    </div>
                 </div>
-            </div>
-        )
+            )
     }
 }
 
