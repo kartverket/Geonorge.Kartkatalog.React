@@ -7,7 +7,7 @@ function setupItemWithContactMetadata() {
     const metadata = {
         Uuid: '1234',
         ContactMetadata: {
-            email:'test'
+            Email:'test'
         } 
     }
     const props = {
@@ -48,7 +48,7 @@ describe('ContactOwnerButton', () => {
         const { wrapper } = setupItemWithContactMetadata()
 
         expect(wrapper.hasClass('btn btn-default')).toBe(true)
-        expect(wrapper.prop("href")).toBe('test')
+        expect(wrapper.prop("href")).toBe('mailto:test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
         expect(wrapper.find("span").first().html()).toContain('Kontakt dataeier')
     })

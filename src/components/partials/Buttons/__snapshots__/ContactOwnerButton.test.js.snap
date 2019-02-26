@@ -7,7 +7,7 @@ ShallowWrapper {
     metadata={
       Object {
         "ContactMetadata": Object {
-          "email": "test",
+          "Email": "test",
         },
         "Uuid": "1234",
       }
@@ -56,7 +56,7 @@ ShallowWrapper {
         </span>,
       ],
       "className": "btn btn-default",
-      "href": "mailto:undefined",
+      "href": "mailto:test",
     },
     "ref": null,
     "rendered": Array [
@@ -138,7 +138,7 @@ ShallowWrapper {
           </span>,
         ],
         "className": "btn btn-default",
-        "href": "mailto:undefined",
+        "href": "mailto:test",
       },
       "ref": null,
       "rendered": Array [
