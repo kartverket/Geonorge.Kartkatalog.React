@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ContactOwnerButton } from './ContactOwnerButton';
+import style from './Buttons.scss'
 
 function setupItemWithContactMetadata() {
     const metadata = {
@@ -47,7 +48,7 @@ describe('ContactOwnerButton', () => {
     it('Item with DistributionUrl', () => {
         const { wrapper } = setupItemWithContactMetadata()
 
-        expect(wrapper.hasClass('btn btn-default')).toBe(true)
+        expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('mailto:test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
         expect(wrapper.find("span").first().html()).toContain('Kontakt dataeier')
@@ -56,7 +57,7 @@ describe('ContactOwnerButton', () => {
     it('Item without DistributionUrl', () => {
         const { wrapper } = setupItemWithoutContactMetadata()
         
-        expect(wrapper.hasClass('btn btn-default disabled')).toBe(true)
+        expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
         expect(wrapper.find("span").first().html()).toContain('Kontakt dataeier')

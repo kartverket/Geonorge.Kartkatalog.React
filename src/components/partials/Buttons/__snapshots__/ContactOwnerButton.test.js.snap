@@ -55,7 +55,7 @@ ShallowWrapper {
           Kontakt dataeier
         </span>,
       ],
-      "className": "btn btn-default",
+      "className": "btn",
       "href": "mailto:test",
     },
     "ref": null,
@@ -137,7 +137,7 @@ ShallowWrapper {
             Kontakt dataeier
           </span>,
         ],
-        "className": "btn btn-default",
+        "className": "btn",
         "href": "mailto:test",
       },
       "ref": null,

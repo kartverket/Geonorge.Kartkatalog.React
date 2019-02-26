@@ -639,23 +639,23 @@ class Metadata extends Component {
             <div className={style.content}>
                 <h1>{this.props.metadata.Title}</h1>
                 <div>{this.props.metadata.Abstract}</div>
-
-                <ErrorBoundary>
-                    <ProductsheetButton metadata={this.props.metadata}/>
-                </ErrorBoundary>
-                <ErrorBoundary>
-                    <ProductspesificationButton metadata={this.props.metadata}/>
-                </ErrorBoundary>
-                <ErrorBoundary>
-                    <LegendDescriptionButton metadata={this.props.metadata}/>
-                </ErrorBoundary>
-                <ErrorBoundary>
-                    <ContactOwnerButton metadata={this.props.metadata}/>
-                </ErrorBoundary>
-                <ErrorBoundary>
-                    <ProductPageButton metadata={this.props.metadata}/>
-                </ErrorBoundary>
-                
+                <div className={style.btns}>
+                    <ErrorBoundary>
+                        <ProductsheetButton metadata={this.props.metadata}/>
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <ProductspesificationButton metadata={this.props.metadata}/>
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <LegendDescriptionButton metadata={this.props.metadata}/>
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <ContactOwnerButton metadata={this.props.metadata}/>
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <ProductPageButton metadata={this.props.metadata}/>
+                    </ErrorBoundary>
+                </div>
                 {this.renderSpecificUsageSection()}
                 {this.renderDistributionsListSection()}
                 {this.renderContactSection()}

@@ -16,5 +16,46 @@
     color: $primary-brand;
 }
 :local(.btn) {
-    background: green;
+    text-decoration: none;
+    background: white;    
+    color: $default-text;
+    width: 100%;
+    text-align: center;
+    padding: 10px 20px;
+    transition: all .3s ease-in;
+    border: 1px solid rgba($primary-brand, .2);
+    border-right-width: 0;
+    &:last-child {
+        border-right-width: 1px;
+    }
+    
+    &:hover {
+        cursor: pointer;
+        background: $primary-brand;
+        color: white;
+        > svg {
+            margin-right: 5px;
+            color: white;
+        }
+    }
+
+    > svg {
+        margin-right: 5px;
+        color: $primary-brand;
+    }
+    &.disabled {
+        &:hover {
+            color: white;
+            > svg {
+                margin-right: 5px;
+                color: white;
+            }
+        }
+        color: $icon-disabled;
+        > svg {
+            margin-right: 5px;
+            color: $icon-disabled;
+        }
+
+    }
 }
