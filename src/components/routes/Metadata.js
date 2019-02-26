@@ -12,6 +12,7 @@ import ProductsheetButton from '../partials/Buttons/ProductsheetButton';
 import { ProductspesificationButton } from '../partials/Buttons/ProductspesificationButton';
 import { LegendDescriptionButton } from '../partials/Buttons/LegendDescriptionButton';
 import { ContactOwnerButton } from '../partials/Buttons/ContactOwnerButton';
+import { ProductPageButton } from '../partials/Buttons/ProductPageButton';
 
 class Metadata extends Component {
     fetchApiData() {
@@ -651,6 +652,10 @@ class Metadata extends Component {
                 <ErrorBoundary>
                     <ContactOwnerButton metadata={this.props.metadata}/>
                 </ErrorBoundary>
+                <ErrorBoundary>
+                    <ProductPageButton metadata={this.props.metadata}/>
+                </ErrorBoundary>
+                
                 {this.renderSpecificUsageSection()}
                 {this.renderDistributionsListSection()}
                 {this.renderContactSection()}
