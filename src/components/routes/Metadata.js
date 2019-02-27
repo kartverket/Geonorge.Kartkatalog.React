@@ -438,7 +438,7 @@ class Metadata extends Component {
         ) : '';
         const relatedApplicationsList = hasRelatedApplications && showRelatedApplications ? (
             <div>
-                <h3>{this.props.clearMetadataDistributions.TitleRelatedApplications}</h3>
+                <h3>{this.props.metadataDistributions.TitleRelatedApplications}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedApplications} />
                 </ErrorBoundary>
