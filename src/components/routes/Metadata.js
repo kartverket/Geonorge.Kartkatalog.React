@@ -678,25 +678,33 @@ class Metadata extends Component {
                             <ApplicationButton listButton={false} metadata={this.props.metadata} />
                         </ErrorBoundary>
                     </div>
-                    <div className={style.description}>
+                    <div className={style.flex}>
                     <p>{this.props.metadata.Abstract}</p>     
                             {this.renderThumbnail()}
                     </div>
+
                     {this.renderSpecificUsageSection()}
                     {this.renderDistributionsListSection()}
-                    {this.renderContactSection()}
-                    {this.renderDistributionSection()}
-                    {this.renderConstraintsSection()}
+                    {this.renderPurposeSection()}
+                    <div className={style.flex}>
+                        
+
+                        {this.renderContactSection()}
+                        {this.renderDistributionSection()}
+                        {this.renderConstraintsSection()}
+                    </div>
+                    
+                    
+                    
                     {this.renderSupplementalDescriptionSection()}
 
-                    <span>Detaljert informasjon</span>
-                    <div>
-                        {this.renderQualitySection()}
-                        {this.renderQualitySpecificationsSection()}
-                        {this.renderPurposeSection()}
+                    <h3>Detaljert informasjon</h3>
+                    <div className={style.flex}>
+                        {this.renderQualitySection()}                        
                         {this.renderTimeAndSpaceSection()}
                         {this.renderKeywordsSection()}
                     </div>
+                    {this.renderQualitySpecificationsSection()}                        
                 </div>
             )
     }

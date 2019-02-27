@@ -68,6 +68,7 @@
     flex: 1 1 20%;
   }
 }
-:local(.description) {
+:local(.flex) {
   display: flex;
+  justify-content: space-around;
 }
