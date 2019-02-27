@@ -9,11 +9,12 @@ import DistributionsList from "./Metadata/DistributionsList";
 import style from "./Metadata.scss";
 import { ErrorBoundary } from '../ErrorBoundary'
 import ProductsheetButton from '../partials/Buttons/ProductsheetButton';
-import { ProductspesificationButton } from '../partials/Buttons/ProductspesificationButton';
-import { LegendDescriptionButton } from '../partials/Buttons/LegendDescriptionButton';
-import { ContactOwnerButton } from '../partials/Buttons/ContactOwnerButton';
-import { ProductPageButton } from '../partials/Buttons/ProductPageButton';
-import { ApplicationButton } from '../partials/Buttons/ApplicationButton';
+import ProductspesificationButton from '../partials/Buttons/ProductspesificationButton';
+import LegendDescriptionButton from '../partials/Buttons/LegendDescriptionButton';
+import ContactOwnerButton from '../partials/Buttons/ContactOwnerButton';
+import ProductPageButton from '../partials/Buttons/ProductPageButton';
+import ApplicationButton from '../partials/Buttons/ApplicationButton';
+import MapButton from '../partials/Buttons/MapButton';
 
 class Metadata extends Component {
     fetchApiData() {
@@ -676,6 +677,9 @@ class Metadata extends Component {
                         </ErrorBoundary>
                         <ErrorBoundary>
                             <ApplicationButton listButton={false} metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <MapButton listButton={false} metadata={this.props.metadata} />
                         </ErrorBoundary>
                     </div>
                     <div className={style.flex}>
