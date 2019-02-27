@@ -2,13 +2,14 @@ import React from 'react';
 import {shallow} from "enzyme";
 import {DownloadButton} from './DownloadButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import style from './Buttons.scss'
 
-function setupSearchResultDownloadButton() {
-    const searchResult = {
+function setupMetadataDownloadButton() {
+    const metadata = {
         DistributionProtocol: "GEONORGE:DOWNLOAD"
     };
     const props = {
-        searchResult: searchResult,
+        metadata: metadata,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn()
     };
@@ -20,14 +21,14 @@ function setupSearchResultDownloadButton() {
     }
 }
 
-function setupSearchResultDownloadLink() {
-    const searchResult = {
+function setupMetadataDownloadLink() {
+    const metadata = {
         DistributionUrl: "test.no",
         DistributionProtocol: "WWW:DOWNLOAD-1.0-http--download",
         Type: "dataset"
     };
     const props = {
-        searchResult: searchResult,
+        metadata: metadata,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn()
     };
@@ -39,15 +40,72 @@ function setupSearchResultDownloadLink() {
     }
 }
 
+function setupMetadataListButtonFalse() {
+    const metadata = {
+    };
+    const props = {
+        metadata: metadata,
+        addItemSelectedForDownload: jest.fn(),
+        removeItemSelectedForDownload: jest.fn(),
+        listButton: false
+    };
+    const wrapper = shallow(<DownloadButton {...props} />);
+
+    return {
+        props,
+        wrapper
+    }
+}
+
+function setupMetadataListButtonFalseAndCanShowDownloadService() {
+    const metadata = {
+        CanShowDownloadService: true
+    };
+    const props = {
+        metadata: metadata,
+        addItemSelectedForDownload: jest.fn(),
+        removeItemSelectedForDownload: jest.fn(),
+        listButton: false
+    };
+    const wrapper = shallow(<DownloadButton {...props} />);
+
+    return {
+        props,
+        wrapper
+    }
+}
+
+function setupMetadataListButtonFalseAndCanShowDownloadUrl() {
+    const metadata = {
+        CanShowDownloadUrl: true,
+        DistributionUrl: 'test.no'
+    };
+    const props = {
+        metadata: metadata,
+        addItemSelectedForDownload: jest.fn(),
+        removeItemSelectedForDownload: jest.fn(),
+        listButton: false
+    };
+    const wrapper = shallow(<DownloadButton {...props} />);
+
+    return {
+        props,
+        wrapper
+    }
+}
+
+
 describe('DownloadButton', () => {
 
+
+    // List button
     it('should render self', () => {
-        const {wrapper} = setupSearchResultDownloadButton();
+        const {wrapper} = setupMetadataDownloadButton();
         expect(wrapper).toMatchSnapshot();
     });
 
     it('Show download button when item is selected for download', () => {
-        let {wrapper} = setupSearchResultDownloadButton();
+        let {wrapper} = setupMetadataDownloadButton();
         wrapper = wrapper.setState({isSelectedForDownload: true});
 
         expect(wrapper.prop("className")).toContain("off");
@@ -57,7 +115,7 @@ describe('DownloadButton', () => {
     });
 
     it('Show download button when item is not selected for download', () => {
-        let {wrapper} = setupSearchResultDownloadButton();
+        let {wrapper} = setupMetadataDownloadButton();
         wrapper = wrapper.setState({isSelectedForDownload: false});
 
         expect(wrapper.prop("className")).toContain("on");
@@ -67,9 +125,40 @@ describe('DownloadButton', () => {
     });
 
     it('Show download link', () => {
-        let {wrapper} = setupSearchResultDownloadLink();
+        let {wrapper} = setupMetadataDownloadLink();
 
         expect(wrapper.prop("className")).toContain("on");
+        expect(wrapper.prop("href")).toBe('test.no');
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square');
+        expect(wrapper.find("span").first().html()).toContain('Til nedlasting');
+    });
+
+    
+    // Button
+
+    it('List button false', () => {
+        let {wrapper} = setupMetadataListButtonFalse();
+
+        expect(wrapper.prop("className")).toContain(style.btn + ' disabled')
+        expect(wrapper.prop("href")).toBeUndefined()
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
+        expect(wrapper.find("span").first().html()).toContain('Last ned');
+    });
+
+    it('List button false - CanShowDownloadService true', () => {
+        let {wrapper} = setupMetadataListButtonFalseAndCanShowDownloadService();
+        wrapper = wrapper.setState({isSelectedForDownload: false});
+
+        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("onClick").toString()).toContain("addToDownloadList(button)");
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
+        expect(wrapper.find("span").first().html()).toContain('Last ned');
+    });
+
+    it('List button false - CanShowDownloadUrl true', () => {
+        let {wrapper} = setupMetadataListButtonFalseAndCanShowDownloadUrl();
+
+        expect(wrapper.prop("className")).toContain(style.btn)
         expect(wrapper.prop("href")).toBe('test.no');
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square');
         expect(wrapper.find("span").first().html()).toContain('Til nedlasting');
