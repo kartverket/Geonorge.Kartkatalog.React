@@ -5,8 +5,8 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <MapButton
     addMapItem={[MockFunction]}
-    removeMapItem={[MockFunction]}
-    searchResult={
+    listButton={true}
+    metadata={
       Object {
         "DistributionProtocol": "test protocol",
         "GetCapabilitiesUrl": "test url",
@@ -17,6 +17,7 @@ ShallowWrapper {
         "addLayers": Array [],
       }
     }
+    removeMapItem={[MockFunction]}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],

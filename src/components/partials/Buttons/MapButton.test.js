@@ -1,11 +1,12 @@
 import React from 'react';
-import { shallow } from "enzyme";
-import { MapButton } from './MapButton';
+import {shallow} from "enzyme";
+import { MapButton} from './MapButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { wrap } from 'module';
+import style from './Buttons.scss'
 
 function setupServiceWithShowMapLinkTrue() {
-    const searchResult = {
+    const metadata = {
         ShowMapLink: true,
         Uuid: "1234",
         Title: "Test title",
@@ -15,9 +16,10 @@ function setupServiceWithShowMapLinkTrue() {
         Type: "service"
     }
     const props = {
-        searchResult: searchResult,
+        metadata: metadata,
         addMapItem: jest.fn(),
-        removeMapItem: jest.fn()
+        removeMapItem: jest.fn(),
+        listButton: true
     }
     const wrapper = shallow(<MapButton {...props} />)
 
@@ -28,7 +30,7 @@ function setupServiceWithShowMapLinkTrue() {
 }
 
 function setupDatasetWithShowMapLinkTrue() {
-    const searchResult = {
+    const metadata = {
         ShowMapLink: true,
         Uuid: "1234",
         Title: "Test title",
@@ -55,7 +57,7 @@ function setupDatasetWithShowMapLinkTrue() {
 
     }
     const props = {
-        searchResult: searchResult,
+        metadata: metadata,
         addMapItem: jest.fn(),
         removeMapItem: jest.fn()
     }
@@ -67,12 +69,12 @@ function setupDatasetWithShowMapLinkTrue() {
     }
 }
 
-function setupSearchResultWithShowMapLinkFalse() {
-    const searchResult = {
+function setupMetadataWithShowMapLinkFalse() {
+    const metadata = {
         ShowMapLink: false
     }
     const props = {
-        searchResult: searchResult,
+        metadata: metadata,
     }
     const wrapper = shallow(<MapButton {...props} />)
 
@@ -82,7 +84,53 @@ function setupSearchResultWithShowMapLinkFalse() {
     }
 }
 
+function setupItemListButtonFalseAndCanShowMapUrl() {
+    const metadata = {
+        CanShowMapUrl: true,
+        DistributionDetails:{
+            Protocol: "test protocol"
+        },
+        Uuid: "1234",
+        Title: "Test title",
+        MapLink: "test url",
+        addLayers: [],
+    }
+    const props = {
+        metadata: metadata,
+        addMapItem: jest.fn(),
+        removeMapItem: jest.fn(),
+        listButton: false
+    }
+    const wrapper = shallow(<MapButton {...props} />)
 
+    return {
+        props,
+        wrapper
+    }
+}
+
+function setupItemListButtonFalseAndCanShowServiceMapUrl() {
+    const metadata = {
+        CanShowServiceMapUrl: true,
+        ServiceDistributionProtocolForDataset: "test protocol",
+        Uuid: "1234",
+        Title: "Test title",
+        MapLink: "test url",
+        addLayers: []
+    }
+    const props = {
+        metadata: metadata,
+        addMapItem: jest.fn(),
+        removeMapItem: jest.fn(),
+        listButton: false
+    }
+    const wrapper = shallow(<MapButton {...props} />)
+
+    return {
+        props,
+        wrapper
+    }
+}
 
 describe('MapButton', () => {
 
@@ -94,6 +142,7 @@ describe('MapButton', () => {
     it('Service with ShowMapLink true and isAdded false', () => {
         let { wrapper } = setupServiceWithShowMapLinkTrue()
 
+        console.log(wrapper)
         expect(wrapper.prop("className")).toContain("on")
         expect(wrapper.prop("onClick").toString()).toContain("addToMap([mapItem])")
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')
@@ -127,7 +176,7 @@ describe('MapButton', () => {
         expect(wrapper.find("span").first().html()).toContain('Fjern fra kart')
     })
 
-    it('Service with ShowMapLink true and isAdded true', () => {
+    it('Dataset with ShowMapLink true and isAdded true', () => {
         let { wrapper } = setupDatasetWithShowMapLinkTrue()
         wrapper.setState({
             selectedMapItems: [{
@@ -146,8 +195,8 @@ describe('MapButton', () => {
     })
 
 
-    it('Service with ShowMapLink false', () => {
-        let { wrapper } = setupSearchResultWithShowMapLinkFalse()
+    it('Item with ShowMapLink false', () => {
+        let { wrapper } = setupMetadataWithShowMapLinkFalse()
 
         expect(wrapper.hasClass()).toBe(false)
         expect(wrapper.prop("onClick")).toBeUndefined()
@@ -156,4 +205,59 @@ describe('MapButton', () => {
 
     })
 
+
+    // Button
+    it('List button false - Item with CanShowMapUrl and isAdded false', () => {
+        let { wrapper } = setupItemListButtonFalseAndCanShowMapUrl()
+
+        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("onClick").toString()).toContain("addToMap([mapItem])")
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')
+        expect(wrapper.find("span").first().html()).toContain('Legg til i kart')
+    })
+
+    it('List button false - Item with CanShowMapUrl and isAdded', () => {
+        let { wrapper } = setupItemListButtonFalseAndCanShowMapUrl()
+        wrapper.setState({
+            selectedMapItems: [{
+                Uuid: "1234",
+                Title: "Test title",
+                DistributionProtocol: "test protocol",
+                GetCapabilitiesUrl: "test url",
+                addLayers: Array(0)
+            }]
+        })
+
+        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("onClick").toString()).toContain("removeFromMap([mapItem])")
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-minus')
+        expect(wrapper.find("span").first().html()).toContain('Fjern fra kart')
+    })
+
+    it('List button false - Item with CanShowServiceMapUrl and isAdded false', () => {
+        let { wrapper } = setupItemListButtonFalseAndCanShowServiceMapUrl()
+
+        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("onClick").toString()).toContain("addToMap([mapItem])")
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')
+        expect(wrapper.find("span").first().html()).toContain('Legg til i kart')
+    })
+
+    it('List button false - Item with CanShowServiceMapUrl and isAdded', () => {
+        let { wrapper } = setupItemListButtonFalseAndCanShowServiceMapUrl()
+        wrapper.setState({
+            selectedMapItems: [{
+                Uuid: "1234",
+                Title: "Test title",
+                DistributionProtocol: "test protocol",
+                GetCapabilitiesUrl: "test url",
+                addLayers: Array(0)
+            }]
+        })
+
+        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("onClick").toString()).toContain("removeFromMap([mapItem])")
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-minus')
+        expect(wrapper.find("span").first().html()).toContain('Fjern fra kart')
+    })
 })
