@@ -16,6 +16,7 @@ import ProductPageButton from '../partials/Buttons/ProductPageButton';
 import ApplicationButton from '../partials/Buttons/ApplicationButton';
 import MapButton from '../partials/Buttons/MapButton';
 import DownloadButton from '../partials/Buttons/DownloadButton';
+import HelpButton from '../partials/Buttons/HelpButton';
 
 class Metadata extends Component {
     fetchApiData() {
@@ -684,6 +685,9 @@ class Metadata extends Component {
                         </ErrorBoundary>
                         <ErrorBoundary>
                             <DownloadButton listButton={false} metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <HelpButton metadata={this.props.metadata} />
                         </ErrorBoundary>
                     </div>
                     <div className={style.flex}>
