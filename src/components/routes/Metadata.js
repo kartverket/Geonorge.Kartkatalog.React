@@ -629,7 +629,26 @@ class Metadata extends Component {
                 {this.renderTopicCategory()}
             </div>
         ) : '';
+    }   
+    renderThumbnail() {
+        const hasThumbnail = this.props.metadata && this.props.metadata.Thumbnails && this.props.metadata.Thumbnails.length;
+        const thumbnailList = hasThumbnail && this.props.metadata.Thumbnails.filter(thumbnail => {
+            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail"}).map((thumbnail, index) => {           
+            return (
+                <div  key={index}>
+                    <img src={thumbnail.URL} alt={this.props.metadata.Title + ' illustrasjon'} title={this.props.metadata.Title + ' illustrasjon'} />
+                </div>
+            )
+        })
+        
+       return  hasThumbnail ? (
+           thumbnailList
+       ) : '';       
     }
+
+
+   
+   
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -638,8 +657,7 @@ class Metadata extends Component {
             </div>
         ) : (
                 <div className={style.content}>
-                    <h1>{this.props.metadata.Title}</h1>
-                    <div>{this.props.metadata.Abstract}</div>
+                    <h1>{this.props.metadata.Title}</h1>                   
                     <div className={style.btns}>
                         <ErrorBoundary>
                             <ProductsheetButton metadata={this.props.metadata} />
@@ -659,6 +677,10 @@ class Metadata extends Component {
                         <ErrorBoundary>
                             <ApplicationButton listButton={false} metadata={this.props.metadata} />
                         </ErrorBoundary>
+                    </div>
+                    <div className={style.description}>
+                    <p>{this.props.metadata.Abstract}</p>     
+                            {this.renderThumbnail()}
                     </div>
                     {this.renderSpecificUsageSection()}
                     {this.renderDistributionsListSection()}
