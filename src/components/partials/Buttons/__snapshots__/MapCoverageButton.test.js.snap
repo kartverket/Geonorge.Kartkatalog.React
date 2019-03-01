@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProductsheetButton should render self 1`] = `
+exports[`setupItemWithHelpUrl should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <ProductSheetButton
+  Symbol(enzyme.__unrendered__): <MapCoverageButton
     metadata={
       Object {
-        "ProductSheetUrl": "test",
+        "HelpUrl": "test",
         "Uuid": "1234",
       }
     }
@@ -34,7 +34,7 @@ ShallowWrapper {
           icon={
             Array [
               "far",
-              "info-circle",
+              "globe",
             ]
           }
           inverse={false}
@@ -46,11 +46,11 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title="Vis produktark"
+          title="Vis dekningskart"
           transform={null}
         />,
         <span>
-          Vis produktark
+          Vis dekningskart
         </span>,
       ],
       "className": "btn",
@@ -69,7 +69,7 @@ ShallowWrapper {
           "flip": null,
           "icon": Array [
             "far",
-            "info-circle",
+            "globe",
           ],
           "inverse": false,
           "listItem": false,
@@ -80,7 +80,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "Vis produktark",
+          "title": "Vis dekningskart",
           "transform": null,
         },
         "ref": null,
@@ -92,10 +92,10 @@ ShallowWrapper {
         "key": "textContent",
         "nodeType": "host",
         "props": Object {
-          "children": "Vis produktark",
+          "children": "Vis dekningskart",
         },
         "ref": null,
-        "rendered": "Vis produktark",
+        "rendered": "Vis dekningskart",
         "type": "span",
       },
     ],
@@ -116,7 +116,7 @@ ShallowWrapper {
             icon={
               Array [
                 "far",
-                "info-circle",
+                "globe",
               ]
             }
             inverse={false}
@@ -128,11 +128,11 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Vis produktark"
+            title="Vis dekningskart"
             transform={null}
           />,
           <span>
-            Vis produktark
+            Vis dekningskart
           </span>,
         ],
         "className": "btn",
@@ -151,7 +151,7 @@ ShallowWrapper {
             "flip": null,
             "icon": Array [
               "far",
-              "info-circle",
+              "globe",
             ],
             "inverse": false,
             "listItem": false,
@@ -162,7 +162,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "Vis produktark",
+            "title": "Vis dekningskart",
             "transform": null,
           },
           "ref": null,
@@ -174,10 +174,10 @@ ShallowWrapper {
           "key": "textContent",
           "nodeType": "host",
           "props": Object {
-            "children": "Vis produktark",
+            "children": "Vis dekningskart",
           },
           "ref": null,
-          "rendered": "Vis produktark",
+          "rendered": "Vis dekningskart",
           "type": "span",
         },
       ],

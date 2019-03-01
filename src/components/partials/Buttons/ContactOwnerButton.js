@@ -16,14 +16,14 @@ export class ContactOwnerButton extends Component {
         // TODO styling
         if (this.props.metadata.ContactMetadata) {
             let email = this.props.metadata.ContactMetadata.Email
-            let icon = <FontAwesomeIcon title="Kontakt dataeier" icon={['far', 'external-link-square']} key="icon" />;
+            let icon = <FontAwesomeIcon title="Kontakt dataeier" icon={['far', 'envelope']} key="icon" />;
             let buttonClass = style.btn;
             let textContent = React.createElement('span', { key: "textContent" }, 'Kontakt dataeier');
 
             let childElements = [icon, textContent];
             return React.createElement('a', { href: "mailto:" + email, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title="Kontakt dataeier" icon={['far', 'external-link-square']} key="icon" />
+            let icon = <FontAwesomeIcon title="Kontakt dataeier" icon={['far', 'envelope']} key="icon" />
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, 'Kontakt dataeier');
             let childElements = [icon, textContent];

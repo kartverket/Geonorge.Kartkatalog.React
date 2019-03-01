@@ -5,7 +5,7 @@ import style from './Buttons.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export class HelpButton extends Component {
+export class MapCoverageButton extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -16,16 +16,16 @@ export class HelpButton extends Component {
         // TODO styling
         if (this.props.metadata.HelpUrl) {
             let url = this.props.metadata.HelpUrl
-            let icon = <FontAwesomeIcon title="Hjelp" icon={['far', 'question-circle']} key="icon" />;
+            let icon = <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />;
             let buttonClass = style.btn;
-            let textContent = React.createElement('span', { key: "textContent" }, 'Hjelp');
+            let textContent = React.createElement('span', { key: "textContent" }, 'Vis dekningskart');
 
             let childElements = [icon, textContent];
             return React.createElement('a', { href: url, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title="Hjelp" icon={['far', 'question-circle']} key="icon" />
+            let icon = <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />
             let buttonClass = style.btn + ' disabled'
-            let textContent = React.createElement('span', { key: "textContent" }, 'Hjelp');
+            let textContent = React.createElement('span', { key: "textContent" }, 'Vis dekningskart');
             let childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
         }
@@ -33,8 +33,8 @@ export class HelpButton extends Component {
 
 }
 
-HelpButton.propTypes = {
+MapCoverageButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-export default connect(null, null)(HelpButton);
+export default connect(null, null)(MapCoverageButton);

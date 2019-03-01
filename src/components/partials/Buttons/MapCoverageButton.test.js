@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from "enzyme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { HelpButton } from './HelpButton';
 import style from './Buttons.scss'
+import { MapCoverageButton } from './MapCoverageButton';
 
 function setupItemWithHelpUrl() {
     const metadata = {
@@ -12,7 +12,7 @@ function setupItemWithHelpUrl() {
     const props = {
         metadata: metadata
     }
-    const wrapper = shallow(<HelpButton {...props} />)
+    const wrapper = shallow(<MapCoverageButton {...props} />)
 
     return {
         props,
@@ -27,7 +27,7 @@ function setupItemWithoutHelpUrl() {
     const props = {
         metadata: metadata
     }
-    const wrapper = shallow(<HelpButton {...props} />)
+    const wrapper = shallow(<MapCoverageButton {...props} />)
 
     return {
         props,
@@ -48,8 +48,8 @@ describe('setupItemWithHelpUrl', () => {
 
         expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('question-circle')        
-        expect(wrapper.find("span").first().html()).toContain('Hjelp')
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('globe')        
+        expect(wrapper.find("span").first().html()).toContain('Vis dekningskart')
     })
 
     it('Item without help url', () => {
@@ -57,7 +57,7 @@ describe('setupItemWithHelpUrl', () => {
         
         expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('question-circle')        
-        expect(wrapper.find("span").first().html()).toContain('Hjelp')
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('globe')        
+        expect(wrapper.find("span").first().html()).toContain('Vis dekningskart')
     })
 })

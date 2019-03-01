@@ -48,7 +48,7 @@ describe('ProductsheetButton', () => {
 
         expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('info-circle')        
         expect(wrapper.find("span").first().html()).toContain('Vis produktark')
     })
 
@@ -57,7 +57,7 @@ describe('ProductsheetButton', () => {
         
         expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('info-circle')        
         expect(wrapper.find("span").first().html()).toContain('Vis produktark')
     })
 })

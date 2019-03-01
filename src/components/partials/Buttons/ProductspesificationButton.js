@@ -16,14 +16,14 @@ export class ProductspesificationButton extends Component {
         // TODO styling
         if (this.props.metadata.ProductSpecificationUrl) {
             let url = this.props.metadata.ProductSpecificationUrl
-            let icon = <FontAwesomeIcon title="Vis produktspesifikasjon" icon={['far', 'external-link-square']} key="icon" />;
+            let icon = <FontAwesomeIcon title="Vis produktspesifikasjon" icon={['far', 'file-spreadsheet']} key="icon" />;
             let buttonClass = style.btn;
             let textContent = React.createElement('span', { key: "textContent" }, 'Vis produktspesifikasjon');
 
             let childElements = [icon, textContent];
             return React.createElement('a', { href: url, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title="Vis produktspesifikasjon" icon={['far', 'external-link-square']} key="icon" />
+            let icon = <FontAwesomeIcon title="Vis produktspesifikasjon" icon={['far', 'file-spreadsheet']} key="icon" />
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, 'Vis produktspesifikasjon');
             let childElements = [icon, textContent];

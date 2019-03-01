@@ -36,7 +36,7 @@ ShallowWrapper {
           icon={
             Array [
               "far",
-              "external-link-square",
+              "envelope",
             ]
           }
           inverse={false}
@@ -71,7 +71,7 @@ ShallowWrapper {
           "flip": null,
           "icon": Array [
             "far",
-            "external-link-square",
+            "envelope",
           ],
           "inverse": false,
           "listItem": false,
@@ -118,7 +118,7 @@ ShallowWrapper {
             icon={
               Array [
                 "far",
-                "external-link-square",
+                "envelope",
               ]
             }
             inverse={false}
@@ -153,7 +153,7 @@ ShallowWrapper {
             "flip": null,
             "icon": Array [
               "far",
-              "external-link-square",
+              "envelope",
             ],
             "inverse": false,
             "listItem": false,

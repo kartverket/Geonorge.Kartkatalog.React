@@ -26,23 +26,24 @@
     border: 1px solid rgba($primary-brand, .2);
     border-right-width: 1px;
     margin-left: -1px;
-    margin-bottom: -1px;
-    &:last-child {
-        border-right-width: 1px;
-    }
+    margin-bottom: -1px;    
     
     &:hover {
         cursor: pointer;
         background: $primary-brand;
         color: white;
         > svg {
+            font-size: 1.6em;
             margin-right: 5px;
             color: white;
         }
     }
 
     > svg {
+        position: relative;
+        top: 4px;
         margin-right: 5px;
+        font-size: 1.6em;
         color: $primary-brand;
     }
     &.disabled {

@@ -16,14 +16,14 @@ export class ProductSheetButton extends Component {
         // TODO styling
         if (this.props.metadata.ProductSheetUrl) {
             let url = this.props.metadata.ProductSheetUrl
-            let icon = <FontAwesomeIcon title="Vis produktark" icon={['far', 'external-link-square']} key="icon" />;
+            let icon = <FontAwesomeIcon title="Vis produktark" icon={['far', 'info-circle']} key="icon" />;
             let buttonClass = style.btn;
             let textContent = React.createElement('span', { key: "textContent" }, 'Vis produktark');
 
             let childElements = [icon, textContent];
             return React.createElement('a', { href: url, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title="Vis produktark" icon={['far', 'external-link-square']} key="icon" />
+            let icon = <FontAwesomeIcon title="Vis produktark" icon={['far', 'info-circle']} key="icon" />
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, 'Vis produktark');
             let childElements = [icon, textContent];
