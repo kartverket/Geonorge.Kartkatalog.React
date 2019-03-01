@@ -57,6 +57,8 @@
     font-size: 2.5em;
     font-weight: 100;
     font-family: $header-font;
+    border-bottom: 2px solid $primary-brand;
+    display: inline-block;
   }
   h3 {
     font-size: 1.5em;
@@ -75,5 +77,41 @@
 }
 :local(.flex) {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  > * {
+    flex-basis: 33%;
+  }
+}
+:local(.flex2) {
+  display: flex;
+  justify-content: space-between;
+  > * {
+    flex-basis: 50%;
+  }
+}
+:local(.toggle) {
+    max-height: 0;
+    overflow: hidden;
+    transition: all .3s ease-in-out;
+    &.open {
+      max-height: 1500px;
+    }
+}
+:local(.closed) {
+  max-height: 0;
+  overflow: hidden;
+  transition: all .3s ease;
+}
+:local(.open) {
+  max-height: 1500px;
+  overflow: auto;
+  transition: all .3s ease;
+}
+:local(.opendetails) {
+  &:hover {
+    cursor: pointer;
+  }
+  > h2 > svg {
+    margin-left: 10px;
+  }
 }

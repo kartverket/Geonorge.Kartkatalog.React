@@ -18,8 +18,23 @@ import MapButton from '../partials/Buttons/MapButton';
 import DownloadButton from '../partials/Buttons/DownloadButton';
 import HelpButton from '../partials/Buttons/HelpButton';
 import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class Metadata extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            expanded: false
+        };
+    }
+
+    toggleExpand() {
+        this.setState(prevState => ({            
+            expanded: !prevState.expanded && !prevState.expandedDownload            
+        }))
+    }
+
     fetchApiData() {
         this.props.clearMetadata();
         this.props.fetchMetadata(this.props.match.params.uuid);
@@ -508,9 +523,11 @@ class Metadata extends Component {
         return hasChildren ? (
             <div>
                 <h2>Kontaktinforsmasjon</h2>
+                <div className={style.flex}>
                 {this.renderContactMetadata()}
                 {this.renderContactOwner()}
                 {this.renderContactPublisher()}
+                </div>
             </div>
         ) : '';
     }
@@ -700,28 +717,29 @@ class Metadata extends Component {
                             {this.renderThumbnail()}
                     </div>
 
-                    {this.renderSpecificUsageSection()}
-                    {this.renderDistributionsListSection()}
-                    {this.renderPurposeSection()}
-                    <div className={style.flex}>
-                        
-
-                        {this.renderContactSection()}
+                    {this.renderSpecificUsageSection()}                    
+                    {this.renderDistributionsListSection()}                    
+                    <div className={style.flex2}>                        
                         {this.renderDistributionSection()}
                         {this.renderConstraintsSection()}
                     </div>
                     
-                    
+                    {this.renderContactSection()}
                     
                     {this.renderSupplementalDescriptionSection()}
 
-                    <h3>Detaljert informasjon</h3>
-                    <div className={style.flex}>
+                    <div className={style.opendetails} onClick={() => this.toggleExpand()}>
+                        <h2>Detaljert informasjon   
+                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : 'Vis detaljert informasjon'} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
+                    <div className={this.state.expanded ? style.open : style.closed}>
+                    <div className={style.flex}>                        
                         {this.renderQualitySection()}                        
                         {this.renderTimeAndSpaceSection()}
-                        {this.renderKeywordsSection()}
+                        {this.renderKeywordsSection()}                       
                     </div>
                     {this.renderQualitySpecificationsSection()}                        
+                    {this.renderPurposeSection()}
+                    </div>
                 </div>
             )
     }
