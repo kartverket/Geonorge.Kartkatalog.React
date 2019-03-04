@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import SearchResults from '../partials/SearchResults';
-import {updateSelectedFacetsFromUrl, updateAvailableFacets} from '../../actions/FacetFilterActions'
+import {updateAvailableFacets, updateSelectedFacetsFromUrl} from '../../actions/FacetFilterActions'
 
 import {ErrorBoundary} from '../../components/ErrorBoundary'
 
@@ -12,8 +12,8 @@ import {fetchMetadataSearchResults} from "../../actions/SearchResultActions";
 class Home extends Component {
     componentDidMount() {
         this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
-            let availableFacets = {};
-            this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                let availableFacets = {};
+                this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
                     availableFacets[facetFilterItem.FacetField] = facetFilterItem;
                 });
                 this.props.updateAvailableFacets(availableFacets);
@@ -30,7 +30,14 @@ class Home extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.router.location && this.props.router.location.search !== prevProps.router.location.search) {
             this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
-            this.props.fetchMetadataSearchResults("", this.props.selectedFacets);
+            this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
+                let availableFacets = {};
+                this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                    availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+                });
+                this.props.updateAvailableFacets(availableFacets);
+            });
+
         }
     }
 
