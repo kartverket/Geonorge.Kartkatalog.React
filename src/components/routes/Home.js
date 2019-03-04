@@ -2,11 +2,39 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import SearchResults from '../partials/SearchResults';
-import { ErrorBoundary } from '../../components/ErrorBoundary'
+import {updateSelectedFacetsFromUrl, updateAvailableFacets} from '../../actions/FacetFilterActions'
+
+import {ErrorBoundary} from '../../components/ErrorBoundary'
 
 import style from './Home.scss';
+import {fetchMetadataSearchResults} from "../../actions/SearchResultActions";
 
 class Home extends Component {
+    componentDidMount() {
+        this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
+            let availableFacets = {};
+            this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+            });
+            this.props.updateAvailableFacets(availableFacets);
+
+                if (window.location.search) { // TODO Check if location.search contains facets
+                    this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+                    this.props.fetchMetadataSearchResults("", this.props.selectedFacets);
+                }
+            }
+        )
+
+    }
+
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.router.location && this.props.router.location.search !== prevProps.router.location.search) {
+            this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+            this.props.fetchMetadataSearchResults("", this.props.selectedFacets);
+        }
+    }
+
     render() {
         return (
             <div>
@@ -19,4 +47,17 @@ class Home extends Component {
     }
 }
 
-export default connect(null)(Home);
+const mapStateToProps = state => ({
+    router: state.router,
+    availableFacets: state.availableFacets,
+    selectedFacets: state.selectedFacets,
+    searchResults: state.searchResults
+});
+
+const mapDispatchToProps = {
+    updateSelectedFacetsFromUrl,
+    updateAvailableFacets,
+    fetchMetadataSearchResults
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

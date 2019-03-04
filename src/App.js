@@ -15,16 +15,12 @@ import MainNavigation from './components/partials/MainNavigation';
 import style from './App.scss';
 
 import './scss/styles.scss';
-import {fetchArticleSearchResults, fetchMetadataSearchResults} from "./actions/SearchResultActions";
 
 const initialState = {};
 const store = configureStore(initialState);
 
+
 class App extends Component {
-    componentWillMount() {
-        store.dispatch(fetchMetadataSearchResults());
-        store.dispatch(fetchArticleSearchResults());
-    }
 
     render() {
         return (
@@ -37,7 +33,8 @@ class App extends Component {
                                 <Switch>
                                     <Route exact path="/" render={() => (<Home/>)}/>
                                     <Route exact path="/kart" render={() => (<MapContainer/>)}/>
-                                    <Route exact path="/metadata/:uuid" render={(props) => (<Metadata {...props} />)}/>
+                                    <Route exact path="/metadata/:uuid"
+                                           render={(props) => (<Metadata {...props} />)}/>
                                     <Route render={() => (<div>Miss</div>)}/>
                                 </Switch>
                             </div>
