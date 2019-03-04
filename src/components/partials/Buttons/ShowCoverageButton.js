@@ -33,13 +33,13 @@ export class ShowCoverageButton extends Component {
         if(this.props.metadata.CoverageUrl){
             let buttonClass = style.btn;
             return <span className={buttonClass} onClick={this.showModal}>
-                <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'external-link-square']} key="icon" />Vis dekningskart
+                <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />Vis dekningskart
             </span>
         }
         else{
             let buttonClass = style.btn + ' disabled';
             return <span className={buttonClass}>
-                <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'external-link-square']} key="icon" />Vis dekningskart
+                <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />Vis dekningskart
             </span>
         }
         
