@@ -45,9 +45,6 @@ const addChildFacets = (facets, facetToAdd) => {
 };
 
 export const updateSelectedFacetsFromUrl = (availableFacets = {}) => dispatch => {
-    if (!window.location.search) {
-        return;
-    }
     const urlQueryArray = decodeURI(window.location.search).replace('?', '').split('&');
 
     let facets = {};

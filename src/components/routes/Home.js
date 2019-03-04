@@ -30,9 +30,11 @@ class Home extends Component {
 
 
     componentDidUpdate(prevProps) {
-        if (prevProps.router.location && this.props.router.location.search !== prevProps.router.location.search) {
-            this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+        const oldUrlParameterString = prevProps.router && prevProps.router.location && prevProps.router.location.search ? prevProps.router.location.search : '';
+        const newUrlParameterString = this.props.router && this.props.router.location && this.props.router.location.search ? this.props.router.location.search : '';
+        if (oldUrlParameterString !== newUrlParameterString) {
             this.props.updateSearchStringFromUrl();
+            this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
             this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
                 let availableFacets = {};
                 this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
@@ -40,7 +42,6 @@ class Home extends Component {
                 });
                 this.props.updateAvailableFacets(availableFacets);
             });
-
         }
     }
 

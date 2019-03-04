@@ -140,6 +140,10 @@ class Facet extends Component {
                     this.isChecked();
                 }
             }
+        } else {
+            if (this.state.checked) {
+                this.unCheck();
+            }
         }
     }
 
@@ -165,6 +169,12 @@ class Facet extends Component {
                     facet: this.props.facet
                 }
             });
+    }
+
+    unCheck() {
+        this.setState({
+            checked: false
+        })
     }
 
     renderFacet() {
