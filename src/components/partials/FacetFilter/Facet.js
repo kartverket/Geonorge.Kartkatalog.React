@@ -151,8 +151,8 @@ class Facet extends Component {
                 facetToAdd: {
                     facetField: this.props.facetField,
                     facet: this.props.facet
-            }
-        });
+                }
+            });
     }
 
     getRemoveFacetQueryString() {
@@ -163,8 +163,8 @@ class Facet extends Component {
                 facetToRemove: {
                     facetField: this.props.facetField,
                     facet: this.props.facet
-            }
-        });
+                }
+            });
     }
 
     renderFacet() {
@@ -204,8 +204,8 @@ class Facet extends Component {
                                title={this.state.checked ? 'Velg' : 'Fjern'} className="svg-checkbox"
                                icon={this.state.checked ? ['fas', 'times'] : ['far', 'square']}/>
                        </label>
-                    {this.renderSelectedFacetsList(this.props.facet.facets)}
                 </Link>
+                {this.renderSelectedFacetsList(this.props.facet.facets)}
             </span>
         );
     }
