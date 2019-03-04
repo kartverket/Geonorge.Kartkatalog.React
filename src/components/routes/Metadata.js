@@ -18,7 +18,7 @@ import MapButton from '../partials/Buttons/MapButton';
 import DownloadButton from '../partials/Buttons/DownloadButton';
 import HelpButton from '../partials/Buttons/HelpButton';
 import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Metadata extends Component {
 
@@ -30,8 +30,8 @@ class Metadata extends Component {
     }
 
     toggleExpand() {
-        this.setState(prevState => ({            
-            expanded: !prevState.expanded && !prevState.expandedDownload            
+        this.setState(prevState => ({
+            expanded: !prevState.expanded && !prevState.expandedDownload
         }))
     }
 
@@ -524,9 +524,9 @@ class Metadata extends Component {
             <div>
                 <h2>Kontaktinforsmasjon</h2>
                 <div className={style.flex}>
-                {this.renderContactMetadata()}
-                {this.renderContactOwner()}
-                {this.renderContactPublisher()}
+                    {this.renderContactMetadata()}
+                    {this.renderContactOwner()}
+                    {this.renderContactPublisher()}
                 </div>
             </div>
         ) : '';
@@ -650,26 +650,27 @@ class Metadata extends Component {
                 {this.renderTopicCategory()}
             </div>
         ) : '';
-    }   
+    }
     renderThumbnail() {
         const hasThumbnail = this.props.metadata && this.props.metadata.Thumbnails && this.props.metadata.Thumbnails.length;
         const thumbnailList = hasThumbnail && this.props.metadata.Thumbnails.filter(thumbnail => {
-            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail"}).map((thumbnail, index) => {           
+            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail"
+        }).map((thumbnail, index) => {
             return (
-                <div  key={index}>
+                <div key={index}>
                     <img src={thumbnail.URL} alt={this.props.metadata.Title + ' illustrasjon'} title={this.props.metadata.Title + ' illustrasjon'} />
                 </div>
             )
         })
-        
-       return  hasThumbnail ? (
-           thumbnailList
-       ) : '';       
+
+        return hasThumbnail ? (
+            thumbnailList
+        ) : '';
     }
 
 
-   
-   
+
+
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -678,8 +679,23 @@ class Metadata extends Component {
             </div>
         ) : (
                 <div className={style.content}>
-                    <h1>{this.props.metadata.Title}</h1>                   
+                    <h1>{this.props.metadata.Title}</h1>
                     <div className={style.btns}>
+                        <ErrorBoundary>
+                            <MapButton listButton={false} metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <DownloadButton listButton={false} metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ShowCoverageButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <HelpButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ContactOwnerButton metadata={this.props.metadata} />
+                        </ErrorBoundary>
                         <ErrorBoundary>
                             <ProductsheetButton metadata={this.props.metadata} />
                         </ErrorBoundary>
@@ -690,55 +706,39 @@ class Metadata extends Component {
                             <LegendDescriptionButton metadata={this.props.metadata} />
                         </ErrorBoundary>
                         <ErrorBoundary>
-                            <ContactOwnerButton metadata={this.props.metadata} />
+                            <ApplicationButton listButton={false} metadata={this.props.metadata} />
                         </ErrorBoundary>
                         <ErrorBoundary>
                             <ProductPageButton metadata={this.props.metadata} />
                         </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ApplicationButton listButton={false} metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <MapButton listButton={false} metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <DownloadButton listButton={false} metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <HelpButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ShowCoverageButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        
                     </div>
                     <div className={style.flex}>
-                    <p>{this.props.metadata.Abstract}</p>     
-                            {this.renderThumbnail()}
+                        <p>{this.props.metadata.Abstract}</p>
+                        {this.renderThumbnail()}
                     </div>
 
-                    {this.renderSpecificUsageSection()}                    
-                    {this.renderDistributionsListSection()}                    
-                    <div className={style.flex2}>                        
+                    {this.renderSpecificUsageSection()}
+                    {this.renderDistributionsListSection()}
+                    <div className={style.flex2}>
                         {this.renderDistributionSection()}
                         {this.renderConstraintsSection()}
                     </div>
-                    
+
                     {this.renderContactSection()}
-                    
+
                     {this.renderSupplementalDescriptionSection()}
 
                     <div className={style.opendetails} onClick={() => this.toggleExpand()}>
-                        <h2>Detaljert informasjon   
+                        <h2>Detaljert informasjon
                             <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : 'Vis detaljert informasjon'} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
                     <div className={this.state.expanded ? style.open : style.closed}>
-                    <div className={style.flex}>                        
-                        {this.renderQualitySection()}                        
-                        {this.renderTimeAndSpaceSection()}
-                        {this.renderKeywordsSection()}                       
-                    </div>
-                    {this.renderQualitySpecificationsSection()}                        
-                    {this.renderPurposeSection()}
+                        <div className={style.flex}>
+                            {this.renderQualitySection()}
+                            {this.renderTimeAndSpaceSection()}
+                            {this.renderKeywordsSection()}
+                        </div>
+                        {this.renderQualitySpecificationsSection()}
+                        {this.renderPurposeSection()}
                     </div>
                 </div>
             )
