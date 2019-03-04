@@ -686,7 +686,7 @@ class Metadata extends Component {
         ) : (
                 <div className={style.content}>
                     <h1>{this.props.metadata.Title}</h1>
-                    <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-down' : 'angle-up'} /></div>
+                    <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
                     <div className={this.state.showBtns ? style.openBtnsContainer : style.openBtnsContainer + ' closed'}>
                     <div className={style.btns}>                        
                        
