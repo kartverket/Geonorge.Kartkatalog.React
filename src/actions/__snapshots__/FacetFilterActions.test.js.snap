@@ -1,33 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`facet_filter_actions addSelectedFacet Dispatches the correct action and payload 1`] = `
-Array [
-  Object {
-    "facetField": "type",
-    "payload": Object {
-      "Count": 287,
-      "Name": "dataset",
-      "NameTranslated": "Datasett",
-    },
-    "type": "ADD_SELECTEDFACET",
-  },
-]
-`;
-
-exports[`facet_filter_actions removeSelectedFacet Dispatches the correct action and payload 1`] = `
-Array [
-  Object {
-    "facetField": "type",
-    "payload": Object {
-      "Count": 287,
-      "Name": "dataset",
-      "NameTranslated": "Datasett",
-    },
-    "type": "REMOVE_SELECTEDFACET",
-  },
-]
-`;
-
 exports[`facet_filter_actions updateSelectedFacets Dispatches the correct action and payload 1`] = `
 Array [
   Object {
@@ -56,23 +28,6 @@ Array [
       },
     ],
     "type": "UPDATE_SELECTEDFACETS",
-  },
-]
-`;
-
-exports[`facet_filter_actions updateSelectedFacetsForFacetField Dispatches the correct action and payload 1`] = `
-Array [
-  Object {
-    "facetField": "type",
-    "payload": Array [
-      Object {
-        "Name": "dataset",
-      },
-      Object {
-        "Name": "service",
-      },
-    ],
-    "type": "UPDATE_SELECTED_FACETS_FOR_FACET_FIELD",
   },
 ]
 `;

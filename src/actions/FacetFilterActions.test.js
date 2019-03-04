@@ -36,16 +36,4 @@ describe('facet_filter_actions', () => {
             expect(store.getActions()).toMatchSnapshot();
         });
     });
-
-    describe('updateSelectedFacetsForFacetField', () => {
-        test('Dispatches the correct action and payload', () => {
-            const facets = [
-                { Name: 'dataset' },
-                { Name: 'service' }
-            ];
-            const facetField = 'type';
-            store.dispatch(facetFilterActions.updateSelectedFacetsForFacetField(facets, facetField));
-            expect(store.getActions()).toMatchSnapshot();
-        });
-    });
 });

@@ -45,11 +45,6 @@ describe('search_result_actions', () => {
             await store.dispatch(searchResultActions.fetchMetadataSearchResults(undefined, null, 1, true));
             expect(store.getActions()[0].type).toBe("APPEND_TO_METADATASEARCHRESULTS");
         });
-
-        test('Dispatch "FETCH_AVAILABLEFACETS"', async () => {
-            await store.dispatch(searchResultActions.fetchMetadataSearchResults(undefined, null, 1, true));
-            expect(store.getActions()[1].type).toBe("FETCH_AVAILABLEFACETS");
-        });
     });
 
     describe('fetchArticleSearchResults', () => {

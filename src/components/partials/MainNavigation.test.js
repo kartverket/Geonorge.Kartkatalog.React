@@ -10,6 +10,7 @@ function setup() {
   const props = {
     fetchMapItems: jest.fn(),
     fetchItemsToDownload: jest.fn(),
+    getGeonorgeLogo: jest.fn(),
     mapItems: [],
     itemsToDownload: []
   }
