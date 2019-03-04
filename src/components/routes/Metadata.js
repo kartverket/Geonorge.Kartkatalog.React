@@ -25,13 +25,19 @@ class Metadata extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false
+            expanded: false,
+            showBtns: false
         };
     }
 
     toggleExpand() {
         this.setState(prevState => ({
             expanded: !prevState.expanded && !prevState.expandedDownload
+        }))
+    }
+    toggleBtns() {        
+        this.setState(prevState => ({
+            showBtns: !prevState.showBtns && !prevState.expandedBtns
         }))
     }
 
@@ -680,7 +686,10 @@ class Metadata extends Component {
         ) : (
                 <div className={style.content}>
                     <h1>{this.props.metadata.Title}</h1>
-                    <div className={style.btns}>
+                    <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-down' : 'angle-up'} /></div>
+                    <div className={this.state.showBtns ? style.openBtnsContainer : style.openBtnsContainer + ' closed'}>
+                    <div className={style.btns}>                        
+                       
                         <ErrorBoundary>
                             <MapButton listButton={false} metadata={this.props.metadata} />
                         </ErrorBoundary>
@@ -711,6 +720,8 @@ class Metadata extends Component {
                         <ErrorBoundary>
                             <ProductPageButton metadata={this.props.metadata} />
                         </ErrorBoundary>
+                        
+                    </div>
                     </div>
                     <div className={style.flex}>
                         <p>{this.props.metadata.Abstract}</p>
