@@ -1,6 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleRight, faAngleLeft, faAngleDown, faMap, faAngleUp, faMapMarkerAlt, faMapMarker, faMapPin, faTimes, faBars, faArrowDown, faArrowCircleDown, faCloudDownload, faLock, faLockOpen, faMapMarkerTimes  } from '@fortawesome/pro-solid-svg-icons'
-import { faSquare,faCheckSquare, faAngry, faMapMarkerPlus, faMapMarkerMinus, faCloud, faTrash, faExternalLinkSquare, faDownload,faDoorOpen, faQuestionCircle, faImage, faFileSpreadsheet, faInfoCircle, faEnvelope, faGlobe} from '@fortawesome/pro-regular-svg-icons'
+import { faSquare,faCheckSquare, faAngry, faMapMarkerPlus, faMapMarkerMinus, faCloud, faTrash, faExternalLinkSquare, faDownload,faDoorOpen, faQuestionCircle, faImage, faFileSpreadsheet, faInfoCircle, faEnvelope, faGlobe, faFilter} from '@fortawesome/pro-regular-svg-icons'
 import { faNewspaper, faFileAlt } from '@fortawesome/pro-light-svg-icons'
 
 
@@ -40,7 +40,8 @@ library.add(
      faFileSpreadsheet,
      faInfoCircle,
      faEnvelope,
-     faGlobe
+     faGlobe,
+     faFilter
     ]
 );
 

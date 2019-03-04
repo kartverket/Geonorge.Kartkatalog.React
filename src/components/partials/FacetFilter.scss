@@ -47,15 +47,16 @@
     display: block;
     position: absolute;
     top: 150px;
-    font-size: 2em;
+    font-size: 1.2em;
     border: 1px solid $primary-border;
     background: $primary-background;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     color: $primary-brand;
+    margin-left: 20px;
     > svg {
-        margin-left: 15px;
-        margin-top: 12px;
+        margin-left: 10px;
+        margin-top: 10px;
     }
     @include breakpoint(tablet) {
         display: none;

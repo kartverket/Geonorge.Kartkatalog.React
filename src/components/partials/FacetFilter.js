@@ -82,7 +82,7 @@ class FacetFilter extends Component {
         return (
             <div>
                 <div className={style.togglefacet} onClick={() => this.toggleFacets()}><FontAwesomeIcon
-                    icon={this.state.expanded ? ['fas', 'times'] : ['fas', 'bars']}/></div>
+                    icon={this.state.expanded ? ['fas', 'times'] : ['far', 'filter']}/></div>
                 {this.renderFacets()}
             </div>
         )
