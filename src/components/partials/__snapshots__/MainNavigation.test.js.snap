@@ -140,6 +140,7 @@ ShallowWrapper {
           <Link
             className="openMaplink"
             replace={false}
+            target="_self"
             to="/nedlasting"
           >
             Åpne nedlastinger
@@ -252,6 +253,7 @@ ShallowWrapper {
             <Link
               className="openMaplink"
               replace={false}
+              target="_self"
               to="/nedlasting"
             >
               Åpne nedlastinger
@@ -581,6 +583,7 @@ ShallowWrapper {
               <Link
                 className="openMaplink"
                 replace={false}
+                target="_self"
                 to="/nedlasting"
               >
                 Åpne nedlastinger
@@ -605,6 +608,7 @@ ShallowWrapper {
                 "children": "Åpne nedlastinger",
                 "className": "openMaplink",
                 "replace": false,
+                "target": "_self",
                 "to": "/nedlasting",
               },
               "ref": null,
@@ -742,6 +746,7 @@ ShallowWrapper {
             <Link
               className="openMaplink"
               replace={false}
+              target="_self"
               to="/nedlasting"
             >
               Åpne nedlastinger
@@ -854,6 +859,7 @@ ShallowWrapper {
               <Link
                 className="openMaplink"
                 replace={false}
+                target="_self"
                 to="/nedlasting"
               >
                 Åpne nedlastinger
@@ -1183,6 +1189,7 @@ ShallowWrapper {
                 <Link
                   className="openMaplink"
                   replace={false}
+                  target="_self"
                   to="/nedlasting"
                 >
                   Åpne nedlastinger
@@ -1207,6 +1214,7 @@ ShallowWrapper {
                   "children": "Åpne nedlastinger",
                   "className": "openMaplink",
                   "replace": false,
+                  "target": "_self",
                   "to": "/nedlasting",
                 },
                 "ref": null,
