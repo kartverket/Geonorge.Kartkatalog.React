@@ -46,28 +46,9 @@ class SearchResultsTypeList extends Component {
         }
     }
 
-    showResults() {
-        this.props.fetchMetadataSearchResults(this.props.searchString,
-            {
-                type: [
-                    {Name: this.props.searchResultsType}
-                ]
-            }
-        );
-        this.props.updateSelectedFacets([
-            {
-                facets: [{Name: this.props.searchResultsType}],
-                facetField: 'type'
-            }
-        ]);
-        this.props.onShowResults();
-        this.props.updateSelectedSearchResultsType(this.props.searchResultsType);
-        this.props.updateSearchString(this.props.searchString);
-    }
-
     render() {
         return (
-            <div className={style.searchResultsSection} onClick={() => this.showResults()}>
+            <div className={style.searchResultsSection}>
                 <div className={style.searchResultsSectionHeadingContainer}>
                     <Link to={{search: this.getUpdateFacetQueryString()}}>
                         <span
