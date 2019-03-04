@@ -18,16 +18,19 @@ class SearchResultsTypeList extends Component {
     }
 
     getUpdateFacetQueryString() {
-        return getQueryStringFromFacets({
-            type: {
-                Name: 'type',
-                facets: {
-                    [this.props.searchResultsType]: {
-                        Name: this.props.searchResultsType
+        return getQueryStringFromFacets(
+            {
+                type: {
+                    Name: 'type',
+                    facets: {
+                        [this.props.searchResultsType]: {
+                            Name: this.props.searchResultsType
+                        }
                     }
                 }
-            }
-        });
+            },
+            this.props.searchString
+        );
     }
 
     renderDropdownResults() {

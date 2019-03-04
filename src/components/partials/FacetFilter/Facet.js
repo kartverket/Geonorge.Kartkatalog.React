@@ -144,19 +144,25 @@ class Facet extends Component {
     }
 
     getAddFacetQueryString() {
-        return getQueryStringFromFacets(this.props.selectedFacets, {
-            facetToAdd: {
-                facetField: this.props.facetField,
-                facet: this.props.facet
+        return getQueryStringFromFacets(
+            this.props.selectedFacets,
+            this.props.searchString,
+            {
+                facetToAdd: {
+                    facetField: this.props.facetField,
+                    facet: this.props.facet
             }
         });
     }
 
     getRemoveFacetQueryString() {
-        return getQueryStringFromFacets(this.props.selectedFacets, {
-            facetToRemove: {
-                facetField: this.props.facetField,
-                facet: this.props.facet
+        return getQueryStringFromFacets(
+            this.props.selectedFacets,
+            this.props.searchString,
+            {
+                facetToRemove: {
+                    facetField: this.props.facetField,
+                    facet: this.props.facet
             }
         });
     }
@@ -233,7 +239,8 @@ Facet.defaultProps = {
 
 // Store State mappes til lokale states
 const mapStateToProps = state => ({
-    selectedFacets: state.selectedFacets
+    selectedFacets: state.selectedFacets,
+    searchString: state.searchString
 });
 
 

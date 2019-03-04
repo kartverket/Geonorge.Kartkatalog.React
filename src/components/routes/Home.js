@@ -14,13 +14,12 @@ class Home extends Component {
         this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
             let availableFacets = {};
             this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
-                availableFacets[facetFilterItem.FacetField] = facetFilterItem;
-            });
-            this.props.updateAvailableFacets(availableFacets);
-
+                    availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+                });
+                this.props.updateAvailableFacets(availableFacets);
                 if (window.location.search) { // TODO Check if location.search contains facets
                     this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
-                    this.props.fetchMetadataSearchResults("", this.props.selectedFacets);
+                    this.props.fetchMetadataSearchResults(this.props.searchString, this.props.selectedFacets);
                 }
             }
         )
@@ -51,7 +50,8 @@ const mapStateToProps = state => ({
     router: state.router,
     availableFacets: state.availableFacets,
     selectedFacets: state.selectedFacets,
-    searchResults: state.searchResults
+    searchResults: state.searchResults,
+    searchString: state.searchString
 });
 
 const mapDispatchToProps = {

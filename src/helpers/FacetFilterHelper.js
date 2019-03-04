@@ -16,9 +16,9 @@ const getChildFacetsName = (facet, facetField, options = {}) => {
     return queryString;
 };
 
-export const getQueryStringFromFacets = (selectedFacets = {}, options = {}) => {
+export const getQueryStringFromFacets = (selectedFacets = {}, searchString, options = {}) => {
 
-    let queryStringFromFacets = '';
+    let queryStringFromFacets = searchString ? `?text=${searchString}` : '';
     if (Object.keys(selectedFacets).length) {
         Object.keys(selectedFacets).forEach(facetField => {
             if (selectedFacets[facetField].facets) {
