@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom'
-import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions'
-import {fetchItemsToDownload} from '../../actions/DownloadItemActions'
-import { ErrorBoundary } from '../ErrorBoundary'
+import {Link} from 'react-router-dom';
+import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions';
+import {fetchItemsToDownload} from '../../actions/DownloadItemActions';
+import {getGeonorgeLogo} from '../../actions/ImageActions';
+import { ErrorBoundary } from '../ErrorBoundary';
 
 import SearchBar from './MainNavigation/SearchBar';
 
-import logo from '../../images/svg/geonorge-navbar-logo.svg';
-import style from './MainNavigation.scss'
+import style from './MainNavigation.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export class MainNavigation extends Component {
@@ -105,7 +105,7 @@ export class MainNavigation extends Component {
                 <div className={style.mainNavigation + ' container'}>
                     <Link to={'/'}>
                         <div className={style.logo}>
-                            <img src={logo} alt="Geonorge logo"></img>
+                            <img src={this.props.getGeonorgeLogo()} alt="Geonorge logo" />
                         </div>
                     </Link>
                     <div className={style.search}>
@@ -153,7 +153,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     fetchMapItems,
     removeMapItem,
-    fetchItemsToDownload
+    fetchItemsToDownload,
+    getGeonorgeLogo
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavigation);
