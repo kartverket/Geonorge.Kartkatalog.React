@@ -6,6 +6,7 @@ import {fetchMetadataSearchResults} from '../../../actions/SearchResultActions';
 import {updateSelectedFacets} from '../../../actions/FacetFilterActions';
 import {updateSelectedSearchResultsType} from '../../../actions/SelectedSearchResultsTypeActions';
 import {updateSearchString} from '../../../actions/SearchStringActions';
+import {getQueryStringFromFacets} from "../../../helpers/FacetFilterHelper";
 
 import style from './SearchResultsTypeList.scss';
 
@@ -16,12 +17,27 @@ class SearchResultsTypeList extends Component {
         this.state = {};
     }
 
+    getUpdateFacetQueryString() {
+        return getQueryStringFromFacets({
+            type: {
+                Name: 'type',
+                facets: {
+                    [this.props.searchResultsType]: {
+                        Name: this.props.searchResultsType
+                    }
+                }
+            }
+        });
+    }
+
     renderDropdownResults() {
         if (this.props.searchResults && this.props.searchResults.Results) {
             const resultsTypeElements = this.props.searchResults.Results.map((result, i) => {
-                return <div className={style.searchResultsItem} key={i}>
-                    <Link to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
-                </div>
+                return (
+                    <div className={style.searchResultsItem} key={i}>
+                        <Link to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
+                    </div>
+                );
             });
             return resultsTypeElements;
         }
@@ -50,8 +66,11 @@ class SearchResultsTypeList extends Component {
         return (
             <div className={style.searchResultsSection} onClick={() => this.showResults()}>
                 <div className={style.searchResultsSectionHeadingContainer}>
-                    <span className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
-                    <span className={style.counter}> {this.props.searchResults.NumFound}</span>
+                    <Link to={{search: this.getUpdateFacetQueryString()}}>
+                        <span
+                            className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
+                        <span className={style.counter}> {this.props.searchResults.NumFound}</span>
+                    </Link>
                 </div>
                 {this.renderDropdownResults()}
             </div>
