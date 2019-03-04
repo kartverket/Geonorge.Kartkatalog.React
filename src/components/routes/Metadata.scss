@@ -82,9 +82,11 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  border-left: 1px solid $primary-brand;
   >  * {
     flex: 1 1 20%;
     min-width: 250px;
+
   }
 }
 :local(.openBtns) {
