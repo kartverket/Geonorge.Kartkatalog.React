@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import SearchResults from '../partials/SearchResults';
 import {updateAvailableFacets, updateSelectedFacetsFromUrl} from '../../actions/FacetFilterActions'
+import {updateSearchStringFromUrl} from '../../actions/SearchStringActions'
 
 import {ErrorBoundary} from '../../components/ErrorBoundary'
 
@@ -19,6 +20,7 @@ class Home extends Component {
                 this.props.updateAvailableFacets(availableFacets);
                 if (window.location.search) { // TODO Check if location.search contains facets
                     this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+                    this.props.updateSearchStringFromUrl();
                     this.props.fetchMetadataSearchResults(this.props.searchString, this.props.selectedFacets);
                 }
             }
@@ -30,6 +32,7 @@ class Home extends Component {
     componentDidUpdate(prevProps) {
         if (prevProps.router.location && this.props.router.location.search !== prevProps.router.location.search) {
             this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+            this.props.updateSearchStringFromUrl();
             this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
                 let availableFacets = {};
                 this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
@@ -64,7 +67,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     updateSelectedFacetsFromUrl,
     updateAvailableFacets,
-    fetchMetadataSearchResults
+    fetchMetadataSearchResults,
+    updateSearchStringFromUrl
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
