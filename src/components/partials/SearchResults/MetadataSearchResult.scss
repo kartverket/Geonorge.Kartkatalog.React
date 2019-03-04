@@ -19,8 +19,11 @@
 
 		:local(.listItemTitle) {
 			display: block;
-			font-size: 1.2em;
+			font-size: 1em;
 			margin-bottom: 5px;
+			@include breakpoint(tablet) {        
+				font-size: 1.2em;
+			}
 		}
 	
 
@@ -53,9 +56,13 @@
 		}
 		.on {
 			display: flex;
-			width: 140px;
+			width: 100px;
 			flex-direction: column;
-			font-size: 1.2em;
+			font-size: 1em;
+			@include breakpoint(tablet) {        
+				font-size: 1.2em;
+				width: 140px;
+			}
 			align-items: center;						
 			> svg {
 				color: $primary-success;
@@ -74,10 +81,14 @@
 		}
 		.off {
 			display: flex;
-			width: 140px;
+			width: 100px;
 			flex-direction: column;
 			align-items: center;
-			font-size: 1.2em;
+			font-size: 1 em;
+			@include breakpoint(tablet) {        
+				font-size: 1.2em;
+				width: 140px;
+			}
 			> svg  {
 				color: $primary-brand;		
 				margin-right: 5px;	
