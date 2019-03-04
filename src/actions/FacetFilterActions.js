@@ -1,23 +1,4 @@
 import {UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS} from '../actions/types';
-/*
-export const addSelectedFacet = (facet, facetField) => dispatch => {
-    console.log("ADD SELECTED FACET: addSelectedFacet()");
-    dispatch({
-        type: ADD_SELECTEDFACET,
-        payload: facet, // Fasett - eks: Datasett
-        facetField: facetField // kategori - eks: Område
-    })
-}
-
-export const removeSelectedFacet = (facet, facetField) => dispatch => {
-    console.log("REMOVE SELECTED FACETS: removeSelectedFacet()");
-    dispatch({
-        type: REMOVE_SELECTEDFACET,
-        payload: facet,
-        facetField: facetField
-    })
-};
-*/
 
 export const updateAvailableFacets = (facets) => dispatch => {
     dispatch({

@@ -14,33 +14,6 @@ describe('facet_filter_actions', () => {
         store.clearActions();
     });
 
-    describe('addSelectedFacet', () => {
-        test('Dispatches the correct action and payload', () => {
-            const facet = {
-                Name: 'dataset',
-                Count: 287,
-                NameTranslated: 'Datasett'
-            };
-            const facetField = "type";
-            store.dispatch(facetFilterActions.addSelectedFacet(facet, facetField));
-            expect(store.getActions()).toMatchSnapshot();
-        });
-    });
-
-    describe('removeSelectedFacet', () => {
-        test('Dispatches the correct action and payload', () => {
-            const facet = {
-                Name: 'dataset',
-                Count: 287,
-                NameTranslated: 'Datasett'
-            };
-            const facetField = "type";
-
-            store.dispatch(facetFilterActions.removeSelectedFacet(facet, facetField));
-            expect(store.getActions()).toMatchSnapshot();
-        });
-    });
-
     describe('updateSelectedFacets', () => {
         test('Dispatches the correct action and payload', () => {
             const facets = [
