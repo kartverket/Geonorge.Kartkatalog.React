@@ -8,19 +8,14 @@ export const updateSearchString = (searchString) => dispatch => {
 };
 
 export const updateSearchStringFromUrl = () => dispatch => {
-    if (!window.location.search) {
-        return;
-    }
     const urlParameters = decodeURI(window.location.search);
     const regex = /\A?text=[^&]*/;
     const searchString = regex.exec(urlParameters) !== null
         ? regex.exec(urlParameters)[0].replace('text=', '')
-        : null;
+        : '';
 
-    if (searchString) {
-        dispatch({
-            type: UPDATE_SEARCH_STRING_FROM_URL,
-            payload: searchString
-        });
-    }
+    dispatch({
+        type: UPDATE_SEARCH_STRING_FROM_URL,
+        payload: searchString
+    });
 };
