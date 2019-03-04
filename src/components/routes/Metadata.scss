@@ -55,9 +55,9 @@
       font-size: 3em;
     }
   }
-  p {
+  p,li,strong,a {
     line-height: 1.6em;
-    font-size: 1.1em;
+    font-size: .94em;    
   }
   h2 {
     font-size: 1.6em;
@@ -135,7 +135,7 @@
     overflow: hidden;
     transition: all .3s ease-in-out;
     &.open {
-      max-height: 1500px;
+      max-height: 2000px;
     }
 }
 :local(.closed) {
@@ -144,7 +144,7 @@
   transition: all .3s ease;
 }
 :local(.open) {
-  max-height: 1500px;
+  max-height: 2000px;
   overflow: auto;
   transition: all .3s ease;
 }
