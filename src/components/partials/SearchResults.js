@@ -127,7 +127,9 @@ class SearchResults extends Component {
                 }
                 return <div className={style.activeContent}>
                     <div className={style.facets}>
-                    <ErrorBoundary key="facetFilter"><FacetFilter key="facetFilter" /></ErrorBoundary>
+                    <ErrorBoundary key="facetFilter">
+                        <FacetFilter key="facetFilter" />
+                    </ErrorBoundary>
                     </div>
                     <div className={style.searchResultContainer}>
                         <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}</span>
@@ -170,7 +172,7 @@ class SearchResults extends Component {
                 {this.renderTabs()}
                 {this.renderActiveTabContent()}
             </div>
-        )
+        );
     }
 }
 

@@ -34,14 +34,19 @@ class FacetFilter extends Component {
     }
 
     renderSelectedFacets() {
-        let selectedFacets = this.getSelectedFacetItems();
-        let selectedList = selectedFacets.map(facetField => {
-            return this.props.selectedFacets[facetField].map((facet, i) => {
-                return <Facet removable={'true'} facet={facet} facetField={facetField} key={i}/>;
+        const selectedFacetsList = Object.keys(this.props.selectedFacets)
+            .filter(facetField => {
+                return this.props.selectedFacets[facetField] && this.props.selectedFacets[facetField].facets && Object.keys(this.props.selectedFacets[facetField].facets).length
+            })
+            .map(facetField => {
+                let selectedFacetsInFacetField = this.props.selectedFacets[facetField].facets; // Facets in facet field
+                return Object.keys(selectedFacetsInFacetField)
+                    .map(facetName => {
+                        return <Facet removable={true} facet={selectedFacetsInFacetField[facetName]}
+                                      facetField={facetField} parentFacet={this.props.facet} key={facetName}/>;
+                    })
             });
-
-        });
-        return <div>{selectedList}</div>
+        return <div>{selectedFacetsList}</div>
     }
 
     hasSelectedFacets() {
@@ -65,8 +70,10 @@ class FacetFilter extends Component {
 
         let availableFacets = this.getFacetFilterItems();
         let facets = availableFacets.map((facetField, i) => {
-            return <ErrorBoundary key={facetField}><FacetFilterItem
-                facetFilterItem={this.props.availableFacets[facetField]} key={facetField}/></ErrorBoundary>;
+            return <ErrorBoundary key={facetField}>
+                <FacetFilterItem
+                    facetFilterItem={this.props.availableFacets[facetField]} key={facetField}/>
+            </ErrorBoundary>;
         });
         return (
             <div className={togglefacetClassnames}>

@@ -38,7 +38,7 @@ class FacetFilterItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.selectedFacets[this.props.facetFilterItem.FacetField].length) {
+        if (nextProps.selectedFacets[this.props.facetFilterItem.FacetField] && Object.keys(nextProps.selectedFacets[this.props.facetFilterItem.FacetField]).length) {
             this.setState({
                 expanded: true
             });
