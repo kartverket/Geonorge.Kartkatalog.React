@@ -10,6 +10,17 @@ import {
 
 export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
     let facetsParameter = [];
+    if (facets) {
+        let facetIndex = -1;
+        Object.keys(facets).filter((facetField) => {
+            return Object.keys(facets[facetField]).length && facets[facetField].facets && Object.keys(facets[facetField].facets).length;
+        }).forEach((facetField) => {
+            Object.keys(facets[facetField].facets).forEach((facetName) => {
+                facetIndex++;
+                facetsParameter.push(`facets[${facetIndex}]name=${facetField}&facets[${facetIndex}]value=${facetName}`);
+            })
+        })
+    }
     let facetsParameterString = facetsParameter.join('&');
     facetsParameterString = facetsParameterString ? "&" + facetsParameterString : "";
 
