@@ -1,12 +1,12 @@
-import { FETCH_AVAILABLEFACETS } from '../actions/types';
+import {UPDATE_AVAILABLEFACETS} from '../actions/types';
 
-const initialState = {}
+const initialState = {};
 
-export default function(state = initialState, action) {
-	switch(action.type) {
-		case FETCH_AVAILABLEFACETS:
-			return action.payload;
-		default:
-			return state;
-	}
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case UPDATE_AVAILABLEFACETS:
+            return action.payload;
+        default:
+            return state;
+    }
 }

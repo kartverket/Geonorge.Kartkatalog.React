@@ -1,27 +1,15 @@
 import * as Cookies from 'js-cookie';
-import { getKartkatalogApiUrl } from './ApiUrlActions';
+import {getKartkatalogApiUrl} from './ApiUrlActions';
 import {
     APPEND_TO_ARTICLESEARCHRESULTS,
     APPEND_TO_METADATASEARCHRESULTS,
     FETCH_ARTICLESEARCHRESULTS,
-    FETCH_AVAILABLEFACETS,
     FETCH_DROPDOWNSEARCHRESULTS,
     FETCH_METADATASEARCHRESULTS
 } from './types';
 
 export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
     let facetsParameter = [];
-    if (facets) {
-        let facetIndex = -1;
-        Object.keys(facets).filter((facetField) => {
-            return facets[facetField].length;
-        }).forEach((facetField) => {
-            facets[facetField].forEach((facet) => {
-                facetIndex++;
-                facetsParameter.push(`facets[${facetIndex}]name=${facetField}&facets[${facetIndex}]value=${facet.Name}`);
-            })
-        })
-    }
     let facetsParameterString = facetsParameter.join('&');
     facetsParameterString = facetsParameterString ? "&" + facetsParameterString : "";
 
@@ -40,14 +28,6 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
                 payload: searchResults,
                 searchString: searchString,
             });
-            let availableFacets = {};
-            searchResults.Facets.forEach((facetFilterItem) => {
-                availableFacets[facetFilterItem.FacetField] = facetFilterItem;
-            });
-            dispatch({
-                type: FETCH_AVAILABLEFACETS,
-                payload: availableFacets
-            })
         })
 };
 
