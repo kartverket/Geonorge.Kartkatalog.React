@@ -13,18 +13,27 @@
     > div {        
         margin: 10px;
         &:local(.logo) {
-            width: 33%;
+            width: 100%;
             img {
                 max-width: 256px;
                 padding-top: 30px;
             }
+            @include breakpoint(tablet) {        
+				width: 33%;
+			}
 
         }
         &:local(.about) {
-            width: 33%;
+            width: 100%;
+            @include breakpoint(tablet) {        
+				width: 33%;
+			}
         }
         &:local(.contact) {
-            width: 33%;
+            width: 100%;
+            @include breakpoint(tablet) {        
+				width: 33%;
+			}
             hr {
                 border-color: #333;
             }
