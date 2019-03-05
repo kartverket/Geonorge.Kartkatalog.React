@@ -3,7 +3,7 @@ const getChildFacetsName = (facet, facetField, options = {}) => {
     let parentFacetQueryString = `${facetField}=${facet.Name}`;
     let childFacets = facet.facets;
     Object.keys(childFacets).forEach((childFacetName, index) => {
-        if (Object.entries(childFacets[childFacetName].facets).length) {
+        if (childFacets[childFacetName].facets && Object.keys(childFacets[childFacetName].facets).length) {
             // TODO add support for additional stages
         } else {
             let facetShouldBeRemoved = options.facetToRemove && options.facetToRemove.facet.Name === childFacets[childFacetName].Name;
