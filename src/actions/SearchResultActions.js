@@ -8,6 +8,19 @@ import {
     FETCH_METADATASEARCHRESULTS
 } from './types';
 
+const createChildFacetsArray = (selectedFacet, childFacetsArray = []) => {
+    if (selectedFacet.facets && Object.keys(selectedFacet.facets).length) {
+        Object.keys(selectedFacet.facets).forEach(childFacetName => {
+            const childFacet = selectedFacet.facets[childFacetName];
+            if (childFacet.facets && Object.keys(childFacet.facets).length) {
+                childFacetsArray = createChildFacetsArray(childFacet, childFacetsArray);
+            }
+            childFacetsArray.push(childFacet);
+        })
+    }
+    return childFacetsArray;
+};
+
 export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
     let facetsParameter = [];
     if (facets) {
@@ -16,6 +29,14 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
             return Object.keys(facets[facetField]).length && facets[facetField].facets && Object.keys(facets[facetField].facets).length;
         }).forEach((facetField) => {
             Object.keys(facets[facetField].facets).forEach((facetName) => {
+                const selectedFacet = facets[facetField].facets[facetName];
+                const selectedChildFacetsArray = createChildFacetsArray(selectedFacet);
+                if (selectedChildFacetsArray.length) {
+                    selectedChildFacetsArray.forEach( selectedChildFacet => {
+                        facetsParameter.push(`facets[${facetIndex}]name=${facetField}&facets[${facetIndex}]value=${selectedChildFacet.Name}`);
+                        facetIndex++;
+                    })
+                }
                 facetIndex++;
                 facetsParameter.push(`facets[${facetIndex}]name=${facetField}&facets[${facetIndex}]value=${facetName}`);
             })
