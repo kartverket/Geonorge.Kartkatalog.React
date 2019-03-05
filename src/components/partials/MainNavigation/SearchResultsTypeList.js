@@ -6,7 +6,7 @@ import {fetchMetadataSearchResults} from '../../../actions/SearchResultActions';
 import {updateSelectedFacets} from '../../../actions/FacetFilterActions';
 import {updateSelectedSearchResultsType} from '../../../actions/SelectedSearchResultsTypeActions';
 import {updateSearchString} from '../../../actions/SearchStringActions';
-import {getQueryStringFromFacets} from "../../../helpers/FacetFilterHelper";
+import {getQueryStringFromFacets} from "../../../helpers/FacetFilterHelpers";
 
 import style from './SearchResultsTypeList.scss';
 

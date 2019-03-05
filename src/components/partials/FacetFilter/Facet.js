@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import classNames from 'classnames/bind';
 
 import {updateSelectedFacetsFromUrl} from '../../../actions/FacetFilterActions'
-import {getQueryStringFromFacets} from '../../../helpers/FacetFilterHelper'
+import {getQueryStringFromFacets} from '../../../helpers/FacetFilterHelpers'
 import {fetchMetadataSearchResults} from '../../../actions/SearchResultActions'
 import {ErrorBoundary} from '../../ErrorBoundary'
 
