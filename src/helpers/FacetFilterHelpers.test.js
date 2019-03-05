@@ -23,8 +23,78 @@ describe('facet_filter_helpers', () => {
                     facetField: 'theme'
                 }
             };
-            const queeryString = facetFilterHelpers.getQueryStringFromFacets(selectedFacets);
-            expect(queeryString).toBe("?type=dataset&type=service&theme=Befolkning&theme=Energi");
+            const queryString = facetFilterHelpers.getQueryStringFromFacets(selectedFacets);
+            expect(queryString).toBe("?type=dataset&type=service&theme=Befolkning&theme=Energi");
+        });
+        test('Return correct query string with selected facets and search string', () => {
+            const selectedFacets = {
+                type: {
+                    facets: {
+                        dataset: {Name: 'dataset'},
+                        service: {Name: 'service'}
+                    },
+                    facetField: 'type'
+                },
+                theme: {
+                    facets: {
+                        Befolkning: {Name: 'Befolkning'},
+                        Energi: {Name: 'Energi'}
+                    },
+                    facetField: 'theme'
+                }
+            };
+            const searchString = "Administrative enheter";
+            const queryString = facetFilterHelpers.getQueryStringFromFacets(selectedFacets, searchString);
+            expect(queryString).toBe("?text=Administrative enheter&type=dataset&type=service&theme=Befolkning&theme=Energi");
+        });
+        test('Return correct query string for selected facets with added facet', () => {
+            const selectedFacets = {
+                theme: {
+                    facets: {
+                        Befolkning: {Name: 'Befolkning'},
+                        Energi: {Name: 'Energi'}
+                    },
+                    facetField: 'theme'
+                }
+            };
+            const options = {
+                facetToAdd: {
+                    facet: {
+                        Name: 'dataset',
+                    },
+                    facetField: 'type'
+                }
+            };
+            const queryString = facetFilterHelpers.getQueryStringFromFacets(selectedFacets, null, options);
+            expect(queryString).toBe("?theme=Befolkning&theme=Energi&type=dataset");
+        });
+        test('Return correct query string for selected facets without removed facet', () => {
+            const selectedFacets = {
+                type: {
+                    facets: {
+                        dataset: {Name: 'dataset'},
+                        service: {Name: 'service'}
+                    },
+                    facetField: 'type'
+                },
+                theme: {
+                    facets: {
+                        Befolkning: {Name: 'Befolkning'},
+                        Energi: {Name: 'Energi'}
+                    },
+                    facetField: 'theme'
+                }
+            };
+            const options = {
+                facetToRemove: {
+                    facet: {
+                        Name: 'service',
+                    },
+                    facetField: 'type'
+                }
+            };
+            const queryString = facetFilterHelpers.getQueryStringFromFacets(selectedFacets, null, options);
+            expect(queryString).toBe("?type=dataset&theme=Befolkning&theme=Energi");
         });
     });
 });
