@@ -77,9 +77,8 @@ export const updateSelectedFacetsFromUrl = (availableFacets = {}) => dispatch =>
         }
 
     });
-
-    dispatch({
+    return dispatch({
         type: UPDATE_SELECTED_FACETS_FROM_URL,
         payload: facets,
-    })
+    });
 };

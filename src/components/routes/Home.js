@@ -34,8 +34,8 @@ class Home extends Component {
         const newUrlParameterString = this.props.router && this.props.router.location && this.props.router.location.search ? this.props.router.location.search : '';
         if (oldUrlParameterString !== newUrlParameterString) {
             this.props.updateSearchStringFromUrl();
-            this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
-            this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
+            const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
+            this.props.fetchMetadataSearchResults(this.props.searchString, newSelectedFacets).then(() => {
                 let availableFacets = {};
                 this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
                     availableFacets[facetFilterItem.FacetField] = facetFilterItem;

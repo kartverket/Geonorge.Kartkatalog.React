@@ -122,7 +122,7 @@ class SearchResults extends Component {
                 hidden: !this.moreItemsAvailable()
             });
 
-                if (this.props.searchString) {
+                if (this.props.searchString && this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.NumFound) {
                     searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.metadata.NumFound + ' treff'
                 }
                 return <div className={style.activeContent}>
@@ -142,7 +142,7 @@ class SearchResults extends Component {
                 </div>;
 
         } else if (this.props.selectedSearchResultsType === 'articles') {
-            
+
                 if (this.props.searchString) {
                     searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
                 }
@@ -158,7 +158,7 @@ class SearchResults extends Component {
                             <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>
                     </div>
                 </div>;
-            
+
         } else {
             return (
                 ""
