@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import styleBtn from './Buttons.scss';
 import style from '../MainNavigation.scss';
 
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class GeonorgeMenuButton extends Component {
@@ -22,7 +23,7 @@ export class GeonorgeMenuButton extends Component {
     renderMenuButton() {
         return (
             <div>
-                <div onClick={() => this.toggleExpandMenu()}>
+                <div className={styleBtn.GeonorgeMenuButton} onClick={() => this.toggleExpandMenu()}>
                     <span className={style.iconButton}>
                         <FontAwesomeIcon title="Vis nedlastede elementer" icon={this.state.expandedMenu ? ['fas', 'times'] : ['fas', 'bars']} />
                     </span>
@@ -36,12 +37,12 @@ export class GeonorgeMenuButton extends Component {
         if (this.props.geonorgeMenu) {
             const menuItems = this.props.geonorgeMenu.map(menuItem => {
                 return (
-                    <li>
-                        <p>
-                            <a href={menuItem.Url}>{menuItem.Name}</a>
-                        </p>
+                    <ul>
+                        <li>
+                            <a href={menuItem.Url}>{menuItem.Name}</a>                        
+                            </li>
                         {this.renderSubMenuItems(menuItem)}
-                    </li>
+                    </ul>
                 )
             });
             return (
@@ -57,9 +58,9 @@ export class GeonorgeMenuButton extends Component {
         if (parent.HasChildren && parent.SubMenuItem) {
             const children = parent.SubMenuItem.map(item => {
                 return (
-                    <ul>
+                    <li>
                         <a href={item.Url}>{item.Name}</a>
-                    </ul>
+                    </li>
                 )
             });
             return (

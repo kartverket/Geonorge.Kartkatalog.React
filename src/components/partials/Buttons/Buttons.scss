@@ -62,3 +62,32 @@
 
     }
 }
+:local(.GeonorgeMenuButton) {
+   &:hover {
+    cursor: pointer;   
+    }
+    > span {
+        width: 50px;
+    }
+}
+:local(.menuContent) {
+    display: flex;
+    ul {
+        margin: 0 20px;
+        
+        li {
+            margin: 10px;
+            a {
+                text-decoration: none;
+            }
+            &:first-child {
+                a {
+                    border-bottom: 1px solid $primary-border;
+                    padding-bottom: 10px;
+                    margin-bottom: 10px;
+                    display: block;
+                }
+            }
+        }        
+    }
+}
