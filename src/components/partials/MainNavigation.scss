@@ -11,6 +11,36 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
 }
 
+:local(.menu) {
+    overflow: hidden;
+    width: auto;
+    transition: all .3s ease-in-out;
+    height: 0;
+    position: absolute;
+    padding: 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    top: 50px;
+    border-width: 0;
+    background-color: #dfdcda;
+    width:100%;
+    display: none;
+    z-index: 1000;
+
+    
+    &:local(.open) {
+        display: block;
+        border-width: 2px;
+        height: auto;
+        max-height: 800px;
+        padding: 10px;
+        overflow: auto;
+        flex: none;
+        &:local(.content) {
+        }
+    }
+}
+
 
 :local(.openmap) {
     display: block;

@@ -1,16 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions';
-import {fetchItemsToDownload} from '../../actions/DownloadItemActions';
-import {getGeonorgeLogo} from '../../actions/ImageActions';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions';
+import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
+import { fetchItemsToDownload } from '../../actions/DownloadItemActions';
+import { getGeonorgeLogo } from '../../actions/ImageActions';
 import { ErrorBoundary } from '../ErrorBoundary';
 
 import SearchBar from './MainNavigation/SearchBar';
 
 import style from './MainNavigation.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { GeonorgeMenuButton } from './Buttons/GeonorgeMenuButton';
 
 export class MainNavigation extends Component {
 
@@ -23,7 +25,9 @@ export class MainNavigation extends Component {
 
     componentWillMount() {
         this.props.fetchMapItems();
+        this.props.fetchGeonorgeMenu();
         this.props.fetchItemsToDownload();
+
     }
 
     modalMapItems() {
@@ -50,7 +54,7 @@ export class MainNavigation extends Component {
                         <button className={style.mapBtnlink}>{mapItem.Title}</button>
                     </span>
                     <FontAwesomeIcon icon="times"
-                                     onClick={() => this.props.removeMapItem([mapItem])}/>
+                        onClick={() => this.props.removeMapItem([mapItem])} />
                 </li>
             )
         });
@@ -64,7 +68,7 @@ export class MainNavigation extends Component {
                     <span className={style.iconButton}>
                         <span className={style.counter}>{this.props.mapItems.length}</span>
                         <FontAwesomeIcon title="Tilbake til katalogen" icon={'map-marker-times'}
-                                         className={this.props.mapItems.length > 0 ? style.content : style.content1}/>
+                            className={this.props.mapItems.length > 0 ? style.content : style.content1} />
                     </span>
                 </Link>
             )
@@ -75,7 +79,7 @@ export class MainNavigation extends Component {
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
                             <FontAwesomeIcon title="Vis kartet" key="map-alt" icon={'map-marker-alt'}
-                                             className={this.props.mapItems.length > 0 ? style.content : style.noCsontent}/>
+                                className={this.props.mapItems.length > 0 ? style.content : style.noCsontent} />
                         </span>
                     </div>
                     <div
@@ -93,7 +97,7 @@ export class MainNavigation extends Component {
             <span className={style.iconButton}>
                 <span className={style.counter}>{this.props.mapItems.length}</span>
                 <FontAwesomeIcon key="map-alt" icon={'map-marker-alt'}
-                                 className={this.props.mapItems.length > 0 ? style.content : style.content1}/>
+                    className={this.props.mapItems.length > 0 ? style.content : style.content1} />
             </span>
         </Link>
     }
@@ -109,15 +113,18 @@ export class MainNavigation extends Component {
                         </div>
                     </Link>
                     <div className={style.search}>
-                        <ErrorBoundary><SearchBar/></ErrorBoundary>
+                        <ErrorBoundary><SearchBar /></ErrorBoundary>
                     </div>
+
+                    <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu}/>
+
                     {this.renderMapbutton()}
 
                     <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.itemsToDownload.length}</span>
                             <FontAwesomeIcon title="Vis nedlastede elementer" icon={'cloud-download'}
-                                             className={this.props.itemsToDownload.length > 0 ? style.content : style.content1}/>
+                                className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
                         </span>
                     </div>
                     <div
@@ -140,13 +147,15 @@ MainNavigation.propTypes = {
     fetchMapItems: PropTypes.func.isRequired,
     fetchItemsToDownload: PropTypes.func.isRequired,
     mapItems: PropTypes.array.isRequired,
-    itemsToDownload: PropTypes.array.isRequired
+    itemsToDownload: PropTypes.array.isRequired,
+    fetchGeonorgeMenu: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     mapItems: state.mapItems,
     itemsToDownload: state.itemsToDownload,
-    router: state.router
+    router: state.router,
+    geonorgeMenu: state.geonorgeMenu,
 });
 
 
@@ -154,7 +163,8 @@ const mapDispatchToProps = {
     fetchMapItems,
     removeMapItem,
     fetchItemsToDownload,
-    getGeonorgeLogo
+    getGeonorgeLogo,
+    fetchGeonorgeMenu
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavigation);

@@ -4,6 +4,19 @@ exports[`MainNavigation should render self and subcomponents 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <MainNavigation
+    fetchGeonorgeMenu={
+      [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     fetchItemsToDownload={
       [MockFunction] {
         "calls": Array [
@@ -82,6 +95,7 @@ ShallowWrapper {
             <Connect(SearchBar) />
           </ErrorBoundary>
         </div>
+        <GeonorgeMenuButton />
         <Link
           replace={false}
           to="/kart"
@@ -194,6 +208,7 @@ ShallowWrapper {
               <Connect(SearchBar) />
             </ErrorBoundary>
           </div>,
+          <GeonorgeMenuButton />,
           <Link
             replace={false}
             to="/kart"
@@ -356,6 +371,17 @@ ShallowWrapper {
             "type": [Function],
           },
           "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "geonorgeMenu": undefined,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
         },
         Object {
           "instance": null,
@@ -684,6 +710,7 @@ ShallowWrapper {
               <Connect(SearchBar) />
             </ErrorBoundary>
           </div>
+          <GeonorgeMenuButton />
           <Link
             replace={false}
             to="/kart"
@@ -796,6 +823,7 @@ ShallowWrapper {
                 <Connect(SearchBar) />
               </ErrorBoundary>
             </div>,
+            <GeonorgeMenuButton />,
             <Link
               replace={false}
               to="/kart"
@@ -958,6 +986,17 @@ ShallowWrapper {
               "type": [Function],
             },
             "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "geonorgeMenu": undefined,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
           },
           Object {
             "instance": null,

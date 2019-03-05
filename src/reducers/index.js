@@ -9,6 +9,7 @@ import SelectedSearchResultsTypeReducer from './SelectedSearchResultsTypeReducer
 import SearchStringReducer from './SearchStringReducer';
 import MetadataReducer from "./MetadataReducer";
 import MetadataDistributionReducer from "./MetadataDistributionReducer";
+import GeonorgeMenuReducer from "./GeonorgeMenuReducer";
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -20,5 +21,6 @@ export default (history) => combineReducers({
     itemsToDownload: DownloadItemReducer,
     selectedFacets: SelectedFacetsReducer,
     availableFacets: AvailableFacetsReducer,
-    searchString: SearchStringReducer
+    searchString: SearchStringReducer,
+    geonorgeMenu: GeonorgeMenuReducer
 });
