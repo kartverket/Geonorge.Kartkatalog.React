@@ -35,7 +35,7 @@ class Home extends Component {
         if (oldUrlParameterString !== newUrlParameterString) {
             this.props.updateSearchStringFromUrl();
             const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
-            this.props.fetchMetadataSearchResults("", newSelectedFacets).then(() => {
+            this.props.fetchMetadataSearchResults(this.props.searchString, newSelectedFacets).then(() => {
                 let availableFacets = {};
                 this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
                     availableFacets[facetFilterItem.FacetField] = facetFilterItem;
