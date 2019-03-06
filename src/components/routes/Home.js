@@ -8,7 +8,7 @@ import {updateSearchStringFromUrl} from '../../actions/SearchStringActions'
 import {ErrorBoundary} from '../../components/ErrorBoundary'
 
 import style from './Home.scss';
-import {fetchMetadataSearchResults} from "../../actions/SearchResultActions";
+import {fetchMetadataSearchResults, fetchArticleSearchResults} from "../../actions/SearchResultActions";
 import { Breadcrumb } from '../partials/Breadcrumb';
 
 class Home extends Component {
@@ -26,7 +26,7 @@ class Home extends Component {
                 }
             }
         )
-
+        this.props.fetchArticleSearchResults()
     }
 
 
@@ -71,6 +71,7 @@ const mapDispatchToProps = {
     updateSelectedFacetsFromUrl,
     updateAvailableFacets,
     fetchMetadataSearchResults,
+    fetchArticleSearchResults,
     updateSearchStringFromUrl
 };
 
