@@ -6,7 +6,7 @@ import { faNewspaper, faFileAlt } from '@fortawesome/pro-light-svg-icons'
 
 library.add(
     [faAngleRight,
-     faAngleLeft,
+     faAngleLeft,     
      faAngleDown,
      faAngleUp,
      faCheckSquare,
