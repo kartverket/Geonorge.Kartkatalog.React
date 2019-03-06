@@ -72,8 +72,16 @@
 }
 :local(.menuContent) {
     display: flex;
+    flex-wrap: wrap;
+    @include breakpoint(phablet) {
+     flex-wrap: nowrap;
+    }
     ul {
         margin: 0 20px;
+        max-width: 150px;
+        @include breakpoint(tablet) {
+            max-width: inherit;
+           }
         
         li {
             margin: 10px;
