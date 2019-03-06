@@ -19,6 +19,7 @@ import DownloadButton from '../partials/Buttons/DownloadButton';
 import HelpButton from '../partials/Buttons/HelpButton';
 import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Breadcrumb } from '../partials/Breadcrumb';
 
 class Metadata extends Component {
 
@@ -35,7 +36,7 @@ class Metadata extends Component {
             expanded: !prevState.expanded && !prevState.expandedDownload
         }))
     }
-    toggleBtns() {        
+    toggleBtns() {
         this.setState(prevState => ({
             showBtns: !prevState.showBtns && !prevState.expandedBtns
         }))
@@ -674,82 +675,83 @@ class Metadata extends Component {
         ) : '';
     }
 
-
-
-
-
+    
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
             <div className={style.searchResultContainer}>
                 <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span>
             </div>
         ) : (
-                <div className={style.content}>
-                    <h1>{this.props.metadata.Title}</h1>
-                    <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
-                    <div className={this.state.showBtns ? style.openBtnsContainer : style.openBtnsContainer + ' closed'}>
-                    <div className={style.btns}>                        
-                       
-                        <ErrorBoundary>
-                            <MapButton listButton={false} metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <DownloadButton listButton={false} metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ShowCoverageButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <HelpButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ContactOwnerButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ProductsheetButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ProductspesificationButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <LegendDescriptionButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ApplicationButton listButton={false} metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ProductPageButton metadata={this.props.metadata} />
-                        </ErrorBoundary>
-                        
-                    </div>
-                    </div>
-                    <div className={style.flex}>
-                        <p>{this.props.metadata.Abstract}</p>
-                        {this.renderThumbnail()}
-                    </div>
+                <div>
+                    <Breadcrumb content={this.props.metadata.Title}/>
+                    <div className={style.content}>
 
-                    {this.renderSpecificUsageSection()}
-                    {this.renderDistributionsListSection()}
-                    <div className={style.flex2}>
-                        {this.renderDistributionSection()}
-                        {this.renderConstraintsSection()}
-                    </div>
+                        <h1>{this.props.metadata.Title}</h1>
+                        <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
+                        <div className={this.state.showBtns ? style.openBtnsContainer : style.openBtnsContainer + ' closed'}>
+                            <div className={style.btns}>
 
-                    {this.renderContactSection()}
+                                <ErrorBoundary>
+                                    <MapButton listButton={false} metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <DownloadButton listButton={false} metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <ShowCoverageButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <HelpButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <ContactOwnerButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <ProductsheetButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <ProductspesificationButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <LegendDescriptionButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <ApplicationButton listButton={false} metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <ProductPageButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
 
-                    {this.renderSupplementalDescriptionSection()}
-
-                    <div className={style.opendetails} onClick={() => this.toggleExpand()}>
-                        <h2>Detaljert informasjon
-                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : 'Vis detaljert informasjon'} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
-                    <div className={this.state.expanded ? style.open : style.closed}>
-                        <div className={style.flex}>
-                            {this.renderQualitySection()}
-                            {this.renderTimeAndSpaceSection()}
-                            {this.renderKeywordsSection()}
+                            </div>
                         </div>
-                        {this.renderQualitySpecificationsSection()}
-                        {this.renderPurposeSection()}
+                        <div className={style.flex}>
+                            <p>{this.props.metadata.Abstract}</p>
+                            {this.renderThumbnail()}
+                        </div>
+
+                        {this.renderSpecificUsageSection()}
+                        {this.renderDistributionsListSection()}
+                        <div className={style.flex2}>
+                            {this.renderDistributionSection()}
+                            {this.renderConstraintsSection()}
+                        </div>
+
+                        {this.renderContactSection()}
+
+                        {this.renderSupplementalDescriptionSection()}
+
+                        <div className={style.opendetails} onClick={() => this.toggleExpand()}>
+                            <h2>Detaljert informasjon
+                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : 'Vis detaljert informasjon'} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
+                        <div className={this.state.expanded ? style.open : style.closed}>
+                            <div className={style.flex}>
+                                {this.renderQualitySection()}
+                                {this.renderTimeAndSpaceSection()}
+                                {this.renderKeywordsSection()}
+                            </div>
+                            {this.renderQualitySpecificationsSection()}
+                            {this.renderPurposeSection()}
+                        </div>
                     </div>
                 </div>
             )
