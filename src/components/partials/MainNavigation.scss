@@ -17,7 +17,7 @@
         li {
             > a {
                 font-weight: 400;
-            }
+            }   
             padding: 0 10px 0 0;
             > svg {
                 margin-left: 10px;
@@ -37,7 +37,7 @@
     position: absolute;
     right: 0;
     @include breakpoint(laptop) {
-        right: 25vw;        
+        right: 10%;        
     }
     padding: 0;
     border: 1px solid #e5e5e5;
