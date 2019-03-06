@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "@fortawesome/fontawesome-pro": "^5.7.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.12",
     "@fortawesome/free-regular-svg-icons": "^5.6.3",
@@ -20,6 +21,7 @@
     "node-sass": "^4.11.0",
     "r_map": "https://github.com/kartverket/r_map.git",
     "react": "^16.7.0",
+    "react-app-polyfill": "^0.2.1",
     "react-dom": "^16.7.0",
     "react-dropdown-tree-select": "^1.16.0-beta.1",
     "react-fa": "^5.0.0",
@@ -60,7 +62,7 @@
   "browserslist": [
     ">0.2%",
     "not dead",
-    "not ie <= 11",
+    "not ie <= 9",
     "not op_mini all"
   ]
 }

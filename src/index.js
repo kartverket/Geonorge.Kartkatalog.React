@@ -5,6 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import WebFont from 'webfontloader';
 import './layout/icons';
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 
 WebFont.load({
     google: {
