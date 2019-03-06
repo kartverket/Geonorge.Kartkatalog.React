@@ -9,6 +9,7 @@ import {ErrorBoundary} from '../../components/ErrorBoundary'
 
 import style from './Home.scss';
 import {fetchMetadataSearchResults} from "../../actions/SearchResultActions";
+import { Breadcrumb } from '../partials/Breadcrumb';
 
 class Home extends Component {
     componentDidMount() {
@@ -48,6 +49,7 @@ class Home extends Component {
     render() {
         return (
             <div>
+                <Breadcrumb/>
                 <div className={style.header}>
                     <h1>Kartkatalogen</h1>
                 </div>
