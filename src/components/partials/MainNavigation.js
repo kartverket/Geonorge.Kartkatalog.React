@@ -36,13 +36,15 @@ export class MainNavigation extends Component {
 
     toggleExpand() {
         this.setState(prevState => ({
-            expanded: !prevState.expanded && !prevState.expandedDownload
+            expanded: !prevState.expanded,
+            expandedDownload: false
         }))
     }
 
     toggleExpandDownload() {
         this.setState(prevState => ({
-            expandedDownload: !prevState.expandedDownload && !prevState.expanded
+            expandedDownload: !prevState.expandedDownload,
+            expanded:false
         }))
     }
 
