@@ -13,6 +13,7 @@ import SearchBar from './MainNavigation/SearchBar';
 import style from './MainNavigation.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GeonorgeMenuButton } from './Buttons/GeonorgeMenuButton';
+import { id } from 'postcss-selector-parser';
 
 export class MainNavigation extends Component {
 
@@ -27,7 +28,24 @@ export class MainNavigation extends Component {
         this.props.fetchMapItems();
         this.props.fetchGeonorgeMenu();
         this.props.fetchItemsToDownload();
+        document.addEventListener('mousedown', this.handleClick, false);
+        document.addEventListener('mousedown', this.handleDownloadClick, false);
 
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClick, false);
+        document.removeEventListener('mousedown', this.handleDownloadClick, false);
+    }
+    handleClick = (e) => {
+        if(!this.mapNode.contains(e.target)) {
+            return this.setState({expanded: false});
+        }                      
+    }
+    handleDownloadClick = (e) => {
+        if(!this.downloadNode.contains(e.target)) {
+            return this.setState({expandedDownload: false});
+        }  
     }
 
     modalMapItems() {
@@ -76,7 +94,7 @@ export class MainNavigation extends Component {
             )
         } else if (this.props.mapItems.length > 0) {
             return (
-                <div>
+                <div ref={mapNode => this.mapNode = mapNode}>
                     <div className={style.openmap} onClick={() => this.toggleExpand()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.mapItems.length}</span>
@@ -122,7 +140,7 @@ export class MainNavigation extends Component {
 
                     {this.renderMapbutton()}
 
-                    <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
+                    <div ref={downloadNode => this.downloadNode = downloadNode} className={style.openmap} onClick={() => this.toggleExpandDownload()}>
                         <span className={style.iconButton}>
                             <span className={style.counter}>{this.props.itemsToDownload.length}</span>
                             <FontAwesomeIcon title="Vis nedlastede elementer" icon={'cloud-download'}
