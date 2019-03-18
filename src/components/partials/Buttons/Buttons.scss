@@ -47,11 +47,11 @@
         color: $primary-brand;
     }
     &.disabled {
-        &:hover {
-            color: white;
+        &:hover {      
+            cursor: default;      
+            background: white;
             > svg {
-                margin-right: 5px;
-                color: white;
+                margin-right: 5px;                
             }
         }
         color: $icon-disabled;
