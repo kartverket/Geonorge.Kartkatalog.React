@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from '../../actions/SearchResultActions';
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
 import classNames from 'classnames/bind';
-
 import MetadataSearchResult from './SearchResults/MetadataSearchResult'
 import ArticleSearchResult from './SearchResults/ArticleSearchResult'
 import { ErrorBoundary } from '../../components/ErrorBoundary'
@@ -112,10 +112,10 @@ class SearchResults extends Component {
         } else {
             return "";
         }
-    }
+    }    
 
     renderActiveTabContent() {
-        let searchString = "";
+        let searchString = "";                
         if (this.props.selectedSearchResultsType === 'metadata') {
             const moreItemButtonClassNames = classNames({
                 [style.morebtn]: true,
@@ -132,7 +132,7 @@ class SearchResults extends Component {
                     </ErrorBoundary>
                     </div>
                     <div className={style.searchResultContainer}>
-                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}</span>
+                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString} <span className={searchString !== "" ? 'show' : 'hide'}><Link to="/"> Nullstill<FontAwesomeIcon title="Nullstill søk" className={style.resetSearchResults} icon={'times'} /></Link></span></span>
                         {this.renderMetadataSearchResults()}
                         <div className={style.morecontainer}>
                             <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
@@ -144,7 +144,7 @@ class SearchResults extends Component {
         } else if (this.props.selectedSearchResultsType === 'articles') {
 
                 if (this.props.searchString) {
-                    searchString = 'Søk på "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
+                    searchString = 'Søk på fisk "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
                 }
                 const moreItemButtonClassNames = classNames({
                     [style.morebtn]: true,
