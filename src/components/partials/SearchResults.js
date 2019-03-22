@@ -144,7 +144,7 @@ class SearchResults extends Component {
         } else if (this.props.selectedSearchResultsType === 'articles') {
 
                 if (this.props.searchString) {
-                    searchString = 'Søk på fisk "' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
+                    searchString = 'Søk på"' + this.props.searchString + '" ga ' + this.props.searchResults.articles.NumFound + ' treff'
                 }
                 const moreItemButtonClassNames = classNames({
                     [style.morebtn]: true,
