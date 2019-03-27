@@ -614,7 +614,7 @@ class Metadata extends Component {
         return this.props.metadata && this.props.metadata.Purpose ? (
             <div>
                 <h2>Formål</h2>
-                {this.props.metadata.Purpose}
+                <div>{this.props.metadata.Purpose}</div>
             </div>
         ) : ''
     }

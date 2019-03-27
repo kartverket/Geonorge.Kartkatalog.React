@@ -6,7 +6,6 @@ import * as serviceWorker from './serviceWorker';
 import WebFont from 'webfontloader';
 import { convertUrl } from './helpers/UrlHelpers'
 import './layout/icons';
-import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/ie11';
 
 if (window.location.search !== convertUrl(window.location.search)) {
