@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import {
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
@@ -8,6 +9,7 @@ import {
 } from '../../../actions/SearchResultActions';
 import { updateSearchString } from '../../../actions/SearchStringActions';
 import { ErrorBoundary } from '../../ErrorBoundary'
+
 import SearchResultsTypeList from './SearchResultsTypeList';
 
 import style from './SearchBar.scss';
@@ -52,7 +54,6 @@ class SearchBar extends Component {
             [e.target.name]: e.target.value
         })
         this.props.fetchDropdownSearchResults(e.target.value);
-
     }
 
     onFocus(e) {
@@ -60,11 +61,6 @@ class SearchBar extends Component {
     }
 
     onSubmit(e) {
-        e.preventDefault();
-        this.hideDropdownResults();
-        this.props.fetchMetadataSearchResults(this.state.searchString);
-        this.props.fetchArticleSearchResults(this.state.searchString);
-        this.props.updateSearchString(this.state.searchString);
     }
 
     componentWillMount() {
@@ -89,7 +85,7 @@ class SearchBar extends Component {
                 datasetList = <ErrorBoundary key={"dataset"}>
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={datasetSearchResult}
-                        searchResultsType="dataset"/>
+                        searchResultsType="dataset" />
                 </ErrorBoundary>
             }
 
@@ -101,7 +97,7 @@ class SearchBar extends Component {
                 serviceList = <ErrorBoundary key={"service"} >
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={serviceSearchResult}
-                        searchResultsType="service"/>
+                        searchResultsType="service" />
                 </ErrorBoundary>
             }
 
@@ -113,10 +109,10 @@ class SearchBar extends Component {
                 softwareList = <ErrorBoundary key={"software"}>
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={softwareSearchResult}
-                        searchResultsType="software"/>
+                        searchResultsType="software" />
                 </ErrorBoundary>
             }
-            
+
             // Articles
             let articlesSearchResult = this.props.dropdownResults.articles;
             let articlesList;
@@ -125,7 +121,7 @@ class SearchBar extends Component {
                 articlesList = <ErrorBoundary key={"articles"}>
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={articlesSearchResult}
-                        searchResultsType="articles"/>
+                        searchResultsType="articles" />
                 </ErrorBoundary>
             }
 
@@ -140,14 +136,17 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <form ref={node => this.node = node} autoComplete="off" onSubmit={this.onSubmit}
+            <form ref={node => this.node = node} autoComplete="off"
                 className={style.searchInput}>
-                <label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label><input
+                <label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label>
+                <input
                     placeholder="Søk etter kartdata og artikler" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
                     value={this.state.searchString} id="searchString" />
-                <button>
-                    <img src={searchIcon} alt="search icon"></img>
-                </button>
+                <Link to={{ search: '?text=' + this.state.searchString }}>
+                    <button>
+                        <img src={searchIcon} alt="search icon"></img>
+                    </button>
+                </Link>
                 <div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
                     {this.renderDropdownResults()}
                 </div>

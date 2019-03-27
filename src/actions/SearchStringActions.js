@@ -1,7 +1,6 @@
 import {UPDATE_SEARCH_STRING, UPDATE_SEARCH_STRING_FROM_URL} from '../actions/types';
 
 export const updateSearchString = (searchString) => dispatch => {
-    window.history.pushState(null,null,`/?text=${searchString}`);
     dispatch({
         type: UPDATE_SEARCH_STRING,
         payload: searchString
@@ -19,4 +18,5 @@ export const updateSearchStringFromUrl = () => dispatch => {
         type: UPDATE_SEARCH_STRING_FROM_URL,
         payload: searchString
     });
+    return searchString;
 };

@@ -13,7 +13,7 @@ const composeEnhancers = composeWithDevTools({
 
 export default function configureStore(preloadedState) {
 	const middleware = [thunk];
-	const history = {};
+	const history = createBrowserHistory();
 	const store = createStore(
 		createRootReducer(history),
 		preloadedState,
