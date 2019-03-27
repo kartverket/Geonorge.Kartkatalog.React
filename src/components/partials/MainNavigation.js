@@ -13,7 +13,6 @@ import SearchBar from './MainNavigation/SearchBar';
 import style from './MainNavigation.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GeonorgeMenuButton } from './Buttons/GeonorgeMenuButton';
-import { id } from 'postcss-selector-parser';
 
 export class MainNavigation extends Component {
 
@@ -37,8 +36,8 @@ export class MainNavigation extends Component {
         document.removeEventListener('mousedown', this.handleClick, false);
         document.removeEventListener('mousedown', this.handleDownloadClick, false);
     }
-    handleClick = (e) => {
-        if(!this.mapNode.contains(e.target)) {
+    handleClick = (e) => {        
+        if(!this.mapNode || !this.mapNode.contains(e.target)) {
             return this.setState({expanded: false});
         }                      
     }
