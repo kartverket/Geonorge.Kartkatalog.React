@@ -151,7 +151,7 @@ class SearchResults extends Component {
                     hidden: !this.moreArticlesAvailable()
                 });
                 return <div className={style.searchResultContainer}>
-                    <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString} <span className={searchString !== "" ? 'show' : 'hide'}><Link to="/"> Nullstill søk<FontAwesomeIcon title="Nullstill søk" className={style.resetSearchResults} icon={'times'} /></Link></span></span>
+                    <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString} <span className={searchString !== "" ? 'show' : 'hide'}><Link to="/"> Nullstill søk   <FontAwesomeIcon title="Nullstill søk" className={style.resetSearchResults} icon={'times'} /></Link></span></span>
                     {this.renderArticleSearchResults()}
                     <div className={style.morecontainer}>
                         <div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}>
