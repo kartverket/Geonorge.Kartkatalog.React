@@ -35,9 +35,9 @@ export class GeonorgeMenuButton extends Component {
 
     renderMenuContent() {
         if (this.props.geonorgeMenu) {
-            const menuItems = this.props.geonorgeMenu.map(menuItem => {
+            const menuItems = this.props.geonorgeMenu.map((menuItem, menuItemIndex) => {
                 return (
-                    <ul>
+                    <ul key={menuItemIndex}>
                         <li>
                             <a href={menuItem.Url}>{menuItem.Name}</a>                        
                             </li>
@@ -56,9 +56,9 @@ export class GeonorgeMenuButton extends Component {
 
     renderSubMenuItems(parent) {
         if (parent.HasChildren && parent.SubMenuItem) {
-            const children = parent.SubMenuItem.map(item => {
+            const children = parent.SubMenuItem.map((item, itemIndex) => {
                 return (
-                    <li>
+                    <li key={itemIndex}>
                         <a href={item.Url}>{item.Name}</a>
                     </li>
                 )
