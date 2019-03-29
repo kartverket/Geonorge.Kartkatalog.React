@@ -8,6 +8,7 @@
         height: 100%;
         padding-top: 0;
     }
+
     :local(.mainSearchLabel) {
         width: 0;
         height: 0;
@@ -35,6 +36,7 @@
         border-radius: 0 2px 2px 0;
         display: inline-block;
         padding: 0 .75em;
+        height: 100%;
 
         img {
             height: 1.544em;
