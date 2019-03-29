@@ -77,7 +77,6 @@ ShallowWrapper {
         className="mainNavigation container"
       >
         <Link
-          replace={false}
           to="/"
         >
           <div
@@ -97,7 +96,6 @@ ShallowWrapper {
         </div>
         <GeonorgeMenuButton />
         <Link
-          replace={false}
           to="/kart"
         >
           <span
@@ -165,7 +163,6 @@ ShallowWrapper {
         >
           <Link
             className="openMaplink"
-            replace={false}
             target="_self"
             to="/nedlasting"
           >
@@ -190,7 +187,6 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <Link
-            replace={false}
             to="/"
           >
             <div
@@ -210,7 +206,6 @@ ShallowWrapper {
           </div>,
           <GeonorgeMenuButton />,
           <Link
-            replace={false}
             to="/kart"
           >
             <span
@@ -278,7 +273,6 @@ ShallowWrapper {
           >
             <Link
               className="openMaplink"
-              replace={false}
               target="_self"
               to="/nedlasting"
             >
@@ -309,7 +303,6 @@ ShallowWrapper {
                 alt="Geonorge logo"
               />
             </div>,
-            "replace": false,
             "to": "/",
           },
           "ref": null,
@@ -415,7 +408,6 @@ ShallowWrapper {
                 transform={null}
               />
             </span>,
-            "replace": false,
             "to": "/kart",
           },
           "ref": null,
@@ -531,7 +523,7 @@ ShallowWrapper {
             "className": "openmap",
             "onClick": [Function],
           },
-          "ref": null,
+          "ref": [Function],
           "rendered": Object {
             "instance": null,
             "key": undefined,
@@ -617,7 +609,6 @@ ShallowWrapper {
             "children": Array [
               <Link
                 className="openMaplink"
-                replace={false}
                 target="_self"
                 to="/nedlasting"
               >
@@ -642,7 +633,6 @@ ShallowWrapper {
               "props": Object {
                 "children": "Åpne nedlastinger",
                 "className": "openMaplink",
-                "replace": false,
                 "target": "_self",
                 "to": "/nedlasting",
               },
@@ -692,7 +682,6 @@ ShallowWrapper {
           className="mainNavigation container"
         >
           <Link
-            replace={false}
             to="/"
           >
             <div
@@ -712,7 +701,6 @@ ShallowWrapper {
           </div>
           <GeonorgeMenuButton />
           <Link
-            replace={false}
             to="/kart"
           >
             <span
@@ -780,7 +768,6 @@ ShallowWrapper {
           >
             <Link
               className="openMaplink"
-              replace={false}
               target="_self"
               to="/nedlasting"
             >
@@ -805,7 +792,6 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <Link
-              replace={false}
               to="/"
             >
               <div
@@ -825,7 +811,6 @@ ShallowWrapper {
             </div>,
             <GeonorgeMenuButton />,
             <Link
-              replace={false}
               to="/kart"
             >
               <span
@@ -893,7 +878,6 @@ ShallowWrapper {
             >
               <Link
                 className="openMaplink"
-                replace={false}
                 target="_self"
                 to="/nedlasting"
               >
@@ -924,7 +908,6 @@ ShallowWrapper {
                   alt="Geonorge logo"
                 />
               </div>,
-              "replace": false,
               "to": "/",
             },
             "ref": null,
@@ -1030,7 +1013,6 @@ ShallowWrapper {
                   transform={null}
                 />
               </span>,
-              "replace": false,
               "to": "/kart",
             },
             "ref": null,
@@ -1146,7 +1128,7 @@ ShallowWrapper {
               "className": "openmap",
               "onClick": [Function],
             },
-            "ref": null,
+            "ref": [Function],
             "rendered": Object {
               "instance": null,
               "key": undefined,
@@ -1232,7 +1214,6 @@ ShallowWrapper {
               "children": Array [
                 <Link
                   className="openMaplink"
-                  replace={false}
                   target="_self"
                   to="/nedlasting"
                 >
@@ -1257,7 +1238,6 @@ ShallowWrapper {
                 "props": Object {
                   "children": "Åpne nedlastinger",
                   "className": "openMaplink",
-                  "replace": false,
                   "target": "_self",
                   "to": "/nedlasting",
                 },
@@ -1310,7 +1290,9 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
-          "getDerivedStateFromProps": true,
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
           "getSnapshotBeforeUpdate": true,
           "setState": Object {
             "skipsComponentDidUpdateOnNullish": true,
