@@ -77,7 +77,7 @@ export class GeonorgeMenuButton extends Component {
 }
 
 GeonorgeMenuButton.propTypes = {
-    geonorgeMenu: PropTypes.object.isRequired
+    geonorgeMenu: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
