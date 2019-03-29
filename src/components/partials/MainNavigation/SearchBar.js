@@ -21,31 +21,31 @@ class SearchBar extends Component {
         super(props);
         this.state = {
             searchString: '',
-            showResults: false
+            showDropdownResults: false
         };
         this.onFocus = this.onFocus.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.showResults = this.showResults.bind(this);
+        this.showDropdownResults = this.showDropdownResults.bind(this);
+        this.keyPress = this.keyPress.bind(this);
     }
 
     hideDropdownResults() {
         this.setState({
-            showResults: false
+            showDropdownResults: false
         });
     }
 
-    showResults() {
+    showDropdownResults() {
         this.setState({
-            showResults: true
+            showDropdownResults: true
         });
     }
 
     handleClick = (e) => {
         if (this.node && this.node.contains(e.target)) {
+            this.showDropdownResults();
             return;
         }
-
         this.hideDropdownResults();
     }
 
@@ -57,10 +57,13 @@ class SearchBar extends Component {
     }
 
     onFocus(e) {
-        this.showResults();
+        this.showDropdownResults();
     }
 
-    onSubmit(e) {
+    keyPress(e) {
+        if (e.keyCode == 13) { // On 'enter' keypress
+            this.hideDropdownResults();
+        }
     }
 
     componentWillMount() {
@@ -140,14 +143,19 @@ class SearchBar extends Component {
                 className={style.searchInput}>
                 <label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label>
                 <input
-                    placeholder="Søk etter kartdata og artikler" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
+                    placeholder="Søk etter kartdata og artikler"
+                    type="text"
+                    name="searchString"
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
+                    onKeyDown={this.keyPress}
                     value={this.state.searchString} id="searchString" />
-                <Link to={{ pathname: '/', search: '?text=' + this.state.searchString }}>
+                <Link to={{ pathname: '/', search: '?text=' + this.state.searchString }} onClick={() => this.hideDropdownResults()}>
                     <button>
                         <img src={searchIcon} alt="search icon"></img>
                     </button>
                 </Link>
-                <div className={this.state.showResults ? style.searchResults + ' active' : style.searchResults}>
+                <div className={this.state.showDropdownResults ? style.searchResults + ' active' : style.searchResults}>
                     {this.renderDropdownResults()}
                 </div>
             </form>
