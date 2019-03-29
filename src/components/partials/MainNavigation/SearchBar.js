@@ -142,7 +142,7 @@ class SearchBar extends Component {
                 <input
                     placeholder="Søk etter kartdata og artikler" type="text" name="searchString" onChange={this.onChange} onFocus={this.onFocus}
                     value={this.state.searchString} id="searchString" />
-                <Link to={{ search: '?text=' + this.state.searchString }}>
+                <Link to={{ pathname: '/', search: '?text=' + this.state.searchString }}>
                     <button>
                         <img src={searchIcon} alt="search icon"></img>
                     </button>
