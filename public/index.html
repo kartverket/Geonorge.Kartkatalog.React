@@ -25,11 +25,13 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-
+  <div id="ie">
+  
+  </div>
   <script>
     var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
     if (isIE11) {
-console.log("IE11 detected");
+document.getElementById("ie").innerHTML = '<div><div class="banner"><img src="/static/media/geonorge-navbar-logo_dev.43841dc5.svg" /></div><p>Det ser ut som du bruker en eldre versjon av Internet Explorer.</p> <p>For å bruke denne tjenesten på best mulig måte bør du laste ned og installere Chrome, Firefox eller oppgradere til Microsoft Edge.</p><p> <a href="https://www.microsoft.com/nb-no/windows/microsoft-edge">Prøv Microsoft Edge</a></p><p><a href="https://www.google.com/chrome/">Last ned Chrome</a></p><p><a href="https://www.mozilla.org/nb-NO/firefox/">Last ned Firefox</a></p></div>';
     }
 </script>
 

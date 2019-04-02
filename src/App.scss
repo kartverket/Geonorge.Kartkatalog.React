@@ -1,5 +1,30 @@
 @import 'scss/abstracts/all';
 
+#ie > div {
+    margin: 20px;
+    margin-top: 130px;
+    overflow: hidden;
+    .banner {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1;
+        background-color: #f7f7f7;
+        height: 100px;
+        margin: -20px;
+
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+    
+        > img {
+            height: 37px;
+            margin-top: 40px;
+            margin-left: 20px;
+        }
+    
+     
+    }
+}
+
 :local(.pageContent) {
     margin-top: 115px;
     height: calc(100% - 57px);
