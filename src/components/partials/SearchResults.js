@@ -94,7 +94,7 @@ class SearchResults extends Component {
         let listItems = this.props.searchResults.metadata && this.props.searchResults.metadata.Results ? this.props.searchResults.metadata.Results : null;
         if (listItems) {
             let listItemElements = listItems.map((searchResult, i) => {
-                return <ErrorBoundary key={i}><MetadataSearchResult searchResult={searchResult} key={i} /></ErrorBoundary>;
+                return <ErrorBoundary key={i}><MetadataSearchResult searchResult={searchResult} visibleFields={['DownloadButton', 'MapButton', 'ApplicationButton']} key={i} /></ErrorBoundary>;
             });
             return React.createElement('div', { className: style.list, key: "searchResult" }, listItemElements);
         } else {
