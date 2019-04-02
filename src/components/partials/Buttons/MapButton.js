@@ -95,8 +95,8 @@ export class MapButton extends Component {
     }
 
     renderListButton() {
-        if (this.props.metadata.ShowMapLink) {
-            let mapItem = this.props.metadata.Type === "dataset" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
+        if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
+            let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
             let isAdded = this.mapItemIsAddedToLocalStorage(mapItem);
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
