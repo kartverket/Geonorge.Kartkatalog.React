@@ -28,10 +28,21 @@ class MetadataSearchResult extends Component {
     }
   }
 
+  renderType() {
+    return this.props.searchResult.Type && this.props.visibleFields.includes('Type')
+      ? (
+        <div className={style.typeContainer}>
+          <span>
+            {this.props.searchResult.Type}
+          </span>
+        </div>
+      ) : '';
+  }
+
   renderButtons() {
-    var buttons = [];
+    var buttonsElement = [];
     if (this.props.visibleFields.includes('DownloadButton')) {
-      buttons.push( 
+      buttonsElement.push(
         <span key="DownloadButton">
           <ErrorBoundary>
             <DownloadButton metadata={this.props.searchResult}></DownloadButton>
@@ -40,7 +51,7 @@ class MetadataSearchResult extends Component {
       );
     }
     if (this.props.visibleFields.includes('MapButton')) {
-      buttons.push( 
+      buttonsElement.push(
         <span key="MapButton">
           <ErrorBoundary>
             <MapButton metadata={this.props.searchResult}></MapButton>
@@ -49,7 +60,7 @@ class MetadataSearchResult extends Component {
       );
     }
     if (this.props.visibleFields.includes('ApplicationButton')) {
-      buttons.push(
+      buttonsElement.push(
         <span key="ApplicationButton">
           <ErrorBoundary>
             <ApplicationButton metadata={this.props.searchResult}></ApplicationButton>
@@ -57,7 +68,26 @@ class MetadataSearchResult extends Component {
         </span>
       );
     }
-    return buttons;
+    return buttonsElement.length
+      ? (
+        <div className={style.btnContainer}>
+          {buttonsElement}
+        </div>
+      ) : '';
+  }
+
+  renderDistributionFormats() {
+    const dirstibutionFormatsElement = this.props.searchResult.DistributionFormats ? this.props.searchResult.DistributionFormats.map((distributionFormat, i) => {
+      return <span key={i}>{distributionFormat.Name} {distributionFormat.Version}</span>;
+    }) : null;
+    return this.props.searchResult.DistributionFormats && this.props.visibleFields.includes('DistributionFormats')
+      ? (
+        <div className={style.formatsContainer}>
+          <ErrorBoundary>
+            {dirstibutionFormatsElement}
+          </ErrorBoundary>
+        </div>
+      ) : '';
   }
 
   render() {
@@ -71,9 +101,9 @@ class MetadataSearchResult extends Component {
             <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['fas', 'lock-open'] : ['fas', 'lock']} />
             {this.props.searchResult.TypeTranslated} fra <Link title={"Vis alt fra " + this.props.searchResult.Organization} to={"/?organization=" + this.props.searchResult.Organization}>{this.props.searchResult.Organization}</Link> </span>
         </div>
-        <div className={style.btnContainer}>
-          {this.renderButtons()}
-        </div>
+        {this.renderType()}
+        {this.renderButtons()}
+        {this.renderDistributionFormats()}
       </div>
     )
   }

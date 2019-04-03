@@ -7,7 +7,7 @@ import style from "./DistributionsList.scss";
 class DistributionsList extends Component {
     render() {
         const distributions = this.props.distributions.map((distribution, i) => {
-            return <MetadataSearchResult searchResult={distribution} visibleFields={['DownloadButton', 'MapButton', 'ApplicationButton']} key={i}/>;
+            return <MetadataSearchResult searchResult={distribution} visibleFields={['Type', 'DownloadButton', 'MapButton', 'ApplicationButton', 'DistributionFormats']} key={i}/>;
         });
         return (
             <div className={style.distributionsList}>{distributions}</div>
