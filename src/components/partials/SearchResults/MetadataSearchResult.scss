@@ -58,7 +58,7 @@
 	}
 
 	:local(.typeContainer) {
-		flex: 1;
+		margin-right: 20px;
 		span {
 			display: inline-block;
 		}
@@ -133,10 +133,26 @@
 
 	:local(.formatsContainer) {
 		display: block;
+		font-size: 1.1rem;
 
 		span {
 			display: inline-block;
+			
+			&::after {
+				content: ', ';
+				padding-right: 10px;
+			}
 		}
 	}
 
+}
+:local(.flex) {
+	margin-top: 10px;
+	flex-direction: column;
+	font-size: 1.1rem;
+	display: flex;
+	flex-wrap: wrap;
+	:nth-child(0) {
+		flex-grow: 1;
+	}
 }

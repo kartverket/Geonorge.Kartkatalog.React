@@ -33,7 +33,7 @@ class MetadataSearchResult extends Component {
       ? (
         <div className={style.typeContainer}>
           <span>
-            {this.props.searchResult.Type}
+            Type: {this.props.searchResult.Type}
           </span>
         </div>
       ) : '';
@@ -84,7 +84,7 @@ class MetadataSearchResult extends Component {
       ? (
         <div className={style.formatsContainer}>
           <ErrorBoundary>
-            {dirstibutionFormatsElement}
+            Formater: {dirstibutionFormatsElement}
           </ErrorBoundary>
         </div>
       ) : '';
@@ -100,10 +100,11 @@ class MetadataSearchResult extends Component {
           <span className={style.listItemInfo}>
             <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['fas', 'lock-open'] : ['fas', 'lock']} />
             {this.props.searchResult.TypeTranslated} fra <Link title={"Vis alt fra " + this.props.searchResult.Organization} to={"/?organization=" + this.props.searchResult.Organization}>{this.props.searchResult.Organization}</Link> </span>
+            <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
         </div>
-        {this.renderType()}
+        
         {this.renderButtons()}
-        {this.renderDistributionFormats()}
+       
       </div>
     )
   }
