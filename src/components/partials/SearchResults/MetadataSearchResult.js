@@ -78,7 +78,7 @@ class MetadataSearchResult extends Component {
 
   renderDistributionFormats() {
     const dirstibutionFormatsElement = this.props.searchResult.DistributionFormats ? this.props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-      return <span key={i}>{distributionFormat.Name} {distributionFormat.Version}</span>;
+      return <span key={i}>{distributionFormat.Name} </span>;
     }) : null;
     return this.props.searchResult.DistributionFormats && this.props.visibleFields.includes('DistributionFormats')
       ? (
