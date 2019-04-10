@@ -115,6 +115,9 @@
   > * {
     flex-basis: 33%;
   }
+  > p {
+    flex-grow: 2;
+  }
 }
 :local(.flex2) {
   display: flex;
