@@ -4,12 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import WebFont from 'webfontloader';
-import { convertUrl } from './helpers/UrlHelpers'
+import { convertSearchParams, convertPath } from './helpers/UrlHelpers'
 import './layout/icons';
 import 'react-app-polyfill/ie11';
 
-if (window.location.search !== convertUrl(window.location.search)) {
-    window.location.href = window.location.origin + convertUrl(window.location.search);
+if (window.location.search !== convertSearchParams(window.location.search)) {
+    window.location.href = window.location.origin + convertSearchParams(window.location.search);
+} else if(window.location.pathname !== convertPath(window.location.pathname)){
+    window.location.href = window.location.origin + convertPath(window.location.pathname);
 } else {
     WebFont.load({
         google: {

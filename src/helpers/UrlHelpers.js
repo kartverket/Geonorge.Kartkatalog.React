@@ -1,5 +1,6 @@
-export const convertUrl = (url) => {
+export const convertSearchParams = (url) => {
     var convertedUrl = '';
+    url = decodeURI(url);
     url = url.substring(url.indexOf("?")); // Removes everything before first parameter
 
     var urlParams = new URLSearchParams(url);
@@ -33,6 +34,12 @@ export const convertUrl = (url) => {
         convertedUrl += convertedUrl && convertedUrl !== '' ? '&' : '?';
         convertedUrl += `${urlParamsGrouped[urlParamsGroupName].name}=${urlParamsGrouped[urlParamsGroupName].value}`;
     });
-
     return isOldUrlType ? convertedUrl : url;
+}
+
+export const convertPath = (urlPathname) => {
+    urlPathname = urlPathname.replace("/search", "");
+    const metadataOldUrlPathnameTypeRegex = /metadata\/uuid\/[a-z0-9-]*/is;
+    const isOldUrlPathnameType = metadataOldUrlPathnameTypeRegex.exec(urlPathname) && metadataOldUrlPathnameTypeRegex.exec(urlPathname).length ? true : false;
+    return isOldUrlPathnameType ? urlPathname.replace('uuid/', '') : urlPathname;
 }

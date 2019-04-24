@@ -32,6 +32,7 @@ class App extends Component {
                             <div className={style.container}>
                                 <Switch>
                                     <Route exact path="/" render={() => (<Home/>)}/>
+                                    <Route exact path="/search" render={() => (<Home/>)}/>
                                     <Route exact path="/kart" render={() => (<MapContainer/>)}/>
                                     <Route exact path="/metadata/:uuid"
                                            render={(props) => (<Metadata {...props} />)}/>
