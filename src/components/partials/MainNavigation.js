@@ -148,7 +148,7 @@ export class MainNavigation extends Component {
                     </div>
                     <div
                         className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
-                        <Link to={'/nedlasting'} target="_self" className={style.openMaplink}>Åpne nedlastinger</Link>
+                        <a href="/nedlasting" target="_self" className={style.openMaplink}>Åpne nedlastinger</a>
                         <ul className={style.mapitems}>
                             <li>
                                 Liste over nedlastinger
