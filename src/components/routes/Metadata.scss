@@ -95,12 +95,12 @@
   }
 }
 :local(.openBtnsContainer) {
-  max-height: 500px;
+  max-height: 600px;
   transition: all .3s ease-in-out;
   &.closed {
     max-height: 0;
     @include breakpoint(phablet) {
-      max-height: 500px;
+      max-height: 600px;
     }
     overflow: hidden;
   }

@@ -18,6 +18,8 @@ import MapButton from '../partials/Buttons/MapButton';
 import DownloadButton from '../partials/Buttons/DownloadButton';
 import HelpButton from '../partials/Buttons/HelpButton';
 import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
+import DownloadXmlButton from '../partials/Buttons/DownloadXmlButton';
+import EditMetadataButton from '../partials/Buttons/EditMetadataButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Breadcrumb } from '../partials/Breadcrumb';
 
@@ -720,6 +722,12 @@ class Metadata extends Component {
                                 </ErrorBoundary>
                                 <ErrorBoundary>
                                     <ProductPageButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <DownloadXmlButton metadata={this.props.metadata} />
+                                </ErrorBoundary>
+                                <ErrorBoundary>
+                                    <EditMetadataButton metadata={this.props.metadata} />
                                 </ErrorBoundary>
 
                             </div>
