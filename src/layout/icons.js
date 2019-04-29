@@ -1,47 +1,91 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleRight, faAngleLeft, faAngleDown, faMap, faAngleUp, faMapMarkerAlt, faMapMarker, faMapPin, faTimes, faBars, faArrowDown, faArrowCircleDown, faCloudDownload, faLock, faLockOpen, faMapMarkerTimes  } from '@fortawesome/pro-solid-svg-icons'
-import { faSquare,faCheckSquare, faAngry, faMapMarkerPlus, faMapMarkerMinus, faCloud, faTrash, faExternalLinkSquare, faDownload,faDoorOpen, faQuestionCircle, faImage, faFileSpreadsheet, faInfoCircle, faEnvelope, faGlobe, faFilter} from '@fortawesome/pro-regular-svg-icons'
-import { faNewspaper, faFileAlt } from '@fortawesome/pro-light-svg-icons'
+
+// Regular icons
+import {
+    faAngry,
+    faCheckSquare,
+    faCloud,
+    faDoorOpen,
+    faDownload,
+    faEnvelope,
+    faExternalLinkSquare,
+    faFileSpreadsheet,
+    faFilter,
+    faGlobe,
+    faImage,
+    faInfoCircle,
+    faMapMarkerPlus,
+    faMapMarkerMinus,
+    faQuestionCircle,
+    faSquare,
+    faTrash
+} from '@fortawesome/pro-regular-svg-icons'
+
+// Solid icons
+import {
+    faAngleDown,
+    faAngleLeft,
+    faAngleRight,
+    faAngleUp,
+    faArrowCircleDown,
+    faArrowDown,
+    faBars,
+    faCloudDownload,
+    faLock,
+    faLockOpen,
+    faMap,
+    faMapMarker,
+    faMapMarkerAlt,
+    faMapMarkerTimes,
+    faMapPin,
+    faTimes
+
+} from '@fortawesome/pro-solid-svg-icons'
+
+// Light icons
+import {
+    faFileAlt,
+    faNewspaper
+} from '@fortawesome/pro-light-svg-icons'
 
 
 library.add(
-    [faAngleRight,
-     faAngleLeft,     
-     faAngleDown,
-     faAngleUp,
-     faCheckSquare,
-     faMapMarkerAlt,
-     faMapMarker,
-     faMapPin,
-     faSquare,     
-     faAngry,
-     faCheckSquare,
-     faMap,
-     faMapMarkerPlus,
-     faMapMarkerMinus,
-     faTimes,
-     faBars,
-     faNewspaper,
-     faFileAlt,
-     faArrowDown,
-     faArrowCircleDown,
-     faCloudDownload,
-     faCloud,
-     faTrash,
-     faExternalLinkSquare,
-     faDownload,
-     faLock,
-     faLockOpen,
-     faDoorOpen,
-     faMapMarkerTimes,
-     faMap,
-     faQuestionCircle,
-     faImage,
-     faFileSpreadsheet,
-     faInfoCircle,
-     faEnvelope,
-     faGlobe,
-     faFilter
+    [
+        faAngleDown,
+        faAngleLeft,
+        faAngleRight,
+        faAngleUp,
+        faAngry,
+        faArrowCircleDown,
+        faArrowDown,
+        faBars,
+        faCheckSquare,
+        faCloudDownload,
+        faCloud,
+        faDoorOpen,
+        faDownload,
+        faEnvelope,
+        faExternalLinkSquare,
+        faFileAlt,
+        faFileSpreadsheet,
+        faFilter,
+        faGlobe,
+        faImage,
+        faInfoCircle,
+        faLock,
+        faLockOpen,
+        faMap,
+        faMapMarker,
+        faMapMarkerAlt,
+        faMapMarkerMinus,
+        faMapMarkerPlus,
+        faMapMarkerTimes,
+        faMapPin,
+        faNewspaper,
+        faQuestionCircle,
+        faSquare,
+        faTimes,
+        faTrash,
     ]
 );
 
