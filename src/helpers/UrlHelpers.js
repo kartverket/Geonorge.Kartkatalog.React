@@ -20,6 +20,15 @@ export const convertSearchParams = (url) => {
         } else {
             const facetRegex = /Facets\[[0-9]\]/;
             if (facetRegex.exec(pair[0]) && facetRegex.exec(pair[0]).length) { // Get facet parameters
+                const isMunicipalityRegex = /[0-9]+\/[0-9]+\/[0-9]+/;
+                const isMunicipality = isMunicipalityRegex.exec(pair[1]) ? true : false;
+
+                if (isMunicipality) { // Map facetValues from "0/02/0220" to "0/02|0/02/0220"
+                    const stateCode = pair[1].match(/[^\/]*\/[^\/]*/)[0]; // stateCode e.g. 0/02, (Akershus)
+                    const municipalityCode = pair[1]; // municipalityCode e.g. 0/02/0220, (Asker)
+                    pair[1] = `${stateCode}|${municipalityCode}`;
+                }
+
                 const paramGroup = facetRegex.exec(pair[0])[0];
                 const paramPropName = pair[0].replace(paramGroup + '.', '');
                 if (!urlParamsGrouped[paramGroup]) {
