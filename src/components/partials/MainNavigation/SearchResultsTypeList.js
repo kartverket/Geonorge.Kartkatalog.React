@@ -46,9 +46,13 @@ class SearchResultsTypeList extends Component {
         }
     }
 
+    showResults() {
+        this.props.onShowResults();
+    }
+
     render() {
         return (
-            <div className={style.searchResultsSection}>
+            <div className={style.searchResultsSection} onClick={() => this.showResults()}>
                 <div className={style.searchResultsSectionHeadingContainer}>
                     <Link to={{search: this.getUpdateFacetQueryString()}}>
                         <span

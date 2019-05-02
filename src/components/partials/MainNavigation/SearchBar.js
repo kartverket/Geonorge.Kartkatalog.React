@@ -26,6 +26,7 @@ class SearchBar extends Component {
         this.onFocus = this.onFocus.bind(this);
         this.onChange = this.onChange.bind(this);
         this.showDropdownResults = this.showDropdownResults.bind(this);
+        this.hideDropdownResults = this.hideDropdownResults.bind(this);
         this.keyPress = this.keyPress.bind(this);
     }
 
