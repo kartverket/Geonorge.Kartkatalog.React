@@ -161,13 +161,13 @@ ShallowWrapper {
         <div
           className="expandeddownload"
         >
-          <Link
+          <a
             className="openMaplink"
+            href="/nedlasting"
             target="_self"
-            to="/nedlasting"
           >
             Åpne nedlastinger
-          </Link>
+          </a>
           <ul
             className="mapitems"
           >
@@ -271,13 +271,13 @@ ShallowWrapper {
           <div
             className="expandeddownload"
           >
-            <Link
+            <a
               className="openMaplink"
+              href="/nedlasting"
               target="_self"
-              to="/nedlasting"
             >
               Åpne nedlastinger
-            </Link>
+            </a>
             <ul
               className="mapitems"
             >
@@ -607,13 +607,13 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <Link
+              <a
                 className="openMaplink"
+                href="/nedlasting"
                 target="_self"
-                to="/nedlasting"
               >
                 Åpne nedlastinger
-              </Link>,
+              </a>,
               <ul
                 className="mapitems"
               >
@@ -629,16 +629,16 @@ ShallowWrapper {
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "class",
+              "nodeType": "host",
               "props": Object {
                 "children": "Åpne nedlastinger",
                 "className": "openMaplink",
+                "href": "/nedlasting",
                 "target": "_self",
-                "to": "/nedlasting",
               },
               "ref": null,
               "rendered": "Åpne nedlastinger",
-              "type": [Function],
+              "type": "a",
             },
             Object {
               "instance": null,
@@ -766,13 +766,13 @@ ShallowWrapper {
           <div
             className="expandeddownload"
           >
-            <Link
+            <a
               className="openMaplink"
+              href="/nedlasting"
               target="_self"
-              to="/nedlasting"
             >
               Åpne nedlastinger
-            </Link>
+            </a>
             <ul
               className="mapitems"
             >
@@ -876,13 +876,13 @@ ShallowWrapper {
             <div
               className="expandeddownload"
             >
-              <Link
+              <a
                 className="openMaplink"
+                href="/nedlasting"
                 target="_self"
-                to="/nedlasting"
               >
                 Åpne nedlastinger
-              </Link>
+              </a>
               <ul
                 className="mapitems"
               >
@@ -1212,13 +1212,13 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                <Link
+                <a
                   className="openMaplink"
+                  href="/nedlasting"
                   target="_self"
-                  to="/nedlasting"
                 >
                   Åpne nedlastinger
-                </Link>,
+                </a>,
                 <ul
                   className="mapitems"
                 >
@@ -1234,16 +1234,16 @@ ShallowWrapper {
               Object {
                 "instance": null,
                 "key": undefined,
-                "nodeType": "class",
+                "nodeType": "host",
                 "props": Object {
                   "children": "Åpne nedlastinger",
                   "className": "openMaplink",
+                  "href": "/nedlasting",
                   "target": "_self",
-                  "to": "/nedlasting",
                 },
                 "ref": null,
                 "rendered": "Åpne nedlastinger",
-                "type": [Function],
+                "type": "a",
               },
               Object {
                 "instance": null,
