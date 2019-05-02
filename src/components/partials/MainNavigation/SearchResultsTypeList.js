@@ -51,10 +51,10 @@ class SearchResultsTypeList extends Component {
     }
 
     render() {
-        return (
+        return ( 
             <div className={style.searchResultsSection} onClick={() => this.showResults()}>
                 <div className={style.searchResultsSectionHeadingContainer}>
-                    <Link to={{search: this.getUpdateFacetQueryString()}}>
+                    <Link to={{pathname: '/', search: this.getUpdateFacetQueryString()}}>
                         <span
                             className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
                         <span className={style.counter}> {this.props.searchResults.NumFound}</span>
