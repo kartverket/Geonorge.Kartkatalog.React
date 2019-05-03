@@ -1,6 +1,7 @@
 @import '../../../scss/abstracts/all';
-.modal {
+:local(.modal) {
     position: fixed;
+    display: block;
     top: 0;
     left: 0;
     width:100%;
@@ -9,7 +10,7 @@
     z-index: 1;
   }
   
-  .modal-main {
+  :local(.modalMain) {
     position:fixed;
     background: white;
     width: 80%;
@@ -17,12 +18,15 @@
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
+    iframe {
+      border: none;
+    }
   }
   
-  .display-block {
-    display: block;
-  }
-  
-  .display-none {
+  :local(.hidden) {
     display: none;
   }
+
+:local(.modalButton){
+  margin: 0;
+}

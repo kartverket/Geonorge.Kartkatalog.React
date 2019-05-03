@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss';
-import {Modal} from './Modal.js'
+import Modal from './Modal.js'
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

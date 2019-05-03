@@ -26,7 +26,7 @@ ShallowWrapper {
     "nodeType": "function",
     "props": Object {
       "children": Array [
-        <Modal
+        <Connect(Modal)
           handleClose={[Function]}
           show={false}
         >
@@ -35,7 +35,7 @@ ShallowWrapper {
             src="test"
             width="100%"
           />
-        </Modal>,
+        </Connect(Modal)>,
         <span
           className="btn"
           onClick={[Function]}
@@ -72,7 +72,7 @@ ShallowWrapper {
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "function",
+        "nodeType": "class",
         "props": Object {
           "children": <iframe
             height="800px"
@@ -177,7 +177,7 @@ ShallowWrapper {
       "nodeType": "function",
       "props": Object {
         "children": Array [
-          <Modal
+          <Connect(Modal)
             handleClose={[Function]}
             show={false}
           >
@@ -186,7 +186,7 @@ ShallowWrapper {
               src="test"
               width="100%"
             />
-          </Modal>,
+          </Connect(Modal)>,
           <span
             className="btn"
             onClick={[Function]}
@@ -223,7 +223,7 @@ ShallowWrapper {
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "function",
+          "nodeType": "class",
           "props": Object {
             "children": <iframe
               height="800px"
