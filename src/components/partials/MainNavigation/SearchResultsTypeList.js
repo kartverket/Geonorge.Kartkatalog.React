@@ -33,12 +33,21 @@ class SearchResultsTypeList extends Component {
         );
     }
 
+    renderDropdownResultLink(result, resultType) {
+        return resultType === 'articles'
+            ? (
+                <a href={result.ShowDetailsUrl ? result.ShowDetailsUrl : '#'}>{result.Title}</a>
+            ) : (
+                <Link to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
+            )
+    }
+
     renderDropdownResults() {
         if (this.props.searchResults && this.props.searchResults.Results) {
             const resultsTypeElements = this.props.searchResults.Results.map((result, i) => {
                 return (
                     <div className={style.searchResultsItem} key={i}>
-                        <Link to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
+                        {this.renderDropdownResultLink(result, this.props.searchResultsType)}
                     </div>
                 );
             });
@@ -51,10 +60,10 @@ class SearchResultsTypeList extends Component {
     }
 
     render() {
-        return ( 
+        return (
             <div className={style.searchResultsSection} onClick={() => this.showResults()}>
                 <div className={style.searchResultsSectionHeadingContainer}>
-                    <Link to={{pathname: '/', search: this.getUpdateFacetQueryString()}}>
+                    <Link to={{ pathname: '/', search: this.getUpdateFacetQueryString() }}>
                         <span
                             className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
                         <span className={style.counter}> {this.props.searchResults.NumFound}</span>
