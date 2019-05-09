@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import SearchResults from '../partials/SearchResults';
 import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions'
 import { updateSearchStringFromUrl } from '../../actions/SearchStringActions'
+import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
+
 
 import { ErrorBoundary } from '../../components/ErrorBoundary'
 
@@ -12,6 +14,12 @@ import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../act
 import { Breadcrumb } from '../partials/Breadcrumb';
 
 class Home extends Component {
+    setSelectedSearchResultsType() {
+        const searchResultsTypeRegex = /type=articles/i;
+        const searchResultsType = searchResultsTypeRegex.exec(window.location.search) !== null ? 'articles' : 'metadata';
+        this.props.updateSelectedSearchResultsType(searchResultsType);
+    }
+
     componentDidMount() {
         this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
             let availableFacets = {};
@@ -26,10 +34,9 @@ class Home extends Component {
             }
         }
         )
-        this.props.fetchArticleSearchResults()
+        this.setSelectedSearchResultsType();
+        this.props.fetchArticleSearchResults();
     }
-
-
 
     componentDidUpdate(prevProps) {
         const oldUrlParameterString = prevProps.router && prevProps.router.location && prevProps.router.location.search ? prevProps.router.location.search : '';
@@ -45,6 +52,7 @@ class Home extends Component {
                 });
                 this.props.updateAvailableFacets(availableFacets);
             });
+            this.setSelectedSearchResultsType();
         }
     }
 
@@ -74,7 +82,8 @@ const mapDispatchToProps = {
     updateAvailableFacets,
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
-    updateSearchStringFromUrl
+    updateSearchStringFromUrl,
+    updateSelectedSearchResultsType
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
