@@ -11,38 +11,47 @@ export class ShowCoverageButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            show: false
+            show: false,
+            mounted: false
         };
     }
 
     showModal = () => {
         this.setState({ show: true });
-      };
-    
-    hideModal = () => {
-    this.setState({ show: false });
     };
 
+    hideModal = () => {
+        this.setState({ show: false });
+    };
+
+    componentDidMount = () => {
+        this.setState({ mounted: true });
+    }
+
+
     renderModal() {
-        return <Modal show={this.state.show} handleClose={this.hideModal}>
-                <iframe src={this.props.metadata.CoverageUrl} width="100%" height="800px"></iframe>
-            </Modal>
+        return this.props.metadata.CoverageUrl && this.state.mounted
+            ? (
+                <Modal show={this.state.show} handleClose={this.hideModal}>
+                    <iframe src={this.state.show ? this.props.metadata.CoverageUrl : ''} width="100%" height="800px" />
+                </Modal>
+            ) : '';
     }
 
     renderButton() {
-        if(this.props.metadata.CoverageUrl){
+        if (this.props.metadata.CoverageUrl) {
             let buttonClass = style.btn;
             return <span className={buttonClass} onClick={this.showModal}>
                 <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />Vis dekningskart
             </span>
         }
-        else{
+        else {
             let buttonClass = style.btn + ' disabled';
             return <span className={buttonClass}>
                 <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />Vis dekningskart
             </span>
         }
-        
+
     }
 
     render() {
