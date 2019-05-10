@@ -12,7 +12,7 @@ export class Breadcrumb extends Component {
             <div className={style.breadCrumb}>
                 <ul>
                     <li>
-                        <Link to={'https://www.geonorge.no/'}>Geonorge</Link>
+                        <a href={'https://www.geonorge.no/'}>Geonorge</a>
                         <FontAwesomeIcon title="Tilbake til katalogen" icon={'angle-right'} />
                     </li>
                     {this.renderCurrentBreadcrumb()}
