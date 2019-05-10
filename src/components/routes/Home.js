@@ -31,11 +31,12 @@ class Home extends Component {
                 this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
                 this.props.updateSearchStringFromUrl();
                 this.props.fetchMetadataSearchResults(this.props.searchString, this.props.selectedFacets);
+                this.props.fetchArticleSearchResults(this.props.searchString);
             }
         }
         )
         this.setSelectedSearchResultsType();
-        this.props.fetchArticleSearchResults();
+        this.props.fetchArticleSearchResults(this.props.searchString);
     }
 
     componentDidUpdate(prevProps) {
@@ -52,6 +53,7 @@ class Home extends Component {
                 });
                 this.props.updateAvailableFacets(availableFacets);
             });
+            this.props.fetchArticleSearchResults(searchString);
             this.setSelectedSearchResultsType();
         }
     }
