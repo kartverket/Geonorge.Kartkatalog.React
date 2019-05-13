@@ -48,7 +48,7 @@ export const convertSearchParams = (url) => {
 
 export const convertPath = (urlPathname) => {
     urlPathname = urlPathname.replace("/search", "");
-    const metadataOldUrlPathnameTypeRegex = /metadata\/uuid\/[a-z0-9-]*/is;
+    const metadataOldUrlPathnameTypeRegex = /metadata\/[a-z0-9-]*\/[a-z0-9-]*/is;
     const isOldUrlPathnameType = metadataOldUrlPathnameTypeRegex.exec(urlPathname) && metadataOldUrlPathnameTypeRegex.exec(urlPathname).length ? true : false;
-    return isOldUrlPathnameType ? urlPathname.replace('uuid/', '') : urlPathname;
+    return isOldUrlPathnameType ? urlPathname.replace(/metadata\/[a-z0-9-]*/is, 'metadata') : urlPathname;
 }
