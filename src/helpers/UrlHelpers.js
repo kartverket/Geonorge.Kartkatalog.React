@@ -43,7 +43,7 @@ export const convertSearchParams = (url) => {
         convertedUrl += convertedUrl && convertedUrl !== '' ? '&' : '?';
         convertedUrl += `${urlParamsGrouped[urlParamsGroupName].name}=${urlParamsGrouped[urlParamsGroupName].value}`;
     });
-    return isOldUrlType ? convertedUrl : url;
+    return isOldUrlType ? encodeURI(convertedUrl) : encodeURI(url);
 }
 
 export const convertPath = (urlPathname) => {
