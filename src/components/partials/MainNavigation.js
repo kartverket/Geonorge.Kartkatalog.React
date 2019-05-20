@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions';
 import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
-import { fetchItemsToDownload } from '../../actions/DownloadItemActions';
+import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata } from '../../actions/DownloadItemActions';
 import { getGeonorgeLogo } from '../../actions/ImageActions';
 import { ErrorBoundary } from '../ErrorBoundary';
 
@@ -36,15 +36,15 @@ export class MainNavigation extends Component {
         document.removeEventListener('mousedown', this.handleClick, false);
         document.removeEventListener('mousedown', this.handleDownloadClick, false);
     }
-    handleClick = (e) => {        
-        if(!this.mapNode || !this.mapNode.contains(e.target)) {
-            return this.setState({expanded: false});
-        }                      
+    handleClick = (e) => {
+        if (!this.mapNode || !this.mapNode.contains(e.target)) {
+            return this.setState({ expanded: false });
+        }
     }
     handleDownloadClick = (e) => {
-        if(!this.downloadNode.contains(e.target)) {
-            return this.setState({expandedDownload: false});
-        }  
+        if (!this.downloadNode.contains(e.target)) {
+            return this.setState({ expandedDownload: false });
+        }
     }
 
     modalMapItems() {
@@ -61,7 +61,7 @@ export class MainNavigation extends Component {
     toggleExpandDownload() {
         this.setState(prevState => ({
             expandedDownload: !prevState.expandedDownload,
-            expanded:false
+            expanded: false
         }))
     }
 
@@ -122,6 +122,44 @@ export class MainNavigation extends Component {
     }
 
 
+    renderDownloadItems() {
+        const downloadItems = this.props.itemsToDownload.map((downloadItemUuid, index) => {
+            const downloadItem = this.props.getDownloadItemMetadata(downloadItemUuid);
+            return (
+                <li key={index}>
+                    <span>
+                        <button className={style.mapBtnlink}>{downloadItem.name}</button>
+                    </span>
+                    <FontAwesomeIcon icon="times"
+                        onClick={() => this.props.removeItemSelectedForDownload(downloadItem)} />
+                </li>
+            )
+        });
+        return downloadItems;
+    }
+
+    renderDownloadButton() {
+        return (
+            <div ref={downloadNode => this.downloadNode = downloadNode}>
+                <div className={style.openmap} onClick={() => this.toggleExpandDownload()}>
+                    <span className={style.iconButton}>
+                        <span className={style.counter}>{this.props.itemsToDownload.length}</span>
+                        <FontAwesomeIcon title="Vis nedlastede elementer" icon={'cloud-download'}
+                            className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
+                    </span>
+                </div>
+                <div
+                    className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
+                    <a href="/nedlasting" target="_self" className={style.openMaplink}>Åpne nedlastinger</a>
+                    <ul className={style.mapitems}>
+                        {this.renderDownloadItems()}
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+
+
     render() {
         return (
             <div className={style.mainNavigationContainer}>
@@ -134,27 +172,9 @@ export class MainNavigation extends Component {
                     <div className={style.search}>
                         <ErrorBoundary><SearchBar /></ErrorBoundary>
                     </div>
-
-                    <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu}/>
-
+                    <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu} />
                     {this.renderMapbutton()}
-
-                    <div ref={downloadNode => this.downloadNode = downloadNode} className={style.openmap} onClick={() => this.toggleExpandDownload()}>
-                        <span className={style.iconButton}>
-                            <span className={style.counter}>{this.props.itemsToDownload.length}</span>
-                            <FontAwesomeIcon title="Vis nedlastede elementer" icon={'cloud-download'}
-                                className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
-                        </span>
-                    </div>
-                    <div
-                        className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
-                        <a href="/nedlasting" target="_self" className={style.openMaplink}>Åpne nedlastinger</a>
-                        <ul className={style.mapitems}>
-                            <li>
-                                Liste over nedlastinger
-                            </li>
-                        </ul>
-                    </div>
+                    {this.renderDownloadButton()}
                 </div>
             </div>
         )
@@ -164,7 +184,10 @@ export class MainNavigation extends Component {
 
 MainNavigation.propTypes = {
     fetchMapItems: PropTypes.func.isRequired,
+    removeMapItem: PropTypes.func.isRequired,
     fetchItemsToDownload: PropTypes.func.isRequired,
+    removeItemSelectedForDownload: PropTypes.func.isRequired,
+    getDownloadItemMetadata: PropTypes.func.isRequired,
     mapItems: PropTypes.array.isRequired,
     itemsToDownload: PropTypes.array.isRequired,
     fetchGeonorgeMenu: PropTypes.func.isRequired
@@ -174,7 +197,7 @@ const mapStateToProps = state => ({
     mapItems: state.mapItems,
     itemsToDownload: state.itemsToDownload,
     router: state.router,
-    geonorgeMenu: state.geonorgeMenu,
+    geonorgeMenu: state.geonorgeMenu
 });
 
 
@@ -182,6 +205,8 @@ const mapDispatchToProps = {
     fetchMapItems,
     removeMapItem,
     fetchItemsToDownload,
+    removeItemSelectedForDownload,
+    getDownloadItemMetadata,
     getGeonorgeLogo,
     fetchGeonorgeMenu
 };

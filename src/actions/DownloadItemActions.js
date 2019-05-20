@@ -8,14 +8,17 @@ export const fetchItemsToDownload = () => dispatch => {
 	})
 }
 
+export const getDownloadItemMetadata = (itemUuid) => dispatch => {
+	return localStorage[itemUuid + '.metadata'] ? JSON.parse(localStorage[itemUuid + '.metadata']) : null;
+}
+
 export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
 	let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];	
-
 	localStorage.orderItems = JSON.stringify(selectedItems.filter(itemToKeep => itemToKeep !== itemToRemove.Uuid));
 
 	// TODO midlertidig løsning pga gammel handlekurv...
 	localStorage.removeItem(itemToRemove.Uuid + ".metadata")
-	
+
 	dispatch(fetchItemsToDownload())
 }
 
