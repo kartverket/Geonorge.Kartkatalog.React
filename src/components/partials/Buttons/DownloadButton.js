@@ -10,26 +10,8 @@ export class DownloadButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSelectedForDownload: this.selectedForDownloadIsAddedToLocalStorage(this.getDownloadButton())
+            isAdded: false
         };
-    }
-
-    compareItemsToDownload(itemToCompare, itemToCompareWith) {
-        return itemToCompare.Uuid === itemToCompareWith
-    }
-
-    selectedForDownloadIsAddedToLocalStorage(itemToCompare) {
-        if (localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems))) {
-            let isAddedToLocalStorage = false;
-            JSON.parse(localStorage.orderItems).forEach((mapItemToCompareWith) => {
-                if (this.compareItemsToDownload(itemToCompare, mapItemToCompareWith)) {
-                    isAddedToLocalStorage = true;
-                }
-            });
-            return isAddedToLocalStorage;
-        } else {
-            return false;
-        }
     }
 
     getDownloadButton() {
@@ -55,16 +37,10 @@ export class DownloadButton extends Component {
     }
 
     addToDownloadList(item) {
-        this.setState({
-            isSelectedForDownload: true
-        });
         this.props.addItemSelectedForDownload(item);
     }
 
     removeFromDownloadList(item) {
-        this.setState({
-            isSelectedForDownload: false
-        });
         this.props.removeItemSelectedForDownload(item);
     }
 
@@ -88,13 +64,13 @@ export class DownloadButton extends Component {
     renderListButton() {
         let button = this.getDownloadButton();
         if (this.isGeonorgeDownload()) {
-            let action = this.state.isSelectedForDownload
+            let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
                 : () => this.addToDownloadList(button);
             let icon = <FontAwesomeIcon title="Last ned"
-                icon={this.state.isSelectedForDownload ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = this.state.isSelectedForDownload ? 'off' : 'on';
-            let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern nedlasting' : 'Last ned');
+                icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
+            let buttonClass = this.state.isAdded ? 'off' : 'on';
+            let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern nedlasting' : 'Last ned');
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
@@ -114,13 +90,13 @@ export class DownloadButton extends Component {
     renderButton() {
         let button = this.getDownloadButtonFromMetadata();
         if (this.props.metadata.CanShowDownloadService) {
-            let action = this.state.isSelectedForDownload
+            let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
                 : () => this.addToDownloadList(button);
             let icon = <FontAwesomeIcon title="Last ned"
-                icon={this.state.isSelectedForDownload ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
+                icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
             let buttonClass = style.btn;
-            let textContent = React.createElement('span', { key: "textContent" }, this.state.isSelectedForDownload ? 'Fjern nedlasting' : 'Last ned');
+            let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern nedlasting' : 'Last ned');
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
@@ -141,6 +117,29 @@ export class DownloadButton extends Component {
 
             let childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
+        }
+    }
+
+    componentDidMount() {
+        const isAdded = this.props.itemsToDownload.filter(downloadItem => {
+            return this.props.metadata.Uuid == downloadItem;
+        }).length > 0;
+        if (isAdded) {
+            this.setState({
+                isAdded: isAdded
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const wasAdded = prevState.isAdded;
+        const isAdded = this.props.itemsToDownload.filter(downloadItem => {
+            return this.props.metadata.Uuid == downloadItem;
+        }).length > 0;
+        if (wasAdded !== isAdded) {
+            this.setState({
+                isAdded: isAdded
+            });
         }
     }
 
@@ -165,9 +164,13 @@ DownloadButton.defaultProps = {
     listButton: true,
 };
 
+const mapStateToProps = state => ({
+    itemsToDownload: state.itemsToDownload
+});
+
 const mapDispatchToProps = {
     removeItemSelectedForDownload,
     addItemSelectedForDownload
 };
 
-export default connect(null, mapDispatchToProps)(DownloadButton);
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadButton);
