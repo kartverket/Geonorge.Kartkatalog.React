@@ -9,9 +9,13 @@ import style from './MainNavigation.scss'
 function setup() {
   const props = {
     fetchMapItems: jest.fn(),
+    removeMapItem: jest.fn(),
     fetchItemsToDownload: jest.fn(),
+    removeItemSelectedForDownload: jest.fn(),
+    getDownloadItemMetadata: jest.fn(),
     fetchGeonorgeMenu: jest.fn(),
     getGeonorgeLogo: jest.fn(),
+    geonorgeMenu: [],
     mapItems: [],
     itemsToDownload: []
   }

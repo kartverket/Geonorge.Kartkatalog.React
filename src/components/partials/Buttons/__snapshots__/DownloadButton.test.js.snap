@@ -5,6 +5,7 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <DownloadButton
     addItemSelectedForDownload={[MockFunction]}
+    itemsToDownload={Array []}
     listButton={true}
     metadata={
       Object {

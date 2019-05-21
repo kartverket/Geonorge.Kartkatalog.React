@@ -6,6 +6,7 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <MapButton
     addMapItem={[MockFunction]}
     listButton={true}
+    mapItems={Array []}
     metadata={
       Object {
         "DistributionProtocol": "test protocol",

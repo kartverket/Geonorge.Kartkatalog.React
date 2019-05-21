@@ -32,7 +32,7 @@ ShallowWrapper {
         >
           <iframe
             height="800px"
-            src="test"
+            src=""
             width="100%"
           />
         </Connect(Modal)>,
@@ -76,7 +76,7 @@ ShallowWrapper {
         "props": Object {
           "children": <iframe
             height="800px"
-            src="test"
+            src=""
             width="100%"
           />,
           "handleClose": [Function],
@@ -89,7 +89,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "height": "800px",
-            "src": "test",
+            "src": "",
             "width": "100%",
           },
           "ref": null,
@@ -183,7 +183,7 @@ ShallowWrapper {
           >
             <iframe
               height="800px"
-              src="test"
+              src=""
               width="100%"
             />
           </Connect(Modal)>,
@@ -227,7 +227,7 @@ ShallowWrapper {
           "props": Object {
             "children": <iframe
               height="800px"
-              src="test"
+              src=""
               width="100%"
             />,
             "handleClose": [Function],
@@ -240,7 +240,7 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "height": "800px",
-              "src": "test",
+              "src": "",
               "width": "100%",
             },
             "ref": null,

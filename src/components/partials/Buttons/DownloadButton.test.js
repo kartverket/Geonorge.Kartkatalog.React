@@ -8,8 +8,10 @@ function setupMetadataDownloadButton() {
     const metadata = {
         DistributionProtocol: "GEONORGE:DOWNLOAD"
     };
+    const itemsToDownload = [];
     const props = {
         metadata: metadata,
+        itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn()
     };
@@ -27,8 +29,10 @@ function setupMetadataDownloadLink() {
         DistributionProtocol: "WWW:DOWNLOAD-1.0-http--download",
         Type: "dataset"
     };
+    const itemsToDownload = [];
     const props = {
         metadata: metadata,
+        itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn()
     };
@@ -43,8 +47,10 @@ function setupMetadataDownloadLink() {
 function setupMetadataListButtonFalse() {
     const metadata = {
     };
+    const itemsToDownload = [];
     const props = {
         metadata: metadata,
+        itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn(),
         listButton: false
@@ -61,8 +67,10 @@ function setupMetadataListButtonFalseAndCanShowDownloadService() {
     const metadata = {
         CanShowDownloadService: true
     };
+    const itemsToDownload = [];
     const props = {
         metadata: metadata,
+        itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn(),
         listButton: false
@@ -80,8 +88,10 @@ function setupMetadataListButtonFalseAndCanShowDownloadUrl() {
         CanShowDownloadUrl: true,
         DistributionUrl: 'test.no'
     };
+    const itemsToDownload = [];
     const props = {
         metadata: metadata,
+        itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn(),
         listButton: false
@@ -106,7 +116,7 @@ describe('DownloadButton', () => {
 
     it('Show download button when item is selected for download', () => {
         let {wrapper} = setupMetadataDownloadButton();
-        wrapper = wrapper.setState({isSelectedForDownload: true});
+        wrapper = wrapper.setState({isAdded: true});
 
         expect(wrapper.prop("className")).toContain("off");
         expect(wrapper.prop("onClick").toString()).toContain("removeFromDownloadList(button)");
@@ -116,7 +126,7 @@ describe('DownloadButton', () => {
 
     it('Show download button when item is not selected for download', () => {
         let {wrapper} = setupMetadataDownloadButton();
-        wrapper = wrapper.setState({isSelectedForDownload: false});
+        wrapper = wrapper.setState({isAdded: false});
 
         expect(wrapper.prop("className")).toContain("on");
         expect(wrapper.prop("onClick").toString()).toContain("addToDownloadList(button)");
@@ -147,7 +157,7 @@ describe('DownloadButton', () => {
 
     it('List button false - CanShowDownloadService true', () => {
         let {wrapper} = setupMetadataListButtonFalseAndCanShowDownloadService();
-        wrapper = wrapper.setState({isSelectedForDownload: false});
+        wrapper = wrapper.setState({isAdded: false});
 
         expect(wrapper.prop("className")).toContain(style.btn)
         expect(wrapper.prop("onClick").toString()).toContain("addToDownloadList(button)");

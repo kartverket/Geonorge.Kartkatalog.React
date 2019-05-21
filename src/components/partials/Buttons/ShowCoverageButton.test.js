@@ -46,7 +46,10 @@ describe('setupItemWithCoverageUrl', () => {
     it('Item with coverage url', () => {
         const { wrapper } = setupItemWithCoverageUrl()
 
-        // expect(wrapper.hasClass(style.btn)).toBe(true)
+        wrapper.setState({
+            show: true
+        });
+        
         expect(wrapper.children('span').hasClass(style.btn)).toBe(true)
         expect(wrapper.children('span').prop("onClick").toString()).toContain("show: true")
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('globe')        
