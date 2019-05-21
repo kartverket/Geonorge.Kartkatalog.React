@@ -10,35 +10,9 @@ export class MapButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [],
-            expanded: false
+            expanded: false,
+            isAdded: false
         };
-    }
-
-    compareMapItems(mapItemToCompare, mapItemToCompareWith) {
-        return mapItemToCompare.GetCapabilitiesUrl === mapItemToCompareWith.GetCapabilitiesUrl && mapItemToCompare.Title === mapItemToCompareWith.Title;
-    }
-
-    mapItemIsAddedToLocalStorage(mapItemToCompare) {
-        let isAddedToLocalStorage = false;
-        this.state.selectedMapItems.forEach((mapItemToCompareWith) => {
-            if (this.compareMapItems(mapItemToCompare, mapItemToCompareWith)) {
-                isAddedToLocalStorage = true;
-            }
-        });
-        return isAddedToLocalStorage;
-    }
-
-    datasetServicesIsAddedToLocalStorage() {
-        let isAddedToLocalStorage = false;
-        this.state.selectedMapItems.forEach((mapItemToCompareWith) => {
-            this.props.metadata.DatasetServicesWithShowMapLink.forEach(item => {
-                if (this.compareMapItems(item, mapItemToCompareWith)) {
-                    isAddedToLocalStorage = true;
-                }
-            })
-        });
-        return isAddedToLocalStorage;
     }
 
     getMapItem(service = null) {
@@ -54,30 +28,25 @@ export class MapButton extends Component {
     getServiceMapItem() {
         return {
             Uuid: this.props.metadata.Uuid,
-            Title: this.props.metadata.Title,                        
+            Title: this.props.metadata.Title,
             DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset,
             GetCapabilitiesUrl: this.props.metadata.MapLink,
             addLayers: []
-        } 
+        }
     }
 
     getMapItemFromMetadata() {
         return {
             Uuid: this.props.metadata.Uuid,
-            Title: this.props.metadata.Title,                        
+            Title: this.props.metadata.Title,
             DistributionProtocol: this.props.metadata.DistributionDetails.Protocol,
             GetCapabilitiesUrl: this.props.metadata.MapLink,
             addLayers: []
-        } 
+        }
     }
 
     addToMap(mapItem) {
         this.props.addMapItem(mapItem);
-        this.setState({
-            isAdded: true,
-            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : []
-        });
-
     }
 
     toggleExpand() {
@@ -88,16 +57,12 @@ export class MapButton extends Component {
 
     removeFromMap(mapItem) {
         this.props.removeMapItem(mapItem);
-        this.setState({
-            isAdded: false,
-            selectedMapItems: localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : []
-        });
     }
 
     renderListButton() {
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
             let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
-            let isAdded = this.mapItemIsAddedToLocalStorage(mapItem);
+            let isAdded = this.state.isAdded;
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
@@ -112,16 +77,16 @@ export class MapButton extends Component {
         return null;
     }
 
-    renderButton(){
+    renderButton() {
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
             let mapItem;
-            if(this.props.metadata.CanShowServiceMapUrl){
-                mapItem = this.getServiceMapItem()                
+            if (this.props.metadata.CanShowServiceMapUrl) {
+                mapItem = this.getServiceMapItem()
             }
-            else if(this.props.metadata.CanShowMapUrl){
-                mapItem = this.getMapItemFromMetadata()           
+            else if (this.props.metadata.CanShowMapUrl) {
+                mapItem = this.getMapItemFromMetadata()
             }
-            let isAdded = this.mapItemIsAddedToLocalStorage(mapItem);
+            let isAdded = this.state.isAdded;
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
@@ -142,11 +107,34 @@ export class MapButton extends Component {
         }
     }
 
+    componentDidMount() {
+        const isAdded = this.props.mapItems.filter(mapItem => {
+            return this.props.metadata.Uuid == mapItem.Uuid;
+        }).length > 0;
+        if (isAdded) {
+            this.setState({
+                isAdded: isAdded
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const wasAdded = prevState.isAdded;
+        const isAdded = this.props.mapItems.filter(mapItem => {
+            return this.props.metadata.Uuid == mapItem.Uuid;
+        }).length > 0;
+        if (wasAdded !== isAdded) {
+            this.setState({
+                isAdded: isAdded
+            });
+        }
+    }
+
     render() {
         if (this.props.listButton) {
             return this.renderListButton()
         }
-        else{
+        else {
             return this.renderButton()
         }
     }
@@ -164,9 +152,13 @@ MapButton.defaultProps = {
     listButton: true,
 };
 
+const mapStateToProps = state => ({
+    mapItems: state.mapItems
+});
+
 const mapDispatchToProps = {
     removeMapItem,
     addMapItem,
 };
 
-export default connect(null, mapDispatchToProps)(MapButton);
+export default connect(mapStateToProps, mapDispatchToProps)(MapButton);
