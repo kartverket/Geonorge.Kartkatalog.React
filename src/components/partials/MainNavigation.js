@@ -72,7 +72,7 @@ export class MainNavigation extends Component {
                     <span>
                         <button className={style.mapBtnlink}>{mapItem.Title}</button>
                     </span>
-                    <FontAwesomeIcon icon="times"
+                    <FontAwesomeIcon icon={['far', 'map-marker-minus']}
                         onClick={() => this.props.removeMapItem([mapItem])} />
                 </li>
             )
@@ -130,7 +130,7 @@ export class MainNavigation extends Component {
                     <span>
                         <button className={style.mapBtnlink}>{downloadItem.name}</button>
                     </span>
-                    <FontAwesomeIcon icon="times"
+                    <FontAwesomeIcon icon={['far', 'trash']}
                         onClick={() => this.props.removeItemSelectedForDownload(downloadItem)} />
                 </li>
             )

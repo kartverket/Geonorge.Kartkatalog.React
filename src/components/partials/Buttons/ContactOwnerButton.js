@@ -13,7 +13,7 @@ export class ContactOwnerButton extends Component {
 
     render() {
 
-        // TODO styling
+      
         if (this.props.metadata.ContactMetadata) {
             let email = this.props.metadata.ContactMetadata.Email
             let icon = <FontAwesomeIcon title="Kontakt dataeier" icon={['far', 'envelope']} key="icon" />;

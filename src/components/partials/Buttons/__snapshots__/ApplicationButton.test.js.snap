@@ -55,7 +55,7 @@ ShallowWrapper {
           Til nettside
         </span>,
       ],
-      "className": "on",
+      "className": "ext",
       "href": "test",
     },
     "ref": null,
@@ -137,7 +137,7 @@ ShallowWrapper {
             Til nettside
           </span>,
         ],
-        "className": "on",
+        "className": "ext",
         "href": "test",
       },
       "ref": null,
@@ -198,7 +198,6 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
-          "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
             "hasShouldComponentUpdateBug": false,
           },

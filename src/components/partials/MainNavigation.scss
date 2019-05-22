@@ -122,6 +122,8 @@
     }
     > svg {
         float: right;
+        color: $primary-danger;
+        font-size: 2rem;
         &:hover {
             cursor: pointer;
         }
@@ -133,6 +135,9 @@
     background: transparent;
     text-decoration: none;
     font-size: 1.2em;
+    > li > svg {
+        color: $primary-danger;
+    }
 }
 :local(.mainNavigation) {
     display: flex;

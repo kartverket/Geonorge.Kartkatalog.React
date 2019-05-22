@@ -225,7 +225,7 @@ describe('MapButton', () => {
     it('List button false - Item with CanShowMapUrl and isAdded false', () => {
         let { wrapper } = setupItemListButtonFalseAndCanShowMapUrl()
 
-        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("className")).toContain(style.btn + ' download')
         expect(wrapper.prop("onClick").toString()).toContain("addToMap([mapItem])")
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')
         expect(wrapper.find("span").first().html()).toContain('Legg til i kart')
@@ -245,7 +245,7 @@ describe('MapButton', () => {
             ]
         });
 
-        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("className")).toContain(style.btn + ' remove')
         expect(wrapper.prop("onClick").toString()).toContain("removeFromMap([mapItem])")
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-minus')
         expect(wrapper.find("span").first().html()).toContain('Fjern fra kart')
@@ -254,7 +254,7 @@ describe('MapButton', () => {
     it('List button false - Item with CanShowServiceMapUrl and isAdded false', () => {
         let { wrapper } = setupItemListButtonFalseAndCanShowServiceMapUrl()
 
-        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("className")).toContain(style.btn + ' download')
         expect(wrapper.prop("onClick").toString()).toContain("addToMap([mapItem])")
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-plus')
         expect(wrapper.find("span").first().html()).toContain('Legg til i kart')
@@ -274,7 +274,7 @@ describe('MapButton', () => {
             ]
         });
 
-        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("className")).toContain(style.btn + ' remove')
         expect(wrapper.prop("onClick").toString()).toContain("removeFromMap([mapItem])")
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('map-marker-minus')
         expect(wrapper.find("span").first().html()).toContain('Fjern fra kart')

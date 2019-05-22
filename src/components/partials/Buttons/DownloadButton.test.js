@@ -159,7 +159,7 @@ describe('DownloadButton', () => {
         let {wrapper} = setupMetadataListButtonFalseAndCanShowDownloadService();
         wrapper = wrapper.setState({isAdded: false});
 
-        expect(wrapper.prop("className")).toContain(style.btn)
+        expect(wrapper.prop("className")).toContain(style.btn + ' download')
         expect(wrapper.prop("onClick").toString()).toContain("addToDownloadList(button)");
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
         expect(wrapper.find("span").first().html()).toContain('Last ned');

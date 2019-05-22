@@ -44,7 +44,7 @@
         top: 4px;
         margin-right: 5px;
         font-size: 1.6em;
-        color: $primary-brand;
+        color: $primary-brand;        
     }
     &.disabled {
         &:hover {      
@@ -58,6 +58,20 @@
         > svg {
             margin-right: 5px;
             color: $icon-disabled;
+        }
+
+    }
+    &.download {        
+        > svg { 
+            margin-right: 5px;           
+            color: $primary-success;
+        }
+
+    }
+    &.remove {        
+        > svg { 
+            margin-right: 5px;           
+            color: $primary-danger;
         }
 
     }

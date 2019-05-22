@@ -23,7 +23,7 @@ export class ApplicationButton extends Component {
                 if (this.props.metadata.DistributionUrl) {
                     let distributionUrl = this.props.metadata.DistributionUrl
                     let icon = <FontAwesomeIcon title="Gå til ekstern nettside" icon={['far', 'external-link-square']} key="icon" />;
-                    let buttonClass = 'on';
+                    let buttonClass = 'ext';
                     let textContent = React.createElement('span', { key: "textContent" }, 'Til nettside');
 
                     let childElements = [icon, textContent];

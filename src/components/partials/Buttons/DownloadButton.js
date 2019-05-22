@@ -95,7 +95,7 @@ export class DownloadButton extends Component {
                 : () => this.addToDownloadList(button);
             let icon = <FontAwesomeIcon title="Last ned"
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = style.btn;
+            let buttonClass = this.state.isAdded ?  [style.btn + ' remove'] : [style.btn + ' download'];
             let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern nedlasting' : 'Last ned');
 
             let childElements = [icon, textContent];

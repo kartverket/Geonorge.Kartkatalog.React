@@ -133,7 +133,7 @@ describe('ApplicationButton', () => {
     it('Application with DistributionUrl', () => {
         const { wrapper } = setupApplicationWithDistributionUrl()
 
-        expect(wrapper.hasClass('on')).toBe(true)
+        expect(wrapper.hasClass('ext')).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
         expect(wrapper.find("span").first().html()).toContain('Til nettside')
