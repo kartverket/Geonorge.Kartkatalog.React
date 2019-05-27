@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import { fetchSelectedLanguage, updateSelectedLanguage } from '../../../actions/SelectedLanguageActions';
+
 import styleBtn from './Buttons.scss';
 import style from '../MainNavigation.scss';
 
@@ -39,19 +42,42 @@ export class GeonorgeMenuButton extends Component {
                 return (
                     <ul key={menuItemIndex}>
                         <li>
-                            <a href={menuItem.Url}>{menuItem.Name}</a>                        
-                            </li>
+                            <a href={menuItem.Url}>{menuItem.Name}</a>
+                        </li>
                         {this.renderSubMenuItems(menuItem)}
                     </ul>
                 )
             });
             return (
-            <nav className={this.state.expandedMenu ? style.menu + " " + style.open : style.menu}>
-                <div className={styleBtn.menuContent}>{menuItems}</div>
-            </nav>
+                <nav className={this.state.expandedMenu ? style.menu + " " + style.open : style.menu}>
+                    <div className={styleBtn.menuContent}>{menuItems}</div>
+                    <div>
+                        {this.renderSecondaryMenuContent()}
+                    </div>
+                </nav>
             )
         }
         return null
+    }
+
+
+    renderLanguageLink() {
+        let languageLink = {
+            text: this.props.selectedLanguage === 'en' ? 'Norsk' : 'English',
+            updateValue: this.props.selectedLanguage === 'en' ? 'no' : 'en'
+        }
+        return <li onClick={() => this.props.updateSelectedLanguage(languageLink.updateValue)}>{languageLink.text}</li>;
+    }
+
+    renderSecondaryMenuContent() {
+        if (this.props.loginUrl || this.props.multilingual) {
+            const languageLink = this.props.multilingual ? this.renderLanguageLink() : null;
+            return (
+                <ul>
+                    {languageLink}
+                </ul>
+            )
+        }
     }
 
     renderSubMenuItems(parent) {
@@ -77,11 +103,18 @@ export class GeonorgeMenuButton extends Component {
 }
 
 GeonorgeMenuButton.propTypes = {
-    geonorgeMenu: PropTypes.array.isRequired
+    geonorgeMenu: PropTypes.array.isRequired,
+    multilingual: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
     geonorgeMenu: state.geonorgeMenu,
+    selectedLanguage: state.selectedLanguage
 });
 
-export default connect(mapStateToProps, null)(GeonorgeMenuButton);
+const mapDispatchToProps = {
+    fetchSelectedLanguage,
+    updateSelectedLanguage
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GeonorgeMenuButton);
