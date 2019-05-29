@@ -13,15 +13,15 @@ export class ApplicationButton extends Component {
     }
 
     isApplication() {
-        return this.props.metadata.Type === "software"
+        return this.props.metadata.Type === "software" || this.props.metadata.Type === "Applikasjon"
     }
 
     render() {
 
         if (this.props.listButton) {
             if (this.isApplication(this.props.metadata.Type)) {
-                if (this.props.metadata.DistributionUrl) {
-                    let distributionUrl = this.props.metadata.DistributionUrl
+                if (this.props.metadata.DistributionUrl || this.props.metadata.DownloadUrl) {
+                    let distributionUrl = this.props.metadata.DistributionUrl ? this.props.metadata.DistributionUrl : this.props.metadata.DownloadUrl
                     let icon = <FontAwesomeIcon title="Gå til ekstern nettside" icon={['far', 'external-link-square']} key="icon" />;
                     let buttonClass = 'ext';
                     let textContent = React.createElement('span', { key: "textContent" }, 'Til nettside');
@@ -38,7 +38,7 @@ export class ApplicationButton extends Component {
             }
             return null
         }
-        else{
+        else {
             if (this.props.metadata.CanShowWebsiteUrl && this.props.metadata.DistributionUrl) {
                 let url = this.props.metadata.DistributionUrl
                 let icon = <FontAwesomeIcon title="Nettside" icon={['far', 'external-link-square']} key="icon" />;
