@@ -60,6 +60,9 @@ export class GeonorgeMenuButton extends Component {
         return null
     }
 
+    renderLogInLink() {
+        return <li>Logg inn</li>
+    }
 
     renderLanguageLink() {
         let languageLink = {
@@ -71,6 +74,7 @@ export class GeonorgeMenuButton extends Component {
 
     renderSecondaryMenuContent() {
         if (this.props.loginUrl || this.props.multilingual) {
+            const loginLink = this.props.loginUrl ? this.renderLogInLink() : null;
             const languageLink = this.props.multilingual ? this.renderLanguageLink() : null;
             return (
                 <ul>
@@ -104,6 +108,7 @@ export class GeonorgeMenuButton extends Component {
 
 GeonorgeMenuButton.propTypes = {
     geonorgeMenu: PropTypes.array.isRequired,
+    loginUrl: PropTypes.string,
     multilingual: PropTypes.bool
 };
 

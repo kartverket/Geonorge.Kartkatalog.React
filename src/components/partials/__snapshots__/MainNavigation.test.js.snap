@@ -81,7 +81,6 @@ ShallowWrapper {
         className="mainNavigation container"
       >
         <Link
-          replace={false}
           to="/"
         >
           <div
@@ -99,11 +98,11 @@ ShallowWrapper {
             <Connect(SearchBar) />
           </ErrorBoundary>
         </div>
-        <GeonorgeMenuButton
+        <Connect(GeonorgeMenuButton)
           geonorgeMenu={Array []}
+          multilingual={true}
         />
         <Link
-          replace={false}
           to="/kart"
         >
           <span
@@ -193,7 +192,6 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <Link
-            replace={false}
             to="/"
           >
             <div
@@ -211,11 +209,11 @@ ShallowWrapper {
               <Connect(SearchBar) />
             </ErrorBoundary>
           </div>,
-          <GeonorgeMenuButton
+          <Connect(GeonorgeMenuButton)
             geonorgeMenu={Array []}
+            multilingual={true}
           />,
           <Link
-            replace={false}
             to="/kart"
           >
             <span
@@ -311,7 +309,6 @@ ShallowWrapper {
                 alt="Geonorge logo"
               />
             </div>,
-            "replace": false,
             "to": "/",
           },
           "ref": null,
@@ -380,6 +377,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "geonorgeMenu": Array [],
+            "multilingual": true,
           },
           "ref": null,
           "rendered": null,
@@ -417,7 +415,6 @@ ShallowWrapper {
                 transform={null}
               />
             </span>,
-            "replace": false,
             "to": "/kart",
           },
           "ref": null,
@@ -735,7 +732,6 @@ ShallowWrapper {
           className="mainNavigation container"
         >
           <Link
-            replace={false}
             to="/"
           >
             <div
@@ -753,11 +749,11 @@ ShallowWrapper {
               <Connect(SearchBar) />
             </ErrorBoundary>
           </div>
-          <GeonorgeMenuButton
+          <Connect(GeonorgeMenuButton)
             geonorgeMenu={Array []}
+            multilingual={true}
           />
           <Link
-            replace={false}
             to="/kart"
           >
             <span
@@ -847,7 +843,6 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <Link
-              replace={false}
               to="/"
             >
               <div
@@ -865,11 +860,11 @@ ShallowWrapper {
                 <Connect(SearchBar) />
               </ErrorBoundary>
             </div>,
-            <GeonorgeMenuButton
+            <Connect(GeonorgeMenuButton)
               geonorgeMenu={Array []}
+              multilingual={true}
             />,
             <Link
-              replace={false}
               to="/kart"
             >
               <span
@@ -965,7 +960,6 @@ ShallowWrapper {
                   alt="Geonorge logo"
                 />
               </div>,
-              "replace": false,
               "to": "/",
             },
             "ref": null,
@@ -1034,6 +1028,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "geonorgeMenu": Array [],
+              "multilingual": true,
             },
             "ref": null,
             "rendered": null,
@@ -1071,7 +1066,6 @@ ShallowWrapper {
                   transform={null}
                 />
               </span>,
-              "replace": false,
               "to": "/kart",
             },
             "ref": null,
@@ -1392,6 +1386,7 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
+          "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
             "hasShouldComponentUpdateBug": false,
           },

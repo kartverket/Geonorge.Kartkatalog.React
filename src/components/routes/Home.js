@@ -43,7 +43,14 @@ class Home extends Component {
         const oldUrlParameterString = prevProps.router && prevProps.router.location && prevProps.router.location.search ? prevProps.router.location.search : '';
         const newUrlParameterString = this.props.router && this.props.router.location && this.props.router.location.search ? this.props.router.location.search : '';
 
-        if (oldUrlParameterString !== newUrlParameterString) {
+        const urlParameterStringHasChanged = oldUrlParameterString !== newUrlParameterString;
+        const selectedLanguageHasChanged = prevProps.selectedLanguage !== this.props.selectedLanguage;
+
+
+        const componentShouldFetch = urlParameterStringHasChanged || selectedLanguageHasChanged;
+
+
+        if (componentShouldFetch) {
             const searchString = this.props.updateSearchStringFromUrl();
             const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
             this.props.fetchMetadataSearchResults(searchString, newSelectedFacets).then(() => {
@@ -76,7 +83,8 @@ const mapStateToProps = state => ({
     availableFacets: state.availableFacets,
     selectedFacets: state.selectedFacets,
     searchResults: state.searchResults,
-    searchString: state.searchString
+    searchString: state.searchString,
+    selectedLanguage: state.selectedLanguage
 });
 
 const mapDispatchToProps = {

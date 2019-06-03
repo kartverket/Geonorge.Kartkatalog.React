@@ -12,7 +12,7 @@ import SearchBar from './MainNavigation/SearchBar';
 
 import style from './MainNavigation.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { GeonorgeMenuButton } from './Buttons/GeonorgeMenuButton';
+import GeonorgeMenuButton from './Buttons/GeonorgeMenuButton';
 
 export class MainNavigation extends Component {
 
@@ -172,7 +172,7 @@ export class MainNavigation extends Component {
                     <div className={style.search}>
                         <ErrorBoundary><SearchBar /></ErrorBoundary>
                     </div>
-                    <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu} />
+                    <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu} multilingual />
                     {this.renderMapbutton()}
                     {this.renderDownloadButton()}
                 </div>
