@@ -113,3 +113,16 @@
         }        
     }
 }
+:local(.secondaryContent) {
+    text-align: right;
+    border-top: 1px solid $primary-border;
+    margin: 10px 25px;    
+    
+    > ul {
+        margin: 0;
+        padding: 10px 5px 0;
+        > li:hover {
+            cursor: pointer;
+        }
+    }
+}

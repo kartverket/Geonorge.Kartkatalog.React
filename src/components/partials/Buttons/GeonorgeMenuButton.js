@@ -51,7 +51,7 @@ export class GeonorgeMenuButton extends Component {
             return (
                 <nav className={this.state.expandedMenu ? style.menu + " " + style.open : style.menu}>
                     <div className={styleBtn.menuContent}>{menuItems}</div>
-                    <div>
+                    <div className={styleBtn.secondaryContent}>
                         {this.renderSecondaryMenuContent()}
                     </div>
                 </nav>
@@ -66,7 +66,7 @@ export class GeonorgeMenuButton extends Component {
 
     renderLanguageLink() {
         let languageLink = {
-            text: this.props.selectedLanguage === 'en' ? 'Norsk' : 'English',
+            text: this.props.selectedLanguage === 'en' ? 'Valgt språk: Norsk' : 'Selected language: English',
             updateValue: this.props.selectedLanguage === 'en' ? 'no' : 'en'
         }
         return <li onClick={() => this.props.updateSelectedLanguage(languageLink.updateValue)}>{languageLink.text}</li>;
