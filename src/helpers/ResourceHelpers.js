@@ -1,5 +1,5 @@
 export const getResource = (resources, resourceKey, fallbackValue) => {
-    let resource = resources.find(x => x.Key === resourceKey);
+    let resource = resources && Array.isArray(resources) && resources.length ? resources.find(x => x.Key === resourceKey) : null;
     if (resource && resource.Value) {
         return resource.Value;
     } else if (fallbackValue) {
