@@ -1,4 +1,5 @@
 import * as Cookies from 'js-cookie';
+import { fetchResources } from './ResourceActions';
 import { FETCH_SELECTED_LANGUAGE } from './types';
 
 export const fetchSelectedLanguage = () => dispatch => {
@@ -15,4 +16,5 @@ export const updateSelectedLanguage = (language) => dispatch => {
         type: FETCH_SELECTED_LANGUAGE,
         payload: language
     });
+    dispatch(fetchResources());
 }
