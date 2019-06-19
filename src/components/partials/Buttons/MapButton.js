@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import style from './Buttons.scss'
 
 import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
+import { getResource } from '../../../helpers/ResourceHelpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class MapButton extends Component {
@@ -63,14 +64,14 @@ export class MapButton extends Component {
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
             let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
             let isAdded = this.state.isAdded;
+            let buttonDescription = isAdded ? getResource(this.props.resources, 'removeFromMap', 'Fjern fra kart') : getResource(this.props.resources, 'addToMap', 'Legg til i kart');
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
-            let icon = <FontAwesomeIcon title={isAdded ? "Fjern fra kart" : "Legg til i kart"} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
                 key="icon" />;
             let buttonClass = isAdded ? 'off' : 'on';
-            let textContent = React.createElement('span', { key: "textContent" }, isAdded ? 'Fjern fra kart' : 'Legg til i kart');
-
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
         }
@@ -78,6 +79,10 @@ export class MapButton extends Component {
     }
 
     renderButton() {
+        let isAdded = this.state.isAdded;
+        const buttonDescription = isAdded ? getResource(this.props.resources, 'removeFromMap', 'Fjern fra kart') : getResource(this.props.resources, 'addToMap', 'Legg til i kart');
+        const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'];
+        const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
             let mapItem;
             if (this.props.metadata.CanShowServiceMapUrl) {
@@ -86,19 +91,18 @@ export class MapButton extends Component {
             else if (this.props.metadata.CanShowMapUrl) {
                 mapItem = this.getMapItemFromMetadata()
             }
-            let isAdded = this.state.isAdded;
+            
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);           
-            let icon = <FontAwesomeIcon title={isAdded ? "Fjern fra kart" : "Legg til i kart"} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={buttonIcon}
                 key="icon" />;
-            let buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'];
-            let textContent = React.createElement('span', { key: "textContent" }, isAdded ? 'Fjern fra kart' : 'Legg til i kart');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title="Legg til i kart" icon={['far', 'map-marker-plus']} key="icon" />;
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={buttonIcon} key="icon" />;
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, 'Legg til i kart');
 
@@ -153,12 +157,13 @@ MapButton.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    mapItems: state.mapItems
+    mapItems: state.mapItems,
+    resources: state.resources
 });
 
 const mapDispatchToProps = {
     removeMapItem,
-    addMapItem,
+    addMapItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapButton);
