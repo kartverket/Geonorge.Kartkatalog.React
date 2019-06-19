@@ -5,6 +5,7 @@ import {Route, Switch} from 'react-router'
 import {ConnectedRouter} from 'connected-react-router'
 import configureStore, {history} from './utils/configureStore'
 
+import { fetchResources } from './actions/ResourceActions'
 
 import Home from './components/routes/Home';
 import Footer from './components/partials/Footer';
@@ -21,6 +22,10 @@ const store = configureStore(initialState);
 
 
 class App extends Component {
+    
+    componentDidMount() {
+        store.dispatch(fetchResources());
+    }
 
     render() {
         return (
