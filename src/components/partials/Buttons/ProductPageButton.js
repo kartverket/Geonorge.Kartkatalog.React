@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss';
 
+import { getResource } from '../../../helpers/ResourceHelpers'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class ProductPageButton extends Component {
@@ -12,20 +14,20 @@ export class ProductPageButton extends Component {
     }
 
     render() {
-
+        let buttonDescription = getResource(this.props.resources, 'DisplayProductPage', 'Vis produktside');
         // TODO styling
         if (this.props.metadata.ProductPageUrl) {
             let url = this.props.metadata.ProductPageUrl
-            let icon = <FontAwesomeIcon title="Vis produktside" icon={['far', 'external-link-square']} key="icon" />;
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
             let buttonClass = style.btn;
-            let textContent = React.createElement('span', { key: "textContent" }, 'Vis produktside');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('a', { href: url, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title="Vis produktside" icon={['far', 'external-link-square']} key="icon" />
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
             let buttonClass = style.btn + ' disabled'
-            let textContent = React.createElement('span', { key: "textContent" }, 'Vis produktside');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
         }
@@ -37,4 +39,8 @@ ProductPageButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-export default connect(null, null)(ProductPageButton);
+const mapStateToProps = state => ({
+    resources: state.resources
+});
+
+export default connect(mapStateToProps, null)(ProductPageButton);
