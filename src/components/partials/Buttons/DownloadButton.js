@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
+import { getResource } from '../../../helpers/ResourceHelpers'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Buttons.scss'
 
@@ -63,23 +65,28 @@ export class DownloadButton extends Component {
 
     renderListButton() {
         let button = this.getDownloadButton();
+
         if (this.isGeonorgeDownload()) {
+            let buttonDescription = this.state.isAdded ? getResource(this.props.resources, 'RemoveFromBasket', 'Fjern nedlasting') : getResource(this.props.resources, 'Download', 'Last ned');
+
             let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
                 : () => this.addToDownloadList(button);
-            let icon = <FontAwesomeIcon title="Last ned"
+            let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
             let buttonClass = this.state.isAdded ? 'off' : 'on';
-            let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern nedlasting' : 'Last ned');
+
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
         } else if (this.showDownloadLink()) {
+            let buttonDescription = getResource(this.props.resources, 'ToBasket', 'Til nedlasting');
             let distributionUrl = this.props.metadata.DistributionUrl;
-            let icon = <FontAwesomeIcon title="Gå til nedlasting" icon={['far', 'external-link-square']} key="icon" />;
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
             let buttonClass = 'on';
-            let textContent = React.createElement('span', { key: "textContent" }, 'Til nedlasting');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
@@ -90,30 +97,33 @@ export class DownloadButton extends Component {
     renderButton() {
         let button = this.getDownloadButtonFromMetadata();
         if (this.props.metadata.CanShowDownloadService) {
+            let buttonDescription = this.state.isAdded ? getResource(this.props.resources, 'RemoveFromBasket', 'Fjern nedlasting') : getResource(this.props.resources, 'Download', 'Last ned');
             let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
                 : () => this.addToDownloadList(button);
-            let icon = <FontAwesomeIcon title="Last ned"
+            let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
             let buttonClass = this.state.isAdded ?  [style.btn + ' remove'] : [style.btn + ' download'];
-            let textContent = React.createElement('span', { key: "textContent" }, this.state.isAdded ? 'Fjern nedlasting' : 'Last ned');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
         } else if (this.props.metadata.CanShowDownloadUrl) {
+            let buttonDescription = getResource(this.props.resources, 'ToBasket', 'Til nedlasting');
             let distributionUrl = this.props.metadata.DistributionUrl;
-            let icon = <FontAwesomeIcon title="Gå til nedlasting" icon={['far', 'external-link-square']} key="icon" />;
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
             let buttonClass = style.btn;
-            let textContent = React.createElement('span', { key: "textContent" }, 'Til nedlasting');
 
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
         }
         else {
-            let icon = <FontAwesomeIcon title="Last ned" icon={['fas', 'cloud-download']} key="icon" />;
+            let buttonDescription = getResource(this.props.resources, 'Download', 'Last ned');
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={['fas', 'cloud-download']} key="icon" />;
             let buttonClass = style.btn + ' disabled';
-            let textContent = React.createElement('span', { key: "textContent" }, 'Last ned');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
@@ -165,7 +175,8 @@ DownloadButton.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    itemsToDownload: state.itemsToDownload
+    itemsToDownload: state.itemsToDownload,
+    resources: state.resources
 });
 
 const mapDispatchToProps = {
