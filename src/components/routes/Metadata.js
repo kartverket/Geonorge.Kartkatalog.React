@@ -8,8 +8,8 @@ import DistributionsList from "./Metadata/DistributionsList";
 
 import style from "./Metadata.scss";
 import { ErrorBoundary } from '../ErrorBoundary'
-import ProductsheetButton from '../partials/Buttons/ProductsheetButton';
-import ProductspesificationButton from '../partials/Buttons/ProductspesificationButton';
+import ProductSheetButton from '../partials/Buttons/ProductsheetButton';
+import ProductSpecificationButton from '../partials/Buttons/ProductSpecificationButton';
 import LegendDescriptionButton from '../partials/Buttons/LegendDescriptionButton';
 import ContactOwnerButton from '../partials/Buttons/ContactOwnerButton';
 import ProductPageButton from '../partials/Buttons/ProductPageButton';
@@ -709,10 +709,10 @@ class Metadata extends Component {
                                     <ContactOwnerButton metadata={this.props.metadata} />
                                 </ErrorBoundary>
                                 <ErrorBoundary>
-                                    <ProductsheetButton metadata={this.props.metadata} />
+                                    <ProductSheetButton metadata={this.props.metadata} />
                                 </ErrorBoundary>
                                 <ErrorBoundary>
-                                    <ProductspesificationButton metadata={this.props.metadata} />
+                                    <ProductSpecificationButton metadata={this.props.metadata} />
                                 </ErrorBoundary>
                                 <ErrorBoundary>
                                     <LegendDescriptionButton metadata={this.props.metadata} />

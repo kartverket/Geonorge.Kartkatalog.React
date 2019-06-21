@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from "enzyme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ProductspesificationButton } from './ProductspesificationButton';
+import { ProductSpecificationButton } from './ProductSpecificationButton';
 import style from './Buttons.scss';
 
 function setupItemWithProductSpecificationUrl() {
@@ -12,7 +12,7 @@ function setupItemWithProductSpecificationUrl() {
     const props = {
         metadata: metadata
     }
-    const wrapper = shallow(<ProductspesificationButton {...props} />)
+    const wrapper = shallow(<ProductSpecificationButton {...props} />)
 
     return {
         props,
@@ -27,7 +27,7 @@ function setupItemWithoutProductSpecificationUrl() {
     const props = {
         metadata: metadata
     }
-    const wrapper = shallow(<ProductspesificationButton {...props} />)
+    const wrapper = shallow(<ProductSpecificationButton {...props} />)
 
     return {
         props,

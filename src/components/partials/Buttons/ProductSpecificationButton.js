@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Buttons.scss';
 
-export class ProductspesificationButton extends Component {
+export class ProductSpecificationButton extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -33,8 +33,8 @@ export class ProductspesificationButton extends Component {
     
 }
 
-ProductspesificationButton.propTypes = {
+ProductSpecificationButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-export default connect(null, null)(ProductspesificationButton);
+export default connect(null, null)(ProductSpecificationButton);
