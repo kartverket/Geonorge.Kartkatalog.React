@@ -151,6 +151,9 @@ export class DownloadButton extends Component {
                 isAdded: isAdded
             });
         }
+        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
+            this.render();
+        }
     }
 
     render() {
@@ -175,7 +178,8 @@ DownloadButton.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    itemsToDownload: state.itemsToDownload
+    itemsToDownload: state.itemsToDownload,
+    selectedLanguage: state.selectedLanguage
 });
 
 const mapDispatchToProps = {

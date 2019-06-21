@@ -132,6 +132,9 @@ export class MapButton extends Component {
                 isAdded: isAdded
             });
         }
+        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
+            this.render();
+        }
     }
 
     render() {
@@ -157,7 +160,8 @@ MapButton.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    mapItems: state.mapItems
+    mapItems: state.mapItems,
+    selectedLanguage: state.selectedLanguage
 });
 
 const mapDispatchToProps = {

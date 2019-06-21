@@ -13,6 +13,12 @@ export class LegendDescriptionButton extends Component {
         this.state = {};
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
+            this.render();
+        }
+    }
+
     render() {
         let buttonDescription = this.props.getResource('DisplayCartography', 'Vis tegneregler');
         // TODO styling
@@ -43,4 +49,8 @@ const mapDispatchToProps = {
     getResource
 };
 
-export default connect(null, mapDispatchToProps)(LegendDescriptionButton);
+const mapStateToProps = state => ({
+    selectedLanguage: state.selectedLanguage
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LegendDescriptionButton);

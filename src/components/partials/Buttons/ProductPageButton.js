@@ -13,6 +13,12 @@ export class ProductPageButton extends Component {
         this.state = {};
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
+            this.render();
+        }
+    }
+
     render() {
         let buttonDescription = this.props.getResource('DisplayProductPage', 'Vis produktside');
         // TODO styling
@@ -43,4 +49,8 @@ const mapDispatchToProps = {
     getResource
 };
 
-export default connect(null, mapDispatchToProps)(ProductPageButton);
+const mapStateToProps = state => ({
+    selectedLanguage: state.selectedLanguage
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPageButton);
