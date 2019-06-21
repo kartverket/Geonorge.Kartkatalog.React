@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import style from './Buttons.scss';
 import Modal from './Modal.js'
 
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -39,16 +40,18 @@ export class ShowCoverageButton extends Component {
     }
 
     renderButton() {
+        let buttonDescription = this.props.getResource('DisplayCoverageMap', 'Vis dekningskart');
+
         if (this.props.metadata.CoverageUrl) {
             let buttonClass = style.btn;
             return <span className={buttonClass} onClick={this.showModal}>
-                <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />Vis dekningskart
+                <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
             </span>
         }
         else {
             let buttonClass = style.btn + ' disabled';
             return <span className={buttonClass}>
-                <FontAwesomeIcon title="Vis dekningskart" icon={['far', 'globe']} key="icon" />Vis dekningskart
+                <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
             </span>
         }
 
@@ -69,4 +72,8 @@ ShowCoverageButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-export default connect(null, null)(ShowCoverageButton);
+const mapDispatchToProps = {
+    getResource
+};
+
+export default connect(null, mapDispatchToProps)(ShowCoverageButton);
