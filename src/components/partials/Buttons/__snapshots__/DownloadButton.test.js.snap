@@ -5,6 +5,22 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <DownloadButton
     addItemSelectedForDownload={[MockFunction]}
+    getResource={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "Download",
+            "Last ned",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     itemsToDownload={Array []}
     listButton={true}
     metadata={
@@ -49,12 +65,10 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title="Last ned"
+          title=""
           transform={null}
         />,
-        <span>
-          Last ned
-        </span>,
+        <span />,
       ],
       "className": "on",
       "onClick": [Function],
@@ -83,7 +97,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "Last ned",
+          "title": "",
           "transform": null,
         },
         "ref": null,
@@ -95,10 +109,10 @@ ShallowWrapper {
         "key": "textContent",
         "nodeType": "host",
         "props": Object {
-          "children": "Last ned",
+          "children": undefined,
         },
         "ref": null,
-        "rendered": "Last ned",
+        "rendered": null,
         "type": "span",
       },
     ],
@@ -131,12 +145,10 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Last ned"
+            title=""
             transform={null}
           />,
-          <span>
-            Last ned
-          </span>,
+          <span />,
         ],
         "className": "on",
         "onClick": [Function],
@@ -165,7 +177,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "Last ned",
+            "title": "",
             "transform": null,
           },
           "ref": null,
@@ -177,10 +189,10 @@ ShallowWrapper {
           "key": "textContent",
           "nodeType": "host",
           "props": Object {
-            "children": "Last ned",
+            "children": undefined,
           },
           "ref": null,
-          "rendered": "Last ned",
+          "rendered": null,
           "type": "span",
         },
       ],

@@ -10,7 +10,8 @@ function setupItemWithCoverageUrl() {
         CoverageUrl: 'test'
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ShowCoverageButton {...props} />)
 
@@ -25,7 +26,8 @@ function setupItemWithoutCoverageUrl() {
         Uuid: '1234',
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ShowCoverageButton {...props} />)
 

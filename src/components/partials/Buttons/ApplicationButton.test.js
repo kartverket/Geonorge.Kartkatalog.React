@@ -12,6 +12,7 @@ function setupApplicationWithDistributionUrl() {
     }
     const props = {
         metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -27,7 +28,8 @@ function setupApplicationWithoutDistributionUrl() {
         Type: 'software',
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -43,7 +45,8 @@ function setupIsDatasetType() {
         Type: 'dataset',
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -59,7 +62,8 @@ function setupListButtonFalse() {
     }
     const props = {
         metadata: metadata,
-        listButton: false
+        listButton: false,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -77,7 +81,8 @@ function setupItemWithListButtonFalseAndCanShowWebsiteUrlAndDistributionUrl() {
     }
     const props = {
         metadata: metadata,
-        listButton: false
+        listButton: false,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -94,7 +99,8 @@ function setupItemWithListButtonFalseAndCanShowWebsiteUrl() {
     }
     const props = {
         metadata: metadata,
-        listButton: false
+        listButton: false,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 
@@ -112,7 +118,8 @@ function setupItemWithListButtonFalseAndCanShowWebsiteUrlFalseAndDistributionUrl
     }
     const props = {
         metadata: metadata,
-        listButton: false
+        listButton: false,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ApplicationButton {...props} />)
 

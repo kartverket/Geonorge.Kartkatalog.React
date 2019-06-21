@@ -5,6 +5,7 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <MapButton
     addMapItem={[MockFunction]}
+    getResource={[MockFunction]}
     listButton={true}
     mapItems={Array []}
     metadata={
@@ -55,11 +56,11 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title="Legg til i kart"
+          title={[Function]}
           transform={null}
         />,
         <span>
-          Legg til i kart
+          [Function]
         </span>,
       ],
       "className": "on",
@@ -89,7 +90,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "Legg til i kart",
+          "title": [Function],
           "transform": null,
         },
         "ref": null,
@@ -101,10 +102,10 @@ ShallowWrapper {
         "key": "textContent",
         "nodeType": "host",
         "props": Object {
-          "children": "Legg til i kart",
+          "children": [Function],
         },
         "ref": null,
-        "rendered": "Legg til i kart",
+        "rendered": [Function],
         "type": "span",
       },
     ],
@@ -137,11 +138,11 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Legg til i kart"
+            title={[Function]}
             transform={null}
           />,
           <span>
-            Legg til i kart
+            [Function]
           </span>,
         ],
         "className": "on",
@@ -171,7 +172,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "Legg til i kart",
+            "title": [Function],
             "transform": null,
           },
           "ref": null,
@@ -183,10 +184,10 @@ ShallowWrapper {
           "key": "textContent",
           "nodeType": "host",
           "props": Object {
-            "children": "Legg til i kart",
+            "children": [Function],
           },
           "ref": null,
-          "rendered": "Legg til i kart",
+          "rendered": [Function],
           "type": "span",
         },
       ],

@@ -20,6 +20,7 @@ function setupServiceWithShowMapLinkTrue() {
         mapItems: mapItems,
         addMapItem: jest.fn(),
         removeMapItem: jest.fn(),
+        getResource: jest.fn(),
         listButton: true
     }
     const wrapper = shallow(<MapButton {...props} />)
@@ -62,7 +63,8 @@ function setupDatasetWithShowMapLinkTrue() {
         metadata: metadata,
         mapItems: mapItems,
         addMapItem: jest.fn(),
-        removeMapItem: jest.fn()
+        removeMapItem: jest.fn(),
+        getResource: jest.fn()
     }
     const wrapper = shallow(<MapButton {...props} />)
 
@@ -81,7 +83,8 @@ function setupMetadataWithShowMapLinkFalse() {
         metadata: metadata,
         mapItems: mapItems,
         addMapItem: jest.fn(),
-        removeMapItem: jest.fn()
+        removeMapItem: jest.fn(),
+        getResource: jest.fn()
     }
     const wrapper = shallow(<MapButton {...props} />)
 
@@ -108,6 +111,7 @@ function setupItemListButtonFalseAndCanShowMapUrl() {
         mapItems: mapItems,
         addMapItem: jest.fn(),
         removeMapItem: jest.fn(),
+        getResource: jest.fn(),
         listButton: false
     }
     const wrapper = shallow(<MapButton {...props} />)
@@ -133,6 +137,7 @@ function setupItemListButtonFalseAndCanShowServiceMapUrl() {
         mapItems: mapItems,
         addMapItem: jest.fn(),
         removeMapItem: jest.fn(),
+        getResource: jest.fn(),
         listButton: false
     }
     const wrapper = shallow(<MapButton {...props} />)

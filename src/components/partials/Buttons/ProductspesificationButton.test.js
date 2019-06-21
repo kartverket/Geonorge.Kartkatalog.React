@@ -10,7 +10,8 @@ function setupItemWithProductSpecificationUrl() {
         ProductSpecificationUrl: 'test'
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ProductSpecificationButton {...props} />)
 
@@ -25,7 +26,8 @@ function setupItemWithoutProductSpecificationUrl() {
         Uuid: '1234',
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ProductSpecificationButton {...props} />)
 

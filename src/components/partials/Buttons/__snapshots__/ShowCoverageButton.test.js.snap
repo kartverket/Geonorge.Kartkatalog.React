@@ -4,6 +4,30 @@ exports[`setupItemWithCoverageUrl should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <ShowCoverageButton
+    getResource={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "DisplayCoverageMap",
+            "Vis dekningskart",
+          ],
+          Array [
+            "DisplayCoverageMap",
+            "Vis dekningskart",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     metadata={
       Object {
         "CoverageUrl": "test",
@@ -60,10 +84,9 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Vis dekningskart"
+            title=""
             transform={null}
           />
-          Vis dekningskart
         </span>,
       ],
     },
@@ -124,10 +147,10 @@ ShallowWrapper {
               size={null}
               spin={false}
               symbol={false}
-              title="Vis dekningskart"
+              title=""
               transform={null}
             />,
-            "Vis dekningskart",
+            undefined,
           ],
           "className": "btn",
           "onClick": [Function],
@@ -156,14 +179,14 @@ ShallowWrapper {
               "size": null,
               "spin": false,
               "symbol": false,
-              "title": "Vis dekningskart",
+              "title": "",
               "transform": null,
             },
             "ref": null,
             "rendered": null,
             "type": [Function],
           },
-          "Vis dekningskart",
+          undefined,
         ],
         "type": "span",
       },
@@ -211,10 +234,9 @@ ShallowWrapper {
               size={null}
               spin={false}
               symbol={false}
-              title="Vis dekningskart"
+              title=""
               transform={null}
             />
-            Vis dekningskart
           </span>,
         ],
       },
@@ -275,10 +297,10 @@ ShallowWrapper {
                 size={null}
                 spin={false}
                 symbol={false}
-                title="Vis dekningskart"
+                title=""
                 transform={null}
               />,
-              "Vis dekningskart",
+              undefined,
             ],
             "className": "btn",
             "onClick": [Function],
@@ -307,14 +329,14 @@ ShallowWrapper {
                 "size": null,
                 "spin": false,
                 "symbol": false,
-                "title": "Vis dekningskart",
+                "title": "",
                 "transform": null,
               },
               "ref": null,
               "rendered": null,
               "type": [Function],
             },
-            "Vis dekningskart",
+            undefined,
           ],
           "type": "span",
         },

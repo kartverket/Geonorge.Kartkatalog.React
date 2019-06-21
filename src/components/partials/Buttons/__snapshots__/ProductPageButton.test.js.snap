@@ -4,6 +4,22 @@ exports[`setupItemWithProductPageUrl should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <ProductPageButton
+    getResource={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "DisplayProductPage",
+            "Vis produktside",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     metadata={
       Object {
         "ProductPageUrl": "test",
@@ -46,12 +62,10 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title="Vis produktside"
+          title=""
           transform={null}
         />,
-        <span>
-          Vis produktside
-        </span>,
+        <span />,
       ],
       "className": "btn",
       "href": "test",
@@ -80,7 +94,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "Vis produktside",
+          "title": "",
           "transform": null,
         },
         "ref": null,
@@ -92,10 +106,10 @@ ShallowWrapper {
         "key": "textContent",
         "nodeType": "host",
         "props": Object {
-          "children": "Vis produktside",
+          "children": undefined,
         },
         "ref": null,
-        "rendered": "Vis produktside",
+        "rendered": null,
         "type": "span",
       },
     ],
@@ -128,12 +142,10 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Vis produktside"
+            title=""
             transform={null}
           />,
-          <span>
-            Vis produktside
-          </span>,
+          <span />,
         ],
         "className": "btn",
         "href": "test",
@@ -162,7 +174,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "Vis produktside",
+            "title": "",
             "transform": null,
           },
           "ref": null,
@@ -174,10 +186,10 @@ ShallowWrapper {
           "key": "textContent",
           "nodeType": "host",
           "props": Object {
-            "children": "Vis produktside",
+            "children": undefined,
           },
           "ref": null,
-          "rendered": "Vis produktside",
+          "rendered": null,
           "type": "span",
         },
       ],

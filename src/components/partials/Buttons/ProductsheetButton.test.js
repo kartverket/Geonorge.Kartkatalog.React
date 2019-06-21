@@ -10,7 +10,8 @@ function setupItemWithProductsheetUrl() {
         ProductSheetUrl: 'test'
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ProductSheetButton {...props} />)
 
@@ -25,7 +26,8 @@ function setupItemWithoutProductsheetUrl() {
         Uuid: '1234',
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ProductSheetButton {...props} />)
 

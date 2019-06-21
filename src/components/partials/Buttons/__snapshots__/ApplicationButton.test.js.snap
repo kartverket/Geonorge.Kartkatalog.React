@@ -4,6 +4,22 @@ exports[`ApplicationButton should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <ApplicationButton
+    getResource={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "WebPage",
+            "Nettside",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     listButton={true}
     metadata={
       Object {
@@ -48,12 +64,10 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title="Gå til ekstern nettside"
+          title=""
           transform={null}
         />,
-        <span>
-          Til nettside
-        </span>,
+        <span />,
       ],
       "className": "ext",
       "href": "test",
@@ -82,7 +96,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "Gå til ekstern nettside",
+          "title": "",
           "transform": null,
         },
         "ref": null,
@@ -94,10 +108,10 @@ ShallowWrapper {
         "key": "textContent",
         "nodeType": "host",
         "props": Object {
-          "children": "Til nettside",
+          "children": undefined,
         },
         "ref": null,
-        "rendered": "Til nettside",
+        "rendered": null,
         "type": "span",
       },
     ],
@@ -130,12 +144,10 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Gå til ekstern nettside"
+            title=""
             transform={null}
           />,
-          <span>
-            Til nettside
-          </span>,
+          <span />,
         ],
         "className": "ext",
         "href": "test",
@@ -164,7 +176,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "Gå til ekstern nettside",
+            "title": "",
             "transform": null,
           },
           "ref": null,
@@ -176,10 +188,10 @@ ShallowWrapper {
           "key": "textContent",
           "nodeType": "host",
           "props": Object {
-            "children": "Til nettside",
+            "children": undefined,
           },
           "ref": null,
-          "rendered": "Til nettside",
+          "rendered": null,
           "type": "span",
         },
       ],

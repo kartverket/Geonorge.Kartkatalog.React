@@ -4,6 +4,22 @@ exports[`setupItemWithHelpUrl should render self 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <HelpButton
+    getResource={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "Help",
+            "Hjelp",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     metadata={
       Object {
         "HelpUrl": "test",
@@ -46,12 +62,10 @@ ShallowWrapper {
           size={null}
           spin={false}
           symbol={false}
-          title="Hjelp"
+          title=""
           transform={null}
         />,
-        <span>
-          Hjelp
-        </span>,
+        <span />,
       ],
       "className": "btn",
       "href": "test",
@@ -80,7 +94,7 @@ ShallowWrapper {
           "size": null,
           "spin": false,
           "symbol": false,
-          "title": "Hjelp",
+          "title": "",
           "transform": null,
         },
         "ref": null,
@@ -92,10 +106,10 @@ ShallowWrapper {
         "key": "textContent",
         "nodeType": "host",
         "props": Object {
-          "children": "Hjelp",
+          "children": undefined,
         },
         "ref": null,
-        "rendered": "Hjelp",
+        "rendered": null,
         "type": "span",
       },
     ],
@@ -128,12 +142,10 @@ ShallowWrapper {
             size={null}
             spin={false}
             symbol={false}
-            title="Hjelp"
+            title=""
             transform={null}
           />,
-          <span>
-            Hjelp
-          </span>,
+          <span />,
         ],
         "className": "btn",
         "href": "test",
@@ -162,7 +174,7 @@ ShallowWrapper {
             "size": null,
             "spin": false,
             "symbol": false,
-            "title": "Hjelp",
+            "title": "",
             "transform": null,
           },
           "ref": null,
@@ -174,10 +186,10 @@ ShallowWrapper {
           "key": "textContent",
           "nodeType": "host",
           "props": Object {
-            "children": "Hjelp",
+            "children": undefined,
           },
           "ref": null,
-          "rendered": "Hjelp",
+          "rendered": null,
           "type": "span",
         },
       ],

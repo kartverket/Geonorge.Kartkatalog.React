@@ -13,7 +13,8 @@ function setupMetadataDownloadButton() {
         metadata: metadata,
         itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
-        removeItemSelectedForDownload: jest.fn()
+        removeItemSelectedForDownload: jest.fn(),
+        getResource: jest.fn()
     };
     const wrapper = shallow(<DownloadButton {...props} />);
 
@@ -34,7 +35,8 @@ function setupMetadataDownloadLink() {
         metadata: metadata,
         itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
-        removeItemSelectedForDownload: jest.fn()
+        removeItemSelectedForDownload: jest.fn(),
+        getResource: jest.fn()
     };
     const wrapper = shallow(<DownloadButton {...props} />);
 
@@ -53,6 +55,7 @@ function setupMetadataListButtonFalse() {
         itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn(),
+        getResource: jest.fn(),
         listButton: false
     };
     const wrapper = shallow(<DownloadButton {...props} />);
@@ -73,6 +76,7 @@ function setupMetadataListButtonFalseAndCanShowDownloadService() {
         itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn(),
+        getResource: jest.fn(),
         listButton: false
     };
     const wrapper = shallow(<DownloadButton {...props} />);
@@ -94,6 +98,7 @@ function setupMetadataListButtonFalseAndCanShowDownloadUrl() {
         itemsToDownload: itemsToDownload,
         addItemSelectedForDownload: jest.fn(),
         removeItemSelectedForDownload: jest.fn(),
+        getResource: jest.fn(),
         listButton: false
     };
     const wrapper = shallow(<DownloadButton {...props} />);

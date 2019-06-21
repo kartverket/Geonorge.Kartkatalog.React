@@ -12,7 +12,8 @@ function setupItemWithContactMetadata() {
         } 
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ContactOwnerButton {...props} />)
 
@@ -27,7 +28,8 @@ function setupItemWithoutContactMetadata() {
         Uuid: '1234',
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<ContactOwnerButton {...props} />)
 

@@ -10,7 +10,8 @@ function setupItemWithHelpUrl() {
         HelpUrl: 'test'
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<HelpButton {...props} />)
 
@@ -25,7 +26,8 @@ function setupItemWithoutHelpUrl() {
         Uuid: '1234',
     }
     const props = {
-        metadata: metadata
+        metadata: metadata,
+        getResource: jest.fn()
     }
     const wrapper = shallow(<HelpButton {...props} />)
 
