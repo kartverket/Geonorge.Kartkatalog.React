@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss'
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -19,7 +19,7 @@ export class ApplicationButton extends Component {
     }
 
     render() {
-        let buttonDescription = getResource(this.props.resources, 'WebPage', 'Nettside');
+        let buttonDescription = this.props.getResource('WebPage', 'Nettside');
         if (this.props.listButton) {
             if (this.isApplication(this.props.metadata.Type)) {
                 if (this.props.metadata.DistributionUrl || this.props.metadata.DownloadUrl) {
@@ -69,8 +69,8 @@ ApplicationButton.defaultProps = {
 	listButton: true,
 }
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(ApplicationButton);
+export default connect(null, mapDispatchToProps)(ApplicationButton);

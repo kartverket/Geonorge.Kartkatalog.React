@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Buttons.scss';
@@ -14,7 +14,7 @@ export class ProductSheetButton extends Component {
     }
 
     render() {
-        let buttonDescription = getResource(this.props.resources, 'DisplayProductSheet', 'Vis produktark');
+        let buttonDescription = this.props.getResource('DisplayProductSheet', 'Vis produktark');
         // TODO styling
         if (this.props.metadata.ProductSheetUrl) {
             let url = this.props.metadata.ProductSheetUrl
@@ -39,8 +39,8 @@ ProductSheetButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(ProductSheetButton);
+export default connect(null, mapDispatchToProps)(ProductSheetButton);

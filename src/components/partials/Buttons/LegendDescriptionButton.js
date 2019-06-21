@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Buttons.scss';
@@ -14,7 +14,7 @@ export class LegendDescriptionButton extends Component {
     }
 
     render() {
-        let buttonDescription = getResource(this.props.resources, 'DisplayCartography', 'Vis tegneregler');
+        let buttonDescription = this.props.getResource('DisplayCartography', 'Vis tegneregler');
         // TODO styling
         if (this.props.metadata.LegendDescriptionUrl) {
             let url = this.props.metadata.LegendDescriptionUrl
@@ -39,8 +39,8 @@ LegendDescriptionButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(LegendDescriptionButton);
+export default connect(null, mapDispatchToProps)(LegendDescriptionButton);

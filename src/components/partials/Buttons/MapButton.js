@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import style from './Buttons.scss'
 
 import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class MapButton extends Component {
@@ -80,7 +80,7 @@ export class MapButton extends Component {
 
     renderButton() {
         let isAdded = this.state.isAdded;
-        const buttonDescription = isAdded ? getResource(this.props.resources, 'removeFromMap', 'Fjern fra kart') : getResource(this.props.resources, 'addToMap', 'Legg til i kart');
+        const buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
         const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'];
         const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
@@ -157,13 +157,13 @@ MapButton.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    mapItems: state.mapItems,
-    resources: state.resources
+    mapItems: state.mapItems
 });
 
 const mapDispatchToProps = {
     removeMapItem,
-    addMapItem
+    addMapItem,
+    getResource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapButton);

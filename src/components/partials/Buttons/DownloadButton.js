@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Buttons.scss'
@@ -67,7 +67,7 @@ export class DownloadButton extends Component {
         let button = this.getDownloadButton();
 
         if (this.isGeonorgeDownload()) {
-            let buttonDescription = this.state.isAdded ? getResource(this.props.resources, 'RemoveFromBasket', 'Fjern nedlasting') : getResource(this.props.resources, 'Download', 'Last ned');
+            let buttonDescription = this.state.isAdded ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting') : this.props.getResource('Download', 'Last ned');
 
             let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
@@ -82,7 +82,7 @@ export class DownloadButton extends Component {
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
         } else if (this.showDownloadLink()) {
-            let buttonDescription = getResource(this.props.resources, 'ToBasket', 'Til nedlasting');
+            let buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
             let distributionUrl = this.props.metadata.DistributionUrl;
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
             let buttonClass = 'on';
@@ -97,7 +97,7 @@ export class DownloadButton extends Component {
     renderButton() {
         let button = this.getDownloadButtonFromMetadata();
         if (this.props.metadata.CanShowDownloadService) {
-            let buttonDescription = this.state.isAdded ? getResource(this.props.resources, 'RemoveFromBasket', 'Fjern nedlasting') : getResource(this.props.resources, 'Download', 'Last ned');
+            let buttonDescription = this.state.isAdded ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting') : this.props.getResource('Download', 'Last ned');
             let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
                 : () => this.addToDownloadList(button);
@@ -110,7 +110,7 @@ export class DownloadButton extends Component {
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
 
         } else if (this.props.metadata.CanShowDownloadUrl) {
-            let buttonDescription = getResource(this.props.resources, 'ToBasket', 'Til nedlasting');
+            let buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
             let distributionUrl = this.props.metadata.DistributionUrl;
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
             let buttonClass = style.btn;
@@ -120,7 +120,7 @@ export class DownloadButton extends Component {
             return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
         }
         else {
-            let buttonDescription = getResource(this.props.resources, 'Download', 'Last ned');
+            let buttonDescription = this.props.getResource('Download', 'Last ned');
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['fas', 'cloud-download']} key="icon" />;
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
@@ -175,13 +175,13 @@ DownloadButton.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    itemsToDownload: state.itemsToDownload,
-    resources: state.resources
+    itemsToDownload: state.itemsToDownload
 });
 
 const mapDispatchToProps = {
     removeItemSelectedForDownload,
-    addItemSelectedForDownload
+    addItemSelectedForDownload,
+    getResource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadButton);

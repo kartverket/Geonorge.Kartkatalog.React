@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss'
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +14,7 @@ export class EditMetadataButton extends Component {
     }
 
     render() {
-        let buttonDescription = `${getResource(this.props.resources, 'Edit', 'Rediger')} metadata`;
+        let buttonDescription = `${this.props.getResource('Edit', 'Rediger')} metadata`;
         // TODO styling
         let url = this.props.metadata.MetadataEditUrl;
         let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'edit']} key="icon" />;
@@ -36,8 +36,8 @@ EditMetadataButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(EditMetadataButton);
+export default connect(null, mapDispatchToProps)(EditMetadataButton);

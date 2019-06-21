@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss';
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +14,7 @@ export class HelpButton extends Component {
     }
 
     render() {
-        let buttonDescription = getResource(this.props.resources, 'Help', 'Hjelp');
+        let buttonDescription = this.props.getResource('Help', 'Hjelp');
         // TODO styling
         if (this.props.metadata.HelpUrl) {
             let url = this.props.metadata.HelpUrl
@@ -39,8 +39,8 @@ HelpButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(HelpButton);
+export default connect(null, mapDispatchToProps)(HelpButton);

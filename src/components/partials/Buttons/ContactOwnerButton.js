@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss'
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +14,7 @@ export class ContactOwnerButton extends Component {
     }
 
     render() {
-        let buttonDescription = getResource(this.props.resources, 'ContactDataOwner', 'Kontakt dataeier');
+        let buttonDescription = this.props.getResource('ContactDataOwner', 'Kontakt dataeier');
         if (this.props.metadata.ContactMetadata) {
             let email = this.props.metadata.ContactMetadata.Email
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />;
@@ -38,8 +38,8 @@ ContactOwnerButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(ContactOwnerButton);
+export default connect(null, mapDispatchToProps)(ContactOwnerButton);

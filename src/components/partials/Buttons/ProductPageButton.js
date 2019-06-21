@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss';
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +14,7 @@ export class ProductPageButton extends Component {
     }
 
     render() {
-        let buttonDescription = getResource(this.props.resources, 'DisplayProductPage', 'Vis produktside');
+        let buttonDescription = this.props.getResource('DisplayProductPage', 'Vis produktside');
         // TODO styling
         if (this.props.metadata.ProductPageUrl) {
             let url = this.props.metadata.ProductPageUrl
@@ -39,8 +39,8 @@ ProductPageButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(ProductPageButton);
+export default connect(null, mapDispatchToProps)(ProductPageButton);

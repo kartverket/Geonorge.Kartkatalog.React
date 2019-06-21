@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss'
 
-import { getResource } from '../../../helpers/ResourceHelpers'
+import { getResource } from '../../../actions/ResourceActions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +14,7 @@ export class DownloadXmlButton extends Component {
     }
 
     render() {
-        let buttonDescription = `${getResource(this.props.resources, 'Download', 'Last ned')} metadata XML`;
+        let buttonDescription = `${this.props.getResource('Download', 'Last ned')} metadata XML`;
         // TODO styling
         let url = this.props.metadata.MetadataXmlUrl;
         let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'file-code']} key="icon" />;
@@ -36,8 +36,8 @@ DownloadXmlButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-    resources: state.resources
-});
+const mapDispatchToProps = {
+    getResource
+};
 
-export default connect(mapStateToProps, null)(DownloadXmlButton);
+export default connect(null, mapDispatchToProps)(DownloadXmlButton);
