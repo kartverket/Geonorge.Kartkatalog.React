@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import style from './Buttons.scss'
 
+import { getResource } from '../../../helpers/ResourceHelpers'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export class ContactOwnerButton extends Component {
@@ -12,20 +14,19 @@ export class ContactOwnerButton extends Component {
     }
 
     render() {
-
-      
+        let buttonDescription = getResource(this.props.resources, 'ContactDataOwner', 'Kontakt dataeier');
         if (this.props.metadata.ContactMetadata) {
             let email = this.props.metadata.ContactMetadata.Email
-            let icon = <FontAwesomeIcon title="Kontakt dataeier" icon={['far', 'envelope']} key="icon" />;
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />;
             let buttonClass = style.btn;
-            let textContent = React.createElement('span', { key: "textContent" }, 'Kontakt dataeier');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('a', { href: "mailto:" + email, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title="Kontakt dataeier" icon={['far', 'envelope']} key="icon" />
+            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />
             let buttonClass = style.btn + ' disabled';
-            let textContent = React.createElement('span', { key: "textContent" }, 'Kontakt dataeier');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
         }
@@ -37,4 +38,8 @@ ContactOwnerButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-export default connect(null, null)(ContactOwnerButton);
+const mapStateToProps = state => ({
+    resources: state.resources
+});
+
+export default connect(mapStateToProps, null)(ContactOwnerButton);
