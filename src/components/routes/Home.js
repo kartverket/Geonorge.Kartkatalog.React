@@ -5,13 +5,13 @@ import SearchResults from '../partials/SearchResults';
 import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions'
 import { updateSearchStringFromUrl } from '../../actions/SearchStringActions'
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
-
+import { getResource } from '../../actions/ResourceActions'
 
 import { ErrorBoundary } from '../../components/ErrorBoundary'
 
 import style from './Home.scss';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
-import { Breadcrumb } from '../partials/Breadcrumb';
+import Breadcrumb from '../partials/Breadcrumb';
 
 class Home extends Component {
     setSelectedSearchResultsType() {
@@ -63,6 +63,10 @@ class Home extends Component {
             this.props.fetchArticleSearchResults(searchString);
             this.setSelectedSearchResultsType();
         }
+
+        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
+            this.render();
+        }
     }
 
     render() {
@@ -70,7 +74,7 @@ class Home extends Component {
             <div>
                 <Breadcrumb />
                 <div className={style.header}>
-                    <h1>Kartkatalogen</h1>
+                    <h1>{this.props.getResource('AppPageTitle', 'Kartkatalogen')}</h1>
                 </div>
                 <ErrorBoundary><SearchResults /></ErrorBoundary>
             </div>
@@ -93,7 +97,8 @@ const mapDispatchToProps = {
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
     updateSearchStringFromUrl,
-    updateSelectedSearchResultsType
+    updateSelectedSearchResultsType,
+    getResource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
