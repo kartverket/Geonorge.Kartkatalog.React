@@ -64,7 +64,7 @@ export class MapButton extends Component {
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
             let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
             let isAdded = this.state.isAdded;
-            let buttonDescription = isAdded ? getResource(this.props.resources, 'removeFromMap', 'Fjern fra kart') : getResource(this.props.resources, 'addToMap', 'Legg til i kart');
+            let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
