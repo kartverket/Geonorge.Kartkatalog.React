@@ -18,12 +18,6 @@ export class ApplicationButton extends Component {
         return this.props.metadata.Type === "software" || this.props.metadata.Type === "Applikasjon"
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
-            this.render();
-        }
-    }
-
     render() {
         let buttonDescription = this.props.getResource('WebPage', 'Nettside');
         if (this.props.listButton) {
@@ -80,7 +74,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    selectedLanguage: state.selectedLanguage
+    resources: state.resources
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationButton);

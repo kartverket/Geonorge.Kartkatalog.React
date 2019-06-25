@@ -29,12 +29,6 @@ export class ShowCoverageButton extends Component {
         this.setState({ mounted: true });
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
-            this.render();
-        }
-    }
-
     renderModal() {
         return this.props.metadata.CoverageUrl && this.state.mounted
             ? (
@@ -82,7 +76,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    selectedLanguage: state.selectedLanguage
+    resources: state.resources
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShowCoverageButton);

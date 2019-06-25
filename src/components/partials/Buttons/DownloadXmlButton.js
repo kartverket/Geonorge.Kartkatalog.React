@@ -13,11 +13,6 @@ export class DownloadXmlButton extends Component {
         this.state = {};
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
-            this.render();
-        }
-    }
 
     render() {
         let buttonDescription = `${this.props.getResource('Download', 'Last ned')} metadata XML`;
@@ -47,7 +42,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    selectedLanguage: state.selectedLanguage
+    resources: state.resources
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadXmlButton);

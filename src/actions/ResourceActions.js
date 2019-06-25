@@ -5,8 +5,8 @@ import {
 import {getKartkatalogApiUrl} from "./ApiUrlActions";
 
 
-export const fetchResources = () => dispatch => {
-    let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+export const fetchResources = () => (dispatch, getState) => {
+    let selectedLanguage = getState().selectedLanguage;
     const fetchOptions = {
         headers: new Headers({
             'Accept-Language': selectedLanguage

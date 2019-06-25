@@ -13,12 +13,6 @@ export class ContactOwnerButton extends Component {
         this.state = {};
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
-            this.render();
-        }
-    }
-
     render() {
         let buttonDescription = this.props.getResource('ContactDataOwner', 'Kontakt dataeier');
         if (this.props.metadata.ContactMetadata) {
@@ -49,7 +43,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    selectedLanguage: state.selectedLanguage
+    resources: state.resources
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactOwnerButton);
