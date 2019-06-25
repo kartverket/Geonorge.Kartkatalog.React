@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import style from './MainNavigation.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { getResource } from '../../actions/ResourceActions';
+import style from './MainNavigation.scss';
 
 export class Breadcrumb extends Component {
 
@@ -25,14 +27,13 @@ export class Breadcrumb extends Component {
         if (this.props.content) {
             return (
                 <React.Fragment>
-                    <li> <Link to={'/'}>Kartkatalogen</Link> <FontAwesomeIcon title="Tilbake til katalogen" icon={'angle-right'} /></li>
+                    <li> <Link to={'/'}>{ this.props.getResource('AppPageTitle', 'Kartkatalogen') }</Link> <FontAwesomeIcon title="Tilbake til katalogen" icon={'angle-right'} /></li>
                     <li>{this.props.content}</li>
                 </React.Fragment>
             )
         }
-        return <li> Kartkatalogen </li>
-        }
-    
+        return <li> { this.props.getResource('AppPageTitle', 'Kartkatalogen') } </li>
+    }
 
     render() {
         return this.renderBreadcrumb()
@@ -45,6 +46,13 @@ Breadcrumb.propTypes = {
     content: PropTypes.string,
 };
 
-export default connect(null)(Breadcrumb);
+const mapStateToProps = state => ({
+    resources: state.resources
+});
 
+const mapDispatchToProps = {
+    getResource
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Breadcrumb);
 

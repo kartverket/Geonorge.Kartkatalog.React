@@ -21,7 +21,7 @@ import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
 import DownloadXmlButton from '../partials/Buttons/DownloadXmlButton';
 import EditMetadataButton from '../partials/Buttons/EditMetadataButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Breadcrumb } from '../partials/Breadcrumb';
+import Breadcrumb from '../partials/Breadcrumb';
 
 class Metadata extends Component {
 
