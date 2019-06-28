@@ -112,8 +112,9 @@ export class MapButton extends Component {
     }
 
     componentDidMount() {
+        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
-            return this.props.metadata.Uuid == mapItem.Uuid;
+            return mapItemUuid == mapItem.Uuid;
         }).length > 0;
         if (isAdded) {
             this.setState({
@@ -124,8 +125,9 @@ export class MapButton extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const wasAdded = prevState.isAdded;
+        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
-            return this.props.metadata.Uuid == mapItem.Uuid;
+            return mapItemUuid == mapItem.Uuid;
         }).length > 0;
         if (wasAdded !== isAdded) {
             this.setState({
