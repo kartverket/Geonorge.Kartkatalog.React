@@ -52,7 +52,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
         })
     };
     const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
-    return fetch(`${kartkatalogApiUrl}/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}&orderby=updated`, fetchOptions)
+    return fetch(`${kartkatalogApiUrl}/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}`, fetchOptions)
         .then(res => res.json())
         .then(searchResults => {
             dispatch({
