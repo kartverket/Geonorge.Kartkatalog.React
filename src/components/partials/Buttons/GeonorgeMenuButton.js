@@ -33,6 +33,11 @@ export class GeonorgeMenuButton extends Component {
         userManager.signinRedirect();
     }
 
+    handleLogoutClick(event) {
+        event.preventDefault();
+        userManager.removeUser();
+    }
+
 
     renderMenuButton() {
         return (
@@ -75,6 +80,10 @@ export class GeonorgeMenuButton extends Component {
         return <li onClick={this.handleLoginClick}>Logg inn</li>
     }
 
+    renderLogoutLink() {
+        return <li onClick={this.handleLogoutClick}>Logg ut</li>
+    }
+
     renderLanguageLink() {
         let languageLink = {
             text: this.props.selectedLanguage === 'en' ? 'Norsk' : 'English',
@@ -85,11 +94,11 @@ export class GeonorgeMenuButton extends Component {
 
     renderSecondaryMenuContent() {
         if (this.props.loginUrl || this.props.multilingual) {
-            const loginLink = this.renderLoginLink();
+            const accountLink = this.props.user ? this.renderLogoutLink() : this.renderLoginLink();
             const languageLink = this.props.multilingual ? this.renderLanguageLink() : null;
             return (
                 <ul>
-                    {loginLink}
+                    {accountLink}
                     {languageLink}
                 </ul>
             )
@@ -126,7 +135,8 @@ GeonorgeMenuButton.propTypes = {
 
 const mapStateToProps = state => ({
     geonorgeMenu: state.geonorgeMenu,
-    selectedLanguage: state.selectedLanguage
+    selectedLanguage: state.selectedLanguage,
+    user: state.oidc.user
 });
 
 const mapDispatchToProps = {
