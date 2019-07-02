@@ -33,7 +33,7 @@ class MetadataSearchResult extends Component {
       ? (
         <div className={style.typeContainer}>
           <span>
-            Type: {this.props.searchResult.Type}
+            Type: {this.props.searchResult.Protocol}
           </span>
         </div>
       ) : '';
