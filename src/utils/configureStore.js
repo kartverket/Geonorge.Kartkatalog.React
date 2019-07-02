@@ -2,6 +2,8 @@ import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { loadUser } from 'redux-oidc';
+import userManager from './userManager';
 import thunk from 'redux-thunk';
 import createRootReducer from '../reducers';
 
@@ -21,6 +23,8 @@ export default function configureStore(preloadedState) {
 			applyMiddleware(...middleware, routerMiddleware(history)),
 		)
 	);
+
+	loadUser(store, userManager);
 
 	return store;
 }

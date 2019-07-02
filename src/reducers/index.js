@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import {connectRouter} from 'connected-react-router'
+import { reducer as oidcReducer } from 'redux-oidc';
 import SearchResultReducer from './SearchResultReducer';
 import MapItemReducer from './MapItemReducer';
 import DownloadItemReducer from './DownloadItemReducer';
@@ -15,6 +16,7 @@ import ResourceReducer from "./ResourceReducer";
 
 export default (history) => combineReducers({
     router: connectRouter(history),
+    oidc: oidcReducer,
     searchResults: SearchResultReducer,
     selectedSearchResultsType: SelectedSearchResultsTypeReducer,
     metadata: MetadataReducer,
