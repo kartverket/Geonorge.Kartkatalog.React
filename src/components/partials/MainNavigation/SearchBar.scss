@@ -59,5 +59,6 @@
     &.active {
         display: block;
         width: 100%;
+        overflow-y: auto;
     }
 }

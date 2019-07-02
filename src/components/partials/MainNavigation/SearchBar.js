@@ -139,6 +139,9 @@ class SearchBar extends Component {
     }
 
     render() {
+        const dropDownResultsStyle = {
+            maxHeight: `${window.innerHeight-62}px`
+        };
         return (
             <form ref={node => this.node = node} autoComplete="off"
                 className={style.searchInput}>
@@ -156,7 +159,7 @@ class SearchBar extends Component {
                         <img src={searchIcon} alt="search icon"></img>
                     </button>
                 </Link>
-                <div className={this.state.showDropdownResults ? style.searchResults + ' active' : style.searchResults}>
+                <div className={this.state.showDropdownResults ? style.searchResults + ' active' : style.searchResults} style={dropDownResultsStyle}>
                     {this.renderDropdownResults()}
                 </div>
             </form>
