@@ -1,11 +1,16 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import style from './Buttons.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Actions
 import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
 import { getResource } from '../../../actions/ResourceActions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Stylesheets
+import style from './Buttons.scss'
+
 
 export class MapButton extends Component {
     constructor(props) {
@@ -114,7 +119,7 @@ export class MapButton extends Component {
     componentDidMount() {
         let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
-            return mapItemUuid == mapItem.Uuid;
+            return mapItemUuid === mapItem.Uuid;
         }).length > 0;
         if (isAdded) {
             this.setState({
@@ -127,7 +132,7 @@ export class MapButton extends Component {
         const wasAdded = prevState.isAdded;
         let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
-            return mapItemUuid == mapItem.Uuid;
+            return mapItemUuid === mapItem.Uuid;
         }).length > 0;
         if (wasAdded !== isAdded) {
             this.setState({

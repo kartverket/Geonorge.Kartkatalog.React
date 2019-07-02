@@ -1,18 +1,23 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Actions
 import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions';
 import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
 import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata } from '../../actions/DownloadItemActions';
 import { getGeonorgeLogo } from '../../actions/ImageActions';
+
+// Components
 import { ErrorBoundary } from '../ErrorBoundary';
-
 import SearchBar from './MainNavigation/SearchBar';
-
-import style from './MainNavigation.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GeonorgeMenuButton from './Buttons/GeonorgeMenuButton';
+
+// Stylesheets
+import style from './MainNavigation.scss';
 
 export class MainNavigation extends Component {
 

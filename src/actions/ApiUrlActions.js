@@ -4,6 +4,6 @@ export const getKartkatalogApiUrl = () => () => {
 };
 
 export const getGeonorgeMenuUrl = () => () => {
-    const environmentSlug = process.env.REACT_APP_ENVIRONMENT === 'dev' || process.env.REACT_APP_ENVIRONMENT === 'test' ? 'test' + '.' : '';
+    const environmentSlug = process.env.REACT_APP_ENVIRONMENT === 'dev' || process.env.REACT_APP_ENVIRONMENT === 'test' ? 'test.' : '';
     return `https://www.${environmentSlug}geonorge.no//api/menu?omitLinks=1`;
 };

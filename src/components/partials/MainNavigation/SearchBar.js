@@ -1,18 +1,25 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
+
+// Actions
 import {
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
     fetchDropdownSearchResults
 } from '../../../actions/SearchResultActions';
 import { updateSearchString } from '../../../actions/SearchStringActions';
-import { ErrorBoundary } from '../../ErrorBoundary'
 
+// Components
+import { ErrorBoundary } from '../../ErrorBoundary'
 import SearchResultsTypeList from './SearchResultsTypeList';
 
+// Stylesheets
 import style from './SearchBar.scss';
+
+// Assets
 import searchIcon from '../../../images/svg/search-icon.svg';
 
 class SearchBar extends Component {
@@ -62,7 +69,7 @@ class SearchBar extends Component {
     }
 
     keyPress(e) {
-        if (e.keyCode == 13) { // On 'enter' keypress
+        if (e.keyCode === 13) { // On 'enter' keypress
             this.hideDropdownResults();
         }
     }
@@ -140,7 +147,7 @@ class SearchBar extends Component {
 
     render() {
         const dropDownResultsStyle = {
-            maxHeight: `${window.innerHeight-62}px`
+            maxHeight: `${window.innerHeight - 62}px`
         };
         return (
             <form ref={node => this.node = node} autoComplete="off"

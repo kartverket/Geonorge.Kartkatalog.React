@@ -1,4 +1,3 @@
-import * as Cookies from 'js-cookie';
 import {
     FETCH_RESOURCES
 } from './types';

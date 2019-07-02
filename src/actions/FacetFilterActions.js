@@ -8,7 +8,6 @@ export const updateAvailableFacets = (facets) => dispatch => {
 };
 
 export const updateSelectedFacets = (facets) => dispatch => {
-    console.log("UPDATE SELECTED FACETS: updateSelectedFacets()");
     dispatch({
         type: UPDATE_SELECTEDFACETS,
         payload: facets,

@@ -1,11 +1,14 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Actions
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
 import { getResource } from '../../../actions/ResourceActions'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// Stylesheets
 import style from './Buttons.scss'
 
 export class DownloadButton extends Component {
@@ -132,7 +135,7 @@ export class DownloadButton extends Component {
 
     componentDidMount() {
         const isAdded = this.props.itemsToDownload.filter(downloadItem => {
-            return this.props.metadata.Uuid == downloadItem;
+            return this.props.metadata.Uuid === downloadItem;
         }).length > 0;
         if (isAdded) {
             this.setState({
@@ -144,7 +147,7 @@ export class DownloadButton extends Component {
     componentDidUpdate(prevProps, prevState) {
         const wasAdded = prevState.isAdded;
         const isAdded = this.props.itemsToDownload.filter(downloadItem => {
-            return this.props.metadata.Uuid == downloadItem;
+            return this.props.metadata.Uuid === downloadItem;
         }).length > 0;
         if (wasAdded !== isAdded) {
             this.setState({

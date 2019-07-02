@@ -1,12 +1,17 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import style from './Buttons.scss';
-import Modal from './Modal.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Actions
 import { getResource } from '../../../actions/ResourceActions'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// Components
+import Modal from './Modal.js'
+
+// Stylesheets
+import style from './Buttons.scss';
 
 export class ShowCoverageButton extends Component {
     constructor(props) {
@@ -33,7 +38,7 @@ export class ShowCoverageButton extends Component {
         return this.props.metadata.CoverageUrl && this.state.mounted
             ? (
                 <Modal show={this.state.show} handleClose={this.hideModal}>
-                    <iframe src={this.state.show ? this.props.metadata.CoverageUrl : ''} width="100%" height="800px" />
+                    <iframe src={this.state.show ? this.props.metadata.CoverageUrl : ''} title="Coverage map" width="100%" height="800px" />
                 </Modal>
             ) : '';
     }
@@ -53,7 +58,6 @@ export class ShowCoverageButton extends Component {
                 <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
             </span>
         }
-
     }
 
     render() {
@@ -64,7 +68,6 @@ export class ShowCoverageButton extends Component {
             </React.Fragment>
         );
     }
-
 }
 
 ShowCoverageButton.propTypes = {
