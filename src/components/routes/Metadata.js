@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { clearMetadata, fetchMetadata } from '../../actions/MetadataActions'
@@ -243,7 +244,7 @@ class Metadata extends Component {
     renderDateUpdated() {
         return this.props.metadata && this.props.metadata.DateUpdated ? (
             <div>
-                <strong>Oppdatert (Ressurs): </strong>{this.props.metadata.DateUpdated}
+                <strong>Oppdatert (Ressurs): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateUpdated} />
             </div>
         ) : ''
     }
@@ -251,7 +252,7 @@ class Metadata extends Component {
     renderMetadataDateUpdated() {
         return this.props.metadata && this.props.metadata.MetadataDateUpdated ? (
             <div>
-                <strong>Oppdatert (Metadata): </strong>{this.props.metadata.MetadataDateUpdated}
+                <strong>Oppdatert (Metadata): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.MetadataDateUpdated} />
             </div>
         ) : ''
     }
@@ -259,7 +260,7 @@ class Metadata extends Component {
     renderDatePublished() {
         return this.props.metadata && this.props.metadata.DatePublished ? (
             <div>
-                <strong>Publisert: </strong>{this.props.metadata.DatePublished}
+                <strong>Publisert: </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DatePublished} />
             </div>
         ) : ''
     }
@@ -269,7 +270,7 @@ class Metadata extends Component {
         const validTo = this.props.metadata && this.props.metadata.DatePublished ? this.props.metadata.DateMetadataValidTo : '';
         return validFrom || validTo ? (
             <div>
-                <strong>Gyldighetsperiode: </strong>{validFrom} - {validTo}
+                <strong>Gyldighetsperiode: </strong><Moment format="DD.MM.YYYY" date={validFrom} />  - <Moment format="DD.MM.YYYY" date={validTo} />
             </div>
         ) : ''
     }
@@ -597,7 +598,7 @@ class Metadata extends Component {
             return (
                 <div key={index}>
                     <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
-                    <p><strong>Dato: </strong>{qualitySpecification.Date} ({qualitySpecification.DateType})</p>
+                    <p><strong>Dato: </strong><Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> ({qualitySpecification.DateType})</p>
                     <p><strong>Forklaring av resultat: </strong>{qualitySpecification.Explanation}</p>
                     <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
                     <hr />
