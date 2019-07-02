@@ -1,9 +1,15 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// Utils
+import userManager from '../../../utils/userManager';
+
+// Actions
 import { fetchSelectedLanguage, updateSelectedLanguage } from '../../../actions/SelectedLanguageActions';
 
+// Stylesheets
 import styleBtn from './Buttons.scss';
 import style from '../MainNavigation.scss';
 
@@ -20,6 +26,11 @@ export class GeonorgeMenuButton extends Component {
         this.setState(prevState => ({
             expandedMenu: !prevState.expandedMenu
         }))
+    }
+
+    handleLoginClick(event) {
+        event.preventDefault();
+        userManager.signinRedirect();
     }
 
 
@@ -60,8 +71,8 @@ export class GeonorgeMenuButton extends Component {
         return null
     }
 
-    renderLogInLink() {
-        return <li>Logg inn</li>
+    renderLoginLink() {
+        return <li onClick={this.handleLoginClick}>Logg inn</li>
     }
 
     renderLanguageLink() {
@@ -74,10 +85,11 @@ export class GeonorgeMenuButton extends Component {
 
     renderSecondaryMenuContent() {
         if (this.props.loginUrl || this.props.multilingual) {
-            const loginLink = this.props.loginUrl ? this.renderLogInLink() : null;
+            const loginLink = this.renderLoginLink();
             const languageLink = this.props.multilingual ? this.renderLanguageLink() : null;
             return (
                 <ul>
+                    {loginLink}
                     {languageLink}
                 </ul>
             )
