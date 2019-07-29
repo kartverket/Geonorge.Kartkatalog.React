@@ -21,8 +21,8 @@ export class DownloadButton extends Component {
 
     getDownloadButton() {
         return {
-            Uuid: this.props.metadata.Uuid,
-            Url: "/metadata/" + this.props.metadata.Uuid,
+            uuid: this.props.metadata.Uuid,
+            url: "/metadata/" + this.props.metadata.Uuid,
             theme: this.props.metadata.Theme,
             organizationName: this.props.metadata.Organization,
             name: this.props.metadata.Title,
@@ -32,8 +32,8 @@ export class DownloadButton extends Component {
 
     getDownloadButtonFromMetadata() {
         return {
-            Uuid: this.props.metadata.Uuid,
-            Url: "/metadata/" + this.props.metadata.Uuid,
+            uuid: this.props.metadata.Uuid,
+            url: "/metadata/" + this.props.metadata.Uuid,
             theme: "",
             organizationName: this.props.metadata.ContactMetadata ? this.props.metadata.ContactMetadata.Organization : null,
             name: this.props.metadata.Title,
