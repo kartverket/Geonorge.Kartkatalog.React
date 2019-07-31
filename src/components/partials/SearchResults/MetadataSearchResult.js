@@ -19,9 +19,9 @@ class MetadataSearchResult extends Component {
   }
 
   restrictionsClassnames() {
-    if (this.props.searchResult.AccessConstraint === 'restricted') {
+    if (this.props.searchResult.AccessConstraint === 'restricted' || this.props.searchResult.AccessIsProtected) {
       return 'red'
-    } if (this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') {
+    } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted ) {
       return 'yellow'
     } else {
       return "green"
@@ -98,7 +98,7 @@ class MetadataSearchResult extends Component {
             <ErrorBoundary><Link to={`/metadata/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link></ErrorBoundary>
           </span>
           <span className={style.listItemInfo}>
-            <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData ? ['fas', 'lock-open'] : ['fas', 'lock']} />
+          <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? ['fas', 'lock-open'] : ['fas', 'lock']} />
             {this.props.searchResult.TypeTranslated} fra <Link title={"Vis alt fra " + this.props.searchResult.Organization} to={"/?organization=" + this.props.searchResult.Organization}>{this.props.searchResult.Organization}</Link> </span>
             <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
         </div>
