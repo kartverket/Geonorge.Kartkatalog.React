@@ -112,10 +112,15 @@ class SearchResults extends Component {
         } else {
             return "";
         }
-    }    
+    }
+    
+    downloadAsCsvUrl()
+    {
+        return localStorage.getItem('urlDownloadCsv');
+    }
 
     renderActiveTabContent() {
-        let searchString = "";                
+        let searchString = "";   
         if (this.props.selectedSearchResultsType === 'metadata') {
             const moreItemButtonClassNames = classNames({
                 [style.morebtn]: true,
@@ -132,7 +137,7 @@ class SearchResults extends Component {
                     </ErrorBoundary>
                     </div>
                     <div className={style.searchResultContainer}>
-                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString} <span className={searchString !== "" ? 'show' : 'hide'}><Link to="/"> Nullstill søk<FontAwesomeIcon title="Nullstill søk" className={style.resetSearchResults} icon={'times'} /></Link></span></span>
+                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString} <span className={searchString !== "" ? 'show' : 'hide'}><Link to="/"> Nullstill søk<FontAwesomeIcon title="Nullstill søk" className={style.resetSearchResults} icon={'times'} /></Link></span> <a href={this.downloadAsCsvUrl()}>Lagre som csv</a></span>
                         {this.renderMetadataSearchResults()}
                         <div className={style.morecontainer}>
                             <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
@@ -188,6 +193,7 @@ const mapStateToProps = state => ({
     selectedSearchResultsType: state.selectedSearchResultsType,
     selectedFacets: state.selectedFacets,
     searchString: state.searchString
+
 });
 
 const mapDispatchToProps = {

@@ -60,6 +60,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
                 payload: searchResults,
                 searchString: searchString,
             });
+            localStorage.setItem('urlDownloadCsv', `${kartkatalogApiUrl}/search?limit=10000&text=${searchString}${facetsParameterString}&mediatype=csv`);
         })
 };
 
