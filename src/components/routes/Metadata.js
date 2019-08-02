@@ -1,14 +1,18 @@
+// Dependencies
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Actions
+import { getResource } from '../../actions/ResourceActions'
 import { clearMetadata, fetchMetadata } from '../../actions/MetadataActions'
 import { clearMetadataDistributions, fetchMetadataDistributions } from '../../actions/MetadataDistributionActions'
 
-import DistributionsList from "./Metadata/DistributionsList";
-
-import style from "./Metadata.scss";
+// Components
 import { ErrorBoundary } from '../ErrorBoundary'
+import DistributionsList from "./Metadata/DistributionsList";
 import ProductSheetButton from '../partials/Buttons/ProductsheetButton';
 import ProductSpecificationButton from '../partials/Buttons/ProductSpecificationButton';
 import LegendDescriptionButton from '../partials/Buttons/LegendDescriptionButton';
@@ -21,8 +25,10 @@ import HelpButton from '../partials/Buttons/HelpButton';
 import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
 import DownloadXmlButton from '../partials/Buttons/DownloadXmlButton';
 import EditMetadataButton from '../partials/Buttons/EditMetadataButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Breadcrumb from '../partials/Breadcrumb';
+
+// Stylesheets
+import style from "./Metadata.scss";
 
 class Metadata extends Component {
 
@@ -66,7 +72,7 @@ class Metadata extends Component {
         if (this.props.metadata && this.props.metadata.ContactMetadata) {
             return (
                 <div>
-                    <h3>Metadatakontakt</h3>
+                    <h3>{this.props.getResource('ContactMetadata', 'Metadatakontakt')}</h3>
                     <div>
                         <a href={this.props.metadata.ContactMetadata.Email}>{this.props.metadata.ContactMetadata.Name}</a>
                     </div>
@@ -84,7 +90,7 @@ class Metadata extends Component {
         if (this.props.metadata && this.props.metadata.ContactOwner) {
             return (
                 <div>
-                    <h3>Faglig kontakt</h3>
+                    <h3>{this.props.getResource('ContactOwner', 'Faglig kontakt')}</h3>
                     <div>
                         <a href={this.props.metadata.ContactOwner.Email}>{this.props.metadata.ContactOwner.Name}</a>
                     </div>
@@ -102,7 +108,7 @@ class Metadata extends Component {
         if (this.props.metadata && this.props.metadata.ContactPublisher) {
             return (
                 <div>
-                    <h3>Teknisk kontakt</h3>
+                    <h3>{this.props.getResource('ContactPublisher', 'Teknisk kontakt')}</h3>
                     <div>
                         <a href={this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Email}</a> - {this.props.metadata.ContactPublisher.Organization}
                     </div>
@@ -116,7 +122,7 @@ class Metadata extends Component {
     renderSpatialRepresentation() {
         return this.props.metadata && this.props.metadata.SpatialRepresentation ? (
             <div>
-                <strong>Representasjonsform: </strong>{this.props.metadata.SpatialRepresentation}
+                <strong>{this.props.getResource('SpatialRepresentation', 'Representasjonsform')}: </strong>{this.props.metadata.SpatialRepresentation}
             </div>
         ) : '';
     }
@@ -166,7 +172,7 @@ class Metadata extends Component {
         });
         return hasReferenceSystems ? (
             <div>
-                <h3>Romlig referansesystem:</h3>
+                <h3>{this.props.getResource('ReferenceSystems', 'Romlig referansesystem')}:</h3>
                 {referenceSystemList}
             </div>
         ) : '';
@@ -176,7 +182,7 @@ class Metadata extends Component {
         const hasUseLimitations = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.UseLimitations;
         return hasUseLimitations ? (
             <div>
-                <strong>Bruksbegrensninger: </strong>{this.props.metadata.Constraints.UseLimitations}
+                <strong>{this.props.getResource('UseLimitations', 'Bruksbegrensninger')}: </strong>{this.props.metadata.Constraints.UseLimitations}
             </div>
         ) : '';
     }
@@ -185,7 +191,7 @@ class Metadata extends Component {
         const hasAccessConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.AccessConstraints;
         return hasAccessConstraints ? (
             <div>
-                <strong>Tilgangsrestriksjoner: </strong>{this.props.metadata.Constraints.AccessConstraints}
+                <strong>{this.props.getResource('AccessConstraints', 'Tilgangsrestriksjoner')}: </strong>{this.props.metadata.Constraints.AccessConstraints}
             </div>
         ) : '';
     }
@@ -194,7 +200,7 @@ class Metadata extends Component {
         const hasUseConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.UseConstraints;
         return hasUseConstraints ? (
             <div>
-                <strong>Brukerrestriksjoner: </strong>{this.props.metadata.Constraints.UseConstraints}
+                <strong>{this.props.getResource('UseConstraints', 'Brukerrestriksjoner')}: </strong>{this.props.metadata.Constraints.UseConstraints}
             </div>
         ) : '';
     }
@@ -203,7 +209,7 @@ class Metadata extends Component {
         const hasOtherConstraintsLinkText = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraintsLinkText;
         return hasOtherConstraintsLinkText ? (
             <div>
-                <strong>Lisens: </strong>{this.props.metadata.Constraints.OtherConstraintsLinkText}
+                <strong>{this.props.getResource('Licence', 'Lisens')}: </strong>{this.props.metadata.Constraints.OtherConstraintsLinkText}
             </div>
         ) : '';
     }
@@ -212,7 +218,7 @@ class Metadata extends Component {
         const hasSecurityConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
         return hasSecurityConstraints ? (
             <div>
-                <strong>Sikkerhetsnivå: </strong>{this.props.metadata.Constraints.SecurityConstraints}
+                <strong>{this.props.getResource('SecurityConstraints', 'Sikkerhetsnivå')}: </strong>{this.props.metadata.Constraints.SecurityConstraints}
             </div>
         ) : '';
     }
@@ -220,7 +226,7 @@ class Metadata extends Component {
     renderResolutionScale() {
         return this.props.metadata && this.props.metadata.ResolutionScale ? (
             <div>
-                <strong>Målestokkstall: </strong>{this.props.metadata.ResolutionScale}
+                <strong>{this.props.getResource('ResolutionScale', 'Målestokkstall')}: </strong>{this.props.metadata.ResolutionScale}
             </div>
         ) : ''
     }
@@ -236,7 +242,7 @@ class Metadata extends Component {
     renderProcessHistory() {
         return this.props.metadata && this.props.metadata.ProcessHistory ? (
             <div>
-                <strong>Prosesshistorie: </strong>{this.props.metadata.ProcessHistory}
+                <strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong>{this.props.metadata.ProcessHistory}
             </div>
         ) : ''
     }
@@ -244,7 +250,7 @@ class Metadata extends Component {
     renderDateUpdated() {
         return this.props.metadata && this.props.metadata.DateUpdated ? (
             <div>
-                <strong>Oppdatert (Ressurs): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateUpdated} />
+                <strong>{this.props.getResource('Updated', 'Oppdatert')} ({this.props.getResource('Resource', 'Ressurs')}): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateUpdated} />
             </div>
         ) : ''
     }
@@ -252,7 +258,7 @@ class Metadata extends Component {
     renderMetadataDateUpdated() {
         return this.props.metadata && this.props.metadata.MetadataDateUpdated ? (
             <div>
-                <strong>Oppdatert (Metadata): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.MetadataDateUpdated} />
+                <strong>{this.props.getResource('Updated', 'Oppdatert')} (Metadata): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.MetadataDateUpdated} />
             </div>
         ) : ''
     }
@@ -260,7 +266,7 @@ class Metadata extends Component {
     renderDatePublished() {
         return this.props.metadata && this.props.metadata.DatePublished ? (
             <div>
-                <strong>Publisert: </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DatePublished} />
+                <strong>{this.props.getResource('Published', 'Publisert')}: </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DatePublished} />
             </div>
         ) : ''
     }
@@ -270,7 +276,7 @@ class Metadata extends Component {
         const validTo = this.props.metadata && this.props.metadata.DatePublished ? this.props.metadata.DateMetadataValidTo : '';
         return validFrom || validTo ? (
             <div>
-                <strong>Gyldighetsperiode: </strong><Moment format="DD.MM.YYYY" date={validFrom} />  - <Moment format="DD.MM.YYYY" date={validTo} />
+                <strong>{this.props.getResource('ValidityPeriod', 'Gyldighetsperiode')}: </strong><Moment format="DD.MM.YYYY" date={validFrom} />  - <Moment format="DD.MM.YYYY" date={validTo} />
             </div>
         ) : ''
     }
@@ -278,7 +284,7 @@ class Metadata extends Component {
     renderMaintenanceFrequency() {
         return this.props.metadata && this.props.metadata.MaintenanceFrequency ? (
             <div>
-                <strong>Oppdateringshyppighet: </strong>{this.props.metadata.MaintenanceFrequency}
+                <strong>{this.props.getResource('MaintenanceFrequency', 'Oppdateringshyppighet')}: </strong>{this.props.metadata.MaintenanceFrequency}
             </div>
         ) : ''
     }
@@ -294,7 +300,7 @@ class Metadata extends Component {
         });
         return hasKeywordsPlace ? (
             <div>
-                <h3>Geografisk område:</h3>
+                <h3>{this.props.getResource('KeywordsPlace', 'Geografisk område')}:</h3>
                 {keywordsPlaceList}
             </div>
         ) : '';
@@ -303,7 +309,7 @@ class Metadata extends Component {
     renderBoundingBox() {
         return this.props.metadata.BoundingBox ? (
             <div>
-                <h3>Geografisk utstrekning:</h3>
+                <h3>{this.props.getResource('BoundingBox', 'Geografisk utstrekning')}:</h3>
                 <ul>
                     <li>Nord: {this.props.metadata.BoundingBox.NorthBoundLatitude}</li>
                     <li>Sør: {this.props.metadata.BoundingBox.SouthBoundLatitude}</li>
@@ -325,7 +331,7 @@ class Metadata extends Component {
         });
         return hasKeywordsTheme ? (
             <div>
-                <h3>Tema:</h3>
+                <h3>{this.props.getResource('Facet_theme', 'Tema')}:</h3>
                 {keywordsThemeList}
             </div>
         ) : '';
@@ -359,7 +365,7 @@ class Metadata extends Component {
         });
         return hasKeywordsNationalInitiative ? (
             <div>
-                <h3>Samarbeid og lover:</h3>
+                <h3>{this.props.getResource('Facet_nationalinitiative', 'Samarbeid og lover')}:</h3>
                 {keywordsNationalInitiativeList}
             </div>
         ) : '';
@@ -401,7 +407,7 @@ class Metadata extends Component {
         });
         return hasKeywordsAdministrativeUnits ? (
             <div>
-                <h3>Administrative enheter:</h3>
+                <h3>{this.props.getResource('KeywordsAdministrativeUnits', 'Administrative enheter')}:</h3>
                 {keywordsAdministrativeUnitsList}
             </div>
         ) : '';
@@ -410,7 +416,7 @@ class Metadata extends Component {
     renderTopicCategory() {
         return this.props.metadata && this.props.metadata.TopicCategory ? (
             <div>
-                <strong>Tematisk hovedkategori: </strong>{this.props.metadata.TopicCategory}
+                <strong>{this.props.getResource('TopicCategory', 'Tematisk hovedkategori')}: </strong>{this.props.metadata.TopicCategory}
             </div>
         ) : ''
     }
@@ -419,7 +425,7 @@ class Metadata extends Component {
         if (this.props.metadata.SpecificUsage) {
             return (
                 <div>
-                    <h2>Bruksområde</h2>
+                    <h2>{this.props.getResource('SpecificUsage', 'Bruksområde')}</h2>
                     <div>{this.props.metadata.SpecificUsage}</div>
                 </div>
             )
@@ -516,7 +522,8 @@ class Metadata extends Component {
 
         return showDistributions ? (
             <div>
-                <h2>Distribusjoner</h2>
+                <h2>{this.props.getResource('Distributions', 'Distribusjoner')}</h2>
+
                 {selfDistributionsList}
                 {relatedDatasetList}
                 {relatedApplicationsList}
@@ -532,7 +539,7 @@ class Metadata extends Component {
         const hasChildren = this.renderContactMetadata() || this.renderContactOwner() || this.renderContactPublisher();
         return hasChildren ? (
             <div>
-                <h2>Kontaktinforsmasjon</h2>
+                <h2>{this.props.getResource('ContactInformation', 'Kontaktinforsmasjon')}</h2>
                 <div className={style.flex}>
                     {this.renderContactMetadata()}
                     {this.renderContactOwner()}
@@ -546,7 +553,7 @@ class Metadata extends Component {
         const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionFormats() || this.renderDistributionDetails() || this.renderUnitsOfDistribution() || this.renderReferenceSystems();
         return hasChildren ? (
             <div>
-                <h2>Distribusjon</h2>
+                <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
                 {this.renderSpatialRepresentation()}
                 {this.renderDistributionFormats()}
                 {this.renderDistributionDetails()}
@@ -560,7 +567,7 @@ class Metadata extends Component {
         const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints();
         return hasChildren ? (
             <div>
-                <h2>Restriksjoner</h2>
+                <h2>{this.props.getResource('Constraints', 'Restriksjoner')}</h2>
                 {this.renderUseLimitations()}
                 {this.renderAccessConstraints()}
                 {this.renderUseConstraints()}
@@ -573,7 +580,7 @@ class Metadata extends Component {
     renderSupplementalDescriptionSection() {
         return this.props.metadata && this.props.metadata.SupplementalDescription && this.props.metadata.HelpUrl ? (
             <div>
-                <h2>Hjelp</h2>
+                <h2>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
                 <p>{this.props.metadata.SupplementalDescription}</p>
                 <a href={this.props.metadata.HelpUrl}>Vis hjelp</a>
             </div>
@@ -750,8 +757,8 @@ class Metadata extends Component {
                         {this.renderSupplementalDescriptionSection()}
 
                         <div className={style.opendetails} onClick={() => this.toggleExpand()}>
-                            <h2>Detaljert informasjon
-                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : 'Vis detaljert informasjon'} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
+                            <h2>{this.props.getResource('DetailedInformation', 'Detaljert informasjon')}
+                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}` } icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
                         <div className={this.state.expanded ? style.open : style.closed}>
                             <div className={style.flex}>
                                 {this.renderQualitySection()}
@@ -777,14 +784,16 @@ Metadata.propTypes = {
 
 const mapStateToProps = state => ({
     metadata: state.metadata,
-    metadataDistributions: state.metadataDistributions
+    metadataDistributions: state.metadataDistributions,
+    resources: state.resources
 });
 
 const mapDispatchToProps = {
     clearMetadata,
     fetchMetadata,
     clearMetadataDistributions,
-    fetchMetadataDistributions
+    fetchMetadataDistributions,
+    getResource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Metadata);
