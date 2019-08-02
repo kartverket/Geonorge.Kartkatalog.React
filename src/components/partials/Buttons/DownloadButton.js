@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Utils
+import userManager from '../../../utils/userManager';
+
 // Actions
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
 import { getResource } from '../../../actions/ResourceActions'
@@ -17,6 +20,15 @@ export class DownloadButton extends Component {
         this.state = {
             isAdded: false
         };
+    }
+
+    handleLoginClick(event) {
+        event.preventDefault();
+        userManager.signinRedirect();
+    }
+
+    addToDownloadItemToLocalStorageForAutoAdd(downloadItem) {
+        localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(downloadItem));
     }
 
     getDownloadButton() {
@@ -41,8 +53,17 @@ export class DownloadButton extends Component {
         }
     }
 
-    addToDownloadList(item) {
-        this.props.addItemSelectedForDownload(item);
+    addToDownloadList(event, item) {
+        if (this.props.metadata.AccessIsOpendata){
+            this.props.addItemSelectedForDownload(item);
+        } else if (this.props.metadata.AccessIsRestricted){
+            if (!this.props.oidc || !this.props.oidc.user){
+                this.addToDownloadItemToLocalStorageForAutoAdd(item);
+                this.handleLoginClick(event);
+            }else {
+                this.props.addItemSelectedForDownload(item);
+            }
+        }
     }
 
     removeFromDownloadList(item) {
@@ -74,7 +95,7 @@ export class DownloadButton extends Component {
 
             let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
-                : () => this.addToDownloadList(button);
+                : (event) => this.addToDownloadList(event, button);
             let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
             let buttonClass = this.state.isAdded ? 'off' : 'on';
@@ -100,10 +121,11 @@ export class DownloadButton extends Component {
     renderButton() {
         let button = this.getDownloadButtonFromMetadata();
         if (this.props.metadata.CanShowDownloadService) {
+            
             let buttonDescription = this.state.isAdded ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting') : this.props.getResource('Download', 'Last ned');
             let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
-                : () => this.addToDownloadList(button);
+                : (event) => this.addToDownloadList(event, button);
             let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
             let buttonClass = this.state.isAdded ?  [style.btn + ' remove'] : [style.btn + ' download'];
@@ -179,7 +201,8 @@ DownloadButton.defaultProps = {
 
 const mapStateToProps = state => ({
     itemsToDownload: state.itemsToDownload,
-    resources: state.resources
+    resources: state.resources,
+    oidc: state.oidc
 });
 
 const mapDispatchToProps = {

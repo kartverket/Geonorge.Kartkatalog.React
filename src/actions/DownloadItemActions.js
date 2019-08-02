@@ -29,8 +29,22 @@ export const addItemSelectedForDownload = (itemToAdd) => dispatch => {
 
 	// TODO midlertidig løsning pga gammel handlekurv...
 	localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
-
-
 	
 	dispatch(fetchItemsToDownload())
 }
+
+export const autoAddItemFromLocalStorage = () => (dispatch, getState) => {
+	const hasItemToAdd = localStorage.autoAddDownloadItemOnLoad && localStorage.autoAddDownloadItemOnLoad.length && localStorage.autoAddDownloadItemOnLoad !== 'undefined' && localStorage.autoAddDownloadItemOnLoad !== 'null';
+	const itemToAdd = hasItemToAdd ? JSON.parse(localStorage.autoAddDownloadItemOnLoad) : null;
+	const isLoggedIn = getState().oidc && getState().oidc.user;
+	if (itemToAdd && isLoggedIn) {
+		let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];
+    	selectedItems.push(itemToAdd.uuid);
+		localStorage.orderItems = JSON.stringify(selectedItems);
+		
+		// TODO midlertidig løsning pga gammel handlekurv...
+		localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd));
+		localStorage.removeItem('autoAddDownloadItemOnLoad');
+	}
+}
+

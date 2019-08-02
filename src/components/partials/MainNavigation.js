@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Actions
 import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions';
 import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
-import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata } from '../../actions/DownloadItemActions';
+import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata, autoAddItemFromLocalStorage } from '../../actions/DownloadItemActions';
 import { getGeonorgeLogo } from '../../actions/ImageActions';
+
 
 // Components
 import { ErrorBoundary } from '../ErrorBoundary';
@@ -31,16 +32,26 @@ export class MainNavigation extends Component {
     componentWillMount() {
         this.props.fetchMapItems();
         this.props.fetchGeonorgeMenu();
+        this.props.autoAddItemFromLocalStorage();
         this.props.fetchItemsToDownload();
         document.addEventListener('mousedown', this.handleClick, false);
         document.addEventListener('mousedown', this.handleDownloadClick, false);
-
     }
 
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClick, false);
         document.removeEventListener('mousedown', this.handleDownloadClick, false);
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const wasLoggedIn = prevProps.oidc && prevProps.oidc.user;
+        const isLoggedIn = this.props.oidc && this.props.oidc.user;
+        if (isLoggedIn && !wasLoggedIn) {
+            this.props.autoAddItemFromLocalStorage();
+            this.props.fetchItemsToDownload();
+        }
+    }
+
     handleClick = (e) => {
         if (!this.mapNode || !this.mapNode.contains(e.target)) {
             return this.setState({ expanded: false });
@@ -130,7 +141,7 @@ export class MainNavigation extends Component {
     renderDownloadItems() {
         const downloadItems = this.props.itemsToDownload.map((downloadItemUuid, index) => {
             const downloadItem = this.props.getDownloadItemMetadata(downloadItemUuid);
-            return (
+            return downloadItem ? (
                 <li key={index}>
                     <span>
                         <button className={style.mapBtnlink}>{downloadItem.name}</button>
@@ -138,7 +149,7 @@ export class MainNavigation extends Component {
                     <FontAwesomeIcon icon={['far', 'trash']}
                         onClick={() => this.props.removeItemSelectedForDownload(downloadItem)} />
                 </li>
-            )
+            ) : '';
         });
         return downloadItems;
     }
@@ -202,7 +213,8 @@ const mapStateToProps = state => ({
     mapItems: state.mapItems,
     itemsToDownload: state.itemsToDownload,
     router: state.router,
-    geonorgeMenu: state.geonorgeMenu
+    geonorgeMenu: state.geonorgeMenu,
+    oidc: state.oidc
 });
 
 
@@ -213,7 +225,8 @@ const mapDispatchToProps = {
     removeItemSelectedForDownload,
     getDownloadItemMetadata,
     getGeonorgeLogo,
-    fetchGeonorgeMenu
+    fetchGeonorgeMenu,
+    autoAddItemFromLocalStorage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavigation);
