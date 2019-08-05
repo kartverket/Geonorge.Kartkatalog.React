@@ -148,7 +148,7 @@ class Metadata extends Component {
         const hasProtocolName = this.props.metadata && this.props.metadata.DistributionDetails && this.props.metadata.DistributionDetails.ProtocolName;
         return hasProtocolName ? (
             <div>
-                <strong>Distribusjonstype: </strong>{this.props.metadata.DistributionDetails.ProtocolName}
+                <strong>{this.props.getResource('DistributionType', 'Distribusjonstype')}: </strong>{this.props.metadata.DistributionDetails.ProtocolName}
             </div>
         ) : '';
     }
@@ -156,7 +156,7 @@ class Metadata extends Component {
     renderUnitsOfDistribution() {
         return this.props.metadata.UnitsOfDistribution ? (
             <div>
-                <strong>Geografisk distribusjonsinndeling: </strong>{this.props.metadata.UnitsOfDistribution}
+                <strong>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </strong>{this.props.metadata.UnitsOfDistribution}
             </div>
         ) : '';
     }
@@ -311,10 +311,10 @@ class Metadata extends Component {
             <div>
                 <h3>{this.props.getResource('BoundingBox', 'Geografisk utstrekning')}:</h3>
                 <ul>
-                    <li>Nord: {this.props.metadata.BoundingBox.NorthBoundLatitude}</li>
-                    <li>Sør: {this.props.metadata.BoundingBox.SouthBoundLatitude}</li>
-                    <li>Øst: {this.props.metadata.BoundingBox.EastBoundLongitude}</li>
-                    <li>Vest: {this.props.metadata.BoundingBox.WestBoundLongitude}</li>
+                    <li>{this.props.getResource('North', 'Nord')}: {this.props.metadata.BoundingBox.NorthBoundLatitude}</li>
+                    <li>{this.props.getResource('South', 'Sør')}: {this.props.metadata.BoundingBox.SouthBoundLatitude}</li>
+                    <li>{this.props.getResource('East', 'Øst')}: {this.props.metadata.BoundingBox.EastBoundLongitude}</li>
+                    <li>{this.props.getResource('West', 'Vest')}: {this.props.metadata.BoundingBox.WestBoundLongitude}</li>
                 </ul>
             </div>
         ) : '';
@@ -348,7 +348,7 @@ class Metadata extends Component {
         });
         return hasKeywordsNationalTheme ? (
             <div>
-                <h3>Nasjonale tema:</h3>
+                <h3>{this.props.getResource('keywordNationalTheme', 'Nasjonale tema')}:</h3>
                 {keywordsNationalThemeList}
             </div>
         ) : '';
@@ -464,7 +464,7 @@ class Metadata extends Component {
         ) : '';
         const relatedDatasetList = hasRelatedDataset && showRelatedDataset ? (
             <div>
-                <h3>Datasett</h3>
+                <h3>{this.props.getResource('Facet_type_dataset', 'Datasett')}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset} />
                 </ErrorBoundary>
@@ -480,7 +480,7 @@ class Metadata extends Component {
         ) : '';
         const relatedServicesList = hasRelatedServices && showRelatedServices ? (
             <div>
-                <h3>Tjenester</h3>
+                <h3>{this.props.getResource('Services', 'Tjenester')}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedServices} />
                 </ErrorBoundary>
@@ -488,7 +488,7 @@ class Metadata extends Component {
         ) : '';
         const relatedServiceLayersList = hasRelatedServiceLayers && showRelatedServiceLayers ? (
             <div>
-                <h3>Tjenestelag</h3>
+                <h3>{this.props.getResource('Servicelayers', 'Tjenestelag')}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedServiceLayer} />
                 </ErrorBoundary>
@@ -496,7 +496,7 @@ class Metadata extends Component {
         ) : '';
         const relatedViewServicesList = hasRelatedViewServices && showRelatedViewServices ? (
             <div>
-                <h3>Visningstjenester</h3>
+                <h3>{this.props.getResource('DisplayServices', 'Visningstjenester')}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices} />
                 </ErrorBoundary>
@@ -504,7 +504,7 @@ class Metadata extends Component {
         ) : '';
         const relatedDownloadServicesList = hasRelatedDownloadServices && showRelatedDownloadServices ? (
             <div>
-                <h3>Nedlastingstjenester</h3>
+                <h3>{this.props.getResource('DownloadServices', 'Nedlastingstjenester')}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices} />
                 </ErrorBoundary>
@@ -582,7 +582,7 @@ class Metadata extends Component {
             <div>
                 <h2>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
                 <p>{this.props.metadata.SupplementalDescription}</p>
-                <a href={this.props.metadata.HelpUrl}>Vis hjelp</a>
+                <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a>
             </div>
         ) : ''
     }
@@ -591,7 +591,7 @@ class Metadata extends Component {
         const hasChildren = this.renderResolutionScale() || this.renderStatus() || this.renderProcessHistory();
         return hasChildren ? (
             <div>
-                <h2>Kvalitet</h2>
+                <h2>{this.props.getResource('Quality', 'Kvalitet')}</h2>
                 {this.renderResolutionScale()}
                 {this.renderStatus()}
                 {this.renderProcessHistory()}
@@ -605,8 +605,8 @@ class Metadata extends Component {
             return (
                 <div key={index}>
                     <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
-                    <p><strong>Dato: </strong><Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> ({qualitySpecification.DateType})</p>
-                    <p><strong>Forklaring av resultat: </strong>{qualitySpecification.Explanation}</p>
+                    <p><strong>{this.props.getResource('Date', 'Dato')}: </strong><Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> ({qualitySpecification.DateType})</p>
+                    <p><strong>{this.props.getResource('QualitySpecificationExplanation', 'Forklaring av resultat')}: </strong>{qualitySpecification.Explanation}</p>
                     <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
                     <hr />
                 </div>
@@ -614,7 +614,7 @@ class Metadata extends Component {
         });
         return hasQualitySpecifications ? (
             <div>
-                <h2>Konformitet</h2>
+                <h2>{this.props.getResource('QualitySpecification', 'Konformitet')}</h2>
                 {qualitySpecificationsList}
             </div>
         ) : '';
@@ -623,7 +623,7 @@ class Metadata extends Component {
     renderPurposeSection() {
         return this.props.metadata && this.props.metadata.Purpose ? (
             <div>
-                <h2>Formål</h2>
+                <h2>{this.props.getResource('Purpose', 'Formål')}</h2>
                 <div>{this.props.metadata.Purpose}</div>
             </div>
         ) : ''
@@ -639,7 +639,7 @@ class Metadata extends Component {
             || this.renderBoundingBox();
         return hasChildren ? (
             <div>
-                <h2>Tid og rom</h2>
+                <h2>{this.props.getResource('TimeAndSpace', 'Tid og rom')}</h2>
                 {this.renderDateUpdated()}
                 {this.renderMetadataDateUpdated()}
                 {this.renderDatePublished()}
@@ -659,7 +659,7 @@ class Metadata extends Component {
             || this.renderTopicCategory();
         return hasChildren ? (
             <div>
-                <h2>Nøkkelord</h2>
+                <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
                 {this.renderKeywordsTheme()}
                 {this.renderKeywordsNationalTheme()}
                 {this.renderKeywordsNationalInitiative()}

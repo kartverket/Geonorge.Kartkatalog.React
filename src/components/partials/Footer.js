@@ -1,8 +1,16 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+// Actions
+import { getResource } from '../../actions/ResourceActions'
+
+// Stylesheets
+import style from './Footer.scss';
+
+// Assets
 import logo_dev from '../../images/svg/geonorge-navbar-logo_dev.svg';
 import logo_kart_dev from '../../images/kartverket.png';
-import style from './Footer.scss';
 
 export class Footer extends Component {
 	render() {
@@ -28,4 +36,13 @@ export class Footer extends Component {
 	}
 }
 
-export default connect(null)(Footer);
+
+const mapStateToProps = state => ({
+    resources: state.resources
+});
+
+const mapDispatchToProps = {
+    getResource
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Footer);
