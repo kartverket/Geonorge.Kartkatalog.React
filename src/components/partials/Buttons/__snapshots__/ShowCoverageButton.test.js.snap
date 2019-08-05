@@ -57,6 +57,7 @@ ShallowWrapper {
           <iframe
             height="800px"
             src=""
+            title="Coverage map"
             width="100%"
           />
         </Connect(Modal)>,
@@ -100,6 +101,7 @@ ShallowWrapper {
           "children": <iframe
             height="800px"
             src=""
+            title="Coverage map"
             width="100%"
           />,
           "handleClose": [Function],
@@ -113,6 +115,7 @@ ShallowWrapper {
           "props": Object {
             "height": "800px",
             "src": "",
+            "title": "Coverage map",
             "width": "100%",
           },
           "ref": null,
@@ -207,6 +210,7 @@ ShallowWrapper {
             <iframe
               height="800px"
               src=""
+              title="Coverage map"
               width="100%"
             />
           </Connect(Modal)>,
@@ -250,6 +254,7 @@ ShallowWrapper {
             "children": <iframe
               height="800px"
               src=""
+              title="Coverage map"
               width="100%"
             />,
             "handleClose": [Function],
@@ -263,6 +268,7 @@ ShallowWrapper {
             "props": Object {
               "height": "800px",
               "src": "",
+              "title": "Coverage map",
               "width": "100%",
             },
             "ref": null,
@@ -367,7 +373,9 @@ ShallowWrapper {
         },
       },
     },
+    Symbol(enzyme.__providerValues__): undefined,
   },
+  Symbol(enzyme.__providerValues__): Map {},
   Symbol(enzyme.__childContext__): null,
 }
 `;

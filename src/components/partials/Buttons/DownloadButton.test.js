@@ -124,9 +124,7 @@ describe('DownloadButton', () => {
         wrapper = wrapper.setState({isAdded: true});
 
         expect(wrapper.prop("className")).toContain("off");
-        expect(wrapper.prop("onClick").toString()).toContain("removeFromDownloadList(button)");
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('trash');
-        expect(wrapper.find("span").first().html()).toContain('Fjern nedlasting');
     });
 
     it('Show download button when item is not selected for download', () => {
@@ -134,9 +132,7 @@ describe('DownloadButton', () => {
         wrapper = wrapper.setState({isAdded: false});
 
         expect(wrapper.prop("className")).toContain("on");
-        expect(wrapper.prop("onClick").toString()).toContain("addToDownloadList(button)");
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
-        expect(wrapper.find("span").first().html()).toContain('Last ned');
     });
 
     it('Show download link', () => {
@@ -145,7 +141,6 @@ describe('DownloadButton', () => {
         expect(wrapper.prop("className")).toContain("on");
         expect(wrapper.prop("href")).toBe('test.no');
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square');
-        expect(wrapper.find("span").first().html()).toContain('Til nedlasting');
     });
 
     
@@ -157,7 +152,6 @@ describe('DownloadButton', () => {
         expect(wrapper.prop("className")).toContain(style.btn + ' disabled')
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
-        expect(wrapper.find("span").first().html()).toContain('Last ned');
     });
 
     it('List button false - CanShowDownloadService true', () => {
@@ -165,9 +159,7 @@ describe('DownloadButton', () => {
         wrapper = wrapper.setState({isAdded: false});
 
         expect(wrapper.prop("className")).toContain(style.btn + ' download')
-        expect(wrapper.prop("onClick").toString()).toContain("addToDownloadList(button)");
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
-        expect(wrapper.find("span").first().html()).toContain('Last ned');
     });
 
     it('List button false - CanShowDownloadUrl true', () => {
@@ -176,6 +168,5 @@ describe('DownloadButton', () => {
         expect(wrapper.prop("className")).toContain(style.btn)
         expect(wrapper.prop("href")).toBe('test.no');
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square');
-        expect(wrapper.find("span").first().html()).toContain('Til nedlasting');
     });
 });

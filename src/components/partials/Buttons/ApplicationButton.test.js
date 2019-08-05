@@ -143,7 +143,6 @@ describe('ApplicationButton', () => {
         expect(wrapper.hasClass('ext')).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-        expect(wrapper.find("span").first().html()).toContain('Til nettside')
     })
 
     it('Application without DistributionUrl', () => {
@@ -152,7 +151,6 @@ describe('ApplicationButton', () => {
         expect(wrapper.hasClass('off')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-        expect(wrapper.find("span").first().html()).toContain('Til nettside')
     })
 
     it('Is dataset type', () => {
@@ -171,7 +169,6 @@ it('List button false', () => {
     expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
     expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-    expect(wrapper.find("span").first().html()).toContain('Nettside')
 })
 
 it('List button false and Item with CanShowWebsiteUrl and DistributionUrl', () => {
@@ -180,7 +177,6 @@ it('List button false and Item with CanShowWebsiteUrl and DistributionUrl', () =
     expect(wrapper.hasClass(style.btn)).toBe(true)
     expect(wrapper.prop("href")).toBe('test')
     expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-    expect(wrapper.find("span").first().html()).toContain('Nettside')
 })
 
 it('List button false and Item with CanShowWebsiteUrl and no DistributionUrl', () => {
@@ -189,7 +185,6 @@ it('List button false and Item with CanShowWebsiteUrl and no DistributionUrl', (
     expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
     expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-    expect(wrapper.find("span").first().html()).toContain('Nettside')
 })
 
 it('List button false and Item with DistributionUrl and CanShowWebsiteUrl false', () => {
@@ -198,5 +193,4 @@ it('List button false and Item with DistributionUrl and CanShowWebsiteUrl false'
     expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
     expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
-    expect(wrapper.find("span").first().html()).toContain('Nettside')
 })
