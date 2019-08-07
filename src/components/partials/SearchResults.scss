@@ -81,6 +81,11 @@
         }
     }
 }
+:local(.downloadcsv) {
+    margin: 10px;
+    text-align: right;
+    margin-bottom: 20px;
+}
 :local(.list) {
     margin: 0;
     padding: 0;
