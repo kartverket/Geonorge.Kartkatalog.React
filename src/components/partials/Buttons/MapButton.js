@@ -67,11 +67,13 @@ export class MapButton extends Component {
         this.props.removeMapItem(mapItem);
     }
 
-    getServiceStatus() {
+    setServiceStatus() {
         console.log(this.props.metadata);
         let serviceUuid = undefined;
         if(this.props.metadata.ServiceUuid !== undefined) 
-            serviceUuid = this.props.metadata.ServiceUuid
+            serviceUuid = this.props.metadata.ServiceUuid;
+        else if(this.props.metadata.DatasetServicesWithShowMapLink !== undefined && this.props.metadata.DatasetServicesWithShowMapLink.length > 0)
+            serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
 
         console.log("ServiceUuid: " + serviceUuid);
 
@@ -127,7 +129,7 @@ export class MapButton extends Component {
                     console.log("Status: service is slow");
                     this.setState(
                         (prevState,props)=>{
-                            return {serviceStatusCode: 'serviceSlowAndSpecialAccess', serviceStatusLabel: 'Tjenesten kan være treg å vise' };
+                            return {serviceStatusCode: 'serviceSlow', serviceStatusLabel: 'Tjenesten kan være treg å vise' };
                          }
                      );
                     //this.button.title = "Tjenesten kan være treg å vise";
@@ -150,12 +152,12 @@ export class MapButton extends Component {
     }
 
     renderListButton() {
-        this.getServiceStatus();
         console.log(this.state.serviceStatusCode + ", " + this.state.serviceStatusLabel) 
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
             let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
             let isAdded = this.state.isAdded;
             let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
+            buttonDescription = buttonDescription + " " + this.state.serviceStatusCode + " " + this.state.serviceStatusLabel //todo fix UI
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
@@ -170,10 +172,10 @@ export class MapButton extends Component {
     }
 
     renderButton() {
-        this.getServiceStatus();
         console.log(this.state.serviceStatusCode + ", " + this.state.serviceStatusLabel) 
         let isAdded = this.state.isAdded;
-        const buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
+        let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
+        buttonDescription = buttonDescription + " " + this.state.serviceStatusCode + " " + this.state.serviceStatusLabel //todo fix UI
         const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'];
         const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
@@ -205,6 +207,7 @@ export class MapButton extends Component {
     }
 
     componentDidMount() {
+        this.setServiceStatus();
         let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
             return mapItemUuid === mapItem.Uuid;
@@ -217,6 +220,11 @@ export class MapButton extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        let serviceStatusCode = this.state.serviceStatusCode;
+        console.log(serviceStatusCode + ":" + prevState.serviceStatusCode);
+        if(serviceStatusCode =='')
+            this.setServiceStatus();
+
         const wasAdded = prevState.isAdded;
         let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
