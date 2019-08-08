@@ -11,6 +11,7 @@ import {
     fetchDropdownSearchResults
 } from '../../../actions/SearchResultActions';
 import { updateSearchString } from '../../../actions/SearchStringActions';
+import { getResource } from '../../../actions/ResourceActions'
 
 // Components
 import { ErrorBoundary } from '../../ErrorBoundary'
@@ -154,7 +155,7 @@ class SearchBar extends Component {
                 className={style.searchInput}>
                 <label htmlFor="searchString" className={style.mainSearchLabel}>Søk i kartkatalogen</label>
                 <input
-                    placeholder="Søk etter kartdata og artikler"
+                    placeholder={this.props.getResource('SearchMapDataAndArticles', 'Søk etter kartdata og artikler')}
                     type="text"
                     name="searchString"
                     onChange={this.onChange}
@@ -182,14 +183,16 @@ SearchBar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    dropdownResults: state.searchResults.dropdownResults ? state.searchResults.dropdownResults : {}
+    dropdownResults: state.searchResults.dropdownResults ? state.searchResults.dropdownResults : {},
+    resources: state.resources
 });
 
 const mapDispatchToProps = {
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
     fetchDropdownSearchResults,
-    updateSearchString
+    updateSearchString,
+    getResource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

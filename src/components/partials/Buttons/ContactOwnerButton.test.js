@@ -53,7 +53,6 @@ describe('ContactOwnerButton', () => {
         expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('mailto:test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('envelope')        
-        expect(wrapper.find("span").first().html()).toContain('Kontakt dataeier')
     })
 
     it('Item without DistributionUrl', () => {
@@ -62,6 +61,5 @@ describe('ContactOwnerButton', () => {
         expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('envelope')        
-        expect(wrapper.find("span").first().html()).toContain('Kontakt dataeier')
     })
 })

@@ -2,15 +2,16 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';
-import { Route, Switch } from 'react-router'
-import { ConnectedRouter } from 'connected-react-router'
+import { Route, Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 
 // Utils
-import configureStore, { history } from './utils/configureStore'
+import configureStore, { history } from './utils/configureStore';
 import userManager from './utils/userManager';
 
 // Actions
-import { fetchResources } from './actions/ResourceActions'
+import { fetchResources } from './actions/ResourceActions';
+import { fetchSelectedLanguage } from './actions/SelectedLanguageActions';
 
 // Components
 import Home from './components/routes/Home';
@@ -32,6 +33,7 @@ const store = configureStore(initialState);
 class App extends Component {
     
     componentDidMount() {
+        store.dispatch(fetchSelectedLanguage());
         store.dispatch(fetchResources());
     }
 

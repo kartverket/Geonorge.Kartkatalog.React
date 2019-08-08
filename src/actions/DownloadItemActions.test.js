@@ -9,8 +9,8 @@ const mockStore = configureStore(middlewares);
 const store = mockStore();
 
 const downloadItem = {
-    Title: "title mapItem",
-    Uuid: "123456",
+    title: "title mapItem",
+    uuid: "123456",
 }
 
 describe('download_item_actions', () => {

@@ -137,8 +137,11 @@ class SearchResults extends Component {
                     </ErrorBoundary>
                     </div>
                     <div className={style.searchResultContainer}>
-                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString} <span className={searchString !== "" ? 'show' : 'hide'}><Link to="/"> Nullstill søk<FontAwesomeIcon title="Nullstill søk" className={style.resetSearchResults} icon={'times'} /></Link></span> <a href={this.downloadAsCsvUrl()}>Lagre som csv</a></span>
+                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString} <span className={searchString !== "" ? 'show' : 'hide'}><Link to="/"> Nullstill søk<FontAwesomeIcon title="Nullstill søk" className={style.resetSearchResults} icon={'times'} /></Link></span></span>
                         {this.renderMetadataSearchResults()}
+                        <div className={style.downloadcsv}>
+                        <a href={this.downloadAsCsvUrl()}>Lagre listen som csv</a>
+                        </div>
                         <div className={style.morecontainer}>
                             <div className={moreItemButtonClassNames} onClick={() => this.addMoreMetadataToSearchResult()}>
                                 <span>Vis flere</span> <FontAwesomeIcon icon={'angle-down'} key="icon" /></div>

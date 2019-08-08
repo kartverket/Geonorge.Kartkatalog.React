@@ -55,7 +55,6 @@ describe('setupItemWithCoverageUrl', () => {
         expect(wrapper.children('span').hasClass(style.btn)).toBe(true)
         expect(wrapper.children('span').prop("onClick").toString()).toContain("show: true")
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('globe')        
-        expect(wrapper.find("span").first().html()).toContain('Vis dekningskart')
         expect(wrapper.find("iframe").prop("src")).toBe("test")
     })
 
@@ -64,6 +63,5 @@ describe('setupItemWithCoverageUrl', () => {
         
         expect(wrapper.children('span').hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('globe')        
-        expect(wrapper.find("span").first().html()).toContain('Vis dekningskart')
     })
 })
