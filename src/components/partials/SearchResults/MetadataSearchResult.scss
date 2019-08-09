@@ -83,7 +83,7 @@
 
 		align-items: center;
 
-		>svg {
+		> svg {
 			color: $primary-success;
 			font-size: 1.5em;
 			margin-right: 5px;
@@ -98,6 +98,9 @@
 
 		&:hover {
 			cursor: pointer;
+		}
+		&.service-slow > svg{
+			color:orange;
 		}
 	}
 

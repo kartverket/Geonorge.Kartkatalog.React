@@ -17,7 +17,9 @@ export class MapButton extends Component {
         super(props);
         this.state = {
             expanded: false,
-            isAdded: false
+            isAdded: false,
+            serviceStatusCode: "",
+            serviceStatusLabel: ""
         };
     }
 
@@ -65,17 +67,79 @@ export class MapButton extends Component {
         this.props.removeMapItem(mapItem);
     }
 
+    setServiceStatus() {
+        let serviceUuid = undefined;
+        if(this.props.metadata.ServiceUuid !== undefined) 
+            serviceUuid = this.props.metadata.ServiceUuid;
+        else if(this.props.metadata.DatasetServicesWithShowMapLink !== undefined && this.props.metadata.DatasetServicesWithShowMapLink.length > 0)
+            serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
+
+        if (serviceUuid !== undefined) {
+            fetch('https://status.geonorge.no/monitorApi/serviceDetail?uuid='+ serviceUuid)
+            .then(response => response.json())
+            .then(data => this.parseServiceStatus(data));
+        }
+    }
+
+    parseServiceStatus(result)
+    {
+        try {
+            var vurderingIsDefined = result.connect !== undefined && result.connect.vurdering !== undefined;
+            var numLayersIsDefined = result.numLayers !== undefined && result.numLayers.svar !== undefined;
+            var statusOK = vurderingIsDefined && result.connect.vurdering !== "no";
+            var numLayers = parseInt(numLayersIsDefined ? result.numLayers.svar : 0);
+            if (!statusOK) {
+                this.setState(
+                    (prevState,props)=>{
+                        return {serviceStatusCode: 'service-unavailable-disabled', serviceStatusLabel: 'Tjenesten er utilgjengelig for øyeblikket' };
+                     }
+                 );
+            }
+            else if (numLayers > 30) {
+                if (this.isRestrictedService()) {
+                    this.setState(
+                        (prevState,props)=>{
+                            return {serviceStatusCode: 'service-slow-and-special-access', serviceStatusLabel: 'Tjenesten kan være treg å vise og krever spesiell tilgang for å kunne vises - kontakt dataeier' };
+                         }
+                     );
+                } else {
+                    this.setState(
+                        (prevState,props)=>{
+                            return {serviceStatusCode: 'service-slow', serviceStatusLabel: 'Tjenesten kan være treg å vise' };
+                         }
+                     );
+                }
+
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    isRestrictedService() {
+        if (this.props.metadata.AccessIsRestricted || this.props.metadata.AccessIsProtected) 
+            return true;
+        else 
+            return false;
+    }
+
     renderListButton() {
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
             let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
             let isAdded = this.state.isAdded;
             let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
+            let buttonTitle = buttonDescription;
+            if(this.state.serviceStatusCode !== '')
+            buttonDescription = buttonDescription; //Todo fix UI
+            if(this.state.serviceStatusLabel !== '')
+                buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
+            let icon = <FontAwesomeIcon title={buttonTitle} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
                 key="icon" />;
-            let buttonClass = isAdded ? 'off' : 'on';
+            let buttonClass = isAdded ? 'off' : 'on' + " " + this.state.serviceStatusCode;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
@@ -85,8 +149,13 @@ export class MapButton extends Component {
 
     renderButton() {
         let isAdded = this.state.isAdded;
-        const buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
-        const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'];
+        let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
+        let buttonTitle = buttonDescription;
+        if(this.state.serviceStatusCode !== '')
+        buttonDescription = buttonDescription; //Todo fix UI
+        if(this.state.serviceStatusLabel !== '')
+            buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
+        const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'] + this.state.serviceStatusCode;
         const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
             let mapItem;
@@ -100,14 +169,14 @@ export class MapButton extends Component {
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);           
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={buttonIcon}
+            let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon}
                 key="icon" />;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={buttonIcon} key="icon" />;
+            let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon" />;
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, 'Legg til i kart');
 
@@ -117,6 +186,7 @@ export class MapButton extends Component {
     }
 
     componentDidMount() {
+        this.setServiceStatus();
         let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
             return mapItemUuid === mapItem.Uuid;
@@ -129,6 +199,10 @@ export class MapButton extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        let serviceStatusCode = this.state.serviceStatusCode;
+        if(serviceStatusCode =='')
+            this.setServiceStatus();
+
         const wasAdded = prevState.isAdded;
         let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
