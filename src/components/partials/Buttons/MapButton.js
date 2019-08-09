@@ -131,7 +131,7 @@ export class MapButton extends Component {
             let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
             let buttonTitle = buttonDescription;
             if(this.state.serviceStatusCode !== '')
-            buttonDescription = buttonDescription + "(" + this.state.serviceStatusCode + ")"; //Todo fix UI
+            buttonDescription = buttonDescription; //Todo fix UI
             if(this.state.serviceStatusLabel !== '')
                 buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
             let action = isAdded
@@ -139,7 +139,7 @@ export class MapButton extends Component {
                 : () => this.addToMap([mapItem]);
             let icon = <FontAwesomeIcon title={buttonTitle} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
                 key="icon" />;
-            let buttonClass = isAdded ? 'off' : 'on';
+            let buttonClass = isAdded ? 'off' : 'on' + " " + this.state.serviceStatusCode;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
@@ -152,10 +152,10 @@ export class MapButton extends Component {
         let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
         let buttonTitle = buttonDescription;
         if(this.state.serviceStatusCode !== '')
-        buttonDescription = buttonDescription + "(" + this.state.serviceStatusCode + ")"; //Todo fix UI
+        buttonDescription = buttonDescription; //Todo fix UI
         if(this.state.serviceStatusLabel !== '')
             buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
-        const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'];
+        const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'] + this.state.serviceStatusCode;
         const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
             let mapItem;

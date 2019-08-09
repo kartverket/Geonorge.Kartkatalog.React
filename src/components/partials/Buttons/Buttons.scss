@@ -46,6 +46,11 @@
         font-size: 1.6em;
         color: $primary-brand;        
     }
+    &.downloadservice-slow {
+        > svg {
+            color: orange;
+        }
+    }
     &.disabled {
         &:hover {      
             cursor: default;      
