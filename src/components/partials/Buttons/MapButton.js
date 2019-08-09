@@ -68,14 +68,11 @@ export class MapButton extends Component {
     }
 
     setServiceStatus() {
-        console.log(this.props.metadata);
         let serviceUuid = undefined;
         if(this.props.metadata.ServiceUuid !== undefined) 
             serviceUuid = this.props.metadata.ServiceUuid;
         else if(this.props.metadata.DatasetServicesWithShowMapLink !== undefined && this.props.metadata.DatasetServicesWithShowMapLink.length > 0)
             serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
-
-        console.log("ServiceUuid: " + serviceUuid);
 
         if (serviceUuid !== undefined) {
             fetch('https://status.geonorge.no/monitorApi/serviceDetail?uuid='+ serviceUuid)
@@ -87,54 +84,30 @@ export class MapButton extends Component {
     parseServiceStatus(result)
     {
         try {
-            console.log(result);
             var vurderingIsDefined = result.connect !== undefined && result.connect.vurdering !== undefined;
             var numLayersIsDefined = result.numLayers !== undefined && result.numLayers.svar !== undefined;
             var statusOK = vurderingIsDefined && result.connect.vurdering !== "no";
             var numLayers = parseInt(numLayersIsDefined ? result.numLayers.svar : 0);
-            console.log("numLayers: " + numLayers);
             if (!statusOK) {
-                console.log("Status: service unavailable");
                 this.setState(
                     (prevState,props)=>{
-                        return {serviceStatusCode: 'unavailable', serviceStatusLabel: 'Tjenesten er utilgjengelig for øyeblikket' };
+                        return {serviceStatusCode: 'service-unavailable-disabled', serviceStatusLabel: 'Tjenesten er utilgjengelig for øyeblikket' };
                      }
                  );
-                /*this.button.className += " disabled";
-                this.button.icon.className = "custom-icon custom-icon-kartmarkoer-unavailable";
-                this.button.url = null;
-                this.button.title = "Tjenesten er utilgjengelig for øyeblikket";
-                this.button.attributes = [{ key: "disabled", value: "disabled" }];
-                $(".show-in-map-btn-" + this.resultItem.Uuid).addClass("disabled");
-                $(".show-in-map-btn-" + this.resultItem.Uuid).attr("disabled", "disabled");
-                $(".show-in-map-btn-" + this.resultItem.Uuid).attr("href", "");
-                $(".show-in-map-btn-" + this.resultItem.Uuid).attr("title", "@Html.Raw(UI.ServiceNotavailable)");
-                $(".show-in-map-btn-" + this.resultItem.Uuid).attr("data-original-title", "@Html.Raw(UI.ServiceNotavailable)");
-                $(".show-in-map-btn-" + this.resultItem.Uuid + " > span").attr("class", "custom-icon custom-icon-kartmarkoer-unavailable");*/
             }
             else if (numLayers > 30) {
-                //this.button.icon.className = "custom-icon custom-icon-kartmarkoer-warning";
-                //$(".show-in-map-btn-" + this.resultItem.Uuid + " > span").attr("class", "custom-icon custom-icon-kartmarkoer-warning");
                 if (this.isRestrictedService()) {
-                    console.log("Status: service is slow and special access required");
                     this.setState(
                         (prevState,props)=>{
-                            return {serviceStatusCode: 'serviceSlowAndSpecialAccess', serviceStatusLabel: 'Tjenesten kan være treg å vise og krever spesiell tilgang for å kunne vises - kontakt dataeier' };
+                            return {serviceStatusCode: 'service-slow-and-special-access', serviceStatusLabel: 'Tjenesten kan være treg å vise og krever spesiell tilgang for å kunne vises - kontakt dataeier' };
                          }
                      );
-                    //this.button.title = "@Html.Raw(UI.ServiceSlowAndSpecialAccess)";
-                    //$(".show-in-map-btn-" + this.resultItem.Uuid).attr("title", "@Html.Raw(UI.ServiceSlowAndSpecialAccess)");
-                    //$(".show-in-map-btn-" + this.resultItem.Uuid).attr("data-original-title", "@Html.Raw(UI.ServiceSlowAndSpecialAccess)");*/
                 } else {
-                    console.log("Status: service is slow");
                     this.setState(
                         (prevState,props)=>{
-                            return {serviceStatusCode: 'serviceSlow', serviceStatusLabel: 'Tjenesten kan være treg å vise' };
+                            return {serviceStatusCode: 'service-slow', serviceStatusLabel: 'Tjenesten kan være treg å vise' };
                          }
                      );
-                    //this.button.title = "Tjenesten kan være treg å vise";
-                    //$(".show-in-map-btn-" + this.resultItem.Uuid).attr("title", "@Html.Raw(UI.ServiceSlow)");
-                    //$(".show-in-map-btn-" + this.resultItem.Uuid).attr("data-original-title", "@Html.Raw(UI.ServiceSlow)");
                 }
 
             }
@@ -152,16 +125,19 @@ export class MapButton extends Component {
     }
 
     renderListButton() {
-        console.log(this.state.serviceStatusCode + ", " + this.state.serviceStatusLabel) 
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
             let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
             let isAdded = this.state.isAdded;
             let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
-            buttonDescription = buttonDescription + " " + this.state.serviceStatusCode + " " + this.state.serviceStatusLabel //todo fix UI
+            let buttonTitle = buttonDescription;
+            if(this.state.serviceStatusCode !== '')
+            buttonDescription = buttonDescription + "(" + this.state.serviceStatusCode + ")"; //Todo fix UI
+            if(this.state.serviceStatusLabel !== '')
+                buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
+            let icon = <FontAwesomeIcon title={buttonTitle} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
                 key="icon" />;
             let buttonClass = isAdded ? 'off' : 'on';
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
@@ -172,10 +148,13 @@ export class MapButton extends Component {
     }
 
     renderButton() {
-        console.log(this.state.serviceStatusCode + ", " + this.state.serviceStatusLabel) 
         let isAdded = this.state.isAdded;
         let buttonDescription = isAdded ? this.props.getResource('removeFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
-        buttonDescription = buttonDescription + " " + this.state.serviceStatusCode + " " + this.state.serviceStatusLabel //todo fix UI
+        let buttonTitle = buttonDescription;
+        if(this.state.serviceStatusCode !== '')
+        buttonDescription = buttonDescription + "(" + this.state.serviceStatusCode + ")"; //Todo fix UI
+        if(this.state.serviceStatusLabel !== '')
+            buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
         const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'];
         const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
@@ -190,14 +169,14 @@ export class MapButton extends Component {
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);           
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={buttonIcon}
+            let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon}
                 key="icon" />;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={buttonIcon} key="icon" />;
+            let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon" />;
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, 'Legg til i kart');
 
@@ -221,7 +200,6 @@ export class MapButton extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         let serviceStatusCode = this.state.serviceStatusCode;
-        console.log(serviceStatusCode + ":" + prevState.serviceStatusCode);
         if(serviceStatusCode =='')
             this.setServiceStatus();
 
