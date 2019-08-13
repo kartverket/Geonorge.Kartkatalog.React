@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import SelectedFacets from '../partials/SelectedFacets';
 
 import SearchResults from '../partials/SearchResults';
 import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions'
@@ -74,7 +75,8 @@ class Home extends Component {
             <div>
                 <Breadcrumb />
                 <div className={style.header}>
-                    <h1>{this.props.getResource('AppPageTitle', 'Kartkatalogen')}</h1>
+                    <h1>{this.props.getResource('AppPageTitle', 'Kartkatalogen')}</h1>    
+                    <ErrorBoundary><SelectedFacets /></ErrorBoundary>
                 </div>
                 <ErrorBoundary><SearchResults /></ErrorBoundary>
             </div>
