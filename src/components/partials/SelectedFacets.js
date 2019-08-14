@@ -1,13 +1,17 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions'
-import { getResource } from '../../actions/ResourceActions'
-import { getQueryStringFromFacets } from '../../helpers/FacetFilterHelpers'
 import { Link } from "react-router-dom";
 
+// Actions
+import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions';
+import { getResource } from '../../actions/ResourceActions';
+
+// Helpers
+import { getQueryStringFromFacets } from '../../helpers/FacetFilterHelpers';
+
+
 class SelectedFacets extends Component {
-
-
     renderSelectedFacetsList() {
         if (this.props.selectedFacets && Object.keys(this.props.selectedFacets).length) {
             return Object.keys(this.props.selectedFacets).map(facetTypeName => {

@@ -1,16 +1,23 @@
-import React, {Component} from 'react';
+// Dependencies
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from "react-router-dom";
 
-import {updateSelectedFacetsFromUrl} from '../../../actions/FacetFilterActions'
-import {getQueryStringFromFacets} from '../../../helpers/FacetFilterHelpers'
-import {fetchMetadataSearchResults} from '../../../actions/SearchResultActions'
-import {ErrorBoundary} from '../../ErrorBoundary'
+// Actions
+import { updateSelectedFacetsFromUrl } from '../../../actions/FacetFilterActions';
+import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
 
+// Helpers
+import { getQueryStringFromFacets } from '../../../helpers/FacetFilterHelpers';
+
+// Components
+import { ErrorBoundary } from '../../ErrorBoundary';
+
+// Stylesheets
 import style from './Facet.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Link} from "react-router-dom";
 
 class Facet extends Component {
     constructor(props) {
@@ -90,7 +97,7 @@ class Facet extends Component {
                 const facet = facets[facetName];
                 return (
                     <ErrorBoundary key={facetName}>
-                        <Facet {...this.props} facet={{...facet, parent: this.props}} key={facetName}/>
+                        <Facet {...this.props} facet={{ ...facet, parent: this.props }} key={facetName} />
                     </ErrorBoundary>
                 )
             });
@@ -106,11 +113,11 @@ class Facet extends Component {
             let filterItemElements = facets.map((facet, i) => {
                 return (
                     <ErrorBoundary key={i}>
-                        <Facet {...this.props} facet={{...facet, parent: this.props}} key={i}/>
+                        <Facet {...this.props} facet={{ ...facet, parent: this.props }} key={i} />
                     </ErrorBoundary>
                 );
             });
-            return React.createElement('ul', {className: ulClassNames}, filterItemElements);
+            return React.createElement('ul', { className: ulClassNames }, filterItemElements);
         } else {
             return "";
         }
@@ -186,9 +193,9 @@ class Facet extends Component {
         return (
             <li className={liClassNames}>
                 <Link
-                    to={{search: this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString()}}>
+                    to={{ search: this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString() }}>
                     <FontAwesomeIcon className="svg-checkbox"
-                                     icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']}/>
+                        icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} />
                     <label htmlFor={this.props.facet.Name}>
                         <span>{this.props.facet.NameTranslated} </span>({this.props.facet.Count})
                     </label>
@@ -198,37 +205,10 @@ class Facet extends Component {
         );
     }
 
-    renderRemovableFacet() {
-        let liClassNames = classNames({
-            [style.facet]: true,
-            [style.empty]: this.props.facet.Count === 0,
-        });
-        return (
-            <span className={liClassNames}>
-                <Link
-                    to={{search: this.getRemoveFacetQueryString()}}>
-                       <label
-                           htmlFor={this.props.facet.Name}>
-                           <span> {this.props.facet.NameTranslated} </span>
-                           <FontAwesomeIcon
-                               title={this.state.checked ? 'Velg' : 'Fjern'} className="svg-checkbox"
-                               icon={this.state.checked ? ['fas', 'times'] : ['far', 'square']}/>
-                       </label>
-                </Link>
-                {this.renderSelectedFacetsList(this.props.facet.facets)}
-            </span>
-        );
-    }
-
     render() {
-        return this.props.removable ? (
-                <span className={style.badge}>
-                    {this.renderRemovableFacet()}
-                </span>
-            )
-            : (
-                <div>{this.renderFacet()}</div>
-            );
+        return (
+            <div>{this.renderFacet()}</div>
+        )
     }
 }
 
@@ -239,12 +219,7 @@ Facet.propTypes = {
         Name: PropTypes.string.isRequired,
         NameTranslated: PropTypes.string.isRequired
     }),
-    selectedFacets: PropTypes.object.isRequired,
-    removable: PropTypes.bool
-};
-
-Facet.defaultProps = {
-    removable: false
+    selectedFacets: PropTypes.object.isRequired
 };
 
 // Store State mappes til lokale states

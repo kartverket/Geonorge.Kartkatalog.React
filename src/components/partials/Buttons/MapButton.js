@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { removeMapItem, addMapItem } from '../../../actions/MapItemActions'
-import { getResource } from '../../../actions/ResourceActions'
+import { removeMapItem, addMapItem } from '../../../actions/MapItemActions';
+import { getResource } from '../../../actions/ResourceActions';
 
 // Stylesheets
-import style from './Buttons.scss'
+import style from './Buttons.scss';
 
 
 export class MapButton extends Component {
