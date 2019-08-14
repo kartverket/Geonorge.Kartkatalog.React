@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from '../../actions/SearchResultActions';
-import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
 import { getResource } from '../../actions/ResourceActions'
 
 // Components
@@ -22,35 +21,6 @@ import style from './SearchResults.scss';
 
 
 class SearchResults extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tabs: [
-                {
-                    id: 'metadata',
-                    name: this.props.getResource('MapCatalog', 'Kartkatalogen'),
-                    counterProperty: 'NumFound'
-                },
-                {
-                    id: 'articles',
-                    name: this.props.getResource('Articles', 'Artikler'),
-                    counterProperty: 'NumFound'
-                }
-            ]
-        }
-    }
-
-    setActiveTab(tab) {
-        this.props.updateSelectedSearchResultsType(tab.id);
-    }
-
-    getCounterValue(type, counterProperty) {
-        let counterValue = 0;
-        if (this.props.searchResults[type] && this.props.searchResults[type][counterProperty]) {
-            counterValue = this.props.searchResults[type][counterProperty];
-        }
-        return counterValue;
-    }
 
     moreItemsAvailable() {
         if (this.props.searchResults.metadata) {
@@ -80,21 +50,6 @@ class SearchResults extends Component {
     addMoreArticlesToSearchResult() {
         this.props.fetchArticleSearchResults("", this.props.searchResults.articles.Offset + 25, true);
         this.renderActiveTabContent()
-    }
-
-    renderTabs() {
-        let tabs = this.state.tabs.map((tab, i) => {
-            let tabClass = this.props.selectedSearchResultsType === tab.id ? style.tab + ' active' : style.tab;
-            let counterValue = this.getCounterValue(tab.id, tab.counterProperty);
-            let counter = React.createElement('span', { className: 'badge ' + style.badge, key: i }, counterValue);
-            let tabContent = [tab.name, counter];
-            return React.createElement('li', {
-                onClick: () => this.setActiveTab(tab),
-                key: i,
-                className: tabClass
-            }, tabContent);
-        });
-        return React.createElement('ul', { className: style.tabs }, tabs);
     }
 
     renderMetadataSearchResults() {
@@ -220,7 +175,6 @@ class SearchResults extends Component {
     render() {
         return (
             <div>
-                {this.renderTabs()}
                 {this.renderActiveTabContent()}
             </div>
         );
@@ -245,7 +199,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
-    updateSelectedSearchResultsType,
     getResource
 };
 

@@ -71,6 +71,30 @@ ShallowWrapper {
         ],
       }
     }
+    getResource={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "MapCatalog",
+            "Kartkatalogen",
+          ],
+          Array [
+            "Articles",
+            "Artikler",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     itemsToDownload={Array []}
     mapItems={Array []}
     removeItemSelectedForDownload={[MockFunction]}
@@ -111,6 +135,78 @@ ShallowWrapper {
             <Connect(SearchBar) />
           </ErrorBoundary>
         </div>
+        <ul
+          className="radioButtons"
+        >
+          <li
+            className="radioButton"
+            onClick={[Function]}
+          >
+            <FontAwesomeIcon
+              border={false}
+              className=""
+              fixedWidth={false}
+              flip={null}
+              icon={
+                Array [
+                  "far",
+                  "circle",
+                ]
+              }
+              inverse={false}
+              listItem={false}
+              mask={null}
+              pull={null}
+              pulse={false}
+              rotation={null}
+              size={null}
+              spin={false}
+              symbol={false}
+              title=""
+              transform={null}
+            />
+             
+            <b>
+              (
+              0
+              )
+            </b>
+          </li>
+          <li
+            className="radioButton"
+            onClick={[Function]}
+          >
+            <FontAwesomeIcon
+              border={false}
+              className=""
+              fixedWidth={false}
+              flip={null}
+              icon={
+                Array [
+                  "far",
+                  "circle",
+                ]
+              }
+              inverse={false}
+              listItem={false}
+              mask={null}
+              pull={null}
+              pulse={false}
+              rotation={null}
+              size={null}
+              spin={false}
+              symbol={false}
+              title=""
+              transform={null}
+            />
+             
+            <b>
+              (
+              0
+              )
+            </b>
+          </li>
+        </ul>
         <Connect(GeonorgeMenuButton)
           geonorgeMenu={Array []}
           multilingual={true}
@@ -222,6 +318,78 @@ ShallowWrapper {
               <Connect(SearchBar) />
             </ErrorBoundary>
           </div>,
+          <ul
+            className="radioButtons"
+          >
+            <li
+              className="radioButton"
+              onClick={[Function]}
+            >
+              <FontAwesomeIcon
+                border={false}
+                className=""
+                fixedWidth={false}
+                flip={null}
+                icon={
+                  Array [
+                    "far",
+                    "circle",
+                  ]
+                }
+                inverse={false}
+                listItem={false}
+                mask={null}
+                pull={null}
+                pulse={false}
+                rotation={null}
+                size={null}
+                spin={false}
+                symbol={false}
+                title=""
+                transform={null}
+              />
+               
+              <b>
+                (
+                0
+                )
+              </b>
+            </li>
+            <li
+              className="radioButton"
+              onClick={[Function]}
+            >
+              <FontAwesomeIcon
+                border={false}
+                className=""
+                fixedWidth={false}
+                flip={null}
+                icon={
+                  Array [
+                    "far",
+                    "circle",
+                  ]
+                }
+                inverse={false}
+                listItem={false}
+                mask={null}
+                pull={null}
+                pulse={false}
+                rotation={null}
+                size={null}
+                spin={false}
+                symbol={false}
+                title=""
+                transform={null}
+              />
+               
+              <b>
+                (
+                0
+                )
+              </b>
+            </li>
+          </ul>,
           <Connect(GeonorgeMenuButton)
             geonorgeMenu={Array []}
             multilingual={true}
@@ -383,6 +551,278 @@ ShallowWrapper {
             "type": [Function],
           },
           "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <li
+                className="radioButton"
+                onClick={[Function]}
+              >
+                <FontAwesomeIcon
+                  border={false}
+                  className=""
+                  fixedWidth={false}
+                  flip={null}
+                  icon={
+                    Array [
+                      "far",
+                      "circle",
+                    ]
+                  }
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size={null}
+                  spin={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+                 
+                <b>
+                  (
+                  0
+                  )
+                </b>
+              </li>,
+              <li
+                className="radioButton"
+                onClick={[Function]}
+              >
+                <FontAwesomeIcon
+                  border={false}
+                  className=""
+                  fixedWidth={false}
+                  flip={null}
+                  icon={
+                    Array [
+                      "far",
+                      "circle",
+                    ]
+                  }
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size={null}
+                  spin={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+                 
+                <b>
+                  (
+                  0
+                  )
+                </b>
+              </li>,
+            ],
+            "className": "radioButtons",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": "0",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <FontAwesomeIcon
+                    border={false}
+                    className=""
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />,
+                  undefined,
+                  " ",
+                  <b>
+                    (
+                    0
+                    )
+                  </b>,
+                ],
+                "className": "radioButton",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "border": false,
+                    "className": "",
+                    "fixedWidth": false,
+                    "flip": null,
+                    "icon": Array [
+                      "far",
+                      "circle",
+                    ],
+                    "inverse": false,
+                    "listItem": false,
+                    "mask": null,
+                    "pull": null,
+                    "pulse": false,
+                    "rotation": null,
+                    "size": null,
+                    "spin": false,
+                    "symbol": false,
+                    "title": "",
+                    "transform": null,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                undefined,
+                " ",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      "(",
+                      0,
+                      ")",
+                    ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "(",
+                    0,
+                    ")",
+                  ],
+                  "type": "b",
+                },
+              ],
+              "type": "li",
+            },
+            Object {
+              "instance": null,
+              "key": "1",
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <FontAwesomeIcon
+                    border={false}
+                    className=""
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />,
+                  undefined,
+                  " ",
+                  <b>
+                    (
+                    0
+                    )
+                  </b>,
+                ],
+                "className": "radioButton",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "border": false,
+                    "className": "",
+                    "fixedWidth": false,
+                    "flip": null,
+                    "icon": Array [
+                      "far",
+                      "circle",
+                    ],
+                    "inverse": false,
+                    "listItem": false,
+                    "mask": null,
+                    "pull": null,
+                    "pulse": false,
+                    "rotation": null,
+                    "size": null,
+                    "spin": false,
+                    "symbol": false,
+                    "title": "",
+                    "transform": null,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                undefined,
+                " ",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      "(",
+                      0,
+                      ")",
+                    ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "(",
+                    0,
+                    ")",
+                  ],
+                  "type": "b",
+                },
+              ],
+              "type": "li",
+            },
+          ],
+          "type": "ul",
         },
         Object {
           "instance": null,
@@ -762,6 +1202,78 @@ ShallowWrapper {
               <Connect(SearchBar) />
             </ErrorBoundary>
           </div>
+          <ul
+            className="radioButtons"
+          >
+            <li
+              className="radioButton"
+              onClick={[Function]}
+            >
+              <FontAwesomeIcon
+                border={false}
+                className=""
+                fixedWidth={false}
+                flip={null}
+                icon={
+                  Array [
+                    "far",
+                    "circle",
+                  ]
+                }
+                inverse={false}
+                listItem={false}
+                mask={null}
+                pull={null}
+                pulse={false}
+                rotation={null}
+                size={null}
+                spin={false}
+                symbol={false}
+                title=""
+                transform={null}
+              />
+               
+              <b>
+                (
+                0
+                )
+              </b>
+            </li>
+            <li
+              className="radioButton"
+              onClick={[Function]}
+            >
+              <FontAwesomeIcon
+                border={false}
+                className=""
+                fixedWidth={false}
+                flip={null}
+                icon={
+                  Array [
+                    "far",
+                    "circle",
+                  ]
+                }
+                inverse={false}
+                listItem={false}
+                mask={null}
+                pull={null}
+                pulse={false}
+                rotation={null}
+                size={null}
+                spin={false}
+                symbol={false}
+                title=""
+                transform={null}
+              />
+               
+              <b>
+                (
+                0
+                )
+              </b>
+            </li>
+          </ul>
           <Connect(GeonorgeMenuButton)
             geonorgeMenu={Array []}
             multilingual={true}
@@ -873,6 +1385,78 @@ ShallowWrapper {
                 <Connect(SearchBar) />
               </ErrorBoundary>
             </div>,
+            <ul
+              className="radioButtons"
+            >
+              <li
+                className="radioButton"
+                onClick={[Function]}
+              >
+                <FontAwesomeIcon
+                  border={false}
+                  className=""
+                  fixedWidth={false}
+                  flip={null}
+                  icon={
+                    Array [
+                      "far",
+                      "circle",
+                    ]
+                  }
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size={null}
+                  spin={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+                 
+                <b>
+                  (
+                  0
+                  )
+                </b>
+              </li>
+              <li
+                className="radioButton"
+                onClick={[Function]}
+              >
+                <FontAwesomeIcon
+                  border={false}
+                  className=""
+                  fixedWidth={false}
+                  flip={null}
+                  icon={
+                    Array [
+                      "far",
+                      "circle",
+                    ]
+                  }
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size={null}
+                  spin={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+                 
+                <b>
+                  (
+                  0
+                  )
+                </b>
+              </li>
+            </ul>,
             <Connect(GeonorgeMenuButton)
               geonorgeMenu={Array []}
               multilingual={true}
@@ -1034,6 +1618,278 @@ ShallowWrapper {
               "type": [Function],
             },
             "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <li
+                  className="radioButton"
+                  onClick={[Function]}
+                >
+                  <FontAwesomeIcon
+                    border={false}
+                    className=""
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />
+                   
+                  <b>
+                    (
+                    0
+                    )
+                  </b>
+                </li>,
+                <li
+                  className="radioButton"
+                  onClick={[Function]}
+                >
+                  <FontAwesomeIcon
+                    border={false}
+                    className=""
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />
+                   
+                  <b>
+                    (
+                    0
+                    )
+                  </b>
+                </li>,
+              ],
+              "className": "radioButtons",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "0",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <FontAwesomeIcon
+                      border={false}
+                      className=""
+                      fixedWidth={false}
+                      flip={null}
+                      icon={
+                        Array [
+                          "far",
+                          "circle",
+                        ]
+                      }
+                      inverse={false}
+                      listItem={false}
+                      mask={null}
+                      pull={null}
+                      pulse={false}
+                      rotation={null}
+                      size={null}
+                      spin={false}
+                      symbol={false}
+                      title=""
+                      transform={null}
+                    />,
+                    undefined,
+                    " ",
+                    <b>
+                      (
+                      0
+                      )
+                    </b>,
+                  ],
+                  "className": "radioButton",
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "border": false,
+                      "className": "",
+                      "fixedWidth": false,
+                      "flip": null,
+                      "icon": Array [
+                        "far",
+                        "circle",
+                      ],
+                      "inverse": false,
+                      "listItem": false,
+                      "mask": null,
+                      "pull": null,
+                      "pulse": false,
+                      "rotation": null,
+                      "size": null,
+                      "spin": false,
+                      "symbol": false,
+                      "title": "",
+                      "transform": null,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  undefined,
+                  " ",
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        "(",
+                        0,
+                        ")",
+                      ],
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      "(",
+                      0,
+                      ")",
+                    ],
+                    "type": "b",
+                  },
+                ],
+                "type": "li",
+              },
+              Object {
+                "instance": null,
+                "key": "1",
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <FontAwesomeIcon
+                      border={false}
+                      className=""
+                      fixedWidth={false}
+                      flip={null}
+                      icon={
+                        Array [
+                          "far",
+                          "circle",
+                        ]
+                      }
+                      inverse={false}
+                      listItem={false}
+                      mask={null}
+                      pull={null}
+                      pulse={false}
+                      rotation={null}
+                      size={null}
+                      spin={false}
+                      symbol={false}
+                      title=""
+                      transform={null}
+                    />,
+                    undefined,
+                    " ",
+                    <b>
+                      (
+                      0
+                      )
+                    </b>,
+                  ],
+                  "className": "radioButton",
+                  "onClick": [Function],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "border": false,
+                      "className": "",
+                      "fixedWidth": false,
+                      "flip": null,
+                      "icon": Array [
+                        "far",
+                        "circle",
+                      ],
+                      "inverse": false,
+                      "listItem": false,
+                      "mask": null,
+                      "pull": null,
+                      "pulse": false,
+                      "rotation": null,
+                      "size": null,
+                      "spin": false,
+                      "symbol": false,
+                      "title": "",
+                      "transform": null,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  undefined,
+                  " ",
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        "(",
+                        0,
+                        ")",
+                      ],
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      "(",
+                      0,
+                      ")",
+                    ],
+                    "type": "b",
+                  },
+                ],
+                "type": "li",
+              },
+            ],
+            "type": "ul",
           },
           Object {
             "instance": null,

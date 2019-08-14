@@ -10,7 +10,8 @@ import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions';
 import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
 import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata, autoAddItemFromLocalStorage } from '../../actions/DownloadItemActions';
 import { getGeonorgeLogo } from '../../actions/ImageActions';
-
+import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
+import { getResource } from '../../actions/ResourceActions'
 
 // Components
 import { ErrorBoundary } from '../ErrorBoundary';
@@ -25,7 +26,19 @@ export class MainNavigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false
+            expanded: false,
+            tabs: [
+                {
+                    id: 'metadata',
+                    name: this.props.getResource('MapCatalog', 'Kartkatalogen'),
+                    counterProperty: 'NumFound'
+                },
+                {
+                    id: 'articles',
+                    name: this.props.getResource('Articles', 'Artikler'),
+                    counterProperty: 'NumFound'
+                }
+            ]
         };
     }
 
@@ -63,6 +76,10 @@ export class MainNavigation extends Component {
         }
     }
 
+    setActiveTab(tab) {
+        this.props.updateSelectedSearchResultsType(tab.id);
+    }
+
     modalMapItems() {
         return this.props.mapItems.length > 0;
     }
@@ -79,6 +96,33 @@ export class MainNavigation extends Component {
             expandedDownload: !prevState.expandedDownload,
             expanded: false
         }))
+    }
+
+    getCounterValue(type, counterProperty) {
+        let counterValue = 0;
+        if (this.props.searchResults && this.props.searchResults[type] && this.props.searchResults[type][counterProperty]) {
+            counterValue = this.props.searchResults[type][counterProperty];
+        }
+        return counterValue;
+    }
+
+    renderTabs() {
+        let radioButtons = this.state.tabs.map((tab, i) => {
+            let tabClass = this.props.selectedSearchResultsType === tab.id ? style.radioButton + ' active' : style.radioButton;
+            let counterValue = this.getCounterValue(tab.id, tab.counterProperty);
+            let radioButtonIcon = this.props.selectedSearchResultsType === tab.id ? ['far', 'dot-circle'] : ['far', 'circle'];
+            return (
+                <li key={i} onClick={() => this.setActiveTab(tab)} className={tabClass}>
+                    <FontAwesomeIcon icon={radioButtonIcon} />
+                    {tab.name} <b>({counterValue})</b>
+                </li>
+            );
+        });
+        return (
+        <ul className={style.radioButtons}>
+            { radioButtons }
+        </ul>
+        );
     }
 
     renderMapitems() {
@@ -188,6 +232,7 @@ export class MainNavigation extends Component {
                     <div className={style.search}>
                         <ErrorBoundary><SearchBar /></ErrorBoundary>
                     </div>
+                    {this.renderTabs()}
                     <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu} multilingual />
                     {this.renderMapbutton()}
                     {this.renderDownloadButton()}
@@ -212,8 +257,11 @@ MainNavigation.propTypes = {
 const mapStateToProps = state => ({
     mapItems: state.mapItems,
     itemsToDownload: state.itemsToDownload,
+    selectedSearchResultsType: state.selectedSearchResultsType,
+    searchResults: state.searchResults,
     router: state.router,
     geonorgeMenu: state.geonorgeMenu,
+    resources: state.resources,
     oidc: state.oidc
 });
 
@@ -226,7 +274,9 @@ const mapDispatchToProps = {
     getDownloadItemMetadata,
     getGeonorgeLogo,
     fetchGeonorgeMenu,
-    autoAddItemFromLocalStorage
+    autoAddItemFromLocalStorage,
+    updateSelectedSearchResultsType,
+    getResource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainNavigation);

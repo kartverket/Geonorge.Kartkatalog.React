@@ -10,18 +10,23 @@
     -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
     box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
 }
+
 :local(.breadCrumb) {
     ul {
         display: flex;
         margin-top: 20px;
+
         li {
-            > a {
+            >a {
                 font-weight: 400;
-            }   
+            }
+
             padding: 0 10px 0 0;
-            > svg {
+
+            >svg {
                 margin-left: 10px;
             }
+
             &:first-child {
                 padding-left: 10px;
             }
@@ -36,54 +41,60 @@
     height: 0;
     position: absolute;
     right: 0;
+
     @include breakpoint(laptop) {
-        right: 10%;        
+        right: 10%;
     }
+
     padding: 0;
     border: 1px solid #e5e5e5;
     border-radius: 3px;
     top: 50px;
     border-width: 0;
     background-color: white;
-    
+
     &:local(.open) {
         border-width: 2px;
         height: auto;
         max-height: 800px;
         padding: 5px;
-               
+
         overflow: auto;
-    } 
+    }
 }
 
 
 :local(.openmap) {
     display: block;
+
     &:hover {
         cursor: pointer;
     }
 }
+
 :local(.expandeddownload) {
     overflow: hidden;
     width: auto;
     transition: all .3s ease-in-out;
     height: 0;
     position: absolute;
-    right: 20px;    
+    right: 20px;
     padding: 0;
     border: 1px solid #e5e5e5;
     border-radius: 3px;
     top: 50px;
     border-width: 0;
     background-color: white;
+
     &:local(.open) {
         border-width: 2px;
         height: auto;
         max-height: 800px;
         padding: 10px;
         overflow: auto;
-    } 
+    }
 }
+
 :local(.selectedlayers) {
     overflow: hidden;
     width: auto;
@@ -97,6 +108,7 @@
     top: 50px;
     border-width: 0;
     background-color: white;
+
     &:local(.open) {
         border-width: 2px;
         height: auto;
@@ -105,40 +117,48 @@
         overflow: auto;
     }
 }
+
 :local(.mapitems) {
     li {
         padding: 10px;
         border-bottom: 1px solid #e5e5e5;
         width: 100%;
+
         &:hover {
             background-color: #e5e5e5;
         }
-    
-    > span {
-        &:hover {
-            cursor: pointer;
+
+        >span {
+            &:hover {
+                cursor: pointer;
+            }
+
+            padding-right: 20px;
         }
-        padding-right: 20px;
+
+        >svg {
+            float: right;
+            color: $primary-danger;
+            font-size: 2rem;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
-    > svg {
-        float: right;
-        color: $primary-danger;
-        font-size: 2rem;
-        &:hover {
-            cursor: pointer;
-        }
-    }
-        }
 }
+
 :local(.mapBtnlink) {
     border: none;
     background: transparent;
     text-decoration: none;
     font-size: 1.2em;
-    > li > svg {
+
+    >li>svg {
         color: $primary-danger;
     }
 }
+
 :local(.mainNavigation) {
     display: flex;
     flex-wrap: wrap;
@@ -184,6 +204,7 @@
     :local(.search) {
         order: 3;
         width: 100%;
+
         @media (min-width: 35em) {
             flex: 1;
             order: 0;
@@ -191,21 +212,36 @@
         }
     }
 
-    
+    :local(.radioButtons) {
+        margin: 0;
+
+        :local(.radioButton) {
+            cursor: pointer;
+
+            svg {
+                margin-right: 4px;
+            }
+        }
+    }
+
+
 
     :local(.iconButton) {
         flex: 0 1;
         display: block;
         margin-left: 12px;
         transition: all .3s ease-in-out;
+
         svg {
             font-size: 2.5em;
             color: $icon-enabled;
-            
+
         }
+
         :local(.content) {
-            color:$icon-enabled;
+            color: $icon-enabled;
         }
+
         :local(.noContent) {
             color: $icon-disabled;
         }
@@ -232,12 +268,13 @@
 
     }
 }
+
 :local(.openMaplink) {
     display: block;
     text-align: center;
     font-size: 1.4em;
 
-    > svg {
+    >svg {
         margin-left: 15px;
         margin-top: 10px;
         position: relative;
@@ -245,6 +282,7 @@
         font-size: 1.6em;
     }
 }
+
 :local(.searchResults) {
     position: absolute;
     background: #fbfcfd;
@@ -292,7 +330,7 @@
         display: block;
         margin-bottom: 12px;
 
-        &:nth-child(odd){
+        &:nth-child(odd) {
             background: #f5f6f7;
         }
 
