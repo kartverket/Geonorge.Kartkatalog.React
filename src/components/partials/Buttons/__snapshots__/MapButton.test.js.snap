@@ -9,7 +9,7 @@ ShallowWrapper {
       [MockFunction] {
         "calls": Array [
           Array [
-            "addToMap",
+            "AddToMap",
             "Legg til i kart",
           ],
         ],

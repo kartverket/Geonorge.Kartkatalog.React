@@ -128,7 +128,7 @@ export class MapButton extends Component {
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
             let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
             let isAdded = this.state.isAdded;
-            let buttonDescription = isAdded ? this.props.getResource('RemoveFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
+            let buttonDescription = isAdded ? this.props.getResource('RemoveFromMap', 'Fjern fra kart') : this.props.getResource('AddToMap', 'Legg til i kart');
             let buttonTitle = buttonDescription;
             if(this.state.serviceStatusCode !== '')
             buttonDescription = buttonDescription; //Todo fix UI
@@ -149,7 +149,7 @@ export class MapButton extends Component {
 
     renderButton() {
         let isAdded = this.state.isAdded;
-        let buttonDescription = isAdded ? this.props.getResource('RemoveFromMap', 'Fjern fra kart') : this.props.getResource('addToMap', 'Legg til i kart');
+        let buttonDescription = isAdded ? this.props.getResource('RemoveFromMap', 'Fjern fra kart') : this.props.getResource('AddToMap', 'Legg til i kart');
         let buttonTitle = buttonDescription;
         if(this.state.serviceStatusCode !== '')
         buttonDescription = buttonDescription; //Todo fix UI
