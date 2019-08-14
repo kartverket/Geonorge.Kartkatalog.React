@@ -118,6 +118,11 @@
     }
 }
 
+:local(.radio){
+    color: $primary-brand;
+    font-size: 1.2em;
+}
+
 :local(.mapitems) {
     li {
         padding: 10px;
@@ -268,7 +273,9 @@
 
     }
 }
-
+:local(.tabclass) {
+    color: orange;
+}
 :local(.openMaplink) {
     display: block;
     text-align: center;

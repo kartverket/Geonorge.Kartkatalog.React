@@ -113,7 +113,7 @@ export class MainNavigation extends Component {
             let radioButtonIcon = this.props.selectedSearchResultsType === tab.id ? ['far', 'dot-circle'] : ['far', 'circle'];
             return (
                 <li key={i} onClick={() => this.setActiveTab(tab)} className={tabClass}>
-                    <FontAwesomeIcon icon={radioButtonIcon} />
+                    <FontAwesomeIcon icon={radioButtonIcon} className={style.radio} />
                     {tab.name} <b>({counterValue})</b>
                 </li>
             );

@@ -1,7 +1,10 @@
 // Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
+
+import {Link} from "react-router-dom";
+import style from './SelectedFacets.scss';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 // Actions
 import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions';
@@ -35,12 +38,14 @@ class SelectedFacets extends Component {
                     Object.keys(childFacets).forEach(childFacetKey => {
                         const childFacet = childFacets[childFacetKey]
                         childFacetElements.push(this.renderSelectedFacetType(facetType, childFacet))
-                    });
-                }
-                return (
-                    <div key={facet.Name}>
+                    });                    
+                }              
+                return (   
+                    <div key={facet.Name} className={style.facet}> 
                         {childFacetElements}
-                        <span>{facet.NameTranslated} <Link to={this.getRemoveFacetQueryString(facet, facetType.Name)}> X</Link></span>
+                        <span>{facet.NameTranslated} <Link to={this.getRemoveFacetQueryString(facet, facetType.Name)}> 
+                        <FontAwesomeIcon
+                               title={'Fjern'} icon={['fas', 'times']}/></Link></span>                    
                     </div>
                 );
             })
