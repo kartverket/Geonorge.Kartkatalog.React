@@ -144,7 +144,7 @@ ShallowWrapper {
           >
             <FontAwesomeIcon
               border={false}
-              className=""
+              className="radio"
               fixedWidth={false}
               flip={null}
               icon={
@@ -178,7 +178,7 @@ ShallowWrapper {
           >
             <FontAwesomeIcon
               border={false}
-              className=""
+              className="radio"
               fixedWidth={false}
               flip={null}
               icon={
@@ -327,7 +327,7 @@ ShallowWrapper {
             >
               <FontAwesomeIcon
                 border={false}
-                className=""
+                className="radio"
                 fixedWidth={false}
                 flip={null}
                 icon={
@@ -361,7 +361,7 @@ ShallowWrapper {
             >
               <FontAwesomeIcon
                 border={false}
-                className=""
+                className="radio"
                 fixedWidth={false}
                 flip={null}
                 icon={
@@ -564,7 +564,7 @@ ShallowWrapper {
               >
                 <FontAwesomeIcon
                   border={false}
-                  className=""
+                  className="radio"
                   fixedWidth={false}
                   flip={null}
                   icon={
@@ -598,7 +598,7 @@ ShallowWrapper {
               >
                 <FontAwesomeIcon
                   border={false}
-                  className=""
+                  className="radio"
                   fixedWidth={false}
                   flip={null}
                   icon={
@@ -639,7 +639,7 @@ ShallowWrapper {
                 "children": Array [
                   <FontAwesomeIcon
                     border={false}
-                    className=""
+                    className="radio"
                     fixedWidth={false}
                     flip={null}
                     icon={
@@ -679,7 +679,7 @@ ShallowWrapper {
                   "nodeType": "function",
                   "props": Object {
                     "border": false,
-                    "className": "",
+                    "className": "radio",
                     "fixedWidth": false,
                     "flip": null,
                     "icon": Array [
@@ -734,7 +734,7 @@ ShallowWrapper {
                 "children": Array [
                   <FontAwesomeIcon
                     border={false}
-                    className=""
+                    className="radio"
                     fixedWidth={false}
                     flip={null}
                     icon={
@@ -774,7 +774,7 @@ ShallowWrapper {
                   "nodeType": "function",
                   "props": Object {
                     "border": false,
-                    "className": "",
+                    "className": "radio",
                     "fixedWidth": false,
                     "flip": null,
                     "icon": Array [
@@ -1211,7 +1211,7 @@ ShallowWrapper {
             >
               <FontAwesomeIcon
                 border={false}
-                className=""
+                className="radio"
                 fixedWidth={false}
                 flip={null}
                 icon={
@@ -1245,7 +1245,7 @@ ShallowWrapper {
             >
               <FontAwesomeIcon
                 border={false}
-                className=""
+                className="radio"
                 fixedWidth={false}
                 flip={null}
                 icon={
@@ -1394,7 +1394,7 @@ ShallowWrapper {
               >
                 <FontAwesomeIcon
                   border={false}
-                  className=""
+                  className="radio"
                   fixedWidth={false}
                   flip={null}
                   icon={
@@ -1428,7 +1428,7 @@ ShallowWrapper {
               >
                 <FontAwesomeIcon
                   border={false}
-                  className=""
+                  className="radio"
                   fixedWidth={false}
                   flip={null}
                   icon={
@@ -1631,7 +1631,7 @@ ShallowWrapper {
                 >
                   <FontAwesomeIcon
                     border={false}
-                    className=""
+                    className="radio"
                     fixedWidth={false}
                     flip={null}
                     icon={
@@ -1665,7 +1665,7 @@ ShallowWrapper {
                 >
                   <FontAwesomeIcon
                     border={false}
-                    className=""
+                    className="radio"
                     fixedWidth={false}
                     flip={null}
                     icon={
@@ -1706,7 +1706,7 @@ ShallowWrapper {
                   "children": Array [
                     <FontAwesomeIcon
                       border={false}
-                      className=""
+                      className="radio"
                       fixedWidth={false}
                       flip={null}
                       icon={
@@ -1746,7 +1746,7 @@ ShallowWrapper {
                     "nodeType": "function",
                     "props": Object {
                       "border": false,
-                      "className": "",
+                      "className": "radio",
                       "fixedWidth": false,
                       "flip": null,
                       "icon": Array [
@@ -1801,7 +1801,7 @@ ShallowWrapper {
                   "children": Array [
                     <FontAwesomeIcon
                       border={false}
-                      className=""
+                      className="radio"
                       fixedWidth={false}
                       flip={null}
                       icon={
@@ -1841,7 +1841,7 @@ ShallowWrapper {
                     "nodeType": "function",
                     "props": Object {
                       "border": false,
-                      "className": "",
+                      "className": "radio",
                       "fixedWidth": false,
                       "flip": null,
                       "icon": Array [
