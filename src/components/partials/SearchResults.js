@@ -95,12 +95,6 @@ class SearchResults extends Component {
                 [style.morebtn]: true,
                 hidden: !this.moreItemsAvailable()
             });
-
-            if (this.props.searchString && this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.NumFound) {
-                searchString = this.props.searchResults.metadata.NumFound === 1
-                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.metadata.NumFound])
-                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.metadata.NumFound]);
-            }
             return (
                 <div className={style.activeContent}>
                     <div className={style.facets}>
@@ -109,14 +103,6 @@ class SearchResults extends Component {
                         </ErrorBoundary>
                     </div>
                     <div className={style.searchResultContainer}>
-
-                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}
-                            <span className={searchString !== "" ? 'show' : 'hide'}>
-                                <Link to="/"> {this.props.getResource('ClearSearch', 'Nullstill søk')}
-                                    <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
-                                </Link>
-                            </span>
-                        </span>
                         {this.renderMetadataSearchResults()}
                         <div className={style.downloadcsv}>
                             <a href={this.downloadAsCsvUrl()}>
@@ -136,26 +122,14 @@ class SearchResults extends Component {
             )
 
         } else if (this.props.selectedSearchResultsType === 'articles') {
-            if (this.props.searchString) {
-                searchString = this.props.searchResults.articles.NumFound === 1
-                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.articles.NumFound])
-                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.articles.NumFound]);
-            }
+           
             const moreItemButtonClassNames = classNames({
                 [style.morebtn]: true,
                 hidden: !this.moreArticlesAvailable()
             });
             return (
                 <div className={style.searchResultContainer}>
-                    <span className={searchString !== "" ? style.searchResultInformation : ""}>
-                        {searchString}
-                        <span className={searchString !== "" ? 'show' : 'hide'}>
-                            <Link to="/">
-                                {this.props.getResource('ClearSearch', 'Nullstill søk')}
-                                <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
-                            </Link>
-                        </span>
-                    </span>
+                   
                     {this.renderArticleSearchResults()}
                     <div className={style.morecontainer}>
                         <div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}>

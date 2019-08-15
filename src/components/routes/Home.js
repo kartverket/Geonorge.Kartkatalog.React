@@ -9,7 +9,8 @@ import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchRes
 import { getResource } from '../../actions/ResourceActions'
 
 import { ErrorBoundary } from '../../components/ErrorBoundary'
-
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './Home.scss';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
 import Breadcrumb from '../partials/Breadcrumb';
@@ -69,13 +70,61 @@ class Home extends Component {
             this.render();
         }
     }
+    renderSearchQuery() {
+        let searchString = "";       
+        if (this.props.selectedSearchResultsType === 'metadata') {            
+            if (this.props.searchString && this.props.searchResults && this.props.searchResults.metadata) {
+                searchString = this.props.searchResults.metadata.NumFound === 1
+                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.metadata.NumFound])
+                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.metadata.NumFound]);
+            }
+            return (
+                <div className={style.activeContent}>                   
+                    <div className={style.searchResultContainer}>
+
+                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}
+                            <span className={searchString !== "" ? 'show' : 'hide'}>
+                                <Link to="/"> {this.props.getResource('ClearSearch', 'Nullstill søk')}
+                                    <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
+                                </Link>
+                            </span>
+                        </span>                                           
+                    </div>
+                </div>
+            )
+
+        } else if (this.props.selectedSearchResultsType === 'articles') {
+            if (this.props.searchString) {
+                searchString = this.props.searchResults.articles.NumFound === 1
+                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff i artikler', [this.props.searchString, this.props.searchResults.articles.NumFound])
+                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff i artikler', [this.props.searchString, this.props.searchResults.articles.NumFound]);
+            }          
+            return (
+                <div className={style.searchResultContainer}>
+                    <span className={searchString !== "" ? style.searchResultInformation : ""}>
+                        {searchString}
+                        <span className={searchString !== "" ? 'show' : 'hide'}>
+                            <Link to="/">
+                                {this.props.getResource('ClearSearch', 'Nullstill søk')}
+                                <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
+                            </Link>
+                        </span>
+                    </span>                                        
+                </div>
+            );
+        } else {
+            return (
+                ""
+            )
+        }
+    }
 
     render() {
         return (
             <div>
                 <Breadcrumb />
                 <div className={style.header}>
-                    <h1>{this.props.getResource('AppPageTitle', 'Kartkatalogen')}</h1>    
+                    {this.props.searchString ? this.renderSearchQuery() : <h1>Kartkatalogen</h1>}
                     <ErrorBoundary><SelectedFacets /></ErrorBoundary>
                 </div>
                 <ErrorBoundary><SearchResults /></ErrorBoundary>
@@ -90,6 +139,7 @@ const mapStateToProps = state => ({
     selectedFacets: state.selectedFacets,
     searchResults: state.searchResults,
     searchString: state.searchString,
+    selectedSearchResultsType: state.selectedSearchResultsType,
     selectedLanguage: state.selectedLanguage
 });
 
