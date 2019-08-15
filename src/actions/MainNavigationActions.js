@@ -5,7 +5,7 @@ import {
 } from './types';
 
 
-export const fetchGeonorgeMenu = (searchString = "", Offset = 1, append = false) => dispatch => {
+export const fetchGeonorgeMenu = () => dispatch => {
     let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
     const fetchOptions = {
         headers: new Headers({
