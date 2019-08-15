@@ -11,6 +11,7 @@ import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
 import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata, autoAddItemFromLocalStorage } from '../../actions/DownloadItemActions';
 import { getGeonorgeLogo } from '../../actions/ImageActions';
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
+import { updateOidcCookie } from '../../actions/OidcActions';
 import { getResource } from '../../actions/ResourceActions'
 
 // Components
@@ -47,6 +48,7 @@ export class MainNavigation extends Component {
         this.props.fetchGeonorgeMenu();
         this.props.autoAddItemFromLocalStorage();
         this.props.fetchItemsToDownload();
+        this.props.updateOidcCookie();
         document.addEventListener('mousedown', this.handleClick, false);
         document.addEventListener('mousedown', this.handleDownloadClick, false);
     }
@@ -62,6 +64,7 @@ export class MainNavigation extends Component {
         if (isLoggedIn && !wasLoggedIn) {
             this.props.autoAddItemFromLocalStorage();
             this.props.fetchItemsToDownload();
+            this.props.updateOidcCookie();
         }
     }
 
@@ -119,9 +122,9 @@ export class MainNavigation extends Component {
             );
         });
         return (
-        <ul className={style.radioButtons}>
-            { radioButtons }
-        </ul>
+            <ul className={style.radioButtons}>
+                {radioButtons}
+            </ul>
         );
     }
 
@@ -276,6 +279,7 @@ const mapDispatchToProps = {
     fetchGeonorgeMenu,
     autoAddItemFromLocalStorage,
     updateSelectedSearchResultsType,
+    updateOidcCookie,
     getResource
 };
 
