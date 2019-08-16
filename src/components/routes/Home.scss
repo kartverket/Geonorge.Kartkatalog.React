@@ -1,6 +1,6 @@
 :local(.header) {
     background-color: #f8f8f7;
-    padding: 20px 20px 0;
+    padding: 20px 0 20px 20px;
     margin-bottom: 10px;
     h1 {
         margin: 0;
@@ -11,7 +11,7 @@
 }
 :local(.searchResultInformation) {
     font-size: 1.3em;
-    padding: 0 0 20px;
+    padding: 20px 0 20px;
     display: block;
     > .show {        
        > a {
