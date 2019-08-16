@@ -209,16 +209,33 @@
     :local(.search) {
         order: 3;
         width: 100%;
+        display: flex;
+        flex-direction: column;        
+        @media (min-width: 55em) {            
+            flex-direction: row;            
+        }
 
         @media (min-width: 35em) {
-            flex: 1;
+            flex: 1;        
             order: 0;
             padding: 0 1em;
         }
     }
 
     :local(.radioButtons) {
-        margin: 0;
+        margin: 5px 0 0 10px;
+        display: flex;
+        flex-direction: row;
+        > li {
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+        
+        @media (min-width: 55em) {
+            flex-direction: column;
+            margin-top: 0;
+            
+        }
 
         :local(.radioButton) {
             cursor: pointer;

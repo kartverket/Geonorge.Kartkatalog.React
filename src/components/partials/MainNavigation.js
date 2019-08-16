@@ -234,8 +234,8 @@ export class MainNavigation extends Component {
                     </Link>
                     <div className={style.search}>
                         <ErrorBoundary><SearchBar /></ErrorBoundary>
-                    </div>
-                    {this.renderTabs()}
+                        {this.renderTabs()}
+                    </div>                   
                     <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu} multilingual />
                     {this.renderMapbutton()}
                     {this.renderDownloadButton()}
