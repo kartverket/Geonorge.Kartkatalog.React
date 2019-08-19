@@ -348,7 +348,7 @@ class Metadata extends Component {
         });
         return hasKeywordsNationalTheme ? (
             <div>
-                <h3>{this.props.getResource('keywordNationalTheme', 'Nasjonale tema')}:</h3>
+                <h3>{this.props.getResource('KeywordsNationalTheme', 'Nasjonale tema')}:</h3>
                 {keywordsNationalThemeList}
             </div>
         ) : '';
