@@ -1,6 +1,5 @@
 // Dependencies
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
@@ -89,7 +88,6 @@ class SearchResults extends Component {
     }
 
     renderActiveTabContent() {
-        let searchString = "";
         if (this.props.selectedSearchResultsType === 'metadata') {
             const moreItemButtonClassNames = classNames({
                 [style.morebtn]: true,
