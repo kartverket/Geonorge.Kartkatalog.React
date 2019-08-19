@@ -17,6 +17,7 @@ function setup() {
     getGeonorgeLogo: jest.fn(),
     autoAddItemFromLocalStorage: jest.fn(),
     getResource: jest.fn(),
+    updateOidcCookie: jest.fn(),
     geonorgeMenu: [],
     mapItems: [],
     itemsToDownload: []
