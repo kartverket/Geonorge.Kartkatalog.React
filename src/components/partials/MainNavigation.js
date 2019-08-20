@@ -31,12 +31,14 @@ export class MainNavigation extends Component {
             tabs: [
                 {
                     id: 'metadata',
-                    name: this.props.getResource('MapCatalog', 'Kartkatalogen'),
+                    nameResourceKey: 'MapCatalog',
+                    nameResourceFallback: 'Kartkatalogen',
                     counterProperty: 'NumFound'
                 },
                 {
                     id: 'articles',
-                    name: this.props.getResource('Articles', 'Artikler'),
+                    nameResourceKey: 'Articles',
+                    nameResourceFallback: 'Artikler',
                     counterProperty: 'NumFound'
                 }
             ]
@@ -117,7 +119,7 @@ export class MainNavigation extends Component {
             return (
                 <li key={i} onClick={() => this.setActiveTab(tab)} className={tabClass}>
                     <FontAwesomeIcon icon={radioButtonIcon} className={style.radio} />
-                    {tab.name} <b>({counterValue})</b>
+                    {this.props.getResource(tab.nameResourceKey, tab.nameResourceFallback)} <b>({counterValue})</b>
                 </li>
             );
         });
@@ -166,7 +168,7 @@ export class MainNavigation extends Component {
                     </div>
                     <div
                         className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
-                        <Link to={'/kart'} className={style.openMaplink}>Vis kart </Link>
+                        <Link to={'/kart'} className={style.openMaplink}>{this.props.getResource('DisplayMap', 'Vis kart')}</Link>
                         <ul className={style.mapitems}>
                             {this.renderMapitems()}
                         </ul>
@@ -213,7 +215,7 @@ export class MainNavigation extends Component {
                 </div>
                 <div
                     className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
-                    <a href="/nedlasting" target="_self" className={style.openMaplink}>Åpne nedlastinger</a>
+                    <a href="/nedlasting" target="_self" className={style.openMaplink}>{this.props.getResource('ToBasket', 'Åpne nedlastinger')}</a>
                     <ul className={style.mapitems}>
                         {this.renderDownloadItems()}
                     </ul>
@@ -235,7 +237,7 @@ export class MainNavigation extends Component {
                     <div className={style.search}>
                         <ErrorBoundary><SearchBar /></ErrorBoundary>
                         {this.renderTabs()}
-                    </div>                   
+                    </div>
                     <GeonorgeMenuButton geonorgeMenu={this.props.geonorgeMenu} multilingual />
                     {this.renderMapbutton()}
                     {this.renderDownloadButton()}

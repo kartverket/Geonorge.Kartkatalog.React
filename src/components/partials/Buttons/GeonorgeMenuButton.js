@@ -8,6 +8,8 @@ import userManager from '../../../utils/userManager';
 
 // Actions
 import { fetchSelectedLanguage, updateSelectedLanguage } from '../../../actions/SelectedLanguageActions';
+import { getResource } from '../../../actions/ResourceActions'
+
 
 // Stylesheets
 import styleBtn from './Buttons.scss';
@@ -44,7 +46,7 @@ export class GeonorgeMenuButton extends Component {
             <div>
                 <div className={styleBtn.GeonorgeMenuButton} onClick={() => this.toggleExpandMenu()}>
                     <span className={style.iconButton}>
-                        <FontAwesomeIcon title="Vis nedlastede elementer" icon={this.state.expandedMenu ? ['fas', 'times'] : ['fas', 'bars']} />
+                        <FontAwesomeIcon title="Vis meny" icon={this.state.expandedMenu ? ['fas', 'times'] : ['fas', 'bars']} />
                     </span>
                 </div>
                 {this.renderMenuContent()}
@@ -77,16 +79,16 @@ export class GeonorgeMenuButton extends Component {
     }
 
     renderLoginLink() {
-        return <li onClick={this.handleLoginClick}>Logg inn</li>
+        return <li onClick={this.handleLoginClick}>{this.props.getResource('SignIn', 'Logg inn')}</li>
     }
 
     renderLogoutLink() {
-        return <li onClick={this.handleLogoutClick}>Logg ut</li>
+        return <li onClick={this.handleLogoutClick}>{this.props.getResource('SignOut', 'Logg ut')}</li>
     }
 
     renderLanguageLink() {
         let languageLink = {
-            text: this.props.selectedLanguage === 'en' ? 'Norsk' : 'English',
+            text: this.props.selectedLanguage === 'en' ? this.props.getResource('Norwegian', 'Norsk') : this.props.getResource('English', 'Engelsk'),
             updateValue: this.props.selectedLanguage === 'en' ? 'no' : 'en'
         }
         return <li onClick={() => this.props.updateSelectedLanguage(languageLink.updateValue)}>{languageLink.text}</li>;
@@ -136,12 +138,14 @@ GeonorgeMenuButton.propTypes = {
 const mapStateToProps = state => ({
     geonorgeMenu: state.geonorgeMenu,
     selectedLanguage: state.selectedLanguage,
-    user: state.oidc.user
+    user: state.oidc.user,
+    resources: state.resources
 });
 
 const mapDispatchToProps = {
     fetchSelectedLanguage,
-    updateSelectedLanguage
+    updateSelectedLanguage,
+    getResource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeonorgeMenuButton);

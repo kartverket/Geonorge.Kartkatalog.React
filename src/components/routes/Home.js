@@ -66,20 +66,25 @@ class Home extends Component {
             this.setSelectedSearchResultsType();
         }
 
-        if (prevProps.selectedLanguage !== this.props.selectedLanguage){
+        if (prevProps.selectedLanguage !== this.props.selectedLanguage) {
             this.render();
         }
     }
     renderSearchQuery() {
-        let searchString = "";       
-        if (this.props.selectedSearchResultsType === 'metadata') {            
+        let searchString = "";
+        if (this.props.selectedSearchResultsType === 'metadata') {
             if (this.props.searchString && this.props.searchResults && this.props.searchResults.metadata) {
+                const resourceVariables = [
+                    this.props.searchString,
+                    this.props.searchResults.metadata.NumFound,
+                    this.props.getResource('MapCatalog', 'Kartkatalogen')
+                ]
                 searchString = this.props.searchResults.metadata.NumFound === 1
-                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.metadata.NumFound])
-                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff', [this.props.searchString, this.props.searchResults.metadata.NumFound]);
+                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables)
+                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables);
             }
             return (
-                <div className={style.activeContent}>                   
+                <div className={style.activeContent}>
                     <div className={style.searchResultContainer}>
 
                         <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}
@@ -88,17 +93,22 @@ class Home extends Component {
                                     <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
                                 </Link>
                             </span>
-                        </span>                                           
+                        </span>
                     </div>
                 </div>
             )
 
         } else if (this.props.selectedSearchResultsType === 'articles') {
             if (this.props.searchString) {
+                const resourceVariables = [
+                    this.props.searchString,
+                    this.props.searchResults.metadata.NumFound,
+                    this.props.getResource('Articles', 'Artikler')
+                ]
                 searchString = this.props.searchResults.articles.NumFound === 1
-                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff i artikler', [this.props.searchString, this.props.searchResults.articles.NumFound])
-                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff i artikler', [this.props.searchString, this.props.searchResults.articles.NumFound]);
-            }          
+                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables)
+                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables);
+            }
             return (
                 <div className={style.searchResultContainer}>
                     <span className={searchString !== "" ? style.searchResultInformation : ""}>
@@ -109,7 +119,7 @@ class Home extends Component {
                                 <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
                             </Link>
                         </span>
-                    </span>                                        
+                    </span>
                 </div>
             );
         } else {
