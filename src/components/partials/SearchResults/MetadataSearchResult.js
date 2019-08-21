@@ -1,14 +1,22 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from "react-router-dom";
 
-import style from './MetadataSearchResult.scss';
+// Actions
+import { getResource } from '../../../actions/ResourceActions'
+
+// Components
 import { ErrorBoundary } from '../../ErrorBoundary'
 import MapButton from '../Buttons/MapButton';
 import DownloadButton from '../Buttons/DownloadButton';
 import ApplicationButton from '../Buttons/ApplicationButton';
-import { Link } from "react-router-dom";
+
+// Stylesheets
+import style from './MetadataSearchResult.scss';
+
 
 class MetadataSearchResult extends Component {
   constructor(props) {
@@ -21,7 +29,7 @@ class MetadataSearchResult extends Component {
   restrictionsClassnames() {
     if (this.props.searchResult.AccessConstraint === 'restricted' || this.props.searchResult.AccessIsProtected) {
       return 'red'
-    } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted ) {
+    } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted) {
       return 'yellow'
     } else {
       return "green"
@@ -90,6 +98,29 @@ class MetadataSearchResult extends Component {
       ) : '';
   }
 
+  renderListItemInfo() {
+    const openDataSymbolClass = this.restrictionsClassnames();
+    const openDataSymbolTitle = this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? 'Åpne datasett' : 'Krever innlogging';
+    const openDataSymbolIcon = this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? ['fas', 'lock-open'] : ['fas', 'lock'];
+
+    const listItemType = this.props.searchResult.TypeTranslated;
+    const listItemOrganization = this.props.searchResult.Organization;
+
+    const linkTitle = this.props.getResource('DisplayEverythingByVariable', 'Vis alt fra {0}', [listItemOrganization]);
+    const linkElement = (
+      <Link title={linkTitle} to={"/?organization=" + listItemOrganization}>
+        {listItemOrganization}
+      </Link>
+    );
+
+    return (
+      <span className={style.listItemInfo}>
+        <FontAwesomeIcon key="lock" className={openDataSymbolClass} title={openDataSymbolTitle} icon={openDataSymbolIcon} />
+        {this.props.getResource('VariableBy', '{0} fra', [listItemType])} {linkElement}
+      </span>
+    )
+  }
+
   render() {
     return (
       <div className={style.listItem}>
@@ -97,14 +128,12 @@ class MetadataSearchResult extends Component {
           <span className={style.listItemTitle}>
             <ErrorBoundary><Link to={`/metadata/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link></ErrorBoundary>
           </span>
-          <span className={style.listItemInfo}>
-          <FontAwesomeIcon key="lock" className={this.restrictionsClassnames()} title={this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? 'Åpne datasett' : 'Krever innlogging'} icon={this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? ['fas', 'lock-open'] : ['fas', 'lock']} />
-            {this.props.searchResult.TypeTranslated} fra <Link title={"Vis alt fra " + this.props.searchResult.Organization} to={"/?organization=" + this.props.searchResult.Organization}>{this.props.searchResult.Organization}</Link> </span>
-            <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
+          {this.renderListItemInfo()}
+          <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
         </div>
-        
+
         {this.renderButtons()}
-       
+
       </div>
     )
   }
@@ -119,4 +148,12 @@ MetadataSearchResult.defaultProps = {
   visibleFields: []
 };
 
-export default connect(null, null)(MetadataSearchResult);
+const mapStateToProps = state => ({
+  resources: state.resources
+});
+
+const mapDispatchToProps = {
+  getResource
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetadataSearchResult);
