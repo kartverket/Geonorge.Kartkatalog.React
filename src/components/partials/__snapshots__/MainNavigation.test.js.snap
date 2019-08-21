@@ -17,19 +17,7 @@ ShallowWrapper {
         ],
       }
     }
-    fetchGeonorgeMenu={
-      [MockFunction] {
-        "calls": Array [
-          Array [],
-        ],
-        "results": Array [
-          Object {
-            "isThrow": false,
-            "value": undefined,
-          },
-        ],
-      }
-    }
+    fetchGeonorgeMenu={[MockFunction]}
     fetchItemsToDownload={
       [MockFunction] {
         "calls": Array [

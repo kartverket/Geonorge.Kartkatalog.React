@@ -3,7 +3,8 @@ export const getKartkatalogApiUrl = () => () => {
     return `https://kartkatalog.${environmentSlug}geonorge.no/api`;
 };
 
-export const getGeonorgeMenuUrl = () => () => {
+export const getGeonorgeMenuUrl = (selectedLanguage) => () => {
     const environmentSlug = process.env.REACT_APP_ENVIRONMENT === 'dev' || process.env.REACT_APP_ENVIRONMENT === 'test' ? 'test.' : '';
-    return `https://www.${environmentSlug}geonorge.no//api/menu?omitLinks=1`;
+    const selectedLanguageSlug = selectedLanguage === 'en' ? 'en/' : '';
+    return `https://www.${environmentSlug}geonorge.no/${selectedLanguageSlug}api/menu?omitLinks=1`;
 };

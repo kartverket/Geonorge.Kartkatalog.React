@@ -47,7 +47,6 @@ export class MainNavigation extends Component {
 
     componentWillMount() {
         this.props.fetchMapItems();
-        this.props.fetchGeonorgeMenu();
         this.props.autoAddItemFromLocalStorage();
         this.props.fetchItemsToDownload();
         this.props.updateOidcCookie();
@@ -67,6 +66,9 @@ export class MainNavigation extends Component {
             this.props.autoAddItemFromLocalStorage();
             this.props.fetchItemsToDownload();
             this.props.updateOidcCookie();
+        }
+        if (this.props.selectedLanguage !== prevProps.selectedLanguage){
+            this.props.fetchGeonorgeMenu();
         }
     }
 
@@ -266,6 +268,7 @@ const mapStateToProps = state => ({
     searchResults: state.searchResults,
     router: state.router,
     geonorgeMenu: state.geonorgeMenu,
+    selectedLanguage: state.selectedLanguage,
     resources: state.resources,
     oidc: state.oidc
 });

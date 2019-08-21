@@ -1,18 +1,17 @@
-import * as Cookies from 'js-cookie';
-import {getGeonorgeMenuUrl} from './ApiUrlActions';
+import { getGeonorgeMenuUrl } from './ApiUrlActions';
 import {
     FETCH_GEONORGE_MENU,
 } from './types';
 
 
-export const fetchGeonorgeMenu = () => dispatch => {
-    let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+export const fetchGeonorgeMenu = () => (dispatch, getState) => {
+    let selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : 'no';
     const fetchOptions = {
         headers: new Headers({
             'Accept-Language': selectedLanguage
         })
     };
-    const geonorgeMenuApiUrl = dispatch(getGeonorgeMenuUrl());
+    const geonorgeMenuApiUrl = dispatch(getGeonorgeMenuUrl(selectedLanguage));
     return fetch(`${geonorgeMenuApiUrl}`, fetchOptions)
         .then(res => res.json())
         .then(geonorgeMenu => dispatch({
