@@ -82,8 +82,16 @@ ShallowWrapper {
             "Articles",
             "Artikler",
           ],
+          Array [
+            "ToBasket",
+            "Åpne nedlastinger",
+          ],
         ],
         "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
           Object {
             "isThrow": false,
             "value": undefined,
@@ -295,9 +303,7 @@ ShallowWrapper {
               className="openMaplink"
               href="/nedlasting"
               target="_self"
-            >
-              Åpne nedlastinger
-            </a>
+            />
             <ul
               className="mapitems"
             />
@@ -478,9 +484,7 @@ ShallowWrapper {
                 className="openMaplink"
                 href="/nedlasting"
                 target="_self"
-              >
-                Åpne nedlastinger
-              </a>
+              />
               <ul
                 className="mapitems"
               />
@@ -1082,9 +1086,7 @@ ShallowWrapper {
                   className="openMaplink"
                   href="/nedlasting"
                   target="_self"
-                >
-                  Åpne nedlastinger
-                </a>
+                />
                 <ul
                   className="mapitems"
                 />
@@ -1216,9 +1218,7 @@ ShallowWrapper {
                     className="openMaplink"
                     href="/nedlasting"
                     target="_self"
-                  >
-                    Åpne nedlastinger
-                  </a>,
+                  />,
                   <ul
                     className="mapitems"
                   />,
@@ -1232,13 +1232,13 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": "Åpne nedlastinger",
+                    "children": undefined,
                     "className": "openMaplink",
                     "href": "/nedlasting",
                     "target": "_self",
                   },
                   "ref": null,
-                  "rendered": "Åpne nedlastinger",
+                  "rendered": null,
                   "type": "a",
                 },
                 Object {
@@ -1438,9 +1438,7 @@ ShallowWrapper {
                 className="openMaplink"
                 href="/nedlasting"
                 target="_self"
-              >
-                Åpne nedlastinger
-              </a>
+              />
               <ul
                 className="mapitems"
               />
@@ -1621,9 +1619,7 @@ ShallowWrapper {
                   className="openMaplink"
                   href="/nedlasting"
                   target="_self"
-                >
-                  Åpne nedlastinger
-                </a>
+                />
                 <ul
                   className="mapitems"
                 />
@@ -2225,9 +2221,7 @@ ShallowWrapper {
                     className="openMaplink"
                     href="/nedlasting"
                     target="_self"
-                  >
-                    Åpne nedlastinger
-                  </a>
+                  />
                   <ul
                     className="mapitems"
                   />
@@ -2359,9 +2353,7 @@ ShallowWrapper {
                       className="openMaplink"
                       href="/nedlasting"
                       target="_self"
-                    >
-                      Åpne nedlastinger
-                    </a>,
+                    />,
                     <ul
                       className="mapitems"
                     />,
@@ -2375,13 +2367,13 @@ ShallowWrapper {
                     "key": undefined,
                     "nodeType": "host",
                     "props": Object {
-                      "children": "Åpne nedlastinger",
+                      "children": undefined,
                       "className": "openMaplink",
                       "href": "/nedlasting",
                       "target": "_self",
                     },
                     "ref": null,
-                    "rendered": "Åpne nedlastinger",
+                    "rendered": null,
                     "type": "a",
                   },
                   Object {

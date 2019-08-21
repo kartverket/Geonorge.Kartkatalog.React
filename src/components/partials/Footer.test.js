@@ -5,7 +5,10 @@ import {Footer} from './Footer';
 import style from './Footer.scss';
 
 function setup() {
-    const wrapper = shallow(<Footer/>);
+    const props = {
+        getResource: jest.fn(),
+      }
+    const wrapper = shallow(<Footer {...props}/>);
     return {
         wrapper
     }

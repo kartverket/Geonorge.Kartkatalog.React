@@ -3,7 +3,72 @@
 exports[`Footer should render self and subcomponents 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Footer />,
+  Symbol(enzyme.__unrendered__): <Footer
+    getResource={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "AboutTheSite",
+            "Om nettstedet",
+          ],
+          Array [
+            "AboutGeonorge",
+            "Om Geonorge",
+          ],
+          Array [
+            "PrivacyAndUseOfCookies",
+            "Personvern og bruk av cookies",
+          ],
+          Array [
+            "ContactUs",
+            "Kontakt",
+          ],
+          Array [
+            "Telephone",
+            "Telefon",
+          ],
+          Array [
+            "OrgNo",
+            "Org. nr.",
+          ],
+          Array [
+            "ASolutionBy",
+            "En løsning fra",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "checkPropTypes": [Function],
@@ -31,41 +96,32 @@ ShallowWrapper {
         <div
           className="about"
         >
-          <h3>
-            OM NETTSTEDET
-          </h3>
+          <h3 />
           <p>
             <a
               href="https://www.geonorge.no/aktuelt/om-geonorge/"
-            >
-              Om Geonorge
-            </a>
+            />
           </p>
           <p>
             <a
               href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
-            >
-              Personvern og bruk av cookies
-            </a>
+            />
           </p>
         </div>,
         <div
           className="contact"
         >
-          <h3>
-            KONTAKT
-          </h3>
+          <h3 />
           <p>
-            Telefon: 32 11 80 00
+            : 32 11 80 00
           </p>
           <p>
             post@norgedigitalt.no
           </p>
           <p>
-            Org. nr.: 971 040 238
+            : 971 040 238
           </p>
           <hr />
-          En løsning fra
           <div
             className="logo"
           >
@@ -115,22 +171,16 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            <h3>
-              OM NETTSTEDET
-            </h3>,
+            <h3 />,
             <p>
               <a
                 href="https://www.geonorge.no/aktuelt/om-geonorge/"
-              >
-                Om Geonorge
-              </a>
+              />
             </p>,
             <p>
               <a
                 href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
-              >
-                Personvern og bruk av cookies
-              </a>
+              />
             </p>,
           ],
           "className": "about",
@@ -142,10 +192,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "OM NETTSTEDET",
+              "children": undefined,
             },
             "ref": null,
-            "rendered": "OM NETTSTEDET",
+            "rendered": null,
             "type": "h3",
           },
           Object {
@@ -155,9 +205,7 @@ ShallowWrapper {
             "props": Object {
               "children": <a
                 href="https://www.geonorge.no/aktuelt/om-geonorge/"
-              >
-                Om Geonorge
-              </a>,
+              />,
             },
             "ref": null,
             "rendered": Object {
@@ -165,11 +213,11 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Om Geonorge",
+                "children": undefined,
                 "href": "https://www.geonorge.no/aktuelt/om-geonorge/",
               },
               "ref": null,
-              "rendered": "Om Geonorge",
+              "rendered": null,
               "type": "a",
             },
             "type": "p",
@@ -181,9 +229,7 @@ ShallowWrapper {
             "props": Object {
               "children": <a
                 href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
-              >
-                Personvern og bruk av cookies
-              </a>,
+              />,
             },
             "ref": null,
             "rendered": Object {
@@ -191,11 +237,11 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Personvern og bruk av cookies",
+                "children": undefined,
                 "href": "http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570",
               },
               "ref": null,
-              "rendered": "Personvern og bruk av cookies",
+              "rendered": null,
               "type": "a",
             },
             "type": "p",
@@ -209,20 +255,18 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            <h3>
-              KONTAKT
-            </h3>,
+            <h3 />,
             <p>
-              Telefon: 32 11 80 00
+              : 32 11 80 00
             </p>,
             <p>
               post@norgedigitalt.no
             </p>,
             <p>
-              Org. nr.: 971 040 238
+              : 971 040 238
             </p>,
             <hr />,
-            "En løsning fra",
+            undefined,
             <div
               className="logo"
             >
@@ -242,10 +286,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "KONTAKT",
+              "children": undefined,
             },
             "ref": null,
-            "rendered": "KONTAKT",
+            "rendered": null,
             "type": "h3",
           },
           Object {
@@ -253,10 +297,16 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Telefon: 32 11 80 00",
+              "children": Array [
+                undefined,
+                ": 32 11 80 00",
+              ],
             },
             "ref": null,
-            "rendered": "Telefon: 32 11 80 00",
+            "rendered": Array [
+              undefined,
+              ": 32 11 80 00",
+            ],
             "type": "p",
           },
           Object {
@@ -275,10 +325,16 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Org. nr.: 971 040 238",
+              "children": Array [
+                undefined,
+                ": 971 040 238",
+              ],
             },
             "ref": null,
-            "rendered": "Org. nr.: 971 040 238",
+            "rendered": Array [
+              undefined,
+              ": 971 040 238",
+            ],
             "type": "p",
           },
           Object {
@@ -290,7 +346,7 @@ ShallowWrapper {
             "rendered": null,
             "type": "hr",
           },
-          "En løsning fra",
+          undefined,
           Object {
             "instance": null,
             "key": undefined,
@@ -344,41 +400,32 @@ ShallowWrapper {
           <div
             className="about"
           >
-            <h3>
-              OM NETTSTEDET
-            </h3>
+            <h3 />
             <p>
               <a
                 href="https://www.geonorge.no/aktuelt/om-geonorge/"
-              >
-                Om Geonorge
-              </a>
+              />
             </p>
             <p>
               <a
                 href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
-              >
-                Personvern og bruk av cookies
-              </a>
+              />
             </p>
           </div>,
           <div
             className="contact"
           >
-            <h3>
-              KONTAKT
-            </h3>
+            <h3 />
             <p>
-              Telefon: 32 11 80 00
+              : 32 11 80 00
             </p>
             <p>
               post@norgedigitalt.no
             </p>
             <p>
-              Org. nr.: 971 040 238
+              : 971 040 238
             </p>
             <hr />
-            En løsning fra
             <div
               className="logo"
             >
@@ -428,22 +475,16 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <h3>
-                OM NETTSTEDET
-              </h3>,
+              <h3 />,
               <p>
                 <a
                   href="https://www.geonorge.no/aktuelt/om-geonorge/"
-                >
-                  Om Geonorge
-                </a>
+                />
               </p>,
               <p>
                 <a
                   href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
-                >
-                  Personvern og bruk av cookies
-                </a>
+                />
               </p>,
             ],
             "className": "about",
@@ -455,10 +496,10 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "OM NETTSTEDET",
+                "children": undefined,
               },
               "ref": null,
-              "rendered": "OM NETTSTEDET",
+              "rendered": null,
               "type": "h3",
             },
             Object {
@@ -468,9 +509,7 @@ ShallowWrapper {
               "props": Object {
                 "children": <a
                   href="https://www.geonorge.no/aktuelt/om-geonorge/"
-                >
-                  Om Geonorge
-                </a>,
+                />,
               },
               "ref": null,
               "rendered": Object {
@@ -478,11 +517,11 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": "Om Geonorge",
+                  "children": undefined,
                   "href": "https://www.geonorge.no/aktuelt/om-geonorge/",
                 },
                 "ref": null,
-                "rendered": "Om Geonorge",
+                "rendered": null,
                 "type": "a",
               },
               "type": "p",
@@ -494,9 +533,7 @@ ShallowWrapper {
               "props": Object {
                 "children": <a
                   href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570"
-                >
-                  Personvern og bruk av cookies
-                </a>,
+                />,
               },
               "ref": null,
               "rendered": Object {
@@ -504,11 +541,11 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": "Personvern og bruk av cookies",
+                  "children": undefined,
                   "href": "http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570",
                 },
                 "ref": null,
-                "rendered": "Personvern og bruk av cookies",
+                "rendered": null,
                 "type": "a",
               },
               "type": "p",
@@ -522,20 +559,18 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <h3>
-                KONTAKT
-              </h3>,
+              <h3 />,
               <p>
-                Telefon: 32 11 80 00
+                : 32 11 80 00
               </p>,
               <p>
                 post@norgedigitalt.no
               </p>,
               <p>
-                Org. nr.: 971 040 238
+                : 971 040 238
               </p>,
               <hr />,
-              "En løsning fra",
+              undefined,
               <div
                 className="logo"
               >
@@ -555,10 +590,10 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "KONTAKT",
+                "children": undefined,
               },
               "ref": null,
-              "rendered": "KONTAKT",
+              "rendered": null,
               "type": "h3",
             },
             Object {
@@ -566,10 +601,16 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Telefon: 32 11 80 00",
+                "children": Array [
+                  undefined,
+                  ": 32 11 80 00",
+                ],
               },
               "ref": null,
-              "rendered": "Telefon: 32 11 80 00",
+              "rendered": Array [
+                undefined,
+                ": 32 11 80 00",
+              ],
               "type": "p",
             },
             Object {
@@ -588,10 +629,16 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Org. nr.: 971 040 238",
+                "children": Array [
+                  undefined,
+                  ": 971 040 238",
+                ],
               },
               "ref": null,
-              "rendered": "Org. nr.: 971 040 238",
+              "rendered": Array [
+                undefined,
+                ": 971 040 238",
+              ],
               "type": "p",
             },
             Object {
@@ -603,7 +650,7 @@ ShallowWrapper {
               "rendered": null,
               "type": "hr",
             },
-            "En løsning fra",
+            undefined,
             Object {
               "instance": null,
               "key": undefined,
