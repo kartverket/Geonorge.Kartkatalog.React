@@ -92,7 +92,7 @@ class MetadataSearchResult extends Component {
       ? (
         <div className={style.formatsContainer}>
           <ErrorBoundary>
-            Formater: {dirstibutionFormatsElement}
+            {this.props.getResource('Formats', 'Formater')}: {dirstibutionFormatsElement}
           </ErrorBoundary>
         </div>
       ) : '';
