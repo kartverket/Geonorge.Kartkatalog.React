@@ -12,7 +12,6 @@ export const fetchResources = () => (dispatch, getState) => {
         })
     };
     const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
-    console.log('kartkatalogApiUrl', kartkatalogApiUrl)
     return fetch(`${kartkatalogApiUrl}/resources/`, fetchOptions)
         .then(res => res.json())
         .then(resources => dispatch({

@@ -1,5 +1,4 @@
-import * as Cookies from 'js-cookie';
-import {getKartkatalogApiUrl} from './ApiUrlActions';
+import { getKartkatalogApiUrl } from './ApiUrlActions';
 import {
     APPEND_TO_ARTICLESEARCHRESULTS,
     APPEND_TO_METADATASEARCHRESULTS,
@@ -21,7 +20,7 @@ const createChildFacetsArray = (selectedFacet, childFacetsArray = []) => {
     return childFacetsArray;
 };
 
-export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => dispatch => {
+export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => (dispatch, getState) => {
     let facetsParameter = [];
     if (facets) {
         let facetIndex = -1;
@@ -32,7 +31,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
                 const selectedFacet = facets[facetField].facets[facetName];
                 const selectedChildFacetsArray = createChildFacetsArray(selectedFacet);
                 if (selectedChildFacetsArray.length) {
-                    selectedChildFacetsArray.forEach( selectedChildFacet => {
+                    selectedChildFacetsArray.forEach(selectedChildFacet => {
                         facetsParameter.push(`facets[${facetIndex}]name=${facetField}&facets[${facetIndex}]value=${selectedChildFacet.Name}`);
                         facetIndex++;
                     })
@@ -45,7 +44,7 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
     let facetsParameterString = facetsParameter.join('&');
     facetsParameterString = facetsParameterString ? "&" + facetsParameterString : "";
 
-    const selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+    const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : 'no';
     const fetchOptions = {
         headers: new Headers({
             'Accept-Language': selectedLanguage
@@ -65,8 +64,8 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
 };
 
 
-export const fetchArticleSearchResults = (searchString = "", Offset = 1, append = false) => dispatch => {
-    let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+export const fetchArticleSearchResults = (searchString = "", Offset = 1, append = false) => (dispatch, getState) => {
+    const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : 'no';
     const fetchOptions = {
         headers: new Headers({
             'Accept-Language': selectedLanguage
@@ -82,14 +81,14 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
         }))
 };
 
-export const fetchDropdownSearchResults = (searchString = "") => async dispatch => {
+export const fetchDropdownSearchResults = (searchString = "") => async (dispatch, getState) => {
     const urlParameterStrings = {
         dataset: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset`,
         service: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service`,
         software: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software`,
         articles: `articles?text=${searchString}`
     };
-    let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+    const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : 'no';
     const fetchOptions = {
         headers: new Headers({
             'Accept-Language': selectedLanguage

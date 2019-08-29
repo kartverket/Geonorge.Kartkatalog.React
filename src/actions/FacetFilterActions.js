@@ -1,4 +1,4 @@
-import {UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS} from '../actions/types';
+import { UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS } from '../actions/types';
 
 export const updateAvailableFacets = (facets) => dispatch => {
     dispatch({

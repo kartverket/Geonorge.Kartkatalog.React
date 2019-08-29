@@ -1,19 +1,24 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SelectedFacets from '../partials/SelectedFacets';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import SearchResults from '../partials/SearchResults';
+// Actions
 import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions'
 import { updateSearchStringFromUrl } from '../../actions/SearchStringActions'
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
+import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
 import { getResource } from '../../actions/ResourceActions'
 
+// Components
+import SelectedFacets from '../partials/SelectedFacets';
+import SearchResults from '../partials/SearchResults';
 import { ErrorBoundary } from '../../components/ErrorBoundary'
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import style from './Home.scss';
-import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
 import Breadcrumb from '../partials/Breadcrumb';
+
+// Stylesheets
+import style from './Home.scss';
 
 class Home extends Component {
     setSelectedSearchResultsType() {
@@ -30,7 +35,7 @@ class Home extends Component {
             });
             this.props.updateAvailableFacets(availableFacets);
             if (window.location.search) { // TODO Check if location.search contains facets
-                this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+                this.props.updateSelectedFacetsFromUrl(availableFacets);
                 this.props.updateSearchStringFromUrl();
                 this.props.fetchMetadataSearchResults(this.props.searchString, this.props.selectedFacets);
                 this.props.fetchArticleSearchResults(this.props.searchString);
@@ -54,22 +59,22 @@ class Home extends Component {
 
         if (componentShouldFetch) {
             const searchString = this.props.updateSearchStringFromUrl();
-            const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
-            this.props.fetchMetadataSearchResults(searchString, newSelectedFacets).then(() => {
+            const selectedFacets = this.props.selectedFacets;//this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+            this.props.fetchMetadataSearchResults(searchString, selectedFacets).then(() => {
                 let availableFacets = {};
                 this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
                     availableFacets[facetFilterItem.FacetField] = facetFilterItem;
                 });
-                this.props.updateAvailableFacets(availableFacets);
+                const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(availableFacets).payload;
+                this.props.fetchMetadataSearchResults(searchString, newSelectedFacets).then(() => {
+                    this.props.updateAvailableFacets(availableFacets);
+                });
             });
-            this.props.fetchArticleSearchResults(searchString);
+            this.props.fetchArticleSearchResults(this.props.searchString);
             this.setSelectedSearchResultsType();
         }
-
-        if (prevProps.selectedLanguage !== this.props.selectedLanguage) {
-            this.render();
-        }
     }
+
     renderSearchQuery() {
         let searchString = "";
         if (this.props.selectedSearchResultsType === 'metadata') {

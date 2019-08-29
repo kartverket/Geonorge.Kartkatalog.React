@@ -8,6 +8,8 @@ import userManager from '../../../utils/userManager';
 
 // Actions
 import { fetchSelectedLanguage, updateSelectedLanguage } from '../../../actions/SelectedLanguageActions';
+import { updateSelectedFacetsFromUrl } from '../../../actions/FacetFilterActions';
+
 import { getResource } from '../../../actions/ResourceActions'
 
 
@@ -38,6 +40,11 @@ export class GeonorgeMenuButton extends Component {
     handleLogoutClick(event) {
         event.preventDefault();
         userManager.removeUser();
+    }
+
+    handleLanguageLinkClick(event) {
+        const updateValue = this.props.selectedLanguage === 'en' ? 'no' : 'en'
+        this.props.updateSelectedLanguage(updateValue);
     }
 
 
@@ -87,11 +94,8 @@ export class GeonorgeMenuButton extends Component {
     }
 
     renderLanguageLink() {
-        let languageLink = {
-            text: this.props.selectedLanguage === 'en' ? this.props.getResource('Norwegian', 'Norsk') : this.props.getResource('English', 'Engelsk'),
-            updateValue: this.props.selectedLanguage === 'en' ? 'no' : 'en'
-        }
-        return <li onClick={() => this.props.updateSelectedLanguage(languageLink.updateValue)}>{languageLink.text}</li>;
+        let textContent = this.props.selectedLanguage === 'en' ? this.props.getResource('Norwegian', 'Norsk') : this.props.getResource('English', 'Engelsk');
+        return <li onClick={() => this.handleLanguageLinkClick()}>{textContent}</li>;
     }
 
     renderSecondaryMenuContent() {
@@ -145,6 +149,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     fetchSelectedLanguage,
     updateSelectedLanguage,
+    updateSelectedFacetsFromUrl,
     getResource
 };
 

@@ -20,30 +20,26 @@ class FacetFilter extends Component {
         }
     }
 
-    getFacetFilterItems() {
-        return this.props.availableFacets ? Object.keys(this.props.availableFacets) : [];
-    }
-
     toggleFacets() {
         this.setState({
             expanded: !this.state.expanded
         })
     }
 
-    renderFacets() {
+    renderFacets(availableFacets) {
         const togglefacetClassnames = classNames({
             [style.facetFilter]: true,
             open: this.state.expanded
         });
 
-
-        let availableFacets = this.getFacetFilterItems();
-        let facets = availableFacets.map((facetField, i) => {
-            return <ErrorBoundary key={facetField}>
-                <FacetFilterItem
-                    facetFilterItem={this.props.availableFacets[facetField]} key={facetField} />
-            </ErrorBoundary>;
-        });
+        let facets = availableFacets && Object.keys(availableFacets).length
+            ? Object.keys(availableFacets).map((facetField, i) => {
+                return <ErrorBoundary key={facetField}>
+                    <FacetFilterItem
+                        facetFilterItem={this.props.availableFacets[facetField]} key={facetField} />
+                </ErrorBoundary>;
+            })
+            : '';
         return (
             <div className={togglefacetClassnames}>
                 <label className={style.showLabel}>Valgte filter:</label>
@@ -58,7 +54,7 @@ class FacetFilter extends Component {
             <div>
                 <div className={style.togglefacet} onClick={() => this.toggleFacets()}><FontAwesomeIcon
                     icon={this.state.expanded ? ['fas', 'times'] : ['far', 'filter']} /></div>
-                {this.renderFacets()}
+                {this.renderFacets(this.props.availableFacets)}
             </div>
         )
     }
@@ -74,5 +70,6 @@ const mapStateToProps = state => ({
     searchResults: state.searchResults,
     availableFacets: state.availableFacets
 });
+
 
 export default connect(mapStateToProps)(FacetFilter);
