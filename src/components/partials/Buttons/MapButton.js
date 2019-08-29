@@ -175,7 +175,7 @@ export class MapButton extends Component {
         } else {
             let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon" />;
             let buttonClass = style.btn + ' disabled';
-            let textContent = React.createElement('span', { key: "textContent" }, 'Legg til i kart');
+            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
