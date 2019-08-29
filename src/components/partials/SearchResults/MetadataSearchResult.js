@@ -103,7 +103,7 @@ class MetadataSearchResult extends Component {
     const openDataSymbolTitle = this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? 'Åpne datasett' : 'Krever innlogging';
     const openDataSymbolIcon = this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? ['fas', 'lock-open'] : ['fas', 'lock'];
 
-    const listItemType = this.props.searchResult.TypeTranslated;
+    const listItemType = this.props.searchResult.TypeTranslated ? this.props.searchResult.TypeTranslated : this.props.searchResult.Type;
     const listItemOrganization = this.props.searchResult.Organization;
 
     const linkTitle = this.props.getResource('DisplayEverythingByVariable', 'Vis alt fra {0}', [listItemOrganization]);
