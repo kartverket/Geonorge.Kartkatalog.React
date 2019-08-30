@@ -24,12 +24,52 @@ export class MapButton extends Component {
     }
 
     getMapItem(service = null) {
-        return {
-            Uuid: service ? service.Uuid : this.props.metadata.Uuid,
-            Title: service ? service.Title : this.props.metadata.Title,
-            DistributionProtocol: service ? service.DistributionProtocol : (this.props.metadata.DistributionProtocol ? this.props.metadata.DistributionProtocol : this.props.metadata.Protocol),
-            GetCapabilitiesUrl: service ? service.GetCapabilitiesUrl : this.props.metadata.GetCapabilitiesUrl,
-            addLayers: []
+
+        if(service != null)
+        {
+            if(service.length > 0)
+            {
+                service.forEach(element => {
+                    if(element.DistributionProtocol == "OGC:WMS")
+                    {
+                        
+                        return {
+                            Uuid: element.Uuid,
+                            Title: element.Title,
+                            DistributionProtocol: element.DistributionProtocol ? element.DistributionProtocol : element.Protocol,
+                            GetCapabilitiesUrl: element.GetCapabilitiesUrl,
+                            addLayers: []
+                        }  
+                    }
+                });
+            }
+            return {
+                Uuid: null,
+                Title: null,
+                DistributionProtocol: null,
+                GetCapabilitiesUrl: null,
+                addLayers: []
+            }
+        }
+        else if (this.props.metadata.DistributionProtocol == "OGC:WMS")
+        { 
+            return {
+                Uuid: this.props.metadata.Uuid,
+                Title: this.props.metadata.Title,
+                DistributionProtocol: this.props.metadata.DistributionProtocol,
+                GetCapabilitiesUrl: this.props.metadata.GetCapabilitiesUrl,
+                addLayers: []
+            }
+        }
+        else
+        {
+            return {
+                Uuid: null,
+                Title: null,
+                DistributionProtocol: null,
+                GetCapabilitiesUrl: null,
+                addLayers: []
+            }
         }
     }
 
@@ -40,6 +80,16 @@ export class MapButton extends Component {
             DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset,
             GetCapabilitiesUrl: this.props.metadata.ServiceDistributionUrlForDataset || this.props.metadata.MapLink,
             addLayers: []
+        }
+        else
+        {
+            return {
+                Uuid: null,
+                Title: null,
+                DistributionProtocol: null,
+                GetCapabilitiesUrl: null,
+                addLayers: []
+            }
         }
     }
 
@@ -125,7 +175,7 @@ export class MapButton extends Component {
 
     renderListButton() {
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
-            let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]) : this.getMapItem();
+            let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink) : this.getMapItem();
             let isAdded = this.state.isAdded;
             let buttonDescription = isAdded ? this.props.getResource('RemoveFromMap', 'Fjern fra kart') : this.props.getResource('AddToMap', 'Legg til i kart');
             let buttonTitle = buttonDescription;
@@ -184,7 +234,7 @@ export class MapButton extends Component {
 
     componentDidMount() {
         this.setServiceStatus();
-        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? (this.props.metadata.DatasetServicesWithShowMapLink ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : '') : this.getMapItem().Uuid;
+        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
             return mapItemUuid === mapItem.Uuid;
         }).length > 0;
@@ -201,7 +251,7 @@ export class MapButton extends Component {
             this.setServiceStatus();
 
         const wasAdded = prevState.isAdded;
-        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? (this.props.metadata.DatasetServicesWithShowMapLink ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : '') : this.getMapItem().Uuid;
+        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink).Uuid : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
             return mapItemUuid === mapItem.Uuid;
         }).length > 0;
