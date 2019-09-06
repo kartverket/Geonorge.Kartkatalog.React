@@ -18,9 +18,9 @@ const userManagerConfig = {
             kty: "RSA",
             e: "AQAB",
             use: "sig",
-            kid: "MGMzOTI2M2VjMjU2ZTZkZmNiODA0ZDJhN2NlNDU5M2Q4MDgzOTZjMA",
+            kid: process.env.REACT_APP_GEOID_KID,
             alg: "RS256",
-            n: "zqaJTH9ST1VetunDiKvj6CXhPiTVE_hOpS-dql9EBMYQ2qAErwRjKUfcZJUzh0d2Lchn0z7kB-fByk6RHPzI89f6cWsk5yn3lnHpYM0p7mM3slQ9Sth_04LWLx8gVngGjqTVkqvtiPWtjkM56G-W3xgWbWRuwqSgxmm89deFubTNAkF3ZywvefyAaVa0WMfN0F7SAAHv1OyvqZ6vnwbbzmgvIPg8vDHGtL1c2smyHDdDFcMFhbxwP7ueAEXAj4dOpBA8zfw_PuH-lkGfrlaXhdgPBmZJJpGFw3RQ7ZDkGe9nV-IpO3nD3wrj1ZqLYK3VxifJeqn5zbpNleQINDW8GQ"
+            n: process.env.REACT_APP_GEOID_N
         }
     ],
     response_type: "id_token token",
