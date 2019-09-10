@@ -27,7 +27,7 @@ export class MapButton extends Component {
         return {
             Uuid: service ? service.Uuid : this.props.metadata.Uuid,
             Title: service ? service.Title : this.props.metadata.Title,
-            DistributionProtocol: service ? service.DistributionProtocol : this.props.metadata.DistributionProtocol,
+            DistributionProtocol: service ? service.DistributionProtocol : (this.props.metadata.DistributionProtocol ? this.props.metadata.DistributionProtocol : this.props.metadata.Protocol),
             GetCapabilitiesUrl: service ? service.GetCapabilitiesUrl : this.props.metadata.GetCapabilitiesUrl,
             addLayers: []
         }
@@ -38,7 +38,7 @@ export class MapButton extends Component {
             Uuid: this.props.metadata.Uuid,
             Title: this.props.metadata.Title,
             DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset,
-            GetCapabilitiesUrl: this.props.metadata.MapLink,
+            GetCapabilitiesUrl: this.props.metadata.ServiceDistributionUrlForDataset || this.props.metadata.MapLink,
             addLayers: []
         }
     }
@@ -184,7 +184,7 @@ export class MapButton extends Component {
 
     componentDidMount() {
         this.setServiceStatus();
-        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
+        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? (this.props.metadata.DatasetServicesWithShowMapLink ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : '') : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
             return mapItemUuid === mapItem.Uuid;
         }).length > 0;
@@ -201,7 +201,7 @@ export class MapButton extends Component {
             this.setServiceStatus();
 
         const wasAdded = prevState.isAdded;
-        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : this.getMapItem().Uuid;
+        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? (this.props.metadata.DatasetServicesWithShowMapLink ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink[0]).Uuid : '') : this.getMapItem().Uuid;
         const isAdded = this.props.mapItems.filter(mapItem => {
             return mapItemUuid === mapItem.Uuid;
         }).length > 0;
