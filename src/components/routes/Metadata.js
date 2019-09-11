@@ -153,6 +153,15 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderDistributionUrl() {
+        const distributionUrl = this.props.metadata && this.props.metadata.DistributionUrl;
+        return distributionUrl ? (
+            <div>
+                <strong>Get Capabilites Url: </strong><a href={this.props.metadata.DistributionUrl}>{this.props.metadata.DistributionUrl}</a>
+            </div>
+        ) : '';
+    }
+
     renderUnitsOfDistribution() {
         return this.props.metadata.UnitsOfDistribution ? (
             <div>
@@ -557,6 +566,7 @@ class Metadata extends Component {
                 {this.renderSpatialRepresentation()}
                 {this.renderDistributionFormats()}
                 {this.renderDistributionDetails()}
+                {this.renderDistributionUrl()}
                 {this.renderUnitsOfDistribution()}
                 {this.renderReferenceSystems()}
             </div>
