@@ -48,7 +48,7 @@ export class MapButton extends Component {
             Uuid: this.props.metadata.Uuid,
             Title: this.props.metadata.Title,
             DistributionProtocol: this.props.metadata.DistributionDetails.Protocol,
-            GetCapabilitiesUrl: this.props.metadata.MapLink,
+            GetCapabilitiesUrl: this.props.metadata.DistributionUrl || this.props.metadata.MapLink,
             addLayers: []
         }
     }
