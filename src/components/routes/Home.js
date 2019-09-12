@@ -30,6 +30,7 @@ class Home extends Component {
     componentDidMount() {
         this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
             let availableFacets = {};
+            if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length)
             this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
                 availableFacets[facetFilterItem.FacetField] = facetFilterItem;
             });

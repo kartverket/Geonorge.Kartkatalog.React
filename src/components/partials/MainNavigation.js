@@ -134,15 +134,15 @@ export class MainNavigation extends Component {
 
     renderMapitems() {
         const mapItems = this.props.mapItems.map((mapItem, index) => {
-            return (
+            return mapItem ? (
                 <li key={index}>
                     <span>
-                        <button className={style.mapBtnlink}>{mapItem.Title}</button>
+                        <button className={style.mapBtnlink}>{mapItem.Title ? mapItem.Title : ''}</button>
                     </span>
                     <FontAwesomeIcon icon={['far', 'map-marker-minus']}
                         onClick={() => this.props.removeMapItem([mapItem])} />
                 </li>
-            )
+            ) : '';
         });
         return mapItems
     }
