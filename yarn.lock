@@ -9664,8 +9664,8 @@ quickselect@^1.0.1:
   integrity sha512-qN0Gqdw4c4KGPsBOQafj6yj/PA6c/L63f6CaZ/DCF/xF4Esu3jVmKLUDYxghFx8Kb/O7y9tI7x2RjTSXwdK1iQ==
 
 "r_map@https://github.com/kartverket/r_map.git":
-  version "2.1.8"
-  resolved "https://github.com/kartverket/r_map.git#eb74872a1c9dd197a20c0c6d97e4fb3502164e25"
+  version "2.1.9"
+  resolved "https://github.com/kartverket/r_map.git#fa0aaea225219edec19be524ed28970ee8cc1e30"
   dependencies:
     "@boundlessgeo/jsonix" "^2.4.3"
     "@fortawesome/fontawesome-pro" "^5.7.0"
