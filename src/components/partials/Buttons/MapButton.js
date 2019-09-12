@@ -23,88 +23,60 @@ export class MapButton extends Component {
         };
     }
 
-    getMapItem(service = null) {
-
-        if(service != null)
-        {
-            if(service.length > 0)
-            {
-                service.forEach(element => {
-                    if(element.DistributionProtocol == "OGC:WMS")
-                    {
-                        
-                        return {
-                            Uuid: element.Uuid,
-                            Title: element.Title,
-                            DistributionProtocol: element.DistributionProtocol ? element.DistributionProtocol : element.Protocol,
-                            GetCapabilitiesUrl: element.GetCapabilitiesUrl,
-                            addLayers: []
-                        }  
-                    }
-                });
-            }
-            return {
-                Uuid: null,
-                Title: null,
-                DistributionProtocol: null,
-                GetCapabilitiesUrl: null,
-                addLayers: []
-            }
+    getDatasetService() {
+        let datasetService = null;
+        if (this.props.metadata.DatasetServicesWithShowMapLink && this.props.metadata.DatasetServicesWithShowMapLink.length){
+            datasetService = this.props.metadata.DatasetServicesWithShowMapLink && this.props.metadata.DatasetServicesWithShowMapLink.find(service => {
+                return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste";
+            });
         }
-        else if (this.props.metadata.DistributionProtocol == "OGC:WMS")
-        { 
-            return {
-                Uuid: this.props.metadata.Uuid,
+        else if (this.props.metadata.ServiceDistributionProtocolForDataset == "OGC:WMS") {
+            datasetService = {
+                Uuid: this.props.metadata.ServiceUuid,
                 Title: this.props.metadata.Title,
-                DistributionProtocol: this.props.metadata.DistributionProtocol,
-                GetCapabilitiesUrl: this.props.metadata.GetCapabilitiesUrl,
+                DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset,
+                GetCapabilitiesUrl: this.props.metadata.MapLink,
                 addLayers: []
             }
         }
-        else
-        {
-            return {
-                Uuid: null,
-                Title: null,
-                DistributionProtocol: null,
-                GetCapabilitiesUrl: null,
+        return datasetService
+            ? {
+                Uuid: datasetService.Uuid,
+                Title: datasetService.Title,
+                DistributionProtocol: datasetService.DistributionProtocol ? datasetService.DistributionProtocol : datasetService.Protocol,
+                GetCapabilitiesUrl: datasetService.GetCapabilitiesUrl,
                 addLayers: []
-            }
-        }
+            } : null;
     }
 
-    getServiceMapItem() {
+    getService() {
         return {
             Uuid: this.props.metadata.Uuid,
             Title: this.props.metadata.Title,
-            DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset,
-            GetCapabilitiesUrl: this.props.metadata.ServiceDistributionUrlForDataset || this.props.metadata.MapLink,
+            DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset || this.props.metadata.Protocol,
+            GetCapabilitiesUrl: this.props.metadata.ServiceDistributionUrlForDataset || this.props.metadata.GetCapabilitiesUrl || this.props.metadata.MapLink,
             addLayers: []
-        }
-        else
-        {
-            return {
-                Uuid: null,
-                Title: null,
-                DistributionProtocol: null,
-                GetCapabilitiesUrl: null,
-                addLayers: []
-            }
         }
     }
 
-    getMapItemFromMetadata() {
-        return {
-            Uuid: this.props.metadata.Uuid,
-            Title: this.props.metadata.Title,
-            DistributionProtocol: this.props.metadata.DistributionDetails.Protocol,
-            GetCapabilitiesUrl: this.props.metadata.DistributionUrl || this.props.metadata.MapLink,
-            addLayers: []
+    getMapItem() {
+        const isDataset = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" || this.props.metadata.HierarchyLevel === "dataset";
+        const isWmsService = this.props.metadata.DistributionProtocol === "OGC:WMS" || this.props.metadata.DistributionProtocol === "WMS-tjeneste" || this.props.metadata.Protocol === "WMS-tjeneste";
+        if (isWmsService) {
+            return this.getService();
+        } else if (isDataset) {
+            return this.getDatasetService();
+        } else {
+            return null
         }
     }
 
     addToMap(mapItem) {
-        this.props.addMapItem(mapItem);
+        const isDataset = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" || this.props.metadata.HierarchyLevel === "dataset";
+        const isWmsService = this.props.metadata.DistributionProtocol === "OGC:WMS" || this.props.metadata.DistributionProtocol === "WMS-tjeneste" || this.props.metadata.Protocol === "WMS-tjeneste";
+        if (mapItem && mapItem.length) {
+            this.props.addMapItem(mapItem);
+        }
     }
 
     toggleExpand() {
@@ -114,7 +86,9 @@ export class MapButton extends Component {
     }
 
     removeFromMap(mapItem) {
-        this.props.removeMapItem(mapItem);
+        if (mapItem && mapItem.length) {
+            this.props.removeMapItem(mapItem);
+        }
     }
 
     setServiceStatus() {
@@ -175,7 +149,7 @@ export class MapButton extends Component {
 
     renderListButton() {
         if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
-            let mapItem = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink) : this.getMapItem();
+            let mapItem = this.getMapItem();
             let isAdded = this.state.isAdded;
             let buttonDescription = isAdded ? this.props.getResource('RemoveFromMap', 'Fjern fra kart') : this.props.getResource('AddToMap', 'Legg til i kart');
             let buttonTitle = buttonDescription;
@@ -205,14 +179,7 @@ export class MapButton extends Component {
         const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'] + this.state.serviceStatusCode;
         const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
-            let mapItem;
-            if (this.props.metadata.CanShowServiceMapUrl) {
-                mapItem = this.getServiceMapItem()
-            }
-            else if (this.props.metadata.CanShowMapUrl) {
-                mapItem = this.getMapItemFromMetadata()
-            }
-
+            const mapItem = this.getMapItem()
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
@@ -234,10 +201,12 @@ export class MapButton extends Component {
 
     componentDidMount() {
         this.setServiceStatus();
-        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink).Uuid : this.getMapItem().Uuid;
-        const isAdded = this.props.mapItems.filter(mapItem => {
-            return mapItemUuid === mapItem.Uuid;
-        }).length > 0;
+        const mapItemUuid = this.getMapItem() && this.getMapItem().Uuid ? this.getMapItem().Uuid : null;
+        const isAdded = mapItemUuid
+            ? this.props.mapItems.filter(mapItem => {
+                return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
+            }).length > 0
+            : false;
         if (isAdded) {
             this.setState({
                 isAdded: isAdded
@@ -246,15 +215,17 @@ export class MapButton extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let serviceStatusCode = this.state.serviceStatusCode;
+        const serviceStatusCode = this.state.serviceStatusCode;
         if (serviceStatusCode === '')
             this.setServiceStatus();
 
         const wasAdded = prevState.isAdded;
-        let mapItemUuid = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" ? this.getMapItem(this.props.metadata.DatasetServicesWithShowMapLink).Uuid : this.getMapItem().Uuid;
-        const isAdded = this.props.mapItems.filter(mapItem => {
-            return mapItemUuid === mapItem.Uuid;
-        }).length > 0;
+        const mapItemUuid = this.getMapItem() && this.getMapItem().Uuid ? this.getMapItem().Uuid : null;
+        const isAdded = mapItemUuid
+            ? this.props.mapItems.filter(mapItem => {
+                return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
+            }).length > 0
+            : false;
         if (wasAdded !== isAdded) {
             this.setState({
                 isAdded: isAdded
