@@ -54,7 +54,7 @@ export class GeonorgeMenuButton extends Component {
     }
     handleClick = (e) => {
         if (!this.menuNode || !this.menuNode.contains(e.target)) {
-            return this.setState({ expandedMenu: false });
+         //   return this.setState({ expandedMenu: false }); // TODO Triggers also inside ref
         }
     }
 
