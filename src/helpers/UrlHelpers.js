@@ -1,3 +1,5 @@
+import 'url-search-params-polyfill';
+
 export const convertSearchParams = (url) => {
     var convertedUrl = '';
     url = decodeURI(url);
