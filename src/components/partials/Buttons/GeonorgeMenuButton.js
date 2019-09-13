@@ -26,6 +26,12 @@ export class GeonorgeMenuButton extends Component {
         this.state = {};
     }
 
+    componentWillMount() {        
+        document.addEventListener('mousedown', this.handleClick, false);        
+    }
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClick, false);        
+    }
     toggleExpandMenu() {
         this.setState(prevState => ({
             expandedMenu: !prevState.expandedMenu
@@ -46,12 +52,16 @@ export class GeonorgeMenuButton extends Component {
         const updateValue = this.props.selectedLanguage === 'en' ? 'no' : 'en'
         this.props.updateSelectedLanguage(updateValue);
     }
-
+    handleClick = (e) => {
+        if (!this.menuNode || !this.menuNode.contains(e.target)) {
+            return this.setState({ expandedMenu: false });
+        }
+    }
 
     renderMenuButton() {
         return (
             <div>
-                <div className={styleBtn.GeonorgeMenuButton} onClick={() => this.toggleExpandMenu()}>
+                <div ref={menuNode => this.menuNode = menuNode} className={styleBtn.GeonorgeMenuButton} onClick={() => this.toggleExpandMenu()}>
                     <span className={style.iconButton}>
                         <FontAwesomeIcon title="Vis meny" icon={this.state.expandedMenu ? ['fas', 'times'] : ['fas', 'bars']} />
                     </span>
