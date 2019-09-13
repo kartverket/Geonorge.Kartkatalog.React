@@ -197,7 +197,7 @@ class Facet extends Component {
                     <FontAwesomeIcon className="svg-checkbox"
                         icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} />
                     <label htmlFor={this.props.facet.Name}>
-                        <span>{this.props.facet.NameTranslated} </span>({this.props.facet.Count})
+                        <span>{this.props.facet.NameTranslated} </span><span>({this.props.facet.Count})</span>
                     </label>
                 </Link>
                 {this.renderList(this.props.facet.FacetResults)}

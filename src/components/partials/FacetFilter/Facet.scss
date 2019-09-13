@@ -5,6 +5,9 @@ $imagePath: "../../../../";
     white-space: nowrap;
     color: $default-text;
     text-decoration: none;
+    &:not(:root:root) {
+        line-height: 26px;}
+    
     &:hover {
         cursor: pointer;
         color: $anchor-active;
@@ -39,14 +42,21 @@ $imagePath: "../../../../";
             overflow: hidden;
             text-decoration: none;
             display: inline-block;
-            position: relative;
-            top: 4px;
+            position: relative;            
             margin-right: 4px;
             font-weight: 400;
+        }   
+        > span + span {   
+            font-weight: 700;
         }        
     }  
     .svg-checkbox {
-        font-size: 1.2em;
+        font-size: 1.4em;
+        display: inline-block;
+        margin-bottom:2px;
+        &:not(:root:root) {
+            margin-bottom: -2px;}
+               
     }     
 }
 
