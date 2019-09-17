@@ -11,7 +11,7 @@ import 'react-app-polyfill/ie11';
 if (window.location.search !== convertSearchParams(window.location.search)) {
     window.location.href = window.location.origin + convertSearchParams(window.location.search);
 } else if(window.location.pathname !== convertPath(window.location.pathname)){
-    window.location.href = window.location.origin + convertPath(window.location.pathname);
+    window.location.href = window.location.origin + convertPath(window.location.pathname) + window.location.search;
 } else {
     WebFont.load({
         google: {
