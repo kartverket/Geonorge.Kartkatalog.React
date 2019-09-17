@@ -4,20 +4,20 @@ import { connect } from 'react-redux';
 
 // Actions
 import { getResource } from '../../actions/ResourceActions'
+import { getGeonorgeLogo } from '../../actions/ImageActions';
 
 // Stylesheets
 import style from './Footer.scss';
 
 // Assets
-import logo_dev from '../../images/svg/geonorge-navbar-logo_dev.svg';
-import logo_kart_dev from '../../images/kartverket.png';
+import kartverketLogo from '../../images/kartverket.png';
 
 export class Footer extends Component {
 	render() {
 		return (
 			<div className={style.container}>
 				<div className={style.logo}>
-					<img src={logo_dev} alt="logo geonorge" title="Logo for Geonorge" />
+					<img src={this.props.getGeonorgeLogo()} alt="Geonorge logo" title="Logo for Geonorge" />
 				</div>
 				<div className={style.about}>
 					<h3>{this.props.getResource('AboutTheSite', 'Om nettstedet')}</h3>
@@ -39,7 +39,7 @@ export class Footer extends Component {
 					<p>{this.props.getResource('OrgNo', 'Org. nr.')}: 971 040 238</p>
 					<hr />
 					{this.props.getResource('ASolutionBy', 'En løsning fra')}
-					<div className={style.logo}><img src={logo_kart_dev} alt="logo geonorge" title="Logo for Kartverket" /></div>
+					<div className={style.logo}><img src={kartverketLogo} alt="Kartverket logo" title="Logo for Kartverket" /></div>
 				</div>
 			</div>
 		)
@@ -52,7 +52,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-	getResource
+	getResource,
+    getGeonorgeLogo
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Footer);
