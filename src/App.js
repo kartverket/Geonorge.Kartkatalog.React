@@ -17,6 +17,7 @@ import { fetchSelectedLanguage } from './actions/SelectedLanguageActions';
 // Components
 import Home from './components/routes/Home';
 import OidcCallback from './components/routes/OidcCallback';
+import OidcSignoutCallback from './components/routes/OidcSignoutCallback';
 import Footer from './components/partials/Footer';
 import MapContainer from './components/routes/MapContainer';
 import Metadata from "./components/routes/Metadata";
@@ -52,6 +53,7 @@ class App extends Component {
                                         <Route exact path="/" render={() => (<Home />)} />
                                         <Route exact path="/search" render={() => (<Home />)} />
                                         <Route exact path="/signin-oidc" render={() => (<OidcCallback />)} />
+                                        <Route exact path="/signout-callback-oidc" render={() => (<OidcSignoutCallback />)} />
                                         <Route exact path="/kart" render={() => (<MapContainer />)} />
                                         <Route exact path="/metadata/:uuid"
                                             render={(props) => (<Metadata {...props} />)} />
