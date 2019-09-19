@@ -24,6 +24,7 @@ export class GeonorgeMenuButton extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
     }
 
     componentWillMount() {        
@@ -45,6 +46,7 @@ export class GeonorgeMenuButton extends Component {
 
     handleLogoutClick(event) {
         event.preventDefault();
+        userManager.signoutRedirect({ 'id_token_hint': this.props.user.id_token });
         userManager.removeUser();
     }
 

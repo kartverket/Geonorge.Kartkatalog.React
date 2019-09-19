@@ -62,10 +62,11 @@ export class MainNavigation extends Component {
     componentDidUpdate(prevProps, prevState) {
         const wasLoggedIn = prevProps.oidc && prevProps.oidc.user;
         const isLoggedIn = this.props.oidc && this.props.oidc.user;
-        if (isLoggedIn && !wasLoggedIn) {
+        if (isLoggedIn !== wasLoggedIn) {
             this.props.autoAddItemFromLocalStorage();
             this.props.fetchItemsToDownload();
             this.props.updateOidcCookie();
+            
         }
         if (this.props.selectedLanguage !== prevProps.selectedLanguage){
             this.props.fetchGeonorgeMenu();
