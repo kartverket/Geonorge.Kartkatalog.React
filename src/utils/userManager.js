@@ -6,6 +6,7 @@ const userManagerConfig = {
     authority: process.env.REACT_APP_GEOID_AUTHORITY,
     issuer: process.env.REACT_APP_GEOID_ISSUER,
     redirect_uri: process.env.REACT_APP_GEOID_REDIRECT_URI,
+    post_logout_redirect_uri: process.env.REACT_APP_GEOID_POST_LOGOUT_REDIRECT_URI,
     metadata: {
         issuer: process.env.REACT_APP_GEOID_ISSUER,
         authorization_endpoint: process.env.REACT_APP_GEOID_AUTHORIZATION_ENDPOINT,
