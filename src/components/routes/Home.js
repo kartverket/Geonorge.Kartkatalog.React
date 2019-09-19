@@ -108,7 +108,7 @@ class Home extends Component {
             if (this.props.searchString) {
                 const resourceVariables = [
                     this.props.searchString,
-                    this.props.searchResults.metadata.NumFound,
+                    this.props.searchResults.articles.NumFound,
                     this.props.getResource('Articles', 'Artikler')
                 ]
                 searchString = this.props.searchResults.articles.NumFound === 1
