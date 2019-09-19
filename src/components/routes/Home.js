@@ -71,7 +71,7 @@ class Home extends Component {
                     this.props.updateAvailableFacets(availableFacets);
                 });
             });
-            this.props.fetchArticleSearchResults(this.props.searchString);
+            this.props.fetchArticleSearchResults(searchString);
             this.setSelectedSearchResultsType();
         }
     }
