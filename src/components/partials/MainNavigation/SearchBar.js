@@ -97,7 +97,7 @@ class SearchBar extends Component {
                 datasetList = <ErrorBoundary key={"dataset"}>
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={datasetSearchResult}
-                        searchResultsType="dataset" />
+                        searchResultsType="dataset" category="metadata" />
                 </ErrorBoundary>
             }
 
@@ -109,7 +109,7 @@ class SearchBar extends Component {
                 serviceList = <ErrorBoundary key={"service"} >
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={serviceSearchResult}
-                        searchResultsType="service" />
+                        searchResultsType="service" category="metadata" />
                 </ErrorBoundary>
             }
 
@@ -121,7 +121,7 @@ class SearchBar extends Component {
                 softwareList = <ErrorBoundary key={"software"}>
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={softwareSearchResult}
-                        searchResultsType="software" />
+                        searchResultsType="software" category="metadata" />
                 </ErrorBoundary>
             }
 
@@ -133,7 +133,7 @@ class SearchBar extends Component {
                 articlesList = <ErrorBoundary key={"articles"}>
                     <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
                         searchString={this.state.searchString} searchResults={articlesSearchResult}
-                        searchResultsType="articles" />
+                        searchResultsType="articles" category="articles" />
                 </ErrorBoundary>
             }
 
@@ -150,6 +150,7 @@ class SearchBar extends Component {
         const dropDownResultsStyle = {
             maxHeight: `${window.innerHeight - 62}px`
         };
+        const selectedCategory = this.props.selectedSearchResultsType ? this.props.selectedSearchResultsType : 'metadata';
         return (
             <form ref={node => this.node = node} autoComplete="off"
                 className={style.searchInput}>
@@ -162,7 +163,8 @@ class SearchBar extends Component {
                     onFocus={this.onFocus}
                     onKeyDown={this.keyPress}
                     value={this.state.searchString} id="searchString" />
-                <Link to={{ pathname: '/', search: '?text=' + this.state.searchString }} onClick={() => this.hideDropdownResults()}>
+
+                <Link to={{ pathname: `/${selectedCategory}`, search: '?text=' + this.state.searchString }} onClick={() => this.hideDropdownResults()}>
                     <button>
                         <img src={searchIcon} alt="search icon"></img>
                     </button>
@@ -184,6 +186,7 @@ SearchBar.propTypes = {
 
 const mapStateToProps = state => ({
     dropdownResults: state.searchResults.dropdownResults ? state.searchResults.dropdownResults : {},
+    selectedSearchResultsType: state.selectedSearchResultsType,
     resources: state.resources
 });
 

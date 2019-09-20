@@ -63,7 +63,7 @@ class SearchResultsTypeList extends Component {
         return (
             <div className={style.searchResultsSection} onClick={() => this.showResults()}>
                 <div className={style.searchResultsSectionHeadingContainer}>
-                    <Link to={{ pathname: '/', search: this.getUpdateFacetQueryString() }}>
+                    <Link to={{ pathname: `/${this.props.category}`, search: this.getUpdateFacetQueryString() }}>
                         <span
                             className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
                         <span className={style.counter}> {this.props.searchResults.NumFound}</span>
@@ -78,6 +78,7 @@ class SearchResultsTypeList extends Component {
 SearchResultsTypeList.propTypes = {
     searchString: PropTypes.string.isRequired,
     searchResultsType: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
     searchResults: PropTypes.object.isRequired
 };
 

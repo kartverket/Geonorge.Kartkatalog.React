@@ -27,13 +27,22 @@ class Home extends Component {
         this.props.updateSelectedSearchResultsType(searchResultsType);
     }
 
+    setSelectedCategory() {
+        const selectedCategory = this.props && this.props.match && this.props.match.params && this.props.match.params.category ? this.props.match.params.category : null;
+        if (selectedCategory) {
+            this.props.updateSelectedSearchResultsType(this.props.match.params.category);
+        }
+    }
+
     componentDidMount() {
+        this.setSelectedCategory();
         this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
             let availableFacets = {};
-            if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length)
-            this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
-                availableFacets[facetFilterItem.FacetField] = facetFilterItem;
-            });
+            if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length) {
+                this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                    availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+                });
+            }
             this.props.updateAvailableFacets(availableFacets);
             if (window.location.search) { // TODO Check if location.search contains facets
                 this.props.updateSelectedFacetsFromUrl(availableFacets);
@@ -48,6 +57,7 @@ class Home extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        this.setSelectedCategory();
         const oldUrlParameterString = prevProps.router && prevProps.router.location && prevProps.router.location.search ? prevProps.router.location.search : '';
         const newUrlParameterString = this.props.router && this.props.router.location && this.props.router.location.search ? this.props.router.location.search : '';
 
@@ -63,9 +73,11 @@ class Home extends Component {
             const selectedFacets = this.props.selectedFacets;//this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
             this.props.fetchMetadataSearchResults(searchString, selectedFacets).then(() => {
                 let availableFacets = {};
-                this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
-                    availableFacets[facetFilterItem.FacetField] = facetFilterItem;
-                });
+                if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length) {
+                    this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                        availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+                    });
+                }
                 const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(availableFacets).payload;
                 this.props.fetchMetadataSearchResults(searchString, newSelectedFacets).then(() => {
                     this.props.updateAvailableFacets(availableFacets);
@@ -78,6 +90,8 @@ class Home extends Component {
 
     renderSearchQuery() {
         let searchString = "";
+        const hasSearchResults = this.props.searchResults && Object.keys(this.props.searchResults).length;
+        if (!hasSearchResults) return (<h1>Kartkatalogen</h1>);
         if (this.props.selectedSearchResultsType === 'metadata') {
             if (this.props.searchString && this.props.searchResults && this.props.searchResults.metadata) {
                 const resourceVariables = [
@@ -140,7 +154,7 @@ class Home extends Component {
             <div>
                 <Breadcrumb />
                 <div className={style.header}>
-                    {this.props.searchString ? this.renderSearchQuery() : <h1>Kartkatalogen</h1>}
+                    {this.props.searchString && this.props.searchResults ? this.renderSearchQuery() : <h1>Kartkatalogen</h1>}
                     <ErrorBoundary><SelectedFacets /></ErrorBoundary>
                 </div>
                 <ErrorBoundary><SearchResults /></ErrorBoundary>

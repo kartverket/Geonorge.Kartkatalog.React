@@ -66,9 +66,9 @@ export class MainNavigation extends Component {
             this.props.autoAddItemFromLocalStorage();
             this.props.fetchItemsToDownload();
             this.props.updateOidcCookie();
-            
+
         }
-        if (this.props.selectedLanguage !== prevProps.selectedLanguage){
+        if (this.props.selectedLanguage !== prevProps.selectedLanguage) {
             this.props.fetchGeonorgeMenu();
         }
     }
@@ -82,10 +82,6 @@ export class MainNavigation extends Component {
         if (!this.downloadNode.contains(e.target)) {
             return this.setState({ expandedDownload: false });
         }
-    }
-
-    setActiveTab(tab) {
-        this.props.updateSelectedSearchResultsType(tab.id);
     }
 
     modalMapItems() {
@@ -119,12 +115,22 @@ export class MainNavigation extends Component {
             let tabClass = this.props.selectedSearchResultsType === tab.id ? style.radioButton + ' active' : style.radioButton;
             let counterValue = this.getCounterValue(tab.id, tab.counterProperty);
             let radioButtonIcon = this.props.selectedSearchResultsType === tab.id ? ['far', 'dot-circle'] : ['far', 'circle'];
-            return (
-                <li key={i} onClick={() => this.setActiveTab(tab)} className={tabClass}>
-                    <FontAwesomeIcon icon={radioButtonIcon} className={style.radio} />
-                    {this.props.getResource(tab.nameResourceKey, tab.nameResourceFallback)} <b>({counterValue})</b>
+            let selectedCategory = this.props.selectedSearchResultsType ? this.props.selectedSearchResultsType : 'metadata';
+            return selectedCategory === tab.id ? (
+                <li key={i} className={tabClass}>
+                    <span>
+                        <FontAwesomeIcon icon={radioButtonIcon} className={style.radio} />
+                        {this.props.getResource(tab.nameResourceKey, tab.nameResourceFallback)} <b>({counterValue})</b>
+                    </span>
                 </li>
-            );
+            ) : (
+                    <li key={i} className={tabClass}>
+                        <Link to={{ pathname: `/${tab.id}`, search: `text=${this.props.searchString}` }}>
+                            <FontAwesomeIcon icon={radioButtonIcon} className={style.radio} />
+                            {this.props.getResource(tab.nameResourceKey, tab.nameResourceFallback)} <b>({counterValue})</b>
+                        </Link>
+                    </li>
+                );
         });
         return (
             <ul className={style.radioButtons}>
@@ -266,7 +272,9 @@ const mapStateToProps = state => ({
     mapItems: state.mapItems,
     itemsToDownload: state.itemsToDownload,
     selectedSearchResultsType: state.selectedSearchResultsType,
+    selectedFacets: state.selectedFacets,
     searchResults: state.searchResults,
+    searchString: state.searchString,
     router: state.router,
     geonorgeMenu: state.geonorgeMenu,
     selectedLanguage: state.selectedLanguage,
