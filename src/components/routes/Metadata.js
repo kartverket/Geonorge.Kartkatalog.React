@@ -63,7 +63,7 @@ class Metadata extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.pathname !== prevProps.location.pathname) {
+        if (this.props.location.pathname !== prevProps.location.pathname || this.props.selectedLanguage !== prevProps.selectedLanguage) {
             this.fetchApiData();
         }
     }
@@ -695,7 +695,7 @@ class Metadata extends Component {
         ) : '';
     }
 
-    
+
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
             <div className={style.searchResultContainer}>
@@ -703,7 +703,7 @@ class Metadata extends Component {
             </div>
         ) : (
                 <div>
-                    <Breadcrumb content={this.props.metadata.Title}/>
+                    <Breadcrumb content={this.props.metadata.Title} />
                     <div className={style.content}>
 
                         <h1>{this.props.metadata.Title}</h1>
@@ -768,7 +768,7 @@ class Metadata extends Component {
 
                         <div className={style.opendetails} onClick={() => this.toggleExpand()}>
                             <h2>{this.props.getResource('DetailedInformation', 'Detaljert informasjon')}
-                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}` } icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
+                                <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}`} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
                         <div className={this.state.expanded ? style.open : style.closed}>
                             <div className={style.flex}>
                                 {this.renderQualitySection()}
@@ -795,6 +795,7 @@ Metadata.propTypes = {
 const mapStateToProps = state => ({
     metadata: state.metadata,
     metadataDistributions: state.metadataDistributions,
+    selectedLanguage: state.selectedLanguage,
     resources: state.resources
 });
 

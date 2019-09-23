@@ -1,9 +1,8 @@
-import * as Cookies from 'js-cookie';
 import {
     CLEAR_METADATADISTRIBUTIONS,
     FETCH_METADATADISTRIBUTIONS
 } from './types';
-import {getKartkatalogApiUrl} from "./ApiUrlActions";
+import { getKartkatalogApiUrl } from "./ApiUrlActions";
 
 export const clearMetadataDistributions = () => dispatch => {
     return dispatch({
@@ -11,8 +10,8 @@ export const clearMetadataDistributions = () => dispatch => {
     })
 };
 
-export const fetchMetadataDistributions = (uuid = "") => dispatch => {
-    let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';
+export const fetchMetadataDistributions = (uuid = "") => (dispatch, getState) => {
+    const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : 'no';
     const fetchOptions = {
         headers: new Headers({
             'Accept-Language': selectedLanguage
