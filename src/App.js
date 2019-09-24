@@ -15,6 +15,7 @@ import { fetchGeonorgeMenu } from './actions/MainNavigationActions';
 import { fetchSelectedLanguage } from './actions/SelectedLanguageActions';
 
 // Components
+import NotFound from './components/routes/NotFound';
 import Home from './components/routes/Home';
 import OidcCallback from './components/routes/OidcCallback';
 import OidcSignoutCallback from './components/routes/OidcSignoutCallback';
@@ -33,7 +34,7 @@ const store = configureStore(initialState);
 
 
 class App extends Component {
-    
+
     componentDidMount() {
         store.dispatch(fetchSelectedLanguage());
         store.dispatch(fetchResources());
@@ -57,7 +58,7 @@ class App extends Component {
                                         <Route exact path="/kart" render={() => (<MapContainer />)} />
                                         <Route exact path="/metadata/:uuid" render={(props) => (<Metadata {...props} />)} />
                                         <Route exact path="/:category" render={(props) => (<Home {...props} />)} />
-                                        <Route render={() => (<div>Miss</div>)} />
+                                        <Route render={() => (<NotFound />)} />
                                     </Switch>
                                 </div>
                                 <footer className={style.footer}>
