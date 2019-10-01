@@ -70,7 +70,7 @@ class Home extends Component {
 
         if (componentShouldFetch) {
             const searchString = this.props.updateSearchStringFromUrl();
-            const selectedFacets = this.props.selectedFacets;//this.props.updateSelectedFacetsFromUrl(this.props.availableFacets);
+            const selectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
             this.props.fetchMetadataSearchResults(searchString, selectedFacets).then(() => {
                 let availableFacets = {};
                 if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length) {
