@@ -45,7 +45,7 @@ export class MainNavigation extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.fetchMapItems();
         this.props.autoAddItemFromLocalStorage();
         this.props.fetchItemsToDownload();

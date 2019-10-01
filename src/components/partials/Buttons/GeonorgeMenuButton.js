@@ -27,7 +27,7 @@ export class GeonorgeMenuButton extends Component {
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
     }
 
-    componentWillMount() {        
+    componentDidMount() {        
         document.addEventListener('mousedown', this.handleClick, false);        
     }
     componentWillUnmount() {

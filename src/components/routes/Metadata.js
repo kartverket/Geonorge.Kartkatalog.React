@@ -58,7 +58,7 @@ class Metadata extends Component {
         this.props.fetchMetadataDistributions(this.props.match.params.uuid);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchApiData();
     }
 

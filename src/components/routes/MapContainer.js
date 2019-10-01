@@ -6,7 +6,7 @@ import { ErrorBoundary } from '../ErrorBoundary'
 import {MapContainer as Map} from 'r_map';
 
 class MapContainer extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.fetchMapItems();
     }
 
