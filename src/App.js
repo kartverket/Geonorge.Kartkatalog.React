@@ -13,6 +13,7 @@ import userManager from './utils/userManager';
 import { fetchResources } from './actions/ResourceActions';
 import { fetchGeonorgeMenu } from './actions/MainNavigationActions';
 import { fetchSelectedLanguage } from './actions/SelectedLanguageActions';
+import { getEnvironment } from './actions/EnvironmentActions';
 
 // Components
 import NotFound from './components/routes/NotFound';
@@ -39,6 +40,7 @@ class App extends Component {
         store.dispatch(fetchSelectedLanguage());
         store.dispatch(fetchResources());
         store.dispatch(fetchGeonorgeMenu());
+        store.dispatch(getEnvironment());
     }
 
     render() {

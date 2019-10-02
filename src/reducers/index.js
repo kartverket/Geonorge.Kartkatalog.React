@@ -13,6 +13,7 @@ import MetadataDistributionReducer from "./MetadataDistributionReducer";
 import GeonorgeMenuReducer from "./GeonorgeMenuReducer";
 import SelectedLanguageReducer from "./SelectedLanguageReducer";
 import ResourceReducer from "./ResourceReducer";
+import EnvironmentReducer from './EnvironmentReducer';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -28,5 +29,6 @@ export default (history) => combineReducers({
     searchString: SearchStringReducer,
     geonorgeMenu: GeonorgeMenuReducer,
     selectedLanguage: SelectedLanguageReducer,
-    resources: ResourceReducer
+    resources: ResourceReducer,
+    environment: EnvironmentReducer
 });
