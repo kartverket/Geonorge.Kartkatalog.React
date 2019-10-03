@@ -12,12 +12,25 @@ import style from './Footer.scss';
 // Assets
 import kartverketLogo from '../../images/kartverket.png';
 
+
 export class Footer extends Component {
+
+	getBuildNumber() {
+		return this.props.environment && this.props.environment.buildNumber
+		? (
+				<p>
+					<small>{this.props.getResource('Version', 'Versjon')} {this.props.environment.buildNumber}</small>
+				</p>
+		)
+		: '';
+	}
+
 	render() {
 		return (
 			<div className={style.container}>
 				<div className={style.logo}>
 					<img src={this.props.getGeonorgeLogo()} alt="Geonorge logo" title="Logo for Geonorge" />
+					{this.getBuildNumber()}
 				</div>
 				<div className={style.about}>
 					<h3>{this.props.getResource('AboutTheSite', 'Om nettstedet')}</h3>
@@ -48,7 +61,8 @@ export class Footer extends Component {
 
 
 const mapStateToProps = state => ({
-	resources: state.resources
+	resources: state.resources,
+	environment: state.environment
 });
 
 const mapDispatchToProps = {
