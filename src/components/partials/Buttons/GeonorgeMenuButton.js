@@ -62,8 +62,8 @@ export class GeonorgeMenuButton extends Component {
 
     renderMenuButton() {
         return (
-            <div>
-                <div ref={menuNode => this.menuNode = menuNode} className={styleBtn.GeonorgeMenuButton} onClick={() => this.toggleExpandMenu()}>
+            <div ref={menuNode => this.menuNode = menuNode} className={styleBtn.GeonorgeMenuButton} onClick={() => this.toggleExpandMenu()}>
+                <div>
                     <span className={style.iconButton}>
                         <FontAwesomeIcon title="Vis meny" icon={this.state.expandedMenu ? ['fas', 'times'] : ['fas', 'bars']} />
                     </span>
