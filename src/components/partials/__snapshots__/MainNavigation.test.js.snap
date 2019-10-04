@@ -148,71 +148,80 @@ ShallowWrapper {
           >
             <li
               className="radioButton"
-              onClick={[Function]}
             >
-              <FontAwesomeIcon
-                border={false}
-                className="radio"
-                fixedWidth={false}
-                flip={null}
-                icon={
-                  Array [
-                    "far",
-                    "circle",
-                  ]
-                }
-                inverse={false}
-                listItem={false}
-                mask={null}
-                pull={null}
-                pulse={false}
-                rotation={null}
-                size={null}
-                spin={false}
-                symbol={false}
-                title=""
-                transform={null}
-              />
-               
-              <b>
-                (
-                0
-                )
-              </b>
+              <span>
+                <FontAwesomeIcon
+                  border={false}
+                  className="radio"
+                  fixedWidth={false}
+                  flip={null}
+                  icon={
+                    Array [
+                      "far",
+                      "circle",
+                    ]
+                  }
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size={null}
+                  spin={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+                 
+                <b>
+                  (
+                  0
+                  )
+                </b>
+              </span>
             </li>
             <li
               className="radioButton"
-              onClick={[Function]}
             >
-              <FontAwesomeIcon
-                border={false}
-                className="radio"
-                fixedWidth={false}
-                flip={null}
-                icon={
-                  Array [
-                    "far",
-                    "circle",
-                  ]
+              <Link
+                to={
+                  Object {
+                    "pathname": "/articles",
+                    "search": "text=undefined",
+                  }
                 }
-                inverse={false}
-                listItem={false}
-                mask={null}
-                pull={null}
-                pulse={false}
-                rotation={null}
-                size={null}
-                spin={false}
-                symbol={false}
-                title=""
-                transform={null}
-              />
-               
-              <b>
-                (
-                0
-                )
-              </b>
+              >
+                <FontAwesomeIcon
+                  border={false}
+                  className="radio"
+                  fixedWidth={false}
+                  flip={null}
+                  icon={
+                    Array [
+                      "far",
+                      "circle",
+                    ]
+                  }
+                  inverse={false}
+                  listItem={false}
+                  mask={null}
+                  pull={null}
+                  pulse={false}
+                  rotation={null}
+                  size={null}
+                  spin={false}
+                  symbol={false}
+                  title=""
+                  transform={null}
+                />
+                 
+                <b>
+                  (
+                  0
+                  )
+                </b>
+              </Link>
             </li>
           </ul>
         </div>
@@ -329,71 +338,80 @@ ShallowWrapper {
             >
               <li
                 className="radioButton"
-                onClick={[Function]}
               >
-                <FontAwesomeIcon
-                  border={false}
-                  className="radio"
-                  fixedWidth={false}
-                  flip={null}
-                  icon={
-                    Array [
-                      "far",
-                      "circle",
-                    ]
-                  }
-                  inverse={false}
-                  listItem={false}
-                  mask={null}
-                  pull={null}
-                  pulse={false}
-                  rotation={null}
-                  size={null}
-                  spin={false}
-                  symbol={false}
-                  title=""
-                  transform={null}
-                />
-                 
-                <b>
-                  (
-                  0
-                  )
-                </b>
+                <span>
+                  <FontAwesomeIcon
+                    border={false}
+                    className="radio"
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />
+                   
+                  <b>
+                    (
+                    0
+                    )
+                  </b>
+                </span>
               </li>
               <li
                 className="radioButton"
-                onClick={[Function]}
               >
-                <FontAwesomeIcon
-                  border={false}
-                  className="radio"
-                  fixedWidth={false}
-                  flip={null}
-                  icon={
-                    Array [
-                      "far",
-                      "circle",
-                    ]
+                <Link
+                  to={
+                    Object {
+                      "pathname": "/articles",
+                      "search": "text=undefined",
+                    }
                   }
-                  inverse={false}
-                  listItem={false}
-                  mask={null}
-                  pull={null}
-                  pulse={false}
-                  rotation={null}
-                  size={null}
-                  spin={false}
-                  symbol={false}
-                  title=""
-                  transform={null}
-                />
-                 
-                <b>
-                  (
-                  0
-                  )
-                </b>
+                >
+                  <FontAwesomeIcon
+                    border={false}
+                    className="radio"
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />
+                   
+                  <b>
+                    (
+                    0
+                    )
+                  </b>
+                </Link>
               </li>
             </ul>
           </div>,
@@ -539,71 +557,80 @@ ShallowWrapper {
               >
                 <li
                   className="radioButton"
-                  onClick={[Function]}
                 >
-                  <FontAwesomeIcon
-                    border={false}
-                    className="radio"
-                    fixedWidth={false}
-                    flip={null}
-                    icon={
-                      Array [
-                        "far",
-                        "circle",
-                      ]
-                    }
-                    inverse={false}
-                    listItem={false}
-                    mask={null}
-                    pull={null}
-                    pulse={false}
-                    rotation={null}
-                    size={null}
-                    spin={false}
-                    symbol={false}
-                    title=""
-                    transform={null}
-                  />
-                   
-                  <b>
-                    (
-                    0
-                    )
-                  </b>
+                  <span>
+                    <FontAwesomeIcon
+                      border={false}
+                      className="radio"
+                      fixedWidth={false}
+                      flip={null}
+                      icon={
+                        Array [
+                          "far",
+                          "circle",
+                        ]
+                      }
+                      inverse={false}
+                      listItem={false}
+                      mask={null}
+                      pull={null}
+                      pulse={false}
+                      rotation={null}
+                      size={null}
+                      spin={false}
+                      symbol={false}
+                      title=""
+                      transform={null}
+                    />
+                     
+                    <b>
+                      (
+                      0
+                      )
+                    </b>
+                  </span>
                 </li>
                 <li
                   className="radioButton"
-                  onClick={[Function]}
                 >
-                  <FontAwesomeIcon
-                    border={false}
-                    className="radio"
-                    fixedWidth={false}
-                    flip={null}
-                    icon={
-                      Array [
-                        "far",
-                        "circle",
-                      ]
+                  <Link
+                    to={
+                      Object {
+                        "pathname": "/articles",
+                        "search": "text=undefined",
+                      }
                     }
-                    inverse={false}
-                    listItem={false}
-                    mask={null}
-                    pull={null}
-                    pulse={false}
-                    rotation={null}
-                    size={null}
-                    spin={false}
-                    symbol={false}
-                    title=""
-                    transform={null}
-                  />
-                   
-                  <b>
-                    (
-                    0
-                    )
-                  </b>
+                  >
+                    <FontAwesomeIcon
+                      border={false}
+                      className="radio"
+                      fixedWidth={false}
+                      flip={null}
+                      icon={
+                        Array [
+                          "far",
+                          "circle",
+                        ]
+                      }
+                      inverse={false}
+                      listItem={false}
+                      mask={null}
+                      pull={null}
+                      pulse={false}
+                      rotation={null}
+                      size={null}
+                      spin={false}
+                      symbol={false}
+                      title=""
+                      transform={null}
+                    />
+                     
+                    <b>
+                      (
+                      0
+                      )
+                    </b>
+                  </Link>
                 </li>
               </ul>,
             ],
@@ -638,71 +665,80 @@ ShallowWrapper {
                 "children": Array [
                   <li
                     className="radioButton"
-                    onClick={[Function]}
                   >
-                    <FontAwesomeIcon
-                      border={false}
-                      className="radio"
-                      fixedWidth={false}
-                      flip={null}
-                      icon={
-                        Array [
-                          "far",
-                          "circle",
-                        ]
-                      }
-                      inverse={false}
-                      listItem={false}
-                      mask={null}
-                      pull={null}
-                      pulse={false}
-                      rotation={null}
-                      size={null}
-                      spin={false}
-                      symbol={false}
-                      title=""
-                      transform={null}
-                    />
-                     
-                    <b>
-                      (
-                      0
-                      )
-                    </b>
+                    <span>
+                      <FontAwesomeIcon
+                        border={false}
+                        className="radio"
+                        fixedWidth={false}
+                        flip={null}
+                        icon={
+                          Array [
+                            "far",
+                            "circle",
+                          ]
+                        }
+                        inverse={false}
+                        listItem={false}
+                        mask={null}
+                        pull={null}
+                        pulse={false}
+                        rotation={null}
+                        size={null}
+                        spin={false}
+                        symbol={false}
+                        title=""
+                        transform={null}
+                      />
+                       
+                      <b>
+                        (
+                        0
+                        )
+                      </b>
+                    </span>
                   </li>,
                   <li
                     className="radioButton"
-                    onClick={[Function]}
                   >
-                    <FontAwesomeIcon
-                      border={false}
-                      className="radio"
-                      fixedWidth={false}
-                      flip={null}
-                      icon={
-                        Array [
-                          "far",
-                          "circle",
-                        ]
+                    <Link
+                      to={
+                        Object {
+                          "pathname": "/articles",
+                          "search": "text=undefined",
+                        }
                       }
-                      inverse={false}
-                      listItem={false}
-                      mask={null}
-                      pull={null}
-                      pulse={false}
-                      rotation={null}
-                      size={null}
-                      spin={false}
-                      symbol={false}
-                      title=""
-                      transform={null}
-                    />
-                     
-                    <b>
-                      (
-                      0
-                      )
-                    </b>
+                    >
+                      <FontAwesomeIcon
+                        border={false}
+                        className="radio"
+                        fixedWidth={false}
+                        flip={null}
+                        icon={
+                          Array [
+                            "far",
+                            "circle",
+                          ]
+                        }
+                        inverse={false}
+                        listItem={false}
+                        mask={null}
+                        pull={null}
+                        pulse={false}
+                        rotation={null}
+                        size={null}
+                        spin={false}
+                        symbol={false}
+                        title=""
+                        transform={null}
+                      />
+                       
+                      <b>
+                        (
+                        0
+                        )
+                      </b>
+                    </Link>
                   </li>,
                 ],
                 "className": "radioButtons",
@@ -714,7 +750,7 @@ ShallowWrapper {
                   "key": "0",
                   "nodeType": "host",
                   "props": Object {
-                    "children": Array [
+                    "children": <span>
                       <FontAwesomeIcon
                         border={false}
                         className="radio"
@@ -737,71 +773,110 @@ ShallowWrapper {
                         symbol={false}
                         title=""
                         transform={null}
-                      />,
-                      undefined,
-                      " ",
+                      />
+                       
                       <b>
                         (
                         0
                         )
-                      </b>,
-                    ],
+                      </b>
+                    </span>,
                     "className": "radioButton",
-                    "onClick": [Function],
                   },
                   "ref": null,
-                  "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "function",
-                      "props": Object {
-                        "border": false,
-                        "className": "radio",
-                        "fixedWidth": false,
-                        "flip": null,
-                        "icon": Array [
-                          "far",
-                          "circle",
-                        ],
-                        "inverse": false,
-                        "listItem": false,
-                        "mask": null,
-                        "pull": null,
-                        "pulse": false,
-                        "rotation": null,
-                        "size": null,
-                        "spin": false,
-                        "symbol": false,
-                        "title": "",
-                        "transform": null,
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        <FontAwesomeIcon
+                          border={false}
+                          className="radio"
+                          fixedWidth={false}
+                          flip={null}
+                          icon={
+                            Array [
+                              "far",
+                              "circle",
+                            ]
+                          }
+                          inverse={false}
+                          listItem={false}
+                          mask={null}
+                          pull={null}
+                          pulse={false}
+                          rotation={null}
+                          size={null}
+                          spin={false}
+                          symbol={false}
+                          title=""
+                          transform={null}
+                        />,
+                        undefined,
+                        " ",
+                        <b>
+                          (
+                          0
+                          )
+                        </b>,
+                      ],
                     },
-                    undefined,
-                    " ",
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": Array [
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "function",
+                        "props": Object {
+                          "border": false,
+                          "className": "radio",
+                          "fixedWidth": false,
+                          "flip": null,
+                          "icon": Array [
+                            "far",
+                            "circle",
+                          ],
+                          "inverse": false,
+                          "listItem": false,
+                          "mask": null,
+                          "pull": null,
+                          "pulse": false,
+                          "rotation": null,
+                          "size": null,
+                          "spin": false,
+                          "symbol": false,
+                          "title": "",
+                          "transform": null,
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                      undefined,
+                      " ",
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": Array [
+                            "(",
+                            0,
+                            ")",
+                          ],
+                        },
+                        "ref": null,
+                        "rendered": Array [
                           "(",
                           0,
                           ")",
                         ],
+                        "type": "b",
                       },
-                      "ref": null,
-                      "rendered": Array [
-                        "(",
-                        0,
-                        ")",
-                      ],
-                      "type": "b",
-                    },
-                  ],
+                    ],
+                    "type": "span",
+                  },
                   "type": "li",
                 },
                 Object {
@@ -809,7 +884,14 @@ ShallowWrapper {
                   "key": "1",
                   "nodeType": "host",
                   "props": Object {
-                    "children": Array [
+                    "children": <Link
+                      to={
+                        Object {
+                          "pathname": "/articles",
+                          "search": "text=undefined",
+                        }
+                      }
+                    >
                       <FontAwesomeIcon
                         border={false}
                         className="radio"
@@ -832,71 +914,114 @@ ShallowWrapper {
                         symbol={false}
                         title=""
                         transform={null}
-                      />,
-                      undefined,
-                      " ",
+                      />
+                       
                       <b>
                         (
                         0
                         )
-                      </b>,
-                    ],
+                      </b>
+                    </Link>,
                     "className": "radioButton",
-                    "onClick": [Function],
                   },
                   "ref": null,
-                  "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "function",
-                      "props": Object {
-                        "border": false,
-                        "className": "radio",
-                        "fixedWidth": false,
-                        "flip": null,
-                        "icon": Array [
-                          "far",
-                          "circle",
-                        ],
-                        "inverse": false,
-                        "listItem": false,
-                        "mask": null,
-                        "pull": null,
-                        "pulse": false,
-                        "rotation": null,
-                        "size": null,
-                        "spin": false,
-                        "symbol": false,
-                        "title": "",
-                        "transform": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": Array [
+                        <FontAwesomeIcon
+                          border={false}
+                          className="radio"
+                          fixedWidth={false}
+                          flip={null}
+                          icon={
+                            Array [
+                              "far",
+                              "circle",
+                            ]
+                          }
+                          inverse={false}
+                          listItem={false}
+                          mask={null}
+                          pull={null}
+                          pulse={false}
+                          rotation={null}
+                          size={null}
+                          spin={false}
+                          symbol={false}
+                          title=""
+                          transform={null}
+                        />,
+                        undefined,
+                        " ",
+                        <b>
+                          (
+                          0
+                          )
+                        </b>,
+                      ],
+                      "to": Object {
+                        "pathname": "/articles",
+                        "search": "text=undefined",
                       },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
                     },
-                    undefined,
-                    " ",
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "host",
-                      "props": Object {
-                        "children": Array [
+                    "ref": null,
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "function",
+                        "props": Object {
+                          "border": false,
+                          "className": "radio",
+                          "fixedWidth": false,
+                          "flip": null,
+                          "icon": Array [
+                            "far",
+                            "circle",
+                          ],
+                          "inverse": false,
+                          "listItem": false,
+                          "mask": null,
+                          "pull": null,
+                          "pulse": false,
+                          "rotation": null,
+                          "size": null,
+                          "spin": false,
+                          "symbol": false,
+                          "title": "",
+                          "transform": null,
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                      undefined,
+                      " ",
+                      Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": Array [
+                            "(",
+                            0,
+                            ")",
+                          ],
+                        },
+                        "ref": null,
+                        "rendered": Array [
                           "(",
                           0,
                           ")",
                         ],
+                        "type": "b",
                       },
-                      "ref": null,
-                      "rendered": Array [
-                        "(",
-                        0,
-                        ")",
-                      ],
-                      "type": "b",
-                    },
-                  ],
+                    ],
+                    "type": [Function],
+                  },
                   "type": "li",
                 },
               ],
@@ -1283,71 +1408,80 @@ ShallowWrapper {
             >
               <li
                 className="radioButton"
-                onClick={[Function]}
               >
-                <FontAwesomeIcon
-                  border={false}
-                  className="radio"
-                  fixedWidth={false}
-                  flip={null}
-                  icon={
-                    Array [
-                      "far",
-                      "circle",
-                    ]
-                  }
-                  inverse={false}
-                  listItem={false}
-                  mask={null}
-                  pull={null}
-                  pulse={false}
-                  rotation={null}
-                  size={null}
-                  spin={false}
-                  symbol={false}
-                  title=""
-                  transform={null}
-                />
-                 
-                <b>
-                  (
-                  0
-                  )
-                </b>
+                <span>
+                  <FontAwesomeIcon
+                    border={false}
+                    className="radio"
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />
+                   
+                  <b>
+                    (
+                    0
+                    )
+                  </b>
+                </span>
               </li>
               <li
                 className="radioButton"
-                onClick={[Function]}
               >
-                <FontAwesomeIcon
-                  border={false}
-                  className="radio"
-                  fixedWidth={false}
-                  flip={null}
-                  icon={
-                    Array [
-                      "far",
-                      "circle",
-                    ]
+                <Link
+                  to={
+                    Object {
+                      "pathname": "/articles",
+                      "search": "text=undefined",
+                    }
                   }
-                  inverse={false}
-                  listItem={false}
-                  mask={null}
-                  pull={null}
-                  pulse={false}
-                  rotation={null}
-                  size={null}
-                  spin={false}
-                  symbol={false}
-                  title=""
-                  transform={null}
-                />
-                 
-                <b>
-                  (
-                  0
-                  )
-                </b>
+                >
+                  <FontAwesomeIcon
+                    border={false}
+                    className="radio"
+                    fixedWidth={false}
+                    flip={null}
+                    icon={
+                      Array [
+                        "far",
+                        "circle",
+                      ]
+                    }
+                    inverse={false}
+                    listItem={false}
+                    mask={null}
+                    pull={null}
+                    pulse={false}
+                    rotation={null}
+                    size={null}
+                    spin={false}
+                    symbol={false}
+                    title=""
+                    transform={null}
+                  />
+                   
+                  <b>
+                    (
+                    0
+                    )
+                  </b>
+                </Link>
               </li>
             </ul>
           </div>
@@ -1464,71 +1598,80 @@ ShallowWrapper {
               >
                 <li
                   className="radioButton"
-                  onClick={[Function]}
                 >
-                  <FontAwesomeIcon
-                    border={false}
-                    className="radio"
-                    fixedWidth={false}
-                    flip={null}
-                    icon={
-                      Array [
-                        "far",
-                        "circle",
-                      ]
-                    }
-                    inverse={false}
-                    listItem={false}
-                    mask={null}
-                    pull={null}
-                    pulse={false}
-                    rotation={null}
-                    size={null}
-                    spin={false}
-                    symbol={false}
-                    title=""
-                    transform={null}
-                  />
-                   
-                  <b>
-                    (
-                    0
-                    )
-                  </b>
+                  <span>
+                    <FontAwesomeIcon
+                      border={false}
+                      className="radio"
+                      fixedWidth={false}
+                      flip={null}
+                      icon={
+                        Array [
+                          "far",
+                          "circle",
+                        ]
+                      }
+                      inverse={false}
+                      listItem={false}
+                      mask={null}
+                      pull={null}
+                      pulse={false}
+                      rotation={null}
+                      size={null}
+                      spin={false}
+                      symbol={false}
+                      title=""
+                      transform={null}
+                    />
+                     
+                    <b>
+                      (
+                      0
+                      )
+                    </b>
+                  </span>
                 </li>
                 <li
                   className="radioButton"
-                  onClick={[Function]}
                 >
-                  <FontAwesomeIcon
-                    border={false}
-                    className="radio"
-                    fixedWidth={false}
-                    flip={null}
-                    icon={
-                      Array [
-                        "far",
-                        "circle",
-                      ]
+                  <Link
+                    to={
+                      Object {
+                        "pathname": "/articles",
+                        "search": "text=undefined",
+                      }
                     }
-                    inverse={false}
-                    listItem={false}
-                    mask={null}
-                    pull={null}
-                    pulse={false}
-                    rotation={null}
-                    size={null}
-                    spin={false}
-                    symbol={false}
-                    title=""
-                    transform={null}
-                  />
-                   
-                  <b>
-                    (
-                    0
-                    )
-                  </b>
+                  >
+                    <FontAwesomeIcon
+                      border={false}
+                      className="radio"
+                      fixedWidth={false}
+                      flip={null}
+                      icon={
+                        Array [
+                          "far",
+                          "circle",
+                        ]
+                      }
+                      inverse={false}
+                      listItem={false}
+                      mask={null}
+                      pull={null}
+                      pulse={false}
+                      rotation={null}
+                      size={null}
+                      spin={false}
+                      symbol={false}
+                      title=""
+                      transform={null}
+                    />
+                     
+                    <b>
+                      (
+                      0
+                      )
+                    </b>
+                  </Link>
                 </li>
               </ul>
             </div>,
@@ -1674,71 +1817,80 @@ ShallowWrapper {
                 >
                   <li
                     className="radioButton"
-                    onClick={[Function]}
                   >
-                    <FontAwesomeIcon
-                      border={false}
-                      className="radio"
-                      fixedWidth={false}
-                      flip={null}
-                      icon={
-                        Array [
-                          "far",
-                          "circle",
-                        ]
-                      }
-                      inverse={false}
-                      listItem={false}
-                      mask={null}
-                      pull={null}
-                      pulse={false}
-                      rotation={null}
-                      size={null}
-                      spin={false}
-                      symbol={false}
-                      title=""
-                      transform={null}
-                    />
-                     
-                    <b>
-                      (
-                      0
-                      )
-                    </b>
+                    <span>
+                      <FontAwesomeIcon
+                        border={false}
+                        className="radio"
+                        fixedWidth={false}
+                        flip={null}
+                        icon={
+                          Array [
+                            "far",
+                            "circle",
+                          ]
+                        }
+                        inverse={false}
+                        listItem={false}
+                        mask={null}
+                        pull={null}
+                        pulse={false}
+                        rotation={null}
+                        size={null}
+                        spin={false}
+                        symbol={false}
+                        title=""
+                        transform={null}
+                      />
+                       
+                      <b>
+                        (
+                        0
+                        )
+                      </b>
+                    </span>
                   </li>
                   <li
                     className="radioButton"
-                    onClick={[Function]}
                   >
-                    <FontAwesomeIcon
-                      border={false}
-                      className="radio"
-                      fixedWidth={false}
-                      flip={null}
-                      icon={
-                        Array [
-                          "far",
-                          "circle",
-                        ]
+                    <Link
+                      to={
+                        Object {
+                          "pathname": "/articles",
+                          "search": "text=undefined",
+                        }
                       }
-                      inverse={false}
-                      listItem={false}
-                      mask={null}
-                      pull={null}
-                      pulse={false}
-                      rotation={null}
-                      size={null}
-                      spin={false}
-                      symbol={false}
-                      title=""
-                      transform={null}
-                    />
-                     
-                    <b>
-                      (
-                      0
-                      )
-                    </b>
+                    >
+                      <FontAwesomeIcon
+                        border={false}
+                        className="radio"
+                        fixedWidth={false}
+                        flip={null}
+                        icon={
+                          Array [
+                            "far",
+                            "circle",
+                          ]
+                        }
+                        inverse={false}
+                        listItem={false}
+                        mask={null}
+                        pull={null}
+                        pulse={false}
+                        rotation={null}
+                        size={null}
+                        spin={false}
+                        symbol={false}
+                        title=""
+                        transform={null}
+                      />
+                       
+                      <b>
+                        (
+                        0
+                        )
+                      </b>
+                    </Link>
                   </li>
                 </ul>,
               ],
@@ -1773,71 +1925,80 @@ ShallowWrapper {
                   "children": Array [
                     <li
                       className="radioButton"
-                      onClick={[Function]}
                     >
-                      <FontAwesomeIcon
-                        border={false}
-                        className="radio"
-                        fixedWidth={false}
-                        flip={null}
-                        icon={
-                          Array [
-                            "far",
-                            "circle",
-                          ]
-                        }
-                        inverse={false}
-                        listItem={false}
-                        mask={null}
-                        pull={null}
-                        pulse={false}
-                        rotation={null}
-                        size={null}
-                        spin={false}
-                        symbol={false}
-                        title=""
-                        transform={null}
-                      />
-                       
-                      <b>
-                        (
-                        0
-                        )
-                      </b>
+                      <span>
+                        <FontAwesomeIcon
+                          border={false}
+                          className="radio"
+                          fixedWidth={false}
+                          flip={null}
+                          icon={
+                            Array [
+                              "far",
+                              "circle",
+                            ]
+                          }
+                          inverse={false}
+                          listItem={false}
+                          mask={null}
+                          pull={null}
+                          pulse={false}
+                          rotation={null}
+                          size={null}
+                          spin={false}
+                          symbol={false}
+                          title=""
+                          transform={null}
+                        />
+                         
+                        <b>
+                          (
+                          0
+                          )
+                        </b>
+                      </span>
                     </li>,
                     <li
                       className="radioButton"
-                      onClick={[Function]}
                     >
-                      <FontAwesomeIcon
-                        border={false}
-                        className="radio"
-                        fixedWidth={false}
-                        flip={null}
-                        icon={
-                          Array [
-                            "far",
-                            "circle",
-                          ]
+                      <Link
+                        to={
+                          Object {
+                            "pathname": "/articles",
+                            "search": "text=undefined",
+                          }
                         }
-                        inverse={false}
-                        listItem={false}
-                        mask={null}
-                        pull={null}
-                        pulse={false}
-                        rotation={null}
-                        size={null}
-                        spin={false}
-                        symbol={false}
-                        title=""
-                        transform={null}
-                      />
-                       
-                      <b>
-                        (
-                        0
-                        )
-                      </b>
+                      >
+                        <FontAwesomeIcon
+                          border={false}
+                          className="radio"
+                          fixedWidth={false}
+                          flip={null}
+                          icon={
+                            Array [
+                              "far",
+                              "circle",
+                            ]
+                          }
+                          inverse={false}
+                          listItem={false}
+                          mask={null}
+                          pull={null}
+                          pulse={false}
+                          rotation={null}
+                          size={null}
+                          spin={false}
+                          symbol={false}
+                          title=""
+                          transform={null}
+                        />
+                         
+                        <b>
+                          (
+                          0
+                          )
+                        </b>
+                      </Link>
                     </li>,
                   ],
                   "className": "radioButtons",
@@ -1849,7 +2010,7 @@ ShallowWrapper {
                     "key": "0",
                     "nodeType": "host",
                     "props": Object {
-                      "children": Array [
+                      "children": <span>
                         <FontAwesomeIcon
                           border={false}
                           className="radio"
@@ -1872,71 +2033,110 @@ ShallowWrapper {
                           symbol={false}
                           title=""
                           transform={null}
-                        />,
-                        undefined,
-                        " ",
+                        />
+                         
                         <b>
                           (
                           0
                           )
-                        </b>,
-                      ],
+                        </b>
+                      </span>,
                       "className": "radioButton",
-                      "onClick": [Function],
                     },
                     "ref": null,
-                    "rendered": Array [
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "function",
-                        "props": Object {
-                          "border": false,
-                          "className": "radio",
-                          "fixedWidth": false,
-                          "flip": null,
-                          "icon": Array [
-                            "far",
-                            "circle",
-                          ],
-                          "inverse": false,
-                          "listItem": false,
-                          "mask": null,
-                          "pull": null,
-                          "pulse": false,
-                          "rotation": null,
-                          "size": null,
-                          "spin": false,
-                          "symbol": false,
-                          "title": "",
-                          "transform": null,
-                        },
-                        "ref": null,
-                        "rendered": null,
-                        "type": [Function],
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          <FontAwesomeIcon
+                            border={false}
+                            className="radio"
+                            fixedWidth={false}
+                            flip={null}
+                            icon={
+                              Array [
+                                "far",
+                                "circle",
+                              ]
+                            }
+                            inverse={false}
+                            listItem={false}
+                            mask={null}
+                            pull={null}
+                            pulse={false}
+                            rotation={null}
+                            size={null}
+                            spin={false}
+                            symbol={false}
+                            title=""
+                            transform={null}
+                          />,
+                          undefined,
+                          " ",
+                          <b>
+                            (
+                            0
+                            )
+                          </b>,
+                        ],
                       },
-                      undefined,
-                      " ",
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "host",
-                        "props": Object {
-                          "children": Array [
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "function",
+                          "props": Object {
+                            "border": false,
+                            "className": "radio",
+                            "fixedWidth": false,
+                            "flip": null,
+                            "icon": Array [
+                              "far",
+                              "circle",
+                            ],
+                            "inverse": false,
+                            "listItem": false,
+                            "mask": null,
+                            "pull": null,
+                            "pulse": false,
+                            "rotation": null,
+                            "size": null,
+                            "spin": false,
+                            "symbol": false,
+                            "title": "",
+                            "transform": null,
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": [Function],
+                        },
+                        undefined,
+                        " ",
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": Array [
+                              "(",
+                              0,
+                              ")",
+                            ],
+                          },
+                          "ref": null,
+                          "rendered": Array [
                             "(",
                             0,
                             ")",
                           ],
+                          "type": "b",
                         },
-                        "ref": null,
-                        "rendered": Array [
-                          "(",
-                          0,
-                          ")",
-                        ],
-                        "type": "b",
-                      },
-                    ],
+                      ],
+                      "type": "span",
+                    },
                     "type": "li",
                   },
                   Object {
@@ -1944,7 +2144,14 @@ ShallowWrapper {
                     "key": "1",
                     "nodeType": "host",
                     "props": Object {
-                      "children": Array [
+                      "children": <Link
+                        to={
+                          Object {
+                            "pathname": "/articles",
+                            "search": "text=undefined",
+                          }
+                        }
+                      >
                         <FontAwesomeIcon
                           border={false}
                           className="radio"
@@ -1967,71 +2174,114 @@ ShallowWrapper {
                           symbol={false}
                           title=""
                           transform={null}
-                        />,
-                        undefined,
-                        " ",
+                        />
+                         
                         <b>
                           (
                           0
                           )
-                        </b>,
-                      ],
+                        </b>
+                      </Link>,
                       "className": "radioButton",
-                      "onClick": [Function],
                     },
                     "ref": null,
-                    "rendered": Array [
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "function",
-                        "props": Object {
-                          "border": false,
-                          "className": "radio",
-                          "fixedWidth": false,
-                          "flip": null,
-                          "icon": Array [
-                            "far",
-                            "circle",
-                          ],
-                          "inverse": false,
-                          "listItem": false,
-                          "mask": null,
-                          "pull": null,
-                          "pulse": false,
-                          "rotation": null,
-                          "size": null,
-                          "spin": false,
-                          "symbol": false,
-                          "title": "",
-                          "transform": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "children": Array [
+                          <FontAwesomeIcon
+                            border={false}
+                            className="radio"
+                            fixedWidth={false}
+                            flip={null}
+                            icon={
+                              Array [
+                                "far",
+                                "circle",
+                              ]
+                            }
+                            inverse={false}
+                            listItem={false}
+                            mask={null}
+                            pull={null}
+                            pulse={false}
+                            rotation={null}
+                            size={null}
+                            spin={false}
+                            symbol={false}
+                            title=""
+                            transform={null}
+                          />,
+                          undefined,
+                          " ",
+                          <b>
+                            (
+                            0
+                            )
+                          </b>,
+                        ],
+                        "to": Object {
+                          "pathname": "/articles",
+                          "search": "text=undefined",
                         },
-                        "ref": null,
-                        "rendered": null,
-                        "type": [Function],
                       },
-                      undefined,
-                      " ",
-                      Object {
-                        "instance": null,
-                        "key": undefined,
-                        "nodeType": "host",
-                        "props": Object {
-                          "children": Array [
+                      "ref": null,
+                      "rendered": Array [
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "function",
+                          "props": Object {
+                            "border": false,
+                            "className": "radio",
+                            "fixedWidth": false,
+                            "flip": null,
+                            "icon": Array [
+                              "far",
+                              "circle",
+                            ],
+                            "inverse": false,
+                            "listItem": false,
+                            "mask": null,
+                            "pull": null,
+                            "pulse": false,
+                            "rotation": null,
+                            "size": null,
+                            "spin": false,
+                            "symbol": false,
+                            "title": "",
+                            "transform": null,
+                          },
+                          "ref": null,
+                          "rendered": null,
+                          "type": [Function],
+                        },
+                        undefined,
+                        " ",
+                        Object {
+                          "instance": null,
+                          "key": undefined,
+                          "nodeType": "host",
+                          "props": Object {
+                            "children": Array [
+                              "(",
+                              0,
+                              ")",
+                            ],
+                          },
+                          "ref": null,
+                          "rendered": Array [
                             "(",
                             0,
                             ")",
                           ],
+                          "type": "b",
                         },
-                        "ref": null,
-                        "rendered": Array [
-                          "(",
-                          0,
-                          ")",
-                        ],
-                        "type": "b",
-                      },
-                    ],
+                      ],
+                      "type": [Function],
+                    },
                     "type": "li",
                   },
                 ],

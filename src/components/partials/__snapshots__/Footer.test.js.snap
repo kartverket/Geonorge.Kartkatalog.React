@@ -4,6 +4,19 @@ exports[`Footer should render self and subcomponents 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Footer
+    getGeonorgeLogo={
+      [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     getResource={
       [MockFunction] {
         "calls": Array [
@@ -88,10 +101,10 @@ ShallowWrapper {
           className="logo"
         >
           <img
-            alt="logo geonorge"
-            src="test-file-stub"
+            alt="Geonorge logo"
             title="Logo for Geonorge"
           />
+          
         </div>,
         <div
           className="about"
@@ -126,7 +139,7 @@ ShallowWrapper {
             className="logo"
           >
             <img
-              alt="logo geonorge"
+              alt="Kartverket logo"
               src="test-file-stub"
               title="Logo for Kartverket"
             />
@@ -142,27 +155,32 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <img
-            alt="logo geonorge"
-            src="test-file-stub"
-            title="Logo for Geonorge"
-          />,
+          "children": Array [
+            <img
+              alt="Geonorge logo"
+              title="Logo for Geonorge"
+            />,
+            "",
+          ],
           "className": "logo",
         },
         "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "alt": "logo geonorge",
-            "src": "test-file-stub",
-            "title": "Logo for Geonorge",
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "alt": "Geonorge logo",
+              "src": undefined,
+              "title": "Logo for Geonorge",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "img",
           },
-          "ref": null,
-          "rendered": null,
-          "type": "img",
-        },
+          "",
+        ],
         "type": "div",
       },
       Object {
@@ -271,7 +289,7 @@ ShallowWrapper {
               className="logo"
             >
               <img
-                alt="logo geonorge"
+                alt="Kartverket logo"
                 src="test-file-stub"
                 title="Logo for Kartverket"
               />
@@ -353,7 +371,7 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": <img
-                alt="logo geonorge"
+                alt="Kartverket logo"
                 src="test-file-stub"
                 title="Logo for Kartverket"
               />,
@@ -365,7 +383,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "alt": "logo geonorge",
+                "alt": "Kartverket logo",
                 "src": "test-file-stub",
                 "title": "Logo for Kartverket",
               },
@@ -392,10 +410,10 @@ ShallowWrapper {
             className="logo"
           >
             <img
-              alt="logo geonorge"
-              src="test-file-stub"
+              alt="Geonorge logo"
               title="Logo for Geonorge"
             />
+            
           </div>,
           <div
             className="about"
@@ -430,7 +448,7 @@ ShallowWrapper {
               className="logo"
             >
               <img
-                alt="logo geonorge"
+                alt="Kartverket logo"
                 src="test-file-stub"
                 title="Logo for Kartverket"
               />
@@ -446,27 +464,32 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": <img
-              alt="logo geonorge"
-              src="test-file-stub"
-              title="Logo for Geonorge"
-            />,
+            "children": Array [
+              <img
+                alt="Geonorge logo"
+                title="Logo for Geonorge"
+              />,
+              "",
+            ],
             "className": "logo",
           },
           "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "alt": "logo geonorge",
-              "src": "test-file-stub",
-              "title": "Logo for Geonorge",
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "alt": "Geonorge logo",
+                "src": undefined,
+                "title": "Logo for Geonorge",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
             },
-            "ref": null,
-            "rendered": null,
-            "type": "img",
-          },
+            "",
+          ],
           "type": "div",
         },
         Object {
@@ -575,7 +598,7 @@ ShallowWrapper {
                 className="logo"
               >
                 <img
-                  alt="logo geonorge"
+                  alt="Kartverket logo"
                   src="test-file-stub"
                   title="Logo for Kartverket"
                 />
@@ -657,7 +680,7 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": <img
-                  alt="logo geonorge"
+                  alt="Kartverket logo"
                   src="test-file-stub"
                   title="Logo for Kartverket"
                 />,
@@ -669,7 +692,7 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "alt": "logo geonorge",
+                  "alt": "Kartverket logo",
                   "src": "test-file-stub",
                   "title": "Logo for Kartverket",
                 },
