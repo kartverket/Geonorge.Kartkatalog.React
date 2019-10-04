@@ -74,10 +74,10 @@ class Metadata extends Component {
                 <div>
                     <h3>{this.props.getResource('ContactMetadata', 'Metadatakontakt')}</h3>
                     <div>
-                        <a href={this.props.metadata.ContactMetadata.Email}>{this.props.metadata.ContactMetadata.Name}</a>
+                        <a href={"mailto:" + this.props.metadata.ContactMetadata.Email}>{this.props.metadata.ContactMetadata.Name}</a>
                     </div>
                     <div>
-                        <a href={this.props.metadata.ContactMetadata.Email}>{this.props.metadata.ContactMetadata.Email}</a> - {this.props.metadata.ContactMetadata.Organization}
+                        <a href={"mailto:" + this.props.metadata.ContactMetadata.Email}>{this.props.metadata.ContactMetadata.Email}</a> - {this.props.metadata.ContactMetadata.Organization}
                     </div>
                 </div>
             )
@@ -92,10 +92,10 @@ class Metadata extends Component {
                 <div>
                     <h3>{this.props.getResource('ContactOwner', 'Faglig kontakt')}</h3>
                     <div>
-                        <a href={this.props.metadata.ContactOwner.Email}>{this.props.metadata.ContactOwner.Name}</a>
+                        <a href={"mailto:" + this.props.metadata.ContactOwner.Email}>{this.props.metadata.ContactOwner.Name}</a>
                     </div>
                     <div>
-                        <a href={this.props.metadata.ContactOwner.Email}>{this.props.metadata.ContactOwner.Email}</a> - {this.props.metadata.ContactOwner.Organization}
+                        <a href={"mailto:" + this.props.metadata.ContactOwner.Email}>{this.props.metadata.ContactOwner.Email}</a> - {this.props.metadata.ContactOwner.Organization}
                     </div>
                 </div>
             )
@@ -110,7 +110,7 @@ class Metadata extends Component {
                 <div>
                     <h3>{this.props.getResource('ContactPublisher', 'Teknisk kontakt')}</h3>
                     <div>
-                        <a href={this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Email}</a> - {this.props.metadata.ContactPublisher.Organization}
+                        <a href={"mailto:" + this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Email}</a> - {this.props.metadata.ContactPublisher.Organization}
                     </div>
                 </div>
             )
