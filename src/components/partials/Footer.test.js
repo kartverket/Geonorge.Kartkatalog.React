@@ -7,6 +7,7 @@ import style from './Footer.scss';
 function setup() {
     const props = {
         getResource: jest.fn(),
+        getGeonorgeLogo: jest.fn()
       }
     const wrapper = shallow(<Footer {...props}/>);
     return {
