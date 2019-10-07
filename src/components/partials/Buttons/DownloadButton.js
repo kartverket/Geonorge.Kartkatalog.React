@@ -81,12 +81,6 @@ export class DownloadButton extends Component {
             && this.props.metadata.Type === 'dataset'
     }
 
-    showMetadataDownloadLink() {
-        return this.props.metadata.DistributionUrl &&
-            (this.props.metadata.DistributionDetails.Protocol === 'WWW:DOWNLOAD-1.0-http--download' ||
-                this.props.metadata.DistributionProtocol === 'GEONORGE:FILEDOWNLOAD')
-    }
-
     renderListButton() {
         let button = this.getDownloadButton();
 
@@ -121,7 +115,7 @@ export class DownloadButton extends Component {
     renderButton() {
         let button = this.getDownloadButtonFromMetadata();
         if (this.props.metadata.CanShowDownloadService) {
-            
+
             let buttonDescription = this.state.isAdded ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting') : this.props.getResource('Download', 'Last ned');
             let action = this.state.isAdded
                 ? () => this.removeFromDownloadList(button)
