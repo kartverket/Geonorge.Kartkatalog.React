@@ -206,9 +206,7 @@ class Facet extends Component {
     }
 
     render() {
-        return (
-            <div>{this.renderFacet()}</div>
-        )
+        return this.renderFacet();
     }
 }
 
