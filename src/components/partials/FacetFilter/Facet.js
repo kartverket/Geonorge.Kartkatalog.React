@@ -185,12 +185,13 @@ class Facet extends Component {
     }
 
     renderFacet() {
-        let liClassNames = classNames({
+        const liClassNames = classNames({
             [style.facet]: true,
             [style.empty]: this.props.facet.Count === 0,
         });
 
-        return (
+        return this.state.checked || this.props.facet.Count
+        ? (
             <li className={liClassNames}>
                 <Link
                     to={{ search: this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString() }}>
@@ -202,7 +203,7 @@ class Facet extends Component {
                 </Link>
                 {this.renderList(this.props.facet.FacetResults)}
             </li>
-        );
+        ) : '';
     }
 
     render() {
