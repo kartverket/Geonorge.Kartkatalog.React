@@ -20,33 +20,43 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script type="text/javascript">
+     var isProduction = '%REACT_APP_ENVIRONMENT%' !== 'dev' && '%REACT_APP_ENVIRONMENT%' !== 'test';
+     console.log("%REACT_APP_ENVIRONMENT%");
+     if (isProduction) {
+      /* Google Analytics */
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-5163611-5', 'auto', {
+      'allowLinker': true});
+      ga('require', 'linkid');
+      ga('set', 'anonymizeIp', true);
+      ga('require','linker');
+      ga('linker:autoLink',['kartverket.no','norgeskart.no','seeiendom.no','rettikartet.no','seplan.no'], true);
+      ga('send', 'pageview');
+      /* Google Tag Manager */
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MR2X5P');
+     }
+    </script>
   <title>Kartkatalogen</title>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="ie">
-  
-  </div>
+  <div id="ie"></div>
   <script>
     var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
     if (isIE11) {
-document.getElementById("ie").innerHTML = '<div><div class="banner"><img src="/static/media/geonorge-navbar-logo_dev.43841dc5.svg" /></div><p>Det ser ut som du bruker en eldre versjon av Internet Explorer.</p> <p>For å bruke denne tjenesten på best mulig måte bør du laste ned og installere Chrome, Firefox eller oppgradere til Microsoft Edge.</p><p> <a href="https://www.microsoft.com/nb-no/windows/microsoft-edge">Prøv Microsoft Edge</a></p><p><a href="https://www.google.com/chrome/">Last ned Chrome</a></p><p><a href="https://www.mozilla.org/nb-NO/firefox/">Last ned Firefox</a></p></div>';
+      document.getElementById("ie").innerHTML = '<div><div class="banner"><img src="/static/media/geonorge-navbar-logo_dev.43841dc5.svg" /></div><p>Det ser ut som du bruker en eldre versjon av Internet Explorer.</p> <p>For å bruke denne tjenesten på best mulig måte bør du laste ned og installere Chrome, Firefox eller oppgradere til Microsoft Edge.</p><p> <a href="https://www.microsoft.com/nb-no/windows/microsoft-edge">Prøv Microsoft Edge</a></p><p><a href="https://www.google.com/chrome/">Last ned Chrome</a></p><p><a href="https://www.mozilla.org/nb-NO/firefox/">Last ned Firefox</a></p></div>';
     }
-</script>
-
+  </script>
   <div id="root"></div>
-
-  <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
 </body>
 
 </html>
