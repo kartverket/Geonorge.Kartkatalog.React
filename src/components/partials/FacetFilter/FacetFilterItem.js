@@ -25,14 +25,31 @@ class FacetFilterItem extends Component {
         }))
     }
 
+    getFacetResultsLength(facetFilterItem = this.props.facetFilterItem, facetResultsLength = 0){
+      facetFilterItem.FacetResults.forEach(facetResultItem => {
+        if (facetResultItem.FacetResults && facetResultItem.FacetResults.length){
+          facetResultsLength = this.getFacetResultsLength(facetResultItem, facetResultsLength);
+        }
+        facetResultsLength += 1
+      })
+      return facetResultsLength;
+    }
+
+
     renderList() {
         if (this.props.facetFilterItem && this.props.facetFilterItem.FacetResults) {
             let facetElements = this.props.facetFilterItem.FacetResults.map((facet, i) => {
                 return <Facet facet={facet} facetField={this.props.facetFilterItem.FacetField} key={i}/>;
             });
+            const listElementHeight = 28.5;
+            const facetResultsLength = this.getFacetResultsLength();
+            const listHeight = facetResultsLength * listElementHeight;
             return React.createElement('ul', {
                 className: style.facets,
-                onClick: () => this.toggleExpand()
+                onClick: () => this.toggleExpand(),
+                style: {
+                  maxHeight: `${listHeight}px`
+                }
             }, facetElements);
         }
     }
@@ -50,7 +67,7 @@ class FacetFilterItem extends Component {
 
     render() {
         return (
-            <li className={this.state.expanded ? style.filterItem + " " + style.expanded : style.filterItem}
+            <li className={this.state.expanded ? style.filterItem : style.filterItem + " " + style.closed }
                 onClick={() => this.toggleExpand()}>
                 <FontAwesomeIcon icon={this.state.expanded ? "angle-up" : "angle-down"} className={style.expandArrow}/>
                 <p className={style.filterName}>
