@@ -30,7 +30,7 @@ export class MapButton extends Component {
                 return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste";
             });
         }
-        else if (this.props.metadata.ServiceDistributionProtocolForDataset == "OGC:WMS") {
+        else if (this.props.metadata.ServiceDistributionProtocolForDataset === "OGC:WMS") {
             datasetService = {
                 Uuid: this.props.metadata.ServiceUuid,
                 Title: this.props.metadata.Title,

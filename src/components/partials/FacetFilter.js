@@ -60,7 +60,7 @@ class FacetFilter extends Component {
     }
 }
 
-// Validering av props... 
+// Validering av props...
 FacetFilter.propTypes = {
     searchResults: PropTypes.object
 };
