@@ -38,6 +38,7 @@ export const autoAddItemFromLocalStorage = () => (dispatch, getState) => {
 	const itemToAdd = hasItemToAdd ? JSON.parse(localStorage.autoAddDownloadItemOnLoad) : null;
 	const isLoggedIn = getState().oidc && getState().oidc.user;
 	if (itemToAdd && isLoggedIn) {
+		//Todo check if user has required role
 		let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];
     	selectedItems.push(itemToAdd.uuid);
 		localStorage.orderItems = JSON.stringify(selectedItems);
