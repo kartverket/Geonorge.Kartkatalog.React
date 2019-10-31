@@ -11,7 +11,7 @@ import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
 import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata, autoAddItemFromLocalStorage } from '../../actions/DownloadItemActions';
 import { getGeonorgeLogo } from '../../actions/ImageActions';
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
-import { updateOidcCookie } from '../../actions/OidcActions';
+import { updateOidcCookie, updateBaatInfo } from '../../actions/AuthenticationActions';
 import { getResource } from '../../actions/ResourceActions'
 
 // Components
@@ -50,6 +50,7 @@ export class MainNavigation extends Component {
         this.props.autoAddItemFromLocalStorage();
         this.props.fetchItemsToDownload();
         this.props.updateOidcCookie();
+        this.props.updateBaatInfo();
         document.addEventListener('mousedown', this.handleClick, false);
         document.addEventListener('mousedown', this.handleDownloadClick, false);
     }
@@ -66,7 +67,7 @@ export class MainNavigation extends Component {
             this.props.autoAddItemFromLocalStorage();
             this.props.fetchItemsToDownload();
             this.props.updateOidcCookie();
-
+            this.props.updateBaatInfo();
         }
         if (this.props.selectedLanguage !== prevProps.selectedLanguage) {
             this.props.fetchGeonorgeMenu();
@@ -294,6 +295,7 @@ const mapDispatchToProps = {
     autoAddItemFromLocalStorage,
     updateSelectedSearchResultsType,
     updateOidcCookie,
+    updateBaatInfo,
     getResource
 };
 

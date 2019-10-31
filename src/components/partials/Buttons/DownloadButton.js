@@ -14,8 +14,6 @@ import { getResource } from '../../../actions/ResourceActions'
 // Stylesheets
 import style from './Buttons.scss'
 
-import * as Cookies from 'js-cookie';
-
 export class DownloadButton extends Component {
     constructor(props) {
         super(props);
@@ -64,8 +62,6 @@ export class DownloadButton extends Component {
                 this.handleLoginClick(event);
             }else {
                 let capabilitiesUrl = this.props.metadata.GetCapabilitiesUrl + this.props.metadata.Uuid;
-                capabilitiesUrl = "https://localhost:44350/api/capabilities/24d7e9d1-87f6-45a0-b38e-3447f8d7f9a1"; // Testing remove
-                console.log("capabilitiesUrl: " +capabilitiesUrl)
                 fetch(capabilitiesUrl, {
                     method: 'GET',
                     headers: {
@@ -74,34 +70,19 @@ export class DownloadButton extends Component {
                     },
                 })
                 .then((res) => res.json())
-                .then((json) => {
-                console.log(json);
-                let info = Cookies.get('baatInfo');
-                console.log(info);
-                let roles =JSON.parse(info).baat_services;
-                
-                let addDatasetIsAllowed = false;
-                let requiredRole = json.accessConstraintRequiredRole;
-                if(requiredRole !== undefined &&  roles !== undefined)
-                {
-                    console.log("Required role: " + requiredRole);
-                    roles.forEach(role => {
-                        console.log(role);
-                        if(role == requiredRole)
-                            addDatasetIsAllowed = true;
-                    });
-                }
-                else{
-                    addDatasetIsAllowed = true; 
-                }
+                .then((capabilities) => {
+                  const roles = this.props.baatInfo && this.props.baatInfo.baat_services ? this.props.baatInfo.baat_services : null;
+                  const requiredRole = capabilities.accessConstraintRequiredRole;
 
-                
-                if(addDatasetIsAllowed)
-                    this.props.addItemSelectedForDownload(item);
-                else
-                    alert('Du har ikke tilgang til å legge datasett i til nedlasting');
+                  const addDatasetIsAllowed = requiredRole && roles && roles.length()
+                    ? addDatasetIsAllowed = roles.find(role => {return role == requiredRole}) !== undefined
+                    : true;
 
-
+                  if(addDatasetIsAllowed){
+                      this.props.addItemSelectedForDownload(item);
+                  }else {
+                      alert('Du har ikke tilgang til å legge datasett i til nedlasting');
+                  }
                 });
             }
         }
@@ -134,7 +115,6 @@ export class DownloadButton extends Component {
             let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
             let buttonClass = this.state.isAdded ? 'off' : 'on';
-
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
@@ -237,7 +217,8 @@ DownloadButton.defaultProps = {
 const mapStateToProps = state => ({
     itemsToDownload: state.itemsToDownload,
     resources: state.resources,
-    oidc: state.oidc
+    oidc: state.oidc,
+    baatInfo: state.baatInfo
 });
 
 const mapDispatchToProps = {
