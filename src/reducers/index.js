@@ -14,10 +14,12 @@ import GeonorgeMenuReducer from "./GeonorgeMenuReducer";
 import SelectedLanguageReducer from "./SelectedLanguageReducer";
 import ResourceReducer from "./ResourceReducer";
 import EnvironmentReducer from './EnvironmentReducer';
+import BaatInfoReducer from './BaatInfoReducer';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
     oidc: oidcReducer,
+    baatInfo: BaatInfoReducer,
     searchResults: SearchResultReducer,
     selectedSearchResultsType: SelectedSearchResultsTypeReducer,
     metadata: MetadataReducer,
