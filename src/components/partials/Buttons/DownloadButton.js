@@ -75,7 +75,7 @@ export class DownloadButton extends Component {
                   const requiredRole = capabilities.accessConstraintRequiredRole;
 
                   const addDatasetIsAllowed = requiredRole && roles && roles.length
-                    ? addDatasetIsAllowed = roles.find(role => {return role == requiredRole}) !== undefined
+                    ? roles.find(role => {return role == requiredRole}) !== undefined
                     : true;
 
                   if(addDatasetIsAllowed){
