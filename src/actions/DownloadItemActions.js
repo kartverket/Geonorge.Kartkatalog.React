@@ -13,7 +13,7 @@ export const getDownloadItemMetadata = (itemUuid) => dispatch => {
 }
 
 export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
-	let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];	
+	let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];
 	localStorage.orderItems = JSON.stringify(selectedItems.filter(itemToKeep => itemToKeep !== itemToRemove.uuid));
 
 	// TODO midlertidig løsning pga gammel handlekurv...
@@ -22,15 +22,47 @@ export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
 	dispatch(fetchItemsToDownload())
 }
 
-export const addItemSelectedForDownload = (itemToAdd) => dispatch => {
-	let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];
-    selectedItems.push(itemToAdd.uuid);
-	localStorage.orderItems = JSON.stringify(selectedItems);
 
+
+const addItemToLocalStorage = (itemToAdd => {
+	let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];
+  selectedItems.push(itemToAdd.uuid);
+	localStorage.orderItems = JSON.stringify(selectedItems);
 	// TODO midlertidig løsning pga gammel handlekurv...
 	localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
-	
-	dispatch(fetchItemsToDownload())
+})
+
+export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) => {
+	if (itemToAdd.accessIsOpendata){
+		addItemToLocalStorage(itemToAdd);
+		dispatch(fetchItemsToDownload())
+	}else if (itemToAdd.accessIsRestricted){
+		const baatInfo = getState() && getState().baatInfo ? getState().baatInfo : null;
+		const capabilitiesUrl = itemToAdd.getCapabilitiesUrl + itemToAdd.uuid;
+		if (baatInfo){
+			fetch(capabilitiesUrl, {
+					method: 'GET',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					}
+			})
+			.then((res) => res.json())
+			.then((capabilities) => {
+				const roles = baatInfo.baat_services ? baatInfo.baat_services : null;
+				const requiredRole = capabilities.accessConstraintRequiredRole;
+				const addDatasetIsAllowed = requiredRole
+					? roles && roles.length && roles.find(role => {return role === requiredRole}) !== undefined
+					: true;
+				if(addDatasetIsAllowed){
+					addItemToLocalStorage(itemToAdd);
+					dispatch(fetchItemsToDownload())
+				}else {
+						alert('Du har ikke tilgang til å legge datasett i til nedlasting');
+				}
+			});
+		}
+	}
 }
 
 export const autoAddItemFromLocalStorage = () => (dispatch, getState) => {
@@ -38,14 +70,7 @@ export const autoAddItemFromLocalStorage = () => (dispatch, getState) => {
 	const itemToAdd = hasItemToAdd ? JSON.parse(localStorage.autoAddDownloadItemOnLoad) : null;
 	const isLoggedIn = getState().oidc && getState().oidc.user;
 	if (itemToAdd && isLoggedIn) {
-		//Todo check if user has required role
-		let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];
-    	selectedItems.push(itemToAdd.uuid);
-		localStorage.orderItems = JSON.stringify(selectedItems);
-		
-		// TODO midlertidig løsning pga gammel handlekurv...
-		localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd));
+		dispatch(addItemSelectedForDownload(itemToAdd));
 		localStorage.removeItem('autoAddDownloadItemOnLoad');
 	}
 }
-

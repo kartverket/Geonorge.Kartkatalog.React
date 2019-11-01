@@ -27,10 +27,6 @@ export class DownloadButton extends Component {
         userManager.signinRedirect();
     }
 
-    addToDownloadItemToLocalStorageForAutoAdd(downloadItem) {
-        localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(downloadItem));
-    }
-
     getDownloadButton() {
         return {
             uuid: this.props.metadata.Uuid,
@@ -38,7 +34,10 @@ export class DownloadButton extends Component {
             theme: this.props.metadata.Theme,
             organizationName: this.props.metadata.Organization,
             name: this.props.metadata.Title,
-            distributionUrl: this.props.metadata.DistributionUrl
+            distributionUrl: this.props.metadata.DistributionUrl,
+            getCapabilitiesUrl: this.props.metadata.GetCapabilitiesUrl,
+            accessIsRestricted: this.props.metadata.AccessIsRestricted,
+            accessIsOpendata: this.props.metadata.AccessIsOpendata
         }
     }
 
@@ -49,43 +48,21 @@ export class DownloadButton extends Component {
             theme: "",
             organizationName: this.props.metadata.ContactMetadata ? this.props.metadata.ContactMetadata.Organization : null,
             name: this.props.metadata.Title,
-            distributionUrl: this.props.metadata.DistributionUrl
+            distributionUrl: this.props.metadata.DistributionUrl,
+            getCapabilitiesUrl: this.props.metadata.DistributionUrl,
+            accessIsRestricted: this.props.metadata.AccessIsRestricted,
+            accessIsOpendata: this.props.metadata.AccessIsOpendata
         }
     }
 
     addToDownloadList(event, item) {
-        if (this.props.metadata.AccessIsOpendata){
-            this.props.addItemSelectedForDownload(item);
-        } else if (this.props.metadata.AccessIsRestricted){
-            if (!this.props.oidc || !this.props.oidc.user){
-                this.addToDownloadItemToLocalStorageForAutoAdd(item);
-                this.handleLoginClick(event);
-            }else {
-                let capabilitiesUrl = this.props.metadata.GetCapabilitiesUrl + this.props.metadata.Uuid;
-                fetch(capabilitiesUrl, {
-                    method: 'GET',
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                    },
-                })
-                .then((res) => res.json())
-                .then((capabilities) => {
-                  const roles = this.props.baatInfo && this.props.baatInfo.baat_services ? this.props.baatInfo.baat_services : null;
-                  const requiredRole = capabilities.accessConstraintRequiredRole;
-
-                  const addDatasetIsAllowed = requiredRole && roles && roles.length
-                    ? roles.find(role => {return role == requiredRole}) !== undefined
-                    : true;
-
-                  if(addDatasetIsAllowed){
-                      this.props.addItemSelectedForDownload(item);
-                  }else {
-                      alert('Du har ikke tilgang til å legge datasett i til nedlasting');
-                  }
-                });
-            }
-        }
+      const isNotAuthenticated = !this.props.oidc || !this.props.oidc.user;
+      if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
+        localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
+        this.handleLoginClick(event);
+      }else {
+        this.props.addItemSelectedForDownload(item);
+      }
     }
 
     removeFromDownloadList(item) {
