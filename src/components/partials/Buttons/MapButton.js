@@ -53,7 +53,7 @@ export class MapButton extends Component {
         return {
             Uuid: this.props.metadata.Uuid,
             Title: this.props.metadata.Title,
-            DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset || this.props.metadata.Protocol,
+            DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset || this.props.metadata.Protocol || this.props.metadata.DistributionProtocol,
             GetCapabilitiesUrl: this.props.metadata.ServiceDistributionUrlForDataset || this.props.metadata.GetCapabilitiesUrl || this.props.metadata.MapLink,
             addLayers: []
         }
