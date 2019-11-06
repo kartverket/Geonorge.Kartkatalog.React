@@ -1,5 +1,6 @@
 // Dependencies
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -154,6 +155,12 @@ class Home extends Component {
     render() {
         return (
             <div>
+                <Helmet>
+                    <title>Kartkatalogen</title>
+                    <link rel="canonical" href={`${document.location.origin}/${this.props.selectedSearchResultsType ? this.props.selectedSearchResultsType : 'metadata'}`} />
+                    <meta name="description" content='Bruk Geonorges kartkatalog til å søke etter, se på og laste ned norske offentlige kartdata' />
+                    <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
+                </Helmet>
                 <Breadcrumb />
                 <div className={style.header}>
                     {this.props.searchString && this.props.searchResults ? this.renderSearchQuery() : <h1>Kartkatalogen</h1>}

@@ -1,5 +1,6 @@
 // Dependencies
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -695,6 +696,16 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderMetaDescription(description) {
+        if (description){
+            const ellipsis = description.length > 155 ? '...' : '';
+            return `${description.trim().slice(0, 155)}${ellipsis}`;
+        }
+        else {
+            return '';
+        }
+    }
+
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -703,6 +714,12 @@ class Metadata extends Component {
             </div>
         ) : (
                 <div>
+                    <Helmet>
+                        <title>{this.props.metadata && this.props.metadata.Title ? this.props.metadata.Title : ''} - Kartkatalogen</title>
+                        <link rel="canonical" href={`${document.location.origin}/metadata/${this.props.match.params.uuid}`} />
+                        <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.props.metadata.Abstract) : ''} />
+                        <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
+                    </Helmet>
                     <Breadcrumb content={this.props.metadata.Title} />
                     <div className={style.content}>
 
