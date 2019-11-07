@@ -50,7 +50,17 @@ export const convertSearchParams = (url) => {
 
 export const convertPath = (urlPathname) => {
     urlPathname = urlPathname.replace("/search", "");
-    const metadataOldUrlPathnameTypeRegex = /metadata\/[a-z0-9-]*\/[a-z0-9-]*/is;
+    const metadataOldUrlPathnameTypeRegex = /metadata\/uuid\/[a-z0-9-]*/is;
     const isOldUrlPathnameType = metadataOldUrlPathnameTypeRegex.exec(urlPathname) && metadataOldUrlPathnameTypeRegex.exec(urlPathname).length ? true : false;
     return isOldUrlPathnameType ? urlPathname.replace(/metadata\/[a-z0-9-]*/is, 'metadata') : urlPathname;
+}
+
+export const convertTextToUrlSlug = text => {
+  let convertedText = text.replace(/ /g, '-'); // Replace all whiteSpaces with dashes
+  return convertedText.toLowerCase(); // Use lower casing
+}
+
+export const convertUrlSlugToText = urlSlug => {
+  let convertedUrlSlug = urlSlug.replace(/-/g, ' '); // Replace all dashes with whiteSpaces
+  return convertedUrlSlug.charAt(0).toUpperCase() + convertedUrlSlug.slice(1); // Capitalize first word
 }
