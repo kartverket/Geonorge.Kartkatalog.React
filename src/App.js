@@ -58,6 +58,7 @@ class App extends Component {
                                         <Route exact path="/signin-oidc" render={() => (<OidcCallback />)} />
                                         <Route exact path="/signout-callback-oidc" render={() => (<OidcSignoutCallback />)} />
                                         <Route exact path="/kart" render={() => (<MapContainer />)} />
+                                        <Route exact path="/metadata/:title/:uuid" render={(props) => (<Metadata {...props} />)} />
                                         <Route exact path="/metadata/:uuid" render={(props) => (<Metadata {...props} />)} />
                                         <Route exact path="/:category" render={(props) => (<Home {...props} />)} />
                                         <Route render={() => (<NotFound />)} />

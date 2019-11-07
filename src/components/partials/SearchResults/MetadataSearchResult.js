@@ -6,7 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
 
 // Actions
-import { getResource } from '../../../actions/ResourceActions'
+import { getResource } from '../../../actions/ResourceActions';
+
+// Helpers
+import { convertTextToUrlSlug } from '../../../helpers/UrlHelpers';
 
 // Components
 import { ErrorBoundary } from '../../ErrorBoundary'
@@ -126,7 +129,7 @@ class MetadataSearchResult extends Component {
       <div className={style.listItem}>
         <div>
           <span className={style.listItemTitle}>
-            <ErrorBoundary><Link to={`/metadata/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link></ErrorBoundary>
+            <ErrorBoundary><Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link></ErrorBoundary>
           </span>
           {this.renderListItemInfo()}
           <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>

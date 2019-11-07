@@ -11,6 +11,9 @@ import { getResource } from '../../actions/ResourceActions'
 import { clearMetadata, fetchMetadata } from '../../actions/MetadataActions'
 import { clearMetadataDistributions, fetchMetadataDistributions } from '../../actions/MetadataDistributionActions'
 
+// Helpers
+import { convertTextToUrlSlug, convertUrlSlugToText } from '../../helpers/UrlHelpers';
+
 // Components
 import { ErrorBoundary } from '../ErrorBoundary'
 import DistributionsList from "./Metadata/DistributionsList";
@@ -706,6 +709,27 @@ class Metadata extends Component {
         }
     }
 
+    getPageTitle(){
+      if (this.props.metadata.Title){
+        return this.props.metadata.Title;
+      }else if (this.props.match.params.title){
+        return convertUrlSlugToText(this.props.match.params.title);
+      }else {
+        return '';
+      }
+    }
+
+    renderCanonicalTags(){
+      let canonicalTagElements = [];
+      if (this.props.match.params.uuid){
+        canonicalTagElements.push(<link rel="canonical" key='paramsTitle' href={`${document.location.origin}/metadata/${this.props.match.params.uuid}`} />);
+      }
+      if (this.props.metadata && this.props.metadata.Title){
+        canonicalTagElements.push(<link rel="canonical" key='metadataTitle' href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} />);
+      }
+      canonicalTagElements.push(<link rel="canonical" key='paramsTitle' href={`${document.location.origin}/metadata/uuid/${this.props.match.params.uuid}`} />);
+      return canonicalTagElements;
+    }
 
     render() {
         return this.props.metadata.Message === "An error has occurred." ? (
@@ -715,8 +739,8 @@ class Metadata extends Component {
         ) : (
                 <div>
                     <Helmet>
-                        <title>{this.props.metadata && this.props.metadata.Title ? this.props.metadata.Title : ''} - Kartkatalogen</title>
-                        <link rel="canonical" href={`${document.location.origin}/metadata/${this.props.match.params.uuid}`} />
+                        <title>{this.getPageTitle()} - Kartkatalogen</title>
+                        {this.renderCanonicalTags()}
                         <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.props.metadata.Abstract) : ''} />
                         <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                     </Helmet>
