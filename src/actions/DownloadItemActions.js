@@ -50,10 +50,22 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
 			.then((res) => res.json())
 			.then((capabilities) => {
 				const roles = baatInfo.baat_services ? baatInfo.baat_services : null;
-				const requiredRole = capabilities.accessConstraintRequiredRole;
-				const addDatasetIsAllowed = requiredRole
+				const constraintRequiredRole = capabilities.accessConstraintRequiredRole;
+				const requiredRoles = constraintRequiredRole.split(',').map(item => item.trim());
+				let addDatasetIsAllowed = true;
+
+				for(let requiredRole of requiredRoles){
+					addDatasetIsAllowed = requiredRole
 					? roles && roles.length && roles.find(role => {return role === requiredRole}) !== undefined
 					: true;
+					if(!addDatasetIsAllowed)
+						break;
+				  };
+
+				let isAdmin = roles && roles.length && roles.find(role => {return role === "nd.metadata_admin"}) !== undefined;
+				if(isAdmin)
+				 addDatasetIsAllowed = true;
+
 				if(addDatasetIsAllowed){
 					addItemToLocalStorage(itemToAdd);
 					dispatch(fetchItemsToDownload())
