@@ -19,6 +19,11 @@ export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
 
 	// TODO midlertidig løsning pga gammel handlekurv...
 	localStorage.removeItem(itemToRemove.uuid + ".metadata")
+	dispatch(pushToDataLayer({
+		category: 'Nedlasting',
+		activity: 'fjernfrakurv',
+		metadata: itemToRemove
+	}));
 
 	dispatch(fetchItemsToDownload())
 }
@@ -36,7 +41,11 @@ const addItemToLocalStorage = (itemToAdd => {
 export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) => {
 	if (itemToAdd.accessIsOpendata){
 		addItemToLocalStorage(itemToAdd);
-		dispatch(pushToDataLayer({metadata: itemToAdd}));
+		dispatch(pushToDataLayer({
+			category: 'Nedlasting',
+			activity: 'leggikurv',
+			metadata: itemToAdd
+		}));
 		dispatch(fetchItemsToDownload())
 	}else if (itemToAdd.accessIsRestricted){
 		const baatInfo = getState() && getState().baatInfo ? getState().baatInfo : null;
@@ -70,6 +79,7 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
 
 				if(addDatasetIsAllowed){
 					addItemToLocalStorage(itemToAdd);
+					console.log("adding restricted item");
 					dispatch(fetchItemsToDownload())
 				}else {
 						alert('Du har ikke tilgang til å legge datasett i til nedlasting');

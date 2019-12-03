@@ -1,4 +1,5 @@
 import { FETCH_MAPITEMS } from './types';
+import { pushToDataLayer } from '../reducers/TagManagerReducer';
 
 export const fetchMapItems = () => dispatch => {
 	let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
@@ -12,12 +13,18 @@ export const removeMapItem = (mapItemsToRemove) => dispatch => {
 	let selectedMapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
 	mapItemsToRemove.forEach(mapItemToRemove => {
 		if (mapItemToRemove && mapItemToRemove.Uuid) {
+			dispatch(pushToDataLayer({
+				category: 'Kart',
+				activity: 'fjernfrakart',
+				metadata: mapItemToRemove
+			}));
 			localStorage.mapItems = JSON.stringify(selectedMapItems.filter(mapItemToKeep => {
 				return mapItemToKeep && mapItemToKeep.Uuid && mapItemToKeep.Uuid !== mapItemToRemove.Uuid
 			}));
 			selectedMapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
 		}
 	});
+
 
 	dispatch(fetchMapItems())
 }
@@ -27,6 +34,11 @@ export const addMapItem = (mapItemsToAdd) => dispatch => {
 	mapItemsToAdd.forEach(mapItemToAdd => {
 		if (mapItemToAdd && mapItemToAdd.Uuid) {
 			mapItems.push(mapItemToAdd);
+			dispatch(pushToDataLayer({
+				category: 'Kart',
+				activity: 'leggtilikart',
+				metadata: mapItemToAdd
+			}));
 		}
 	});
 
