@@ -732,7 +732,7 @@ class Metadata extends Component {
     }
 
     render() {
-        return this.props.metadata.Message === "An error has occurred." ? (
+        return !this.props.metadata || (this.props.metadata.Message && this.props.metadata.Message === "An error has occurred.") ? (
             <div className={style.searchResultContainer}>
                 <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span>
             </div>
