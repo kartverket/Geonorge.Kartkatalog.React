@@ -15,8 +15,10 @@ import SelectedLanguageReducer from "./SelectedLanguageReducer";
 import ResourceReducer from "./ResourceReducer";
 import EnvironmentReducer from './EnvironmentReducer';
 import BaatInfoReducer from './BaatInfoReducer';
+import TagManagerReducer from './TagManagerReducer';
 
 export default (history) => combineReducers({
+    dataLayer: TagManagerReducer,
     router: connectRouter(history),
     oidc: oidcReducer,
     baatInfo: BaatInfoReducer,

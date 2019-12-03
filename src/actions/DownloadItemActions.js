@@ -1,4 +1,5 @@
 import { FETCH_ITEMS_TO_DOWNLOAD } from './types';
+import { addToDataLayer, pushToDataLayer, getDataLayer } from '../reducers/TagManagerReducer';
 
 export const fetchItemsToDownload = () => dispatch => {
 	let itemsToDownload = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];
@@ -35,6 +36,7 @@ const addItemToLocalStorage = (itemToAdd => {
 export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) => {
 	if (itemToAdd.accessIsOpendata){
 		addItemToLocalStorage(itemToAdd);
+		dispatch(pushToDataLayer({metadata: itemToAdd}));
 		dispatch(fetchItemsToDownload())
 	}else if (itemToAdd.accessIsRestricted){
 		const baatInfo = getState() && getState().baatInfo ? getState().baatInfo : null;
