@@ -14,8 +14,9 @@ export const removeMapItem = (mapItemsToRemove) => dispatch => {
 	mapItemsToRemove.forEach(mapItemToRemove => {
 		if (mapItemToRemove && mapItemToRemove.Uuid) {
 			dispatch(pushToDataLayer({
-				category: 'Kart',
-				activity: 'fjernfrakart',
+				event: 'updateMap',
+				category: 'map',
+				activity: 'removeFromMap',
 				metadata: mapItemToRemove
 			}));
 			localStorage.mapItems = JSON.stringify(selectedMapItems.filter(mapItemToKeep => {
@@ -35,8 +36,9 @@ export const addMapItem = (mapItemsToAdd) => dispatch => {
 		if (mapItemToAdd && mapItemToAdd.Uuid) {
 			mapItems.push(mapItemToAdd);
 			dispatch(pushToDataLayer({
-				category: 'Kart',
-				activity: 'leggtilikart',
+				event: 'updateMap',
+				category: 'map',
+				activity: 'addToMap',
 				metadata: mapItemToAdd
 			}));
 		}

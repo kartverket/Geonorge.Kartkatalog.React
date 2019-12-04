@@ -20,8 +20,9 @@ export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
 	// TODO midlertidig løsning pga gammel handlekurv...
 	localStorage.removeItem(itemToRemove.uuid + ".metadata")
 	dispatch(pushToDataLayer({
-		category: 'Nedlasting',
-		activity: 'fjernfrakurv',
+		event: 'updateCart',
+		category: 'download',
+		activity: 'removeFromCart',
 		metadata: itemToRemove
 	}));
 
@@ -42,8 +43,9 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
 	if (itemToAdd.accessIsOpendata){
 		addItemToLocalStorage(itemToAdd);
 		dispatch(pushToDataLayer({
-			category: 'Nedlasting',
-			activity: 'leggikurv',
+			event: 'updateCart',
+			category: 'download',
+			activity: 'addToCart',
 			metadata: itemToAdd
 		}));
 		dispatch(fetchItemsToDownload())

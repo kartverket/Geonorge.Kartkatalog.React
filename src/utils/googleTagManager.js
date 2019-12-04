@@ -13,7 +13,6 @@ export default({getState}) => {
     }, 300);
   };
 
-  if (!_gtm){console.log("NO GTM")}
   return(next) => (action) => {
     const returnValue = next(action);
 
