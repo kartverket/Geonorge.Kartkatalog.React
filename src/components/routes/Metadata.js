@@ -44,6 +44,37 @@ class Metadata extends Component {
         };
     }
 
+    getMetadataLinkedDataSnippet(metadata) {
+      if (metadata && Object.keys(metadata).length){
+        const snippet = {
+          "@context": "http://schema.org",
+          "@type": "Dataset",
+          "@id": `https://kartkatalog.geonorge.no/${window.location.pathname}`,
+          "name": metadata.Title,
+          "description": metadata.Abstract,
+          "abstract": metadata.Abstract,
+          "datePublished": metadata.DatePublished,
+          "dateModified": metadata.DateUpdated,
+          "license": metadata.Constraints && metadata.Constraints.OtherConstraintsLink ? metadata.Constraints.OtherConstraintsLink : '',
+          "author": {
+            "@type": "Organization",
+            "name": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
+            "legalName": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
+            "email": metadata.ContactOwner && metadata.ContactOwner.Email ? metadata.ContactOwner.Email : ''
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
+            "legalName": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
+            "email": metadata.ContactPublisher && metadata.ContactPublisher.Email ? metadata.ContactPublisher.Email: ''
+          }
+        }
+        return (<Helmet>
+          <script type="application/ld+json">{`${JSON.stringify(snippet)}`}</script>
+        </Helmet>)
+      }else return '';
+  }
+
     toggleExpand() {
         this.setState(prevState => ({
             expanded: !prevState.expanded && !prevState.expandedDownload
@@ -744,6 +775,7 @@ class Metadata extends Component {
                         <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.props.metadata.Abstract) : ''} />
                         <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                     </Helmet>
+                    {this.getMetadataLinkedDataSnippet(this.props.metadata)}
                     <Breadcrumb content={this.props.metadata.Title} />
                     <div className={style.content}>
 
