@@ -16,7 +16,13 @@ export const updateSelectedFacets = (facets) => dispatch => {
 };
 
 
-const addSelectedChildFacetsToAnalytics = (facet) => dispatch =>  {
+const addSelectedChildFacetsToAnalytics = (facet, facetType) => dispatch =>  {
+  dispatch(pushToDataLayer({
+    event: 'updateSelectedFacets',
+    category: 'facets',
+    activity: 'addFacetType',
+    facet: facetType
+  }));
   dispatch(pushToDataLayer({
     event: 'updateSelectedFacets',
     category: 'facets',
@@ -26,7 +32,7 @@ const addSelectedChildFacetsToAnalytics = (facet) => dispatch =>  {
   if (facet.facets && Object.keys(facet.facets).length){
     Object.keys(facet.facets).forEach(childFacetKey => {
       const childFacet = facet.facets[childFacetKey];
-      addSelectedChildFacetsToAnalytics(childFacet);
+      addSelectedChildFacetsToAnalytics(childFacet, facetType);
     });
   }
 }
@@ -36,13 +42,7 @@ export const addSelectedFacetsToAnalytics = (facets) => dispatch => {
     const facetType = facets[facetTypeKey];
     Object.keys(facetType.facets).forEach(facetKey => {
       const facet = facetType.facets[facetKey];
-      dispatch(pushToDataLayer({
-        event: 'updateSelectedFacets',
-        category: 'facets',
-        activity: 'addFacetType',
-        facet: facet
-      }));
-      addSelectedChildFacetsToAnalytics(facet);
+      dispatch(addSelectedChildFacetsToAnalytics(facet, facetType));
     })
   })
 
@@ -98,7 +98,8 @@ export const updateSelectedFacetsFromUrl = (availableFacets = {}) => dispatch =>
                         if (!facets[facetField]) { // Creating facet field e.g. Type, Theme, etc. if not created
                             facets[facetField] = {
                                 facets: {},
-                                Name: facetField
+                                Name: facetField,
+                                NameTranslated: availableFacets[facetField].NameTranslated
                             };
                         }
                         facets[facetField].facets = addChildFacets(facets[facetField].facets, facet); // Adding child facets to facet field
