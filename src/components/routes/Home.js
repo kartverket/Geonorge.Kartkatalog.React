@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions'
+import { updateAvailableFacets, updateSelectedFacetsFromUrl, addSelectedFacetsToAnalytics } from '../../actions/FacetFilterActions'
 import { updateSearchStringFromUrl } from '../../actions/SearchStringActions'
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
@@ -48,6 +48,7 @@ class Home extends Component {
 
             if (window.location.search) { // TODO Check if location.search contains facets
                 const selectedFacets = this.props.updateSelectedFacetsFromUrl(availableFacets).payload;
+                this.props.addSelectedFacetsToAnalytics(selectedFacets);
                 this.props.updateSearchStringFromUrl();
                 this.props.fetchMetadataSearchResults(this.props.searchString, selectedFacets);
                 this.props.fetchArticleSearchResults(this.props.searchString);
@@ -185,6 +186,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     updateSelectedFacetsFromUrl,
     updateAvailableFacets,
+    addSelectedFacetsToAnalytics,
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
     updateSearchStringFromUrl,

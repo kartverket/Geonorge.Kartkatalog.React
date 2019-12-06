@@ -1,4 +1,5 @@
 import { UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS } from '../actions/types';
+import { pushToDataLayer } from '../reducers/TagManagerReducer';
 
 export const updateAvailableFacets = (facets) => dispatch => {
     dispatch({
@@ -13,6 +14,39 @@ export const updateSelectedFacets = (facets) => dispatch => {
         payload: facets,
     })
 };
+
+
+const addSelectedChildFacetsToAnalytics = (facet) => dispatch =>  {
+  dispatch(pushToDataLayer({
+    event: 'updateSelectedFacets',
+    category: 'facets',
+    activity: 'addFacet',
+    facet: facet
+  }));
+  if (facet.facets && Object.keys(facet.facets).length){
+    Object.keys(facet.facets).forEach(childFacetKey => {
+      const childFacet = facet.facets[childFacetKey];
+      addSelectedChildFacetsToAnalytics(childFacet);
+    });
+  }
+}
+
+export const addSelectedFacetsToAnalytics = (facets) => dispatch => {
+  Object.keys(facets).forEach(facetTypeKey => {
+    const facetType = facets[facetTypeKey];
+    Object.keys(facetType.facets).forEach(facetKey => {
+      const facet = facetType.facets[facetKey];
+      dispatch(pushToDataLayer({
+        event: 'updateSelectedFacets',
+        category: 'facets',
+        activity: 'addFacetType',
+        facet: facet
+      }));
+      addSelectedChildFacetsToAnalytics(facet);
+    })
+  })
+
+}
 
 const findFacetInArray = (array, facetHierarchyForFacetValueArray, index = 0) => {
     let facetValue = index < facetHierarchyForFacetValueArray.length ? facetHierarchyForFacetValueArray[index] : null;
