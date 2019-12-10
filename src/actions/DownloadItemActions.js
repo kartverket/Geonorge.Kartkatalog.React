@@ -64,21 +64,26 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
 			.then((capabilities) => {
 				const roles = baatInfo.baat_services ? baatInfo.baat_services : null;
 				const constraintRequiredRole = capabilities.accessConstraintRequiredRole;
-				const requiredRoles = constraintRequiredRole.split(',').map(item => item.trim());
-				let addDatasetIsAllowed = true;
+				if(constraintRequiredRole === undefined) {
+					addDatasetIsAllowed = true;
+				}
+				else
+				{
+					const requiredRoles = constraintRequiredRole.split(',').map(item => item.trim());
+					let addDatasetIsAllowed = true;
 
-				for(let requiredRole of requiredRoles){
-					addDatasetIsAllowed = requiredRole
-					? roles && roles.length && roles.find(role => {return role === requiredRole}) !== undefined
-					: true;
-					if(!addDatasetIsAllowed)
-						break;
-				  };
+					for(let requiredRole of requiredRoles){
+						addDatasetIsAllowed = requiredRole
+						? roles && roles.length && roles.find(role => {return role === requiredRole}) !== undefined
+						: true;
+						if(!addDatasetIsAllowed)
+							break;
+					};
 
-				let isAdmin = roles && roles.length && roles.find(role => {return role === "nd.metadata_admin"}) !== undefined;
-				if(isAdmin)
-				 addDatasetIsAllowed = true;
-
+					let isAdmin = roles && roles.length && roles.find(role => {return role === "nd.metadata_admin"}) !== undefined;
+					if(isAdmin)
+					addDatasetIsAllowed = true;
+				}
 				if(addDatasetIsAllowed){
 					addItemToLocalStorage(itemToAdd);
 					console.log("adding restricted item");
