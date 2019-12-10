@@ -64,13 +64,13 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
 			.then((capabilities) => {
 				const roles = baatInfo.baat_services ? baatInfo.baat_services : null;
 				const constraintRequiredRole = capabilities.accessConstraintRequiredRole;
+				let addDatasetIsAllowed = true;
 				if(constraintRequiredRole === undefined) {
 					addDatasetIsAllowed = true;
 				}
 				else
 				{
 					const requiredRoles = constraintRequiredRole.split(',').map(item => item.trim());
-					let addDatasetIsAllowed = true;
 
 					for(let requiredRole of requiredRoles){
 						addDatasetIsAllowed = requiredRole
