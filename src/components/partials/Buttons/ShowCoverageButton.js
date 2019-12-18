@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Actions
 import { getResource } from '../../../actions/ResourceActions'
 
+// Reducers
+import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
+
+
 // Components
 import Modal from './Modal.js'
 
@@ -30,6 +34,20 @@ export class ShowCoverageButton extends Component {
         this.setState({ show: false });
     };
 
+    handleButtonClick = () => {
+      this.showModal();
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+				event: 'showMore',
+				category: 'metadataDetails',
+				activity: 'showCoverageMap',
+				metadata: tagData
+			});
+    }
+
     componentDidMount = () => {
         this.setState({ mounted: true });
     }
@@ -48,7 +66,7 @@ export class ShowCoverageButton extends Component {
 
         if (this.props.metadata.CoverageUrl) {
             let buttonClass = style.btn;
-            return <span className={buttonClass} onClick={this.showModal}>
+            return <span className={buttonClass} onClick={this.handleButtonClick}>
                 <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
             </span>
         }
@@ -75,7 +93,8 @@ ShowCoverageButton.propTypes = {
 };
 
 const mapDispatchToProps = {
-    getResource
+    getResource,
+    pushToDataLayer
 };
 
 const mapStateToProps = state => ({
