@@ -103,6 +103,14 @@ class Metadata extends Component {
         }
     }
 
+    renderDatasetLanguage() {
+        return this.props.metadata && this.props.metadata.DatasetLanguage ? (
+            <div>
+                <strong>{this.props.getResource('LanguageInDataset', 'Språk i datasett')}:</strong> {this.props.metadata.DatasetLanguage}
+            </div>
+        ) : ''
+    }
+
     renderContactMetadata() {
         if (this.props.metadata && this.props.metadata.ContactMetadata) {
             return (
@@ -652,6 +660,15 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderGeneral() {
+        const hasChildren = this.renderDatasetLanguage();
+         return hasChildren ? ( 
+            <div>
+                {this.renderDatasetLanguage()}
+            </div>
+         ): '';
+    }
+
     renderQualitySpecificationsSection() {
         const hasQualitySpecifications = this.props.metadata && this.props.metadata.QualitySpecifications && this.props.metadata.QualitySpecifications.length;
         const qualitySpecificationsList = hasQualitySpecifications && this.props.metadata.QualitySpecifications.map((qualitySpecification, index) => {
@@ -853,6 +870,7 @@ class Metadata extends Component {
                             <h2>{this.props.getResource('DetailedInformation', 'Detaljert informasjon')}
                                 <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}`} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
                         <div className={this.state.expanded ? style.open : style.closed}>
+                            {this.renderGeneral()}
                             <div className={style.flex}>
                                 {this.renderQualitySection()}
                                 {this.renderTimeAndSpaceSection()}
