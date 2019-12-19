@@ -291,6 +291,14 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderDateCreated() {
+        return this.props.metadata && this.props.metadata.DateCreated ? (
+            <div>
+                <strong>{this.props.getResource('Created', 'Oppretet')} ({this.props.getResource('Resource', 'Ressurs')}): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateCreated} />
+            </div>
+        ) : ''
+    }
+
     renderDateUpdated() {
         return this.props.metadata && this.props.metadata.DateUpdated ? (
             <div>
@@ -677,6 +685,7 @@ class Metadata extends Component {
     renderTimeAndSpaceSection() {
         const hasChildren = this.renderDateUpdated()
             || this.renderMetadataDateUpdated()
+            || this.renderDateCreated()
             || this.renderDatePublished()
             || this.renderDateValidityPeriod()
             || this.renderMaintenanceFrequency()
@@ -685,6 +694,7 @@ class Metadata extends Component {
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('TimeAndSpace', 'Tid og rom')}</h2>
+                {this.renderDateCreated()}
                 {this.renderDateUpdated()}
                 {this.renderMetadataDateUpdated()}
                 {this.renderDatePublished()}
