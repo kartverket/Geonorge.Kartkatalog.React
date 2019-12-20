@@ -1,16 +1,35 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Actions
 import { getResource } from '../../../actions/ResourceActions'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// Reducers
+import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
+
+// Stylesheets
 import style from './Buttons.scss';
 
 export class ProductSheetButton extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    handleButtonClick = () => {
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+				event: 'showMore',
+				category: 'metadataDetails',
+				activity: 'showProductSheet',
+				metadata: tagData
+			});
     }
 
     render() {
@@ -23,16 +42,18 @@ export class ProductSheetButton extends Component {
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
-            return React.createElement('a', { href: url, className: buttonClass }, childElements);
+            return (<a href={url} onClick={this.handleButtonClick} className={buttonClass}>
+              {childElements}
+              </a>);
         } else {
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'info-circle']} key="icon" />
             let buttonClass = style.btn + ' disabled';
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
-            return React.createElement('span', { className: buttonClass }, childElements);
+            return (<span className={buttonClass}>{childElements}</span>);
         }
     }
-    
+
 }
 
 ProductSheetButton.propTypes = {
@@ -40,7 +61,8 @@ ProductSheetButton.propTypes = {
 };
 
 const mapDispatchToProps = {
-    getResource
+    getResource,
+    pushToDataLayer
 };
 
 const mapStateToProps = state => ({
