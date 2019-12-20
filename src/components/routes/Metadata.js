@@ -119,6 +119,14 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderResourceReferenceCode() {
+        return this.props.metadata && this.props.metadata.ResourceReferenceCode ? (
+            <div>
+                <strong>{this.props.getResource('DatasetName', 'Datasett-ID')}:</strong> {this.props.metadata.ResourceReferenceCode}
+            </div>
+        ) : ''
+    }  
+
 
     renderContactMetadata() {
         if (this.props.metadata && this.props.metadata.ContactMetadata) {
@@ -678,11 +686,12 @@ class Metadata extends Component {
     }
 
     renderGeneral() {
-        const hasChildren = this.renderDatasetLanguage() || this.renderResourceReferenceCodespace();
+        const hasChildren = this.renderDatasetLanguage() || this.renderResourceReferenceCodespace() || this.renderResourceReferenceCode();
          return hasChildren ? ( 
             <div>
                 {this.renderDatasetLanguage()}
                 {this.renderResourceReferenceCodespace()}
+                {this.renderResourceReferenceCode()}
             </div>
          ): '';
     }
