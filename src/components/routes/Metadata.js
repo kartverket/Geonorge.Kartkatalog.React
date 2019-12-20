@@ -349,6 +349,14 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderSpatialScope() {
+        return this.props.metadata && this.props.metadata.SpatialScope ? (
+            <div>
+                <strong>{this.props.getResource('Facet_spatialscope', 'Dekningsområde')}: </strong>{this.props.metadata.SpatialScope}
+            </div>
+        ) : ''
+    }
+
     renderKeywordsPlace() {
         const hasKeywordsPlace = this.props.metadata.KeywordsPlace && this.props.metadata.KeywordsPlace.length;
         const keywordsPlaceList = hasKeywordsPlace && this.props.metadata.KeywordsPlace.map((keywordPlace, index) => {
@@ -707,7 +715,8 @@ class Metadata extends Component {
             || this.renderDateValidityPeriod()
             || this.renderMaintenanceFrequency()
             || this.renderKeywordsPlace()
-            || this.renderBoundingBox();
+            || this.renderBoundingBox()
+            || this.renderSpatialScope();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('TimeAndSpace', 'Tid og rom')}</h2>
@@ -719,6 +728,7 @@ class Metadata extends Component {
                 {this.renderMaintenanceFrequency()}
                 {this.renderKeywordsPlace()}
                 {this.renderBoundingBox()}
+                {this.renderSpatialScope()}
             </div>
         ) : '';
     }
