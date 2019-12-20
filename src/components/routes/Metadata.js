@@ -716,6 +716,7 @@ class Metadata extends Component {
                 {this.renderMetadataDateUpdated()}
                 {this.renderDatePublished()}
                 {this.renderDateValidityPeriod()}
+                {this.renderMaintenanceFrequency()}
                 {this.renderKeywordsPlace()}
                 {this.renderBoundingBox()}
             </div>
