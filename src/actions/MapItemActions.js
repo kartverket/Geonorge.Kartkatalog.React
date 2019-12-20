@@ -13,11 +13,15 @@ export const removeMapItem = (mapItemsToRemove) => dispatch => {
 	let selectedMapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];
 	mapItemsToRemove.forEach(mapItemToRemove => {
 		if (mapItemToRemove && mapItemToRemove.Uuid) {
+			const tagData = {
+        name: mapItemToRemove.Title,
+        uuid: mapItemToRemove.Uuid
+      }
 			dispatch(pushToDataLayer({
 				event: 'updateMap',
 				category: 'map',
 				activity: 'removeFromMap',
-				metadata: mapItemToRemove
+				metadata: tagData
 			}));
 			localStorage.mapItems = JSON.stringify(selectedMapItems.filter(mapItemToKeep => {
 				return mapItemToKeep && mapItemToKeep.Uuid && mapItemToKeep.Uuid !== mapItemToRemove.Uuid
@@ -35,11 +39,15 @@ export const addMapItem = (mapItemsToAdd) => dispatch => {
 	mapItemsToAdd.forEach(mapItemToAdd => {
 		if (mapItemToAdd && mapItemToAdd.Uuid) {
 			mapItems.push(mapItemToAdd);
+			const tagData = {
+        name: mapItemToAdd.Title,
+        uuid: mapItemToAdd.Uuid
+      }
 			dispatch(pushToDataLayer({
 				event: 'updateMap',
 				category: 'map',
 				activity: 'addToMap',
-				metadata: mapItemToAdd
+				metadata: tagData
 			}));
 		}
 	});
