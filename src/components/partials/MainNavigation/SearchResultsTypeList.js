@@ -1,13 +1,22 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
+
+// Actions
 import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
 import { updateSelectedFacets } from '../../../actions/FacetFilterActions';
 import { updateSelectedSearchResultsType } from '../../../actions/SelectedSearchResultsTypeActions';
 import { updateSearchString } from '../../../actions/SearchStringActions';
+
+// Reducers
+import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
+
+// Helpers
 import { getQueryStringFromFacets } from "../../../helpers/FacetFilterHelpers";
 
+// Stylesheets
 import style from './SearchResultsTypeList.scss';
 
 class SearchResultsTypeList extends Component {
@@ -36,9 +45,9 @@ class SearchResultsTypeList extends Component {
     renderDropdownResultLink(result, resultType) {
         return resultType === 'articles'
             ? (
-                <a href={result.ShowDetailsUrl ? result.ShowDetailsUrl : '#'}>{result.Title}</a>
+                <a onClick={this.handleSearchResultsClick} href={result.ShowDetailsUrl ? result.ShowDetailsUrl : '#'}>{result.Title}</a>
             ) : (
-                <Link to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
+                <Link onClick={this.handleSearchResultsClick} to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
             )
     }
 
@@ -59,11 +68,35 @@ class SearchResultsTypeList extends Component {
         this.props.onShowResults();
     }
 
+    handleSearchResultsClick = () => {
+      this.props.pushToDataLayer({
+				event: 'updateSearchString',
+				category: 'metadataSearch',
+				activity: 'dropDownResultsClick',
+				searchString: this.props.searchString
+			});
+    }
+
+    handleSearchResultsTypeClick = () => {
+      this.props.pushToDataLayer({
+				event: 'updateSearchString',
+				category: 'metadataSearch',
+				activity: 'dropDownResultsTypeClick',
+				searchString: this.props.searchString
+			});
+      this.props.pushToDataLayer({
+        event: 'updateSelectedFacets',
+        category: 'facets',
+        activity: 'addFacetType',
+        facet: { NameTranslated: this.props.searchResults.TypeTranslated }
+      });
+    }
+
     render() {
         return (
             <div className={style.searchResultsSection} onClick={() => this.showResults()}>
                 <div className={style.searchResultsSectionHeadingContainer}>
-                    <Link to={{ pathname: `/${this.props.category}`, search: this.getUpdateFacetQueryString() }}>
+                    <Link to={{ pathname: `/${this.props.category}`, search: this.getUpdateFacetQueryString() }} onClick={this.handleSearchResultsTypeClick}>
                         <span
                             className={style.searchResultsSectionHeading}>{this.props.searchResults.TypeTranslated}</span>
                         <span className={style.counter}> {this.props.searchResults.NumFound}</span>
@@ -86,7 +119,8 @@ const mapDispatchToProps = {
     fetchMetadataSearchResults,
     updateSelectedFacets,
     updateSelectedSearchResultsType,
-    updateSearchString
+    updateSearchString,
+    pushToDataLayer
 };
 
 export default connect(null, mapDispatchToProps)(SearchResultsTypeList);

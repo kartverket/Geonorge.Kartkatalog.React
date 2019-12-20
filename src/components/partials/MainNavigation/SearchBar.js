@@ -13,6 +13,9 @@ import {
 import { updateSearchString } from '../../../actions/SearchStringActions';
 import { getResource } from '../../../actions/ResourceActions'
 
+// Reducers
+import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
+
 // Components
 import { ErrorBoundary } from '../../ErrorBoundary'
 import SearchResultsTypeList from './SearchResultsTypeList';
@@ -71,8 +74,18 @@ class SearchBar extends Component {
 
     keyPress(e) {
         if (e.keyCode === 13) { // On 'enter' keypress
-            this.hideDropdownResults();
+          this.hideDropdownResults();
         }
+    }
+
+    handleSearchButtonClick = () => {
+      this.props.pushToDataLayer({
+				event: 'updateSearchString',
+				category: 'metadataSearch',
+				activity: 'submitSearch',
+				searchString: this.state.searchString
+			});
+      this.hideDropdownResults();
     }
 
     componentDidMount() {
@@ -164,7 +177,7 @@ class SearchBar extends Component {
                     onKeyDown={this.keyPress}
                     value={this.state.searchString} id="searchString" />
 
-                <Link to={{ pathname: `/${selectedCategory}`, search: '?text=' + this.state.searchString }} onClick={() => this.hideDropdownResults()}>
+                <Link to={{ pathname: `/${selectedCategory}`, search: '?text=' + this.state.searchString }} onClick={this.handleSearchButtonClick}>
                     <button>
                         <img src={searchIcon} alt="search icon"></img>
                     </button>
@@ -195,7 +208,8 @@ const mapDispatchToProps = {
     fetchArticleSearchResults,
     fetchDropdownSearchResults,
     updateSearchString,
-    getResource
+    getResource,
+    pushToDataLayer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
