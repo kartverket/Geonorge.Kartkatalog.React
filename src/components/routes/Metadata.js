@@ -111,6 +111,15 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderResourceReferenceCodespace() {
+        return this.props.metadata && this.props.metadata.ResourceReferenceCodespace ? (
+            <div>
+                <strong>{this.props.getResource('NamespaceToDataset', 'Navnerom til datasett')}:</strong> {this.props.metadata.ResourceReferenceCodespace}
+            </div>
+        ) : ''
+    }
+
+
     renderContactMetadata() {
         if (this.props.metadata && this.props.metadata.ContactMetadata) {
             return (
@@ -669,10 +678,11 @@ class Metadata extends Component {
     }
 
     renderGeneral() {
-        const hasChildren = this.renderDatasetLanguage();
+        const hasChildren = this.renderDatasetLanguage() || this.renderResourceReferenceCodespace();
          return hasChildren ? ( 
             <div>
                 {this.renderDatasetLanguage()}
+                {this.renderResourceReferenceCodespace()}
             </div>
          ): '';
     }
