@@ -499,6 +499,23 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderKeywordsConcept() {
+        const hasKeywordsConcept = this.props.metadata.KeywordsConcept && this.props.metadata.KeywordsConcept.length;
+        const keywordsConceptList = hasKeywordsConcept && this.props.metadata.KeywordsConcept.map((keywordConcept, index) => {
+            return (
+                <li key={index}>
+                    <a href={keywordConcept.KeywordLink} target="_blank">{keywordConcept.KeywordValue}</a>
+                </li>
+            )
+        });
+        return hasKeywordsConcept ? (
+            <div>
+                <strong>{this.props.getResource('Concept', 'Begreper')}:</strong>
+                {keywordsConceptList}
+            </div>
+        ) : '';
+    }
+
     renderKeywordsAdministrativeUnits() {
         const hasKeywordsAdministrativeUnits = this.props.metadata.KeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.length;
         const keywordsAdministrativeUnitsList = hasKeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.map((keywordAdministrativeUnits, index) => {
@@ -788,7 +805,8 @@ class Metadata extends Component {
             || this.renderKeywordsNationalInitiative()
             || this.renderKeywordsInspire()
             || this.renderKeywordsAdministrativeUnits()
-            || this.renderTopicCategory();
+            || this.renderTopicCategory()
+            || this.renderKeywordsConcept();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
@@ -797,6 +815,7 @@ class Metadata extends Component {
                 {this.renderKeywordsNationalInitiative()}
                 {this.renderKeywordsAdministrativeUnits()}
                 {this.renderTopicCategory()}
+                {this.renderKeywordsConcept()}
             </div>
         ) : '';
     }
