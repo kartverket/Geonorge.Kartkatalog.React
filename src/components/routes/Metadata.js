@@ -292,6 +292,15 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderSecurityConstraintsNote() {
+        const hasSecurityConstraintsNote = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraintsNote;
+        return hasSecurityConstraintsNote ? (
+            <div>
+                <strong>{this.props.getResource('SecurityConstraintsNote', 'Lovhenvisning')}: </strong>{this.props.metadata.Constraints.SecurityConstraintsNote}
+            </div>
+        ) : '';
+    }
+
     renderSecurityConstraints() {
         const hasSecurityConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
         return hasSecurityConstraints ? (
@@ -659,7 +668,7 @@ class Metadata extends Component {
     }
 
     renderConstraintsSection() {
-        const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints();
+        const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints() || this.renderSecurityConstraintsNote();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Constraints', 'Restriksjoner')}</h2>
@@ -668,6 +677,7 @@ class Metadata extends Component {
                 {this.renderUseConstraints()}
                 {this.renderOtherConstraintsLinkText()}
                 {this.renderOtherConstraints()}
+                {this.renderSecurityConstraintsNote()}
                 {this.renderSecurityConstraints()}
             </div>
         ) : '';
