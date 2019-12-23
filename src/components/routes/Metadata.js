@@ -516,6 +516,23 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderKeywordsInspirePriorityDataset() {
+        const hasKeywordsInspirePriorityDataset = this.props.metadata.KeywordsInspirePriorityDataset && this.props.metadata.KeywordsInspirePriorityDataset.length;
+        const keywordsInspirePriorityDatasetList = hasKeywordsInspirePriorityDataset && this.props.metadata.KeywordsInspirePriorityDataset.map((keywordInspirePriorityDataset, index) => {
+            return (
+                <li key={index}>
+                    <a href={keywordInspirePriorityDataset.KeywordLink} target="_blank">{keywordInspirePriorityDataset.KeywordValue}</a>
+                </li>
+            )
+        });
+        return hasKeywordsInspirePriorityDataset ? (
+            <div>
+                <strong>{this.props.getResource('EuPriorityDataset', 'EU - prioriterte datasett')}:</strong>
+                {keywordsInspirePriorityDatasetList}
+            </div>
+        ) : '';
+    }
+
     renderKeywordsAdministrativeUnits() {
         const hasKeywordsAdministrativeUnits = this.props.metadata.KeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.length;
         const keywordsAdministrativeUnitsList = hasKeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.map((keywordAdministrativeUnits, index) => {
@@ -806,7 +823,9 @@ class Metadata extends Component {
             || this.renderKeywordsInspire()
             || this.renderKeywordsAdministrativeUnits()
             || this.renderTopicCategory()
-            || this.renderKeywordsConcept();
+            || this.renderKeywordsConcept()
+            || this.renderKeywordsInspirePriorityDataset()
+            ;
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
@@ -816,6 +835,7 @@ class Metadata extends Component {
                 {this.renderKeywordsAdministrativeUnits()}
                 {this.renderTopicCategory()}
                 {this.renderKeywordsConcept()}
+                {this.renderKeywordsInspirePriorityDataset()}
             </div>
         ) : '';
     }
