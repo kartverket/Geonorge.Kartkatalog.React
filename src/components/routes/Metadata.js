@@ -550,6 +550,23 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderKeywordsOther() {
+        const hasKeywordsOther = this.props.metadata.KeywordsOther && this.props.metadata.KeywordsOther.length;
+        const keywordsOtherList = hasKeywordsOther && this.props.metadata.KeywordsOther.map((keywordOther, index) => {
+            return (
+                <li key={index}>
+                    {keywordOther.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsOther ? (
+            <div>
+                <strong>{this.props.getResource('Metadata_KeywordsOther_Label', 'Ukategoriserte nøkkelord')}:</strong>
+                {keywordsOtherList}
+            </div>
+        ) : '';
+    }
+
     renderKeywordsAdministrativeUnits() {
         const hasKeywordsAdministrativeUnits = this.props.metadata.KeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.length;
         const keywordsAdministrativeUnitsList = hasKeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.map((keywordAdministrativeUnits, index) => {
@@ -843,6 +860,7 @@ class Metadata extends Component {
             || this.renderKeywordsConcept()
             || this.renderKeywordsInspirePriorityDataset()
             || this.renderKeywordsInspireCategory()
+            || this.renderKeywordsOther()
             ;
         return hasChildren ? (
             <div>
@@ -855,6 +873,7 @@ class Metadata extends Component {
                 {this.renderKeywordsConcept()}
                 {this.renderKeywordsInspirePriorityDataset()}
                 {this.renderKeywordsInspireCategory()}
+                {this.renderKeywordsOther()}
             </div>
         ) : '';
     }
