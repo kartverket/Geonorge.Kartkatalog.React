@@ -702,6 +702,7 @@ class Metadata extends Component {
             return (
                 <div key={index}>
                     <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
+                    {qualitySpecification.SpecificationLink ? <p><strong>Link :</strong> <a href={qualitySpecification.SpecificationLink} target="_blank">{qualitySpecification.SpecificationLink}</a>  </p> : ''}
                     <p><strong>{this.props.getResource('Date', 'Dato')}: </strong><Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> ({qualitySpecification.DateType})</p>
                     <p><strong>{this.props.getResource('QualitySpecificationExplanation', 'Forklaring av resultat')}: </strong>{qualitySpecification.Explanation}</p>
                     <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
