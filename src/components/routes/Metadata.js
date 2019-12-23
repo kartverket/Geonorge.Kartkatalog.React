@@ -334,6 +334,14 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderOrderingInstructions() {
+        return this.props.metadata && this.props.metadata.OrderingInstructions ? (
+            <div>
+    <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank">{this.props.metadata.OrderingInstructionsLinkText}</a>
+            </div>
+        ) : ''
+    }
+
     renderDateCreated() {
         return this.props.metadata && this.props.metadata.DateCreated ? (
             <div>
@@ -694,13 +702,14 @@ class Metadata extends Component {
     }
 
     renderQualitySection() {
-        const hasChildren = this.renderResolutionScale() || this.renderStatus() || this.renderProcessHistory();
+        const hasChildren = this.renderResolutionScale() || this.renderStatus() || this.renderProcessHistory() || this.renderOrderingInstructions();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Quality', 'Kvalitet')}</h2>
                 {this.renderResolutionScale()}
                 {this.renderStatus()}
                 {this.renderProcessHistory()}
+                {this.renderOrderingInstructions()}
             </div>
         ) : '';
     }
