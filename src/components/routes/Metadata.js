@@ -283,6 +283,15 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderOtherConstraints() {
+        const hasOtherConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraints;
+        return hasOtherConstraints ? (
+            <div>
+                <strong>{this.props.getResource('OtherConstraints', 'Andre restriksjoner')}: </strong>{this.props.metadata.Constraints.OtherConstraints}
+            </div>
+        ) : '';
+    }
+
     renderSecurityConstraints() {
         const hasSecurityConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
         return hasSecurityConstraints ? (
@@ -650,7 +659,7 @@ class Metadata extends Component {
     }
 
     renderConstraintsSection() {
-        const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints();
+        const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Constraints', 'Restriksjoner')}</h2>
@@ -658,6 +667,7 @@ class Metadata extends Component {
                 {this.renderAccessConstraints()}
                 {this.renderUseConstraints()}
                 {this.renderOtherConstraintsLinkText()}
+                {this.renderOtherConstraints()}
                 {this.renderSecurityConstraints()}
             </div>
         ) : '';
