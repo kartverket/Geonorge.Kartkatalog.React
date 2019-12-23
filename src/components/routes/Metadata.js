@@ -533,6 +533,23 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderKeywordsInspireCategory() {
+        const hasKeywordsInspire = this.props.metadata.KeywordsInspire && this.props.metadata.KeywordsInspire.length;
+        const keywordsInspireList = hasKeywordsInspire && this.props.metadata.KeywordsInspire.map((keywordInspire, index) => {
+            return (
+                <li key={index}>
+                    {keywordInspire.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsInspire ? (
+            <div>
+                <strong>{this.props.getResource('Metadata_KeywordsInspire_Label', 'Inspire kategorier')}:</strong>
+                {keywordsInspireList}
+            </div>
+        ) : '';
+    }
+
     renderKeywordsAdministrativeUnits() {
         const hasKeywordsAdministrativeUnits = this.props.metadata.KeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.length;
         const keywordsAdministrativeUnitsList = hasKeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.map((keywordAdministrativeUnits, index) => {
@@ -825,6 +842,7 @@ class Metadata extends Component {
             || this.renderTopicCategory()
             || this.renderKeywordsConcept()
             || this.renderKeywordsInspirePriorityDataset()
+            || this.renderKeywordsInspireCategory()
             ;
         return hasChildren ? (
             <div>
@@ -836,6 +854,7 @@ class Metadata extends Component {
                 {this.renderTopicCategory()}
                 {this.renderKeywordsConcept()}
                 {this.renderKeywordsInspirePriorityDataset()}
+                {this.renderKeywordsInspireCategory()}
             </div>
         ) : '';
     }
