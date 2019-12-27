@@ -880,7 +880,7 @@ class Metadata extends Component {
     renderThumbnail() {
         const hasThumbnail = this.props.metadata && this.props.metadata.Thumbnails && this.props.metadata.Thumbnails.length;
         const thumbnailList = hasThumbnail && this.props.metadata.Thumbnails.filter(thumbnail => {
-            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail"
+            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail" || thumbnail.Type === "miniatyrbilde"
         }).map((thumbnail, index) => {
             return (
                 <div key={index}>
