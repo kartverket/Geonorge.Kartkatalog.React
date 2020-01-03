@@ -156,10 +156,11 @@ class Home extends Component {
     }
 
     render() {
+      const searchResultsTypeText = this.props.selectedSearchResultsType === 'articles' ? 'Artikkelsøk' : 'Metadatasøk';
         return (
             <div>
                 <Helmet>
-                    <title>Kartkatalogen</title>
+                    <title>{this.props.searchString && this.props.searchString.length ? `${searchResultsTypeText} på '${this.props.searchString}' - ` : '' }Kartkatalogen</title>
                     <link rel="canonical" href={`${document.location.origin}/${this.props.selectedSearchResultsType ? this.props.selectedSearchResultsType : 'metadata'}`} />
                     <meta name="description" content='Bruk Geonorges kartkatalog til å søke etter, se på og laste ned norske offentlige kartdata' />
                     <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
