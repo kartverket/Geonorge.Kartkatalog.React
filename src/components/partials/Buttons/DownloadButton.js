@@ -80,6 +80,19 @@ export class DownloadButton extends Component {
             && this.props.metadata.Type === 'dataset'
     }
 
+    handleExternalDownloadButtonClick = () => {
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+        event: 'download',
+        category: 'metadataDetails',
+        activity: 'visitExternalDownloadPage',
+        metadata: tagData
+      });
+    }
+
     renderListButton() {
         let button = this.getDownloadButton();
 
@@ -105,7 +118,7 @@ export class DownloadButton extends Component {
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
-            return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
+            return (<a href={distributionUrl} onClick={this.handleExternalDownloadButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>{childElements}</a>);
         }
         else return null
     }
