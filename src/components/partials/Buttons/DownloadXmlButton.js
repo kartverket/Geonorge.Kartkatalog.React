@@ -13,6 +13,19 @@ export class DownloadXmlButton extends Component {
         this.state = {};
     }
 
+    handleButtonClick = () => {
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+        event: 'download',
+        category: 'metadataDetails',
+        activity: 'downloadXML',
+        metadata: tagData
+      });
+    }
+
 
     render() {
         let buttonDescription = `${this.props.getResource('Download', 'Last ned')} metadata XML`;
@@ -24,10 +37,10 @@ export class DownloadXmlButton extends Component {
 
         if (url) {
             let buttonClass = style.btn;
-            return React.createElement('a', { href: url, className: buttonClass }, childElements);
+            return (<a href={url} onClick={this.handleButtonClick} className={buttonClass}>{childElements}</a>);
         } else {
             let buttonClass = style.btn + ' disabled';
-            return React.createElement('span', { className: buttonClass }, childElements);
+            return (<span className={buttonClass}>{childElements}</span>);
         }
     }
 
