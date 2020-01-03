@@ -125,7 +125,7 @@ class Metadata extends Component {
                 <strong>{this.props.getResource('DatasetName', 'Datasett-ID')}:</strong> {this.props.metadata.ResourceReferenceCode}
             </div>
         ) : ''
-    }  
+    }
 
 
     renderContactMetadata() {
@@ -337,7 +337,7 @@ class Metadata extends Component {
     renderOrderingInstructions() {
         return this.props.metadata && this.props.metadata.OrderingInstructions ? (
             <div>
-    <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank">{this.props.metadata.OrderingInstructionsLinkText}</a>
+              <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">{this.props.metadata.OrderingInstructionsLinkText}</a>
             </div>
         ) : ''
     }
@@ -504,7 +504,7 @@ class Metadata extends Component {
         const keywordsConceptList = hasKeywordsConcept && this.props.metadata.KeywordsConcept.map((keywordConcept, index) => {
             return (
                 <li key={index}>
-                    <a href={keywordConcept.KeywordLink} target="_blank">{keywordConcept.KeywordValue}</a>
+                    <a href={keywordConcept.KeywordLink} target="_blank" rel="noopener noreferrer">{keywordConcept.KeywordValue}</a>
                 </li>
             )
         });
@@ -521,7 +521,7 @@ class Metadata extends Component {
         const keywordsInspirePriorityDatasetList = hasKeywordsInspirePriorityDataset && this.props.metadata.KeywordsInspirePriorityDataset.map((keywordInspirePriorityDataset, index) => {
             return (
                 <li key={index}>
-                    <a href={keywordInspirePriorityDataset.KeywordLink} target="_blank">{keywordInspirePriorityDataset.KeywordValue}</a>
+                    <a href={keywordInspirePriorityDataset.KeywordLink} target="_blank" rel="noopener noreferrer">{keywordInspirePriorityDataset.KeywordValue}</a>
                 </li>
             )
         });
@@ -784,7 +784,7 @@ class Metadata extends Component {
 
     renderGeneral() {
         const hasChildren = this.renderDatasetLanguage() || this.renderResourceReferenceCodespace() || this.renderResourceReferenceCode();
-         return hasChildren ? ( 
+         return hasChildren ? (
             <div>
                 {this.renderDatasetLanguage()}
                 {this.renderResourceReferenceCodespace()}
@@ -799,7 +799,7 @@ class Metadata extends Component {
             return (
                 <div key={index}>
                     <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
-                    {qualitySpecification.SpecificationLink ? <p><strong>Link :</strong> <a href={qualitySpecification.SpecificationLink} target="_blank">{qualitySpecification.SpecificationLink}</a>  </p> : ''}
+                    {qualitySpecification.SpecificationLink ? <p><strong>Link :</strong> <a href={qualitySpecification.SpecificationLink} target="_blank" rel="noopener noreferrer">{qualitySpecification.SpecificationLink}</a>  </p> : ''}
                     <p><strong>{this.props.getResource('Date', 'Dato')}: </strong><Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> ({qualitySpecification.DateType})</p>
                     <p><strong>{this.props.getResource('QualitySpecificationExplanation', 'Forklaring av resultat')}: </strong>{qualitySpecification.Explanation}</p>
                     <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
