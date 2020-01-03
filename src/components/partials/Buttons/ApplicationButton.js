@@ -14,6 +14,19 @@ export class ApplicationButton extends Component {
         };
     }
 
+    handleButtonClick = () => {
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+        event: 'showMore',
+        category: 'metadataDetails',
+        activity: 'showWebsite',
+        metadata: tagData
+      });
+    }
+
     isApplication() {
         return this.props.metadata.Type === "software" || this.props.metadata.Type === "Applikasjon"
     }
@@ -27,15 +40,14 @@ export class ApplicationButton extends Component {
                     let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
                     let buttonClass = 'ext';
                     let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-
                     let childElements = [icon, textContent];
-                    return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
+                    return (<a href={distributionUrl} onClick={this.handleButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>{childElements}</a>);
                 } else {
                     let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
                     let buttonClass = 'btn btn-sm disabled off'
                     let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
                     let childElements = [icon, textContent];
-                    return React.createElement('span', { className: buttonClass }, childElements);
+                    return (<span className={buttonClass}>{childElements}</span>);
                 }
             }
             return null
@@ -46,7 +58,7 @@ export class ApplicationButton extends Component {
                 let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
                 let buttonClass = style.btn;
                 let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-    
+
                 let childElements = [icon, textContent];
                 return React.createElement('a', { href: url, className: buttonClass }, childElements);
             } else {
