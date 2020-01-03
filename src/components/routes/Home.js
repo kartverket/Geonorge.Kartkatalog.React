@@ -165,7 +165,7 @@ class Home extends Component {
                     <meta name="description" content='Bruk Geonorges kartkatalog til å søke etter, se på og laste ned norske offentlige kartdata' />
                     <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                 </Helmet>
-                <Breadcrumb />
+                <Breadcrumb content={this.props.searchString && this.props.searchString.length ? `${searchResultsTypeText} på '${this.props.searchString}'` : null} />
                 <div className={style.header}>
                     {this.props.searchString && this.props.searchResults ? this.renderSearchQuery() : <h1>Kartkatalogen</h1>}
                     <ErrorBoundary><SelectedFacets /></ErrorBoundary>

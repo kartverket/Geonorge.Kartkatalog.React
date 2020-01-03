@@ -18,7 +18,7 @@ export class Breadcrumb extends Component {
                           <span property="name">Geonorge</span>
                         </a>
                          <meta property="position" content="1" />
-                        <FontAwesomeIcon title="Tilbake til katalogen" icon={'angle-right'} />
+                        <FontAwesomeIcon title="Til Geonorge" icon={'angle-right'} />
                     </li>
                     {this.renderCurrentBreadcrumb()}
                 </ul>
@@ -61,7 +61,8 @@ Breadcrumb.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    resources: state.resources
+    resources: state.resources,
+    searchString: state.searchString
 });
 
 const mapDispatchToProps = {
