@@ -19,7 +19,7 @@ export class ContactOwnerButton extends Component {
         uuid: this.props.metadata.Uuid
       }
       this.props.pushToDataLayer({
-        event: 'showMore',
+        event: 'contact',
         category: 'metadataDetails',
         activity: 'contactDataOwner',
         metadata: tagData
