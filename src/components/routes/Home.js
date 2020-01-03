@@ -10,6 +10,7 @@ import { updateAvailableFacets, updateSelectedFacetsFromUrl, addSelectedFacetsTo
 import { updateSearchStringFromUrl } from '../../actions/SearchStringActions'
 import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
+import { clearMetadata } from '../../actions/MetadataActions'
 import { getResource } from '../../actions/ResourceActions'
 
 // Components
@@ -36,6 +37,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        this.props.clearMetadata();
         this.setSelectedCategory();
         this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
             let availableFacets = {};
@@ -191,6 +193,7 @@ const mapDispatchToProps = {
     fetchArticleSearchResults,
     updateSearchStringFromUrl,
     updateSelectedSearchResultsType,
+    clearMetadata,
     getResource
 };
 

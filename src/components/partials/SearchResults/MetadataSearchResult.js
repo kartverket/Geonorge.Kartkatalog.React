@@ -124,12 +124,21 @@ class MetadataSearchResult extends Component {
     )
   }
 
+  renderLink(){
+    return this.props.metadata && this.props.metadata.Uuid === this.props.searchResult.Uuid
+    ? (<span>{this.props.searchResult.Title}</span>)
+    : (<Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link>);
+
+  }
+
   render() {
     return (
       <div className={style.listItem}>
         <div>
           <span className={style.listItemTitle}>
-            <ErrorBoundary><Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link></ErrorBoundary>
+            <ErrorBoundary>
+              {this.renderLink()}
+            </ErrorBoundary>
           </span>
           {this.renderListItemInfo()}
           <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
@@ -152,7 +161,8 @@ MetadataSearchResult.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  resources: state.resources
+  resources: state.resources,
+  metadata: state.metadata
 });
 
 const mapDispatchToProps = {
