@@ -7,32 +7,33 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { getResource } from '../../actions/ResourceActions'
-import { clearMetadata, fetchMetadata } from '../../actions/MetadataActions'
-import { clearMetadataDistributions, fetchMetadataDistributions } from '../../actions/MetadataDistributionActions'
+import { getResource } from 'actions/ResourceActions'
+import { clearMetadata, fetchMetadata } from 'actions/MetadataActions'
+import { clearMetadataDistributions, fetchMetadataDistributions } from 'actions/MetadataDistributionActions'
 
 // Helpers
-import { convertTextToUrlSlug, convertUrlSlugToText } from '../../helpers/UrlHelpers';
+import { convertTextToUrlSlug, convertUrlSlugToText } from 'helpers/UrlHelpers';
 
 // Components
-import { ErrorBoundary } from '../ErrorBoundary'
-import DistributionsList from "./Metadata/DistributionsList";
-import ProductSheetButton from '../partials/Buttons/ProductsheetButton';
-import ProductSpecificationButton from '../partials/Buttons/ProductSpecificationButton';
-import LegendDescriptionButton from '../partials/Buttons/LegendDescriptionButton';
-import ContactOwnerButton from '../partials/Buttons/ContactOwnerButton';
-import ProductPageButton from '../partials/Buttons/ProductPageButton';
-import ApplicationButton from '../partials/Buttons/ApplicationButton';
-import MapButton from '../partials/Buttons/MapButton';
-import DownloadButton from '../partials/Buttons/DownloadButton';
-import HelpButton from '../partials/Buttons/HelpButton';
-import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
-import DownloadXmlButton from '../partials/Buttons/DownloadXmlButton';
-import EditMetadataButton from '../partials/Buttons/EditMetadataButton';
-import Breadcrumb from '../partials/Breadcrumb';
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import DistributionsList from "components/routes/Metadata/DistributionsList";
+import ProductSheetButton from 'components/partials/Buttons/ProductsheetButton';
+import ProductSpecificationButton from 'components/partials/Buttons/ProductSpecificationButton';
+import LegendDescriptionButton from 'components/partials/Buttons/LegendDescriptionButton';
+import ContactOwnerButton from 'components/partials/Buttons/ContactOwnerButton';
+import ProductPageButton from 'components/partials/Buttons/ProductPageButton';
+import ApplicationButton from 'components/partials/Buttons/ApplicationButton';
+import MapButton from 'components/partials/Buttons/MapButton';
+import DownloadButton from 'components/partials/Buttons/DownloadButton';
+import HelpButton from 'components/partials/Buttons/HelpButton';
+import ShowCoverageButton from 'components/partials/Buttons/ShowCoverageButton';
+import DownloadXmlButton from 'components/partials/Buttons/DownloadXmlButton';
+import EditMetadataButton from 'components/partials/Buttons/EditMetadataButton';
+import Breadcrumb from 'components/partials/Breadcrumb';
 
 // Stylesheets
-import style from "./Metadata.scss";
+import style from "components/routes/Metadata.module.scss";
+
 
 class Metadata extends Component {
 
@@ -945,7 +946,7 @@ class Metadata extends Component {
 
                         <h1>{this.props.metadata.Title}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
-                        <div className={this.state.showBtns ? style.openBtnsContainer : style.openBtnsContainer + ' closed'}>
+                        <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                             <div className={style.btns}>
 
                                 <ErrorBoundary>

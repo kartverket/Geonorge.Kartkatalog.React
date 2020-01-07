@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Utils
-import userManager from '../../../utils/userManager';
+import userManager from 'utils/userManager';
 
 // Actions
-import { removeItemSelectedForDownload, addItemSelectedForDownload } from '../../../actions/DownloadItemActions'
-import { getResource } from '../../../actions/ResourceActions'
+import { removeItemSelectedForDownload, addItemSelectedForDownload } from 'actions/DownloadItemActions'
+import { getResource } from 'actions/ResourceActions'
 
 // Stylesheets
-import style from './Buttons.scss'
+import style from 'components/partials/Buttons/Buttons.module.scss'
 
 export class DownloadButton extends Component {
     constructor(props) {
@@ -104,7 +104,7 @@ export class DownloadButton extends Component {
                 : (event) => this.addToDownloadList(event, button);
             let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = this.state.isAdded ? 'off' : 'on';
+            let buttonClass = this.state.isAdded ? style.off : style.on;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
@@ -114,7 +114,7 @@ export class DownloadButton extends Component {
             let buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
             let distributionUrl = this.props.metadata.DistributionUrl;
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
-            let buttonClass = 'on';
+            let buttonClass = style.on;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
@@ -133,7 +133,7 @@ export class DownloadButton extends Component {
                 : (event) => this.addToDownloadList(event, button);
             let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = this.state.isAdded ?  [style.btn + ' remove'] : [style.btn + ' download'];
+            let buttonClass = this.state.isAdded ?  `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
@@ -152,7 +152,7 @@ export class DownloadButton extends Component {
         else {
             let buttonDescription = this.props.getResource('Download', 'Last ned');
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];

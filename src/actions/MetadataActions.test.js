@@ -2,8 +2,8 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk'
 
 // Actions to be tested
-import * as metadataActions from './MetadataActions';
-import {CLEAR_METADATA, FETCH_METADATA} from "./types";
+import * as metadataActions from 'actions/MetadataActions';
+import {CLEAR_METADATA, FETCH_METADATA} from "actions/types";
 
 const middlewares = [thunk]; // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);

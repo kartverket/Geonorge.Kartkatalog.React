@@ -1,4 +1,4 @@
-import { GET_ENVIRONMENT } from './types';
+import { GET_ENVIRONMENT } from 'actions/types';
 
 export const getEnvironment = () => dispatch => {
     const environment = process && process.env

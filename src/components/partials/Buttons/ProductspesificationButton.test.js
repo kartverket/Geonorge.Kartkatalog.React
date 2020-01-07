@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ProductSpecificationButton } from './ProductSpecificationButton';
-import style from './Buttons.scss';
+import style from 'components/partials/Buttons/Buttons.module.scss';
 
 function setupItemWithProductSpecificationUrl() {
     const metadata = {
@@ -39,7 +39,7 @@ function setupItemWithoutProductSpecificationUrl() {
 
 
 describe('ProductsheetButton', () => {
-    
+
     it('should render self', () => {
         const { wrapper } = setupItemWithProductSpecificationUrl()
         expect(wrapper).toMatchSnapshot();
@@ -50,14 +50,14 @@ describe('ProductsheetButton', () => {
 
         expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('file-spreadsheet')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('file-spreadsheet')
     })
 
     it('Item without DistributionUrl', () => {
         const { wrapper } = setupItemWithoutProductSpecificationUrl()
-        
+
         expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('file-spreadsheet')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('file-spreadsheet')
     })
 })

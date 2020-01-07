@@ -1,9 +1,14 @@
+// Dependencies
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Facet from './Facet';
-import style from './FacetFilterItem.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+
+// Components
+import Facet from 'components/partials/FacetFilter/Facet';
+
+// Stylesheets
+import style from 'components/partials/FacetFilter/FacetFilterItem.module.scss';
 
 class FacetFilterItem extends Component {
 

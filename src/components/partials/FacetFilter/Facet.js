@@ -7,20 +7,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
 
 // Actions
-import { updateSelectedFacetsFromUrl } from '../../../actions/FacetFilterActions';
-import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
+import { updateSelectedFacetsFromUrl } from 'actions/FacetFilterActions';
+import { fetchMetadataSearchResults } from 'actions/SearchResultActions';
 
 // Reducers
-import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 // Helpers
-import { getQueryStringFromFacets } from '../../../helpers/FacetFilterHelpers';
+import { getQueryStringFromFacets } from 'helpers/FacetFilterHelpers';
 
 // Components
-import { ErrorBoundary } from '../../ErrorBoundary';
+import { ErrorBoundary } from 'components/ErrorBoundary';
 
 // Stylesheets
-import style from './Facet.scss';
+import style from 'components/partials/FacetFilter/Facet.module.scss';
 
 class Facet extends Component {
     constructor(props) {
@@ -213,7 +213,7 @@ class Facet extends Component {
             <li className={liClassNames}>
                 <Link onClick={this.handleFacetClick}
                     to={{ search: this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString() }}>
-                    <FontAwesomeIcon className="svg-checkbox"
+                    <FontAwesomeIcon className={style.svgCheckbox}
                         icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} />
                     <label htmlFor={this.props.facet.Name}>
                         <span>{this.props.facet.NameTranslated} </span><span>({this.props.facet.Count})</span>

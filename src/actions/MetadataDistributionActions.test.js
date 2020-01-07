@@ -2,8 +2,8 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk'
 
 // Actions to be tested
-import * as metadataDistributionActions from './MetadataDistributionActions';
-import {CLEAR_METADATADISTRIBUTIONS, FETCH_METADATADISTRIBUTIONS} from "./types";
+import * as metadataDistributionActions from 'actions/MetadataDistributionActions';
+import {CLEAR_METADATADISTRIBUTIONS, FETCH_METADATADISTRIBUTIONS} from "actions/types";
 
 const middlewares = [thunk]; // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);

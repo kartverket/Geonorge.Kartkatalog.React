@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { ApplicationButton } from './ApplicationButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import style from './Buttons.scss'
+import style from 'components/partials/Buttons/Buttons.module.scss'
 
 function setupApplicationWithDistributionUrl() {
     const metadata = {
@@ -131,7 +131,7 @@ function setupItemWithListButtonFalseAndCanShowWebsiteUrlFalseAndDistributionUrl
 
 
 describe('ApplicationButton', () => {
-    
+
     it('should render self', () => {
         const { wrapper } = setupApplicationWithDistributionUrl()
         expect(wrapper).toMatchSnapshot();
@@ -142,23 +142,23 @@ describe('ApplicationButton', () => {
 
         expect(wrapper.hasClass('ext')).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
     })
 
     it('Application without DistributionUrl', () => {
         const { wrapper } = setupApplicationWithoutDistributionUrl()
-        
+
         expect(wrapper.hasClass('off')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
     })
 
     it('Is dataset type', () => {
         const { wrapper } = setupIsDatasetType()
-        
+
         expect(wrapper.hasClass()).toBe(false)
         expect(wrapper.prop("href")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)        
+        expect(wrapper.find(FontAwesomeIcon)).toHaveLength(0)
         expect(wrapper.find("span")).toHaveLength(0)
     })
 })
@@ -168,7 +168,7 @@ it('List button false', () => {
 
     expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
-    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
 })
 
 it('List button false and Item with CanShowWebsiteUrl and DistributionUrl', () => {
@@ -176,21 +176,21 @@ it('List button false and Item with CanShowWebsiteUrl and DistributionUrl', () =
 
     expect(wrapper.hasClass(style.btn)).toBe(true)
     expect(wrapper.prop("href")).toBe('test')
-    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
 })
 
 it('List button false and Item with CanShowWebsiteUrl and no DistributionUrl', () => {
     const { wrapper } = setupItemWithListButtonFalseAndCanShowWebsiteUrl()
-    
+
     expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
-    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
 })
 
 it('List button false and Item with DistributionUrl and CanShowWebsiteUrl false', () => {
     const { wrapper } = setupItemWithListButtonFalseAndCanShowWebsiteUrlFalseAndDistributionUrl()
-    
+
     expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
-    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+    expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
 })

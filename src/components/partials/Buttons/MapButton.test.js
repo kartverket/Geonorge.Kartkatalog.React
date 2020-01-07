@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { MapButton } from './MapButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import style from './Buttons.scss'
+import style from 'components/partials/Buttons/Buttons.module.scss'
 
 function setupServiceWithShowMapLinkTrue() {
     const metadata = {

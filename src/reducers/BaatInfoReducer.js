@@ -1,4 +1,4 @@
-import { UPDATE_BAAT_INFO } from '../actions/types';
+import { UPDATE_BAAT_INFO } from 'actions/types';
 
 const initialState = []
 

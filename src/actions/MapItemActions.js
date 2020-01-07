@@ -1,5 +1,5 @@
-import { FETCH_MAPITEMS } from './types';
-import { pushToDataLayer } from '../reducers/TagManagerReducer';
+import { FETCH_MAPITEMS } from 'actions/types';
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 export const fetchMapItems = () => dispatch => {
 	let mapItems = localStorage.mapItems && Array.isArray(JSON.parse(localStorage.mapItems)) ? JSON.parse(localStorage.mapItems) : [];

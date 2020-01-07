@@ -2,7 +2,7 @@ import {
     UPDATE_SELECTED_FACETS_FOR_FACET_FIELD,
     UPDATE_SELECTED_FACETS_FROM_URL,
     UPDATE_SELECTEDFACETS
-} from '../actions/types';
+} from 'actions/types';
 
 const initialState = {
     type: {},

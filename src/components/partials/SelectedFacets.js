@@ -2,16 +2,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-import style from './SelectedFacets.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { updateAvailableFacets, updateSelectedFacetsFromUrl } from '../../actions/FacetFilterActions';
-import { getResource } from '../../actions/ResourceActions';
+import { updateAvailableFacets, updateSelectedFacetsFromUrl } from 'actions/FacetFilterActions';
+import { getResource } from 'actions/ResourceActions';
 
 // Helpers
-import { getQueryStringFromFacets } from '../../helpers/FacetFilterHelpers';
+import { getQueryStringFromFacets } from 'helpers/FacetFilterHelpers';
 
+// Stylesheets
+import style from 'components/partials/SelectedFacets.module.scss';
 
 class SelectedFacets extends Component {
     renderSelectedFacetsList() {

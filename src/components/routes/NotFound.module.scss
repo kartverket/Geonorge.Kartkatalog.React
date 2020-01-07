@@ -1,0 +1,49 @@
+@import '../../scss/abstracts/all';
+
+:local(.content) {
+  padding: 15px;
+  max-width: 1200px;
+  margin: auto;
+  @include breakpoint('tablet') {
+    padding: 0 40px;
+  }
+
+  h1 {
+    font-weight: 100;
+    font-size: 34pt;
+    padding-top: 26px;
+    word-wrap: break-word;
+    margin: 0;
+    @include breakpoint('tablet') {
+      font-size: 50pt;
+    }
+  }
+}
+
+:local(.separator) {
+  border-bottom: solid #fe5000 4px;
+  display: block;
+  margin-bottom: 17px;
+  padding-top: 23px;
+  width: 75px;
+  @include breakpoint('tablet') {
+    border-bottom: solid #fe5000 5px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    width: 100px;
+  }
+}
+
+:local(.illustration) {
+  height: 75vw;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  :local(.illustrationText) {
+    color: #5d4777;
+    font-size: 3vw;
+    padding: 11vw 8vw;
+    text-align: center;
+  }
+}

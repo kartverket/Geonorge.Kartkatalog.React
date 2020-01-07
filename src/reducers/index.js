@@ -1,21 +1,24 @@
+// Dependencies
 import {combineReducers} from 'redux';
 import {connectRouter} from 'connected-react-router'
 import { reducer as oidcReducer } from 'redux-oidc';
-import SearchResultReducer from './SearchResultReducer';
-import MapItemReducer from './MapItemReducer';
-import DownloadItemReducer from './DownloadItemReducer';
-import SelectedFacetsReducer from './SelectedFacetsReducer';
-import AvailableFacetsReducer from './AvailableFacetsReducer';
-import SelectedSearchResultsTypeReducer from './SelectedSearchResultsTypeReducer';
-import SearchStringReducer from './SearchStringReducer';
-import MetadataReducer from "./MetadataReducer";
-import MetadataDistributionReducer from "./MetadataDistributionReducer";
-import GeonorgeMenuReducer from "./GeonorgeMenuReducer";
-import SelectedLanguageReducer from "./SelectedLanguageReducer";
-import ResourceReducer from "./ResourceReducer";
-import EnvironmentReducer from './EnvironmentReducer';
-import BaatInfoReducer from './BaatInfoReducer';
-import TagManagerReducer from './TagManagerReducer';
+
+// Reducers
+import SearchResultReducer from 'reducers/SearchResultReducer';
+import MapItemReducer from 'reducers/MapItemReducer';
+import DownloadItemReducer from 'reducers/DownloadItemReducer';
+import SelectedFacetsReducer from 'reducers/SelectedFacetsReducer';
+import AvailableFacetsReducer from 'reducers/AvailableFacetsReducer';
+import SelectedSearchResultsTypeReducer from 'reducers/SelectedSearchResultsTypeReducer';
+import SearchStringReducer from 'reducers/SearchStringReducer';
+import MetadataReducer from "reducers/MetadataReducer";
+import MetadataDistributionReducer from "reducers/MetadataDistributionReducer";
+import GeonorgeMenuReducer from "reducers/GeonorgeMenuReducer";
+import SelectedLanguageReducer from "reducers/SelectedLanguageReducer";
+import ResourceReducer from "reducers/ResourceReducer";
+import EnvironmentReducer from 'reducers/EnvironmentReducer';
+import BaatInfoReducer from 'reducers/BaatInfoReducer';
+import TagManagerReducer from 'reducers/TagManagerReducer';
 
 export default (history) => combineReducers({
     dataLayer: TagManagerReducer,

@@ -2,8 +2,8 @@ import * as Cookies from 'js-cookie';
 import {
     CLEAR_METADATA,
     FETCH_METADATA
-} from './types';
-import {getKartkatalogApiUrl} from "./ApiUrlActions";
+} from 'actions/types';
+import {getKartkatalogApiUrl} from "actions/ApiUrlActions";
 
 export const clearMetadata = () => dispatch => {
     return dispatch({

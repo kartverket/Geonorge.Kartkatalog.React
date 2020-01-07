@@ -1,4 +1,4 @@
-import { FETCH_ITEMS_TO_DOWNLOAD } from '../actions/types';
+import { FETCH_ITEMS_TO_DOWNLOAD } from 'actions/types';
 
 const initialState = []
 
@@ -9,5 +9,5 @@ export default function(state = initialState, action) {
 		default:
 			return state;
 	}
-	
+
 }

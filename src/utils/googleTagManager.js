@@ -1,17 +1,19 @@
-import {Types, getDataLayer} from '../reducers/TagManagerReducer';
-
-
+import {Types, getDataLayer} from 'reducers/TagManagerReducer';
 
 export default({getState}) => {
   const DATA_LAYER_CONTAINER = 'dataLayer';
   const _dataLayer = window[DATA_LAYER_CONTAINER] || [];
 
   // TODO: Finne bedre løsning for denne
-  const _gtm = window.google_tag_manager && window.google_tag_manager['GTM-MR2X5P'] ? window.google_tag_manager['GTM-MR2X5P'] : () => {
-    setTimeout(function(){
-      return window.google_tag_manager && window.google_tag_manager['GTM-MR2X5P'] ? window.google_tag_manager['GTM-MR2X5P'] : null
-    }, 300);
-  };
+  const _gtm = window.google_tag_manager && window.google_tag_manager['GTM-MR2X5P']
+    ? window.google_tag_manager['GTM-MR2X5P']
+    : () => {
+      setTimeout(function() {
+        return window.google_tag_manager && window.google_tag_manager['GTM-MR2X5P']
+          ? window.google_tag_manager['GTM-MR2X5P']
+          : null
+      }, 300);
+    };
 
   return(next) => (action) => {
     const returnValue = next(action);

@@ -1,5 +1,5 @@
-import reducer from './SearchStringReducer';
-import { UPDATE_SEARCH_STRING } from '../actions/types';
+import reducer from 'reducers/SearchStringReducer';
+import { UPDATE_SEARCH_STRING } from 'actions/types';
 
 describe('search_string_reducer', () => {
     it('should return the initial state', () => {

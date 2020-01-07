@@ -6,36 +6,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
 
 // Actions
-import { getResource } from '../../../actions/ResourceActions';
+import { getResource } from 'actions/ResourceActions';
 
 // Helpers
-import { convertTextToUrlSlug } from '../../../helpers/UrlHelpers';
+import { convertTextToUrlSlug } from 'helpers/UrlHelpers';
 
 // Components
-import { ErrorBoundary } from '../../ErrorBoundary'
-import MapButton from '../Buttons/MapButton';
-import DownloadButton from '../Buttons/DownloadButton';
-import ApplicationButton from '../Buttons/ApplicationButton';
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import MapButton from 'components/partials/Buttons/MapButton';
+import DownloadButton from 'components/partials/Buttons/DownloadButton';
+import ApplicationButton from 'components/partials/Buttons/ApplicationButton';
 
 // Stylesheets
-import style from './MetadataSearchResult.scss';
+import style from 'components/partials/SearchResults/MetadataSearchResult.module.scss';
 
 
 class MetadataSearchResult extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
 
   restrictionsClassnames() {
     if (this.props.searchResult.AccessConstraint === 'restricted' || this.props.searchResult.AccessIsProtected) {
-      return 'red'
+      return style.red
     } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted) {
-      return 'yellow'
+      return style.yellow
     } else {
-      return "green"
+      return style.green
     }
   }
 

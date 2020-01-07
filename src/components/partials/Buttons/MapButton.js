@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { removeMapItem, addMapItem } from '../../../actions/MapItemActions';
-import { getResource } from '../../../actions/ResourceActions';
+import { removeMapItem, addMapItem } from 'actions/MapItemActions';
+import { getResource } from 'actions/ResourceActions';
 
 // Stylesheets
-import style from './Buttons.scss';
+import style from 'components/partials/Buttons/Buttons.module.scss';
 
 
 export class MapButton extends Component {
@@ -159,7 +159,7 @@ export class MapButton extends Component {
                 : () => this.addToMap([mapItem]);
             let icon = <FontAwesomeIcon title={buttonTitle} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
                 key="icon" />;
-            let buttonClass = isAdded ? 'off' : `on ${this.state.serviceStatusCode}`;
+            let buttonClass = isAdded ? style.off : `${style.on} ${style[this.state.serviceStatusCode]}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
@@ -174,7 +174,7 @@ export class MapButton extends Component {
         if (this.state.serviceStatusCode !== '')
             if (this.state.serviceStatusLabel !== '')
                 buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
-        const buttonClass = this.state.isAdded ? [style.btn + ' remove'] : [style.btn + ' download'] + this.state.serviceStatusCode;
+        const buttonClass = this.state.isAdded ? `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download} ${style[this.state.serviceStatusCode]}`;
         const buttonIcon = isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus'];
         if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
             const mapItem = this.getMapItem()
@@ -189,7 +189,7 @@ export class MapButton extends Component {
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
         } else {
             let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon" />;
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];

@@ -9,22 +9,22 @@ import {
     fetchMetadataSearchResults,
     fetchArticleSearchResults,
     fetchDropdownSearchResults
-} from '../../../actions/SearchResultActions';
-import { updateSearchString } from '../../../actions/SearchStringActions';
-import { getResource } from '../../../actions/ResourceActions'
+} from 'actions/SearchResultActions';
+import { updateSearchString } from 'actions/SearchStringActions';
+import { getResource } from 'actions/ResourceActions'
 
 // Reducers
-import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 // Components
-import { ErrorBoundary } from '../../ErrorBoundary'
-import SearchResultsTypeList from './SearchResultsTypeList';
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import SearchResultsTypeList from 'components/partials/MainNavigation/SearchResultsTypeList';
 
 // Stylesheets
-import style from './SearchBar.scss';
+import style from 'components/partials/MainNavigation/SearchBar.module.scss';
 
 // Assets
-import searchIcon from '../../../images/svg/search-icon.svg';
+import searchIcon from 'images/svg/search-icon.svg';
 
 class SearchBar extends Component {
 
@@ -182,7 +182,7 @@ class SearchBar extends Component {
                         <img src={searchIcon} alt="search icon"></img>
                     </button>
                 </Link>
-                <div className={this.state.showDropdownResults ? style.searchResults + ' active' : style.searchResults} style={dropDownResultsStyle}>
+                <div className={this.state.showDropdownResults ? `${style.searchResults} ${style.active}` : style.searchResults} style={dropDownResultsStyle}>
                     {this.renderDropdownResults()}
                 </div>
             </form>

@@ -1,7 +1,7 @@
 import {
     CLEAR_METADATADISTRIBUTIONS,
     FETCH_METADATADISTRIBUTIONS
-} from '../actions/types';
+} from 'actions/types';
 
 const initialState = {};
 

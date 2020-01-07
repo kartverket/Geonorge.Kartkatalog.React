@@ -5,13 +5,14 @@ import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 // Actions
-import {getResource} from '../../../actions/ResourceActions'
+import {getResource} from 'actions/ResourceActions'
 
 // Reducers
-import {pushToDataLayer} from '../../../reducers/TagManagerReducer';
+import {pushToDataLayer} from 'reducers/TagManagerReducer';
 
 // Stylesheets
-import style from './Buttons.scss';
+import style from 'components/partials/Buttons/Buttons.module.scss';
+
 
 export class ProductSpecificationButton extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ export class ProductSpecificationButton extends Component {
       </a>);
     } else {
       let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'file-spreadsheet']} key="icon"/>
-      let buttonClass = style.btn + ' disabled';
+      let buttonClass = `${style.btn}  ${style.disabled}`;
       let textContent = React.createElement('span', {
         key: "textContent"
       }, buttonDescription);

@@ -4,7 +4,7 @@ import { MainNavigation } from './MainNavigation';
 
 import SearchBar from './MainNavigation/SearchBar';
 
-import style from './MainNavigation.scss'
+import style from './MainNavigation.module.scss'
 
 function setup() {
   const props = {

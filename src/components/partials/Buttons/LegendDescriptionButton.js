@@ -1,11 +1,15 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import { getResource } from '../../../actions/ResourceActions'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import style from './Buttons.scss';
+
+// Actions
+import { getResource } from 'actions/ResourceActions'
+
+// Stylesheets
+import style from 'components/partials/Buttons/Buttons.module.scss';
+
 
 export class LegendDescriptionButton extends Component {
     constructor(props) {
@@ -26,13 +30,13 @@ export class LegendDescriptionButton extends Component {
             return React.createElement('a', { href: url, className: buttonClass }, childElements);
         } else {
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'image']} key="icon" />
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
         }
     }
-    
+
 }
 
 LegendDescriptionButton.propTypes = {

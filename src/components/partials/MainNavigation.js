@@ -6,21 +6,21 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { fetchMapItems, removeMapItem } from '../../actions/MapItemActions';
-import { fetchGeonorgeMenu } from '../../actions/MainNavigationActions';
-import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata, autoAddItemFromLocalStorage } from '../../actions/DownloadItemActions';
-import { getGeonorgeLogo } from '../../actions/ImageActions';
-import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
-import { updateOidcCookie, updateBaatInfo } from '../../actions/AuthenticationActions';
-import { getResource } from '../../actions/ResourceActions'
+import { fetchMapItems, removeMapItem } from 'actions/MapItemActions';
+import { fetchGeonorgeMenu } from 'actions/MainNavigationActions';
+import { fetchItemsToDownload, removeItemSelectedForDownload, getDownloadItemMetadata, autoAddItemFromLocalStorage } from 'actions/DownloadItemActions';
+import { getGeonorgeLogo } from 'actions/ImageActions';
+import { updateSelectedSearchResultsType } from 'actions/SelectedSearchResultsTypeActions';
+import { updateOidcCookie, updateBaatInfo } from 'actions/AuthenticationActions';
+import { getResource } from 'actions/ResourceActions'
 
 // Components
-import { ErrorBoundary } from '../ErrorBoundary';
-import SearchBar from './MainNavigation/SearchBar';
-import GeonorgeMenuButton from './Buttons/GeonorgeMenuButton';
+import { ErrorBoundary } from 'components/ErrorBoundary';
+import SearchBar from 'components/partials/MainNavigation/SearchBar';
+import GeonorgeMenuButton from 'components/partials/Buttons/GeonorgeMenuButton';
 
 // Stylesheets
-import style from './MainNavigation.scss';
+import style from 'components/partials/MainNavigation.module.scss';
 
 export class MainNavigation extends Component {
 

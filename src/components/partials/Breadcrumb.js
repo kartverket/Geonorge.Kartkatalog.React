@@ -1,11 +1,16 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getResource } from '../../actions/ResourceActions';
-import style from './MainNavigation.scss';
+// Actions
+import { getResource } from 'actions/ResourceActions';
+
+// Stylesheets
+import style from 'components/partials/MainNavigation.module.scss';
+
 
 export class Breadcrumb extends Component {
 

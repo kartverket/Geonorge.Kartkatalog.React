@@ -1,9 +1,12 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import style from './ArticleSearchResult.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
+
+// Stylesheets
+import style from 'components/partials/SearchResults/ArticleSearchResult.module.scss';
 
 
 class ArticleSearchResult extends Component {

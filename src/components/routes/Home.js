@@ -6,21 +6,21 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { updateAvailableFacets, updateSelectedFacetsFromUrl, addSelectedFacetsToAnalytics } from '../../actions/FacetFilterActions'
-import { updateSearchStringFromUrl } from '../../actions/SearchStringActions'
-import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
-import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
-import { clearMetadata } from '../../actions/MetadataActions'
-import { getResource } from '../../actions/ResourceActions'
+import { updateAvailableFacets, updateSelectedFacetsFromUrl, addSelectedFacetsToAnalytics } from 'actions/FacetFilterActions'
+import { updateSearchStringFromUrl } from 'actions/SearchStringActions'
+import { updateSelectedSearchResultsType } from 'actions/SelectedSearchResultsTypeActions';
+import { fetchMetadataSearchResults, fetchArticleSearchResults } from "actions/SearchResultActions";
+import { clearMetadata } from 'actions/MetadataActions'
+import { getResource } from 'actions/ResourceActions'
 
 // Components
-import SelectedFacets from '../partials/SelectedFacets';
-import SearchResults from '../partials/SearchResults';
-import { ErrorBoundary } from '../../components/ErrorBoundary'
-import Breadcrumb from '../partials/Breadcrumb';
+import SelectedFacets from 'components/partials/SelectedFacets';
+import SearchResults from 'components/partials/SearchResults';
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import Breadcrumb from 'components/partials/Breadcrumb';
 
 // Stylesheets
-import style from './Home.scss';
+import style from './Home.module.scss';
 
 class Home extends Component {
     setSelectedSearchResultsType() {
@@ -114,7 +114,7 @@ class Home extends Component {
                     <div className={style.searchResultContainer}>
 
                         <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}
-                            <span className={searchString !== "" ? 'show' : 'hide'}>
+                            <span className={searchString !== "" ? style.show : style.hide}>
                                 <Link to="/"> {this.props.getResource('ClearSearch', 'Nullstill søk')}
                                     <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
                                 </Link>
@@ -139,7 +139,7 @@ class Home extends Component {
                 <div className={style.searchResultContainer}>
                     <span className={searchString !== "" ? style.searchResultInformation : ""}>
                         {searchString}
-                        <span className={searchString !== "" ? 'show' : 'hide'}>
+                        <span className={searchString !== "" ? style.show : style.hide}>
                             <Link to="/">
                                 {this.props.getResource('ClearSearch', 'Nullstill søk')}
                                 <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />

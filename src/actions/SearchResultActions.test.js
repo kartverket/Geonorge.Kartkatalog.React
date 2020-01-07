@@ -1,9 +1,9 @@
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 
 // Actions to be tested
-import * as searchResultActions from './SearchResultActions';
-import {FETCH_AVAILABLEFACETS} from "./types";
+import * as searchResultActions from 'actions/SearchResultActions';
+import {FETCH_AVAILABLEFACETS} from 'actions/types';
 
 const middlewares = [thunk]; // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);

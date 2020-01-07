@@ -1,4 +1,4 @@
-import {GET_ENVIRONMENT} from '../actions/types';
+import {GET_ENVIRONMENT} from 'actions/types';
 
 const initialState = {};
 

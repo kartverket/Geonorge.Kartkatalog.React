@@ -2,7 +2,7 @@ import React from 'react';
 import {shallow} from "enzyme";
 import {DownloadButton} from './DownloadButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import style from './Buttons.scss'
+import style from 'components/partials/Buttons/Buttons.module.scss'
 
 function setupMetadataDownloadButton() {
     const metadata = {
@@ -143,7 +143,7 @@ describe('DownloadButton', () => {
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square');
     });
 
-    
+
     // Button
 
     it('List button false', () => {

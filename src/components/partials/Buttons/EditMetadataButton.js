@@ -1,11 +1,15 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import style from './Buttons.scss'
-
-import { getResource } from '../../../actions/ResourceActions'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Actions
+import { getResource } from 'actions/ResourceActions'
+
+// Stylesheets
+import style from 'components/partials/Buttons/Buttons.module.scss'
+
 
 export class EditMetadataButton extends Component {
     constructor(props) {
@@ -38,7 +42,7 @@ export class EditMetadataButton extends Component {
             let buttonClass = style.btn;
             return (<a href={url} onClick={this.handleButtonClick} className={buttonClass}>{childElements}</a>);
         } else {
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             return (<span className={buttonClass}>{childElements}</span>);
         }
     }

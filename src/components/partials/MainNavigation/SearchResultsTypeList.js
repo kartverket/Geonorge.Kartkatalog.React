@@ -5,19 +5,19 @@ import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 
 // Actions
-import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
-import { updateSelectedFacets } from '../../../actions/FacetFilterActions';
-import { updateSelectedSearchResultsType } from '../../../actions/SelectedSearchResultsTypeActions';
-import { updateSearchString } from '../../../actions/SearchStringActions';
+import { fetchMetadataSearchResults } from 'actions/SearchResultActions';
+import { updateSelectedFacets } from 'actions/FacetFilterActions';
+import { updateSelectedSearchResultsType } from 'actions/SelectedSearchResultsTypeActions';
+import { updateSearchString } from 'actions/SearchStringActions';
 
 // Reducers
-import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 // Helpers
-import { getQueryStringFromFacets } from "../../../helpers/FacetFilterHelpers";
+import { getQueryStringFromFacets } from "helpers/FacetFilterHelpers";
 
 // Stylesheets
-import style from './SearchResultsTypeList.scss';
+import style from 'components/partials/MainNavigation/SearchResultsTypeList.module.scss';
 
 class SearchResultsTypeList extends Component {
 

@@ -1,8 +1,8 @@
 import {
     CLEAR_METADATADISTRIBUTIONS,
     FETCH_METADATADISTRIBUTIONS
-} from './types';
-import { getKartkatalogApiUrl } from "./ApiUrlActions";
+} from 'actions/types';
+import { getKartkatalogApiUrl } from "actions/ApiUrlActions";
 
 export const clearMetadataDistributions = () => dispatch => {
     return dispatch({

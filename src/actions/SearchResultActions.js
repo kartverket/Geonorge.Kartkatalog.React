@@ -1,11 +1,11 @@
-import { getKartkatalogApiUrl } from './ApiUrlActions';
+import { getKartkatalogApiUrl } from 'actions/ApiUrlActions';
 import {
     APPEND_TO_ARTICLESEARCHRESULTS,
     APPEND_TO_METADATASEARCHRESULTS,
     FETCH_ARTICLESEARCHRESULTS,
     FETCH_DROPDOWNSEARCHRESULTS,
     FETCH_METADATASEARCHRESULTS
-} from './types';
+} from 'actions/types';
 
 const createChildFacetsArray = (selectedFacet, childFacetsArray = []) => {
     if (selectedFacet.facets && Object.keys(selectedFacet.facets).length) {

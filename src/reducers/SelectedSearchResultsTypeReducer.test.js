@@ -1,5 +1,5 @@
-import reducer from './SelectedSearchResultsTypeReducer';
-import { UPDATE_SELECTED_SEARCHRESULTS_TYPE } from '../actions/types';
+import reducer from 'reducers/SelectedSearchResultsTypeReducer';
+import { UPDATE_SELECTED_SEARCHRESULTS_TYPE } from 'actions/types';
 
 describe('selected_searchresults_type_reducer', () => {
     it('should return the initial state', () => {

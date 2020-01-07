@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HelpButton } from './HelpButton';
-import style from './Buttons.scss'
+import style from 'components/partials/Buttons/Buttons.module.scss'
 
 function setupItemWithHelpUrl() {
     const metadata = {
@@ -39,7 +39,7 @@ function setupItemWithoutHelpUrl() {
 
 
 describe('setupItemWithHelpUrl', () => {
-    
+
     it('should render self', () => {
         const { wrapper } = setupItemWithHelpUrl()
         expect(wrapper).toMatchSnapshot();
@@ -50,14 +50,14 @@ describe('setupItemWithHelpUrl', () => {
 
         expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('question-circle')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('question-circle')
     })
 
     it('Item without help url', () => {
         const { wrapper } = setupItemWithoutHelpUrl()
-        
+
         expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('question-circle')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('question-circle')
     })
 })

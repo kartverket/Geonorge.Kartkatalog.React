@@ -1,5 +1,5 @@
-import { FETCH_ITEMS_TO_DOWNLOAD } from './types';
-import { pushToDataLayer } from '../reducers/TagManagerReducer';
+import { FETCH_ITEMS_TO_DOWNLOAD } from 'actions/types';
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 export const fetchItemsToDownload = () => dispatch => {
 	let itemsToDownload = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems)) ? JSON.parse(localStorage.orderItems) : [];

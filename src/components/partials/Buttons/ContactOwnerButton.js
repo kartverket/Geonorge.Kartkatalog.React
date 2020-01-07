@@ -1,11 +1,15 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import style from './Buttons.scss'
-
-import { getResource } from '../../../actions/ResourceActions'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Actions
+import { getResource } from 'actions/ResourceActions'
+
+// Stylesheets
+import style from 'components/partials/Buttons/Buttons.module.scss'
+
 
 export class ContactOwnerButton extends Component {
     constructor(props) {
@@ -37,7 +41,7 @@ export class ContactOwnerButton extends Component {
             return (<a href={`mailto:${email}`} onClick={this.handleButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>{childElements}</a>);
         } else {
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return (<span className={buttonClass}>{childElements}</span>);

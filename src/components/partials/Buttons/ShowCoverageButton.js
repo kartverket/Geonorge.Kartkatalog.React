@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Components
+import Modal from 'components/partials/Buttons/Modal.js'
+
 // Actions
-import { getResource } from '../../../actions/ResourceActions'
+import { getResource } from 'actions/ResourceActions'
 
 // Reducers
-import { pushToDataLayer } from '../../../reducers/TagManagerReducer';
-
-
-// Components
-import Modal from './Modal.js'
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 // Stylesheets
-import style from './Buttons.scss';
+import style from 'components/partials/Buttons/Buttons.module.scss';
+
 
 export class ShowCoverageButton extends Component {
     constructor(props) {
@@ -71,7 +71,7 @@ export class ShowCoverageButton extends Component {
             </span>
         }
         else {
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             return <span className={buttonClass}>
                 <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
             </span>

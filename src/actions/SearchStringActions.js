@@ -1,4 +1,4 @@
-import {UPDATE_SEARCH_STRING, UPDATE_SEARCH_STRING_FROM_URL} from '../actions/types';
+import {UPDATE_SEARCH_STRING, UPDATE_SEARCH_STRING_FROM_URL} from 'actions/types';
 
 export const updateSearchString = (searchString) => dispatch => {
     dispatch({

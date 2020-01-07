@@ -1,6 +1,6 @@
 import {
     UPDATE_BAAT_INFO
-} from './types';
+} from 'actions/types';
 import * as Cookies from 'js-cookie';
 
 export const updateOidcCookie = () => (dispatch, getState) => {

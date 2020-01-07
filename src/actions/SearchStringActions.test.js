@@ -2,7 +2,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk'
 
 // Actions to be tested
-import * as searchStringActions from './SearchStringActions';
+import * as searchStringActions from 'actions/SearchStringActions';
 
 const middlewares = [thunk] // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);
