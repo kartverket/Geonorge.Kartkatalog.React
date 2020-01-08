@@ -67,6 +67,9 @@
     ],
     "rules": {}
   },
+  "engines": {
+    "node": ">=12.13.1"
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
