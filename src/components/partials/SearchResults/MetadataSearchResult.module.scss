@@ -17,6 +17,12 @@
 	> div:last-child {
 		flex: 1;
 	}
+	:local(.url) {
+		font-size: .8em;
+		&:hover {
+			cursor: pointer;
+		}
+	}
 
 	:local(.listItemTitle) {
 		display: block;

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // Actions
 import { getResource } from 'actions/ResourceActions';
@@ -22,6 +23,12 @@ import style from 'components/partials/SearchResults/MetadataSearchResult.module
 
 
 class MetadataSearchResult extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      copied: false
+    };
+  }
 
   restrictionsClassnames() {
     if (this.props.searchResult.AccessConstraint === 'restricted' || this.props.searchResult.AccessIsProtected) {
@@ -125,6 +132,21 @@ class MetadataSearchResult extends Component {
 
   }
 
+  renderCopyUrl() {    
+    
+    if(this.props.searchResult.Type === 'service' || this.props.searchResult.Type === 'Tjeneste') {      
+      return (
+        <ErrorBoundary>                 
+            <CopyToClipboard onCopy={() => this.setState({copied: true})} text={this.props.searchResult.GetCapabilitiesUrl}>
+              <span title={this.props.searchResult.GetCapabilitiesUrl} className={style.url}>Kopier lenke <FontAwesomeIcon icon={['far', 'copy']} /> {this.state.copied ? <span>Lenke kopiert til utklippstavle</span> : null}</span>
+          </CopyToClipboard>          
+        </ErrorBoundary>
+        
+        )
+    }
+    return
+  }
+
   render() {
     return (
       <div className={style.listItem}>
@@ -134,8 +156,9 @@ class MetadataSearchResult extends Component {
               {this.renderLink()}
             </ErrorBoundary>
           </span>
-          {this.renderListItemInfo()}
+          {this.renderListItemInfo()}                    
           <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
+          {this.renderCopyUrl()}
         </div>
 
         {this.renderButtons()}
