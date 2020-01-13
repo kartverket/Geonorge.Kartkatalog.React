@@ -47,10 +47,10 @@ export class MainNavigation extends Component {
 
     componentDidMount() {
         this.props.fetchMapItems();
-        this.props.autoAddItemFromLocalStorage();
         this.props.fetchItemsToDownload();
         this.props.updateOidcCookie();
         this.props.updateBaatInfo();
+        this.props.autoAddItemFromLocalStorage();
         document.addEventListener('mousedown', this.handleClick, false);
         document.addEventListener('mousedown', this.handleDownloadClick, false);
     }
