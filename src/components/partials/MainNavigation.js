@@ -63,7 +63,9 @@ export class MainNavigation extends Component {
     componentDidUpdate(prevProps, prevState) {
         const wasLoggedIn = prevProps.oidc && prevProps.oidc.user;
         const isLoggedIn = this.props.oidc && this.props.oidc.user;
-        if (isLoggedIn !== wasLoggedIn) {
+        const hadBaatInfo = prevProps.baatInfo && prevProps.baatInfo.user;
+        const hasBaatInfo = this.props.baatInfo && this.props.baatInfo.user;
+        if ((isLoggedIn !== wasLoggedIn) || (hasBaatInfo !== hadBaatInfo)) {
             this.props.autoAddItemFromLocalStorage();
             this.props.fetchItemsToDownload();
             this.props.updateOidcCookie();
@@ -280,7 +282,8 @@ const mapStateToProps = state => ({
     geonorgeMenu: state.geonorgeMenu,
     selectedLanguage: state.selectedLanguage,
     resources: state.resources,
-    oidc: state.oidc
+    oidc: state.oidc,
+    baatInfo: state.baatInfo
 });
 
 
