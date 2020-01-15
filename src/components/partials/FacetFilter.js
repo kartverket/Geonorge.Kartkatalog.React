@@ -6,11 +6,11 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Components
-import FacetFilterItem from './FacetFilter/FacetFilterItem';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
+import FacetFilterItem from 'components/partials/FacetFilter/FacetFilterItem';
+import { ErrorBoundary } from 'components/ErrorBoundary';
 
 // Stylesheets
-import style from './FacetFilter.scss';
+import style from 'components/partials/FacetFilter.module.scss';
 
 class FacetFilter extends Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class FacetFilter extends Component {
     renderFacets(availableFacets) {
         const togglefacetClassnames = classNames({
             [style.facetFilter]: true,
-            open: this.state.expanded
+            [style.open]: this.state.expanded
         });
 
         let facets = availableFacets && Object.keys(availableFacets).length

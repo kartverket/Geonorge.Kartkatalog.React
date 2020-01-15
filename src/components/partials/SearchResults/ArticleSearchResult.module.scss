@@ -11,15 +11,21 @@
 	-webkit-justify-content: center;
 	-ms-flex-pack: center;
 	justify-content: center;
+
 	&:first-of-type {
-		border-top: 1px solid $primary-border;	
+		border-top: 1px solid $primary-border;
 	}
 
 	:local(.listItemTitle) {
 		display: block;
-		font-size: 1.2em;		
+		font-size: 1.2em;
 		margin-top: 10px;
-		
+	}
+	:local(.url) {
+		font-size: .8em;
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	:local(.listItemInfo) {
@@ -30,11 +36,13 @@
 
 	:local(.listItemType) {
 		display: block;
-		font-size: .8em;		
+		font-size: 0.8em;
 	}
+
 	:local(.listItemDate) {
-		font-size: .8em;
+		font-size: 0.8em;
 	}
+
 	:local(.icon) {
 		margin-left: 10px;
 		font-size: 1.2em;

@@ -7,17 +7,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
 
 // Actions
-import { updateSelectedFacetsFromUrl } from '../../../actions/FacetFilterActions';
-import { fetchMetadataSearchResults } from '../../../actions/SearchResultActions';
+import { updateSelectedFacetsFromUrl } from 'actions/FacetFilterActions';
+import { fetchMetadataSearchResults } from 'actions/SearchResultActions';
+
+// Reducers
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 // Helpers
-import { getQueryStringFromFacets } from '../../../helpers/FacetFilterHelpers';
+import { getQueryStringFromFacets } from 'helpers/FacetFilterHelpers';
 
 // Components
-import { ErrorBoundary } from '../../ErrorBoundary';
+import { ErrorBoundary } from 'components/ErrorBoundary';
 
 // Stylesheets
-import style from './Facet.scss';
+import style from 'components/partials/FacetFilter/Facet.module.scss';
 
 class Facet extends Component {
     constructor(props) {
@@ -184,6 +187,21 @@ class Facet extends Component {
         })
     }
 
+    handleFacetClick = () => {
+      this.props.pushToDataLayer({
+        event: 'updateSelectedFacets',
+        category: 'facets',
+        activity: 'addFacetType',
+        facet: {NameTranslated: this.props.facetFieldNameTranslated}
+      });
+      this.props.pushToDataLayer({
+        event: 'updateSelectedFacets',
+        category: 'facets',
+        activity: 'addFacet',
+        facet: this.props.facet
+      });
+    }
+
     renderFacet() {
         const liClassNames = classNames({
             [style.facet]: true,
@@ -193,9 +211,9 @@ class Facet extends Component {
         return this.state.checked || this.props.facet.Count
         ? (
             <li className={liClassNames}>
-                <Link
+                <Link onClick={this.handleFacetClick}
                     to={{ search: this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString() }}>
-                    <FontAwesomeIcon className="svg-checkbox"
+                    <FontAwesomeIcon className={style.svgCheckbox}
                         icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} />
                     <label htmlFor={this.props.facet.Name}>
                         <span>{this.props.facet.NameTranslated} </span><span>({this.props.facet.Count})</span>
@@ -213,6 +231,7 @@ class Facet extends Component {
 
 Facet.propTypes = {
     facetField: PropTypes.string.isRequired,
+    facetFieldNameTranslated: PropTypes.string.isRequired,
     facet: PropTypes.shape({
         Count: PropTypes.number.isRequired,
         Name: PropTypes.string.isRequired,
@@ -230,7 +249,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     fetchMetadataSearchResults,
-    updateSelectedFacetsFromUrl
+    updateSelectedFacetsFromUrl,
+    pushToDataLayer
 };
 
 

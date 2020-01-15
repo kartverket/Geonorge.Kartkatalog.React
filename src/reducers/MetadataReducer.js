@@ -1,7 +1,7 @@
 import {
     CLEAR_METADATA,
     FETCH_METADATA
-} from '../actions/types';
+} from 'actions/types';
 
 const initialState = {};
 

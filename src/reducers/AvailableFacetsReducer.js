@@ -1,4 +1,4 @@
-import {UPDATE_AVAILABLEFACETS} from '../actions/types';
+import {UPDATE_AVAILABLEFACETS} from 'actions/types';
 
 const initialState = {};
 

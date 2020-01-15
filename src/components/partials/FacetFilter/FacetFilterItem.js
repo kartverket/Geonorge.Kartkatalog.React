@@ -1,9 +1,14 @@
+// Dependencies
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import Facet from './Facet';
-import style from './FacetFilterItem.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+
+// Components
+import Facet from 'components/partials/FacetFilter/Facet';
+
+// Stylesheets
+import style from 'components/partials/FacetFilter/FacetFilterItem.module.scss';
 
 class FacetFilterItem extends Component {
 
@@ -39,7 +44,7 @@ class FacetFilterItem extends Component {
     renderList() {
         if (this.props.facetFilterItem && this.props.facetFilterItem.FacetResults) {
             let facetElements = this.props.facetFilterItem.FacetResults.map((facet, i) => {
-                return <Facet facet={facet} facetField={this.props.facetFilterItem.FacetField} key={i}/>;
+                return <Facet facet={facet} facetField={this.props.facetFilterItem.FacetField} facetFieldNameTranslated={this.props.facetFilterItem.NameTranslated} key={i}/>;
             });
             const listElementHeight = 28.5;
             const facetResultsLength = this.getFacetResultsLength();

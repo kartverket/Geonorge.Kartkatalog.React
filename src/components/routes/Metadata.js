@@ -7,32 +7,33 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { getResource } from '../../actions/ResourceActions'
-import { clearMetadata, fetchMetadata } from '../../actions/MetadataActions'
-import { clearMetadataDistributions, fetchMetadataDistributions } from '../../actions/MetadataDistributionActions'
+import { getResource } from 'actions/ResourceActions'
+import { clearMetadata, fetchMetadata } from 'actions/MetadataActions'
+import { clearMetadataDistributions, fetchMetadataDistributions } from 'actions/MetadataDistributionActions'
 
 // Helpers
-import { convertTextToUrlSlug, convertUrlSlugToText } from '../../helpers/UrlHelpers';
+import { convertTextToUrlSlug, convertUrlSlugToText } from 'helpers/UrlHelpers';
 
 // Components
-import { ErrorBoundary } from '../ErrorBoundary'
-import DistributionsList from "./Metadata/DistributionsList";
-import ProductSheetButton from '../partials/Buttons/ProductsheetButton';
-import ProductSpecificationButton from '../partials/Buttons/ProductSpecificationButton';
-import LegendDescriptionButton from '../partials/Buttons/LegendDescriptionButton';
-import ContactOwnerButton from '../partials/Buttons/ContactOwnerButton';
-import ProductPageButton from '../partials/Buttons/ProductPageButton';
-import ApplicationButton from '../partials/Buttons/ApplicationButton';
-import MapButton from '../partials/Buttons/MapButton';
-import DownloadButton from '../partials/Buttons/DownloadButton';
-import HelpButton from '../partials/Buttons/HelpButton';
-import ShowCoverageButton from '../partials/Buttons/ShowCoverageButton';
-import DownloadXmlButton from '../partials/Buttons/DownloadXmlButton';
-import EditMetadataButton from '../partials/Buttons/EditMetadataButton';
-import Breadcrumb from '../partials/Breadcrumb';
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import DistributionsList from "components/routes/Metadata/DistributionsList";
+import ProductSheetButton from 'components/partials/Buttons/ProductsheetButton';
+import ProductSpecificationButton from 'components/partials/Buttons/ProductSpecificationButton';
+import LegendDescriptionButton from 'components/partials/Buttons/LegendDescriptionButton';
+import ContactOwnerButton from 'components/partials/Buttons/ContactOwnerButton';
+import ProductPageButton from 'components/partials/Buttons/ProductPageButton';
+import ApplicationButton from 'components/partials/Buttons/ApplicationButton';
+import MapButton from 'components/partials/Buttons/MapButton';
+import DownloadButton from 'components/partials/Buttons/DownloadButton';
+import HelpButton from 'components/partials/Buttons/HelpButton';
+import ShowCoverageButton from 'components/partials/Buttons/ShowCoverageButton';
+import DownloadXmlButton from 'components/partials/Buttons/DownloadXmlButton';
+import EditMetadataButton from 'components/partials/Buttons/EditMetadataButton';
+import Breadcrumb from 'components/partials/Breadcrumb';
 
 // Stylesheets
-import style from "./Metadata.scss";
+import style from "components/routes/Metadata.module.scss";
+
 
 class Metadata extends Component {
 
@@ -102,6 +103,31 @@ class Metadata extends Component {
             this.fetchApiData();
         }
     }
+
+    renderDatasetLanguage() {
+        return this.props.metadata && this.props.metadata.DatasetLanguage ? (
+            <div>
+                <strong>{this.props.getResource('LanguageInDataset', 'Språk i datasett')}:</strong> {this.props.metadata.DatasetLanguage}
+            </div>
+        ) : ''
+    }
+
+    renderResourceReferenceCodespace() {
+        return this.props.metadata && this.props.metadata.ResourceReferenceCodespace ? (
+            <div>
+                <strong>{this.props.getResource('NamespaceToDataset', 'Navnerom til datasett')}:</strong> {this.props.metadata.ResourceReferenceCodespace}
+            </div>
+        ) : ''
+    }
+
+    renderResourceReferenceCode() {
+        return this.props.metadata && this.props.metadata.ResourceReferenceCode ? (
+            <div>
+                <strong>{this.props.getResource('DatasetName', 'Datasett-ID')}:</strong> {this.props.metadata.ResourceReferenceCode}
+            </div>
+        ) : ''
+    }
+
 
     renderContactMetadata() {
         if (this.props.metadata && this.props.metadata.ContactMetadata) {
@@ -258,6 +284,24 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderOtherConstraints() {
+        const hasOtherConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraints;
+        return hasOtherConstraints ? (
+            <div>
+                <strong>{this.props.getResource('OtherConstraints', 'Andre restriksjoner')}: </strong>{this.props.metadata.Constraints.OtherConstraints}
+            </div>
+        ) : '';
+    }
+
+    renderSecurityConstraintsNote() {
+        const hasSecurityConstraintsNote = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraintsNote;
+        return hasSecurityConstraintsNote ? (
+            <div>
+                <strong>{this.props.getResource('SecurityConstraintsNote', 'Lovhenvisning')}: </strong>{this.props.metadata.Constraints.SecurityConstraintsNote}
+            </div>
+        ) : '';
+    }
+
     renderSecurityConstraints() {
         const hasSecurityConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
         return hasSecurityConstraints ? (
@@ -287,6 +331,22 @@ class Metadata extends Component {
         return this.props.metadata && this.props.metadata.ProcessHistory ? (
             <div>
                 <strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong>{this.props.metadata.ProcessHistory}
+            </div>
+        ) : ''
+    }
+
+    renderOrderingInstructions() {
+        return this.props.metadata && this.props.metadata.OrderingInstructions ? (
+            <div>
+              <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">{this.props.metadata.OrderingInstructionsLinkText}</a>
+            </div>
+        ) : ''
+    }
+
+    renderDateCreated() {
+        return this.props.metadata && this.props.metadata.DateCreated ? (
+            <div>
+                <strong>{this.props.getResource('Created', 'Oppretet')} ({this.props.getResource('Resource', 'Ressurs')}): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateCreated} />
             </div>
         ) : ''
     }
@@ -329,6 +389,14 @@ class Metadata extends Component {
         return this.props.metadata && this.props.metadata.MaintenanceFrequency ? (
             <div>
                 <strong>{this.props.getResource('MaintenanceFrequency', 'Oppdateringshyppighet')}: </strong>{this.props.metadata.MaintenanceFrequency}
+            </div>
+        ) : ''
+    }
+
+    renderSpatialScope() {
+        return this.props.metadata && this.props.metadata.SpatialScope ? (
+            <div>
+                <strong>{this.props.getResource('Facet_spatialscope', 'Dekningsområde')}: </strong>{this.props.metadata.SpatialScope}
             </div>
         ) : ''
     }
@@ -428,6 +496,74 @@ class Metadata extends Component {
             <div>
                 <h3>Inspire:</h3>
                 {keywordsInspireList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsConcept() {
+        const hasKeywordsConcept = this.props.metadata.KeywordsConcept && this.props.metadata.KeywordsConcept.length;
+        const keywordsConceptList = hasKeywordsConcept && this.props.metadata.KeywordsConcept.map((keywordConcept, index) => {
+            return (
+                <li key={index}>
+                    <a href={keywordConcept.KeywordLink} target="_blank" rel="noopener noreferrer">{keywordConcept.KeywordValue}</a>
+                </li>
+            )
+        });
+        return hasKeywordsConcept ? (
+            <div>
+                <strong>{this.props.getResource('Concept', 'Begreper')}:</strong>
+                {keywordsConceptList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsInspirePriorityDataset() {
+        const hasKeywordsInspirePriorityDataset = this.props.metadata.KeywordsInspirePriorityDataset && this.props.metadata.KeywordsInspirePriorityDataset.length;
+        const keywordsInspirePriorityDatasetList = hasKeywordsInspirePriorityDataset && this.props.metadata.KeywordsInspirePriorityDataset.map((keywordInspirePriorityDataset, index) => {
+            return (
+                <li key={index}>
+                    <a href={keywordInspirePriorityDataset.KeywordLink} target="_blank" rel="noopener noreferrer">{keywordInspirePriorityDataset.KeywordValue}</a>
+                </li>
+            )
+        });
+        return hasKeywordsInspirePriorityDataset ? (
+            <div>
+                <strong>{this.props.getResource('EuPriorityDataset', 'EU - prioriterte datasett')}:</strong>
+                {keywordsInspirePriorityDatasetList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsInspireCategory() {
+        const hasKeywordsInspire = this.props.metadata.KeywordsInspire && this.props.metadata.KeywordsInspire.length;
+        const keywordsInspireList = hasKeywordsInspire && this.props.metadata.KeywordsInspire.map((keywordInspire, index) => {
+            return (
+                <li key={index}>
+                    {keywordInspire.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsInspire ? (
+            <div>
+                <strong>{this.props.getResource('Metadata_KeywordsInspire_Label', 'Inspire kategorier')}:</strong>
+                {keywordsInspireList}
+            </div>
+        ) : '';
+    }
+
+    renderKeywordsOther() {
+        const hasKeywordsOther = this.props.metadata.KeywordsOther && this.props.metadata.KeywordsOther.length;
+        const keywordsOtherList = hasKeywordsOther && this.props.metadata.KeywordsOther.map((keywordOther, index) => {
+            return (
+                <li key={index}>
+                    {keywordOther.KeywordValue}
+                </li>
+            )
+        });
+        return hasKeywordsOther ? (
+            <div>
+                <strong>{this.props.getResource('Metadata_KeywordsOther_Label', 'Ukategoriserte nøkkelord')}:</strong>
+                {keywordsOtherList}
             </div>
         ) : '';
     }
@@ -609,7 +745,7 @@ class Metadata extends Component {
     }
 
     renderConstraintsSection() {
-        const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints();
+        const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints() || this.renderSecurityConstraintsNote();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Constraints', 'Restriksjoner')}</h2>
@@ -617,6 +753,8 @@ class Metadata extends Component {
                 {this.renderAccessConstraints()}
                 {this.renderUseConstraints()}
                 {this.renderOtherConstraintsLinkText()}
+                {this.renderOtherConstraints()}
+                {this.renderSecurityConstraintsNote()}
                 {this.renderSecurityConstraints()}
             </div>
         ) : '';
@@ -633,15 +771,27 @@ class Metadata extends Component {
     }
 
     renderQualitySection() {
-        const hasChildren = this.renderResolutionScale() || this.renderStatus() || this.renderProcessHistory();
+        const hasChildren = this.renderResolutionScale() || this.renderStatus() || this.renderProcessHistory() || this.renderOrderingInstructions();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Quality', 'Kvalitet')}</h2>
                 {this.renderResolutionScale()}
                 {this.renderStatus()}
                 {this.renderProcessHistory()}
+                {this.renderOrderingInstructions()}
             </div>
         ) : '';
+    }
+
+    renderGeneral() {
+        const hasChildren = this.renderDatasetLanguage() || this.renderResourceReferenceCodespace() || this.renderResourceReferenceCode();
+         return hasChildren ? (
+            <div>
+                {this.renderDatasetLanguage()}
+                {this.renderResourceReferenceCodespace()}
+                {this.renderResourceReferenceCode()}
+            </div>
+         ): '';
     }
 
     renderQualitySpecificationsSection() {
@@ -650,6 +800,7 @@ class Metadata extends Component {
             return (
                 <div key={index}>
                     <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
+                    {qualitySpecification.SpecificationLink ? <p><strong>Link :</strong> <a href={qualitySpecification.SpecificationLink} target="_blank" rel="noopener noreferrer">{qualitySpecification.SpecificationLink}</a>  </p> : ''}
                     <p><strong>{this.props.getResource('Date', 'Dato')}: </strong><Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> ({qualitySpecification.DateType})</p>
                     <p><strong>{this.props.getResource('QualitySpecificationExplanation', 'Forklaring av resultat')}: </strong>{qualitySpecification.Explanation}</p>
                     <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
@@ -677,20 +828,25 @@ class Metadata extends Component {
     renderTimeAndSpaceSection() {
         const hasChildren = this.renderDateUpdated()
             || this.renderMetadataDateUpdated()
+            || this.renderDateCreated()
             || this.renderDatePublished()
             || this.renderDateValidityPeriod()
             || this.renderMaintenanceFrequency()
             || this.renderKeywordsPlace()
-            || this.renderBoundingBox();
+            || this.renderBoundingBox()
+            || this.renderSpatialScope();
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('TimeAndSpace', 'Tid og rom')}</h2>
+                {this.renderDateCreated()}
                 {this.renderDateUpdated()}
                 {this.renderMetadataDateUpdated()}
                 {this.renderDatePublished()}
                 {this.renderDateValidityPeriod()}
+                {this.renderMaintenanceFrequency()}
                 {this.renderKeywordsPlace()}
                 {this.renderBoundingBox()}
+                {this.renderSpatialScope()}
             </div>
         ) : '';
     }
@@ -701,7 +857,12 @@ class Metadata extends Component {
             || this.renderKeywordsNationalInitiative()
             || this.renderKeywordsInspire()
             || this.renderKeywordsAdministrativeUnits()
-            || this.renderTopicCategory();
+            || this.renderTopicCategory()
+            || this.renderKeywordsConcept()
+            || this.renderKeywordsInspirePriorityDataset()
+            || this.renderKeywordsInspireCategory()
+            || this.renderKeywordsOther()
+            ;
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
@@ -710,13 +871,17 @@ class Metadata extends Component {
                 {this.renderKeywordsNationalInitiative()}
                 {this.renderKeywordsAdministrativeUnits()}
                 {this.renderTopicCategory()}
+                {this.renderKeywordsConcept()}
+                {this.renderKeywordsInspirePriorityDataset()}
+                {this.renderKeywordsInspireCategory()}
+                {this.renderKeywordsOther()}
             </div>
         ) : '';
     }
     renderThumbnail() {
         const hasThumbnail = this.props.metadata && this.props.metadata.Thumbnails && this.props.metadata.Thumbnails.length;
         const thumbnailList = hasThumbnail && this.props.metadata.Thumbnails.filter(thumbnail => {
-            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail"
+            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail" || thumbnail.Type === "miniatyrbilde"
         }).map((thumbnail, index) => {
             return (
                 <div key={index}>
@@ -781,7 +946,7 @@ class Metadata extends Component {
 
                         <h1>{this.props.metadata.Title}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
-                        <div className={this.state.showBtns ? style.openBtnsContainer : style.openBtnsContainer + ' closed'}>
+                        <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                             <div className={style.btns}>
 
                                 <ErrorBoundary>
@@ -843,6 +1008,7 @@ class Metadata extends Component {
                             <h2>{this.props.getResource('DetailedInformation', 'Detaljert informasjon')}
                                 <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}`} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
                         <div className={this.state.expanded ? style.open : style.closed}>
+                            {this.renderGeneral()}
                             <div className={style.flex}>
                                 {this.renderQualitySection()}
                                 {this.renderTimeAndSpaceSection()}

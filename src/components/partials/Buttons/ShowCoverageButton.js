@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// Actions
-import { getResource } from '../../../actions/ResourceActions'
-
 // Components
-import Modal from './Modal.js'
+import Modal from 'components/partials/Buttons/Modal.js'
+
+// Actions
+import { getResource } from 'actions/ResourceActions'
+
+// Reducers
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 // Stylesheets
-import style from './Buttons.scss';
+import style from 'components/partials/Buttons/Buttons.module.scss';
+
 
 export class ShowCoverageButton extends Component {
     constructor(props) {
@@ -29,6 +33,20 @@ export class ShowCoverageButton extends Component {
     hideModal = () => {
         this.setState({ show: false });
     };
+
+    handleButtonClick = () => {
+      this.showModal();
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+				event: 'showMore',
+				category: 'metadataDetails',
+				activity: 'showCoverageMap',
+				metadata: tagData
+			});
+    }
 
     componentDidMount = () => {
         this.setState({ mounted: true });
@@ -48,12 +66,12 @@ export class ShowCoverageButton extends Component {
 
         if (this.props.metadata.CoverageUrl) {
             let buttonClass = style.btn;
-            return <span className={buttonClass} onClick={this.showModal}>
+            return <span className={buttonClass} onClick={this.handleButtonClick}>
                 <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
             </span>
         }
         else {
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             return <span className={buttonClass}>
                 <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
             </span>
@@ -75,7 +93,8 @@ ShowCoverageButton.propTypes = {
 };
 
 const mapDispatchToProps = {
-    getResource
+    getResource,
+    pushToDataLayer
 };
 
 const mapStateToProps = state => ({

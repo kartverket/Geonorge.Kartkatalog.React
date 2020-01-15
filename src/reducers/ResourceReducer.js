@@ -1,6 +1,6 @@
 import {
     FETCH_RESOURCES
-} from '../actions/types';
+} from 'actions/types';
 
 const initialState = {};
 

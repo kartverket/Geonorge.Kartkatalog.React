@@ -1,5 +1,5 @@
-import { UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS } from '../actions/types';
-import { pushToDataLayer } from '../reducers/TagManagerReducer';
+import { UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS } from 'actions/types';
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 export const updateAvailableFacets = (facets) => dispatch => {
     dispatch({

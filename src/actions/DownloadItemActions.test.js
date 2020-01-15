@@ -2,7 +2,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk'
 
 // Actions to be tested
-import * as downloadItemActions from './DownloadItemActions';
+import * as downloadItemActions from 'actions/DownloadItemActions';
 
 const middlewares = [thunk] // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);
@@ -27,14 +27,14 @@ describe('download_item_actions', () => {
 
     describe('addItemSelectedForDownload', () => {
         test('Add item to download', () => {
-            store.dispatch(downloadItemActions.addItemSelectedForDownload(downloadItem)); 
+            store.dispatch(downloadItemActions.addItemSelectedForDownload(downloadItem));
             expect(localStorage.orderItems).toContain("123456");
         });
     });
 
     describe('removeItemSelectedForDownload', () => {
         test('Remove item to download', () => {
-            store.dispatch(downloadItemActions.removeItemSelectedForDownload(downloadItem)); 
+            store.dispatch(downloadItemActions.removeItemSelectedForDownload(downloadItem));
             expect(localStorage.orderItems).not.toContain("123456");
         });
     });

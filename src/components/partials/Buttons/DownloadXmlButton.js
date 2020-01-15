@@ -1,16 +1,33 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import style from './Buttons.scss'
-
-import { getResource } from '../../../actions/ResourceActions'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Actions
+import { getResource } from 'actions/ResourceActions'
+
+// Stylesheets
+import style from 'components/partials/Buttons/Buttons.module.scss'
+
 
 export class DownloadXmlButton extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    handleButtonClick = () => {
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+        event: 'download',
+        category: 'metadataDetails',
+        activity: 'downloadXML',
+        metadata: tagData
+      });
     }
 
 
@@ -24,10 +41,10 @@ export class DownloadXmlButton extends Component {
 
         if (url) {
             let buttonClass = style.btn;
-            return React.createElement('a', { href: url, className: buttonClass }, childElements);
+            return (<a href={url} onClick={this.handleButtonClick} className={buttonClass}>{childElements}</a>);
         } else {
-            let buttonClass = style.btn + ' disabled';
-            return React.createElement('span', { className: buttonClass }, childElements);
+            let buttonClass = `${style.btn}  ${style.disabled}`;
+            return (<span className={buttonClass}>{childElements}</span>);
         }
     }
 

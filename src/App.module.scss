@@ -1,0 +1,55 @@
+@import 'scss/abstracts/all';
+
+#ie > div {
+  margin: 130px 20px 20px;
+  overflow: hidden;
+
+  .banner {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    background-color: #f7f7f7;
+    height: 100px;
+    margin: -20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+
+    > img {
+      height: 37px;
+      margin-top: 40px;
+      margin-left: 20px;
+    }
+  }
+}
+
+:local(.pageContent) {
+  margin-top: 115px;
+  height: calc(100% - 57px);
+  overflow-y: auto;
+  width: 100%;
+  position: absolute;
+  margin-bottom: 2px solid $primary-border;
+  @include breakpoint(phablet) {
+    margin-top: 57px;
+  }
+}
+
+:local(.footer) {
+  margin: 0 auto;
+}
+
+:local(.container) {
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+:local(.kartkatalogen) {
+  font-size: 16px;
+  font-family: $default-font, sans-serif;
+  margin: 0;
+  padding: 0;
+
+  h1 {
+    font-family: $header-font, sans-serif;
+  }
+}

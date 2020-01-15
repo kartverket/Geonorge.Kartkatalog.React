@@ -1,9 +1,11 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import style from './Modal.scss';
-import styleBtn from './Buttons.scss';
+// Stylesheets
+import style from 'components/partials/Buttons/Modal.module.scss';
+import styleBtn from 'components/partials/Buttons/Buttons.module.scss';
 
 
 class Modal extends Component {

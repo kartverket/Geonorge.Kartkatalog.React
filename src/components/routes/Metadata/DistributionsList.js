@@ -1,8 +1,14 @@
+// Dependencies
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import MetadataSearchResult from "../../partials/SearchResults/MetadataSearchResult";
-import style from "./DistributionsList.scss";
+
+// Components
+import MetadataSearchResult from "components/partials/SearchResults/MetadataSearchResult";
+
+// Stylesheets
+import style from "components/routes/Metadata/DistributionsList.module.scss";
+
 
 class DistributionsList extends Component {
     render() {

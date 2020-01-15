@@ -6,6 +6,7 @@ import {
     faCheckSquare,
     faCircle,
     faCloud,
+    faCopy,
     faDoorOpen,
     faDotCircle,
     faDownload,
@@ -43,6 +44,7 @@ import {
     faMapMarkerTimes,
     faMapPin,
     faTimes
+
 
 } from '@fortawesome/pro-solid-svg-icons'
 
@@ -94,6 +96,7 @@ library.add(
         faSquare,
         faTimes,
         faTrash,
+        faCopy
     ]
 );
 

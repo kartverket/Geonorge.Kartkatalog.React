@@ -1,16 +1,33 @@
+// Dependencies
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import style from './Buttons.scss'
-
-import { getResource } from '../../../actions/ResourceActions'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Actions
+import { getResource } from 'actions/ResourceActions'
+
+// Stylesheets
+import style from 'components/partials/Buttons/Buttons.module.scss'
+
 
 export class ContactOwnerButton extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    handleButtonClick = () => {
+      const tagData = {
+        name: this.props.metadata.Title,
+        uuid: this.props.metadata.Uuid
+      }
+      this.props.pushToDataLayer({
+        event: 'contact',
+        category: 'metadataDetails',
+        activity: 'contactDataOwner',
+        metadata: tagData
+      });
     }
 
     render() {
@@ -20,15 +37,14 @@ export class ContactOwnerButton extends Component {
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />;
             let buttonClass = style.btn;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-
             let childElements = [icon, textContent];
-            return React.createElement('a', { href: "mailto:" + email, className: buttonClass }, childElements);
+            return (<a href={`mailto:${email}`} onClick={this.handleButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>{childElements}</a>);
         } else {
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />
-            let buttonClass = style.btn + ' disabled';
+            let buttonClass = `${style.btn}  ${style.disabled}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
-            return React.createElement('span', { className: buttonClass }, childElements);
+            return (<span className={buttonClass}>{childElements}</span>);
         }
     }
 

@@ -4,38 +4,39 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // Actions
-import { getResource } from '../../../actions/ResourceActions';
+import { getResource } from 'actions/ResourceActions';
 
 // Helpers
-import { convertTextToUrlSlug } from '../../../helpers/UrlHelpers';
+import { convertTextToUrlSlug } from 'helpers/UrlHelpers';
 
 // Components
-import { ErrorBoundary } from '../../ErrorBoundary'
-import MapButton from '../Buttons/MapButton';
-import DownloadButton from '../Buttons/DownloadButton';
-import ApplicationButton from '../Buttons/ApplicationButton';
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import MapButton from 'components/partials/Buttons/MapButton';
+import DownloadButton from 'components/partials/Buttons/DownloadButton';
+import ApplicationButton from 'components/partials/Buttons/ApplicationButton';
 
 // Stylesheets
-import style from './MetadataSearchResult.scss';
+import style from 'components/partials/SearchResults/MetadataSearchResult.module.scss';
 
 
 class MetadataSearchResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      copied: false
     };
   }
 
   restrictionsClassnames() {
     if (this.props.searchResult.AccessConstraint === 'restricted' || this.props.searchResult.AccessIsProtected) {
-      return 'red'
+      return style.red
     } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted) {
-      return 'yellow'
+      return style.yellow
     } else {
-      return "green"
+      return style.green
     }
   }
 
@@ -124,15 +125,40 @@ class MetadataSearchResult extends Component {
     )
   }
 
+  renderLink(){
+    return this.props.metadata && this.props.metadata.Uuid === this.props.searchResult.Uuid
+    ? (<span>{this.props.searchResult.Title}</span>)
+    : (<Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link>);
+
+  }
+
+  renderCopyUrl() {    
+    
+    if(this.props.searchResult.Type === 'service' || this.props.searchResult.Type === 'Tjeneste') {      
+      return (
+        <ErrorBoundary>                 
+            <CopyToClipboard onCopy={() => this.setState({copied: true})} text={this.props.searchResult.GetCapabilitiesUrl}>
+              <span title={this.props.searchResult.GetCapabilitiesUrl} className={style.url}>Kopier lenke <FontAwesomeIcon icon={['far', 'copy']} /> {this.state.copied ? <span>Lenke kopiert til utklippstavle</span> : null}</span>
+          </CopyToClipboard>          
+        </ErrorBoundary>
+        
+        )
+    }
+    return
+  }
+
   render() {
     return (
       <div className={style.listItem}>
         <div>
           <span className={style.listItemTitle}>
-            <ErrorBoundary><Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link></ErrorBoundary>
+            <ErrorBoundary>
+              {this.renderLink()}
+            </ErrorBoundary>
           </span>
-          {this.renderListItemInfo()}
+          {this.renderListItemInfo()}                    
           <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
+          {this.renderCopyUrl()}
         </div>
 
         {this.renderButtons()}
@@ -152,7 +178,8 @@ MetadataSearchResult.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  resources: state.resources
+  resources: state.resources,
+  metadata: state.metadata
 });
 
 const mapDispatchToProps = {

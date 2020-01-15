@@ -5,7 +5,6 @@
   padding: 0;
   margin-bottom: 20px;
   list-style-position: outside;
-
 }
 
 :local(.morecontainer) {
@@ -16,10 +15,10 @@
 :local(.morebtn) {
   margin: 0 auto;
   display: block;
-  padding: 5px 0 15px 0;
+  padding: 5px 0 15px;
   margin: 0 80px;
   background: white;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   font-size: 1.2em;
   border: 1px solid $primary-border;
 
@@ -43,11 +42,13 @@
     display: none;
   }
 }
+
 :local(.content) {
   margin: 15px;
   @include breakpoint('tablet') {
     margin: 40px;
   }
+
   > h1 {
     font-weight: 100;
     font-size: 1.8em;
@@ -55,10 +56,15 @@
       font-size: 3em;
     }
   }
-  p,li,strong,a {
+
+  a,
+  li,
+  p,
+  strong {
     line-height: 1.6em;
-    font-size: .94em;    
+    font-size: 0.94em;
   }
+
   h2 {
     font-size: 1.6em;
     font-weight: 100;
@@ -69,6 +75,7 @@
       font-size: 2.5em;
     }
   }
+
   h3 {
     font-size: 1.2em;
     font-weight: 300;
@@ -77,27 +84,31 @@
     }
   }
 }
+
 :local(.btns) {
   margin: 10px 0;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   border-left: 1px solid $primary-brand;
-  >  * {
+
+  > * {
     flex: 1 1 20%;
     min-width: 250px;
-
   }
 }
+
 :local(.openBtns) {
   @include breakpoint('phablet') {
     display: none;
   }
 }
+
 :local(.openBtnsContainer) {
   max-height: 600px;
-  transition: all .3s ease-in-out;
-  &.closed {
+  transition: all 0.3s ease-in-out;
+
+  &:local(.closed) {
     max-height: 0;
     @include breakpoint(phablet) {
       max-height: 600px;
@@ -105,6 +116,7 @@
     overflow: hidden;
   }
 }
+
 :local(.flex) {
   display: flex;
   justify-content: space-between;
@@ -112,49 +124,60 @@
   @include breakpoint('tablet') {
     flex-direction: row;
   }
+
   > * {
     flex-basis: 33%;
   }
+
   > p {
     flex-grow: 2;
   }
 }
+
 :local(.flex2) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   @include breakpoint('tablet') {
     flex-direction: row;
+
     > * {
       flex-basis: 50%;
     }
   }
+
   > * {
     flex-basis: 100%;
   }
 }
+
 :local(.toggle) {
-    max-height: 0;
-    overflow: hidden;
-    transition: all .3s ease-in-out;
-    &.open {
-      max-height: 2000px;
-    }
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+
+  &.open {
+    max-height: 2000px;
+  }
 }
+
 :local(.closed) {
   max-height: 0;
   overflow: hidden;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
+
 :local(.open) {
   max-height: 2500px;
   overflow: auto;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
+
 :local(.opendetails) {
   &:hover {
     cursor: pointer;
   }
+
   > h2 > svg {
     margin-left: 10px;
   }

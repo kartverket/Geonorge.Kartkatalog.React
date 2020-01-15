@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Actions
-import { getResource } from '../../actions/ResourceActions'
-import { getGeonorgeLogo } from '../../actions/ImageActions';
+import { getResource } from 'actions/ResourceActions'
+import { getGeonorgeLogo } from 'actions/ImageActions';
 
 // Stylesheets
-import style from './Footer.scss';
+import style from 'components/partials/Footer.module.scss';
 
 // Assets
-import kartverketLogo from '../../images/kartverket.png';
+import kartverketLogo from 'images/kartverket.png';
 
 
 export class Footer extends Component {

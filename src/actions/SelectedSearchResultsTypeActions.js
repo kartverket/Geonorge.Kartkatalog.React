@@ -1,4 +1,4 @@
-import { UPDATE_SELECTED_SEARCHRESULTS_TYPE } from '../actions/types';
+import { UPDATE_SELECTED_SEARCHRESULTS_TYPE } from 'actions/types';
 
 export const updateSelectedSearchResultsType = (searchResultsType) => dispatch => {
     dispatch({

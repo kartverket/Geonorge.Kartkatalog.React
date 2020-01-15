@@ -1,5 +1,5 @@
-import reducer from './MapItemReducer';
-import { FETCH_MAPITEMS } from '../actions/types';
+import reducer from 'reducers/MapItemReducer';
+import { FETCH_MAPITEMS } from 'actions/types';
 
 describe('search_string_reducer', () => {
 

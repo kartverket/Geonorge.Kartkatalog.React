@@ -4,18 +4,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Utils
-import userManager from '../../../utils/userManager';
+import userManager from 'utils/userManager';
 
 // Actions
-import { fetchSelectedLanguage, updateSelectedLanguage } from '../../../actions/SelectedLanguageActions';
-import { updateSelectedFacetsFromUrl } from '../../../actions/FacetFilterActions';
-
-import { getResource } from '../../../actions/ResourceActions'
+import { fetchSelectedLanguage, updateSelectedLanguage } from 'actions/SelectedLanguageActions';
+import { updateSelectedFacetsFromUrl } from 'actions/FacetFilterActions';
+import { getResource } from 'actions/ResourceActions'
 
 
 // Stylesheets
-import styleBtn from './Buttons.scss';
-import style from '../MainNavigation.scss';
+import styleBtn from 'components/partials/Buttons/Buttons.module.scss';
+import style from 'components/partials/MainNavigation.module.scss';
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,11 +26,11 @@ export class GeonorgeMenuButton extends Component {
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
     }
 
-    componentDidMount() {        
-        document.addEventListener('mousedown', this.handleClick, false);        
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClick, false);
     }
     componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClick, false);        
+        document.removeEventListener('mousedown', this.handleClick, false);
     }
     toggleExpandMenu() {
         this.setState(prevState => ({

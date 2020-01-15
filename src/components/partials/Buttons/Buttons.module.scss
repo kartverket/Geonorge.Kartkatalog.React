@@ -1,0 +1,239 @@
+@import '../../../scss/abstracts/all';
+
+:local(.open) {
+  display: inline;
+}
+
+:local(.expandmapbutton) {
+  font-size: 3em;
+  color: $primary-brand;
+}
+
+:local(.btn) {
+  text-decoration: none;
+  background: white;
+  color: $default-text;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid rgba($primary-brand, .2);
+  border-right-width: 1px;
+  margin-left: -1px;
+  margin-bottom: -1px;
+
+  &:hover {
+    cursor: pointer;
+    background: $primary-brand;
+    color: white;
+
+    > svg {
+      font-size: 1.6em;
+      margin-right: 5px;
+      color: white;
+    }
+  }
+
+  > svg {
+    position: relative;
+    top: 4px;
+    margin-right: 5px;
+    font-size: 1.6em;
+    color: $primary-brand;
+  }
+
+  &:local(.downloadservice-slow) {
+    > svg {
+      color: orange;
+    }
+  }
+
+  &:local(.disabled) {
+    &:hover {
+      cursor: default;
+      background: white;
+
+      > svg {
+        margin-right: 5px;
+      }
+    }
+    color: $icon-disabled;
+
+    > svg {
+      margin-right: 5px;
+      color: $icon-disabled;
+    }
+  }
+
+  &:local(.download) {
+    > svg {
+      margin-right: 5px;
+      color: $primary-success;
+    }
+  }
+
+  &:local(.remove) {
+    > svg {
+      margin-right: 5px;
+      color: $primary-danger;
+    }
+  }
+}
+
+:local(.GeonorgeMenuButton) {
+  &:hover {
+    cursor: pointer;
+  }
+
+  > span {
+    width: 50px;
+  }
+}
+
+:local(.menuContent) {
+  display: flex;
+  flex-wrap: wrap;
+  @include breakpoint(phablet) {
+    flex-wrap: nowrap;
+  }
+
+  ul {
+    margin: 0 20px;
+    max-width: 150px;
+    @include breakpoint(tablet) {
+      max-width: inherit;
+    }
+
+    li {
+      margin: 10px;
+
+      a {
+        text-decoration: none;
+      }
+
+      &:first-child {
+        a {
+          border-bottom: 1px solid $primary-border;
+          padding-bottom: 10px;
+          margin-bottom: 10px;
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+:local(.secondaryContent) {
+  text-align: right;
+  border-top: 1px solid $primary-border;
+  margin: 10px 25px;
+
+  > ul {
+    margin: 0;
+    padding: 10px 5px 0;
+
+    > li {
+      display: inline-block;
+      padding: 0.25em 1em 0.25em 1.1em;
+
+      &:not(:nth-child(1)) {
+        border-left: 1px solid #b6afa8;
+      }
+    }
+
+    > li:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+:local(.on) {
+  display: flex;
+  width: 100px;
+  flex-direction: column;
+  font-size: 1em;
+  @include breakpoint(tablet) {
+    font-size: 1.2em;
+    width: 140px;
+  }
+  align-items: center;
+
+  > svg {
+    color: $primary-success;
+    font-size: 1.5em;
+    margin-right: 5px;
+  }
+
+  > span {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: $anchor-active;
+    text-decoration: underline;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:local(.service-slow) > svg {
+    color: orange;
+  }
+}
+
+:local(.off) {
+  display: flex;
+  width: 100px;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1 em;
+  @include breakpoint(tablet) {
+    font-size: 1.2em;
+    width: 140px;
+  }
+
+  > svg {
+    color: $primary-danger;
+    margin-right: 5px;
+    font-size: 1.5em;
+  }
+
+  > span {
+    font-size: 0.8em;
+    text-decoration: underline;
+    color: $anchor-active;
+    font-weight: 600;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.ext) {
+  display: flex;
+  width: 100px;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1 em;
+  @include breakpoint(tablet) {
+    font-size: 1.2em;
+    width: 140px;
+  }
+
+  > svg {
+    color: $primary-brand;
+    margin-right: 5px;
+    font-size: 1.5em;
+  }
+
+  > span {
+    font-size: 0.8em;
+    text-decoration: underline;
+    color: $anchor-active;
+    font-weight: 600;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}

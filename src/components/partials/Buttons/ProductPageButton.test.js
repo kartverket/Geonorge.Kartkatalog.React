@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ProductPageButton } from './ProductPageButton';
-import style from './Buttons.scss'
+import style from 'components/partials/Buttons/Buttons.module.scss'
 
 function setupItemWithProductPageUrl() {
     const metadata = {
@@ -39,7 +39,7 @@ function setupItemWithoutProductPageUrl() {
 
 
 describe('setupItemWithProductPageUrl', () => {
-    
+
     it('should render self', () => {
         const { wrapper } = setupItemWithProductPageUrl()
         expect(wrapper).toMatchSnapshot();
@@ -50,14 +50,14 @@ describe('setupItemWithProductPageUrl', () => {
 
         expect(wrapper.hasClass(style.btn)).toBe(true)
         expect(wrapper.prop("href")).toBe('test')
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
     })
 
     it('Item without product page url', () => {
         const { wrapper } = setupItemWithoutProductPageUrl()
-        
+
         expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
-        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')        
+        expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
     })
 })

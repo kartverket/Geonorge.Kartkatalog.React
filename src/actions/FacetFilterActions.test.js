@@ -2,7 +2,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk'
 
 // Actions to be tested
-import * as facetFilterActions from './FacetFilterActions';
+import * as facetFilterActions from 'actions/FacetFilterActions';
 
 
 const middlewares = [thunk] // add your middlewares like `redux-thunk`

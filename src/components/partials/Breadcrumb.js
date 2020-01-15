@@ -1,11 +1,16 @@
+// Dependencies
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getResource } from '../../actions/ResourceActions';
-import style from './MainNavigation.scss';
+// Actions
+import { getResource } from 'actions/ResourceActions';
+
+// Stylesheets
+import style from 'components/partials/MainNavigation.module.scss';
+
 
 export class Breadcrumb extends Component {
 
@@ -18,7 +23,7 @@ export class Breadcrumb extends Component {
                           <span property="name">Geonorge</span>
                         </a>
                          <meta property="position" content="1" />
-                        <FontAwesomeIcon title="Tilbake til katalogen" icon={'angle-right'} />
+                        <FontAwesomeIcon title="Til Geonorge" icon={'angle-right'} />
                     </li>
                     {this.renderCurrentBreadcrumb()}
                 </ul>
@@ -61,7 +66,8 @@ Breadcrumb.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    resources: state.resources
+    resources: state.resources,
+    searchString: state.searchString
 });
 
 const mapDispatchToProps = {

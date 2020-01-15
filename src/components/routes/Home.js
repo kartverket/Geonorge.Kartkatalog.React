@@ -6,20 +6,21 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { updateAvailableFacets, updateSelectedFacetsFromUrl, addSelectedFacetsToAnalytics } from '../../actions/FacetFilterActions'
-import { updateSearchStringFromUrl } from '../../actions/SearchStringActions'
-import { updateSelectedSearchResultsType } from '../../actions/SelectedSearchResultsTypeActions';
-import { fetchMetadataSearchResults, fetchArticleSearchResults } from "../../actions/SearchResultActions";
-import { getResource } from '../../actions/ResourceActions'
+import { updateAvailableFacets, updateSelectedFacetsFromUrl, addSelectedFacetsToAnalytics } from 'actions/FacetFilterActions'
+import { updateSearchStringFromUrl } from 'actions/SearchStringActions'
+import { updateSelectedSearchResultsType } from 'actions/SelectedSearchResultsTypeActions';
+import { fetchMetadataSearchResults, fetchArticleSearchResults } from "actions/SearchResultActions";
+import { clearMetadata } from 'actions/MetadataActions'
+import { getResource } from 'actions/ResourceActions'
 
 // Components
-import SelectedFacets from '../partials/SelectedFacets';
-import SearchResults from '../partials/SearchResults';
-import { ErrorBoundary } from '../../components/ErrorBoundary'
-import Breadcrumb from '../partials/Breadcrumb';
+import SelectedFacets from 'components/partials/SelectedFacets';
+import SearchResults from 'components/partials/SearchResults';
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import Breadcrumb from 'components/partials/Breadcrumb';
 
 // Stylesheets
-import style from './Home.scss';
+import style from './Home.module.scss';
 
 class Home extends Component {
     setSelectedSearchResultsType() {
@@ -36,6 +37,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        this.props.clearMetadata();
         this.setSelectedCategory();
         this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
             let availableFacets = {};
@@ -112,7 +114,7 @@ class Home extends Component {
                     <div className={style.searchResultContainer}>
 
                         <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}
-                            <span className={searchString !== "" ? 'show' : 'hide'}>
+                            <span className={searchString !== "" ? style.show : style.hide}>
                                 <Link to="/"> {this.props.getResource('ClearSearch', 'Nullstill søk')}
                                     <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
                                 </Link>
@@ -137,7 +139,7 @@ class Home extends Component {
                 <div className={style.searchResultContainer}>
                     <span className={searchString !== "" ? style.searchResultInformation : ""}>
                         {searchString}
-                        <span className={searchString !== "" ? 'show' : 'hide'}>
+                        <span className={searchString !== "" ? style.show : style.hide}>
                             <Link to="/">
                                 {this.props.getResource('ClearSearch', 'Nullstill søk')}
                                 <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
@@ -154,15 +156,16 @@ class Home extends Component {
     }
 
     render() {
+      const searchResultsTypeText = this.props.selectedSearchResultsType === 'articles' ? 'Artikkelsøk' : 'Metadatasøk';
         return (
             <div>
                 <Helmet>
-                    <title>Kartkatalogen</title>
+                    <title>{this.props.searchString && this.props.searchString.length ? `${searchResultsTypeText} på '${this.props.searchString}' - ` : '' }Kartkatalogen</title>
                     <link rel="canonical" href={`${document.location.origin}/${this.props.selectedSearchResultsType ? this.props.selectedSearchResultsType : 'metadata'}`} />
                     <meta name="description" content='Bruk Geonorges kartkatalog til å søke etter, se på og laste ned norske offentlige kartdata' />
                     <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                 </Helmet>
-                <Breadcrumb />
+                <Breadcrumb content={this.props.searchString && this.props.searchString.length ? `${searchResultsTypeText} på '${this.props.searchString}'` : null} />
                 <div className={style.header}>
                     {this.props.searchString && this.props.searchResults ? this.renderSearchQuery() : <h1>Kartkatalogen</h1>}
                     <ErrorBoundary><SelectedFacets /></ErrorBoundary>
@@ -191,6 +194,7 @@ const mapDispatchToProps = {
     fetchArticleSearchResults,
     updateSearchStringFromUrl,
     updateSelectedSearchResultsType,
+    clearMetadata,
     getResource
 };
 

@@ -6,17 +6,17 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Actions
-import { fetchMetadataSearchResults, fetchArticleSearchResults } from '../../actions/SearchResultActions';
-import { getResource } from '../../actions/ResourceActions'
+import { fetchMetadataSearchResults, fetchArticleSearchResults } from 'actions/SearchResultActions';
+import { getResource } from 'actions/ResourceActions'
 
 // Components
-import MetadataSearchResult from './SearchResults/MetadataSearchResult'
-import ArticleSearchResult from './SearchResults/ArticleSearchResult'
-import { ErrorBoundary } from '../../components/ErrorBoundary'
-import FacetFilter from './FacetFilter'
+import MetadataSearchResult from 'components/partials/SearchResults/MetadataSearchResult'
+import ArticleSearchResult from 'components/partials/SearchResults/ArticleSearchResult'
+import { ErrorBoundary } from 'components/ErrorBoundary'
+import FacetFilter from 'components/partials/FacetFilter'
 
 // Stylesheets
-import style from './SearchResults.scss';
+import style from 'components/partials/SearchResults.module.scss';
 
 
 class SearchResults extends Component {
@@ -120,14 +120,14 @@ class SearchResults extends Component {
             )
 
         } else if (this.props.selectedSearchResultsType === 'articles') {
-           
+
             const moreItemButtonClassNames = classNames({
                 [style.morebtn]: true,
                 hidden: !this.moreArticlesAvailable()
             });
             return (
                 <div className={style.searchResultContainer}>
-                   
+
                     {this.renderArticleSearchResults()}
                     <div className={style.morecontainer}>
                         <div className={moreItemButtonClassNames} onClick={() => this.addMoreArticlesToSearchResult()}>
