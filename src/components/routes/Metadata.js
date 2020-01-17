@@ -761,11 +761,11 @@ class Metadata extends Component {
     }
 
     renderSupplementalDescriptionSection() {
-        return this.props.metadata && this.props.metadata.SupplementalDescription && this.props.metadata.HelpUrl ? (
+        return this.props.metadata && (this.props.metadata.SupplementalDescription || this.props.metadata.HelpUrl) ? (
             <div>
-                <h2>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
+                <h2 id="help-info">{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
                 <p>{this.props.metadata.SupplementalDescription}</p>
-                <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a>
+                {this.props.metadata.HelpUrl ? <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a> : ""} 
             </div>
         ) : ''
     }

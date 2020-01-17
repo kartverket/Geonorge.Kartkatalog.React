@@ -20,8 +20,10 @@ export class HelpButton extends Component {
     render() {
         let buttonDescription = this.props.getResource('Help', 'Hjelp');
         // TODO styling
-        if (this.props.metadata.HelpUrl) {
+        if (this.props.metadata.HelpUrl || this.props.metadata.SupplementalDescription) {
             let url = this.props.metadata.HelpUrl
+            if(this.props.metadata.SupplementalDescription)
+                url = "#help-info";
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'question-circle']} key="icon" />;
             let buttonClass = style.btn;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
