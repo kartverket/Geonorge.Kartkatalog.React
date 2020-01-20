@@ -9,6 +9,7 @@ import userManager from 'utils/userManager';
 
 // Actions
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from 'actions/DownloadItemActions'
+import { getApiData } from 'actions/ApiActions'
 import { getResource } from 'actions/ResourceActions'
 
 // Stylesheets
@@ -57,12 +58,16 @@ export class DownloadButton extends Component {
 
     addToDownloadList(event, item) {
       const isNotAuthenticated = !this.props.oidc || !this.props.oidc.user;
-      if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
-        localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
-        this.handleLoginClick(event);
-      }else {
-        this.props.addItemSelectedForDownload(item);
-      }
+      this.props.getApiData(item.getCapabilitiesUrl).then((capabilities) => {
+        item.capabilities = capabilities;
+        if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
+          localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
+          this.handleLoginClick(event);
+        }else {
+          this.props.addItemSelectedForDownload(item);
+        }
+      });
+
     }
 
     removeFromDownloadList(item) {
@@ -214,6 +219,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     removeItemSelectedForDownload,
     addItemSelectedForDownload,
+    getApiData,
     getResource
 };
 
