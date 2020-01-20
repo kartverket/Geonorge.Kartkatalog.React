@@ -833,6 +833,7 @@ class Metadata extends Component {
             || this.renderDateValidityPeriod()
             || this.renderMaintenanceFrequency()
             || this.renderKeywordsPlace()
+            || this.renderKeywordsAdministrativeUnits()
             || this.renderBoundingBox()
             || this.renderSpatialScope();
         return hasChildren ? (
@@ -845,6 +846,7 @@ class Metadata extends Component {
                 {this.renderDateValidityPeriod()}
                 {this.renderMaintenanceFrequency()}
                 {this.renderKeywordsPlace()}
+                {this.renderKeywordsAdministrativeUnits()}
                 {this.renderBoundingBox()}
                 {this.renderSpatialScope()}
             </div>
@@ -856,7 +858,6 @@ class Metadata extends Component {
             || this.renderKeywordsNationalTheme()
             || this.renderKeywordsNationalInitiative()
             || this.renderKeywordsInspire()
-            || this.renderKeywordsAdministrativeUnits()
             || this.renderTopicCategory()
             || this.renderKeywordsConcept()
             || this.renderKeywordsInspirePriorityDataset()
@@ -869,7 +870,6 @@ class Metadata extends Component {
                 {this.renderKeywordsTheme()}
                 {this.renderKeywordsNationalTheme()}
                 {this.renderKeywordsNationalInitiative()}
-                {this.renderKeywordsAdministrativeUnits()}
                 {this.renderTopicCategory()}
                 {this.renderKeywordsConcept()}
                 {this.renderKeywordsInspirePriorityDataset()}
