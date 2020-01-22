@@ -21,12 +21,7 @@
 		font-size: 1.2em;
 		margin-top: 10px;
 	}
-	:local(.url) {
-		font-size: .8em;
-		&:hover {
-			cursor: pointer;
-		}
-	}
+	
 
 	:local(.listItemInfo) {
 		display: block;

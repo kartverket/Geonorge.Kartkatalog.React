@@ -915,6 +915,14 @@ class Metadata extends Component {
       }
     }
 
+    renderType() {
+        if(this.props.metadata.Type) {
+            return <div>
+                        <strong>Type: {this.props.metadata.TypeTranslated}</strong>
+                    </div>
+        }
+    }
+
     renderCanonicalTags(){
       let canonicalTagElements = [];
       if (this.props.match.params.uuid){
@@ -943,8 +951,9 @@ class Metadata extends Component {
                     {this.getMetadataLinkedDataSnippet(this.props.metadata)}
                     <Breadcrumb content={this.props.metadata.Title} />
                     <div className={style.content}>
+                        
 
-                        <h1>{this.props.metadata.Title}</h1>
+        <h1>{this.props.metadata.Title}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
                         <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                             <div className={style.btns}>
@@ -989,7 +998,7 @@ class Metadata extends Component {
                             </div>
                         </div>
                         <div className={style.flex}>
-                            <p>{this.props.metadata.Abstract}</p>
+                            <p>{this.renderType()} {this.props.metadata.Abstract}</p>
                             {this.renderThumbnail()}
                         </div>
 
