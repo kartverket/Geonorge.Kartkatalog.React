@@ -339,6 +339,9 @@ class Metadata extends Component {
         return this.props.metadata && this.props.metadata.OrderingInstructions ? (
             <div>
               <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">{this.props.metadata.OrderingInstructionsLinkText}</a>
+              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Availability ? <div> {this.props.metadata.QuantitativeResult.Availability} </div> :""}
+              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Capacity ? <div> {this.props.metadata.QuantitativeResult.Capacity} </div> :""}
+              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Performance ? <div> {this.props.metadata.QuantitativeResult.Performance} </div> :""}
             </div>
         ) : ''
     }
