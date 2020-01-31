@@ -625,6 +625,9 @@ class Metadata extends Component {
         const hasRelatedSerieDatasets = this.props.metadataDistributions && this.props.metadataDistributions.RelatedSerieDatasets && this.props.metadataDistributions.RelatedSerieDatasets.length;
         const showRelatedSerieDatasets = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedSerieDatasets;
 
+        const hasRelatedDatasetSerie = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDatasetSerie && this.props.metadataDistributions.RelatedDatasetSerie.length;
+        const showRelatedDatasetSerie = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDatasetSerie;
+
         const hasRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.RelatedApplications && this.props.metadataDistributions.RelatedApplications.length;
         const showRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedApplications;
 
@@ -661,6 +664,14 @@ class Metadata extends Component {
                 <h3>{this.props.getResource('Facet_type_seriedatasets', 'Datasett som inngår i datasettserien')}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedSerieDatasets} />
+                </ErrorBoundary>
+            </div>
+        ) : '';
+        const relatedDatasetSerieList = hasRelatedDatasetSerie && showRelatedDatasetSerie ? (
+            <div>
+                <h3>{this.props.getResource('Facet_type_datasetserie', 'Datasettet inngår i datasettserien')}</h3>
+                <ErrorBoundary>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDatasetSerie} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -708,6 +719,7 @@ class Metadata extends Component {
         const showDistributions = (hasSelfDistributions && showSelfDistributions)
             || (hasRelatedDataset && showRelatedDataset)
             || (hasRelatedSerieDatasets && showRelatedSerieDatasets)
+            || (hasRelatedDatasetSerie && showRelatedDatasetSerie)
             || (hasRelatedApplications && showRelatedApplications)
             || (hasRelatedServices && showRelatedServices)
             || (hasRelatedServiceLayers && showRelatedServiceLayers)
@@ -722,6 +734,7 @@ class Metadata extends Component {
                 {selfDistributionsList}
                 {relatedDatasetList}
                 {relatedSerieDatasetsList}
+                {relatedDatasetSerieList}
                 {relatedApplicationsList}
                 {relatedServiceLayersList}
                 {relatedServicesList}
