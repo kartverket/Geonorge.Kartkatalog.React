@@ -58,14 +58,52 @@ export class DownloadButton extends Component {
 
     addToDownloadList(event, item) {
       const isNotAuthenticated = !this.props.oidc || !this.props.oidc.user;
+      this.setState({
+        loading: true
+      });
       this.props.getApiData(item.getCapabilitiesUrl).then((capabilities) => {
+        let apiRequests = {};
         item.capabilities = capabilities;
-        if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
-          localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
-          this.handleLoginClick(event);
-        }else {
-          this.props.addItemSelectedForDownload(item);
-        }
+        item.capabilities._links.forEach((link, i) => {
+          if (link.rel == "http://rel.geonorge.no/download/order") {
+            item.orderDistributionUrl = link.href;
+          }
+          if (link.rel == "http://rel.geonorge.no/download/can-download") {
+            item.canDownloadUrl = link.href;
+          }
+          if (link.rel == "http://rel.geonorge.no/download/area") {
+            apiRequests.areas = this.props.getApiData(link.href).then(areas => {
+              return areas;
+            });
+          }
+          if (link.rel == "http://rel.geonorge.no/download/projection") {
+            apiRequests.projections = this.props.getApiData(link.href).then(projections => {
+              return projections
+            });
+          }
+          if (link.rel == "http://rel.geonorge.no/download/format") {
+            apiRequests.formats = this.props.getApiData(link.href).then(formats => {
+              return formats;
+            });
+          }
+        });
+
+        Promise.all([apiRequests.areas, apiRequests.projections, apiRequests.formats]).then(([areas, projections, formats]) => {
+          item = {
+            ...item,
+            areas, projections, formats
+          };
+          if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
+            localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
+            this.handleLoginClick(event);
+          }else {
+            this.props.addItemSelectedForDownload(item);
+          }
+          this.setState({
+            loading: false
+          });
+       });
+
       });
 
     }
