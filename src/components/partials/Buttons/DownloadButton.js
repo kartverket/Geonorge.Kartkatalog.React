@@ -12,6 +12,9 @@ import { removeItemSelectedForDownload, addItemSelectedForDownload } from 'actio
 import { getApiData } from 'actions/ApiActions'
 import { getResource } from 'actions/ResourceActions'
 
+// Assets
+import loadingAnimation from 'images/gif/loading.gif';
+
 // Stylesheets
 import style from 'components/partials/Buttons/Buttons.module.scss'
 
@@ -19,7 +22,8 @@ export class DownloadButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAdded: false
+            isAdded: false,
+            loading: false
         };
     }
 
@@ -227,7 +231,12 @@ export class DownloadButton extends Component {
     }
 
     render() {
-        if (this.props.listButton) {
+        if (this.state.loading){
+          return (<span className={style.listButton}>
+            <img src={loadingAnimation} />
+          </span>);
+        }
+        else if (this.props.listButton) {
             return this.renderListButton()
         }
         else {
