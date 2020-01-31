@@ -42,13 +42,13 @@ export class ApplicationButton extends Component {
                 if (this.props.metadata.DistributionUrl || this.props.metadata.DownloadUrl) {
                     let distributionUrl = this.props.metadata.DistributionUrl ? this.props.metadata.DistributionUrl : this.props.metadata.DownloadUrl
                     let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
-                    let buttonClass = style.ext;
+                    let buttonClass = `${style.listButton} ${style.ext}`;
                     let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
                     let childElements = [icon, textContent];
                     return (<a href={distributionUrl} onClick={this.handleButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>{childElements}</a>);
                 } else {
                     let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
-                    let buttonClass = `btn btn-sm ${style.disabled} ${style.off}`;
+                    let buttonClass = `btn btn-sm ${style.listButton} ${style.disabled} ${style.off}`;
                     let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
                     let childElements = [icon, textContent];
                     return (<span className={buttonClass}>{childElements}</span>);
