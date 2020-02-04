@@ -66,7 +66,7 @@ export class DownloadButton extends Component {
       this.setState({
         loading: true
       });
-      this.props.getApiData(item.getCapabilitiesUrl).then((capabilities) => {
+      this.props.getApiData(`${item.getCapabilitiesUrl}${item.uuid}`).then((capabilities) => {
         let apiRequests = {};
         item.capabilities = capabilities;
         item.capabilities._links.forEach((link, i) => {
