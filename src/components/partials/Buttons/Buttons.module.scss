@@ -216,4 +216,10 @@
     cursor: default;
     background-color: #fff;
   }
+
+  :local(.errorMessage){
+    text-decoration: none;
+    cursor: default;
+    color: $default-text;
+  }
 }

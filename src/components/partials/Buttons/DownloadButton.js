@@ -23,7 +23,8 @@ export class DownloadButton extends Component {
         super(props);
         this.state = {
             isAdded: false,
-            loading: false
+            loading: false,
+            error: false
         };
     }
 
@@ -106,9 +107,16 @@ export class DownloadButton extends Component {
           this.setState({
             loading: false
           });
-       });
+       })
 
-      });
+      }).catch(error => {
+        console.error(error.message);
+        if (error){
+          this.setState({
+            error: true
+          });
+        }
+      });;
 
     }
 
@@ -231,6 +239,11 @@ export class DownloadButton extends Component {
     }
 
     render() {
+        if (this.state.error){
+          return (<span className={`${style.loading} ${this.props.listButton ? style.listButton : style.btn}`}>
+            <span className={style.errorMessage}>{this.props.getResource('CanNotBeAddedToBasket', 'Kan ikke legges til nedlasting')}</span>
+          </span>);
+        }
         if (this.state.loading){
           return (<span className={`${style.loading} ${this.props.listButton ? style.listButton : style.btn}`}>
             <img src={loadingAnimation} />
