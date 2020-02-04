@@ -202,3 +202,18 @@
     width: 140px;
   }
 }
+
+:local(.loading) {
+  &:local(.btn) {
+    img {
+      height: 24px;
+      display: inline-block;
+      margin: 0 auto -9px;
+    }
+  }
+
+  &:hover {
+    cursor: default;
+    background-color: #fff;
+  }
+}

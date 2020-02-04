@@ -232,7 +232,7 @@ export class DownloadButton extends Component {
 
     render() {
         if (this.state.loading){
-          return (<span className={style.listButton}>
+          return (<span className={`${style.loading} ${this.props.listButton ? style.listButton : style.btn}`}>
             <img src={loadingAnimation} />
           </span>);
         }
