@@ -148,31 +148,8 @@
 }
 
 :local(.on) {
-  display: flex;
-  width: 100px;
-  flex-direction: column;
-  font-size: 1em;
-  @include breakpoint(tablet) {
-    font-size: 1.2em;
-    width: 140px;
-  }
-  align-items: center;
-
   > svg {
     color: $primary-success;
-    font-size: 1.5em;
-    margin-right: 5px;
-  }
-
-  > span {
-    font-size: 0.8em;
-    font-weight: 600;
-    color: $anchor-active;
-    text-decoration: underline;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 
   &:local(.service-slow) > svg {
@@ -181,49 +158,32 @@
 }
 
 :local(.off) {
-  display: flex;
-  width: 100px;
-  flex-direction: column;
-  align-items: center;
-  font-size: 1 em;
-  @include breakpoint(tablet) {
-    font-size: 1.2em;
-    width: 140px;
-  }
-
   > svg {
     color: $primary-danger;
-    margin-right: 5px;
-    font-size: 1.5em;
-  }
-
-  > span {
-    font-size: 0.8em;
-    text-decoration: underline;
-    color: $anchor-active;
-    font-weight: 600;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 }
 
 :local(.ext) {
+  > svg {
+    color: $primary-brand;
+  }
+}
+
+:local(.listButton) {
   display: flex;
   width: 100px;
   flex-direction: column;
   align-items: center;
-  font-size: 1 em;
+  font-size: 1em!important;
+  align-items: center;
   @include breakpoint(tablet) {
-    font-size: 1.2em;
+    font-size: 1.2em!important;
     width: 140px;
   }
 
   > svg {
-    color: $primary-brand;
-    margin-right: 5px;
     font-size: 1.5em;
+    margin-right: 5px;
   }
 
   > span {
@@ -235,5 +195,31 @@
 
   &:hover {
     cursor: pointer;
+  }
+
+  :local(.loadingAnimation) {
+    display: flex;
+    width: 140px;
+  }
+}
+
+:local(.loading) {
+  &:local(.btn) {
+    img {
+      height: 24px;
+      display: inline-block;
+      margin: 0 auto -9px;
+    }
+  }
+
+  &:hover {
+    cursor: default;
+    background-color: #fff;
+  }
+
+  :local(.errorMessage){
+    text-decoration: none;
+    cursor: default;
+    color: $default-text;
   }
 }

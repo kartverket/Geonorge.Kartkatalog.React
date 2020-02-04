@@ -9,7 +9,11 @@ import userManager from 'utils/userManager';
 
 // Actions
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from 'actions/DownloadItemActions'
+import { getApiData } from 'actions/ApiActions'
 import { getResource } from 'actions/ResourceActions'
+
+// Assets
+import loadingAnimation from 'images/gif/loading.gif';
 
 // Stylesheets
 import style from 'components/partials/Buttons/Buttons.module.scss'
@@ -18,7 +22,9 @@ export class DownloadButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAdded: false
+            isAdded: false,
+            loading: false,
+            error: false
         };
     }
 
@@ -57,12 +63,61 @@ export class DownloadButton extends Component {
 
     addToDownloadList(event, item) {
       const isNotAuthenticated = !this.props.oidc || !this.props.oidc.user;
-      if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
-        localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
-        this.handleLoginClick(event);
-      }else {
-        this.props.addItemSelectedForDownload(item);
-      }
+      this.setState({
+        loading: true
+      });
+      this.props.getApiData(item.getCapabilitiesUrl).then((capabilities) => {
+        let apiRequests = {};
+        item.capabilities = capabilities;
+        item.capabilities._links.forEach((link, i) => {
+          if (link.rel == "http://rel.geonorge.no/download/order") {
+            item.orderDistributionUrl = link.href;
+          }
+          if (link.rel == "http://rel.geonorge.no/download/can-download") {
+            item.canDownloadUrl = link.href;
+          }
+          if (link.rel == "http://rel.geonorge.no/download/area") {
+            apiRequests.areas = this.props.getApiData(link.href).then(areas => {
+              return areas;
+            });
+          }
+          if (link.rel == "http://rel.geonorge.no/download/projection") {
+            apiRequests.projections = this.props.getApiData(link.href).then(projections => {
+              return projections
+            });
+          }
+          if (link.rel == "http://rel.geonorge.no/download/format") {
+            apiRequests.formats = this.props.getApiData(link.href).then(formats => {
+              return formats;
+            });
+          }
+        });
+
+        Promise.all([apiRequests.areas, apiRequests.projections, apiRequests.formats]).then(([areas, projections, formats]) => {
+          item = {
+            ...item,
+            areas, projections, formats
+          };
+          if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
+            localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
+            this.handleLoginClick(event);
+          }else {
+            this.props.addItemSelectedForDownload(item);
+          }
+          this.setState({
+            loading: false
+          });
+       })
+
+      }).catch(error => {
+        console.error(error.message);
+        if (error){
+          this.setState({
+            error: true
+          });
+        }
+      });;
+
     }
 
     removeFromDownloadList(item) {
@@ -104,7 +159,7 @@ export class DownloadButton extends Component {
                 : (event) => this.addToDownloadList(event, button);
             let icon = <FontAwesomeIcon title={buttonDescription}
                 icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = this.state.isAdded ? style.off : style.on;
+            let buttonClass = `${style.listButton} ${this.state.isAdded ? style.off : style.on}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
@@ -114,7 +169,7 @@ export class DownloadButton extends Component {
             let buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
             let distributionUrl = this.props.metadata.DistributionUrl;
             let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
-            let buttonClass = style.on;
+            let buttonClass = `${style.listButton} ${style.on}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
             let childElements = [icon, textContent];
@@ -184,7 +239,17 @@ export class DownloadButton extends Component {
     }
 
     render() {
-        if (this.props.listButton) {
+        if (this.state.error){
+          return (<span className={`${style.loading} ${this.props.listButton ? style.listButton : style.btn}`}>
+            <span className={style.errorMessage}>{this.props.getResource('CanNotBeAddedToBasket', 'Kan ikke legges til nedlasting')}</span>
+          </span>);
+        }
+        if (this.state.loading){
+          return (<span className={`${style.loading} ${this.props.listButton ? style.listButton : style.btn}`}>
+            <img src={loadingAnimation} />
+          </span>);
+        }
+        else if (this.props.listButton) {
             return this.renderListButton()
         }
         else {
@@ -214,6 +279,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     removeItemSelectedForDownload,
     addItemSelectedForDownload,
+    getApiData,
     getResource
 };
 
