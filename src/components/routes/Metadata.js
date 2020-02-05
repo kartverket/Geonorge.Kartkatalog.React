@@ -794,7 +794,7 @@ class Metadata extends Component {
             <div>
                 <h2 id="help-info">{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
                 <p>{this.props.metadata.SupplementalDescription}</p>
-                {this.props.metadata.HelpUrl ? <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a> : ""} 
+                {this.props.metadata.HelpUrl ? <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a> : ""}
             </div>
         ) : ''
     }
@@ -946,9 +946,7 @@ class Metadata extends Component {
 
     renderType() {
         if(this.props.metadata.Type) {
-            return <div>
-                        <strong>Type: {this.props.metadata.TypeTranslated}</strong>
-                    </div>
+            return <strong>Type: {this.props.metadata.TypeTranslated}</strong>;
         }
     }
 
@@ -980,7 +978,7 @@ class Metadata extends Component {
                     {this.getMetadataLinkedDataSnippet(this.props.metadata)}
                     <Breadcrumb content={this.props.metadata.Title} />
                     <div className={style.content}>
-                        
+
 
         <h1>{this.props.metadata.Title}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
@@ -1027,8 +1025,13 @@ class Metadata extends Component {
                             </div>
                         </div>
                         <div className={style.flex}>
-                            <p>{this.renderType()} {this.props.metadata.Abstract}</p>
+                          <div className={style.textContent}>
+                            <div>{this.renderType()}</div>
+                            <p>{this.props.metadata.Abstract}</p>
+                          </div>
+                          <div className={style.thumbnailContent}>
                             {this.renderThumbnail()}
+                          </div>
                         </div>
 
                         {this.renderSpecificUsageSection()}
