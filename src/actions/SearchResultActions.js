@@ -84,6 +84,7 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
 export const fetchDropdownSearchResults = (searchString = "") => async (dispatch, getState) => {
     const urlParameterStrings = {
         dataset: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset`,
+        series: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=series`,
         service: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service`,
         software: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software`,
         articles: `articles?text=${searchString}`
