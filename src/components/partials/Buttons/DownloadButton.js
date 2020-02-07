@@ -260,7 +260,7 @@ export class DownloadButton extends Component {
 
     metadataIsAdded(metadata) {
       if (metadata.TypeName === 'series_historic'){
-        return metadata.SerieDatasets.find(serieDataset => {
+        return metadata.SerieDatasets && metadata.SerieDatasets.find(serieDataset => {
           return this.props.itemsToDownload.filter(downloadItem => {
               return serieDataset.Uuid === downloadItem;
           }).length > 0;
