@@ -129,8 +129,12 @@
     flex-basis: 33%;
   }
 
-  > p {
+  > :local(.textContent) {
     flex-grow: 2;
+  }
+
+  > :local(.thumbnailContent) {
+    text-align: right;
   }
 }
 
