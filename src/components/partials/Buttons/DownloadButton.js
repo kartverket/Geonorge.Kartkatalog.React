@@ -26,47 +26,32 @@ export class DownloadButton extends Component {
             loading: false,
             error: false
         };
+        this.addToDownloadListAction = this.addToDownloadListAction.bind(this);
+        this.removeFromDownloadListAction = this.removeFromDownloadListAction.bind(this);
     }
 
-    handleLoginClick(event) {
-        event.preventDefault();
+
+    handleLoginClick() {
         userManager.signinRedirect();
     }
 
-    getDownloadButton() {
+    getDownloadItem(metadata) {
         return {
-            uuid: this.props.metadata.Uuid,
-            url: "/metadata/" + this.props.metadata.Uuid,
-            theme: this.props.metadata.Theme,
-            organizationName: this.props.metadata.Organization,
-            name: this.props.metadata.Title,
-            distributionUrl: this.props.metadata.DistributionUrl,
-            getCapabilitiesUrl: this.props.metadata.GetCapabilitiesUrl,
-            accessIsRestricted: this.props.metadata.AccessIsRestricted,
-            accessIsOpendata: this.props.metadata.AccessIsOpendata
+            uuid: metadata.Uuid,
+            url: "/metadata/" + metadata.Uuid,
+            theme: metadata.Theme ? metadata.Theme : '',
+            organizationName: metadata.Organization ? metadata.Organization : metadata.ContactMetadata && metadata.ContactMetadata.Organization ? metadata.ContactMetadata.Organization : null,
+            name: metadata.Title,
+            distributionUrl: metadata.DistributionUrl,
+            getCapabilitiesUrl: metadata.GetCapabilitiesUrl ? metadata.GetCapabilitiesUrl : metadata.DistributionUrl ? metadata.DistributionUrl : null,
+            accessIsRestricted: metadata.AccessIsRestricted,
+            accessIsOpendata: metadata.AccessIsOpendata
         }
     }
 
-    getDownloadButtonFromMetadata() {
-        return {
-            uuid: this.props.metadata.Uuid,
-            url: "/metadata/" + this.props.metadata.Uuid,
-            theme: "",
-            organizationName: this.props.metadata.ContactMetadata ? this.props.metadata.ContactMetadata.Organization : null,
-            name: this.props.metadata.Title,
-            distributionUrl: this.props.metadata.DistributionUrl,
-            getCapabilitiesUrl: this.props.metadata.DistributionUrl,
-            accessIsRestricted: this.props.metadata.AccessIsRestricted,
-            accessIsOpendata: this.props.metadata.AccessIsOpendata
-        }
-    }
-
-    addToDownloadList(event, item) {
+    addToDownloadList(item) {
       const isNotAuthenticated = !this.props.oidc || !this.props.oidc.user;
-      this.setState({
-        loading: true
-      });
-      this.props.getApiData(item.getCapabilitiesUrl).then((capabilities) => {
+      let requestAction = this.props.getApiData(`${item.getCapabilitiesUrl}${item.uuid}`).then((capabilities) => {
         let apiRequests = {};
         item.capabilities = capabilities;
         item.capabilities._links.forEach((link, i) => {
@@ -93,30 +78,25 @@ export class DownloadButton extends Component {
           }
         });
 
-        Promise.all([apiRequests.areas, apiRequests.projections, apiRequests.formats]).then(([areas, projections, formats]) => {
+        return Promise.all([apiRequests.areas, apiRequests.projections, apiRequests.formats]).then(([areas, projections, formats]) => {
           item = {
             ...item,
             areas, projections, formats
           };
-          if (this.props.metadata.AccessIsRestricted && isNotAuthenticated){
+          if (item.accessIsRestricted && isNotAuthenticated){
             localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
-            this.handleLoginClick(event);
+            this.handleLoginClick();
           }else {
             this.props.addItemSelectedForDownload(item);
           }
-          this.setState({
-            loading: false
-          });
        })
 
       }).catch(error => {
         console.error(error.message);
-        if (error){
-          this.setState({
-            error: true
-          });
-        }
-      });;
+        return Promise.reject(error);
+      });
+      return Promise.resolve(requestAction);
+
 
     }
 
@@ -135,6 +115,10 @@ export class DownloadButton extends Component {
             && this.props.metadata.Type === 'dataset'
     }
 
+    isSeries() {
+        return this.props.metadata.Type === 'series';
+    }
+
     handleExternalDownloadButtonClick = () => {
       const tagData = {
         name: this.props.metadata.Title,
@@ -148,77 +132,154 @@ export class DownloadButton extends Component {
       });
     }
 
+    addToDownloadListAction() {
+      const metadata = this.props.metadata;
+      this.setState({
+        loading: true
+      });
+      if (metadata.TypeName === 'series_historic'){
+        if (metadata.SerieDatasets){
+          let asyncActions = metadata.SerieDatasets.map(serieDataset => {
+            const item = this.getDownloadItem(serieDataset);
+            return this.addToDownloadList(item);
+          });
+          Promise.allSettled(asyncActions).then((values) => {
+            this.setState({
+              loading: false
+            });
+          }).catch(error => {
+            this.setState({
+              error: true
+            });
+          });
+        }
+      }else if (metadata.Serie &&  metadata.Serie.TypeName === 'series_thematic') {
+        const item = this.getDownloadItem(metadata.Serie);
+        Promise.resolve(this.addToDownloadList(item)).then(() => {
+          this.setState({
+            loading: false
+          })
+        }).catch(error => {
+          this.setState({
+            error: true
+          })
+        });
+      }
+      else {
+        const item = this.getDownloadItem(metadata);
+        Promise.resolve(this.addToDownloadList(item)).then(() => {
+          this.setState({
+            loading: false
+          });
+        }).catch(error => {
+          this.setState({
+            error: true
+          })
+        });
+      }
+    }
+
+    removeFromDownloadListAction() {
+      const metadata = this.props.metadata;
+      if (metadata.TypeName === 'series_historic'){
+        metadata.SerieDatasets.forEach(serieDataset => {
+          const item = this.getDownloadItem(serieDataset);
+          this.removeFromDownloadList(item);
+        });
+      } else if (metadata.Serie &&  metadata.Serie.TypeName === 'series_thematic') {
+        const item = this.getDownloadItem(metadata.Serie);
+        this.removeFromDownloadList(item);
+      }
+      else {
+        const item = this.getDownloadItem(metadata);
+        this.removeFromDownloadList(item);
+      }
+    }
+
     renderListButton() {
-        let button = this.getDownloadButton();
-
         if (this.isGeonorgeDownload()) {
-            let buttonDescription = this.state.isAdded ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting') : this.props.getResource('Download', 'Last ned');
+          const buttonDescription = this.state.isAdded
+            ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting')
+            : this.isSeries()
+            ? this.props.getResource('DownloadSeries', 'Last ned serie')
+            : this.props.getResource('Download', 'Last ned');
+          const buttonClass = `${style.listButton} ${this.state.isAdded ? style.off : style.on}`;
 
-            let action = this.state.isAdded
-                ? () => this.removeFromDownloadList(button)
-                : (event) => this.addToDownloadList(event, button);
-            let icon = <FontAwesomeIcon title={buttonDescription}
-                icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = `${style.listButton} ${this.state.isAdded ? style.off : style.on}`;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-
-            let childElements = [icon, textContent];
-            return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+          return (<span onClick={() => this.state.isAdded ? this.removeFromDownloadListAction() : this.addToDownloadListAction()} className={buttonClass}>
+            <FontAwesomeIcon title={buttonDescription} icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />
+            <span>{buttonDescription}</span>
+          </span>);
 
         } else if (this.showDownloadLink()) {
-            let buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
-            let distributionUrl = this.props.metadata.DistributionUrl;
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
-            let buttonClass = `${style.listButton} ${style.on}`;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
+            const buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
+            const distributionUrl = this.props.metadata.DistributionUrl;
+            const buttonClass = `${style.listButton} ${style.on}`;
 
-            let childElements = [icon, textContent];
-            return (<a href={distributionUrl} onClick={this.handleExternalDownloadButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>{childElements}</a>);
+            return (<a href={distributionUrl} onClick={this.handleExternalDownloadButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+              <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
+              <span>{buttonDescription}</span>
+            </a>);
         }
         else return null
     }
 
     renderButton() {
-        let button = this.getDownloadButtonFromMetadata();
         if (this.props.metadata.CanShowDownloadService) {
+          const buttonDescription = this.state.isAdded
+            ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting')
+            : this.isSeries()
+            ? this.props.getResource('DownloadSeries', 'Last ned serie')
+            : this.props.getResource('Download', 'Last ned');
+          const buttonClass = this.state.isAdded ?  `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download}`;
 
-            let buttonDescription = this.state.isAdded ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting') : this.props.getResource('Download', 'Last ned');
-            let action = this.state.isAdded
-                ? () => this.removeFromDownloadList(button)
-                : (event) => this.addToDownloadList(event, button);
-            let icon = <FontAwesomeIcon title={buttonDescription}
-                icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = this.state.isAdded ?  `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download}`;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-
-            let childElements = [icon, textContent];
-            return React.createElement('span', { onClick: action, className: buttonClass }, childElements);
+          return (<span onClick={() => this.state.isAdded ? this.removeFromDownloadListAction() : this.addToDownloadListAction()} className={buttonClass}>
+            <FontAwesomeIcon title={buttonDescription} icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />
+            <span>{buttonDescription}</span>
+          </span>);
 
         } else if (this.props.metadata.CanShowDownloadUrl) {
-            let buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
-            let distributionUrl = this.props.metadata.DistributionUrl;
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
-            let buttonClass = style.btn;
+            const buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
+            const distributionUrl = this.props.metadata.DistributionUrl;
+            const buttonClass = style.btn;
 
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-            let childElements = [icon, textContent];
-            return React.createElement('a', { href: distributionUrl, className: buttonClass }, childElements);
+            return (<a href={distributionUrl} className={buttonClass}>
+              <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
+              <span>{buttonDescription}</span>
+            </a>)
         }
         else {
-            let buttonDescription = this.props.getResource('Download', 'Last ned');
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={['fas', 'cloud-download']} key="icon" />;
-            let buttonClass = `${style.btn}  ${style.disabled}`;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
+            const buttonDescription =  this.isSeries() ? this.props.getResource('DownloadSeries', 'Last ned serie') : this.props.getResource('Download', 'Last ned');
+            const buttonClass = `${style.btn}  ${style.disabled}`;
 
-            let childElements = [icon, textContent];
-            return React.createElement('span', { className: buttonClass }, childElements);
+            return (<span className={buttonClass}>
+              <FontAwesomeIcon title={buttonDescription} icon={['fas', 'cloud-download']} key="icon" />
+              <span>{buttonDescription}</span>
+            </span>)
         }
     }
 
-    componentDidMount() {
-        const isAdded = this.props.itemsToDownload.filter(downloadItem => {
-            return this.props.metadata.Uuid === downloadItem;
+    metadataIsAdded(metadata) {
+      if (metadata.TypeName === 'series_historic'){
+        return metadata.SerieDatasets.find(serieDataset => {
+          return this.props.itemsToDownload.filter(downloadItem => {
+              return serieDataset.Uuid === downloadItem;
+          }).length > 0;
+        });
+      }else if (metadata.Serie &&  metadata.Serie.TypeName === 'series_thematic'){
+        return this.props.itemsToDownload.filter(downloadItem => {
+            return metadata.Serie.Uuid === downloadItem;
         }).length > 0;
+      } else {
+        return this.props.itemsToDownload.filter(downloadItem => {
+            return metadata.Uuid === downloadItem;
+        }).length > 0;
+      }
+
+
+    }
+
+    componentDidMount() {
+        const isAdded = this.metadataIsAdded(this.props.metadata);
         if (isAdded) {
             this.setState({
                 isAdded: isAdded
@@ -228,9 +289,8 @@ export class DownloadButton extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const wasAdded = prevState.isAdded;
-        const isAdded = this.props.itemsToDownload.filter(downloadItem => {
-            return this.props.metadata.Uuid === downloadItem;
-        }).length > 0;
+        const isAdded = this.metadataIsAdded(this.props.metadata);
+
         if (wasAdded !== isAdded) {
             this.setState({
                 isAdded: isAdded
