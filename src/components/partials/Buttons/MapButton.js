@@ -90,13 +90,13 @@ export class MapButton extends Component {
     }
 
     setServiceStatus() {
-        let serviceUuid = undefined;
-        if (this.props.metadata.ServiceUuid !== undefined)
+        let serviceUuid = null;
+        if (this.props.metadata.ServiceUuid)
             serviceUuid = this.props.metadata.ServiceUuid;
-        else if (this.props.metadata.DatasetServicesWithShowMapLink !== undefined && this.props.metadata.DatasetServicesWithShowMapLink.length > 0)
+        else if (this.props.metadata.DatasetServicesWithShowMapLink && this.props.metadata.DatasetServicesWithShowMapLink.length > 0)
             serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
 
-        if (serviceUuid !== undefined) {
+        if (serviceUuid) {
             fetch('https://status.geonorge.no/monitorApi/serviceDetail?uuid=' + serviceUuid)
                 .then(response => response.json())
                 .then(data => this.parseServiceStatus(data));
@@ -105,8 +105,8 @@ export class MapButton extends Component {
 
     parseServiceStatus(result) {
         try {
-            var vurderingIsDefined = result.connect !== undefined && result.connect.vurdering !== undefined;
-            var numLayersIsDefined = result.numLayers !== undefined && result.numLayers.svar !== undefined;
+            var vurderingIsDefined = result && result.connect && result.connect.vurdering;
+            var numLayersIsDefined = result && result.numLayers && result.numLayers.svar;
             var statusOK = vurderingIsDefined && result.connect.vurdering !== "no";
             var numLayers = parseInt(numLayersIsDefined ? result.numLayers.svar : 0);
             if (!statusOK) {
@@ -151,15 +151,15 @@ export class MapButton extends Component {
             let isAdded = this.state.isAdded;
             let buttonDescription = isAdded ? this.props.getResource('RemoveFromMap', 'Fjern fra kart') : this.props.getResource('AddToMap', 'Legg til i kart');
             let buttonTitle = buttonDescription;
-            if (this.state.serviceStatusCode !== '')
-                if (this.state.serviceStatusLabel !== '')
-                    buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
+            if (this.state.serviceStatusCode) {
+              buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
+            }
             let action = isAdded
                 ? () => this.removeFromMap([mapItem])
                 : () => this.addToMap([mapItem]);
             let icon = <FontAwesomeIcon title={buttonTitle} icon={isAdded ? ['far', 'map-marker-minus'] : ['far', 'map-marker-plus']}
                 key="icon" />;
-            let buttonClass = isAdded ? style.off : `${style.on} ${style[this.state.serviceStatusCode]}`;
+            let buttonClass = isAdded ? `${style.listButton} ${style.off}` : `${style.listButton} ${style.on} ${style[this.state.serviceStatusCode]}`;
             let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
             return React.createElement('span', { onClick: action, className: buttonClass }, childElements);

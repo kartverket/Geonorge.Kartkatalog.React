@@ -339,6 +339,9 @@ class Metadata extends Component {
         return this.props.metadata && this.props.metadata.OrderingInstructions ? (
             <div>
               <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">{this.props.metadata.OrderingInstructionsLinkText}</a>
+              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Availability ? <div> {this.props.metadata.QuantitativeResult.Availability} </div> :""}
+              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Capacity ? <div> {this.props.metadata.QuantitativeResult.Capacity} </div> :""}
+              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Performance ? <div> {this.props.metadata.QuantitativeResult.Performance} </div> :""}
             </div>
         ) : ''
     }
@@ -619,6 +622,12 @@ class Metadata extends Component {
         const hasRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDataset && this.props.metadataDistributions.RelatedDataset.length;
         const showRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDataset;
 
+        const hasRelatedSerieDatasets = this.props.metadataDistributions && this.props.metadataDistributions.RelatedSerieDatasets && this.props.metadataDistributions.RelatedSerieDatasets.length;
+        const showRelatedSerieDatasets = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedSerieDatasets;
+
+        const hasRelatedDatasetSerie = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDatasetSerie && this.props.metadataDistributions.RelatedDatasetSerie.length;
+        const showRelatedDatasetSerie = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDatasetSerie;
+
         const hasRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.RelatedApplications && this.props.metadataDistributions.RelatedApplications.length;
         const showRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedApplications;
 
@@ -647,6 +656,22 @@ class Metadata extends Component {
                 <h3>{this.props.getResource('Facet_type_dataset', 'Datasett')}</h3>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset} />
+                </ErrorBoundary>
+            </div>
+        ) : '';
+        const relatedSerieDatasetsList = hasRelatedSerieDatasets && showRelatedSerieDatasets ? (
+            <div>
+                <h3>{this.props.getResource('Facet_type_seriedatasets', 'Datasett som inngår i datasettserien')}</h3>
+                <ErrorBoundary>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedSerieDatasets} />
+                </ErrorBoundary>
+            </div>
+        ) : '';
+        const relatedDatasetSerieList = hasRelatedDatasetSerie && showRelatedDatasetSerie ? (
+            <div>
+                <h3>{this.props.getResource('Facet_type_datasetserie', 'Datasettet inngår i datasettserien')}</h3>
+                <ErrorBoundary>
+                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDatasetSerie} />
                 </ErrorBoundary>
             </div>
         ) : '';
@@ -693,6 +718,8 @@ class Metadata extends Component {
 
         const showDistributions = (hasSelfDistributions && showSelfDistributions)
             || (hasRelatedDataset && showRelatedDataset)
+            || (hasRelatedSerieDatasets && showRelatedSerieDatasets)
+            || (hasRelatedDatasetSerie && showRelatedDatasetSerie)
             || (hasRelatedApplications && showRelatedApplications)
             || (hasRelatedServices && showRelatedServices)
             || (hasRelatedServiceLayers && showRelatedServiceLayers)
@@ -706,6 +733,8 @@ class Metadata extends Component {
 
                 {selfDistributionsList}
                 {relatedDatasetList}
+                {relatedSerieDatasetsList}
+                {relatedDatasetSerieList}
                 {relatedApplicationsList}
                 {relatedServiceLayersList}
                 {relatedServicesList}
@@ -761,11 +790,11 @@ class Metadata extends Component {
     }
 
     renderSupplementalDescriptionSection() {
-        return this.props.metadata && this.props.metadata.SupplementalDescription && this.props.metadata.HelpUrl ? (
+        return this.props.metadata && (this.props.metadata.SupplementalDescription || this.props.metadata.HelpUrl) ? (
             <div>
-                <h2>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
+                <h2 id="help-info">{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
                 <p>{this.props.metadata.SupplementalDescription}</p>
-                <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a>
+                {this.props.metadata.HelpUrl ? <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a> : ""}
             </div>
         ) : ''
     }
@@ -833,6 +862,7 @@ class Metadata extends Component {
             || this.renderDateValidityPeriod()
             || this.renderMaintenanceFrequency()
             || this.renderKeywordsPlace()
+            || this.renderKeywordsAdministrativeUnits()
             || this.renderBoundingBox()
             || this.renderSpatialScope();
         return hasChildren ? (
@@ -845,6 +875,7 @@ class Metadata extends Component {
                 {this.renderDateValidityPeriod()}
                 {this.renderMaintenanceFrequency()}
                 {this.renderKeywordsPlace()}
+                {this.renderKeywordsAdministrativeUnits()}
                 {this.renderBoundingBox()}
                 {this.renderSpatialScope()}
             </div>
@@ -856,7 +887,6 @@ class Metadata extends Component {
             || this.renderKeywordsNationalTheme()
             || this.renderKeywordsNationalInitiative()
             || this.renderKeywordsInspire()
-            || this.renderKeywordsAdministrativeUnits()
             || this.renderTopicCategory()
             || this.renderKeywordsConcept()
             || this.renderKeywordsInspirePriorityDataset()
@@ -869,7 +899,6 @@ class Metadata extends Component {
                 {this.renderKeywordsTheme()}
                 {this.renderKeywordsNationalTheme()}
                 {this.renderKeywordsNationalInitiative()}
-                {this.renderKeywordsAdministrativeUnits()}
                 {this.renderTopicCategory()}
                 {this.renderKeywordsConcept()}
                 {this.renderKeywordsInspirePriorityDataset()}
@@ -915,6 +944,12 @@ class Metadata extends Component {
       }
     }
 
+    renderType() {
+        if(this.props.metadata.Type) {
+            return <strong>Type: {this.props.metadata.TypeTranslated}</strong>;
+        }
+    }
+
     renderCanonicalTags(){
       let canonicalTagElements = [];
       if (this.props.match.params.uuid){
@@ -944,7 +979,8 @@ class Metadata extends Component {
                     <Breadcrumb content={this.props.metadata.Title} />
                     <div className={style.content}>
 
-                        <h1>{this.props.metadata.Title}</h1>
+
+        <h1>{this.props.metadata.Title}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
                         <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                             <div className={style.btns}>
@@ -989,8 +1025,13 @@ class Metadata extends Component {
                             </div>
                         </div>
                         <div className={style.flex}>
+                          <div className={style.textContent}>
+                            <div>{this.renderType()}</div>
                             <p>{this.props.metadata.Abstract}</p>
+                          </div>
+                          <div className={style.thumbnailContent}>
                             {this.renderThumbnail()}
+                          </div>
                         </div>
 
                         {this.renderSpecificUsageSection()}

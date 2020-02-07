@@ -114,6 +114,18 @@ class SearchBar extends Component {
                 </ErrorBoundary>
             }
 
+            // Serie
+            let seriesSearchResult = this.props.dropdownResults.series;
+            let seriesList
+            if (seriesSearchResult && seriesSearchResult.NumFound) {
+                hasResults = true;
+                seriesList = <ErrorBoundary key={"series"}>
+                    <SearchResultsTypeList onShowResults={() => this.hideDropdownResults()}
+                        searchString={this.state.searchString} searchResults={seriesSearchResult}
+                        searchResultsType="series" category="metadata" />
+                </ErrorBoundary>
+            }
+
             // Service
             let serviceSearchResult = this.props.dropdownResults.service;
             let serviceList;
@@ -150,7 +162,7 @@ class SearchBar extends Component {
                 </ErrorBoundary>
             }
 
-            let resultsTypeElements = [datasetList, serviceList, softwareList, articlesList]
+            let resultsTypeElements = [datasetList, seriesList, serviceList, softwareList, articlesList]
 
             if (!hasResults) {
                 return <div>Ingen treff for {this.state.searchString}</div>;
