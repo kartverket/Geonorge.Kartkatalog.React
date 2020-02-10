@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import {OidcProvider} from 'redux-oidc';
 import {Route, Switch} from 'react-router';
 import {ConnectedRouter} from 'connected-react-router';
+import { Helmet } from 'react-helmet';
 
 // Utils
 import configureStore, {history} from 'utils/configureStore';
@@ -46,6 +47,12 @@ class App extends Component {
       <OidcProvider userManager={userManager} store={store}>
         <ConnectedRouter history={history}>
           <div className={style.kartkatalogen}>
+            <Helmet>
+              {process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT.length
+                ? (<meta name="robots" content="noindex" />)
+                : ''
+              }
+            </Helmet>
             <MainNavigation/>
             <div className={style.pageContent}>
               <div className={style.container}>
