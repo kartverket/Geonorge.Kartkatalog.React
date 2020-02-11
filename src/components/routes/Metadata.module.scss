@@ -68,6 +68,9 @@
   h2 {
     font-size: 1.6em;
     font-weight: 100;
+    @media print {
+      font-family: 'arial, sans-serif';
+    }
     font-family: $header-font;
     border-bottom: 2px solid $primary-brand;
     display: inline-block;
@@ -100,6 +103,9 @@
 
 :local(.openBtns) {
   @include breakpoint('phablet') {
+    display: none;
+  }
+  @media print {
     display: none;
   }
 }
@@ -166,6 +172,9 @@
 }
 
 :local(.closed) {
+  @media print {
+    max-height: none;
+  }
   max-height: 0;
   overflow: hidden;
   transition: all 0.3s ease;

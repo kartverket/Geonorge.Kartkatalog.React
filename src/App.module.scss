@@ -23,6 +23,10 @@
 }
 
 :local(.pageContent) {
+  @media print {
+    position: static;
+    height: auto;
+  }
   margin-top: 115px;
   height: calc(100% - 57px);
   overflow-y: auto;
@@ -43,7 +47,7 @@
   margin-bottom: 30px;
 }
 
-:local(.kartkatalogen) {
+:local(.kartkatalogen) {  
   font-size: 16px;
   font-family: $default-font, sans-serif;
   margin: 0;
@@ -51,5 +55,9 @@
 
   h1 {
     font-family: $header-font, sans-serif;
+    @media print {
+      font-family: 'Arial', sans-serif;
+      font-weight: 100;
+    }
   }
 }
