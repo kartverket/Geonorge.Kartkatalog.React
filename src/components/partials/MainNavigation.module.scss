@@ -1,6 +1,14 @@
 @import '../../scss/abstracts/all';
 
-:local(.mainNavigationContainer) {
+:local(.mainNavigationContainer) {  
+  @media print {
+    position: relative;
+    margin-bottom: -100px;
+    -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+    
+  }
   position: fixed;
   width: 100%;
   top: 0;
@@ -34,6 +42,9 @@
 }
 
 :local(.menu) {
+  @media print {
+    display: none;
+  }
   overflow: hidden;
   width: auto;
   transition: all 0.3s ease-in-out;
@@ -196,6 +207,9 @@
   }
 
   :local(.search) {
+    @media print {
+      display: none;
+    }
     order: 3;
     width: 100%;
     display: flex;
@@ -211,6 +225,9 @@
   }
 
   :local(.radioButtons) {
+    @media print {
+      display: none;
+    }
     margin: 5px 0 0 10px;
     display: flex;
     flex-direction: row;
@@ -234,6 +251,9 @@
   }
 
   :local(.iconButton) {
+    @media print {
+      display: none;
+    }
     flex: 0 1;
     display: block;
     margin-left: 12px;
