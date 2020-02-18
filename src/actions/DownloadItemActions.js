@@ -24,8 +24,12 @@ export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
   localStorage.removeItem(itemToRemove.uuid + ".metadata")
   const tagData = {
     name: itemToRemove.name,
-    uuid: itemToRemove.uuid
-  }
+    uuid: itemToRemove.uuid,
+    accessIsOpendata: itemToRemove.accessIsOpendata,
+    accessIsRestricted: itemToRemove.accessIsRestricted,
+    organizationName: itemToRemove.organizationName,
+    theme: itemToRemove.theme
+  };
   dispatch(pushToDataLayer({event: 'updateCart', category: 'download', activity: 'removeFromCart', metadata: tagData}));
 
   dispatch(fetchItemsToDownload())
@@ -46,8 +50,12 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
     addItemToLocalStorage(itemToAdd);
     const tagData = {
       name: itemToAdd.name,
-      uuid: itemToAdd.uuid
-    }
+      uuid: itemToAdd.uuid,
+      accessIsOpendata: itemToAdd.accessIsOpendata,
+      accessIsRestricted: itemToAdd.accessIsRestricted,
+      organizationName: itemToAdd.organizationName,
+      theme: itemToAdd.theme
+    };
     dispatch(pushToDataLayer({event: 'updateCart', category: 'download', activity: 'addToCart', metadata: tagData}));
     dispatch(fetchItemsToDownload())
   } else if (itemToAdd.accessIsRestricted) {
