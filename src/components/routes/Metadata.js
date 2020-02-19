@@ -11,6 +11,9 @@ import { getResource } from 'actions/ResourceActions'
 import { clearMetadata, fetchMetadata } from 'actions/MetadataActions'
 import { clearMetadataDistributions, fetchMetadataDistributions } from 'actions/MetadataDistributionActions'
 
+// Reducers
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
+
 // Helpers
 import { convertTextToUrlSlug, convertUrlSlugToText } from 'helpers/UrlHelpers';
 
@@ -95,13 +98,35 @@ class Metadata extends Component {
     }
 
     componentDidMount() {
-        this.fetchApiData();
+        this.fetchApiData()
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.location.pathname !== prevProps.location.pathname || this.props.selectedLanguage !== prevProps.selectedLanguage) {
             this.fetchApiData();
         }
+        const hasRecievedMetadataProps = this.props.metadata && Object.keys(this.props.metadata).length;
+        const hadRecievedMetadataProps = prevProps.metadata && Object.keys(prevProps.metadata).length;
+        if (hasRecievedMetadataProps && !hadRecievedMetadataProps){
+          this.pushPageViewTag();
+        }
+    }
+
+    pushPageViewTag() {
+      const metadata = this.props.metadata;
+      const tagData = {
+        name: metadata.Title,
+        uuid: metadata.Uuid,
+        accessIsOpendata: metadata.AccessIsOpendata,
+        accessIsRestricted: metadata.AccessIsRestricted,
+        organizationName: metadata.ContactMetadata && metadata.ContactMetadata.Organization ? metadata.ContactMetadata.Organization : null
+      };
+      this.props.pushToDataLayer({
+        event: 'showPage',
+        category: 'metadata',
+        activity: 'showMetadataPage',
+        metadata: tagData
+      });
     }
 
     renderDatasetLanguage() {
@@ -1084,7 +1109,8 @@ const mapDispatchToProps = {
     fetchMetadata,
     clearMetadataDistributions,
     fetchMetadataDistributions,
-    getResource
+    getResource,
+    pushToDataLayer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Metadata);
