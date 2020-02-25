@@ -160,7 +160,10 @@
     flex-basis: 100%;
   }
 }
-
+:local(.keywordContainer){
+  max-height: 500px;
+  overflow: auto;
+}
 :local(.toggle) {
   max-height: 0;
   overflow: hidden;

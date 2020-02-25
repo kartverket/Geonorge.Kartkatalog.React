@@ -921,6 +921,7 @@ class Metadata extends Component {
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
+                <div className={style.keywordContainer}>
                 {this.renderKeywordsTheme()}
                 {this.renderKeywordsNationalTheme()}
                 {this.renderKeywordsNationalInitiative()}
@@ -929,6 +930,7 @@ class Metadata extends Component {
                 {this.renderKeywordsInspirePriorityDataset()}
                 {this.renderKeywordsInspireCategory()}
                 {this.renderKeywordsOther()}
+                </div>
             </div>
         ) : '';
     }
@@ -1001,11 +1003,11 @@ class Metadata extends Component {
                         <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                     </Helmet>
                     {this.getMetadataLinkedDataSnippet(this.props.metadata)}
-                    <Breadcrumb content={this.props.metadata.Title} />
+                    <Breadcrumb content={this.props.metadata.Title} />                    
                     <div className={style.content}>
 
 
-        <h1>{this.props.metadata.Title}</h1>
+                        <h1>{this.props.metadata.Title}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
                         <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                             <div className={style.btns}>
