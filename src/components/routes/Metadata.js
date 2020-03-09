@@ -11,6 +11,9 @@ import { getResource } from 'actions/ResourceActions'
 import { clearMetadata, fetchMetadata } from 'actions/MetadataActions'
 import { clearMetadataDistributions, fetchMetadataDistributions } from 'actions/MetadataDistributionActions'
 
+// Reducers
+import { pushToDataLayer } from 'reducers/TagManagerReducer';
+
 // Helpers
 import { convertTextToUrlSlug, convertUrlSlugToText } from 'helpers/UrlHelpers';
 
@@ -95,13 +98,35 @@ class Metadata extends Component {
     }
 
     componentDidMount() {
-        this.fetchApiData();
+        this.fetchApiData()
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.location.pathname !== prevProps.location.pathname || this.props.selectedLanguage !== prevProps.selectedLanguage) {
             this.fetchApiData();
         }
+        const hasRecievedMetadataProps = this.props.metadata && Object.keys(this.props.metadata).length;
+        const hadRecievedMetadataProps = prevProps.metadata && Object.keys(prevProps.metadata).length;
+        if (hasRecievedMetadataProps && !hadRecievedMetadataProps){
+          this.pushPageViewTag();
+        }
+    }
+
+    pushPageViewTag() {
+      const metadata = this.props.metadata;
+      const tagData = {
+        name: metadata.Title,
+        uuid: metadata.Uuid,
+        accessIsOpendata: metadata.AccessIsOpendata,
+        accessIsRestricted: metadata.AccessIsRestricted,
+        organizationName: metadata.ContactMetadata && metadata.ContactMetadata.Organization ? metadata.ContactMetadata.Organization : null
+      };
+      this.props.pushToDataLayer({
+        event: 'showPage',
+        category: 'metadata',
+        activity: 'showMetadataPage',
+        metadata: tagData
+      });
     }
 
     renderDatasetLanguage() {
@@ -896,6 +921,7 @@ class Metadata extends Component {
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
+                <div className={style.keywordContainer}>
                 {this.renderKeywordsTheme()}
                 {this.renderKeywordsNationalTheme()}
                 {this.renderKeywordsNationalInitiative()}
@@ -904,6 +930,7 @@ class Metadata extends Component {
                 {this.renderKeywordsInspirePriorityDataset()}
                 {this.renderKeywordsInspireCategory()}
                 {this.renderKeywordsOther()}
+                </div>
             </div>
         ) : '';
     }
@@ -976,11 +1003,11 @@ class Metadata extends Component {
                         <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                     </Helmet>
                     {this.getMetadataLinkedDataSnippet(this.props.metadata)}
-                    <Breadcrumb content={this.props.metadata.Title} />
+                    <Breadcrumb content={this.props.metadata.Title} />                    
                     <div className={style.content}>
 
 
-        <h1>{this.props.metadata.Title}</h1>
+                        <h1>{this.props.metadata.Title}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
                         <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                             <div className={style.btns}>
@@ -1084,7 +1111,8 @@ const mapDispatchToProps = {
     fetchMetadata,
     clearMetadataDistributions,
     fetchMetadataDistributions,
-    getResource
+    getResource,
+    pushToDataLayer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Metadata);

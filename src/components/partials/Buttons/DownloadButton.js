@@ -55,23 +55,23 @@ export class DownloadButton extends Component {
         let apiRequests = {};
         item.capabilities = capabilities;
         item.capabilities._links.forEach((link, i) => {
-          if (link.rel == "http://rel.geonorge.no/download/order") {
+          if (link.rel === "http://rel.geonorge.no/download/order") {
             item.orderDistributionUrl = link.href;
           }
-          if (link.rel == "http://rel.geonorge.no/download/can-download") {
+          if (link.rel === "http://rel.geonorge.no/download/can-download") {
             item.canDownloadUrl = link.href;
           }
-          if (link.rel == "http://rel.geonorge.no/download/area") {
+          if (link.rel === "http://rel.geonorge.no/download/area") {
             apiRequests.areas = this.props.getApiData(link.href).then(areas => {
               return areas;
             });
           }
-          if (link.rel == "http://rel.geonorge.no/download/projection") {
+          if (link.rel === "http://rel.geonorge.no/download/projection") {
             apiRequests.projections = this.props.getApiData(link.href).then(projections => {
               return projections
             });
           }
-          if (link.rel == "http://rel.geonorge.no/download/format") {
+          if (link.rel === "http://rel.geonorge.no/download/format") {
             apiRequests.formats = this.props.getApiData(link.href).then(formats => {
               return formats;
             });

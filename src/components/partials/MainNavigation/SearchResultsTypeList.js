@@ -15,6 +15,7 @@ import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 // Helpers
 import { getQueryStringFromFacets } from "helpers/FacetFilterHelpers";
+import { convertTextToUrlSlug } from 'helpers/UrlHelpers';
 
 // Stylesheets
 import style from 'components/partials/MainNavigation/SearchResultsTypeList.module.scss';
@@ -43,11 +44,12 @@ class SearchResultsTypeList extends Component {
     }
 
     renderDropdownResultLink(result, resultType) {
+
         return resultType === 'articles'
             ? (
                 <a onClick={this.handleSearchResultsClick} href={result.ShowDetailsUrl ? result.ShowDetailsUrl : '#'}>{result.Title}</a>
             ) : (
-                <Link onClick={this.handleSearchResultsClick} to={`/metadata/${result.Uuid}`}>{result.Title}</Link>
+                <Link onClick={this.handleSearchResultsClick} to={`/metadata/${convertTextToUrlSlug(result.Title)}/${result.Uuid}`}>{result.Title}</Link>
             )
     }
 
