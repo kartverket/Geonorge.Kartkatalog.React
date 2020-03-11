@@ -61,7 +61,7 @@ export class MapButton extends Component {
 
     getMapItem() {
         const isDataset = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" || this.props.metadata.HierarchyLevel === "dataset"
-        || this.props.metadata.Type === "datasetserie" || this.props.metadata.Type === "Datasettserie" || this.props.metadata.HierarchyLevel === "series";
+        || this.props.metadata.Type === "series" || this.props.metadata.Type === "Datasettserie" || this.props.metadata.HierarchyLevel === "series";
         const isWmsService = this.props.metadata.DistributionProtocol === "OGC:WMS" || this.props.metadata.DistributionProtocol === "WMS-tjeneste" || this.props.metadata.Protocol === "WMS-tjeneste";
         if (isWmsService) {
             return this.getService();
