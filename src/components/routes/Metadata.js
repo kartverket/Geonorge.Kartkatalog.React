@@ -936,19 +936,18 @@ class Metadata extends Component {
     }
     renderThumbnail() {
         const hasThumbnail = this.props.metadata && this.props.metadata.Thumbnails && this.props.metadata.Thumbnails.length;
-        const thumbnailList = hasThumbnail && this.props.metadata.Thumbnails.filter(thumbnail => {
+        let thumbnailList = hasThumbnail && this.props.metadata.Thumbnails.filter(thumbnail => {
             return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail" || thumbnail.Type === "miniatyrbilde"
-        }).map((thumbnail, index) => {
-            return (
-                <div key={index}>
-                    <img src={thumbnail.URL} alt={this.props.metadata.Title + ' illustrasjon'} title={this.props.metadata.Title + ' illustrasjon'} />
-                </div>
-            )
-        })
+        });
+        let thumbnail = '';
+        if(thumbnailList !== undefined && thumbnailList.length)
+        {
+            thumbnailList.sort((a, b) => (a.Type > b.Type) ? 1 : -1)
+            thumbnail = <div key="0"><img src={thumbnailList[0].URL} alt={this.props.metadata.Title + ' illustrasjon'} title={this.props.metadata.Title + ' illustrasjon'} />
+        </div>
+        }
 
-        return hasThumbnail ? (
-            thumbnailList
-        ) : '';
+        return thumbnail;
     }
 
     renderMetaDescription(description) {
