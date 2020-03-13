@@ -105,7 +105,7 @@ export class DownloadButton extends Component {
     }
 
     isGeonorgeDownload() {
-        return this.props.metadata.DistributionProtocol === 'GEONORGE:DOWNLOAD' || this.props.metadata.Protocol === 'Geonorge nedlastning';
+        return this.props.metadata.DistributionProtocol === 'GEONORGE:DOWNLOAD' || this.props.metadata.Protocol === 'Geonorge nedlastning' || this.props.metadata.Protocol === 'Geonorge download';
     }
 
     showDownloadLink() {
