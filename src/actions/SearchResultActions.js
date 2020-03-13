@@ -23,7 +23,7 @@ const createChildFacetsArray = (selectedFacet, childFacetsArray = []) => {
 export const fetchMetadataSearchResults = (searchString = "", facets = null, Offset = 1, append = false) => (dispatch, getState) => {
     let facetsParameter = [];
     if (facets) {
-        let facetIndex = -1;
+        let facetIndex = 0;
         Object.keys(facets).filter((facetField) => {
             return Object.keys(facets[facetField]).length && facets[facetField].facets && Object.keys(facets[facetField].facets).length;
         }).forEach((facetField) => {
@@ -36,8 +36,8 @@ export const fetchMetadataSearchResults = (searchString = "", facets = null, Off
                         facetIndex++;
                     })
                 }
-                facetIndex++;
                 facetsParameter.push(`facets[${facetIndex}]name=${facetField}&facets[${facetIndex}]value=${facetName}`);
+                facetIndex++;
             })
         })
     }
