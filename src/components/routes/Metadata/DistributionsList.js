@@ -12,7 +12,8 @@ import style from "components/routes/Metadata/DistributionsList.module.scss";
 
 class DistributionsList extends Component {
     render() {
-        const distributions = this.props.distributions.map((distribution, i) => {
+        let distributions = this.props.distributions.sort((a, b) => (a.Title > b.Title) ? 1 : -1);
+        distributions = distributions.map((distribution, i) => {
             return <MetadataSearchResult searchResult={distribution} visibleFields={['Type', 'DownloadButton', 'MapButton', 'ApplicationButton', 'DistributionFormats']} key={i}/>;
         });
         return (
