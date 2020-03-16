@@ -111,8 +111,9 @@ export class DownloadButton extends Component {
     showDownloadLink() {
         return this.props.metadata.DistributionUrl &&
             (this.props.metadata.DistributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' ||
-                this.props.metadata.DistributionProtocol === 'GEONORGE:FILEDOWNLOAD')
-            && this.props.metadata.Type === 'dataset'
+                this.props.metadata.DistributionProtocol === 'GEONORGE:FILEDOWNLOAD'
+                || this.props.metadata.Protocol === 'Egen nedlastningsside')
+            && this.props.metadata.Type === 'dataset' || this.props.metadata.Type === 'Datasett'
     }
 
     isSeries() {
@@ -197,6 +198,7 @@ export class DownloadButton extends Component {
     }
 
     renderListButton() {
+      console.log(this.props.metadata);
         if (this.isGeonorgeDownload()) {
           const buttonDescription = this.state.isAdded
             ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting')
