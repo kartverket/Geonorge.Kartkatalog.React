@@ -40,7 +40,9 @@
     }
   }
 }
-
+:local(.maplistcontainer) {
+  position: relative;
+}
 :local(.menu) {
   @media print {
     display: none;
@@ -66,7 +68,7 @@
     height: auto;
     max-height: 800px;
     padding: 5px;
-    overflow: auto;
+    overflow: auto;    
   }
 }
 
@@ -84,20 +86,26 @@
   transition: all 0.3s ease-in-out;
   height: 0;
   position: absolute;
-  right: 20px;
+  right: -120px;
   padding: 0;
   border: 1px solid #e5e5e5;
   border-radius: 3px;
-  top: 50px;
   border-width: 0;
   background-color: white;
 
   &:local(.open) {
     border-width: 2px;
     height: auto;
+    margin-top: 20px;
     max-height: 800px;
     padding: 10px;
     overflow: auto;
+    min-width: 61vh;
+    @include breakpoint(phablet) {
+      min-width: 480px;
+      right: 20px;
+      
+    }
   }
 }
 
@@ -111,7 +119,6 @@
   padding: 0;
   border: 1px solid #e5e5e5;
   border-radius: 3px;
-  top: 50px;
   border-width: 0;
   background-color: white;
 
@@ -119,8 +126,16 @@
     border-width: 2px;
     height: auto;
     max-height: 800px;
+    margin-top: 20px;
     padding: 10px;
     overflow: auto;
+    min-width: 55vh;
+    right: -154px;
+    @include breakpoint(phablet) {
+      min-width: 480px;
+      right: 20px;
+      
+    }
   }
 }
 

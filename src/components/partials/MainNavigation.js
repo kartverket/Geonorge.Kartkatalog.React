@@ -178,12 +178,13 @@ export class MainNavigation extends Component {
                                 className={this.props.mapItems.length > 0 ? style.content : style.noCsontent} />
                         </span>
                     </div>
-                    <div
-                        className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
+                    <div className={style.maplistcontainer}>
+                    <div className={this.state.expanded ? style.selectedlayers + " " + style.open : style.selectedlayers}>
                         <Link to={'/kart'} className={style.openMaplink}>{this.props.getResource('DisplayMap', 'Vis kart')}</Link>
                         <ul className={style.mapitems}>
                             {this.renderMapitems()}
                         </ul>
+                    </div>
                     </div>
                 </div>
             )
@@ -225,12 +226,13 @@ export class MainNavigation extends Component {
                             className={this.props.itemsToDownload.length > 0 ? style.content : style.content1} />
                     </span>
                 </div>
-                <div
-                    className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
-                    <a href="/nedlasting" target="_self" className={style.openMaplink}>{this.props.getResource('ToBasket', 'Åpne nedlastinger')}</a>
-                    <ul className={style.mapitems}>
-                        {this.renderDownloadItems()}
-                    </ul>
+                <div className={style.maplistcontainer}>
+                    <div className={this.state.expandedDownload ? style.expandeddownload + " " + style.open : style.expandeddownload}>
+                        <a href="/nedlasting" target="_self" className={style.openMaplink}>{this.props.getResource('ToBasket', 'Åpne nedlastinger')}</a>
+                        <ul className={style.mapitems}>
+                            {this.renderDownloadItems()}
+                        </ul>
+                    </div>
                 </div>
             </div>
         );
