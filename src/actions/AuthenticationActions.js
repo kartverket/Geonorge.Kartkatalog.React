@@ -23,7 +23,10 @@ export const updateBaatInfo = () => (dispatch, getState) => {
   const user = getState() && getState().oidc && getState().oidc.user
     ? getState().oidc.user
     : null;
-  if (user && user.profile && user.profile.sub) {
+  const savedBaatInfo = getState() && getState().baatInfo && Object.keys(getState().baatInfo).length
+    ? getState().baatInfo
+    : null;
+  if (user && user.profile && user.profile.sub && !savedBaatInfo) {
     const accessToken = user.access_token
       ? user.access_token
       : null;
