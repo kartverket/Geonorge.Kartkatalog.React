@@ -1,6 +1,6 @@
 import { UPDATE_BAAT_INFO } from 'actions/types';
 
-const initialState = []
+const initialState = {};
 
 export default function(state = initialState, action) {
 	switch(action.type) {
