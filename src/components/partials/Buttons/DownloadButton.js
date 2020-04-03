@@ -109,11 +109,15 @@ export class DownloadButton extends Component {
     }
 
     showDownloadLink() {
-        return this.props.metadata.DistributionUrl &&
-            (this.props.metadata.DistributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' ||
-                this.props.metadata.DistributionProtocol === 'GEONORGE:FILEDOWNLOAD'
-                || this.props.metadata.Protocol === 'Egen nedlastningsside')
-            && this.props.metadata.Type === 'dataset' || this.props.metadata.Type === 'Datasett'
+      const distributionUrl = this.props.metadata.DistributionUrl;
+      const type = this.props.metadata.Type;
+      const distributionProtocol = this.props.metadata.DistributionProtocol;
+      const protocol = this.props.metadata.Protocol;
+
+      const typeIsDataset = type === 'dataset' || type === 'Datasett';
+      const distributionProtocolIsDownload = distributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' || distributionProtocol === 'GEONORGE:FILEDOWNLOAD' || protocol === 'Egen nedlastningsside';
+
+      return distributionUrl && typeIsDataset && distributionProtocolIsDownload;
     }
 
     isSeries() {
@@ -198,7 +202,6 @@ export class DownloadButton extends Component {
     }
 
     renderListButton() {
-      console.log(this.props.metadata);
         if (this.isGeonorgeDownload()) {
           const buttonDescription = this.state.isAdded
             ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting')

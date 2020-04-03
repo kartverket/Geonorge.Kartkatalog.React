@@ -104,7 +104,7 @@ class SearchBar extends Component {
 
             // Dataset
             let datasetSearchResult = this.props.dropdownResults.dataset;
-            let datasetList
+            let datasetList;
             if (datasetSearchResult && datasetSearchResult.NumFound) {
                 hasResults = true;
                 datasetList = <ErrorBoundary key={"dataset"}>
