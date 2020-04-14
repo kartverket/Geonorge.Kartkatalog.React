@@ -201,8 +201,11 @@ export class MainNavigation extends Component {
 
 
     renderDownloadItems() {
-        const downloadItems = this.props.itemsToDownload.map((downloadItemUuid, index) => {
-            const downloadItem = this.props.getDownloadItemMetadata(downloadItemUuid);
+        let downloadItemsWithMetadata = this.props.itemsToDownload.map((downloadItemUuid, index) => {
+          return this.props.getDownloadItemMetadata(downloadItemUuid);
+        }).sort((a, b) => (a.name > b.name) ? 1 : -1);
+
+        const downloadItems = downloadItemsWithMetadata.map((downloadItem, index) => {
             return downloadItem ? (
                 <li key={index}>
                     <span>
