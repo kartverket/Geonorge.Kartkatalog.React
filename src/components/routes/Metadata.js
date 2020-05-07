@@ -434,7 +434,7 @@ class Metadata extends Component {
         const keywordsPlaceList = hasKeywordsPlace && this.props.metadata.KeywordsPlace.map((keywordPlace, index) => {
             return (
                 <li key={index}>
-                    {keywordPlace.KeywordValue}
+                    {this.props.selectedLangLanguage == "en" && keywordPlace.EnglishKeyword && keywordPlace.EnglishKeyword.length ? keywordPlace.EnglishKeyword : keywordPlace.KeywordValue}
                 </li>
             )
         });
@@ -465,7 +465,7 @@ class Metadata extends Component {
         const keywordsThemeList = hasKeywordsTheme && this.props.metadata.KeywordsTheme.map((keywordTheme, index) => {
             return (
                 <li key={index}>
-                    {keywordTheme.KeywordValue}
+                    {this.props.selectedLangLanguage == "en" && keywordTheme.EnglishKeyword && keywordTheme.EnglishKeyword.length ? keywordTheme.EnglishKeyword : keywordTheme.KeywordValue}
                 </li>
             )
         });
@@ -482,7 +482,7 @@ class Metadata extends Component {
         const keywordsNationalThemeList = hasKeywordsNationalTheme && this.props.metadata.KeywordsNationalTheme.map((keywordNationalTheme, index) => {
             return (
                 <li key={index}>
-                    {keywordNationalTheme.KeywordValue}
+                     {this.props.selectedLangLanguage == "en" && keywordNationalTheme.EnglishKeyword && keywordNationalTheme.EnglishKeyword.length ? keywordNationalTheme.EnglishKeyword : keywordNationalTheme.KeywordValue}
                 </li>
             )
         });
@@ -499,7 +499,7 @@ class Metadata extends Component {
         const keywordsNationalInitiativeList = hasKeywordsNationalInitiative && this.props.metadata.KeywordsNationalInitiative.map((keywordNationalInitiative, index) => {
             return (
                 <li key={index}>
-                    {keywordNationalInitiative.KeywordValue}
+                    {this.props.selectedLangLanguage == "en" && keywordNationalInitiative.EnglishKeyword && keywordNationalInitiative.EnglishKeyword.length ? keywordNationalInitiative.EnglishKeyword : keywordNationalInitiative.KeywordValue}
                 </li>
             )
         });
@@ -584,7 +584,7 @@ class Metadata extends Component {
         const keywordsOtherList = hasKeywordsOther && this.props.metadata.KeywordsOther.map((keywordOther, index) => {
             return (
                 <li key={index}>
-                    {keywordOther.KeywordValue}
+                    {this.props.selectedLangLanguage == "en" && keywordOther.EnglishKeyword && keywordOther.EnglishKeyword.length ? keywordOther.EnglishKeyword : keywordOther.KeywordValue}
                 </li>
             )
         });
@@ -1101,7 +1101,7 @@ Metadata.propTypes = {
 const mapStateToProps = state => ({
     metadata: state.metadata,
     metadataDistributions: state.metadataDistributions,
-    selectedLanguage: state.selectedLanguage,
+    selectedLangLanguage: state.selectedLanguage,
     resources: state.resources
 });
 
