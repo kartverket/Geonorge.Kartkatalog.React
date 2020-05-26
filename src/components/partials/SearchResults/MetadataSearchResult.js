@@ -33,7 +33,7 @@ class MetadataSearchResult extends Component {
   restrictionsClassnames() {
     if (this.props.searchResult.AccessConstraint === 'restricted' || this.props.searchResult.AccessIsProtected) {
       return style.red
-    } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted) {
+    } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted || this.props.searchResult.AccessConstraint === "norway digital restricted") {
       return style.yellow
     } else {
       return style.green
