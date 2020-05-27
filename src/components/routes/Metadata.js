@@ -395,9 +395,9 @@ class Metadata extends Component {
     }
 
     renderMetadataDateUpdated() {
-        return this.props.metadata && this.props.metadata.MetadataDateUpdated ? (
+        return this.props.metadata && this.props.metadata.DateMetadataUpdated ? (
             <div>
-                <strong>{this.props.getResource('Updated', 'Oppdatert')} (Metadata): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.MetadataDateUpdated} />
+                <strong>{this.props.getResource('Updated', 'Oppdatert')} (Metadata): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateMetadataUpdated} />
             </div>
         ) : ''
     }
