@@ -311,7 +311,7 @@ class Metadata extends Component {
         const hasOtherConstraintsLinkText = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraintsLinkText;
         return hasOtherConstraintsLinkText ? (
             <div>
-                <strong>{this.props.getResource('Licence', 'Lisens')}: </strong>{this.props.metadata.Constraints.OtherConstraintsLinkText}
+                <strong>{this.props.getResource('Licence', 'Lisens')}: </strong><a href={this.props.metadata.Constraints.OtherConstraintsLink} target="_blank">{this.props.metadata.Constraints.OtherConstraintsLinkText}</a>
             </div>
         ) : '';
     }
