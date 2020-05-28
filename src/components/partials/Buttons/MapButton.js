@@ -98,7 +98,10 @@ export class MapButton extends Component {
             serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
 
         if (serviceUuid) {
-            fetch('https://status.geonorge.no/monitorApi/serviceDetail?uuid=' + serviceUuid)
+            let statusApiUrl = 'https://status.geonorge.no/monitorApi/serviceDetail?uuid=';
+            if(process.env.REACT_APP_ENVIRONMENT === 'dev' || process.env.REACT_APP_ENVIRONMENT === 'test')
+            statusApiUrl = 'https://status.geonorge.no/testmonitorApi/serviceDetail?uuid=';
+            fetch(statusApiUrl + serviceUuid)
                 .then(response => response.json())
                 .then(data => this.parseServiceStatus(data));
         }
