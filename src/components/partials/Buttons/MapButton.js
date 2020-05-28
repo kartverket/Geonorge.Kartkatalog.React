@@ -225,9 +225,7 @@ export class MapButton extends Component {
     componentDidUpdate(prevProps, prevState) {
         const serviceStatusCode = this.state.serviceStatusCode;
         const fetchingServiceStatus = this.state.fetchingServiceStatus;
-        if (serviceStatusCode === '' && !fetchingServiceStatus){
-          this.setServiceStatus();
-        }
+      
 
         const wasAdded = prevState.isAdded;
         const mapItemUuid = this.getMapItem() && this.getMapItem().Uuid ? this.getMapItem().Uuid : null;
