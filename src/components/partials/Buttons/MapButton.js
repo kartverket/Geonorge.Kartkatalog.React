@@ -19,7 +19,8 @@ export class MapButton extends Component {
             expanded: false,
             isAdded: false,
             serviceStatusCode: "",
-            serviceStatusLabel: ""
+            serviceStatusLabel: "",
+            fetchingServiceStatus: false
         };
     }
 
@@ -98,9 +99,17 @@ export class MapButton extends Component {
             serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
 
         if (serviceUuid) {
-            fetch('https://status.geonorge.no/monitorApi/serviceDetail?uuid=' + serviceUuid)
+          this.setState({fetchingServiceStatus: true});
+            let statusApiUrl = 'https://status.geonorge.no/monitorApi/serviceDetail?uuid=';
+            if(process.env.REACT_APP_ENVIRONMENT === 'dev' || process.env.REACT_APP_ENVIRONMENT === 'test'){
+              statusApiUrl = 'https://status.geonorge.no/testmonitorApi/serviceDetail?uuid=';
+            }
+            fetch(statusApiUrl + serviceUuid)
                 .then(response => response.json())
-                .then(data => this.parseServiceStatus(data));
+                .then(data => {
+                  this.parseServiceStatus(data)
+                  this.setState({fetchingServiceStatus: false});
+                });
         }
     }
 
@@ -215,8 +224,8 @@ export class MapButton extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const serviceStatusCode = this.state.serviceStatusCode;
-        if (serviceStatusCode === '')
-            this.setServiceStatus();
+        const fetchingServiceStatus = this.state.fetchingServiceStatus;
+      
 
         const wasAdded = prevState.isAdded;
         const mapItemUuid = this.getMapItem() && this.getMapItem().Uuid ? this.getMapItem().Uuid : null;
