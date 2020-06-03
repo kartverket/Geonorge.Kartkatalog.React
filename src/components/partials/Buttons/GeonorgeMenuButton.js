@@ -105,7 +105,7 @@ export class GeonorgeMenuButton extends Component {
     }
 
     renderLanguageLink() {
-        let textContent = this.props.selectedLanguage === 'en' ? this.props.getResource('Norwegian', 'Norsk') : this.props.getResource('English', 'Engelsk');
+        let textContent = this.props.selectedLanguage === 'en' ?  'Norsk' : 'English';
         return <li onClick={() => this.handleLanguageLinkClick()}>{textContent}</li>;
     }
 
