@@ -42,12 +42,6 @@
     color: $primary-brand;
   }
 
-  &:local(.downloadservice-slow) {
-    > svg {
-      color: orange;
-    }
-  }
-
   &:local(.disabled) {
     &:hover {
       cursor: default;
@@ -77,6 +71,14 @@
       margin-right: 5px;
       color: $primary-danger;
     }
+  }
+  &:local(.downloadservice-slow) {
+    > svg {
+      color: orange;
+    }
+  }
+  &:local(.service-slow) > svg {
+    color: orange;
   }
 }
 
