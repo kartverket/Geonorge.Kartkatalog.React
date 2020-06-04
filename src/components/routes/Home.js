@@ -40,6 +40,10 @@ class Home extends Component {
         this.props.clearMetadata();
         this.setSelectedCategory();
         this.setSelectedSearchResultsType();
+        const appIsPreviouslyInitialised = this.props.selectedLanguage !== "";
+        if (appIsPreviouslyInitialised){
+          this.fetchSearchResults();
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -53,23 +57,27 @@ class Home extends Component {
         const componentShouldFetch = urlParameterStringHasChanged || selectedLanguageHasChanged;
 
         if (componentShouldFetch) {
-            const searchString = this.props.updateSearchStringFromUrl();
-            const selectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
-            this.props.fetchMetadataSearchResults(searchString, selectedFacets).then(() => {
-                let availableFacets = {};
-                if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length) {
-                    this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
-                        availableFacets[facetFilterItem.FacetField] = facetFilterItem;
-                    });
-                }
-                const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(availableFacets).payload;
-                this.props.fetchMetadataSearchResults(searchString, newSelectedFacets).then(() => {
-                    this.props.updateAvailableFacets(availableFacets);
-                });
-            });
-            this.props.fetchArticleSearchResults(searchString);
-            this.setSelectedSearchResultsType();
+          this.fetchSearchResults();
         }
+    }
+
+    fetchSearchResults(){
+      const searchString = this.props.updateSearchStringFromUrl();
+      const selectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
+      this.props.fetchMetadataSearchResults(searchString, selectedFacets).then(() => {
+          let availableFacets = {};
+          if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length) {
+              this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                  availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+              });
+          }
+          const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(availableFacets).payload;
+          this.props.fetchMetadataSearchResults(searchString, newSelectedFacets).then(() => {
+              this.props.updateAvailableFacets(availableFacets);
+          });
+      });
+      this.props.fetchArticleSearchResults(searchString);
+      this.setSelectedSearchResultsType();
     }
 
     renderSearchQuery() {
