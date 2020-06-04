@@ -38,7 +38,6 @@ class App extends Component {
   componentDidMount() {
     store.dispatch(fetchSelectedLanguage());
     store.dispatch(fetchResources());
-    store.dispatch(fetchGeonorgeMenu());
     store.dispatch(getEnvironment());
   }
 

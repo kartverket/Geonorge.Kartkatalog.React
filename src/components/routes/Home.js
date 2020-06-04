@@ -39,25 +39,7 @@ class Home extends Component {
     componentDidMount() {
         this.props.clearMetadata();
         this.setSelectedCategory();
-        this.props.fetchMetadataSearchResults("", this.props.selectedFacets).then(() => {
-            let availableFacets = {};
-            if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length) {
-                this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
-                    availableFacets[facetFilterItem.FacetField] = facetFilterItem;
-                });
-            }
-            this.props.updateAvailableFacets(availableFacets);
-
-            if (window.location.search) { // TODO Check if location.search contains facets
-                const selectedFacets = this.props.updateSelectedFacetsFromUrl(availableFacets).payload;
-                this.props.addSelectedFacetsToAnalytics(selectedFacets);
-                this.props.updateSearchStringFromUrl();
-                this.props.fetchMetadataSearchResults(this.props.searchString, selectedFacets);
-                this.props.fetchArticleSearchResults(this.props.searchString);
-            }
-        });
         this.setSelectedSearchResultsType();
-        this.props.fetchArticleSearchResults(this.props.searchString);
     }
 
     componentDidUpdate(prevProps) {
@@ -68,11 +50,7 @@ class Home extends Component {
         const urlParameterStringHasChanged = oldUrlParameterString !== newUrlParameterString;
         const selectedLanguageHasChanged = prevProps.selectedLanguage !== this.props.selectedLanguage;
 
-        const metadataResultsFound = prevProps.searchResults && prevProps.searchResults.metadata && prevProps.searchResults.metadata.NumFound ? prevProps.searchResults.metadata.NumFound : null;
-        const prevMetadataResultsFound = this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.NumFound ? this.props.searchResults.metadata.NumFound : null;
-        const metadataResultsFoundHasChanged = metadataResultsFound !== prevMetadataResultsFound;
-
-        const componentShouldFetch = urlParameterStringHasChanged || selectedLanguageHasChanged || metadataResultsFoundHasChanged;
+        const componentShouldFetch = urlParameterStringHasChanged || selectedLanguageHasChanged;
 
         if (componentShouldFetch) {
             const searchString = this.props.updateSearchStringFromUrl();
