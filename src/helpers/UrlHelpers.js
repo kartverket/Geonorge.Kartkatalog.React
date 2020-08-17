@@ -26,7 +26,8 @@ export const convertSearchParams = (url) => {
                 const isMunicipality = isMunicipalityRegex.exec(pair[1]) ? true : false;
 
                 if (isMunicipality) { // Map facetValues from "0/02/0220" to "0/02|0/02/0220"
-                    const stateCode = pair[1].match(/[^\/]*\/[^\/]*/)[0]; // stateCode e.g. 0/02, (Akershus)
+                    const stateCode = pair[1].match(/[^/]*\/[^/]*/)[0]; // stateCode e.g. 0/02, (Akershus)
+                    console.log(stateCode);
                     const municipalityCode = pair[1]; // municipalityCode e.g. 0/02/0220, (Asker)
                     pair[1] = `${stateCode}|${municipalityCode}`;
                 }
@@ -56,9 +57,9 @@ export const convertPath = (urlPathname) => {
 }
 
 const replaceAndAddSpace = (string, replace, replaceWith) => {
-  string = string.replace(new RegExp(`([^\s])([${replace}])([^\s])`, 'ig'), `\$1 ${replaceWith} \$3`); // Character right before and after
-  string = string.replace(new RegExp(`([^\s])([${replace}])`, 'ig'), `\$1 ${replaceWith}`); // Character right before
-  string = string.replace(new RegExp(`([${replace}])([^\s])`, 'ig'), `${replaceWith} \$2`); // Character right after
+  string = string.replace(new RegExp(`([^s])([${replace}])([^s])`, 'ig'), `$1 ${replaceWith} $3`); // Character right before and after
+  string = string.replace(new RegExp(`([^s])([${replace}])`, 'ig'), `$1 ${replaceWith}`); // Character right before
+  string = string.replace(new RegExp(`([${replace}])([^s])`, 'ig'), `${replaceWith} $2`); // Character right after
   string = string.replace(new RegExp(`[${replace}]`, 'ig'), replaceWith); // No character right before or after
 
   return string;
@@ -73,11 +74,13 @@ export const convertTextToUrlSlug = string => {
     string = replaceAndAddSpace(string, "&", "and");
     string = replaceAndAddSpace(string, "+", "plus");
     string = string.replace("æ", "ae");
+    string = string.replace("ä", "ae");
     string = string.replace("ø", "oe");
+    string = string.replace("ö", "oe");
     string = string.replace("å", "aa");
 
     // Whitespace replace
-    string = string.replace(" - ", "-");
+    string = string.replace(/( - )/g, "-");
     string = string.replace(/[\s]+/g, "-");
 
     // Unwated character replace
