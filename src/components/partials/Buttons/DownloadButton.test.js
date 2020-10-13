@@ -111,8 +111,6 @@ function setupMetadataListButtonFalseAndCanShowDownloadUrl() {
 
 
 describe('DownloadButton', () => {
-
-
     // List button
     it('should render self', () => {
         const {wrapper} = setupMetadataDownloadButton();
@@ -143,13 +141,11 @@ describe('DownloadButton', () => {
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square');
     });
 
-
     // Button
-
     it('List button false', () => {
         let {wrapper} = setupMetadataListButtonFalse();
 
-        expect(wrapper.prop("className")).toContain(style.btn + ' disabled')
+        expect(wrapper.prop("className")).toContain(style.btn + '  disabled')
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
     });
@@ -158,7 +154,7 @@ describe('DownloadButton', () => {
         let {wrapper} = setupMetadataListButtonFalseAndCanShowDownloadService();
         wrapper = wrapper.setState({isAdded: false});
 
-        expect(wrapper.prop("className")).toContain(style.btn + ' download')
+        expect(wrapper.prop("className")).toContain(style.btn + '  download')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('cloud-download');
     });
 

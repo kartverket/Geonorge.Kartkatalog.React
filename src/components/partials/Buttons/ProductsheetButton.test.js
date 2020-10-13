@@ -56,7 +56,7 @@ describe('ProductsheetButton', () => {
     it('Application without DistributionUrl', () => {
         const { wrapper } = setupItemWithoutProductsheetUrl()
 
-        expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+        expect(wrapper.hasClass(style.btn + '  disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('info-circle')
     })

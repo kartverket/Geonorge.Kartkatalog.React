@@ -166,7 +166,7 @@ describe('ApplicationButton', () => {
 it('List button false', () => {
     const { wrapper } = setupListButtonFalse()
 
-    expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+    expect(wrapper.hasClass(style.btn + '  disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
     expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
 })
@@ -182,7 +182,7 @@ it('List button false and Item with CanShowWebsiteUrl and DistributionUrl', () =
 it('List button false and Item with CanShowWebsiteUrl and no DistributionUrl', () => {
     const { wrapper } = setupItemWithListButtonFalseAndCanShowWebsiteUrl()
 
-    expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+    expect(wrapper.hasClass(style.btn + '  disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
     expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
 })
@@ -190,7 +190,7 @@ it('List button false and Item with CanShowWebsiteUrl and no DistributionUrl', (
 it('List button false and Item with DistributionUrl and CanShowWebsiteUrl false', () => {
     const { wrapper } = setupItemWithListButtonFalseAndCanShowWebsiteUrlFalseAndDistributionUrl()
 
-    expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+    expect(wrapper.hasClass(style.btn + '  disabled')).toBe(true)
     expect(wrapper.prop("href")).toBeUndefined()
     expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
 })

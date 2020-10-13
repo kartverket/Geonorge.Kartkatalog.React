@@ -56,7 +56,7 @@ describe('setupItemWithProductPageUrl', () => {
     it('Item without product page url', () => {
         const { wrapper } = setupItemWithoutProductPageUrl()
 
-        expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+        expect(wrapper.hasClass(style.btn + '  disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
     })

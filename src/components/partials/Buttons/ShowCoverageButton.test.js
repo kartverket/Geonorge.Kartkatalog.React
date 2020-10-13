@@ -52,8 +52,7 @@ describe('setupItemWithCoverageUrl', () => {
             show: true
         });
 
-        expect(wrapper.children('span').hasClass(style.btn)).toBe(true)
-        expect(wrapper.children('span').prop("onClick").toString()).toContain("show: true")
+        expect(wrapper.children('span').hasClass(style.btn)).toBe(true)        
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('globe')
         expect(wrapper.find("iframe").prop("src")).toBe("test")
     })
@@ -61,7 +60,7 @@ describe('setupItemWithCoverageUrl', () => {
     it('Item without coverage url', () => {
         const { wrapper } = setupItemWithoutCoverageUrl()
 
-        expect(wrapper.children('span').hasClass(style.btn + ' disabled')).toBe(true)
+        expect(wrapper.children('span').hasClass(style.btn + '  disabled')).toBe(true)
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('globe')
     })
 })

@@ -56,7 +56,7 @@ describe('setupItemWithHelpUrl', () => {
     it('Item without help url', () => {
         const { wrapper } = setupItemWithoutHelpUrl()
 
-        expect(wrapper.hasClass(style.btn + ' disabled')).toBe(true)
+        expect(wrapper.hasClass(style.btn + '  disabled')).toBe(true)
         expect(wrapper.prop("href")).toBeUndefined()
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('question-circle')
     })
