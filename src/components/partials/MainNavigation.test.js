@@ -18,6 +18,7 @@ function setup() {
     autoAddItemFromLocalStorage: jest.fn(),
     getResource: jest.fn(),
     updateOidcCookie: jest.fn(),
+    updateBaatInfo: jest.fn(),
     geonorgeMenu: [],
     mapItems: [],
     itemsToDownload: []

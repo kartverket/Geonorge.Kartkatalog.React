@@ -11,9 +11,10 @@ const store = mockStore();
 const downloadItem = {
     title: "title mapItem",
     uuid: "123456",
+    accessIsOpendata: true
 }
 
-describe('download_item_actions', () => {
+describe.only('download_item_actions', () => {
     beforeEach(() => { // Runs before each test in the suite
         store.clearActions();
     });
@@ -25,8 +26,8 @@ describe('download_item_actions', () => {
         });
     });
 
-    describe('addItemSelectedForDownload', () => {
-        test('Add item to download', () => {
+    describe.only('addItemSelectedForDownload', () => {
+        test.only('Add item to download', () => {
             store.dispatch(downloadItemActions.addItemSelectedForDownload(downloadItem));
             expect(localStorage.orderItems).toContain("123456");
         });
