@@ -48,15 +48,27 @@ class Metadata extends Component {
         };
     }
 
+    getTitle(){
+      if (this.props.metadata){
+        return this.props.selectedLanguage === 'en' ? this.props.metadata.EnglishTitle : this.props.metadata.Title;
+      }else return '';
+    }
+
+    getAbstract(){
+      if (this.props.metadata){
+        return this.props.selectedLanguage === 'en' ? this.props.metadata.EnglishAbstract : this.props.metadata.Abstract;
+      }else return '';
+    }
+
     getMetadataLinkedDataSnippet(metadata) {
       if (metadata && Object.keys(metadata).length){
         const snippet = {
           "@context": "http://schema.org",
           "@type": "Dataset",
           "@id": `https://kartkatalog.geonorge.no/${window.location.pathname}`,
-          "name": metadata.Title,
-          "description": metadata.Abstract,
-          "abstract": metadata.Abstract,
+          "name": this.getTitle(),
+          "description": this.getAbstract(),
+          "abstract": this.getAbstract(),
           "datePublished": metadata.DatePublished,
           "dateModified": metadata.DateUpdated,
           "license": metadata.Constraints && metadata.Constraints.OtherConstraintsLink ? metadata.Constraints.OtherConstraintsLink : '',
@@ -115,7 +127,7 @@ class Metadata extends Component {
     pushPageViewTag() {
       const metadata = this.props.metadata;
       const tagData = {
-        name: metadata.Title,
+        name: this.getTitle(),
         uuid: metadata.Uuid,
         accessIsOpendata: metadata.AccessIsOpendata,
         accessIsRestricted: metadata.AccessIsRestricted,
@@ -950,7 +962,7 @@ class Metadata extends Component {
         if(thumbnailList !== undefined && thumbnailList.length)
         {
             thumbnailList.sort((a, b) => (a.Type > b.Type) ? 1 : -1)
-            thumbnail = <div key="0"><img src={thumbnailList[0].URL} alt={this.props.metadata.Title + ' illustrasjon'} title={this.props.metadata.Title + ' illustrasjon'} />
+            thumbnail = <div key="0"><img src={thumbnailList[0].URL} alt={this.getTitle() + ' illustrasjon'} title={this.getTitle() + ' illustrasjon'} />
         </div>
         }
 
@@ -968,8 +980,8 @@ class Metadata extends Component {
     }
 
     getPageTitle(){
-      if (this.props.metadata.Title){
-        return this.props.metadata.Title;
+      if (this.getTitle()){
+        return this.getTitle();
       }else if (this.props.match.params.title){
         return convertUrlSlugToText(this.props.match.params.title);
       }else {
@@ -1005,15 +1017,15 @@ class Metadata extends Component {
                     <Helmet>
                         <title>{this.getPageTitle()} - Kartkatalogen</title>
                         {this.renderCanonicalTags()}
-                        <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.props.metadata.Abstract) : ''} />
+                        <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />
                         <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                     </Helmet>
                     {this.getMetadataLinkedDataSnippet(this.props.metadata)}
-                    <Breadcrumb content={this.props.metadata.Title} />
+                    <Breadcrumb content={this.getTitle()} />
                     <div className={style.content}>
 
 
-                        <h1>{this.props.metadata.Title}</h1>
+                        <h1>{this.getTitle()}</h1>
                         <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
                         <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                             <div className={style.btns}>
@@ -1060,7 +1072,7 @@ class Metadata extends Component {
                         <div className={style.flex}>
                           <div className={style.textContent}>
                             <div>{this.renderType()}</div>
-                            <p>{this.props.metadata.Abstract}</p>
+                            <p>{this.getAbstract()}</p>
                           </div>
                           <div className={style.thumbnailContent}>
                             {this.renderThumbnail()}
