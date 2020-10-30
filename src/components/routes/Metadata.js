@@ -1108,7 +1108,7 @@ Metadata.propTypes = {
 const mapStateToProps = state => ({
     metadata: state.metadata,
     metadataDistributions: state.metadataDistributions,
-    selectedLangLanguage: state.selectedLanguage,
+    selectedLanguage: state.selectedLanguage,
     resources: state.resources
 });
 
