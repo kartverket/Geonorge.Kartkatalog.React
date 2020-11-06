@@ -78,7 +78,7 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
               return role === requiredRole
             }) !== undefined
             : true;
-          if (!addDatasetIsAllowed)
+          if (addDatasetIsAllowed)
             break;
           };
         let isAdmin = roles && roles.length && roles.find(role => {
