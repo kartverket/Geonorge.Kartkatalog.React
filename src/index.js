@@ -1,6 +1,6 @@
 // Dependencies
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate, render } from 'react-dom';
 import * as serviceWorker from 'serviceWorker';
 import WebFont from 'webfontloader';
 import 'react-app-polyfill/ie11';
@@ -10,7 +10,7 @@ import App from 'App';
 import 'layout/icons';
 
 // Helpers
-import {convertSearchParams, convertPath} from 'helpers/UrlHelpers'
+import { convertSearchParams, convertPath } from 'helpers/UrlHelpers'
 
 // Stylesheets
 import 'index.css';
@@ -25,6 +25,13 @@ if (window.location.search !== convertSearchParams(window.location.search)) {
       families: ['Raleway:100,400,500,700', 'Open Sans:400,600,700', 'sans-serif']
     }
   });
-  ReactDOM.render(< App / >, document.getElementById('root'));
+
+  const rootElement = document.getElementById("root");
+  if (rootElement.hasChildNodes()) {
+    hydrate(<App />, rootElement);
+  } else {
+    render(<App />, rootElement);
+  }
+
   serviceWorker.unregister();
 }
