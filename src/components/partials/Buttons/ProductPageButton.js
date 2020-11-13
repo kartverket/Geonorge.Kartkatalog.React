@@ -17,22 +17,35 @@ export class ProductPageButton extends Component {
         this.state = {};
     }
 
+    formatProductPageUrl(url){
+        let newUrl = window.decodeURIComponent(url);
+        newUrl = newUrl.trim().replace(/\s/g, "");
+
+        if(/^(:\/\/)/.test(newUrl)){
+            return `https${newUrl}`;
+        }
+        if(!/^(f|ht)tps?:\/\//i.test(newUrl)){
+            return `https://${newUrl}`;
+        }
+        return url;
+    }
+
     render() {
         let buttonDescription = this.props.getResource('DisplayProductPage', 'Vis produktside');
         // TODO styling
         if (this.props.metadata.ProductPageUrl) {
-            let url = this.props.metadata.ProductPageUrl
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
-            let buttonClass = style.btn;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
+            const url = this.formatProductPageUrl(this.props.metadata.ProductPageUrl);
+            const icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
+            const buttonClass = style.btn;
+            const textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
-            let childElements = [icon, textContent];
+            const childElements = [icon, textContent];
             return React.createElement('a', { href: url, className: buttonClass }, childElements);
         } else {
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
-            let buttonClass = `${style.btn}  ${style.disabled}`;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-            let childElements = [icon, textContent];
+            const icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
+            const buttonClass = `${style.btn}  ${style.disabled}`;
+            const textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
+            const childElements = [icon, textContent];
             return React.createElement('span', { className: buttonClass }, childElements);
         }
     }
