@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from "react-router-dom";
+import { withRouter } from 'react-router-dom'
 
 // Actions
 import { updateSelectedFacetsFromUrl } from 'actions/FacetFilterActions';
@@ -200,6 +200,9 @@ class Facet extends Component {
         activity: 'addFacet',
         facet: this.props.facet
       });
+      this.props.history.push(this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString());
+      
+
     }
 
     renderFacet() {
@@ -211,14 +214,13 @@ class Facet extends Component {
         return this.state.checked || this.props.facet.Count
         ? (
             <li className={liClassNames}>
-                <Link onClick={this.handleFacetClick}
-                    to={{ search: this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString() }}>
+                <span onClick={this.handleFacetClick} className={style.clickable}>
                     <FontAwesomeIcon className={style.svgCheckbox}
                         icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} />
                     <label htmlFor={this.props.facet.Name}>
                         <span>{this.props.facet.NameTranslated} </span><span>({this.props.facet.Count})</span>
                     </label>
-                </Link>
+                </span>
                 {this.renderList(this.props.facet.FacetResults)}
             </li>
         ) : '';
@@ -255,4 +257,4 @@ const mapDispatchToProps = {
 
 
 // "Blir tilgjengelig som en prop"... Store state, Actions, Klassen du er i...
-export default connect(mapStateToProps, mapDispatchToProps)(Facet);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Facet));

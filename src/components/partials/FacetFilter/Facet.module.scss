@@ -6,7 +6,8 @@ $imagePath: "../../../../";
     opacity: 0.7;
   }
 
-  a {
+  a,
+  :local(.clickable) {
     white-space: nowrap;
     color: $default-text;
     text-decoration: none;
