@@ -10,5 +10,7 @@ export const getApiData = (url) => (dispatch, getState) => {
     apiData => {
       return apiData
     }
-  )
+  ).catch(error => {
+    console.log(error);
+  })
 }

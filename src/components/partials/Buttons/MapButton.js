@@ -109,9 +109,9 @@ export class MapButton extends Component {
       this.setState({
         serviceStatusIsFetched: true
       }, () => {
-       // this.props.getApiData(statusApiUrl + serviceUuid).then(apiData => {
-      //   this.parseServiceStatus(apiData)
-     //   });
+        this.props.getApiData(statusApiUrl + serviceUuid).then(apiData => {
+         this.parseServiceStatus(apiData)
+        });
       });
     }
   }
