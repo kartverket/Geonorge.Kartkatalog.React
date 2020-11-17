@@ -64,7 +64,9 @@ class App extends Component {
                   <Route exact path="/metadata/:title/:uuid" render={(props) => (<Metadata {...props}/>)}/>
                   <Route exact path="/metadata/:uuid" render={(props) => (<Metadata {...props}/>)}/>
                   <Route exact path="/:category" render={(props) => (<Home {...props}/>)}/>
-                  <Route render={() => (<NotFound/>)}/>
+                  <Route key={"/shell.html"} path="/shell.html" component={() => null} />
+                  <Route key={"/404.html"} component={NotFound} />
+                  <Route render={() => (<NotFound />)}/>
                 </Switch>
               </div>
               <footer className={style.footer}>
