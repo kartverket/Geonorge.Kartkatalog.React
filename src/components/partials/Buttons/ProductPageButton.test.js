@@ -49,7 +49,7 @@ describe('setupItemWithProductPageUrl', () => {
         const { wrapper } = setupItemWithProductPageUrl()
 
         expect(wrapper.hasClass(style.btn)).toBe(true)
-        expect(wrapper.prop("href")).toBe('test')
+        expect(wrapper.prop("href")).toBe('https://test')
         expect(wrapper.find(FontAwesomeIcon).first().prop("icon")).toContain('external-link-square')
     })
 
