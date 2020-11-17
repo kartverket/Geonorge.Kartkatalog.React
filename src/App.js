@@ -68,7 +68,7 @@ class App extends Component {
                 </Switch>
               </div>
               <footer className={style.footer}>
-                <Route exact path="/" render={() => (<Footer/>)}/>
+                <Footer/>
               </footer>
             </div>
           </div>
