@@ -14,6 +14,7 @@ import userManager from 'utils/userManager';
 import {fetchResources} from 'actions/ResourceActions';
 import {fetchSelectedLanguage} from 'actions/SelectedLanguageActions';
 import {getEnvironment} from 'actions/EnvironmentActions';
+import { fetchAvailableWFSServiceStatuses, fetchAvailableWMSServiceStatuses } from 'actions/ServiceStatusActions';
 
 // Components
 import NotFound from 'components/routes/NotFound';
@@ -37,6 +38,8 @@ class App extends Component {
   componentDidMount() {
     store.dispatch(fetchSelectedLanguage());
     store.dispatch(fetchResources());
+    store.dispatch(fetchAvailableWFSServiceStatuses());
+    store.dispatch(fetchAvailableWMSServiceStatuses());
     store.dispatch(getEnvironment());
   }
 

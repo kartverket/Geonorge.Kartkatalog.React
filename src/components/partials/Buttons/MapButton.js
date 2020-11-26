@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {removeMapItem, addMapItem} from 'actions/MapItemActions';
 import {getResource} from 'actions/ResourceActions';
 import {getApiData} from 'actions/ApiActions';
+import { getServiceStatusApiUrl } from 'actions/ApiUrlActions';
 
 // Stylesheets
 import style from 'components/partials/Buttons/Buttons.module.scss';
@@ -93,6 +94,19 @@ export class MapButton extends Component {
     }
   }
 
+  statusForServiceIsAvailable(serviceUuid){
+    let hasAvailableStatus = false;
+    hasAvailableStatus = this.props.availableWFSServiceStatuses.some(availableServiceStatus => {
+      return availableServiceStatus.uuid === serviceUuid;
+    });
+    if (hasAvailableStatus) return true;
+
+    hasAvailableStatus = this.props.availableWMSServiceStatuses.some(availableServiceStatus => {
+      return availableServiceStatus.uuid === serviceUuid;
+    });
+    return hasAvailableStatus;
+  }
+
   setServiceStatus() {
     let serviceUuid = null;
     if (this.props.metadata.ServiceUuid) {
@@ -100,16 +114,13 @@ export class MapButton extends Component {
     } else if (this.props.metadata.DatasetServicesWithShowMapLink && this.props.metadata.DatasetServicesWithShowMapLink.length > 0) {
       serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
     }
-    if (serviceUuid) {
+    if (serviceUuid && this.statusForServiceIsAvailable(serviceUuid)) {
       this.setState({fetchingServiceStatus: true});
-      let statusApiUrl = 'https://status.geonorge.no/monitorApi/serviceDetail?uuid=';
-      if (process.env.REACT_APP_ENVIRONMENT === 'dev' || process.env.REACT_APP_ENVIRONMENT === 'test') {
-        statusApiUrl = 'https://status.geonorge.no/testmonitorApi/serviceDetail?uuid=';
-      }
+      const statusApiUrl = `${this.props.getServiceStatusApiUrl()}/serviceDetail?uuid=${serviceUuid}`;
       this.setState({
         serviceStatusIsFetched: true
       }, () => {
-        this.props.getApiData(statusApiUrl + serviceUuid).then(apiData => {
+        this.props.getApiData(statusApiUrl).then(apiData => {
          this.parseServiceStatus(apiData)
         });
       });
@@ -270,13 +281,21 @@ MapButton.defaultProps = {
   listButton: true
 };
 
-const mapStateToProps = state => ({mapItems: state.mapItems, resources: state.resources});
+const mapStateToProps = state => (
+  {
+    mapItems: state.mapItems,
+    resources: state.resources,
+    availableWFSServiceStatuses: state.availableWFSServiceStatuses,
+    availableWMSServiceStatuses: state.availableWMSServiceStatuses
+  }
+);
 
 const mapDispatchToProps = {
   removeMapItem,
   addMapItem,
   getResource,
-  getApiData
+  getApiData,
+  getServiceStatusApiUrl
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapButton);
