@@ -19,6 +19,8 @@ import ResourceReducer from "reducers/ResourceReducer";
 import EnvironmentReducer from 'reducers/EnvironmentReducer';
 import BaatInfoReducer from 'reducers/BaatInfoReducer';
 import TagManagerReducer from 'reducers/TagManagerReducer';
+import AvailableWFSServiceStatusesForReducer from 'reducers/AvailableWFSServiceStatusesReducer';
+import AvailableWMSServiceStatusesForReducer from 'reducers/AvailableWMSServiceStatusesReducer';
 
 export default (history) => combineReducers({
     dataLayer: TagManagerReducer,
@@ -37,5 +39,7 @@ export default (history) => combineReducers({
     geonorgeMenu: GeonorgeMenuReducer,
     selectedLanguage: SelectedLanguageReducer,
     resources: ResourceReducer,
-    environment: EnvironmentReducer
+    environment: EnvironmentReducer,
+    availableWFSServiceStatuses: AvailableWFSServiceStatusesForReducer,
+    availableWMSServiceStatuses: AvailableWMSServiceStatusesForReducer
 });

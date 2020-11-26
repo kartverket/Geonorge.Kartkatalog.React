@@ -8,3 +8,8 @@ export const getGeonorgeMenuUrl = (selectedLanguage) => () => {
     const selectedLanguageSlug = selectedLanguage === 'en' ? 'en/' : '';
     return `https://www.${environmentSlug}geonorge.no/${selectedLanguageSlug}api/menu?omitLinks=1`;
 };
+
+export const getServiceStatusApiUrl = () => () => {
+    const environmentSlug = process.env.REACT_APP_ENVIRONMENT === 'dev' || process.env.REACT_APP_ENVIRONMENT === 'test' ? 'testmonitorApi' : 'monitorApi';
+    return `https://status.geonorge.no/${environmentSlug}`;
+};
