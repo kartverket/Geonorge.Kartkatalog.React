@@ -75,7 +75,10 @@
       "--disable-extensions"
     ],
     "cacheAjaxRequests": true,
-    "http2PushManifest": true
+    "http2PushManifest": true,
+    "include": [
+      "/shell.html"
+    ]
   },
   "eslintConfig": {
     "extends": [
