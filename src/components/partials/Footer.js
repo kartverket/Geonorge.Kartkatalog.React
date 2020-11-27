@@ -26,7 +26,8 @@ export class Footer extends Component {
 	}
 
 	render() {
-		return (
+		const isMapRoute = this.props.router && this.props.router.location && this.props.router.location.pathname === "/kart";
+		return !isMapRoute ? (
 			<div className={style.container}>
 				<div className={style.logo}>
 					<img src={this.props.getGeonorgeLogo()} alt="Geonorge logo" title="Logo for Geonorge" />
@@ -55,12 +56,13 @@ export class Footer extends Component {
 					<div className={style.logo}><img src={kartverketLogo} alt="Kartverket logo" title="Logo for Kartverket" /></div>
 				</div>
 			</div>
-		)
+		) : ''
 	}
 }
 
 
 const mapStateToProps = state => ({
+    router: state.router,
 	resources: state.resources,
 	environment: state.environment
 });
