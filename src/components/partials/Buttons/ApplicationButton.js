@@ -64,7 +64,7 @@ export class ApplicationButton extends Component {
                 let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
 
                 let childElements = [icon, textContent];
-                return React.createElement('a', { href: url, className: buttonClass }, childElements);
+                return React.createElement('a', { href: url, className: buttonClass , target: '_blank'}, childElements);
             } else {
                 let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
                 let buttonClass = `${style.btn}  ${style.disabled}`;
