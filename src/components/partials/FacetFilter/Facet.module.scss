@@ -43,6 +43,8 @@ $imagePath: "../../../../";
       margin-bottom: 0;
       padding-left: 10px;
       text-decoration: none;
+      line-height: 22px;
+      vertical-align: middle;
 
       > span {
         max-width: 80%;
@@ -64,10 +66,7 @@ $imagePath: "../../../../";
       font-size: 1.4em;
       display: inline-block;
       margin-bottom: 2px;
-
-      &:not(:root:root) {
-        margin-bottom: -2px;
-      }
+      vertical-align: middle;
     }
   }
 }
