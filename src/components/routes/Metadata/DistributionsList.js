@@ -21,7 +21,12 @@ class DistributionsList extends Component {
         if(typeName === "series_historic")
         distributions = this.props.distributions.sort((a, b) => (a.Title < b.Title) ? 1 : -1);
         else
-        distributions = this.props.distributions.sort((a, b) => (a.Title > b.Title) ? 1 : -1);
+        distributions = this.props.distributions.sort((a, b) => {
+            const compareTitle = a.Title.localeCompare(b.Title);
+            const compareProtocol = b.Protocol.localeCompare(a.Protocol);
+          
+            return compareTitle || compareProtocol;
+          })
         distributions = distributions.map((distribution, i) => {
             return <MetadataSearchResult searchResult={distribution} visibleFields={['Type', 'DownloadButton', 'MapButton', 'ApplicationButton', 'DistributionFormats']} key={i}/>;
         });
