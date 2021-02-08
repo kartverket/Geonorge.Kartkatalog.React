@@ -49,6 +49,18 @@ export class DownloadButton extends Component {
         }
     }
 
+    addAccessToken (fileUrl) {
+      var bearerToken = this.getCookie('oidcAccessToken');
+
+      if (bearerToken) {
+          if (bearerToken.indexOf('?') > -1)
+              fileUrl = fileUrl + '&access_token=' + bearerToken;
+          else
+              fileUrl = fileUrl + '?access_token=' + bearerToken;
+      }
+      return fileUrl;
+    } 
+
     addToDownloadList(item) {
       const isNotAuthenticated = !this.props.oidc || !this.props.oidc.user;
       let requestAction = this.props.getApiData(`${item.getCapabilitiesUrl}${item.uuid}`).then((capabilities) => {
@@ -62,7 +74,7 @@ export class DownloadButton extends Component {
             item.canDownloadUrl = link.href;
           }
           if (link.rel === "http://rel.geonorge.no/download/area") {
-            apiRequests.areas = this.props.getApiData(link.href).then(areas => {
+            apiRequests.areas = this.props.getApiData(this.addAccessToken(link.href)).then(areas => {
               return areas;
             });
           }
