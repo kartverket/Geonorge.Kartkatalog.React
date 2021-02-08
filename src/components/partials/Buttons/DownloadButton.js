@@ -1,4 +1,5 @@
 // Dependencies
+import * as Cookies from 'js-cookie';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -50,7 +51,7 @@ export class DownloadButton extends Component {
     }
 
     addAccessToken (fileUrl) {
-      var bearerToken = this.getCookie('oidcAccessToken');
+      var bearerToken = Cookies.get('oidcAccessToken');
 
       if (bearerToken) {
           if (bearerToken.indexOf('?') > -1)
