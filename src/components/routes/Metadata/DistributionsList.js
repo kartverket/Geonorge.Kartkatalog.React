@@ -18,7 +18,7 @@ class DistributionsList extends Component {
           typeName = serie.TypeName;
         }
         let distributions;
-        if(typeName === "series_historic")
+        if(typeName === "series_historic" || typeName === 'series_collection')
         distributions = this.props.distributions.sort((a, b) => (a.Title < b.Title) ? 1 : -1);
         else
         distributions = this.props.distributions.sort((a, b) => {

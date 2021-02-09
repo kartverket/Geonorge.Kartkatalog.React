@@ -155,7 +155,7 @@ export class DownloadButton extends Component {
       this.setState({
         loading: true
       });
-      if (metadata.TypeName === 'series_historic'){
+      if (metadata.TypeName === 'series_historic' || metadata.TypeName === 'series_collection'){
         if (metadata.SerieDatasets){
           let asyncActions = metadata.SerieDatasets.map(serieDataset => {
             const item = this.getDownloadItem(serieDataset);
@@ -199,7 +199,7 @@ export class DownloadButton extends Component {
 
     removeFromDownloadListAction() {
       const metadata = this.props.metadata;
-      if (metadata.TypeName === 'series_historic'){
+      if (metadata.TypeName === 'series_historic' || metadata.TypeName === 'series_collection'){
         metadata.SerieDatasets.forEach(serieDataset => {
           const item = this.getDownloadItem(serieDataset);
           this.removeFromDownloadList(item);
@@ -277,7 +277,7 @@ export class DownloadButton extends Component {
     }
 
     metadataIsAdded(metadata) {
-      if (metadata.TypeName === 'series_historic'){
+      if (metadata.TypeName === 'series_historic' || metadata.TypeName === 'series_collection'){
         return metadata.SerieDatasets && metadata.SerieDatasets.find(serieDataset => {
           return this.props.itemsToDownload.filter(downloadItem => {
               return serieDataset.Uuid === downloadItem;
