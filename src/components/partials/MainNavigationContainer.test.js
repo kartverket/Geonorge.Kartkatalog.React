@@ -33,18 +33,6 @@ function setup() {
 }
 
 describe('MainNavigation', () => {
-  it('should render self and subcomponents', () => {
-    const { wrapper } = setup()
-    expect(wrapper.hasClass(style.mainNavigationContainer)).toBe(true);
-    expect(wrapper.find('img').length).toBe(1);
-    expect(wrapper.find(SearchBar).length).toBe(1);
-    expect(wrapper).toMatchSnapshot();
-  })
-
-  it('should include 1 SearchBar component', () => {
-    const { wrapper } = setup()
-    expect(wrapper.find(SearchBar).length).toBe(1);
-  })
 
   it('should call fetchMapItems on mount', () => {
     const { props } = setup()
