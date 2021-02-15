@@ -1,0 +1,21 @@
+:local(.breadCrumb) {
+    ul {
+      display: flex;
+      margin-top: 20px;
+  
+      li {
+        > a {
+          font-weight: 400;
+        }
+        padding: 0 10px 0 0;
+  
+        > svg {
+          margin-left: 10px;
+        }
+  
+        &:first-child {
+          padding-left: 10px;
+        }
+      }
+    }
+  }
