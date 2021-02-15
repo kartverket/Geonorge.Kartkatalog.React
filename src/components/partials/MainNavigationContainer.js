@@ -65,11 +65,15 @@ export class MainNavigationContainer extends Component {
         userManager.signoutRedirect({ 'id_token_hint': this.props.oidc.user.id_token });
         userManager.removeUser();
       },
-      onNorwegianLanguageSelect: (event) => {
+      onNorwegianLanguageSelect: () => {
         this.props.updateSelectedLanguage('no');
       },
-      onEnglishLanguageSelect: (event) => {
+      onEnglishLanguageSelect: () => {
         this.props.updateSelectedLanguage('en');
+      },
+      onSearchTypeChange: event => {
+        const searchType = event && event.detail && event.detail.value ? event.detail.value : null;
+        this.handleChangeSearchResultsType(searchType);
       }
     })
   }
@@ -90,7 +94,6 @@ export class MainNavigationContainer extends Component {
     }
   }
 
-
   handleSubmitSearch(searchString) {
     searchString = searchString.replace(/[^a-å0-9- ]+/ig, ""); // Removes unwanted characters
     searchString = searchString.replace(/\s\s+/g, ' '); // Remove redundant whitespace
@@ -101,18 +104,37 @@ export class MainNavigationContainer extends Component {
     }
   }
 
+  handleChangeSearchResultsType(searchResultsType) {
+    let searchString = this.props.searchString;
+    searchString = searchString.replace(/[^a-å0-9- ]+/ig, ""); // Removes unwanted characters
+    searchString = searchString.replace(/\s\s+/g, ' '); // Remove redundant whitespace
+    const searchStringParameter = searchString && searchString.length ? `?text=${searchString}` : '';
+    this.setState({
+      redirect: `/${searchResultsType}${searchStringParameter}`
+    });
+
+  }
+
   render() {
-    return (
+    const selectedSearchResultsType = this.props.selectedSearchResultsType ? this.props.selectedSearchResultsType : 'metadata';
+    const metadataResultsFound = this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.NumFound ? this.props.searchResults.metadata.NumFound : 0;
+    const articlesResultsFound = this.props.searchResults && this.props.searchResults.articles && this.props.searchResults.articles.NumFound ? this.props.searchResults.articles.NumFound : 0;
+    return this.props.searchResults ? (
       <React.Fragment>
         <main-navigation
-          isLoggedIn={this.props.oidc.user ? true : false} 
+          isLoggedIn={this.props.oidc.user ? true : false}
           language={this.props.selectedLanguage}
           environment={process.env.REACT_APP_ENVIRONMENT}
-          searchString={this.props.searchString}>
+          searchString={this.props.searchString}
+          searchType={selectedSearchResultsType}
+          showsearchtypeselector
+          metadataresultsfound={metadataResultsFound}
+          articlesresultsfound={articlesResultsFound}
+        >
         </main-navigation>
         { this.state.redirect ? <Redirect to={this.state.redirect} /> : ''}
       </React.Fragment>
-    );
+    ) : '';
   }
 }
 

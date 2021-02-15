@@ -1466,9 +1466,9 @@
     chalk "^4.0.0"
 
 "@kartverket/geonorge-web-components@^0.1.11":
-  version "0.1.33"
-  resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-0.1.33.tgz#88bd357819bcda94c9670d44ad72c355b1454ebb"
-  integrity sha512-IwwFnzEnG/va93qLtUb8llZb/i3HXgSYTSpx9AM524CkJPIH/a13eMIsqJkqoYOzj90gKDC6EfuZskbBTKc1cg==
+  version "0.1.35"
+  resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-0.1.35.tgz#62a9369fb1b77adf465dc318f0d1385afa1be240"
+  integrity sha512-bDIciSCmqe0Vq8Uv/NZqRsHfrAdVamzcAo5YQgo9OOL44FOiHjK7/QC7nhOs5wzC6DpvbO23neI8STgd94Wifw==
 
 "@mapbox/jsonlint-lines-primitives@~2.0.2":
   version "2.0.2"
@@ -10017,10 +10017,15 @@ querystring-es3@^0.2.0:
   resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"
   integrity sha1-nsYfeQSYdXB9aUFFlv2Qek1xHnM=
 
-querystring@0.2.0, querystring@^0.2.0:
+querystring@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
+
+querystring@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.1.tgz#40d77615bb09d16902a85c3e38aa8b5ed761c2dd"
+  integrity sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==
 
 querystringify@^2.1.1:
   version "2.2.0"
