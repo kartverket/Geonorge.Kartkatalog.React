@@ -24,7 +24,7 @@ import OidcSignoutCallback from 'components/routes/OidcSignoutCallback';
 import Footer from 'components/partials/Footer';
 import MapContainer from 'components/routes/MapContainer';
 import Metadata from "components/routes/Metadata";
-import MainNavigation from 'components/partials/MainNavigation';
+import MainNavigationContainer from 'components/partials/MainNavigationContainer';
 
 // Stylesheets
 import style from 'App.module.scss';
@@ -54,7 +54,7 @@ class App extends Component {
                 : ''
               }
             </Helmet>
-            <MainNavigation/>
+            <MainNavigationContainer />
             <div className={style.pageContent}>
               <div className={style.container}>
                 <Switch>

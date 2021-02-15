@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import { MainNavigation } from './MainNavigation';
+import { MainNavigationContainer } from './MainNavigationContainer';
 
 import SearchBar from './MainNavigation/SearchBar';
 
-import style from './MainNavigation.module.scss'
+import style from './MainNavigationContainer.module.scss'
 
 function setup() {
   const props = {
@@ -24,7 +24,7 @@ function setup() {
     itemsToDownload: []
   }
 
-  const wrapper = shallow(<MainNavigation {...props} />)
+  const wrapper = shallow(<MainNavigationContainer {...props} />)
 
   return {
     props,

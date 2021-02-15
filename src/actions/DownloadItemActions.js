@@ -6,6 +6,8 @@ export const fetchItemsToDownload = () => dispatch => {
     ? JSON.parse(localStorage.orderItems)
     : [];
   dispatch({type: FETCH_ITEMS_TO_DOWNLOAD, payload: itemsToDownload})
+  const event = new Event('downloadItemsChanged');
+  document.dispatchEvent(event);
 }
 
 export const getDownloadItemMetadata = (itemUuid) => dispatch => {

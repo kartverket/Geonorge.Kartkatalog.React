@@ -6,7 +6,9 @@ export const fetchMapItems = () => dispatch => {
 	dispatch({
 		type: FETCH_MAPITEMS,
 		payload: mapItems
-	})
+	});
+	const event = new Event('mapItemsChanged');
+  	document.dispatchEvent(event);
 }
 
 export const removeMapItem = (mapItemsToRemove) => dispatch => {
