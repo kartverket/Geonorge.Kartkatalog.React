@@ -105,11 +105,9 @@ export class MainNavigationContainer extends Component {
     return (
       <React.Fragment>
         <main-navigation
-          multilingual
-          supportsLogin
+          isLoggedIn={this.props.oidc.user ? true : false} 
           language={this.props.selectedLanguage}
-          environment="dev"
-          yobro={this.props.itemsToDownload.length}
+          environment={process.env.REACT_APP_ENVIRONMENT}
           searchString={this.props.searchString}>
         </main-navigation>
         { this.state.redirect ? <Redirect to={this.state.redirect} /> : ''}
