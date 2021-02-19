@@ -1,5 +1,12 @@
+// Dependencies
+import * as Cookies from 'js-cookie';
+
+// Actions
 import {FETCH_ITEMS_TO_DOWNLOAD} from 'actions/types';
+
+// Reducers
 import {pushToDataLayer} from 'reducers/TagManagerReducer';
+
 
 export const fetchItemsToDownload = () => dispatch => {
   let itemsToDownload = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems))
@@ -20,7 +27,9 @@ export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
   let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems))
     ? JSON.parse(localStorage.orderItems)
     : [];
-  localStorage.orderItems = JSON.stringify(selectedItems.filter(itemToKeep => itemToKeep !== itemToRemove.uuid));
+  const selectedItemsToKeep = selectedItems.filter(itemToKeep => itemToKeep !== itemToRemove.uuid);
+  Cookies.set('orderItems', selectedItemsToKeep.length, { expires: 7, path: '/', domain: '.geonorge.no' });
+  localStorage.orderItems = JSON.stringify(selectedItemsToKeep);
 
   // TODO midlertidig løsning pga gammel handlekurv...
   localStorage.removeItem(itemToRemove.uuid + ".metadata")
@@ -42,6 +51,7 @@ const addItemToLocalStorage = (itemToAdd => {
     ? JSON.parse(localStorage.orderItems)
     : [];
   selectedItems.push(itemToAdd.uuid);
+  Cookies.set('orderItems', selectedItems.length, { expires: 7, path: '/', domain: '.geonorge.no' });
   localStorage.orderItems = JSON.stringify(selectedItems);
   // TODO midlertidig løsning pga gammel handlekurv...
   localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
