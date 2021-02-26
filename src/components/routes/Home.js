@@ -111,13 +111,14 @@ class Home extends Component {
             )
 
         } else if (this.props.selectedSearchResultsType === 'articles') {
+            const numFound = this.props.searchResults && this.props.searchResults.articles && this.props.searchResults.articles.NumFound ? this.props.searchResults.articles.NumFound : 0;
             if (this.props.searchString) {
                 const resourceVariables = [
                     this.props.searchString,
-                    this.props.searchResults.articles.NumFound,
+                    numFound,
                     this.props.getResource('Articles', 'Artikler')
                 ]
-                searchString = this.props.searchResults.articles.NumFound === 1
+                searchString = numFound === 1
                     ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables)
                     : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables);
             }
