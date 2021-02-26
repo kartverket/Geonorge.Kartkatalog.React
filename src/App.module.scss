@@ -27,14 +27,26 @@
     position: static;
     height: auto;
   }
-  margin-top: 115px;
-  height: calc(100% - 57px);
+  margin-top: 184px;
+  height: calc(100% - 184px);
   overflow-y: auto;
   width: 100%;
   position: absolute;
-  margin-bottom: 2px solid $primary-border;
+  @media (min-width: 340px) {
+    margin-top: 147px;
+    height: calc(100% - 147px);
+  }
+  @media (min-width: 410px) {
+    margin-top: 142px;
+    height: calc(100% - 142px);
+  }
+  @media (min-width: 540px) {
+    margin-top: 105px;
+    height: calc(100% - 105px);
+  }
   @include breakpoint(phablet) {
     margin-top: 57px;
+    height: calc(100% - 57px);
   }
 }
 
