@@ -20,7 +20,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
     "oidc-client": "^1.7.1",
-    "r_map": "https://github.com/kartverket/r_map.git#dev",
+    "r_map": "https://github.com/kartverket/r_map.git",
     "react": "^17.0.1",
     "react-app-polyfill": "^2.0.0",
     "react-app-rewired": "^2.1.3",
