@@ -804,6 +804,47 @@ class Metadata extends Component {
 
     renderDistributionSection() {
         const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionFormats() || this.renderDistributionDetails() || this.renderUnitsOfDistribution() || this.renderReferenceSystems();
+        
+        //start new output
+
+        if(typeof this.props.metadata.SpatialRepresentation !== 'undefined' ){
+            console.log("Representasjonsform: " + this.props.metadata.SpatialRepresentation);
+        }
+
+        var distributionsFormats = this.props.metadata.DistributionsFormats;
+        if(typeof distributionsFormats !== 'undefined' )
+        {
+               var protocols = distributionsFormats.map(item => item.Protocol)
+               .filter((value, index, self) => self.indexOf(value) === index);
+
+               protocols.forEach(protocol => 
+                {                
+                    var formatsDistributions = distributionsFormats.filter(function (distribution) {
+                        return distribution.Protocol == protocol ;
+                    });
+
+                    console.log("Distribusjonstype:");
+                    console.log(protocol); // todo api must return ProtocolName
+
+                    console.log("Get capabilities url: " + formatsDistributions[0].URL); // url not always capabilities?
+
+                    console.log("Geografisk distribusjonsinndeling: " + formatsDistributions[0].UnitsOfDistribution);
+                    
+                    console.log("Format:");
+
+                    formatsDistributions.forEach(formatDistribution => 
+                    {
+                        console.log(formatDistribution.FormatName);
+                    });
+
+
+                    console.log("--------------------------------------------------------------");
+
+                });
+        }
+
+        //end new output
+
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
