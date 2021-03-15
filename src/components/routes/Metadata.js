@@ -250,41 +250,51 @@ class Metadata extends Component {
     }
 
     renderDistributionsFormats() {
-        return this.props.metadata && this.props.metadata.DistributionsFormats ? (
-            <div>
-              {(() => 
-              {
-                var distributionsFormats = this.props.metadata.DistributionsFormats;
+        const distributionsFormats = this.props.metadata && this.props.metadata.DistributionsFormats ? this.props.metadata.DistributionsFormats : null;
+        if (distributionsFormats) {
+            const protocols = distributionsFormats.map(item => item.Protocol).filter((value, index, self) => self.indexOf(value) === index);
+            return protocols.map(protocol => {
 
-                    var protocols = distributionsFormats.map(item => item.Protocol)
-                    .filter((value, index, self) => self.indexOf(value) === index);
+                const protocolFormats = distributionsFormats.filter(distribution => {
+                    return distribution.Protocol == protocol;
+                });
+                const protocolFormatElements = protocolFormats.map(protocolFormat => {
+                    return (<li>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</li>)
+                });
 
-                    protocols.forEach(protocol => 
-                    {    
-                        var formatsDistributions = distributionsFormats.filter(function (distribution) {
-                            return distribution.Protocol == protocol ;
-                        });  console.log(formatsDistributions) ;
-                        return(
-                        <div>
+                return (
+                    <div>
                         <h3>{this.props.getResource('DistributionType', 'Distribusjonstype')}:</h3>
-                        <div>{formatsDistributions[0].Protocol}</div>
-                        <div><b>Url:</b><a href={formatsDistributions[0].Url}>{formatsDistributions[0].Url}</a></div>
-                        <div><strong>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </strong>{formatsDistributions[0].UnitsOfDistribution}</div>
+                        <div>{protocolFormats[0].Protocol}</div>
+                        {
+                            protocolFormats[0].URL
+                                ? (
+                                    <div>
+                                        <b>URL: </b>
+                                        <a href={protocolFormats[0].URL}>{protocolFormats[0].URL}</a>
+                                    </div>)
+                                : ''
+                        }
+                        {
+                            protocolFormats[0].UnitsOfDistribution
+                                ? (
+                                    <div>
+                                        <b>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </b>
+                                        {protocolFormats[0].UnitsOfDistribution}
+                                    </div>)
+                                : ''
+                        }
+
                         <h3>Format:</h3>
                         <ul>
-                        {formatsDistributions.forEach(formatDistribution => 
-                            {
-                                <li>{formatDistribution.FormatName} {formatDistribution.FormatVersion}</li>
-                            })
-                        };
+                            {protocolFormatElements}
                         </ul>
-                        </div>
-                        );
-                    })
-              })()
-            }
-        </div>
-        ) : ""
+                    </div>
+                )
+            })
+        } else {
+            return '';
+        }
     }
 
     renderDistributionDetails() {
