@@ -265,7 +265,7 @@ class Metadata extends Component {
                 return (
                     <div>
                         <h3>{this.props.getResource('DistributionType', 'Distribusjonstype')}:</h3>
-                        <div>{protocolFormats[0].Protocol}</div>
+                        <div>{protocolFormats[0].ProtocolName}</div>
                         {
                             protocolFormats[0].URL
                                 ? (
