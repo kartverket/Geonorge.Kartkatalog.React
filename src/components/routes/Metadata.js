@@ -249,6 +249,44 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderDistributionsFormats() {
+        return this.props.metadata && this.props.metadata.DistributionsFormats ? (
+            <div>
+              {(() => 
+              {
+                var distributionsFormats = this.props.metadata.DistributionsFormats;
+
+                    var protocols = distributionsFormats.map(item => item.Protocol)
+                    .filter((value, index, self) => self.indexOf(value) === index);
+
+                    protocols.forEach(protocol => 
+                    {    
+                        var formatsDistributions = distributionsFormats.filter(function (distribution) {
+                            return distribution.Protocol == protocol ;
+                        });  console.log(formatsDistributions) ;
+                        return(
+                        <div>
+                        <h3>{this.props.getResource('DistributionType', 'Distribusjonstype')}:</h3>
+                        <div>{formatsDistributions[0].Protocol}</div>
+                        <div><b>Url:</b><a href={formatsDistributions[0].Url}>{formatsDistributions[0].Url}</a></div>
+                        <div><strong>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </strong>{formatsDistributions[0].UnitsOfDistribution}</div>
+                        <h3>Format:</h3>
+                        <ul>
+                        {formatsDistributions.forEach(formatDistribution => 
+                            {
+                                <li>{formatDistribution.FormatName} {formatDistribution.FormatVersion}</li>
+                            })
+                        };
+                        </ul>
+                        </div>
+                        );
+                    })
+              })()
+            }
+        </div>
+        ) : ""
+    }
+
     renderDistributionDetails() {
         const hasProtocolName = this.props.metadata && this.props.metadata.DistributionDetails && this.props.metadata.DistributionDetails.ProtocolName;
         return hasProtocolName ? (
@@ -803,7 +841,7 @@ class Metadata extends Component {
     }
 
     renderDistributionSection() {
-        const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionFormats() || this.renderDistributionDetails() || this.renderUnitsOfDistribution() || this.renderReferenceSystems();
+        const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionsFormats() || this.renderReferenceSystems();
         
         //start new output
 
@@ -849,10 +887,12 @@ class Metadata extends Component {
             <div>
                 <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
                 {this.renderSpatialRepresentation()}
-                {this.renderDistributionFormats()}
-                {this.renderDistributionDetails()}
-                {this.renderDistributionUrl()}
-                {this.renderUnitsOfDistribution()}
+                {this.renderDistributionsFormats()}
+
+                {/*this.renderDistributionDetails()*/}
+                {/*this.renderDistributionUrl()*/}
+                {/*this.renderUnitsOfDistribution()*/}
+
                 {this.renderReferenceSystems()}
             </div>
         ) : '';
