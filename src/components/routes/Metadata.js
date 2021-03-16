@@ -280,7 +280,7 @@ class Metadata extends Component {
                                 ? (
                                     <div>
                                         <b>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </b>
-                                        {protocolFormats[0].UnitsOfDistribution}
+                                        {this.props.selectedLanguage === 'en' && protocolFormats[0].EnglishUnitsOfDistribution ? protocolFormats[0].EnglishUnitsOfDistribution : protocolFormats[0].UnitsOfDistribution}
                                     </div>)
                                 : ''
                         }
