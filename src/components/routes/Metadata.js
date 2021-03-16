@@ -249,6 +249,54 @@ class Metadata extends Component {
         ) : '';
     }
 
+    renderDistributionsFormats() {
+        const distributionsFormats = this.props.metadata && this.props.metadata.DistributionsFormats ? this.props.metadata.DistributionsFormats : null;
+        if (distributionsFormats) {
+            const protocols = distributionsFormats.map(item => item.Protocol).filter((value, index, self) => self.indexOf(value) === index);
+            return protocols.map(protocol => {
+
+                const protocolFormats = distributionsFormats.filter(distribution => {
+                    return distribution.Protocol == protocol;
+                });
+                const protocolFormatElements = protocolFormats.map(protocolFormat => {
+                    return (<li>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</li>)
+                });
+
+                return (
+                    <div>
+                        <h3>{this.props.getResource('DistributionType', 'Distribusjonstype')}:</h3>
+                        <div>{protocolFormats[0].ProtocolName}</div>
+                        {
+                            protocolFormats[0].URL
+                                ? (
+                                    <div>
+                                        <b>URL: </b>
+                                        <a href={protocolFormats[0].URL}>{protocolFormats[0].URL}</a>
+                                    </div>)
+                                : ''
+                        }
+                        {
+                            protocolFormats[0].UnitsOfDistribution
+                                ? (
+                                    <div>
+                                        <b>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </b>
+                                        {this.props.selectedLanguage === 'en' && protocolFormats[0].EnglishUnitsOfDistribution ? protocolFormats[0].EnglishUnitsOfDistribution : protocolFormats[0].UnitsOfDistribution}
+                                    </div>)
+                                : ''
+                        }
+
+                        <h3>Format:</h3>
+                        <ul>
+                            {protocolFormatElements}
+                        </ul>
+                    </div>
+                )
+            })
+        } else {
+            return '';
+        }
+    }
+
     renderDistributionDetails() {
         const hasProtocolName = this.props.metadata && this.props.metadata.DistributionDetails && this.props.metadata.DistributionDetails.ProtocolName;
         return hasProtocolName ? (
@@ -803,15 +851,13 @@ class Metadata extends Component {
     }
 
     renderDistributionSection() {
-        const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionFormats() || this.renderDistributionDetails() || this.renderUnitsOfDistribution() || this.renderReferenceSystems();
+        const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionsFormats() || this.renderReferenceSystems();
+        
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
                 {this.renderSpatialRepresentation()}
-                {this.renderDistributionFormats()}
-                {this.renderDistributionDetails()}
-                {this.renderDistributionUrl()}
-                {this.renderUnitsOfDistribution()}
+                {this.renderDistributionsFormats()}
                 {this.renderReferenceSystems()}
             </div>
         ) : '';
