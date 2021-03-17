@@ -244,7 +244,7 @@ class Metadata extends Component {
         return hasDistributionFormats ? (
             <div>
                 <h3>Format:</h3>
-                {distributionFormatsList}
+                <ul>{distributionFormatsList}</ul>
             </div>
         ) : '';
     }
@@ -334,7 +334,7 @@ class Metadata extends Component {
         return hasReferenceSystems ? (
             <div>
                 <h3>{this.props.getResource('ReferenceSystems', 'Romlig referansesystem')}:</h3>
-                {referenceSystemList}
+                <ul>{referenceSystemList}</ul>
             </div>
         ) : '';
     }
