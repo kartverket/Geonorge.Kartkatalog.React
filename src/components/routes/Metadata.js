@@ -244,7 +244,9 @@ class Metadata extends Component {
         return hasDistributionFormats ? (
             <div>
                 <h3>Format:</h3>
-                <ul>{distributionFormatsList}</ul>
+                <ul className={style.defaultList}>
+                    {distributionFormatsList}
+                </ul>
             </div>
         ) : '';
     }
@@ -285,7 +287,7 @@ class Metadata extends Component {
                         }
 
                         <h3>Format:</h3>
-                        <ul>
+                        <ul className={style.defaultList}>
                             {protocolFormatElements}
                         </ul>
                     </div>
@@ -334,7 +336,7 @@ class Metadata extends Component {
         return hasReferenceSystems ? (
             <div>
                 <h3>{this.props.getResource('ReferenceSystems', 'Romlig referansesystem')}:</h3>
-                <ul>{referenceSystemList}</ul>
+                <ul className={style.defaultList}>{referenceSystemList}</ul>
             </div>
         ) : '';
     }
@@ -507,7 +509,7 @@ class Metadata extends Component {
         return hasKeywordsPlace ? (
             <div>
                 <h3>{this.props.getResource('KeywordsPlace', 'Geografisk område')}:</h3>
-                {keywordsPlaceList}
+                <ul className={style.defaultList}>{keywordsPlaceList}</ul>
             </div>
         ) : '';
     }
@@ -516,7 +518,7 @@ class Metadata extends Component {
         return this.props.metadata.BoundingBox ? (
             <div>
                 <h3>{this.props.getResource('BoundingBox', 'Geografisk utstrekning')}:</h3>
-                <ul>
+                <ul className={style.defaultList}>
                     <li>{this.props.getResource('North', 'Nord')}: {this.props.metadata.BoundingBox.NorthBoundLatitude}</li>
                     <li>{this.props.getResource('South', 'Sør')}: {this.props.metadata.BoundingBox.SouthBoundLatitude}</li>
                     <li>{this.props.getResource('East', 'Øst')}: {this.props.metadata.BoundingBox.EastBoundLongitude}</li>
@@ -538,7 +540,7 @@ class Metadata extends Component {
         return hasKeywordsTheme ? (
             <div>
                 <h3>{this.props.getResource('Facet_theme', 'Tema')}:</h3>
-                {keywordsThemeList}
+                <ul className={style.defaultList}>{keywordsThemeList}</ul>
             </div>
         ) : '';
     }
@@ -555,7 +557,7 @@ class Metadata extends Component {
         return hasKeywordsNationalTheme ? (
             <div>
                 <h3>{this.props.getResource('KeywordsNationalTheme', 'Nasjonale tema')}:</h3>
-                {keywordsNationalThemeList}
+                <ul className={style.defaultList}>{keywordsNationalThemeList}</ul>
             </div>
         ) : '';
     }
@@ -572,7 +574,7 @@ class Metadata extends Component {
         return hasKeywordsNationalInitiative ? (
             <div>
                 <h3>{this.props.getResource('Facet_nationalinitiative', 'Samarbeid og lover')}:</h3>
-                {keywordsNationalInitiativeList}
+                <ul className={style.defaultList}>{keywordsNationalInitiativeList}</ul>
             </div>
         ) : '';
     }
@@ -589,7 +591,7 @@ class Metadata extends Component {
         return hasKeywordsInspire ? (
             <div>
                 <h3>Inspire:</h3>
-                {keywordsInspireList}
+                <ul className={style.defaultList}>{keywordsInspireList}</ul>
             </div>
         ) : '';
     }
@@ -606,7 +608,7 @@ class Metadata extends Component {
         return hasKeywordsConcept ? (
             <div>
                 <strong>{this.props.getResource('Concept', 'Begreper')}:</strong>
-                {keywordsConceptList}
+                <ul className={style.defaultList}>{keywordsConceptList}</ul>
             </div>
         ) : '';
     }
@@ -623,7 +625,7 @@ class Metadata extends Component {
         return hasKeywordsInspirePriorityDataset ? (
             <div>
                 <strong>{this.props.getResource('EuPriorityDataset', 'EU - prioriterte datasett')}:</strong>
-                {keywordsInspirePriorityDatasetList}
+                <ul className={style.defaultList}>{keywordsInspirePriorityDatasetList}</ul>
             </div>
         ) : '';
     }
@@ -640,7 +642,7 @@ class Metadata extends Component {
         return hasKeywordsInspire ? (
             <div>
                 <strong>{this.props.getResource('Metadata_KeywordsInspire_Label', 'Inspire kategorier')}:</strong>
-                {keywordsInspireList}
+                <ul className={style.defaultList}>{keywordsInspireList}</ul>
             </div>
         ) : '';
     }
@@ -657,7 +659,7 @@ class Metadata extends Component {
         return hasKeywordsOther ? (
             <div>
                 <strong>{this.props.getResource('Metadata_KeywordsOther_Label', 'Ukategoriserte nøkkelord')}:</strong>
-                {keywordsOtherList}
+                <ul className={style.defaultList}>{keywordsOtherList}</ul>
             </div>
         ) : '';
     }
@@ -682,7 +684,7 @@ class Metadata extends Component {
         return hasKeywordsAdministrativeUnits ? (
             <div>
                 <h3>{this.props.getResource('KeywordsAdministrativeUnits', 'Administrative enheter')}:</h3>
-                {keywordsAdministrativeUnitsList}
+                <ul className={style.defaultList}>{keywordsAdministrativeUnitsList}</ul>
             </div>
         ) : '';
     }

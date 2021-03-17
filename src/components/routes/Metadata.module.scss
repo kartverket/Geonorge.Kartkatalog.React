@@ -7,6 +7,14 @@
   list-style-position: outside;
 }
 
+:local(.defaultList) {
+  list-style: disc;
+  padding-inline-start: 28px;
+  li {
+    list-style: disc;
+  }
+}
+
 :local(.morecontainer) {
   width: 100%;
   text-align: center;
