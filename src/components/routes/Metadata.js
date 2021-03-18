@@ -50,13 +50,13 @@ class Metadata extends Component {
 
     getTitle(){
       if (this.props.metadata){
-        return this.props.selectedLanguage === 'en' ? this.props.metadata.EnglishTitle : this.props.metadata.Title;
+        return this.props.selectedLanguage === 'en' && this.props.metadata.EnglishTitle ? this.props.metadata.EnglishTitle : this.props.metadata.Title;
       }else return '';
     }
 
     getAbstract(){
       if (this.props.metadata){
-        return this.props.selectedLanguage === 'en' ? this.props.metadata.EnglishAbstract : this.props.metadata.Abstract;
+        return this.props.selectedLanguage === 'en' && this.props.metadata.EnglishAbstract ? this.props.metadata.EnglishAbstract : this.props.metadata.Abstract;
       }else return '';
     }
 
