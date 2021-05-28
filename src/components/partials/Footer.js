@@ -41,7 +41,7 @@ export class Footer extends Component {
 						</a>
 					</p>
 					<p>
-						<a href="http://kartverket.no/Om-Kartverket/Personvern-og-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570">
+						<a href="https://www.geonorge.no/aktuelt/Nyheter/annet/personvern-og-bruk-av-cookies/#_ga=2.93024157.1065069024.1548754965-263923791.1536837570">
 							{this.props.getResource('PrivacyAndUseOfCookies', 'Personvern og bruk av cookies')}
 						</a>
 					</p>
