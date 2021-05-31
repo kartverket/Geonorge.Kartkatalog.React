@@ -1529,9 +1529,9 @@
     chalk "^4.0.0"
 
 "@kartverket/geonorge-web-components@^0.1.11":
-  version "0.1.48"
-  resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-0.1.48.tgz#5f14840f92e8494b6ccd5d17573cf53109abc1b8"
-  integrity sha512-zDmls8se6nHDNiQUucOgDRb1NiFrSioXFmOMHfIXTzbYmjfwjApU8VGkz5bswterWkJxWdghu5cwcqQUcIWubw==
+  version "0.1.49"
+  resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-0.1.49.tgz#d25af6e138f3fede4408f026889478ccc93a63c7"
+  integrity sha512-gCp9+VdlZ/rkJfyJzZjTDyhZ2Hfqrr6qmgD6R87mgKVxKsAUnjma1lrvZ985E3/v6wpOsjDKCml5fA1mVJSwbA==
 
 "@mapbox/jsonlint-lines-primitives@~2.0.2":
   version "2.0.2"
