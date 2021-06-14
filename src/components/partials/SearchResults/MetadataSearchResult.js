@@ -131,7 +131,9 @@ class MetadataSearchResult extends Component {
 
   renderCopyUrl() {
 
-    if (this.props.searchResult.Type === 'service' || this.props.searchResult.Type === 'Tjeneste') {
+    if (this.props.searchResult.Type === 'service' || this.props.searchResult.Type === 'Tjeneste' 
+        && this.props.searchResult.GetCapabilitiesUrl !== undefined )
+     {
       return (
         <ErrorBoundary>
           <CopyToClipboard onCopy={() => this.setState({ copied: true })} text={this.props.searchResult.GetCapabilitiesUrl}>
