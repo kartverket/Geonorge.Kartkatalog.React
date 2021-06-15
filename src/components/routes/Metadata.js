@@ -61,35 +61,35 @@ class Metadata extends Component {
     }
 
     getMetadataLinkedDataSnippet(metadata) {
-      if (metadata && Object.keys(metadata).length){
-        const snippet = {
-          "@context": "http://schema.org",
-          "@type": "Dataset",
-          "@id": `https://kartkatalog.geonorge.no/${window.location.pathname}`,
-          "name": this.getTitle(),
-          "description": this.getAbstract(),
-          "abstract": this.getAbstract(),
-          "datePublished": metadata.DatePublished,
-          "dateModified": metadata.DateUpdated,
-          "license": metadata.Constraints && metadata.Constraints.OtherConstraintsLink ? metadata.Constraints.OtherConstraintsLink : '',
-          "author": {
-            "@type": "Organization",
-            "name": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
-            "legalName": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
-            "email": metadata.ContactOwner && metadata.ContactOwner.Email ? metadata.ContactOwner.Email : ''
-          },
-          "publisher": {
-            "@type": "Organization",
-            "name": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
-            "legalName": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
-            "email": metadata.ContactPublisher && metadata.ContactPublisher.Email ? metadata.ContactPublisher.Email: ''
-          }
-        }
-        return (<Helmet>
-          <script type="application/ld+json">{`${JSON.stringify(snippet)}`}</script>
-        </Helmet>)
-      }else return '';
-  }
+        if (metadata && Object.keys(metadata).length) {
+            const snippet = {
+                "@context": "http://schema.org",
+                "@type": "Dataset",
+                "@id": `https://kartkatalog.geonorge.no/${window.location.pathname}`,
+                "name": this.getTitle(),
+                "description": this.getAbstract(),
+                "abstract": this.getAbstract(),
+                "datePublished": metadata.DatePublished,
+                "dateModified": metadata.DateUpdated,
+                "license": metadata.Constraints && metadata.Constraints.OtherConstraintsLink ? metadata.Constraints.OtherConstraintsLink : '',
+                "author": {
+                    "@type": "Organization",
+                    "name": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
+                    "legalName": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
+                    "email": metadata.ContactOwner && metadata.ContactOwner.Email ? metadata.ContactOwner.Email : ''
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
+                    "legalName": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
+                    "email": metadata.ContactPublisher && metadata.ContactPublisher.Email ? metadata.ContactPublisher.Email : ''
+                }
+            }
+            return (<Helmet>
+                <script type="application/ld+json">{`${JSON.stringify(snippet)}`}</script>
+            </Helmet>)
+        } else return '';
+    }
 
     toggleExpand() {
         this.setState(prevState => ({
@@ -119,26 +119,26 @@ class Metadata extends Component {
         }
         const hasRecievedMetadataProps = this.props.metadata && Object.keys(this.props.metadata).length;
         const hadRecievedMetadataProps = prevProps.metadata && Object.keys(prevProps.metadata).length;
-        if (hasRecievedMetadataProps && !hadRecievedMetadataProps){
-          this.pushPageViewTag();
+        if (hasRecievedMetadataProps && !hadRecievedMetadataProps) {
+            this.pushPageViewTag();
         }
     }
 
     pushPageViewTag() {
-      const metadata = this.props.metadata;
-      const tagData = {
-        name: this.getTitle(),
-        uuid: metadata.Uuid,
-        accessIsOpendata: metadata.AccessIsOpendata,
-        accessIsRestricted: metadata.AccessIsRestricted,
-        organizationName: metadata.ContactMetadata && metadata.ContactMetadata.Organization ? metadata.ContactMetadata.Organization : null
-      };
-      this.props.pushToDataLayer({
-        event: 'showPage',
-        category: 'metadata',
-        activity: 'showMetadataPage',
-        metadata: tagData
-      });
+        const metadata = this.props.metadata;
+        const tagData = {
+            name: this.getTitle(),
+            uuid: metadata.Uuid,
+            accessIsOpendata: metadata.AccessIsOpendata,
+            accessIsRestricted: metadata.AccessIsRestricted,
+            organizationName: metadata.ContactMetadata && metadata.ContactMetadata.Organization ? metadata.ContactMetadata.Organization : null
+        };
+        this.props.pushToDataLayer({
+            event: 'showPage',
+            category: 'metadata',
+            activity: 'showMetadataPage',
+            metadata: tagData
+        });
     }
 
     renderDatasetLanguage() {
@@ -208,11 +208,11 @@ class Metadata extends Component {
                 <div>
                     <h3>{this.props.getResource('ContactPublisher', 'Teknisk kontakt')}</h3>
                     {this.props.metadata.ContactPublisher.Name && this.props.metadata.ContactPublisher.Name.length ?
-                    <div>
-                        <a href={"mailto:" + this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Name}</a>
-                    </div>
-                    :
-                    ""
+                        <div>
+                            <a href={"mailto:" + this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Name}</a>
+                        </div>
+                        :
+                        ""
                     }
                     <div>
                         <a href={"mailto:" + this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Email}</a> - {this.props.metadata.ContactPublisher.Organization}
@@ -244,9 +244,58 @@ class Metadata extends Component {
         return hasDistributionFormats ? (
             <div>
                 <h3>Format:</h3>
-                {distributionFormatsList}
+                <ul className={style.defaultList}>
+                    {distributionFormatsList}
+                </ul>
             </div>
         ) : '';
+    }
+
+    renderDistributionsFormats() {
+        const distributionsFormats = this.props.metadata && this.props.metadata.DistributionsFormats ? this.props.metadata.DistributionsFormats : null;
+        if (distributionsFormats) {
+            const protocols = distributionsFormats.map(item => item.Protocol).filter((value, index, self) => self.indexOf(value) === index);
+            return protocols.map(protocol => {
+                const protocolFormats = distributionsFormats.filter(distribution => {
+                    return distribution.Protocol == protocol;
+                });
+                const protocolFormatElements = protocolFormats.map(protocolFormat => {
+                    return (<li key={`${protocolFormat.FormatName}-${protocolFormat.FormatVersion}`}>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</li>)
+                });
+
+                return (
+                    <div key={protocolFormats[0].ProtocolName}>
+                        <h3>{this.props.getResource('DistributionType', 'Distribusjonstype')}:</h3>
+                        <div>{protocolFormats[0].ProtocolName}</div>
+                        {
+                            protocolFormats[0].URL
+                                ? (
+                                    <div>
+                                        <b>URL: </b>
+                                        <a href={protocolFormats[0].URL}>{protocolFormats[0].URL}</a>
+                                    </div>)
+                                : ''
+                        }
+                        {
+                            protocolFormats[0].UnitsOfDistribution
+                                ? (
+                                    <div>
+                                        <b>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </b>
+                                        {this.props.selectedLanguage === 'en' && protocolFormats[0].EnglishUnitsOfDistribution ? protocolFormats[0].EnglishUnitsOfDistribution : protocolFormats[0].UnitsOfDistribution}
+                                    </div>)
+                                : ''
+                        }
+
+                        <h3>Format:</h3>
+                        <ul className={style.defaultList}>
+                            {protocolFormatElements}
+                        </ul>
+                    </div>
+                )
+            })
+        } else {
+            return '';
+        }
     }
 
     renderDistributionDetails() {
@@ -287,7 +336,7 @@ class Metadata extends Component {
         return hasReferenceSystems ? (
             <div>
                 <h3>{this.props.getResource('ReferenceSystems', 'Romlig referansesystem')}:</h3>
-                {referenceSystemList}
+                <ul className={style.defaultList}>{referenceSystemList}</ul>
             </div>
         ) : '';
     }
@@ -382,10 +431,10 @@ class Metadata extends Component {
     renderOrderingInstructions() {
         return this.props.metadata && this.props.metadata.OrderingInstructions ? (
             <div>
-              <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">{this.props.metadata.OrderingInstructionsLinkText}</a>
-              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Availability ? <div> {this.props.metadata.QuantitativeResult.Availability} </div> :""}
-              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Capacity ? <div> {this.props.metadata.QuantitativeResult.Capacity} </div> :""}
-              {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Performance ? <div> {this.props.metadata.QuantitativeResult.Performance} </div> :""}
+                <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">{this.props.metadata.OrderingInstructionsLinkText}</a>
+                {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Availability ? <div> {this.props.metadata.QuantitativeResult.Availability} </div> : ""}
+                {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Capacity ? <div> {this.props.metadata.QuantitativeResult.Capacity} </div> : ""}
+                {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Performance ? <div> {this.props.metadata.QuantitativeResult.Performance} </div> : ""}
             </div>
         ) : ''
     }
@@ -453,14 +502,14 @@ class Metadata extends Component {
         const keywordsPlaceList = hasKeywordsPlace && this.props.metadata.KeywordsPlace.map((keywordPlace, index) => {
             return (
                 <li key={index}>
-                    {this.props.selectedLangLanguage === "en" && keywordPlace.EnglishKeyword && keywordPlace.EnglishKeyword.length ? keywordPlace.EnglishKeyword : keywordPlace.KeywordValue}
+                    {this.props.selectedLanguage === "en" && keywordPlace.EnglishKeyword && keywordPlace.EnglishKeyword.length ? keywordPlace.EnglishKeyword : keywordPlace.KeywordValue}
                 </li>
             )
         });
         return hasKeywordsPlace ? (
             <div>
                 <h3>{this.props.getResource('KeywordsPlace', 'Geografisk område')}:</h3>
-                {keywordsPlaceList}
+                <ul className={style.defaultList}>{keywordsPlaceList}</ul>
             </div>
         ) : '';
     }
@@ -469,7 +518,7 @@ class Metadata extends Component {
         return this.props.metadata.BoundingBox ? (
             <div>
                 <h3>{this.props.getResource('BoundingBox', 'Geografisk utstrekning')}:</h3>
-                <ul>
+                <ul className={style.defaultList}>
                     <li>{this.props.getResource('North', 'Nord')}: {this.props.metadata.BoundingBox.NorthBoundLatitude}</li>
                     <li>{this.props.getResource('South', 'Sør')}: {this.props.metadata.BoundingBox.SouthBoundLatitude}</li>
                     <li>{this.props.getResource('East', 'Øst')}: {this.props.metadata.BoundingBox.EastBoundLongitude}</li>
@@ -484,14 +533,14 @@ class Metadata extends Component {
         const keywordsThemeList = hasKeywordsTheme && this.props.metadata.KeywordsTheme.map((keywordTheme, index) => {
             return (
                 <li key={index}>
-                    {this.props.selectedLangLanguage === "en" && keywordTheme.EnglishKeyword && keywordTheme.EnglishKeyword.length ? keywordTheme.EnglishKeyword : keywordTheme.KeywordValue}
+                    {this.props.selectedLanguage === "en" && keywordTheme.EnglishKeyword && keywordTheme.EnglishKeyword.length ? keywordTheme.EnglishKeyword : keywordTheme.KeywordValue}
                 </li>
             )
         });
         return hasKeywordsTheme ? (
             <div>
                 <h3>{this.props.getResource('Facet_theme', 'Tema')}:</h3>
-                {keywordsThemeList}
+                <ul className={style.defaultList}>{keywordsThemeList}</ul>
             </div>
         ) : '';
     }
@@ -501,14 +550,14 @@ class Metadata extends Component {
         const keywordsNationalThemeList = hasKeywordsNationalTheme && this.props.metadata.KeywordsNationalTheme.map((keywordNationalTheme, index) => {
             return (
                 <li key={index}>
-                     {this.props.selectedLangLanguage === "en" && keywordNationalTheme.EnglishKeyword && keywordNationalTheme.EnglishKeyword.length ? keywordNationalTheme.EnglishKeyword : keywordNationalTheme.KeywordValue}
+                    {this.props.selectedLanguage === "en" && keywordNationalTheme.EnglishKeyword && keywordNationalTheme.EnglishKeyword.length ? keywordNationalTheme.EnglishKeyword : keywordNationalTheme.KeywordValue}
                 </li>
             )
         });
         return hasKeywordsNationalTheme ? (
             <div>
                 <h3>{this.props.getResource('KeywordsNationalTheme', 'Nasjonale tema')}:</h3>
-                {keywordsNationalThemeList}
+                <ul className={style.defaultList}>{keywordsNationalThemeList}</ul>
             </div>
         ) : '';
     }
@@ -518,14 +567,14 @@ class Metadata extends Component {
         const keywordsNationalInitiativeList = hasKeywordsNationalInitiative && this.props.metadata.KeywordsNationalInitiative.map((keywordNationalInitiative, index) => {
             return (
                 <li key={index}>
-                    {this.props.selectedLangLanguage === "en" && keywordNationalInitiative.EnglishKeyword && keywordNationalInitiative.EnglishKeyword.length ? keywordNationalInitiative.EnglishKeyword : keywordNationalInitiative.KeywordValue}
+                    {this.props.selectedLanguage === "en" && keywordNationalInitiative.EnglishKeyword && keywordNationalInitiative.EnglishKeyword.length ? keywordNationalInitiative.EnglishKeyword : keywordNationalInitiative.KeywordValue}
                 </li>
             )
         });
         return hasKeywordsNationalInitiative ? (
             <div>
                 <h3>{this.props.getResource('Facet_nationalinitiative', 'Samarbeid og lover')}:</h3>
-                {keywordsNationalInitiativeList}
+                <ul className={style.defaultList}>{keywordsNationalInitiativeList}</ul>
             </div>
         ) : '';
     }
@@ -542,7 +591,7 @@ class Metadata extends Component {
         return hasKeywordsInspire ? (
             <div>
                 <h3>Inspire:</h3>
-                {keywordsInspireList}
+                <ul className={style.defaultList}>{keywordsInspireList}</ul>
             </div>
         ) : '';
     }
@@ -559,7 +608,7 @@ class Metadata extends Component {
         return hasKeywordsConcept ? (
             <div>
                 <strong>{this.props.getResource('Concept', 'Begreper')}:</strong>
-                {keywordsConceptList}
+                <ul className={style.defaultList}>{keywordsConceptList}</ul>
             </div>
         ) : '';
     }
@@ -576,7 +625,7 @@ class Metadata extends Component {
         return hasKeywordsInspirePriorityDataset ? (
             <div>
                 <strong>{this.props.getResource('EuPriorityDataset', 'EU - prioriterte datasett')}:</strong>
-                {keywordsInspirePriorityDatasetList}
+                <ul className={style.defaultList}>{keywordsInspirePriorityDatasetList}</ul>
             </div>
         ) : '';
     }
@@ -593,7 +642,7 @@ class Metadata extends Component {
         return hasKeywordsInspire ? (
             <div>
                 <strong>{this.props.getResource('Metadata_KeywordsInspire_Label', 'Inspire kategorier')}:</strong>
-                {keywordsInspireList}
+                <ul className={style.defaultList}>{keywordsInspireList}</ul>
             </div>
         ) : '';
     }
@@ -603,14 +652,14 @@ class Metadata extends Component {
         const keywordsOtherList = hasKeywordsOther && this.props.metadata.KeywordsOther.map((keywordOther, index) => {
             return (
                 <li key={index}>
-                    {this.props.selectedLangLanguage === "en" && keywordOther.EnglishKeyword && keywordOther.EnglishKeyword.length ? keywordOther.EnglishKeyword : keywordOther.KeywordValue}
+                    {this.props.selectedLanguage === "en" && keywordOther.EnglishKeyword && keywordOther.EnglishKeyword.length ? keywordOther.EnglishKeyword : keywordOther.KeywordValue}
                 </li>
             )
         });
         return hasKeywordsOther ? (
             <div>
                 <strong>{this.props.getResource('Metadata_KeywordsOther_Label', 'Ukategoriserte nøkkelord')}:</strong>
-                {keywordsOtherList}
+                <ul className={style.defaultList}>{keywordsOtherList}</ul>
             </div>
         ) : '';
     }
@@ -625,17 +674,17 @@ class Metadata extends Component {
                     </a>
                 </li>
             ) : (
-                    <li key={index}>
-                        <span>
-                            {keywordAdministrativeUnits.KeywordValue}
-                        </span>
-                    </li>
-                )
+                <li key={index}>
+                    <span>
+                        {keywordAdministrativeUnits.KeywordValue}
+                    </span>
+                </li>
+            )
         });
         return hasKeywordsAdministrativeUnits ? (
             <div>
                 <h3>{this.props.getResource('KeywordsAdministrativeUnits', 'Administrative enheter')}:</h3>
-                {keywordsAdministrativeUnitsList}
+                <ul className={style.defaultList}>{keywordsAdministrativeUnitsList}</ul>
             </div>
         ) : '';
     }
@@ -803,15 +852,13 @@ class Metadata extends Component {
     }
 
     renderDistributionSection() {
-        const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionFormats() || this.renderDistributionDetails() || this.renderUnitsOfDistribution() || this.renderReferenceSystems();
+        const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionsFormats() || this.renderReferenceSystems();
+
         return hasChildren ? (
             <div>
                 <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
                 {this.renderSpatialRepresentation()}
-                {this.renderDistributionFormats()}
-                {this.renderDistributionDetails()}
-                {this.renderDistributionUrl()}
-                {this.renderUnitsOfDistribution()}
+                {this.renderDistributionsFormats()}
                 {this.renderReferenceSystems()}
             </div>
         ) : '';
@@ -858,13 +905,13 @@ class Metadata extends Component {
 
     renderGeneral() {
         const hasChildren = this.renderDatasetLanguage() || this.renderResourceReferenceCodespace() || this.renderResourceReferenceCode();
-         return hasChildren ? (
+        return hasChildren ? (
             <div>
                 {this.renderDatasetLanguage()}
                 {this.renderResourceReferenceCodespace()}
                 {this.renderResourceReferenceCode()}
             </div>
-         ): '';
+        ) : '';
     }
 
     renderQualitySpecificationsSection() {
@@ -941,14 +988,14 @@ class Metadata extends Component {
             <div>
                 <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
                 <div className={style.keywordContainer}>
-                {this.renderKeywordsTheme()}
-                {this.renderKeywordsNationalTheme()}
-                {this.renderKeywordsNationalInitiative()}
-                {this.renderTopicCategory()}
-                {this.renderKeywordsConcept()}
-                {this.renderKeywordsInspirePriorityDataset()}
-                {this.renderKeywordsInspireCategory()}
-                {this.renderKeywordsOther()}
+                    {this.renderKeywordsTheme()}
+                    {this.renderKeywordsNationalTheme()}
+                    {this.renderKeywordsNationalInitiative()}
+                    {this.renderTopicCategory()}
+                    {this.renderKeywordsConcept()}
+                    {this.renderKeywordsInspirePriorityDataset()}
+                    {this.renderKeywordsInspireCategory()}
+                    {this.renderKeywordsOther()}
                 </div>
             </div>
         ) : '';
@@ -959,18 +1006,17 @@ class Metadata extends Component {
             return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail" || thumbnail.Type === "miniatyrbilde"
         });
         let thumbnail = '';
-        if(thumbnailList !== undefined && thumbnailList.length)
-        {
+        if (thumbnailList !== undefined && thumbnailList.length) {
             thumbnailList.sort((a, b) => (a.Type > b.Type) ? 1 : -1)
             thumbnail = <div key="0"><img src={thumbnailList[0].URL} alt={this.getTitle() + ' illustrasjon'} title={this.getTitle() + ' illustrasjon'} />
-        </div>
+            </div>
         }
 
         return thumbnail;
     }
 
     renderMetaDescription(description) {
-        if (description){
+        if (description) {
             const ellipsis = description.length > 155 ? '...' : '';
             return `${description.trim().slice(0, 155)}${ellipsis}`;
         }
@@ -979,32 +1025,50 @@ class Metadata extends Component {
         }
     }
 
-    getPageTitle(){
-      if (this.getTitle()){
-        return this.getTitle();
-      }else if (this.props.match.params.title){
-        return convertUrlSlugToText(this.props.match.params.title);
-      }else {
-        return '';
-      }
+    getPageTitle() {
+        if (this.getTitle()) {
+            return this.getTitle();
+        } else if (this.props.match.params.title) {
+            return convertUrlSlugToText(this.props.match.params.title);
+        } else {
+            return '';
+        }
     }
 
     renderType() {
-        if(this.props.metadata.Type) {
+        if (this.props.metadata.Type) {
             return <strong>Type: {this.props.metadata.TypeTranslated}</strong>;
         }
     }
 
-    renderCanonicalTags(){
-      let canonicalTagElements = [];
-      if (this.props.match.params.uuid){
-        canonicalTagElements.push(<link rel="canonical" key='paramsTitle' href={`${document.location.origin}/metadata/${this.props.match.params.uuid}`} />);
-      }
-      if (this.props.metadata && this.props.metadata.Title){
-        canonicalTagElements.push(<link rel="canonical" key='metadataTitle' href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} />);
-      }
-      canonicalTagElements.push(<link rel="canonical" key='paramsTitle' href={`${document.location.origin}/metadata/uuid/${this.props.match.params.uuid}`} />);
-      return canonicalTagElements;
+    renderCanonicalTags() {
+        let canonicalTagElements = [];
+        if (this.props.match.params.uuid && this.props.metadata && this.props.metadata.Title) {
+            canonicalTagElements.push(<link rel="canonical" key="canonicalTag" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} />);
+            canonicalTagElements.push(<link rel="alternate" key="norwegianUrl" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} hrefLang="no" />);
+            canonicalTagElements.push(<link rel="alternate" key="englishUrl" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} hrefLang="en" />);
+            canonicalTagElements.push(<link rel="alternate" key="defaultUrl" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} hrefLang="x-default" />);
+        }
+        return canonicalTagElements;
+    }
+
+    renderOpenGraphTags() {
+        let openGraphTagElements = [];
+        openGraphTagElements.push(<meta property="og:title" key="ogTitle" content={`${this.getPageTitle()} - Kartkatalogen`} />);
+        openGraphTagElements.push(<meta property="og:description" key="ogDescription" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />);
+        openGraphTagElements.push(<meta property="og:locale" key="ogLocale" content={this.props.selectedLanguage === 'en' ? 'en_US' : 'en_NO'} />);
+
+        if (this.props.match.params.uuid && this.props.metadata && this.props.metadata.Title) {
+            openGraphTagElements.push(<meta property="og:url" key="ogUrl" content={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} />);
+        }
+        return openGraphTagElements;
+    }
+
+    renderTwitterTags() {
+        let twitterTagElements = [];
+        twitterTagElements.push(<meta property="twitter:title" key="twitterTitle" content={`${this.getPageTitle()} - Kartkatalogen`} />);
+        twitterTagElements.push(<meta property="twitter:description" key="twitterDescription" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />);
+        return twitterTagElements;
     }
 
     render() {
@@ -1013,99 +1077,101 @@ class Metadata extends Component {
                 <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span>
             </div>
         ) : (
-                <div>
-                    <Helmet>
-                        <title>{this.getPageTitle()} - Kartkatalogen</title>
-                        {this.renderCanonicalTags()}
-                        <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />
-                        <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
-                    </Helmet>
-                    {this.getMetadataLinkedDataSnippet(this.props.metadata)}
-                    <Breadcrumb content={this.getTitle()} />
-                    <div className={style.content}>
+            <div>
+                <Helmet>
+                    <title>{this.getPageTitle()} - Kartkatalogen</title>
+                    {this.renderCanonicalTags()}
+                    <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />
+                    <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
+                    {this.renderOpenGraphTags()}
+                    {this.renderTwitterTags()}
+                </Helmet>
+                {this.getMetadataLinkedDataSnippet(this.props.metadata)}
+                <Breadcrumb content={this.getTitle()} />
+                <div className={style.content}>
 
 
-                        <h1>{this.getTitle()}</h1>
-                        <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
-                        <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
-                            <div className={style.btns}>
+                    <h1>{this.getTitle()}</h1>
+                    <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
+                    <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
+                        <div className={style.btns}>
 
-                                <ErrorBoundary>
-                                    <MapButton listButton={false} metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <DownloadButton listButton={false} metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <ShowCoverageButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <HelpButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <ContactOwnerButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <ProductSheetButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <ProductSpecificationButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <LegendDescriptionButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <ApplicationButton listButton={false} metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <ProductPageButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <DownloadXmlButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
-                                <ErrorBoundary>
-                                    <EditMetadataButton metadata={this.props.metadata} />
-                                </ErrorBoundary>
+                            <ErrorBoundary>
+                                <MapButton listButton={false} metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <DownloadButton listButton={false} metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ShowCoverageButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <HelpButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ContactOwnerButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ProductSheetButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ProductSpecificationButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <LegendDescriptionButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ApplicationButton listButton={false} metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ProductPageButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <DownloadXmlButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <EditMetadataButton metadata={this.props.metadata} />
+                            </ErrorBoundary>
 
-                            </div>
-                        </div>
-                        <div className={style.flex}>
-                          <div className={style.textContent}>
-                            <div>{this.renderType()}</div>
-                            <p>{this.getAbstract()}</p>
-                          </div>
-                          <div className={style.thumbnailContent}>
-                            {this.renderThumbnail()}
-                          </div>
-                        </div>
-
-                        {this.renderSpecificUsageSection()}
-                        {this.renderDistributionsListSection()}
-                        <div className={style.flex2}>
-                            {this.renderDistributionSection()}
-                            {this.renderConstraintsSection()}
-                        </div>
-
-                        {this.renderContactSection()}
-
-                        {this.renderSupplementalDescriptionSection()}
-
-                        <div className={style.opendetails} onClick={() => this.toggleExpand()}>
-                            <h2>{this.props.getResource('DetailedInformation', 'Detaljert informasjon')}
-                                <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}`} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
-                        <div className={this.state.expanded ? style.open : style.closed}>
-                            {this.renderGeneral()}
-                            <div className={style.flex}>
-                                {this.renderQualitySection()}
-                                {this.renderTimeAndSpaceSection()}
-                                {this.renderKeywordsSection()}
-                            </div>
-                            {this.renderQualitySpecificationsSection()}
-                            {this.renderPurposeSection()}
                         </div>
                     </div>
+                    <div className={style.flex}>
+                        <div className={style.textContent}>
+                            <div>{this.renderType()}</div>
+                            <p>{this.getAbstract()}</p>
+                        </div>
+                        <div className={style.thumbnailContent}>
+                            {this.renderThumbnail()}
+                        </div>
+                    </div>
+
+                    {this.renderSpecificUsageSection()}
+                    {this.renderDistributionsListSection()}
+                    <div className={style.flex2}>
+                        {this.renderDistributionSection()}
+                        {this.renderConstraintsSection()}
+                    </div>
+
+                    {this.renderContactSection()}
+
+                    {this.renderSupplementalDescriptionSection()}
+
+                    <div className={style.opendetails} onClick={() => this.toggleExpand()}>
+                        <h2>{this.props.getResource('DetailedInformation', 'Detaljert informasjon')}
+                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}`} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
+                    <div className={this.state.expanded ? style.open : style.closed}>
+                        {this.renderGeneral()}
+                        <div className={style.flex}>
+                            {this.renderQualitySection()}
+                            {this.renderTimeAndSpaceSection()}
+                            {this.renderKeywordsSection()}
+                        </div>
+                        {this.renderQualitySpecificationsSection()}
+                        {this.renderPurposeSection()}
+                    </div>
                 </div>
-            )
+            </div>
+        )
     }
 }
 

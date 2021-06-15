@@ -34,7 +34,7 @@ export class Footer extends Component {
 					{this.getBuildNumber()}
 				</div>
 				<div className={style.about}>
-					<h3>{this.props.getResource('AboutTheSite', 'Om nettstedet')}</h3>
+					<h2 className={style.heading}>{this.props.getResource('AboutTheSite', 'Om nettstedet')}</h2>
 					<p>
 						<a href="https://www.geonorge.no/aktuelt/om-geonorge/">
 							{this.props.getResource('AboutGeonorge', 'Om Geonorge')}
@@ -47,7 +47,7 @@ export class Footer extends Component {
 					</p>
 				</div>
 				<div className={style.contact}>
-					<h3>{this.props.getResource('ContactUs', 'Kontakt')}</h3>
+					<h2 className={style.heading}>{this.props.getResource('ContactUs', 'Kontakt')}</h2>
 					<p>{this.props.getResource('Telephone', 'Telefon')}: 32 11 80 00</p>
 					<p>post@norgedigitalt.no</p>
 					<p>{this.props.getResource('OrgNo', 'Org. nr.')}: 971 040 238</p>

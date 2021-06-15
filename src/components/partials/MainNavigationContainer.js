@@ -95,6 +95,7 @@ export class MainNavigationContainer extends Component {
   }
 
   handleSubmitSearch(searchString) {
+    searchString = searchString.toString();
     searchString = searchString.replace(/[^a-å0-9- ]+/ig, ""); // Removes unwanted characters
     searchString = searchString.replace(/\s\s+/g, ' '); // Remove redundant whitespace
     if (searchString.length > 1) {
@@ -105,7 +106,7 @@ export class MainNavigationContainer extends Component {
   }
 
   handleChangeSearchResultsType(searchResultsType) {
-    let searchString = this.props.searchString;
+    let searchString = this.props.searchString.toString();
     searchString = searchString.replace(/[^a-å0-9- ]+/ig, ""); // Removes unwanted characters
     searchString = searchString.replace(/\s\s+/g, ' '); // Remove redundant whitespace
     const searchStringParameter = searchString && searchString.length ? `?text=${searchString}` : '';

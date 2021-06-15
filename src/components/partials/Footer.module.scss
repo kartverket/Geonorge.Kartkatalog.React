@@ -25,6 +25,10 @@
       }
     }
 
+    :local(.heading) {
+      font-size: 1.75rem;
+    }
+
     &:local(.about) {
       width: 100%;
       @include breakpoint(tablet) {

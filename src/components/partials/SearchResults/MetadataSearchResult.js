@@ -52,40 +52,37 @@ class MetadataSearchResult extends Component {
   }
 
   renderButtons() {
-    var buttonsElement = [];
-    if (this.props.visibleFields.includes('DownloadButton')) {
-      buttonsElement.push(
-        <span key="DownloadButton">
-          <ErrorBoundary>
-            <DownloadButton metadata={this.props.searchResult}></DownloadButton>
-          </ErrorBoundary>
-        </span>
-      );
-    }
-    if (this.props.visibleFields.includes('MapButton')) {
-      buttonsElement.push(
-        <span key="MapButton">
-          <ErrorBoundary>
-            <MapButton metadata={this.props.searchResult}></MapButton>
-          </ErrorBoundary>
-        </span>
-      );
-    }
-    if (this.props.visibleFields.includes('ApplicationButton')) {
-      buttonsElement.push(
-        <span key="ApplicationButton">
-          <ErrorBoundary>
-            <ApplicationButton metadata={this.props.searchResult}></ApplicationButton>
-          </ErrorBoundary>
-        </span>
-      );
-    }
-    return buttonsElement.length
+    const downloadButtonElement = this.props.visibleFields?.includes('DownloadButton')
       ? (
-        <div className={style.btnContainer}>
-          {buttonsElement}
-        </div>
-      ) : '';
+        <ErrorBoundary>
+          <DownloadButton metadata={this.props.searchResult}></DownloadButton>
+        </ErrorBoundary>
+      )
+      : '';
+
+    const mapButtonElement = this.props.visibleFields?.includes('MapButton')
+      ? (
+        <ErrorBoundary>
+          <MapButton metadata={this.props.searchResult}></MapButton>
+        </ErrorBoundary>
+      )
+      : '';
+
+    const applicationButtonElement = this.props.visibleFields?.includes('ApplicationButton')
+      ? (
+        <ErrorBoundary>
+          <ApplicationButton metadata={this.props.searchResult}></ApplicationButton>
+        </ErrorBoundary>
+      )
+      : '';
+
+    return (
+      <div className={style.buttonGroupContainer}>
+        <div className={style.buttonContainer}>{applicationButtonElement}</div>
+        <div className={style.buttonContainer}>{mapButtonElement}</div>
+        <div className={style.buttonContainer}>{downloadButtonElement}</div>
+      </div>
+    );
   }
 
   renderDistributionFormats() {
@@ -125,24 +122,26 @@ class MetadataSearchResult extends Component {
     )
   }
 
-  renderLink(){
+  renderLink() {
     return this.props.metadata && this.props.metadata.Uuid === this.props.searchResult.Uuid
-    ? (<span>{this.props.searchResult.Title}</span>)
-    : (<Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link>);
+      ? (<span>{this.props.searchResult.Title}</span>)
+      : (<Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link>);
 
   }
 
-  renderCopyUrl() {    
-    
-    if(this.props.searchResult.Type === 'service' || this.props.searchResult.Type === 'Tjeneste') {      
+  renderCopyUrl() {
+
+    if ((this.props.searchResult.Type === 'service' || this.props.searchResult.Type === 'Tjeneste')
+        && this.props.searchResult.GetCapabilitiesUrl !== undefined )
+     {
       return (
-        <ErrorBoundary>                 
-            <CopyToClipboard onCopy={() => this.setState({copied: true})} text={this.props.searchResult.GetCapabilitiesUrl}>
-              <span title={this.props.searchResult.GetCapabilitiesUrl} className={style.url}>Kopier lenke <FontAwesomeIcon icon={['far', 'copy']} /> {this.state.copied ? <span>Lenke kopiert til utklippstavle</span> : null}</span>
-          </CopyToClipboard>          
+        <ErrorBoundary>
+          <CopyToClipboard onCopy={() => this.setState({ copied: true })} text={this.props.searchResult.GetCapabilitiesUrl}>
+            <span title={this.props.searchResult.GetCapabilitiesUrl} className={style.url}>Kopier lenke <FontAwesomeIcon icon={['far', 'copy']} /> {this.state.copied ? <span>Lenke kopiert til utklippstavle</span> : null}</span>
+          </CopyToClipboard>
         </ErrorBoundary>
-        
-        )
+
+      )
     }
     return
   }
@@ -156,7 +155,7 @@ class MetadataSearchResult extends Component {
               {this.renderLink()}
             </ErrorBoundary>
           </span>
-          {this.renderListItemInfo()}                    
+          {this.renderListItemInfo()}
           <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
           {this.renderCopyUrl()}
         </div>

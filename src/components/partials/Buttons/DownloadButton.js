@@ -128,7 +128,7 @@ export class DownloadButton extends Component {
       const protocol = this.props.metadata.Protocol;
 
       const typeIsDataset = type === 'dataset' || type === 'Datasett';
-      const distributionProtocolIsDownload = distributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' || distributionProtocol === 'GEONORGE:FILEDOWNLOAD' || protocol === 'Egen nedlastningsside';
+      const distributionProtocolIsDownload = distributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' || distributionProtocol === 'GEONORGE:FILEDOWNLOAD' || protocol === 'Egen nedlastningsside' || protocol === 'OPeNDAP' || distributionProtocol === 'OPENDAP:OPENDAP';
 
       return distributionUrl && typeIsDataset && distributionProtocolIsDownload;
     }

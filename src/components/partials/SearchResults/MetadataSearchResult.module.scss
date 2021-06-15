@@ -1,4 +1,4 @@
-@import '../../../scss/abstracts/all';
+@import "../../../scss/abstracts/all";
 
 :local(.listItem) {
 	line-height: 1.6;
@@ -18,7 +18,7 @@
 		flex: 1;
 	}
 	:local(.url) {
-		font-size: .8em;
+		font-size: 0.8em;
 		&:hover {
 			cursor: pointer;
 		}
@@ -67,9 +67,17 @@
 		}
 	}
 
-	:local(.btnContainer) {
+	:local(.buttonGroupContainer) {
 		display: flex;
 		justify-content: flex-end;
+		:local(.buttonContainer) {
+			&:not(:first-of-type) {
+				width: 100px;
+				@include breakpoint(tablet) {
+					width: 140px;
+				}
+			}
+		}
 	}
 
 	:local(.formatsContainer) {
