@@ -14,7 +14,7 @@ export class Footer extends Component {
 		const isMapRoute = this.props.router?.location?.pathname === "/kart";
 		return !isMapRoute ? (
 			<React.Fragment>
-				<geonorge-footer language={this.props.selectedLanguage} environment={this.props.environment?.environment} version={this.props.environment.buildNumber} />
+				<geonorge-footer language={this.props.selectedLanguage} environment={this.props.environment?.environment} version={this.props.environment?.buildNumber} />
 			</React.Fragment>
 		) : ''
 	}
