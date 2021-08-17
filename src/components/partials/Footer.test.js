@@ -18,12 +18,6 @@ function setup() {
 describe('Footer', () => {
     it('should render self and subcomponents', () => {
         const {wrapper} = setup();
-        expect(wrapper.hasClass(style.container)).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
-
-    it('should include 2 images', () => {
-        const {wrapper} = setup();
-        expect(wrapper.find('img').length).toBe(2);
-    })
 });

@@ -1,19 +1,19 @@
 // Dependencies
-import React, {Component} from 'react';
-import {Provider} from 'react-redux';
-import {OidcProvider} from 'redux-oidc';
-import {Route, Switch} from 'react-router';
-import {ConnectedRouter} from 'connected-react-router';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { OidcProvider } from 'redux-oidc';
+import { Route, Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 import { Helmet } from 'react-helmet';
 
 // Utils
-import configureStore, {history} from 'utils/configureStore';
+import configureStore, { history } from 'utils/configureStore';
 import userManager from 'utils/userManager';
 
 // Actions
-import {fetchResources} from 'actions/ResourceActions';
-import {fetchSelectedLanguage} from 'actions/SelectedLanguageActions';
-import {getEnvironment} from 'actions/EnvironmentActions';
+import { fetchResources } from 'actions/ResourceActions';
+import { fetchSelectedLanguage } from 'actions/SelectedLanguageActions';
+import { getEnvironment } from 'actions/EnvironmentActions';
 import { fetchAvailableWFSServiceStatuses, fetchAvailableWMSServiceStatuses } from 'actions/ServiceStatusActions';
 
 // Components
@@ -58,23 +58,21 @@ class App extends Component {
             <div className={style.pageContent}>
               <div className={style.container}>
                 <Switch>
-                  <Route exact path="/" render={() => (<Home/>)}/>
-                  <Route exact path="/search" render={() => (<Home/>)}/>
-                  <Route exact path="/signin-oidc" render={() => (<OidcCallback/>)}/>
-                  <Route exact path="/signout-callback-oidc" render={() => (<OidcSignoutCallback/>)}/>
-                  <Route exact path="/kart" render={() => (<MapContainer/>)}/>
-                  <Route exact path="/metadata/:organizaton/:title/:uuid" render={(props) => (<Metadata {...props}/>)}/>
-                  <Route exact path="/metadata/:title/:uuid" render={(props) => (<Metadata {...props}/>)}/>
-                  <Route exact path="/metadata/:uuid" render={(props) => (<Metadata {...props}/>)}/>
-                  <Route exact path="/:category" render={(props) => (<Home {...props}/>)}/>
+                  <Route exact path="/" render={() => (<Home />)} />
+                  <Route exact path="/search" render={() => (<Home />)} />
+                  <Route exact path="/signin-oidc" render={() => (<OidcCallback />)} />
+                  <Route exact path="/signout-callback-oidc" render={() => (<OidcSignoutCallback />)} />
+                  <Route exact path="/kart" render={() => (<MapContainer />)} />
+                  <Route exact path="/metadata/:organizaton/:title/:uuid" render={(props) => (<Metadata {...props} />)} />
+                  <Route exact path="/metadata/:title/:uuid" render={(props) => (<Metadata {...props} />)} />
+                  <Route exact path="/metadata/:uuid" render={(props) => (<Metadata {...props} />)} />
+                  <Route exact path="/:category" render={(props) => (<Home {...props} />)} />
                   <Route key={"/shell.html"} path="/shell.html" component={() => null} />
                   <Route key={"/404.html"} component={NotFound} />
-                  <Route render={() => (<NotFound />)}/>
+                  <Route render={() => (<NotFound />)} />
                 </Switch>
               </div>
-              <footer className={style.footer}>
-                <Footer/>
-              </footer>
+              <Footer />
             </div>
           </div>
         </ConnectedRouter>
