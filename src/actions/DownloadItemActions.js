@@ -1,5 +1,5 @@
 // Dependencies
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 // Actions
 import {FETCH_ITEMS_TO_DOWNLOAD} from 'actions/types';

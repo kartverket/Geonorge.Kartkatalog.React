@@ -1,5 +1,5 @@
 // Dependencies
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

@@ -1,5 +1,5 @@
 import {UPDATE_BAAT_INFO} from 'actions/types';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import {pushToDataLayer} from 'reducers/TagManagerReducer';
 
 export const updateOidcCookie = () => (dispatch, getState) => {
