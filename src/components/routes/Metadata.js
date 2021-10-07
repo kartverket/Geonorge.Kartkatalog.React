@@ -254,10 +254,10 @@ class Metadata extends Component {
     renderDistributionsFormats() {
         const distributionsFormats = this.props.metadata && this.props.metadata.DistributionsFormats ? this.props.metadata.DistributionsFormats : null;
         if (distributionsFormats) {
-            const protocols = distributionsFormats.map(item => item.Protocol).filter((value, index, self) => self.indexOf(value) === index);
-            return protocols.map(protocol => {
+            const urls = distributionsFormats.map(item => item.URL).filter((value, index, self) => self.indexOf(value) === index);
+            return urls.map(url => {
                 const protocolFormats = distributionsFormats.filter(distribution => {
-                    return distribution.Protocol == protocol;
+                    return distribution.URL == url;
                 });
                 const protocolFormatElements = protocolFormats.map(protocolFormat => {
                     return (<li key={`${protocolFormat.FormatName}-${protocolFormat.FormatVersion}`}>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</li>)
