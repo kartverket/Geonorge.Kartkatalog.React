@@ -13,7 +13,7 @@ export const fetchAvailableWFSServiceStatuses = () => dispatch => {
     }
   };
   const serviceStatusApi = dispatch(getServiceStatusApiUrl());
-  return fetch(`${serviceStatusApi}/services?servicetype=WFS`, fetchOptions)
+  return fetch(`${serviceStatusApi}/serviceList?servicetype=WFS`, fetchOptions)
     .then(res => res.json())
     .then(resources => dispatch({
       type: FETCH_AVAILABLE_WFS_SERVICE_STATUSES,
@@ -24,7 +24,7 @@ export const fetchAvailableWFSServiceStatuses = () => dispatch => {
 
 export const fetchAvailableWMSServiceStatuses = () => dispatch => {
   const serviceStatusApi = dispatch(getServiceStatusApiUrl());
-  return fetch(`${serviceStatusApi}/services?servicetype=WMS`)
+  return fetch(`${serviceStatusApi}/serviceList?servicetype=WMS`)
     .then(res => res.json())
     .then(resources => dispatch({
       type: FETCH_AVAILABLE_WMS_SERVICE_STATUSES,
