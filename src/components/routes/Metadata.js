@@ -1138,7 +1138,7 @@ class Metadata extends Component {
                     <div className={style.flex}>
                         <div className={style.textContent}>
                             <div>{this.renderType()}</div>
-                            <p>{this.getAbstract()}</p>
+                            <p style={{whiteSpace: "pre" }}>{this.getAbstract()}</p>
                         </div>
                         <div className={style.thumbnailContent}>
                             {this.renderThumbnail()}
