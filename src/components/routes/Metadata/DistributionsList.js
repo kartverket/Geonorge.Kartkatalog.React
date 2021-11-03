@@ -12,6 +12,13 @@ import style from "components/routes/Metadata/DistributionsList.module.scss";
 
 class DistributionsList extends Component {
     render() {
+        if(this.props.distributions[0] === undefined)
+        {
+            return (
+                <div>Ingen distribusjoner funnet</div>
+            );
+        }
+
         let typeName = "";
         let serie = this.props.distributions[0].Serie;
           if(serie !== undefined){

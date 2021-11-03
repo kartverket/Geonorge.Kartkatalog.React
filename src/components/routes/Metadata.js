@@ -77,8 +77,6 @@ class Metadata extends Component {
         e.preventDefault();
         var dateStart = moment(this.state.startDate).format('YYYY-MM-DD')
         var dateEnd = moment(this.state.endDate).format('YYYY-MM-DD')
-        console.log(dateStart);
-        console.log(dateEnd);
         this.props.fetchMetadataDistributions(this.props.match.params.uuid, dateStart, dateEnd);
       }
 
@@ -786,7 +784,7 @@ class Metadata extends Component {
                 </ErrorBoundary>
             </div>
         ) : '';
-        const relatedSerieDatasetsList = hasRelatedSerieDatasets && showRelatedSerieDatasets ? (
+        const relatedSerieDatasetsList = (hasRelatedSerieDatasets && showRelatedSerieDatasets) ||  this.props.metadata.TypeName == "series_time"? (
             <div>
                 <h3>{this.props.getResource('Facet_type_seriedatasets', 'Datasett som inngår i datasettserien')}</h3>
                 <form onSubmit={ this.handleSubmit }>
