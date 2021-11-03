@@ -787,8 +787,8 @@ class Metadata extends Component {
         const relatedSerieDatasetsList = (hasRelatedSerieDatasets && showRelatedSerieDatasets) ||  this.props.metadata.TypeName == "series_time"? (
             <div>
                 <h3>{this.props.getResource('Facet_type_seriedatasets', 'Datasett som inngår i datasettserien')}</h3>
-                <form onSubmit={ this.handleSubmit }>
-                    <div className="form-group">
+                <form className="form-inline" onSubmit={ this.handleSubmit }>
+                    <div className="input-group">
                         <label>Dato fra: </label>
                         <DatePicker
                         autoComplete="off"
