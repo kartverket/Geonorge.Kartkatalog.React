@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DatePicker from "react-datepicker";
 
 // Actions
 import { getResource } from 'actions/ResourceActions'
@@ -36,6 +37,14 @@ import Breadcrumb from 'components/partials/Breadcrumb';
 
 // Stylesheets
 import style from "components/routes/Metadata.module.scss";
+import "react-datepicker/dist/react-datepicker.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import nb from 'date-fns/locale/nb';
+registerLocale('nb', nb)
+
+import moment from 'moment'
 
 
 class Metadata extends Component {
@@ -46,7 +55,32 @@ class Metadata extends Component {
             expanded: false,
             showBtns: false
         };
+
+        this.handleStartChange = this.handleStartChange.bind(this);
+        this.handleEndChange = this.handleEndChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    handleStartChange(date) {
+        this.setState({
+          startDate: date
+        })
+      }
+
+      handleEndChange(date) {
+        this.setState({
+          endDate: date
+        })
+      }
+    
+      handleSubmit(e) {
+        e.preventDefault();
+        var dateStart = moment(this.state.startDate).format('YYYY-MM-DD')
+        var dateEnd = moment(this.state.endDate).format('YYYY-MM-DD')
+        console.log(dateStart);
+        console.log(dateEnd);
+        this.props.fetchMetadataDistributions(this.props.match.params.uuid, dateStart, dateEnd);
+      }
 
     getTitle(){
       if (this.props.metadata){
@@ -106,7 +140,7 @@ class Metadata extends Component {
         this.props.clearMetadata();
         this.props.fetchMetadata(this.props.match.params.uuid);
         this.props.clearMetadataDistributions();
-        this.props.fetchMetadataDistributions(this.props.match.params.uuid);
+        this.props.fetchMetadataDistributions(this.props.match.params.uuid,this.props.match.dateStart, this.props.match.dateEnd);
     }
 
     componentDidMount() {
@@ -755,6 +789,34 @@ class Metadata extends Component {
         const relatedSerieDatasetsList = hasRelatedSerieDatasets && showRelatedSerieDatasets ? (
             <div>
                 <h3>{this.props.getResource('Facet_type_seriedatasets', 'Datasett som inngår i datasettserien')}</h3>
+                <form onSubmit={ this.handleSubmit }>
+                    <div className="form-group">
+                        <label>Dato fra: </label>
+                        <DatePicker
+                        autoComplete="off"
+                        selectsStart
+                        startDate= {this.state.startDate}
+                        selected={ this.state.startDate }
+                        onChange={ this.handleStartChange }
+                        name="startDate"
+                        dateFormat="dd.MM.yyyy"
+                        locale="nb"
+                        />
+                        <label>Dato til: </label>
+                        <DatePicker
+                        autoComplete="off"
+                        selectsEnd
+                        endDate= {this.state.endDate}
+                        selected={ this.state.endDate }
+                        onChange={ this.handleEndChange }
+                        name="endDate"
+                        dateFormat="dd.MM.yyyy"
+                        minDate={this.state.startDate}
+                        locale="nb"
+                        />
+                        <button className="btn btn-success">Filtrer</button>
+                    </div>
+                </form>
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedSerieDatasets} />
                 </ErrorBoundary>
@@ -766,7 +828,7 @@ class Metadata extends Component {
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedDatasetSerie} />
                 </ErrorBoundary>
-            </div>
+            </div>       
         ) : '';
         const relatedApplicationsList = hasRelatedApplications && showRelatedApplications ? (
             <div>
