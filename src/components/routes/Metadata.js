@@ -787,6 +787,7 @@ class Metadata extends Component {
         const relatedSerieDatasetsList = (hasRelatedSerieDatasets && showRelatedSerieDatasets) ||  this.props.metadata.TypeName == "series_time"? (
             <div>
                 <h3>{this.props.getResource('Facet_type_seriedatasets', 'Datasett som inngår i datasettserien')}</h3>
+                {this.props.metadata.TypeName == "series_time"? (
                 <form className="form-inline" onSubmit={ this.handleSubmit }>
                     <div className="input-group">
                         <label>Dato fra: </label>
@@ -815,6 +816,7 @@ class Metadata extends Component {
                         <button className="btn btn-success">Filtrer</button>
                     </div>
                 </form>
+                ) : ''}
                 <ErrorBoundary>
                     <DistributionsList distributions={this.props.metadataDistributions.RelatedSerieDatasets} />
                 </ErrorBoundary>
