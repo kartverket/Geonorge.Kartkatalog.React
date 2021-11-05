@@ -24,16 +24,17 @@ class DistributionsList extends Component {
           if(serie !== undefined){
           typeName = serie.TypeName;
         }
-        let distributions;
+        let distributions = this.props.distributions;
         if(typeName === "series_historic" || typeName === 'series_collection')
         distributions = this.props.distributions.sort((a, b) => (a.Title < b.Title) ? 1 : -1);
-        else
+        else if(typeName !== "series_time"){
         distributions = this.props.distributions.sort((a, b) => {
             const compareTitle = a.Title.localeCompare(b.Title);
             const compareProtocol = b.Protocol.localeCompare(a.Protocol);
           
             return compareTitle || compareProtocol;
           })
+        }
         distributions = distributions.map((distribution, i) => {
             return <MetadataSearchResult searchResult={distribution} visibleFields={['Type', 'DownloadButton', 'MapButton', 'ApplicationButton', 'DistributionFormats']} key={i}/>;
         });
