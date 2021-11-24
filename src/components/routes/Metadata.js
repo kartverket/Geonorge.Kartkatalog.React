@@ -790,8 +790,14 @@ class Metadata extends Component {
                 {this.props.metadata.TypeName == "series_time"? (
                 <form className="form-inline" onSubmit={ this.handleSubmit }>
                     <div className="input-group">
+                    <table>
+                        <tr>
+                        <td>
                         <label>Dato fra: </label>
+                        </td>
+                        <td>
                         <DatePicker
+                        style={{ display: "inline" }}
                         autoComplete="off"
                         selectsStart
                         startDate= {this.state.startDate}
@@ -801,8 +807,13 @@ class Metadata extends Component {
                         dateFormat="dd.MM.yyyy"
                         locale="nb"
                         />
+                        </td>
+                        <td>
                         <label>Dato til: </label>
+                        </td>
+                        <td>
                         <DatePicker
+                        style={{ display: "inline" }}
                         autoComplete="off"
                         selectsEnd
                         endDate= {this.state.endDate}
@@ -813,7 +824,12 @@ class Metadata extends Component {
                         minDate={this.state.startDate}
                         locale="nb"
                         />
+                        </td>
+                        <td>
                         <button className="btn btn-success">Filtrer</button>
+                        </td>
+                        </tr>
+                        </table>
                     </div>
                 </form>
                 ) : ''}
