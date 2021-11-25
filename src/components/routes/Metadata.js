@@ -791,6 +791,7 @@ class Metadata extends Component {
                 <form className="form-inline" onSubmit={ this.handleSubmit }>
                     <div className="input-group">
                     <table>
+                        <tbody>
                         <tr>
                         <td>
                         <label>Dato fra: </label>
@@ -826,9 +827,10 @@ class Metadata extends Component {
                         />
                         </td>
                         <td>
-                        <button className="btn btn-success">Filtrer</button>
+                        <button className="btn btn-success">Søk</button>
                         </td>
                         </tr>
+                        </tbody>
                         </table>
                     </div>
                 </form>
