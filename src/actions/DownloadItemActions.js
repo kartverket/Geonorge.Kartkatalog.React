@@ -104,7 +104,7 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
         console.log("adding restricted item");
         dispatch(fetchItemsToDownload())
       } else {
-        alert('Du har ikke tilgang til å legge datasett i til nedlasting');
+        alert('Du har ikke tilgang til å legge datasett til nedlasting');
       }
     }
   }
