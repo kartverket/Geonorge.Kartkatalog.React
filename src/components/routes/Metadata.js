@@ -298,6 +298,25 @@ class Metadata extends Component {
         }
     }
 
+    renderOperations() {
+        const hasOperations = this.props.metadata.Operations && this.props.metadata.Operations.length;
+        const operationsList = hasOperations && this.props.metadata.Operations.map((operation, index) => {
+            return (
+                <li key={index}>
+                    <a href={operation.URL} target="_blank" title={operation.Description}>{operation.Name}</a>
+                </li>
+            )
+        });
+        return hasOperations ? (
+            <div>
+                <h3>Kall som tjenesten tilbyr:</h3>
+                <ul className={style.defaultList}>
+                    {operationsList}
+                </ul>
+            </div>
+        ) : '';
+    }
+
     renderDistributionDetails() {
         const hasProtocolName = this.props.metadata && this.props.metadata.DistributionDetails && this.props.metadata.DistributionDetails.ProtocolName;
         return hasProtocolName ? (
@@ -859,6 +878,7 @@ class Metadata extends Component {
                 <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
                 {this.renderSpatialRepresentation()}
                 {this.renderDistributionsFormats()}
+                {this.renderOperations()}
                 {this.renderReferenceSystems()}
             </div>
         ) : '';
