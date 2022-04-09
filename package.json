@@ -17,7 +17,7 @@
     "customize-cra": "^1.0.0",
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.23",
     "oidc-client": "^1.7.1",
     "r_map": "https://github.com/kartverket/r_map.git",
