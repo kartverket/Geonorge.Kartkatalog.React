@@ -92,6 +92,28 @@ class Metadata extends Component {
       }else return '';
     }
 
+    getAbstractFormatted(){
+        if (this.props.metadata){
+          return this.props.selectedLanguage === 'en' && this.props.metadata.EnglishAbstract ? this.urlify(this.props.metadata.EnglishAbstract) : this.urlify(this.props.metadata.Abstract);
+        }else return '';
+      }
+
+    urlify(text) {
+        console.log(text);
+        if(text){
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.split(urlRegex)
+           .map(part => {
+              if(part.match(urlRegex)) {
+                 return <a href={part}>{part}</a>;
+              }
+              return part;
+           });
+        }
+        else return text;
+        
+      }
+
     getMetadataLinkedDataSnippet(metadata) {
         if (metadata && Object.keys(metadata).length) {
             const snippet = {
@@ -1098,7 +1120,7 @@ class Metadata extends Component {
     renderMetaDescription(description) {
         if (description) {
             const ellipsis = description.length > 155 ? '...' : '';
-            return `${description.trim().slice(0, 155)}${ellipsis}`;
+            return `${description.toString().trim().slice(0, 155)}${ellipsis}`;
         }
         else {
             return '';
@@ -1218,7 +1240,7 @@ class Metadata extends Component {
                     <div className={style.flex}>
                         <div className={style.textContent}>
                             <div>{this.renderType()}</div>
-                            <p style={{whiteSpace: "pre" }}>{this.getAbstract()}</p>
+                            <p style={{whiteSpace: "pre" }}>{this.getAbstractFormatted()}</p>
                         </div>
                         <div className={style.thumbnailContent}>
                             {this.renderThumbnail()}
