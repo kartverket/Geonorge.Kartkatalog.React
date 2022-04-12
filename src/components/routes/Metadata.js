@@ -99,7 +99,6 @@ class Metadata extends Component {
       }
 
     urlify(text) {
-        console.log(text);
         if(text){
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.split(urlRegex)
@@ -477,7 +476,7 @@ class Metadata extends Component {
     renderProcessHistory() {
         return this.props.metadata && this.props.metadata.ProcessHistory ? (
             <div>
-                <strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong>{this.props.metadata.ProcessHistory}
+                <p style={{whiteSpace: "normal"}}><strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong>{this.urlify(this.props.metadata.ProcessHistory)}</p>
             </div>
         ) : ''
     }
@@ -756,7 +755,7 @@ class Metadata extends Component {
             return (
                 <div>
                     <h2>{this.props.getResource('SpecificUsage', 'Bruksområde')}</h2>
-                    <div>{this.props.metadata.SpecificUsage}</div>
+                    <p style={{whiteSpace: "pre" }}>{this.urlify(this.props.metadata.SpecificUsage)}</p>
                 </div>
             )
         }
@@ -986,7 +985,7 @@ class Metadata extends Component {
         return this.props.metadata && (this.props.metadata.SupplementalDescription || this.props.metadata.HelpUrl) ? (
             <div>
                 <h2 id="help-info">{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
-                <p>{this.props.metadata.SupplementalDescription}</p>
+                <p style={{whiteSpace: "pre" }}>{this.urlify(this.props.metadata.SupplementalDescription)}</p>
                 {this.props.metadata.HelpUrl ? <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a> : ""}
             </div>
         ) : ''
@@ -1042,7 +1041,7 @@ class Metadata extends Component {
         return this.props.metadata && this.props.metadata.Purpose ? (
             <div>
                 <h2>{this.props.getResource('Purpose', 'Formål')}</h2>
-                <div>{this.props.metadata.Purpose}</div>
+                <p style={{whiteSpace: "normal"}}>{this.urlify(this.props.metadata.Purpose)}</p>
             </div>
         ) : ''
     }
