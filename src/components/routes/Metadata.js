@@ -476,7 +476,7 @@ class Metadata extends Component {
     renderProcessHistory() {
         return this.props.metadata && this.props.metadata.ProcessHistory ? (
             <div>
-                <p style={{whiteSpace: "normal"}}><strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong>{this.urlify(this.props.metadata.ProcessHistory)}</p>
+                <p style={{whiteSpace: "pre-line"}}><strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong>{this.urlify(this.props.metadata.ProcessHistory)}</p>
             </div>
         ) : ''
     }
@@ -1041,7 +1041,7 @@ class Metadata extends Component {
         return this.props.metadata && this.props.metadata.Purpose ? (
             <div>
                 <h2>{this.props.getResource('Purpose', 'Formål')}</h2>
-                <p style={{whiteSpace: "normal"}}>{this.urlify(this.props.metadata.Purpose)}</p>
+                <p style={{whiteSpace: "pre-line"}}>{this.urlify(this.props.metadata.Purpose)}</p>
             </div>
         ) : ''
     }
