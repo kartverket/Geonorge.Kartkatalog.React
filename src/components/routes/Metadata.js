@@ -105,7 +105,7 @@ class Metadata extends Component {
         return text.split(urlRegex)
            .map(part => {
               if(part.match(urlRegex)) {
-                 return <a href={part}>{part}</a>;
+                 return <a href={part} target="_blank">{part}</a>;
               }
               return part;
            });
