@@ -102,9 +102,9 @@ class Metadata extends Component {
         if(text){
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.split(urlRegex)
-           .map(part => {
+           .map((part, index) => {
               if(part.match(urlRegex)) {
-                 return <a href={part} target="_blank">{part}</a>;
+                 return <a key={index} href={part} target="_blank">{part}</a>;
               }
               return part;
            });
@@ -308,16 +308,16 @@ class Metadata extends Component {
         const distributionsFormats = this.props.metadata && this.props.metadata.DistributionsFormats ? this.props.metadata.DistributionsFormats : null;
         if (distributionsFormats) {
             const urls = distributionsFormats.map(item => item.URL).filter((value, index, self) => self.indexOf(value) === index);
-            return urls.map(url => {
+            return urls.map((url, urlIndex) => {
                 const protocolFormats = distributionsFormats.filter(distribution => {
                     return distribution.URL == url;
                 });
-                const protocolFormatElements = protocolFormats.map(protocolFormat => {
-                    return (<li key={`${protocolFormat.FormatName}-${protocolFormat.FormatVersion}`}>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</li>)
+                const protocolFormatElements = protocolFormats.map((protocolFormat, formatIndex) => {
+                    return (<li key={formatIndex}>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</li>)
                 });
 
                 return (
-                    <div key={protocolFormats[0].ProtocolName}>
+                    <div key={urlIndex}>
                         <h3>{this.props.getResource('DistributionType', 'Distribusjonstype')}:</h3>
                         <div>{protocolFormats[0].ProtocolName}</div>
                         {
