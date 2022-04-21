@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from "react-datepicker";
+import SimpleMDE from "react-simplemde-editor";
 
 // Actions
 import { getResource } from 'actions/ResourceActions'
@@ -39,6 +40,8 @@ import Breadcrumb from 'components/partials/Breadcrumb';
 import style from "components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'easymde/dist/easymde.min.css';
+import "scss/mdeOverride.scss";
 
 import { registerLocale, setDefaultLocale } from  "react-datepicker";
 import nb from 'date-fns/locale/nb';
@@ -46,6 +49,13 @@ registerLocale('nb', nb)
 
 import moment from 'moment'
 
+
+const readOnlyMdeOptions = {
+    toolbar: false,
+    status: false,
+    spellChecker: false,
+    readOnly: true
+  };
 
 class Metadata extends Component {
 
@@ -60,6 +70,18 @@ class Metadata extends Component {
         this.handleEndChange = this.handleEndChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    getMdeInstance(instance) {
+        const container = instance?.element?.nextSibling;
+        if (container) {
+          container.setAttribute('tabIndex', '0');
+          const editableElement = container.getElementsByClassName('CodeMirror-scroll')?.[0]
+          editableElement.style.display = 'none';
+          instance.togglePreview();
+          instance.codemirror.options.readOnly = true;
+          container.classList.add(style.mdePreview);
+        }
+      }
 
     handleStartChange(date) {
         this.setState({
@@ -1109,8 +1131,13 @@ class Metadata extends Component {
         let thumbnail = '';
         if (thumbnailList !== undefined && thumbnailList.length) {
             thumbnailList.sort((a, b) => (a.Type > b.Type) ? 1 : -1)
-            thumbnail = <div key="0"><img src={thumbnailList[0].URL} alt={this.getTitle() + ' illustrasjon'} title={this.getTitle() + ' illustrasjon'} />
-            </div>
+            thumbnail = (
+                <div className={style.thumbnailContent}>
+                    <div>
+                        <img src={thumbnailList[0].URL} alt={this.getTitle() + ' illustrasjon'} title={this.getTitle() + ' illustrasjon'} />
+                    </div>
+                </div>
+            )
         }
 
         return thumbnail;
@@ -1239,11 +1266,13 @@ class Metadata extends Component {
                     <div className={style.flex}>
                         <div className={style.textContent}>
                             <div>{this.renderType()}</div>
-                            <p style={{whiteSpace: "pre" }}>{this.getAbstractFormatted()}</p>
+                            <SimpleMDE
+                                value={this.getAbstract()}
+                                options={readOnlyMdeOptions}
+                                getMdeInstance={this.getMdeInstance} 
+                            />
                         </div>
-                        <div className={style.thumbnailContent}>
-                            {this.renderThumbnail()}
-                        </div>
+                        {this.renderThumbnail()}
                     </div>
 
                     {this.renderSpecificUsageSection()}
