@@ -114,12 +114,6 @@ class Metadata extends Component {
       }else return '';
     }
 
-    getAbstractFormatted(){
-        if (this.props.metadata){
-          return this.props.selectedLanguage === 'en' && this.props.metadata.EnglishAbstract ? this.urlify(this.props.metadata.EnglishAbstract) : this.urlify(this.props.metadata.Abstract);
-        }else return '';
-      }
-
     urlify(text) {
         if(text){
         const urlRegex = /(https?:\/\/[^\s]+)/g;
