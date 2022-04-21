@@ -755,7 +755,7 @@ class Metadata extends Component {
             return (
                 <div>
                     <h2>{this.props.getResource('SpecificUsage', 'Bruksområde')}</h2>
-                    <p style={{whiteSpace: "pre" }}>{this.urlify(this.props.metadata.SpecificUsage)}</p>
+                    <p style={{whiteSpace: "pre-line" }}>{this.urlify(this.props.metadata.SpecificUsage)}</p>
                 </div>
             )
         }
@@ -985,7 +985,7 @@ class Metadata extends Component {
         return this.props.metadata && (this.props.metadata.SupplementalDescription || this.props.metadata.HelpUrl) ? (
             <div>
                 <h2 id="help-info">{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
-                <p style={{whiteSpace: "pre" }}>{this.urlify(this.props.metadata.SupplementalDescription)}</p>
+                <p style={{whiteSpace: "pre-line" }}>{this.urlify(this.props.metadata.SupplementalDescription)}</p>
                 {this.props.metadata.HelpUrl ? <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a> : ""}
             </div>
         ) : ''
