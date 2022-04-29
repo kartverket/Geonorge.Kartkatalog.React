@@ -759,9 +759,9 @@ class Metadata extends Component {
     }
 
     renderTopicCategory() {
-        return this.props.metadata && this.props.metadata.TopicCategory ? (
+        return this.props.metadata && this.props.metadata.TopicCategories ? (
             <div>
-                <strong>{this.props.getResource('TopicCategory', 'Tematisk hovedkategori')}: </strong>{this.props.metadata.TopicCategory}
+                <strong>{this.props.getResource('TopicCategory', 'Tematisk hovedkategori')}: </strong>{this.props.metadata.TopicCategories.join(", ")}
             </div>
         ) : ''
     }
