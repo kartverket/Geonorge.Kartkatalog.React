@@ -1038,7 +1038,9 @@ class Metadata extends Component {
                 <div key={index}>
                     <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
                     {qualitySpecification.SpecificationLink ? <p><strong>Link :</strong> <a href={qualitySpecification.SpecificationLink} target="_blank" rel="noopener noreferrer">{qualitySpecification.SpecificationLink}</a>  </p> : ''}
-                    <p><strong>{this.props.getResource('Date', 'Dato')}: </strong><Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> ({qualitySpecification.DateType})</p>
+                    <p><strong>{this.props.getResource('Date', 'Dato')}: </strong>
+                    {qualitySpecification.Date !== undefined ? <Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> : ''}
+                    ({qualitySpecification.DateType})</p>
                     <p><strong>{this.props.getResource('QualitySpecificationExplanation', 'Forklaring av resultat')}: </strong>{qualitySpecification.Explanation}</p>
                     <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
                     <hr />
