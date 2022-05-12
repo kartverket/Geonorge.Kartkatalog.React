@@ -278,7 +278,9 @@ class Metadata extends Component {
                     <h3>{this.props.getResource('ContactPublisher', 'Teknisk kontakt')}</h3>
                     {this.props.metadata.ContactPublisher.Name && this.props.metadata.ContactPublisher.Name.length ?
                         <div>
+                           {this.props.metadata.ContactPublisher.Email && this.props.metadata.ContactPublisher.Email.length ?
                             <a href={"mailto:" + this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Name}</a>
+                            : <span>{this.props.metadata.ContactPublisher.Name} </span> }
                         </div>
                         :
                         ""
