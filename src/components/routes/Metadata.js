@@ -768,6 +768,14 @@ class Metadata extends Component {
         ) : ''
     }
 
+    renderCredits() {
+        return this.props.metadata && this.props.metadata.Credits ? (
+            <div>
+                {this.props.metadata.Credits.join(", ")}
+            </div>
+        ) : ''
+    }
+
     renderSpecificUsageSection() {
         if (this.props.metadata.SpecificUsage) {
             return (
@@ -1218,6 +1226,7 @@ class Metadata extends Component {
 
 
                     <h1>{this.getTitle()}</h1>
+                    {this.renderCredits()}
                     <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
                     <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
                         <div className={style.btns}>
