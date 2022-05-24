@@ -493,9 +493,16 @@ class Metadata extends Component {
 
     renderProcessHistory() {
         return this.props.metadata && this.props.metadata.ProcessHistory ? (
-            <div>
-                <p style={{whiteSpace: "pre-line"}}><strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong>{this.urlify(this.props.metadata.ProcessHistory)}</p>
+            <div className={style.flex}>
+            <div className={style.textContent}>
+                <div><strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong></div>
+                <SimpleMDE
+                    value={this.props.metadata.ProcessHistory}
+                    options={readOnlyMdeOptions}
+                    getMdeInstance={this.getMdeInstance} 
+                />
             </div>
+        </div>
         ) : ''
     }
 
