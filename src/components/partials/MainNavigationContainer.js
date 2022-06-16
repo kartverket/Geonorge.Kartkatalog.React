@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 // Actions
 import { fetchMapItems, removeMapItem } from 'actions/MapItemActions';
@@ -122,6 +123,7 @@ export class MainNavigationContainer extends Component {
     const articlesResultsFound = this.props.searchResults && this.props.searchResults.articles && this.props.searchResults.articles.NumFound ? this.props.searchResults.articles.NumFound : 0;
     return this.props.searchResults ? (
       <React.Fragment>
+        <Helmet htmlAttributes={{ lang : this.props.selectedLanguage }}/>
         <main-navigation
           isLoggedIn={this.props.oidc.user ? true : false}
           language={this.props.selectedLanguage}
