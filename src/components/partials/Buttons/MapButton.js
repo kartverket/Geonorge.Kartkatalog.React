@@ -34,7 +34,7 @@ export class MapButton extends Component {
       });
     } else if (this.props.metadata.ServiceDistributionProtocolForDataset === "OGC:WMS") {
       datasetService = {
-        Uuid: this.props.metadata.ServiceUuid,
+        Uuid: this.props.metadata.ServiceUuid ? this.props.metadata.ServiceUuid : this.props.metadata.Uuid,
         Title: this.props.metadata.Title,
         DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset,
         GetCapabilitiesUrl: this.props.metadata.MapLink,
