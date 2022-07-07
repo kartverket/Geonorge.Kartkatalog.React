@@ -47,14 +47,26 @@ export const removeItemSelectedForDownload = (itemToRemove) => dispatch => {
 }
 
 const addItemToLocalStorage = (itemToAdd => {
-  let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems))
-    ? JSON.parse(localStorage.orderItems)
-    : [];
-  selectedItems.push(itemToAdd.uuid);
-  Cookies.set('orderItems', selectedItems.length, { expires: 7, path: '/', domain: '.geonorge.no' });
-  localStorage.orderItems = JSON.stringify(selectedItems);
-  // TODO midlertidig løsning pga gammel handlekurv...
-  localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
+  try 
+  {
+
+    console.log("Start addItemToLocalStorage for uuid: " + itemToAdd.uuid);
+
+    let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems))
+      ? JSON.parse(localStorage.orderItems)
+      : [];
+    selectedItems.push(itemToAdd.uuid);
+    Cookies.set('orderItems', selectedItems.length, { expires: 7, path: '/', domain: '.geonorge.no' });
+    localStorage.orderItems = JSON.stringify(selectedItems);
+    // TODO midlertidig løsning pga gammel handlekurv...
+    console.log("Set localstorage for :" + itemToAdd.uuid);
+    localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
+  }
+  catch (e) {
+      console.log("Local Storage is full");
+      itemToAdd.areas = {};
+      localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
+  }
 })
 
 export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) => {
