@@ -26,11 +26,11 @@ if (window.location.search !== convertSearchParams(window.location.search)) {
     }
   });
 
-  const rootElement = document.getElementById("root");
-  if (rootElement.hasChildNodes()) {
+    if (window.location.hostname === "localhost") {
+        window.sessionStorage.setItem("isLocalKartkatalogEnvironment", "true");
     hydrate(<App />, rootElement);
   } else {
-    render(<App />, rootElement);
+        window.sessionStorage.removeItem("isLocalKartkatalogEnvironment");
   }
 
   serviceWorker.unregister();
