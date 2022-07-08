@@ -27,7 +27,6 @@ export const convertSearchParams = (url) => {
 
                 if (isMunicipality) { // Map facetValues from "0/02/0220" to "0/02|0/02/0220"
                     const stateCode = pair[1].match(/[^/]*\/[^/]*/)[0]; // stateCode e.g. 0/02, (Akershus)
-                    console.log(stateCode);
                     const municipalityCode = pair[1]; // municipalityCode e.g. 0/02/0220, (Asker)
                     pair[1] = `${stateCode}|${municipalityCode}`;
                 }

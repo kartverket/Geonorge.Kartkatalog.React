@@ -101,7 +101,6 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
         }
       if (addDatasetIsAllowed) {
         addItemToLocalStorage(itemToAdd);
-        console.log("adding restricted item");
         dispatch(fetchItemsToDownload())
       } else {
         alert('Du har ikke tilgang til å legge datasett til nedlasting');
