@@ -9,6 +9,7 @@ import MapItemReducer from 'reducers/MapItemReducer';
 import DownloadItemReducer from 'reducers/DownloadItemReducer';
 import SelectedFacetsReducer from 'reducers/SelectedFacetsReducer';
 import AvailableFacetsReducer from 'reducers/AvailableFacetsReducer';
+import ExpandedFacetFiltersReducer from 'reducers/ExpandedFacetFiltersReducer';
 import SelectedSearchResultsTypeReducer from 'reducers/SelectedSearchResultsTypeReducer';
 import SearchStringReducer from 'reducers/SearchStringReducer';
 import MetadataReducer from "reducers/MetadataReducer";
@@ -35,6 +36,7 @@ export default (history) => combineReducers({
     itemsToDownload: DownloadItemReducer,
     selectedFacets: SelectedFacetsReducer,
     availableFacets: AvailableFacetsReducer,
+    expandedFacetFilters: ExpandedFacetFiltersReducer,
     searchString: SearchStringReducer,
     geonorgeMenu: GeonorgeMenuReducer,
     selectedLanguage: SelectedLanguageReducer,
