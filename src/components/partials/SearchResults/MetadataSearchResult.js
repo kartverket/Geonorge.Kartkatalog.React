@@ -1,188 +1,197 @@
 // Dependencies
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 // Actions
-import { getResource } from 'actions/ResourceActions';
+import { getResource } from "actions/ResourceActions";
 
 // Helpers
-import { convertTextToUrlSlug } from 'helpers/UrlHelpers';
+import { convertTextToUrlSlug } from "helpers/UrlHelpers";
 
 // Components
-import { ErrorBoundary } from 'components/ErrorBoundary'
-import MapButton from 'components/partials/Buttons/MapButton';
-import DownloadButton from 'components/partials/Buttons/DownloadButton';
-import ApplicationButton from 'components/partials/Buttons/ApplicationButton';
+import { ErrorBoundary } from "components/ErrorBoundary";
+import MapButton from "components/partials/Buttons/MapButton";
+import DownloadButton from "components/partials/Buttons/DownloadButton";
+import ApplicationButton from "components/partials/Buttons/ApplicationButton";
 
 // Stylesheets
-import style from 'components/partials/SearchResults/MetadataSearchResult.module.scss';
+import style from "components/partials/SearchResults/MetadataSearchResult.module.scss";
 
+const MetadataSearchResult = (props) => {
+    const dispatch = useDispatch();
 
-class MetadataSearchResult extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      copied: false
+    // State
+    const [copied, setCopied] = useState(false);
+
+    const restrictionsClassnames = () => {
+        if (props.searchResult.AccessConstraint === "restricted" || props.searchResult.AccessIsProtected) {
+            return style.red;
+        }
+        if (
+            (props.searchResult.AccessConstraint === "otherRestrictions" &&
+                props.searchResult.OtherConstraintsAccess === "norway digital restricted") ||
+            props.searchResult.AccessIsRestricted ||
+            props.searchResult.AccessConstraint === "norway digital restricted"
+        ) {
+            return style.yellow;
+        } else {
+            return style.green;
+        }
     };
-  }
 
-  restrictionsClassnames() {
-    if (this.props.searchResult.AccessConstraint === 'restricted' || this.props.searchResult.AccessIsProtected) {
-      return style.red
-    } if ((this.props.searchResult.AccessConstraint === "otherRestrictions" && this.props.searchResult.OtherConstraintsAccess === 'norway digital restricted') || this.props.searchResult.AccessIsRestricted || this.props.searchResult.AccessConstraint === "norway digital restricted") {
-      return style.yellow
-    } else {
-      return style.green
-    }
-  }
+    const renderType = () => {
+        return props.searchResult.Type && props.visibleFields.includes("Type") ? (
+            <div className={style.typeContainer}>
+                <span>Type: {props.searchResult.Protocol}</span>
+            </div>
+        ) : (
+            ""
+        );
+    };
 
-  renderType() {
-    return this.props.searchResult.Type && this.props.visibleFields.includes('Type')
-      ? (
-        <div className={style.typeContainer}>
-          <span>
-            Type: {this.props.searchResult.Protocol}
-          </span>
-        </div>
-      ) : '';
-  }
-
-  renderButtons() {
-    const downloadButtonElement = this.props.visibleFields?.includes('DownloadButton')
-      ? (
-        <ErrorBoundary>
-          <DownloadButton metadata={this.props.searchResult}></DownloadButton>
-        </ErrorBoundary>
-      )
-      : '';
-
-    const mapButtonElement = this.props.visibleFields?.includes('MapButton')
-      ? (
-        <ErrorBoundary>
-          <MapButton metadata={this.props.searchResult}></MapButton>
-        </ErrorBoundary>
-      )
-      : '';
-
-    const applicationButtonElement = this.props.visibleFields?.includes('ApplicationButton')
-      ? (
-        <ErrorBoundary>
-          <ApplicationButton metadata={this.props.searchResult}></ApplicationButton>
-        </ErrorBoundary>
-      )
-      : '';
-
-    return (
-      <div className={style.buttonGroupContainer}>
-        <div className={style.buttonContainer}>{applicationButtonElement}</div>
-        <div className={style.buttonContainer}>{mapButtonElement}</div>
-        <div className={style.buttonContainer}>{downloadButtonElement}</div>
-      </div>
-    );
-  }
-
-  renderDistributionFormats() {
-    const dirstibutionFormatsElement = this.props.searchResult.DistributionFormats ? this.props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-      return <span key={i}>{distributionFormat.Name} </span>;
-    }) : null;
-    return this.props.searchResult.DistributionFormats && this.props.visibleFields.includes('DistributionFormats')
-      ? (
-        <div className={style.formatsContainer}>
-          <ErrorBoundary>
-            {this.props.getResource('Formats', 'Formater')}: {dirstibutionFormatsElement}
-          </ErrorBoundary>
-        </div>
-      ) : '';
-  }
-
-  renderListItemInfo() {
-    const openDataSymbolClass = this.restrictionsClassnames();
-    const openDataSymbolTitle = this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? 'Åpne datasett' : 'Krever innlogging';
-    const openDataSymbolIcon = this.props.searchResult.IsOpenData || this.props.searchResult.AccessIsOpendata ? ['fas', 'lock-open'] : ['fas', 'lock'];
-
-    const listItemType = this.props.searchResult.TypeTranslated ? this.props.searchResult.TypeTranslated : this.props.searchResult.Type;
-    const listItemOrganization = this.props.searchResult.Organization;
-
-    const linkTitle = this.props.getResource('DisplayEverythingByVariable', 'Vis alt fra {0}', [listItemOrganization]);
-    const linkElement = (
-      <Link title={linkTitle} to={"/?organization=" + listItemOrganization}>
-        {listItemOrganization}
-      </Link>
-    );
-
-    return (
-      <span className={style.listItemInfo}>
-        <FontAwesomeIcon key="lock" className={openDataSymbolClass} title={openDataSymbolTitle} icon={openDataSymbolIcon} />
-        {this.props.getResource('VariableBy', '{0} fra', [listItemType])} {linkElement}
-      </span>
-    )
-  }
-
-  renderLink() {
-    return this.props.metadata && this.props.metadata.Uuid === this.props.searchResult.Uuid
-      ? (<span>{this.props.searchResult.Title}</span>)
-      : (<Link title={this.props.searchResult.Title} to={`/metadata/${convertTextToUrlSlug(this.props.searchResult.Title)}/${this.props.searchResult.Uuid}`}>{this.props.searchResult.Title}</Link>);
-
-  }
-
-  renderCopyUrl() {
-
-    if ((this.props.searchResult.Type === 'service' || this.props.searchResult.Type === 'Tjeneste')
-        && this.props.searchResult.GetCapabilitiesUrl !== undefined )
-     {
-      return (
-        <ErrorBoundary>
-          <CopyToClipboard onCopy={() => this.setState({ copied: true })} text={this.props.searchResult.GetCapabilitiesUrl}>
-            <span title={this.props.searchResult.GetCapabilitiesUrl} className={style.url}>Kopier lenke <FontAwesomeIcon icon={['far', 'copy']} /> {this.state.copied ? <span>Lenke kopiert til utklippstavle</span> : null}</span>
-          </CopyToClipboard>
-        </ErrorBoundary>
-
-      )
-    }
-    return
-  }
-
-  render() {
-    return (
-      <div className={style.listItem}>
-        <div>
-          <span className={style.listItemTitle}>
+    const renderButtons = () => {
+        const downloadButtonElement = props.visibleFields?.includes("DownloadButton") ? (
             <ErrorBoundary>
-              {this.renderLink()}
+                <DownloadButton metadata={props.searchResult}></DownloadButton>
             </ErrorBoundary>
-          </span>
-          {this.renderListItemInfo()}
-          <div className={style.flex}>{this.renderType()} {this.renderDistributionFormats()}</div>
-          {this.renderCopyUrl()}
+        ) : (
+            ""
+        );
+
+        const mapButtonElement = props.visibleFields?.includes("MapButton") ? (
+            <ErrorBoundary>
+                <MapButton metadata={props.searchResult}></MapButton>
+            </ErrorBoundary>
+        ) : (
+            ""
+        );
+
+        const applicationButtonElement = props.visibleFields?.includes("ApplicationButton") ? (
+            <ErrorBoundary>
+                <ApplicationButton metadata={props.searchResult}></ApplicationButton>
+            </ErrorBoundary>
+        ) : (
+            ""
+        );
+
+        return (
+            <div className={style.buttonGroupContainer}>
+                <div className={style.buttonContainer}>{applicationButtonElement}</div>
+                <div className={style.buttonContainer}>{mapButtonElement}</div>
+                <div className={style.buttonContainer}>{downloadButtonElement}</div>
+            </div>
+        );
+    };
+
+    const renderDistributionFormats = () => {
+        const dirstibutionFormatsElement = props.searchResult.DistributionFormats
+            ? props.searchResult.DistributionFormats.map((distributionFormat, i) => {
+                  return <span key={i}>{distributionFormat.Name} </span>;
+              })
+            : null;
+        return props.searchResult.DistributionFormats && props.visibleFields.includes("DistributionFormats") ? (
+            <div className={style.formatsContainer}>
+                <ErrorBoundary>
+                    {dispatch(getResource("Formats", "Formater"))}: {dirstibutionFormatsElement}
+                </ErrorBoundary>
+            </div>
+        ) : (
+            ""
+        );
+    };
+
+    const renderListItemInfo = () => {
+        const openDataSymbolClass = restrictionsClassnames();
+        const openDataSymbolTitle =
+            props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
+                ? "Åpne datasett"
+                : "Krever innlogging";
+        const openDataSymbolIcon =
+            props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
+                ? ["fas", "lock-open"]
+                : ["fas", "lock"];
+
+        const listItemType = props.searchResult.TypeTranslated || props.searchResult.Type;
+        const listItemOrganization = props.searchResult.Organization;
+
+        const linkTitle = dispatch(
+            getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [listItemOrganization])
+        );
+        const linkElement = (
+            <Link title={linkTitle} to={"/?organization=" + listItemOrganization}>
+                {listItemOrganization}
+            </Link>
+        );
+
+        return (
+            <span className={style.listItemInfo}>
+                <FontAwesomeIcon
+                    key="lock"
+                    className={openDataSymbolClass}
+                    title={openDataSymbolTitle}
+                    icon={openDataSymbolIcon}
+                />
+                {dispatch(getResource("VariableBy", "{0} fra", [listItemType]))} {linkElement}
+            </span>
+        );
+    };
+
+    const renderLink = () => {
+        return props.metadata?.Uuid === props.searchResult.Uuid ? (
+            <span>{props.searchResult.Title}</span>
+        ) : (
+            <Link
+                title={props.searchResult.Title}
+                to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}
+            >
+                {props.searchResult.Title}
+            </Link>
+        );
+    };
+
+    const renderCopyUrl = () => {
+        return (props.searchResult.Type === "service" || props.searchResult.Type === "Tjeneste") &&
+            props.searchResult.GetCapabilitiesUrl !== undefined ? (
+            <ErrorBoundary>
+                <CopyToClipboard onCopy={() => setCopied(true)} text={props.searchResult.GetCapabilitiesUrl}>
+                    <span title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
+                        Kopier lenke <FontAwesomeIcon icon={["far", "copy"]} />{" "}
+                        {copied ? <span>Lenke kopiert til utklippstavle</span> : null}
+                    </span>
+                </CopyToClipboard>
+            </ErrorBoundary>
+        ) : null;
+    };
+
+    return (
+        <div className={style.listItem}>
+            <div>
+                <span className={style.listItemTitle}>
+                    <ErrorBoundary>{renderLink()}</ErrorBoundary>
+                </span>
+                {renderListItemInfo()}
+                <div className={style.flex}>
+                    {renderType()} {renderDistributionFormats()}
+                </div>
+                {renderCopyUrl()}
+            </div>
+
+            {renderButtons()}
         </div>
-
-        {this.renderButtons()}
-
-      </div>
-    )
-  }
-}
+    );
+};
 
 MetadataSearchResult.propTypes = {
-  searchResult: PropTypes.object.isRequired,
-  visibleFields: PropTypes.array
-}
+    searchResult: PropTypes.object.isRequired,
+    visibleFields: PropTypes.array
+};
 
 MetadataSearchResult.defaultProps = {
-  visibleFields: []
+    visibleFields: []
 };
 
-const mapStateToProps = state => ({
-  resources: state.resources,
-  metadata: state.metadata
-});
-
-const mapDispatchToProps = {
-  getResource
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MetadataSearchResult);
+export default MetadataSearchResult;
