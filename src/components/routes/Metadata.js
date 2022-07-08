@@ -1,6 +1,6 @@
 // Dependencies
 import React, { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -367,6 +367,25 @@ class Metadata extends Component {
         } else {
             return '';
         }
+    }
+
+    renderOperations() {
+        const hasOperations = this.props.metadata.Operations && this.props.metadata.Operations.length;
+        const operationsList = hasOperations && this.props.metadata.Operations.map((operation, index) => {
+            return (
+                <li key={index}>
+                    <a href={operation.URL} target="_blank" title={operation.Description}>{operation.Name}</a>
+                </li>
+            )
+        });
+        return hasOperations ? (
+            <div>
+                <h3>Kall som tjenesten tilbyr:</h3>
+                <ul className={style.defaultList}>
+                    {operationsList}
+                </ul>
+            </div>
+        ) : '';
     }
 
     renderDistributionDetails() {
@@ -993,6 +1012,7 @@ class Metadata extends Component {
                 <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
                 {this.renderSpatialRepresentation()}
                 {this.renderDistributionsFormats()}
+                {this.renderOperations()}
                 {this.renderReferenceSystems()}
             </div>
         ) : '';
