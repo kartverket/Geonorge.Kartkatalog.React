@@ -1,5 +1,4 @@
 import {createBrowserHistory} from 'history';
-import {routerMiddleware} from 'connected-react-router';
 import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {loadUser} from 'redux-oidc';
@@ -16,8 +15,13 @@ const composeEnhancers = composeWithDevTools({
 
 export default function configureStore(preloadedState) {
   const middleware = [googleTagManager, thunk];
-  const history = createBrowserHistory();
-  const store = createStore(createRootReducer(history), preloadedState, composeEnhancers(applyMiddleware(...middleware, routerMiddleware(history))));
+  const store = createStore(
+    createRootReducer(history),
+    preloadedState,
+    composeEnhancers(
+      applyMiddleware(...middleware)
+    )
+  );
 
   loadUser(store, userManager);
 
