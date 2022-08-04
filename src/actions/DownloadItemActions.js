@@ -68,7 +68,7 @@ const addItemToLocalStorage = (itemToAdd => {
       itemToAdd.areas = {};
       localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
   }
-})
+});
 
 export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) => {
     if (itemToAdd.accessIsOpendata) {
