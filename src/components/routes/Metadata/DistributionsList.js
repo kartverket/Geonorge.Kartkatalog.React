@@ -1,7 +1,6 @@
 // Dependencies
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
 
 // Components
 import MetadataSearchResult from "components/partials/SearchResults/MetadataSearchResult";
@@ -9,47 +8,38 @@ import MetadataSearchResult from "components/partials/SearchResults/MetadataSear
 // Stylesheets
 import style from "components/routes/Metadata/DistributionsList.module.scss";
 
+const DistributionsList = (props) => {
+    if (!props.distributions?.length) {
+        return <div>Ingen distribusjoner funnet</div>;
+    } else {
+        const serie = props.distributions[0]?.Serie;
+        const typeName = serie?.TypeName || "";
+        let distributions = props.distributions;
+        if (typeName === "series_historic" || typeName === "series_collection") {
+            distributions = props.distributions.sort((a, b) => (a.Title < b.Title ? 1 : -1));
+        } else if (typeName !== "series_time") {
+            distributions = props.distributions.sort((a, b) => {
+                const compareTitle = a.Title.localeCompare(b.Title);
+                const compareProtocol = b.Protocol.localeCompare(a.Protocol);
 
-class DistributionsList extends Component {
-    render() {
-        if(this.props.distributions[0] === undefined)
-        {
-            return (
-                <div>Ingen distribusjoner funnet</div>
-            );
-        }
-
-        let typeName = "";
-        let serie = this.props.distributions[0].Serie;
-          if(serie !== undefined){
-          typeName = serie.TypeName;
-        }
-        let distributions = this.props.distributions;
-        if(typeName === "series_historic" || typeName === 'series_collection')
-        distributions = this.props.distributions.sort((a, b) => (a.Title < b.Title) ? 1 : -1);
-        else if(typeName !== "series_time"){
-        distributions = this.props.distributions.sort((a, b) => {
-            const compareTitle = a.Title.localeCompare(b.Title);
-            const compareProtocol = b.Protocol.localeCompare(a.Protocol);
-          
-            return compareTitle || compareProtocol;
-          })
+                return compareTitle || compareProtocol;
+            });
         }
         distributions = distributions.map((distribution, i) => {
-            return <MetadataSearchResult searchResult={distribution} visibleFields={['Type', 'DownloadButton', 'MapButton', 'ApplicationButton', 'DistributionFormats']} key={i}/>;
+            return (
+                <MetadataSearchResult
+                    searchResult={distribution}
+                    visibleFields={["Type", "DownloadButton", "MapButton", "ApplicationButton", "DistributionFormats"]}
+                    key={i}
+                />
+            );
         });
-        return (
-            <div className={style.distributionsList}>{distributions}</div>
-        );
+        return <div className={style.distributionsList}>{distributions}</div>;
     }
-}
+};
 
 DistributionsList.propTypes = {
     distributions: PropTypes.array.isRequired
 };
 
-const mapStateToProps = null;
-
-const mapDispatchToProps = null;
-
-export default connect(mapStateToProps, mapDispatchToProps)(DistributionsList);
+export default DistributionsList;
