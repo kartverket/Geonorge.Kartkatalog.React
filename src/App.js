@@ -67,9 +67,9 @@ const App = () => {
                   <Route exact path="/metadata/:title/:uuid" element={<Metadata />} />
                   <Route exact path="/metadata/:uuid" element={<Metadata />} />
                   <Route exact path="/:category" element={<Home />} />
+                  <Route path="*" element={<NotFound />} />
                   <Route key={"/shell.html"} path="/shell.html" element={() => null} />
                   <Route key={"/404.html"} element={<NotFound/>} />
-                  <Route element={() => (<NotFound />)} />
                 </Routes>
               </div>
               <Footer />
