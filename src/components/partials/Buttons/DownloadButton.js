@@ -1,364 +1,376 @@
 // Dependencies
-import Cookies from 'js-cookie';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Cookies from "js-cookie";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Utils
-import userManager from 'utils/userManager';
+import userManager from "utils/userManager";
 
 // Actions
-import { removeItemSelectedForDownload, addItemSelectedForDownload } from 'actions/DownloadItemActions'
-import { getApiData } from 'actions/ApiActions'
-import { getResource } from 'actions/ResourceActions'
+import { removeItemSelectedForDownload, addItemSelectedForDownload } from "actions/DownloadItemActions";
+import { getApiData } from "actions/ApiActions";
+import { getResource } from "actions/ResourceActions";
+
+// Reducers
+import { pushToDataLayer } from "reducers/TagManagerReducer";
 
 // Assets
-import loadingAnimation from 'images/gif/loading.gif';
+import loadingAnimation from "images/gif/loading.gif";
 
 // Stylesheets
-import style from 'components/partials/Buttons/Buttons.module.scss'
+import style from "components/partials/Buttons/Buttons.module.scss";
 
-export class DownloadButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAdded: false,
-            loading: false,
-            error: false
-        };
-        this.addToDownloadListAction = this.addToDownloadListAction.bind(this);
-        this.removeFromDownloadListAction = this.removeFromDownloadListAction.bind(this);
-    }
+const DownloadButton = (props) => {
+    const dispatch = useDispatch();
 
+    // Redux store
+    const itemsToDownload = useSelector((state) => state.itemsToDownload);
+    const oidc = useSelector((state) => state.oidc);
 
-    handleLoginClick() {
+    // State
+    const [isAdded, setIsAdded] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasError, setHasError] = useState(false);
+
+    const handleLoginClick = () => {
         userManager.signinRedirect();
-    }
+    };
 
-    getDownloadItem(metadata) {
+    const getDownloadItem = (metadata) => {
         return {
             uuid: metadata.Uuid,
             url: "/metadata/" + metadata.Uuid,
-            theme: metadata.Theme ? metadata.Theme : '',
-            organizationName: metadata.Organization ? metadata.Organization : metadata.ContactMetadata && metadata.ContactMetadata.Organization ? metadata.ContactMetadata.Organization : null,
+            theme: metadata.Theme ? metadata.Theme : "",
+            organizationName: metadata.Organization || metadata.ContactMetadata?.Organization,
             name: metadata.Title,
             distributionUrl: metadata.DistributionUrl,
-            getCapabilitiesUrl: metadata.GetCapabilitiesUrl ? metadata.GetCapabilitiesUrl : metadata.DistributionUrl ? metadata.DistributionUrl : null,
+            getCapabilitiesUrl: metadata.GetCapabilitiesUrl || metadata.DistributionUrl,
             accessIsRestricted: metadata.AccessIsRestricted,
             accessIsOpendata: metadata.AccessIsOpendata
+        };
+    };
+
+    const addAccessToken = (fileUrl) => {
+        const bearerToken = Cookies.get("oidcAccessToken");
+        if (bearerToken) {
+            if (bearerToken.indexOf("?") > -1) fileUrl = fileUrl + "&access_token=" + bearerToken;
+            else fileUrl = fileUrl + "?access_token=" + bearerToken;
         }
-    }
+        return fileUrl;
+    };
 
-    addAccessToken (fileUrl) {
-      var bearerToken = Cookies.get('oidcAccessToken');
-
-      if (bearerToken) {
-          if (bearerToken.indexOf('?') > -1)
-              fileUrl = fileUrl + '&access_token=' + bearerToken;
-          else
-              fileUrl = fileUrl + '?access_token=' + bearerToken;
-      }
-      return fileUrl;
-    } 
-
-    addToDownloadList(item) {
-      const isNotAuthenticated = !this.props.oidc || !this.props.oidc.user;
-      let requestAction = this.props.getApiData(`${item.getCapabilitiesUrl}${item.uuid}`).then((capabilities) => {
-        let apiRequests = {};
-        item.capabilities = capabilities;
-        item.capabilities._links.forEach((link, i) => {
-          if (link.rel === "http://rel.geonorge.no/download/order") {
-            item.orderDistributionUrl = link.href;
-          }
-          if (link.rel === "http://rel.geonorge.no/download/can-download") {
-            item.canDownloadUrl = link.href;
-          }
-          if (link.rel === "http://rel.geonorge.no/download/area") {
-            apiRequests.areas = this.props.getApiData(this.addAccessToken(link.href)).then(areas => {
-              return areas;
+    const addToDownloadList = (item) => {
+        const isNotAuthenticated = !oidc?.user;
+        console.log({ item });
+        const requestAction = dispatch(getApiData(`${item.getCapabilitiesUrl}${item.uuid}`))
+            .then((capabilities) => {
+                if (capabilities && Object.keys(capabilities).length) {
+                    let apiRequests = {};
+                    item.capabilities = capabilities;
+                    item.capabilities._links.forEach((link) => {
+                        if (link.rel === "http://rel.geonorge.no/download/order") {
+                            item.orderDistributionUrl = link.href;
+                        }
+                        if (link.rel === "http://rel.geonorge.no/download/can-download") {
+                            item.canDownloadUrl = link.href;
+                        }
+                        if (link.rel === "http://rel.geonorge.no/download/area") {
+                            apiRequests.areas = dispatch(getApiData(addAccessToken(link.href))).then((areas) => {
+                                return areas;
+                            });
+                        }
+                        if (link.rel === "http://rel.geonorge.no/download/projection") {
+                            apiRequests.projections = dispatch(getApiData(link.href)).then((projections) => {
+                                return projections;
+                            });
+                        }
+                        if (link.rel === "http://rel.geonorge.no/download/format") {
+                            apiRequests.formats = dispatch(getApiData(link.href)).then((formats) => {
+                                return formats;
+                            });
+                        }
+                    });
+                }
+                return Promise.all([apiRequests.areas, apiRequests.projections, apiRequests.formats]).then(
+                    ([areas, projections, formats]) => {
+                        item = {
+                            ...item,
+                            areas,
+                            projections,
+                            formats
+                        };
+                        if (item.accessIsRestricted && isNotAuthenticated) {
+                            localStorage.setItem("autoAddDownloadItemOnLoad", JSON.stringify(item));
+                            handleLoginClick();
+                        } else {
+                            dispatch(addItemSelectedForDownload(item));
+                        }
+                    }
+                );
+            })
+            .catch((error) => {
+                console.error(error.message);
+                return Promise.reject(error);
             });
-          }
-          if (link.rel === "http://rel.geonorge.no/download/projection") {
-            apiRequests.projections = this.props.getApiData(link.href).then(projections => {
-              return projections
-            });
-          }
-          if (link.rel === "http://rel.geonorge.no/download/format") {
-            apiRequests.formats = this.props.getApiData(link.href).then(formats => {
-              return formats;
-            });
-          }
-        });
+        return Promise.resolve(requestAction);
+    };
 
-        return Promise.all([apiRequests.areas, apiRequests.projections, apiRequests.formats]).then(([areas, projections, formats]) => {
-          item = {
-            ...item,
-            areas, projections, formats
-          };
-          if (item.accessIsRestricted && isNotAuthenticated){
-            localStorage.setItem('autoAddDownloadItemOnLoad', JSON.stringify(item));
-            this.handleLoginClick();
-          }else {
-            this.props.addItemSelectedForDownload(item);
-          }
-       })
+    const removeFromDownloadList = (item) => {
+        dispatch(removeItemSelectedForDownload(item));
+    };
 
-      }).catch(error => {
-        console.error(error.message);
-        return Promise.reject(error);
-      });
-      return Promise.resolve(requestAction);
+    const isGeonorgeDownload = () => {
+        return (
+            props.metadata.DistributionProtocol === "GEONORGE:DOWNLOAD" ||
+            props.metadata.Protocol === "Geonorge nedlastning" ||
+            props.metadata.Protocol === "Geonorge download"
+        );
+    };
 
+    const showDownloadLink = () => {
+        const distributionUrl = props.metadata.DistributionUrl;
+        const type = props.metadata.Type;
+        const distributionProtocol = props.metadata.DistributionProtocol;
+        const protocol = props.metadata.Protocol;
 
-    }
+        const typeIsDataset = type === "dataset" || type === "Datasett";
+        const distributionProtocolIsDownload =
+            distributionProtocol === "WWW:DOWNLOAD-1.0-http--download" ||
+            distributionProtocol === "GEONORGE:FILEDOWNLOAD" ||
+            protocol === "Egen nedlastningsside" ||
+            protocol === "OPeNDAP" ||
+            distributionProtocol === "OPENDAP:OPENDAP";
 
-    removeFromDownloadList(item) {
-        this.props.removeItemSelectedForDownload(item);
-    }
+        return distributionUrl && typeIsDataset && distributionProtocolIsDownload;
+    };
 
-    isGeonorgeDownload() {
-        return this.props.metadata.DistributionProtocol === 'GEONORGE:DOWNLOAD' || this.props.metadata.Protocol === 'Geonorge nedlastning' || this.props.metadata.Protocol === 'Geonorge download';
-    }
+    const isSeries = () => {
+        return props.metadata.Type === "series";
+    };
 
-    showDownloadLink() {
-      const distributionUrl = this.props.metadata.DistributionUrl;
-      const type = this.props.metadata.Type;
-      const distributionProtocol = this.props.metadata.DistributionProtocol;
-      const protocol = this.props.metadata.Protocol;
+    const handleExternalDownloadButtonClick = () => {
+        const tagData = {
+            name: props.metadata.Title,
+            uuid: props.metadata.Uuid
+        };
+        dispatch(
+            pushToDataLayer({
+                event: "download",
+                category: "metadataDetails",
+                activity: "visitExternalDownloadPage",
+                metadata: tagData
+            })
+        );
+    };
 
-      const typeIsDataset = type === 'dataset' || type === 'Datasett';
-      const distributionProtocolIsDownload = distributionProtocol === 'WWW:DOWNLOAD-1.0-http--download' || distributionProtocol === 'GEONORGE:FILEDOWNLOAD' || protocol === 'Egen nedlastningsside' || protocol === 'OPeNDAP' || distributionProtocol === 'OPENDAP:OPENDAP';
+    const addToDownloadListAction = () => {
+        const metadata = props.metadata;
+        setIsLoading(true);
 
-      return distributionUrl && typeIsDataset && distributionProtocolIsDownload;
-    }
-
-    isSeries() {
-        return this.props.metadata.Type === 'series';
-    }
-
-    handleExternalDownloadButtonClick = () => {
-      const tagData = {
-        name: this.props.metadata.Title,
-        uuid: this.props.metadata.Uuid
-      }
-      this.props.pushToDataLayer({
-        event: 'download',
-        category: 'metadataDetails',
-        activity: 'visitExternalDownloadPage',
-        metadata: tagData
-      });
-    }
-
-    addToDownloadListAction() {
-      const metadata = this.props.metadata;
-      this.setState({
-        loading: true
-      });
-      if (metadata.TypeName === 'series_historic' || metadata.TypeName === 'series_collection'){
-        if (metadata.SerieDatasets){
-          let asyncActions = metadata.SerieDatasets.map(serieDataset => {
-            const item = this.getDownloadItem(serieDataset);
-            return this.addToDownloadList(item);
-          });
-          Promise.allSettled(asyncActions).then((values) => {
-            this.setState({
-              loading: false
-            });
-          }).catch(error => {
-            this.setState({
-              error: true
-            });
-          });
+        if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
+            if (metadata.SerieDatasets) {
+                let asyncActions = metadata.SerieDatasets.map((serieDataset) => {
+                    const item = getDownloadItem(serieDataset);
+                    return addToDownloadList(item);
+                });
+                Promise.allSettled(asyncActions)
+                    .then(() => {
+                        setIsLoading(false);
+                    })
+                    .catch((error) => {
+                        setHasError(true);
+                    });
+            }
+        } else if (metadata.Serie?.TypeName === "series_thematic") {
+            const item = getDownloadItem(metadata.Serie);
+            Promise.resolve(addToDownloadList(item))
+                .then(() => {
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    setHasError(true);
+                });
+        } else {
+            const item = getDownloadItem(metadata);
+            Promise.resolve(addToDownloadList(item))
+                .then(() => {
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    setHasError(true);
+                });
         }
-      }else if (metadata.Serie &&  metadata.Serie.TypeName === 'series_thematic') {
-        const item = this.getDownloadItem(metadata.Serie);
-        Promise.resolve(this.addToDownloadList(item)).then(() => {
-          this.setState({
-            loading: false
-          })
-        }).catch(error => {
-          this.setState({
-            error: true
-          })
-        });
-      }
-      else {
-        const item = this.getDownloadItem(metadata);
-        Promise.resolve(this.addToDownloadList(item)).then(() => {
-          this.setState({
-            loading: false
-          });
-        }).catch(error => {
-          this.setState({
-            error: true
-          })
-        });
-      }
-    }
+    };
 
-    removeFromDownloadListAction() {
-      const metadata = this.props.metadata;
-      if (metadata.TypeName === 'series_historic' || metadata.TypeName === 'series_collection'){
-        metadata.SerieDatasets.forEach(serieDataset => {
-          const item = this.getDownloadItem(serieDataset);
-          this.removeFromDownloadList(item);
-        });
-      } else if (metadata.Serie &&  metadata.Serie.TypeName === 'series_thematic') {
-        const item = this.getDownloadItem(metadata.Serie);
-        this.removeFromDownloadList(item);
-      }
-      else {
-        const item = this.getDownloadItem(metadata);
-        this.removeFromDownloadList(item);
-      }
-    }
+    const removeFromDownloadListAction = () => {
+        const metadata = props.metadata;
+        if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
+            metadata.SerieDatasets.forEach((serieDataset) => {
+                const item = getDownloadItem(serieDataset);
+                removeFromDownloadList(item);
+            });
+        } else if (metadata.Serie?.TypeName === "series_thematic") {
+            const item = getDownloadItem(metadata.Serie);
+            removeFromDownloadList(item);
+        } else {
+            const item = getDownloadItem(metadata);
+            removeFromDownloadList(item);
+        }
+    };
 
-    renderListButton() {
-        if (this.isGeonorgeDownload()) {
-          const buttonDescription = this.state.isAdded
-            ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting')
-            : this.isSeries()
-            ? this.props.getResource('DownloadSeries', 'Last ned serie')
-            : this.props.getResource('Download', 'Last ned');
-          const buttonClass = `${style.listButton} ${this.state.isAdded ? style.off : style.on}`;
+    const renderListButton = () => {
+        if (isGeonorgeDownload()) {
+            const buttonDescription = isAdded
+                ? dispatch(getResource("RemoveFromBasket", "Fjern nedlasting"))
+                : isSeries()
+                ? dispatch(getResource("DownloadSeries", "Last ned serie"))
+                : dispatch(getResource("Download", "Last ned"));
+            const buttonClass = `${style.listButton} ${isAdded ? style.off : style.on}`;
 
-          return (<span onClick={() => this.state.isAdded ? this.removeFromDownloadListAction() : this.addToDownloadListAction()} className={buttonClass}>
-            <FontAwesomeIcon title={buttonDescription} icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />
-            <span>{buttonDescription}</span>
-          </span>);
-
-        } else if (this.showDownloadLink()) {
-            const buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
-            const distributionUrl = this.props.metadata.DistributionUrl;
+            return (
+                <span
+                    onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
+                    className={buttonClass}
+                >
+                    <FontAwesomeIcon
+                        title={buttonDescription}
+                        icon={isAdded ? ["far", "trash"] : ["fas", "cloud-download"]}
+                        key="icon"
+                    />
+                    <span>{buttonDescription}</span>
+                </span>
+            );
+        } else if (showDownloadLink()) {
+            const buttonDescription = dispatch(getResource("ToBasket", "Til nedlasting"));
+            const distributionUrl = props.metadata.DistributionUrl;
             const buttonClass = `${style.listButton} ${style.on}`;
 
-            return (<a href={distributionUrl} onClick={this.handleExternalDownloadButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>
-              <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
-              <span>{buttonDescription}</span>
-            </a>);
-        }
-        else return null
-    }
+            return (
+                <a
+                    href={distributionUrl}
+                    onClick={handleExternalDownloadButtonClick}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={buttonClass}
+                >
+                    <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />
+                    <span>{buttonDescription}</span>
+                </a>
+            );
+        } else return null;
+    };
 
-    renderButton() {
-        if (this.props.metadata.CanShowDownloadService) {
-          const buttonDescription = this.state.isAdded
-            ? this.props.getResource('RemoveFromBasket', 'Fjern nedlasting')
-            : this.isSeries()
-            ? this.props.getResource('DownloadSeries', 'Last ned serie')
-            : this.props.getResource('Download', 'Last ned');
-          const buttonClass = this.state.isAdded ?  `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download}`;
+    const renderButton = () => {
+        if (props.metadata.CanShowDownloadService) {
+            const buttonDescription = isAdded
+                ? dispatch(getResource("RemoveFromBasket", "Fjern nedlasting"))
+                : isSeries()
+                ? dispatch(getResource("DownloadSeries", "Last ned serie"))
+                : dispatch(getResource("Download", "Last ned"));
+            const buttonClass = isAdded ? `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download}`;
 
-          return (<span onClick={() => this.state.isAdded ? this.removeFromDownloadListAction() : this.addToDownloadListAction()} className={buttonClass}>
-            <FontAwesomeIcon title={buttonDescription} icon={this.state.isAdded ? ['far', 'trash'] : ['fas', 'cloud-download']} key="icon" />
-            <span>{buttonDescription}</span>
-          </span>);
-
-        } else if (this.props.metadata.CanShowDownloadUrl) {
-            const buttonDescription = this.props.getResource('ToBasket', 'Til nedlasting');
-            const distributionUrl = this.props.metadata.DistributionUrl;
+            return (
+                <span
+                    onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
+                    className={buttonClass}
+                >
+                    <FontAwesomeIcon
+                        title={buttonDescription}
+                        icon={isAdded ? ["far", "trash"] : ["fas", "cloud-download"]}
+                        key="icon"
+                    />
+                    <span>{buttonDescription}</span>
+                </span>
+            );
+        } else if (props.metadata.CanShowDownloadUrl) {
+            const buttonDescription = dispatch(getResource("ToBasket", "Til nedlasting"));
+            const distributionUrl = props.metadata.DistributionUrl;
             const buttonClass = style.btn;
-
-            return (<a href={distributionUrl} className={buttonClass}>
-              <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
-              <span>{buttonDescription}</span>
-            </a>)
-        }
-        else {
-            const buttonDescription =  this.isSeries() ? this.props.getResource('DownloadSeries', 'Last ned serie') : this.props.getResource('Download', 'Last ned');
+            return (
+                <a href={distributionUrl} className={buttonClass}>
+                    <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />
+                    <span>{buttonDescription}</span>
+                </a>
+            );
+        } else {
+            const buttonDescription = isSeries()
+                ? dispatch(getResource("DownloadSeries", "Last ned serie"))
+                : dispatch(getResource("Download", "Last ned"));
             const buttonClass = `${style.btn}  ${style.disabled}`;
 
-            return (<span className={buttonClass}>
-              <FontAwesomeIcon title={buttonDescription} icon={['fas', 'cloud-download']} key="icon" />
-              <span>{buttonDescription}</span>
-            </span>)
+            return (
+                <span className={buttonClass}>
+                    <FontAwesomeIcon title={buttonDescription} icon={["fas", "cloud-download"]} key="icon" />
+                    <span>{buttonDescription}</span>
+                </span>
+            );
         }
-    }
+    };
 
-    metadataIsAdded(metadata) {
-      if (metadata.TypeName === 'series_historic' || metadata.TypeName === 'series_collection'){
-        return metadata.SerieDatasets && metadata.SerieDatasets.find(serieDataset => {
-          return this.props.itemsToDownload.filter(downloadItem => {
-              return serieDataset.Uuid === downloadItem;
-          }).length > 0;
-        });
-      }else if (metadata.Serie &&  metadata.Serie.TypeName === 'series_thematic'){
-        return this.props.itemsToDownload.filter(downloadItem => {
-            return metadata.Serie.Uuid === downloadItem;
-        }).length > 0;
-      } else {
-        return this.props.itemsToDownload.filter(downloadItem => {
-            return metadata.Uuid === downloadItem;
-        }).length > 0;
-      }
+    const metadataIsAdded = (metadata) => {
+        if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
+            return (
+                metadata.SerieDatasets &&
+                metadata.SerieDatasets.find((serieDataset) => {
+                    return (
+                        itemsToDownload.filter((downloadItem) => {
+                            return serieDataset.Uuid === downloadItem;
+                        }).length > 0
+                    );
+                })
+            );
+        } else if (metadata.Serie && metadata.Serie.TypeName === "series_thematic") {
+            return (
+                itemsToDownload.filter((downloadItem) => {
+                    return metadata.Serie.Uuid === downloadItem;
+                }).length > 0
+            );
+        } else {
+            return (
+                itemsToDownload.filter((downloadItem) => {
+                    return metadata.Uuid === downloadItem;
+                }).length > 0
+            );
+        }
+    };
 
-
-    }
-
-    componentDidMount() {
-        const isAdded = this.metadataIsAdded(this.props.metadata);
+    useEffect(() => {
         if (isAdded) {
-            this.setState({
-                isAdded: isAdded
-            });
+            setIsAdded(metadataIsAdded(props.metadata));
         }
-    }
+    }, [props.metadata]);
 
-    componentDidUpdate(prevProps, prevState) {
-        const wasAdded = prevState.isAdded;
-        const isAdded = this.metadataIsAdded(this.props.metadata);
-
-        if (wasAdded !== isAdded) {
-            this.setState({
-                isAdded: isAdded
-            });
-        }
+    if (hasError) {
+        return (
+            <span className={`${style.loading} ${props.listButton ? style.listButton : style.btn}`}>
+                <span className={style.errorMessage}>
+                    {dispatch(getResource("CanNotBeAddedToBasket", "Kan ikke legges til nedlasting"))}
+                </span>
+            </span>
+        );
     }
-
-    render() {
-        if (this.state.error){
-          return (<span className={`${style.loading} ${this.props.listButton ? style.listButton : style.btn}`}>
-            <span className={style.errorMessage}>{this.props.getResource('CanNotBeAddedToBasket', 'Kan ikke legges til nedlasting')}</span>
-          </span>);
-        }
-        if (this.state.loading){
-          return (<span className={`${style.loading} ${this.props.listButton ? style.listButton : style.btn}`}>
-            <img src={loadingAnimation} alt="Loading animation" />
-          </span>);
-        }
-        else if (this.props.listButton) {
-            return this.renderListButton()
-        }
-        else {
-            return this.renderButton()
-        }
+    if (isLoading) {
+        return (
+            <span className={`${style.loading} ${props.listButton ? style.listButton : style.btn}`}>
+                <img src={loadingAnimation} alt="Loading animation" />
+            </span>
+        );
+    } else if (props.listButton) {
+        return renderListButton();
+    } else {
+        return renderButton();
     }
-}
+};
 
 DownloadButton.propTypes = {
     metadata: PropTypes.object.isRequired,
-    listButton: PropTypes.bool,
-    removeItemSelectedForDownload: PropTypes.func.isRequired,
-    addItemSelectedForDownload: PropTypes.func.isRequired
+    listButton: PropTypes.bool
 };
 
 DownloadButton.defaultProps = {
-    listButton: true,
+    listButton: true
 };
 
-const mapStateToProps = state => ({
-    itemsToDownload: state.itemsToDownload,
-    resources: state.resources,
-    oidc: state.oidc,
-    baatInfo: state.baatInfo
-});
-
-const mapDispatchToProps = {
-    removeItemSelectedForDownload,
-    addItemSelectedForDownload,
-    getApiData,
-    getResource
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DownloadButton);
+export default DownloadButton;
