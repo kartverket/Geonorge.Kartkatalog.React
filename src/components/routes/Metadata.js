@@ -1,982 +1,1034 @@
 // Dependencies
-import React, { Component } from 'react';
-import { Helmet } from 'react-helmet-async';
-import Moment from 'react-moment';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import Moment from "react-moment";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import SimpleMDE from "react-simplemde-editor";
 
 // Actions
-import { getResource } from 'actions/ResourceActions'
-import { clearMetadata, fetchMetadata } from 'actions/MetadataActions'
-import { clearMetadataDistributions, fetchMetadataDistributions } from 'actions/MetadataDistributionActions'
+import { getResource } from "actions/ResourceActions";
+import { clearMetadata, fetchMetadata } from "actions/MetadataActions";
+import { clearMetadataDistributions, fetchMetadataDistributions } from "actions/MetadataDistributionActions";
 
 // Reducers
-import { pushToDataLayer } from 'reducers/TagManagerReducer';
+import { pushToDataLayer } from "reducers/TagManagerReducer";
 
 // Helpers
-import { convertTextToUrlSlug, convertUrlSlugToText } from 'helpers/UrlHelpers';
+import { convertTextToUrlSlug, convertUrlSlugToText } from "helpers/UrlHelpers";
 
 // Components
-import { ErrorBoundary } from 'components/ErrorBoundary'
+import { ErrorBoundary } from "components/ErrorBoundary";
 import DistributionsList from "components/routes/Metadata/DistributionsList";
-import ProductSheetButton from 'components/partials/Buttons/ProductsheetButton';
-import ProductSpecificationButton from 'components/partials/Buttons/ProductSpecificationButton';
-import LegendDescriptionButton from 'components/partials/Buttons/LegendDescriptionButton';
-import ContactOwnerButton from 'components/partials/Buttons/ContactOwnerButton';
-import ProductPageButton from 'components/partials/Buttons/ProductPageButton';
-import ApplicationButton from 'components/partials/Buttons/ApplicationButton';
-import MapButton from 'components/partials/Buttons/MapButton';
-import DownloadButton from 'components/partials/Buttons/DownloadButton';
-import HelpButton from 'components/partials/Buttons/HelpButton';
-import ShowCoverageButton from 'components/partials/Buttons/ShowCoverageButton';
-import DownloadXmlButton from 'components/partials/Buttons/DownloadXmlButton';
-import EditMetadataButton from 'components/partials/Buttons/EditMetadataButton';
-import Breadcrumb from 'components/partials/Breadcrumb';
+import ProductSheetButton from "components/partials/Buttons/ProductsheetButton";
+import ProductSpecificationButton from "components/partials/Buttons/ProductSpecificationButton";
+import LegendDescriptionButton from "components/partials/Buttons/LegendDescriptionButton";
+import ContactOwnerButton from "components/partials/Buttons/ContactOwnerButton";
+import ProductPageButton from "components/partials/Buttons/ProductPageButton";
+import ApplicationButton from "components/partials/Buttons/ApplicationButton";
+import MapButton from "components/partials/Buttons/MapButton";
+import DownloadButton from "components/partials/Buttons/DownloadButton";
+import HelpButton from "components/partials/Buttons/HelpButton";
+import ShowCoverageButton from "components/partials/Buttons/ShowCoverageButton";
+import DownloadXmlButton from "components/partials/Buttons/DownloadXmlButton";
+import EditMetadataButton from "components/partials/Buttons/EditMetadataButton";
+import Breadcrumb from "components/partials/Breadcrumb";
 
 // Stylesheets
 import style from "components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'easymde/dist/easymde.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "easymde/dist/easymde.min.css";
 import "scss/mdeOverride.scss";
 
-import { registerLocale, setDefaultLocale } from  "react-datepicker";
-import nb from 'date-fns/locale/nb';
-registerLocale('nb', nb)
+import { registerLocale } from "react-datepicker";
+import nb from "date-fns/locale/nb";
+registerLocale("nb", nb);
 
-import moment from 'moment'
-
+import moment from "moment";
 
 const readOnlyMdeOptions = {
     toolbar: false,
     status: false,
     spellChecker: false,
     readOnly: true
-  };
+};
 
-class Metadata extends Component {
+const Metadata = () => {
+    const dispatch = useDispatch();
+    const params = useParams();
+    const location = useLocation();
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            expanded: false,
-            showBtns: false
-        };
+    const uuid = params.uuid;
+    const title = params.title;
+    const dateStart = params.dateStart;
+    const dateEnd = params.dateEnd;
 
-        this.handleStartChange = this.handleStartChange.bind(this);
-        this.handleEndChange = this.handleEndChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    // Redux store
+    const metadata = useSelector((state) => state.metadata);
+    const metadataDistributions = useSelector((state) => state.metadataDistributions);
+    const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
-    getMdeInstance(instance) {
+    // State
+    const [expanded, setExpanded] = useState(false);
+    const [expandedDownload, setExpandedDownload] = useState(false);
+    const [expandedBtns, setExpandedBtns] = useState(false);
+    const [showBtns, setShowBtns] = useState(false);
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+    const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
+
+    const getMdeInstance = (instance) => {
         const container = instance?.element?.nextSibling;
         if (container) {
-          container.setAttribute('tabIndex', '0');
-          const editableElement = container.getElementsByClassName('CodeMirror-scroll')?.[0]
-          editableElement.style.display = 'none';
-          instance.togglePreview();
-          instance.codemirror.options.readOnly = true;
-          container.classList.add(style.mdePreview);
+            container.setAttribute("tabIndex", "0");
+            const editableElement = container.getElementsByClassName("CodeMirror-scroll")?.[0];
+            editableElement.style.display = "none";
+            instance.togglePreview();
+            instance.codemirror.options.readOnly = true;
+            container.classList.add('mdePreview');
         }
-      }
+    };
 
-    handleStartChange(date) {
-        this.setState({
-          startDate: date
-        })
-      }
+    const handleStartChange = (date) => {
+        setStartDate(date);
+    };
 
-      handleEndChange(date) {
-        this.setState({
-          endDate: date
-        })
-      }
-    
-      handleSubmit(e) {
+    const handleEndChange = (date) => {
+        setEndDate(date);
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        var dateStart = moment(this.state.startDate).format('YYYY-MM-DD')
-        var dateEnd = moment(this.state.endDate).format('YYYY-MM-DD')
-        this.props.fetchMetadataDistributions(this.props.match.params.uuid, dateStart, dateEnd);
-      }
+        const dateStart = moment(startDate).format("YYYY-MM-DD");
+        const dateEnd = moment(endDate).format("YYYY-MM-DD");
+        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd));
+    };
 
-    getTitle(){
-      if (this.props.metadata){
-        return this.props.selectedLanguage === 'en' && this.props.metadata.EnglishTitle ? this.props.metadata.EnglishTitle : this.props.metadata.Title;
-      }else return '';
-    }
+    const getTitle = () => {
+        if (metadata) {
+            return selectedLanguage === "en" && metadata.EnglishTitle ? metadata.EnglishTitle : metadata.Title;
+        } else return "";
+    };
 
-    getAbstract(){
-      if (this.props.metadata){
-        return this.props.selectedLanguage === 'en' && this.props.metadata.EnglishAbstract ? this.props.metadata.EnglishAbstract : this.props.metadata.Abstract;
-      }else return '';
-    }
+    const getAbstract = (metadata) => {
+        if (metadata) {
+            return selectedLanguage === "en" && metadata.EnglishAbstract ? metadata.EnglishAbstract : metadata.Abstract;
+        } else return "";
+    };
 
-    urlify(text) {
-        if(text){
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        return text.split(urlRegex)
-           .map((part, index) => {
-              if(part.match(urlRegex)) {
-                 return <a key={index} href={part} target="_blank">{part}</a>;
-              }
-              return part;
-           });
-        }
-        else return text;
-        
-      }
+    const urlify = (text) => {
+        if (text) {
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.split(urlRegex).map((part, index) => {
+                if (part.match(urlRegex)) {
+                    return (
+                        <a key={index} href={part} target="_blank">
+                            {part}
+                        </a>
+                    );
+                }
+                return part;
+            });
+        } else return text;
+    };
 
-    getMetadataLinkedDataSnippet(metadata) {
-        if (metadata && Object.keys(metadata).length) {
+    const getMetadataLinkedDataSnippet = () => {
+        if (metadata && Object.keys(metadata)?.length) {
             const snippet = {
                 "@context": "http://schema.org",
                 "@type": "Dataset",
                 "@id": `https://kartkatalog.geonorge.no/${window.location.pathname}`,
-                "name": this.getTitle(),
-                "description": this.getAbstract(),
-                "abstract": this.getAbstract(),
-                "datePublished": metadata.DatePublished,
-                "dateModified": metadata.DateUpdated,
-                "license": metadata.Constraints && metadata.Constraints.OtherConstraintsLink ? metadata.Constraints.OtherConstraintsLink : '',
-                "author": {
+                name: getTitle(),
+                description: getAbstract(metadata),
+                abstract: getAbstract(metadata),
+                datePublished: metadata.DatePublished,
+                dateModified: metadata.DateUpdated,
+                license:
+                    metadata.Constraints && metadata.Constraints.OtherConstraintsLink
+                        ? metadata.Constraints.OtherConstraintsLink
+                        : "",
+                author: {
                     "@type": "Organization",
-                    "name": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
-                    "legalName": metadata.ContactOwner && metadata.ContactOwner.Organization ? metadata.ContactOwner.Organization : '',
-                    "email": metadata.ContactOwner && metadata.ContactOwner.Email ? metadata.ContactOwner.Email : ''
+                    name:
+                        metadata.ContactOwner && metadata.ContactOwner.Organization
+                            ? metadata.ContactOwner.Organization
+                            : "",
+                    legalName:
+                        metadata.ContactOwner && metadata.ContactOwner.Organization
+                            ? metadata.ContactOwner.Organization
+                            : "",
+                    email: metadata.ContactOwner && metadata.ContactOwner.Email ? metadata.ContactOwner.Email : ""
                 },
-                "publisher": {
+                publisher: {
                     "@type": "Organization",
-                    "name": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
-                    "legalName": metadata.ContactPublisher && metadata.ContactPublisher.Organization ? metadata.ContactPublisher.Organization : '',
-                    "email": metadata.ContactPublisher && metadata.ContactPublisher.Email ? metadata.ContactPublisher.Email : ''
+                    name:
+                        metadata.ContactPublisher && metadata.ContactPublisher.Organization
+                            ? metadata.ContactPublisher.Organization
+                            : "",
+                    legalName:
+                        metadata.ContactPublisher && metadata.ContactPublisher.Organization
+                            ? metadata.ContactPublisher.Organization
+                            : "",
+                    email:
+                        metadata.ContactPublisher && metadata.ContactPublisher.Email
+                            ? metadata.ContactPublisher.Email
+                            : ""
                 }
-            }
-            return (<Helmet>
-                <script type="application/ld+json">{`${JSON.stringify(snippet)}`}</script>
-            </Helmet>)
-        } else return '';
-    }
+            };
+            return (
+                <Helmet>
+                    <script type="application/ld+json">{`${JSON.stringify(snippet)}`}</script>
+                </Helmet>
+            );
+        } else return "";
+    };
 
-    toggleExpand() {
-        this.setState(prevState => ({
-            expanded: !prevState.expanded && !prevState.expandedDownload
-        }))
-    }
-    toggleBtns() {
-        this.setState(prevState => ({
-            showBtns: !prevState.showBtns && !prevState.expandedBtns
-        }))
-    }
+    const toggleExpand = () => {
+        setExpanded(!expanded && !expandedDownload);
+    };
+    const toggleBtns = () => {
+        setShowBtns(!showBtns && !expandedBtns);
+    };
 
-    fetchApiData() {
-        this.props.clearMetadata();
-        this.props.fetchMetadata(this.props.match.params.uuid);
-        this.props.clearMetadataDistributions();
-        this.props.fetchMetadataDistributions(this.props.match.params.uuid,this.props.match.dateStart, this.props.match.dateEnd);
-    }
+    const fetchApiData = () => {
+        dispatch(clearMetadata());
+        dispatch(fetchMetadata(uuid));
+        dispatch(clearMetadataDistributions());
+        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd));
+    };
 
-    componentDidMount() {
-        this.fetchApiData()
-    }
+    useEffect(() => {
+        fetchApiData();
+    }, []);
 
-    componentDidUpdate(prevProps) {
-        if (this.props.location.pathname !== prevProps.location.pathname || this.props.selectedLanguage !== prevProps.selectedLanguage) {
-            this.fetchApiData();
+    useEffect(() => {
+        fetchApiData();
+        const hasRecievedMetadataProps = metadata && Object.keys(metadata)?.length;
+        if (hasRecievedMetadataProps && !hasPushedPageViewTag) {
+            pushPageViewTag();
+            setHasPushedPageViewTag(true);
         }
-        const hasRecievedMetadataProps = this.props.metadata && Object.keys(this.props.metadata).length;
-        const hadRecievedMetadataProps = prevProps.metadata && Object.keys(prevProps.metadata).length;
-        if (hasRecievedMetadataProps && !hadRecievedMetadataProps) {
-            this.pushPageViewTag();
-        }
-    }
+    }, [location.pathname, selectedLanguage]);
 
-    pushPageViewTag() {
-        const metadata = this.props.metadata;
+    const pushPageViewTag = () => {
         const tagData = {
-            name: this.getTitle(),
+            name: getTitle(),
             uuid: metadata.Uuid,
             accessIsOpendata: metadata.AccessIsOpendata,
             accessIsRestricted: metadata.AccessIsRestricted,
-            organizationName: metadata.ContactMetadata && metadata.ContactMetadata.Organization ? metadata.ContactMetadata.Organization : null
+            organizationName:
+                metadata.ContactMetadata && metadata.ContactMetadata.Organization
+                    ? metadata.ContactMetadata.Organization
+                    : null
         };
-        this.props.pushToDataLayer({
-            event: 'showPage',
-            category: 'metadata',
-            activity: 'showMetadataPage',
-            metadata: tagData
-        });
-    }
+        dispatch(
+            pushToDataLayer({
+                event: "showPage",
+                category: "metadata",
+                activity: "showMetadataPage",
+                metadata: tagData
+            })
+        );
+    };
 
-    renderDatasetLanguage() {
-        return this.props.metadata && this.props.metadata.DatasetLanguage ? (
+    const renderDatasetLanguage = () => {
+        return metadata?.DatasetLanguage ? (
             <div>
-                <strong>{this.props.getResource('LanguageInDataset', 'Språk i datasett')}:</strong> {this.props.metadata.DatasetLanguage}
+                <strong>{dispatch(getResource("LanguageInDataset", "Språk i datasett"))}:</strong>{" "}
+                {metadata.DatasetLanguage}
             </div>
-        ) : ''
-    }
+        ) : (
+            ""
+        );
+    };
 
-    renderResourceReferenceCodespace() {
-        return this.props.metadata && this.props.metadata.ResourceReferenceCodespace ? (
+    const renderResourceReferenceCodespace = () => {
+        return metadata?.ResourceReferenceCodespace ? (
             <div>
-                <strong>{this.props.getResource('NamespaceToDataset', 'Navnerom til datasett')}:</strong> {this.props.metadata.ResourceReferenceCodespace}
+                <strong>{dispatch(getResource("NamespaceToDataset", "Navnerom til datasett"))}:</strong>{" "}
+                {metadata.ResourceReferenceCodespace}
             </div>
-        ) : ''
-    }
+        ) : (
+            ""
+        );
+    };
 
-    renderResourceReferenceCode() {
-        return this.props.metadata && this.props.metadata.ResourceReferenceCode ? (
+    const renderResourceReferenceCode = () => {
+        return metadata?.ResourceReferenceCode ? (
             <div>
-                <strong>{this.props.getResource('DatasetName', 'Datasett-ID')}:</strong> {this.props.metadata.ResourceReferenceCode}
+                <strong>{dispatch(getResource("DatasetName", "Datasett-ID"))}:</strong> {metadata.ResourceReferenceCode}
             </div>
-        ) : ''
-    }
+        ) : (
+            ""
+        );
+    };
 
-
-    renderContactMetadata() {
-        if (this.props.metadata && this.props.metadata.ContactMetadata) {
+    const renderContactMetadata = () => {
+        if (metadata?.ContactMetadata) {
             return (
                 <div>
-                    <h3>{this.props.getResource('ContactMetadata', 'Metadatakontakt')}</h3>
+                    <h3>{dispatch(getResource("ContactMetadata", "Metadatakontakt"))}</h3>
                     <div>
-                        <a href={"mailto:" + this.props.metadata.ContactMetadata.Email}>{this.props.metadata.ContactMetadata.Name}</a>
+                        <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Name}</a>
                     </div>
                     <div>
-                        <a href={"mailto:" + this.props.metadata.ContactMetadata.Email}>{this.props.metadata.ContactMetadata.Email}</a> - {this.props.metadata.ContactMetadata.Organization}
+                        <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Email}</a> -{" "}
+                        {metadata.ContactMetadata.Organization}
                     </div>
                 </div>
-            )
+            );
         } else {
             return "";
         }
-    }
+    };
 
-    renderContactOwner() {
-        if (this.props.metadata && this.props.metadata.ContactOwner) {
+    const renderContactOwner = () => {
+        if (metadata?.ContactOwner) {
             return (
                 <div>
-                    <h3>{this.props.getResource('ContactOwner', 'Faglig kontakt')}</h3>
+                    <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
                     <div>
-                        <a href={"mailto:" + this.props.metadata.ContactOwner.Email}>{this.props.metadata.ContactOwner.Name}</a>
+                        <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Name}</a>
                     </div>
                     <div>
-                        <a href={"mailto:" + this.props.metadata.ContactOwner.Email}>{this.props.metadata.ContactOwner.Email}</a> - {this.props.metadata.ContactOwner.Organization}
+                        <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Email}</a> -{" "}
+                        {metadata.ContactOwner.Organization}
                     </div>
                 </div>
-            )
+            );
         } else {
             return "";
         }
-    }
+    };
 
-    renderContactPublisher() {
-        if (this.props.metadata && this.props.metadata.ContactPublisher) {
+    const renderContactPublisher = () => {
+        if (metadata?.ContactPublisher) {
             return (
                 <div>
-                    <h3>{this.props.getResource('ContactPublisher', 'Teknisk kontakt')}</h3>
-                    {this.props.metadata.ContactPublisher.Name && this.props.metadata.ContactPublisher.Name.length ?
+                    <h3>{dispatch(getResource("ContactPublisher", "Teknisk kontakt"))}</h3>
+                    {metadata.ContactPublisher?.Name?.length ? (
                         <div>
-                           {this.props.metadata.ContactPublisher.Email && this.props.metadata.ContactPublisher.Email.length ?
-                            <a href={"mailto:" + this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Name}</a>
-                            : <span>{this.props.metadata.ContactPublisher.Name} </span> }
+                            {metadata.ContactPublisher?.Email?.length ? (
+                                <a href={"mailto:" + metadata.ContactPublisher.Email}>
+                                    {metadata.ContactPublisher.Name}
+                                </a>
+                            ) : (
+                                <span>{metadata.ContactPublisher.Name} </span>
+                            )}
                         </div>
-                        :
+                    ) : (
                         ""
-                    }
+                    )}
                     <div>
-                        <a href={"mailto:" + this.props.metadata.ContactPublisher.Email}>{this.props.metadata.ContactPublisher.Email}</a> - {this.props.metadata.ContactPublisher.Organization}
+                        <a href={"mailto:" + metadata.ContactPublisher.Email}>{metadata.ContactPublisher.Email}</a> -{" "}
+                        {metadata.ContactPublisher.Organization}
                     </div>
                 </div>
-            )
+            );
         } else {
             return "";
         }
-    }
+    };
 
-    renderSpatialRepresentation() {
-        return this.props.metadata && this.props.metadata.SpatialRepresentation ? (
+    const renderSpatialRepresentation = () => {
+        return metadata?.SpatialRepresentation ? (
             <div>
-                <strong>{this.props.getResource('SpatialRepresentation', 'Representasjonsform')}: </strong>{this.props.metadata.SpatialRepresentation}
+                <strong>{dispatch(getResource("SpatialRepresentation", "Representasjonsform"))}: </strong>
+                {metadata.SpatialRepresentation}
             </div>
-        ) : '';
-    }
+        ) : (
+            ""
+        );
+    };
 
-    renderDistributionFormats() {
-        const hasDistributionFormats = this.props.metadata.DistributionFormats && this.props.metadata.DistributionFormats.length;
-        const distributionFormatsList = hasDistributionFormats && this.props.metadata.DistributionFormats.map((distributionFormat, index) => {
-            return (
-                <li key={index}>
-                    {distributionFormat.Name} {distributionFormat.Version}
-                </li>
-            )
-        });
-        return hasDistributionFormats ? (
-            <div>
-                <h3>Format:</h3>
-                <ul className={style.defaultList}>
-                    {distributionFormatsList}
-                </ul>
-            </div>
-        ) : '';
-    }
-
-    renderDistributionsFormats() {
-        const distributionsFormats = this.props.metadata && this.props.metadata.DistributionsFormats ? this.props.metadata.DistributionsFormats : null;
-        if (distributionsFormats) {
-            const urls = distributionsFormats.map(item => item.URL).filter((value, index, self) => self.indexOf(value) === index);
+    const renderDistributionsFormats = () => {
+        const distributionsFormats = metadata?.DistributionsFormats;
+        if (distributionsFormats?.length) {
+            const urls = distributionsFormats
+                .map((item) => item.URL)
+                .filter((value, index, self) => self.indexOf(value) === index);
             return urls.map((url, urlIndex) => {
-                const protocolFormats = distributionsFormats.filter(distribution => {
+                const protocolFormats = distributionsFormats.filter((distribution) => {
                     return distribution.URL == url;
                 });
                 const protocolFormatElements = protocolFormats.map((protocolFormat, formatIndex) => {
-                    return (<li key={formatIndex}>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</li>)
+                    return (
+                        <li key={formatIndex}>
+                            {protocolFormat.FormatName} {protocolFormat.FormatVersion}
+                        </li>
+                    );
                 });
 
                 return (
                     <div key={urlIndex}>
-                        <h3>{this.props.getResource('DistributionType', 'Distribusjonstype')}:</h3>
+                        <h3>{dispatch(getResource("DistributionType", "Distribusjonstype"))}:</h3>
                         <div>{protocolFormats[0].ProtocolName}</div>
-                        {
-                            protocolFormats[0].URL
-                                ? (
-                                    <div>
-                                        <b>URL: </b>
-                                        <a href={protocolFormats[0].URL}>{protocolFormats[0].URL}</a>
-                                    </div>)
-                                : ''
-                        }
-                        {
-                            protocolFormats[0].UnitsOfDistribution
-                                ? (
-                                    <div>
-                                        <b>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </b>
-                                        {this.props.selectedLanguage === 'en' && protocolFormats[0].EnglishUnitsOfDistribution ? protocolFormats[0].EnglishUnitsOfDistribution : protocolFormats[0].UnitsOfDistribution}
-                                    </div>)
-                                : ''
-                        }
+                        {protocolFormats[0].URL ? (
+                            <div>
+                                <b>URL: </b>
+                                <a href={protocolFormats[0].URL}>{protocolFormats[0].URL}</a>
+                            </div>
+                        ) : (
+                            ""
+                        )}
+                        {protocolFormats[0].UnitsOfDistribution ? (
+                            <div>
+                                <b>
+                                    {dispatch(getResource("UnitsOfDistribution", "Geografisk distribusjonsinndeling"))}:{" "}
+                                </b>
+                                {selectedLanguage === "en" && protocolFormats[0].EnglishUnitsOfDistribution
+                                    ? protocolFormats[0].EnglishUnitsOfDistribution
+                                    : protocolFormats[0].UnitsOfDistribution}
+                            </div>
+                        ) : (
+                            ""
+                        )}
 
                         <h3>Format:</h3>
-                        <ul className={style.defaultList}>
-                            {protocolFormatElements}
-                        </ul>
+                        <ul className={style.defaultList}>{protocolFormatElements}</ul>
                     </div>
-                )
-            })
+                );
+            });
         } else {
-            return '';
+            return null;
         }
-    }
+    };
 
-    renderOperations() {
-        const hasOperations = this.props.metadata.Operations && this.props.metadata.Operations.length;
-        const operationsList = hasOperations && this.props.metadata.Operations.map((operation, index) => {
-            return (
-                <li key={index}>
-                    <a href={operation.URL} target="_blank" title={operation.Description}>{operation.Name}</a>
-                </li>
-            )
-        });
-        return hasOperations ? (
+    const renderOperations = () => {
+        const operationsList =
+            metadata?.Operations?.length &&
+            metadata.Operations.map((operation, index) => {
+                return (
+                    <li key={index}>
+                        <a href={operation.URL} target="_blank" title={operation.Description}>
+                            {operation.Name}
+                        </a>
+                    </li>
+                );
+            });
+        return operationsList?.length ? (
             <div>
                 <h3>Kall som tjenesten tilbyr:</h3>
-                <ul className={style.defaultList}>
-                    {operationsList}
-                </ul>
+                <ul className={style.defaultList}>{operationsList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderDistributionDetails() {
-        const hasProtocolName = this.props.metadata && this.props.metadata.DistributionDetails && this.props.metadata.DistributionDetails.ProtocolName;
-        return hasProtocolName ? (
+    const renderDistributionDetails = () => {
+        return metadata?.DistributionDetails?.ProtocolName?.length ? (
             <div>
-                <strong>{this.props.getResource('DistributionType', 'Distribusjonstype')}: </strong>{this.props.metadata.DistributionDetails.ProtocolName}
+                <strong>{dispatch(getResource("DistributionType", "Distribusjonstype"))}: </strong>
+                {metadata.DistributionDetails.ProtocolName}
             </div>
-        ) : '';
-    }
+        ) : (
+            ""
+        );
+    };
 
-    renderDistributionUrl() {
-        const distributionUrl = this.props.metadata && this.props.metadata.DistributionUrl;
-        return distributionUrl ? (
+    const renderDistributionUrl = () => {
+        return metadata?.DistributionUrl?.length ? (
             <div>
-                <strong>Get Capabilites Url: </strong><a href={this.props.metadata.DistributionUrl}>{this.props.metadata.DistributionUrl}</a>
+                <strong>Get Capabilites Url: </strong>
+                <a href={metadata.DistributionUrl}>{metadata.DistributionUrl}</a>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderUnitsOfDistribution() {
-        return this.props.metadata.UnitsOfDistribution ? (
+    const renderUnitsOfDistribution = () => {
+        return metadata?.UnitsOfDistribution?.length ? (
             <div>
-                <strong>{this.props.getResource('UnitsOfDistribution', 'Geografisk distribusjonsinndeling')}: </strong>{this.props.metadata.UnitsOfDistribution}
+                <strong>{dispatch(getResource("UnitsOfDistribution", "Geografisk distribusjonsinndeling"))}: </strong>
+                {metadata.UnitsOfDistribution}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderReferenceSystems() {
-        const hasReferenceSystems = this.props.metadata && this.props.metadata.ReferenceSystems && this.props.metadata.ReferenceSystems.length;
-        const referenceSystemList = hasReferenceSystems && this.props.metadata.ReferenceSystems.map((referenceSystem, index) => {
-            return (
-                <li key={index}>
-                    {referenceSystem.CoordinateSystem}
-                </li>
-            )
-        });
-        return hasReferenceSystems ? (
+    const renderReferenceSystems = () => {
+        const referenceSystemList =
+            metadata?.ReferenceSystems?.length &&
+            metadata.ReferenceSystems.map((referenceSystem, index) => {
+                return <li key={index}>{referenceSystem.CoordinateSystem}</li>;
+            });
+        return referenceSystemList?.length ? (
             <div>
-                <h3>{this.props.getResource('ReferenceSystems', 'Romlig referansesystem')}:</h3>
+                <h3>{dispatch(getResource("ReferenceSystems", "Romlig referansesystem"))}:</h3>
                 <ul className={style.defaultList}>{referenceSystemList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderUseLimitations() {
-        const hasUseLimitations = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.UseLimitations;
-        return hasUseLimitations ? (
+    const renderUseLimitations = () => {
+        return metadata?.Constraints?.UseLimitations?.length ? (
             <div>
-                <strong>{this.props.getResource('UseLimitations', 'Bruksbegrensninger')}: </strong>{this.props.metadata.Constraints.UseLimitations}
+                <strong>{dispatch(getResource("UseLimitations", "Bruksbegrensninger"))}: </strong>
+                {metadata.Constraints.UseLimitations}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderAccessConstraints() {
-        const hasAccessConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.AccessConstraints;
-        return hasAccessConstraints ? (
+    const renderAccessConstraints = () => {
+        return metadata?.Constraints?.AccessConstraints?.length ? (
             <div>
-                <strong>{this.props.getResource('AccessConstraints', 'Tilgangsrestriksjoner')}: </strong>{this.props.metadata.Constraints.AccessConstraints}
+                <strong>{dispatch(getResource("AccessConstraints", "Tilgangsrestriksjoner"))}: </strong>
+                {metadata.Constraints.AccessConstraints}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderUseConstraints() {
-        const hasUseConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.UseConstraints;
-        return hasUseConstraints ? (
+    const renderUseConstraints = () => {
+        return metadata?.Constraints?.UseConstraints?.length ? (
             <div>
-                <strong>{this.props.getResource('UseConstraints', 'Brukerrestriksjoner')}: </strong>{this.props.metadata.Constraints.UseConstraints}
+                <strong>{dispatch(getResource("UseConstraints", "Brukerrestriksjoner"))}: </strong>
+                {metadata.Constraints.UseConstraints}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderOtherConstraintsLinkText() {
-        const hasOtherConstraintsLinkText = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraintsLinkText;
-        return hasOtherConstraintsLinkText ? (
+    const renderOtherConstraintsLinkText = () => {
+        return metadata?.Constraints?.OtherConstraintsLinkText?.length ? (
             <div>
-                <strong>{this.props.getResource('Licence', 'Lisens')}: </strong><a href={this.props.metadata.Constraints.OtherConstraintsLink} target="_blank" rel="noopener noreferrer">{this.props.metadata.Constraints.OtherConstraintsLinkText}</a>
+                <strong>{dispatch(getResource("Licence", "Lisens"))}: </strong>
+                <a href={metadata.Constraints.OtherConstraintsLink} target="_blank" rel="noopener noreferrer">
+                    {metadata.Constraints.OtherConstraintsLinkText}
+                </a>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderOtherConstraints() {
-        const hasOtherConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.OtherConstraints;
-        return hasOtherConstraints ? (
+    const renderOtherConstraints = () => {
+        return metadata?.Constraints?.OtherConstraints?.length ? (
             <div>
-                <strong>{this.props.getResource('OtherConstraints', 'Andre restriksjoner')}: </strong>{this.props.metadata.Constraints.OtherConstraints}
+                <strong>{dispatch(getResource("OtherConstraints", "Andre restriksjoner"))}: </strong>
+                {metadata.Constraints.OtherConstraints}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderSecurityConstraintsNote() {
-        const hasSecurityConstraintsNote = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraintsNote;
-        return hasSecurityConstraintsNote ? (
+    const renderSecurityConstraintsNote = () => {
+        return metadata?.Constraints?.SecurityConstraintsNote?.length ? (
             <div>
-                <strong>{this.props.getResource('SecurityConstraintsNote', 'Lovhenvisning')}: </strong>{this.props.metadata.Constraints.SecurityConstraintsNote}
+                <strong>{dispatch(getResource("SecurityConstraintsNote", "Lovhenvisning"))}: </strong>
+                {metadata.Constraints.SecurityConstraintsNote}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderSecurityConstraints() {
-        const hasSecurityConstraints = this.props.metadata && this.props.metadata.Constraints && this.props.metadata.Constraints.SecurityConstraints;
-        return hasSecurityConstraints ? (
+    const renderSecurityConstraints = () => {
+        return metadata?.Constraints?.SecurityConstraints?.length ? (
             <div>
-                <strong>{this.props.getResource('SecurityConstraints', 'Sikkerhetsnivå')}: </strong>{this.props.metadata.Constraints.SecurityConstraints}
+                <strong>{dispatch(getResource("SecurityConstraints", "Sikkerhetsnivå"))}: </strong>
+                {metadata.Constraints.SecurityConstraints}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderResolutionScale() {
-        return this.props.metadata && this.props.metadata.ResolutionScale ? (
+    const renderResolutionScale = () => {
+        return metadata?.ResolutionScale?.length ? (
             <div>
-                <strong>{this.props.getResource('ResolutionScale', 'Målestokkstall')}: </strong>{this.props.metadata.ResolutionScale}
+                <strong>{dispatch(getResource("ResolutionScale", "Målestokkstall"))}: </strong>
+                {metadata.ResolutionScale}
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderStatus() {
-        return this.props.metadata && this.props.metadata.Status ? (
+    const renderStatus = () => {
+        return metadata?.Status?.length ? (
             <div>
-                <strong>Status: </strong>{this.props.metadata.Status}
+                <strong>Status: </strong>
+                {metadata.Status}
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderProcessHistory() {
-        return this.props.metadata && this.props.metadata.ProcessHistory ? (
+    const renderProcessHistory = () => {
+        return metadata?.ProcessHistory?.length ? (
             <div className={style.flex}>
-            <div className={style.textContent}>
-                <div><strong>{this.props.getResource('ProcessHistory', 'Prosesshistorie')}: </strong></div>
-                <SimpleMDE
-                    value={this.props.metadata.ProcessHistory}
-                    options={readOnlyMdeOptions}
-                    getMdeInstance={this.getMdeInstance} 
-                />
+                <div className={style.textContent}>
+                    <div>
+                        <strong>{dispatch(getResource("ProcessHistory", "Prosesshistorie"))}: </strong>
+                    </div>
+                    <SimpleMDE
+                        value={metadata.ProcessHistory}
+                        options={readOnlyMdeOptions}
+                        getMdeInstance={getMdeInstance}
+                    />
+                </div>
             </div>
-        </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderOrderingInstructions() {
-        return this.props.metadata && this.props.metadata.OrderingInstructions ? (
+    const renderOrderingInstructions = () => {
+        return metadata?.OrderingInstructions?.length ? (
             <div>
-                <strong>{this.props.getResource('ServiceDeclaration', 'Tjenesteerklæring')}: </strong><a href={this.props.metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">{this.props.metadata.OrderingInstructionsLinkText}</a>
-                {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Availability ? <div> {this.props.metadata.QuantitativeResult.Availability} </div> : ""}
-                {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Capacity ? <div> {this.props.metadata.QuantitativeResult.Capacity} </div> : ""}
-                {this.props.metadata.QuantitativeResult && this.props.metadata.QuantitativeResult.Performance ? <div> {this.props.metadata.QuantitativeResult.Performance} </div> : ""}
+                <strong>{dispatch(getResource("ServiceDeclaration", "Tjenesteerklæring"))}: </strong>
+                <a href={metadata.OrderingInstructions} target="_blank" rel="noopener noreferrer">
+                    {metadata.OrderingInstructionsLinkText}
+                </a>
+                {metadata?.QuantitativeResult?.Availability?.length ? (
+                    <div> {metadata.QuantitativeResult.Availability} </div>
+                ) : null}
+                {metadata?.QuantitativeResult?.Capacity?.length ? (
+                    <div> {metadata.QuantitativeResult.Capacity} </div>
+                ) : null}
+                {metadata?.QuantitativeResult?.Performance?.length ? (
+                    <div> {metadata.QuantitativeResult.Performance} </div>
+                ) : null}
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderDateCreated() {
-        return this.props.metadata && this.props.metadata.DateCreated ? (
+    const renderDateCreated = () => {
+        return metadata?.DateCreated?.length ? (
             <div>
-                <strong>{this.props.getResource('Created', 'Oppretet')} ({this.props.getResource('Resource', 'Ressurs')}): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateCreated} />
+                <strong>
+                    {dispatch(getResource("Created", "Oppretet"))} ({dispatch(getResource("Resource", "Ressurs"))}):{" "}
+                </strong>
+                <Moment format="DD.MM.YYYY" date={metadata.DateCreated} />
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderDateUpdated() {
-        return this.props.metadata && this.props.metadata.DateUpdated ? (
+    const renderDateUpdated = () => {
+        return metadata?.DateUpdated?.length ? (
             <div>
-                <strong>{this.props.getResource('Updated', 'Oppdatert')} ({this.props.getResource('Resource', 'Ressurs')}): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateUpdated} />
+                <strong>
+                    {dispatch(getResource("Updated", "Oppdatert"))} ({dispatch(getResource("Resource", "Ressurs"))}):{" "}
+                </strong>
+                <Moment format="DD.MM.YYYY" date={metadata.DateUpdated} />
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderMetadataDateUpdated() {
-        return this.props.metadata && this.props.metadata.DateMetadataUpdated ? (
+    const renderMetadataDateUpdated = () => {
+        return metadata?.DateMetadataUpdated?.length ? (
             <div>
-                <strong>{this.props.getResource('Updated', 'Oppdatert')} (Metadata): </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DateMetadataUpdated} />
+                <strong>{dispatch(getResource("Updated", "Oppdatert"))} (Metadata): </strong>
+                <Moment format="DD.MM.YYYY" date={metadata.DateMetadataUpdated} />
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderDatePublished() {
-        return this.props.metadata && this.props.metadata.DatePublished ? (
+    const renderDatePublished = () => {
+        return metadata?.DatePublished?.length ? (
             <div>
-                <strong>{this.props.getResource('Published', 'Publisert')}: </strong><Moment format="DD.MM.YYYY" date={this.props.metadata.DatePublished} />
+                <strong>{dispatch(getResource("Published", "Publisert"))}: </strong>
+                <Moment format="DD.MM.YYYY" date={metadata.DatePublished} />
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderDateValidityPeriod() {
-        const validFrom = this.props.metadata && this.props.metadata.DatePublished ? this.props.metadata.DateMetadataValidFrom : '';
-        const validTo = this.props.metadata && this.props.metadata.DatePublished ? this.props.metadata.DateMetadataValidTo : '';
+    const renderDateValidityPeriod = () => {
+        const validFrom = metadata?.DatePublished ? metadata?.DateMetadataValidFrom : "";
+        const validTo = metadata?.DatePublished ? metadata?.DateMetadataValidTo : "";
         return validFrom || validTo ? (
             <div>
-                <strong>{this.props.getResource('ValidityPeriod', 'Gyldighetsperiode')}: </strong><Moment format="DD.MM.YYYY" date={validFrom} />  - <Moment format="DD.MM.YYYY" date={validTo} />
+                <strong>{dispatch(getResource("ValidityPeriod", "Gyldighetsperiode"))}: </strong>
+                <Moment format="DD.MM.YYYY" date={validFrom} /> - <Moment format="DD.MM.YYYY" date={validTo} />
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderMaintenanceFrequency() {
-        return this.props.metadata && this.props.metadata.MaintenanceFrequency ? (
+    const renderMaintenanceFrequency = () => {
+        return metadata?.MaintenanceFrequency?.length ? (
             <div>
-                <strong>{this.props.getResource('MaintenanceFrequency', 'Oppdateringshyppighet')}: </strong>{this.props.metadata.MaintenanceFrequency}
+                <strong>{dispatch(getResource("MaintenanceFrequency", "Oppdateringshyppighet"))}: </strong>
+                {metadata.MaintenanceFrequency}
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderSpatialScope() {
-        return this.props.metadata && this.props.metadata.SpatialScope ? (
+    const renderSpatialScope = () => {
+        return metadata?.SpatialScope?.length ? (
             <div>
-                <strong>{this.props.getResource('Facet_spatialscope', 'Dekningsområde')}: </strong>{this.props.metadata.SpatialScope}
+                <strong>{dispatch(getResource("Facet_spatialscope", "Dekningsområde"))}: </strong>
+                {metadata.SpatialScope}
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderKeywordsPlace() {
-        const hasKeywordsPlace = this.props.metadata.KeywordsPlace && this.props.metadata.KeywordsPlace.length;
-        const keywordsPlaceList = hasKeywordsPlace && this.props.metadata.KeywordsPlace.map((keywordPlace, index) => {
-            return (
-                <li key={index}>
-                    {this.props.selectedLanguage === "en" && keywordPlace.EnglishKeyword && keywordPlace.EnglishKeyword.length ? keywordPlace.EnglishKeyword : keywordPlace.KeywordValue}
-                </li>
-            )
-        });
-        return hasKeywordsPlace ? (
+    const renderKeywordsPlace = () => {
+        const keywordsPlaceList =
+            metadata?.KeywordsPlace?.length &&
+            metadata.KeywordsPlace.map((keywordPlace, index) => {
+                return (
+                    <li key={index}>
+                        {selectedLanguage === "en" && keywordPlace.EnglishKeyword && keywordPlace.EnglishKeyword.length
+                            ? keywordPlace.EnglishKeyword
+                            : keywordPlace.KeywordValue}
+                    </li>
+                );
+            });
+        return keywordsPlaceList?.length ? (
             <div>
-                <h3>{this.props.getResource('KeywordsPlace', 'Geografisk område')}:</h3>
+                <h3>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h3>
                 <ul className={style.defaultList}>{keywordsPlaceList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderBoundingBox() {
-        return this.props.metadata.BoundingBox ? (
+    const renderBoundingBox = () => {
+        return metadata?.BoundingBox && Object.keys(metadata?.BoundingBox)?.length ? (
             <div>
-                <h3>{this.props.getResource('BoundingBox', 'Geografisk utstrekning')}:</h3>
+                <h3>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h3>
                 <ul className={style.defaultList}>
-                    <li>{this.props.getResource('North', 'Nord')}: {this.props.metadata.BoundingBox.NorthBoundLatitude}</li>
-                    <li>{this.props.getResource('South', 'Sør')}: {this.props.metadata.BoundingBox.SouthBoundLatitude}</li>
-                    <li>{this.props.getResource('East', 'Øst')}: {this.props.metadata.BoundingBox.EastBoundLongitude}</li>
-                    <li>{this.props.getResource('West', 'Vest')}: {this.props.metadata.BoundingBox.WestBoundLongitude}</li>
+                    <li>
+                        {dispatch(getResource("North", "Nord"))}: {metadata.BoundingBox.NorthBoundLatitude}
+                    </li>
+                    <li>
+                        {dispatch(getResource("South", "Sør"))}: {metadata.BoundingBox.SouthBoundLatitude}
+                    </li>
+                    <li>
+                        {dispatch(getResource("East", "Øst"))}: {metadata.BoundingBox.EastBoundLongitude}
+                    </li>
+                    <li>
+                        {dispatch(getResource("West", "Vest"))}: {metadata.BoundingBox.WestBoundLongitude}
+                    </li>
                 </ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsTheme() {
-        const hasKeywordsTheme = this.props.metadata.KeywordsTheme && this.props.metadata.KeywordsTheme.length;
-        const keywordsThemeList = hasKeywordsTheme && this.props.metadata.KeywordsTheme.map((keywordTheme, index) => {
-            return (
-                <li key={index}>
-                    {this.props.selectedLanguage === "en" && keywordTheme.EnglishKeyword && keywordTheme.EnglishKeyword.length ? keywordTheme.EnglishKeyword : keywordTheme.KeywordValue}
-                </li>
-            )
-        });
-        return hasKeywordsTheme ? (
+    const renderKeywordsTheme = () => {
+        const keywordsThemeList =
+            metadata?.KeywordsTheme?.length &&
+            metadata.KeywordsTheme.map((keywordTheme, index) => {
+                return (
+                    <li key={index}>
+                        {selectedLanguage === "en" && keywordTheme.EnglishKeyword && keywordTheme.EnglishKeyword.length
+                            ? keywordTheme.EnglishKeyword
+                            : keywordTheme.KeywordValue}
+                    </li>
+                );
+            });
+        return keywordsThemeList?.length ? (
             <div>
-                <h3>{this.props.getResource('Facet_theme', 'Tema')}:</h3>
+                <h3>{dispatch(getResource("Facet_theme", "Tema"))}:</h3>
                 <ul className={style.defaultList}>{keywordsThemeList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsNationalTheme() {
-        const hasKeywordsNationalTheme = this.props.metadata.KeywordsNationalTheme && this.props.metadata.KeywordsNationalTheme.length;
-        const keywordsNationalThemeList = hasKeywordsNationalTheme && this.props.metadata.KeywordsNationalTheme.map((keywordNationalTheme, index) => {
-            return (
-                <li key={index}>
-                    {this.props.selectedLanguage === "en" && keywordNationalTheme.EnglishKeyword && keywordNationalTheme.EnglishKeyword.length ? keywordNationalTheme.EnglishKeyword : keywordNationalTheme.KeywordValue}
-                </li>
-            )
-        });
-        return hasKeywordsNationalTheme ? (
+    const renderKeywordsNationalTheme = () => {
+        const keywordsNationalThemeList =
+            metadata?.KeywordsNationalTheme?.length &&
+            metadata.KeywordsNationalTheme.map((keywordNationalTheme, index) => {
+                return (
+                    <li key={index}>
+                        {selectedLanguage === "en" && keywordNationalTheme?.EnglishKeyword?.length
+                            ? keywordNationalTheme.EnglishKeyword
+                            : keywordNationalTheme.KeywordValue}
+                    </li>
+                );
+            });
+        return keywordsNationalThemeList?.length ? (
             <div>
-                <h3>{this.props.getResource('KeywordsNationalTheme', 'Nasjonale tema')}:</h3>
+                <h3>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h3>
                 <ul className={style.defaultList}>{keywordsNationalThemeList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsNationalInitiative() {
-        const hasKeywordsNationalInitiative = this.props.metadata.KeywordsNationalInitiative && this.props.metadata.KeywordsNationalInitiative.length;
-        const keywordsNationalInitiativeList = hasKeywordsNationalInitiative && this.props.metadata.KeywordsNationalInitiative.map((keywordNationalInitiative, index) => {
-            return (
-                <li key={index}>
-                    {this.props.selectedLanguage === "en" && keywordNationalInitiative.EnglishKeyword && keywordNationalInitiative.EnglishKeyword.length ? keywordNationalInitiative.EnglishKeyword : keywordNationalInitiative.KeywordValue}
-                </li>
-            )
-        });
-        return hasKeywordsNationalInitiative ? (
+    const renderKeywordsNationalInitiative = () => {
+        const keywordsNationalInitiativeList =
+            metadata?.KeywordsNationalInitiative?.length &&
+            metadata.KeywordsNationalInitiative.map((keywordNationalInitiative, index) => {
+                return (
+                    <li key={index}>
+                        {selectedLanguage === "en" && keywordNationalInitiative?.EnglishKeyword?.length
+                            ? keywordNationalInitiative.EnglishKeyword
+                            : keywordNationalInitiative.KeywordValue}
+                    </li>
+                );
+            });
+        return keywordsNationalInitiativeList?.length ? (
             <div>
-                <h3>{this.props.getResource('Facet_nationalinitiative', 'Samarbeid og lover')}:</h3>
+                <h3>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h3>
                 <ul className={style.defaultList}>{keywordsNationalInitiativeList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsInspire() {
-        const hasKeywordsInspire = this.props.metadata.KeywordsInspire && this.props.metadata.KeywordsInspire.length;
-        const keywordsInspireList = hasKeywordsInspire && this.props.metadata.KeywordsInspire.map((keywordInspire, index) => {
-            return (
-                <li key={index}>
-                    {keywordInspire.KeywordValue}
-                </li>
-            )
-        });
-        return hasKeywordsInspire ? (
+    const renderKeywordsInspire = () => {
+        const keywordsInspireList =
+            metadata?.KeywordsInspire?.length &&
+            metadata.KeywordsInspire.map((keywordInspire, index) => {
+                return <li key={index}>{keywordInspire.KeywordValue}</li>;
+            });
+        return keywordsInspireList?.length ? (
             <div>
                 <h3>Inspire:</h3>
                 <ul className={style.defaultList}>{keywordsInspireList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsConcept() {
-        const hasKeywordsConcept = this.props.metadata.KeywordsConcept && this.props.metadata.KeywordsConcept.length;
-        const keywordsConceptList = hasKeywordsConcept && this.props.metadata.KeywordsConcept.map((keywordConcept, index) => {
-            return (
-                <li key={index}>
-                    <a href={keywordConcept.KeywordLink} target="_blank" rel="noopener noreferrer">{keywordConcept.KeywordValue}</a>
-                </li>
-            )
-        });
-        return hasKeywordsConcept ? (
+    const renderKeywordsConcept = () => {
+        const keywordsConceptList =
+            metadata?.KeywordsConcept?.length &&
+            metadata.KeywordsConcept.map((keywordConcept, index) => {
+                return (
+                    <li key={index}>
+                        <a href={keywordConcept.KeywordLink} target="_blank" rel="noopener noreferrer">
+                            {keywordConcept.KeywordValue}
+                        </a>
+                    </li>
+                );
+            });
+        return keywordsConceptList?.length ? (
             <div>
-                <strong>{this.props.getResource('Concept', 'Begreper')}:</strong>
+                <strong>{dispatch(getResource("Concept", "Begreper"))}:</strong>
                 <ul className={style.defaultList}>{keywordsConceptList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsInspirePriorityDataset() {
-        const hasKeywordsInspirePriorityDataset = this.props.metadata.KeywordsInspirePriorityDataset && this.props.metadata.KeywordsInspirePriorityDataset.length;
-        const keywordsInspirePriorityDatasetList = hasKeywordsInspirePriorityDataset && this.props.metadata.KeywordsInspirePriorityDataset.map((keywordInspirePriorityDataset, index) => {
-            return (
-                <li key={index}>
-                    <a href={keywordInspirePriorityDataset.KeywordLink} target="_blank" rel="noopener noreferrer">{keywordInspirePriorityDataset.KeywordValue}</a>
-                </li>
-            )
-        });
-        return hasKeywordsInspirePriorityDataset ? (
+    const renderKeywordsInspirePriorityDataset = () => {
+        const keywordsInspirePriorityDatasetList =
+            metadata?.KeywordsInspirePriorityDataset?.length &&
+            metadata.KeywordsInspirePriorityDataset.map((keywordInspirePriorityDataset, index) => {
+                return (
+                    <li key={index}>
+                        <a href={keywordInspirePriorityDataset.KeywordLink} target="_blank" rel="noopener noreferrer">
+                            {keywordInspirePriorityDataset.KeywordValue}
+                        </a>
+                    </li>
+                );
+            });
+        return keywordsInspirePriorityDatasetList?.length ? (
             <div>
-                <strong>{this.props.getResource('EuPriorityDataset', 'EU - prioriterte datasett')}:</strong>
+                <strong>{dispatch(getResource("EuPriorityDataset", "EU - prioriterte datasett"))}:</strong>
                 <ul className={style.defaultList}>{keywordsInspirePriorityDatasetList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsInspireCategory() {
-        const hasKeywordsInspire = this.props.metadata.KeywordsInspire && this.props.metadata.KeywordsInspire.length;
-        const keywordsInspireList = hasKeywordsInspire && this.props.metadata.KeywordsInspire.map((keywordInspire, index) => {
-            return (
-                <li key={index}>
-                    {keywordInspire.KeywordValue}
-                </li>
-            )
-        });
-        return hasKeywordsInspire ? (
+    const renderKeywordsInspireCategory = () => {
+        const keywordsInspireList =
+            metadata?.KeywordsInspire?.length &&
+            metadata.KeywordsInspire.map((keywordInspire, index) => {
+                return <li key={index}>{keywordInspire.KeywordValue}</li>;
+            });
+        return renderKeywordsInspireCategory?.length ? (
             <div>
-                <strong>{this.props.getResource('Metadata_KeywordsInspire_Label', 'Inspire kategorier')}:</strong>
+                <strong>{dispatch(getResource("Metadata_KeywordsInspire_Label", "Inspire kategorier"))}:</strong>
                 <ul className={style.defaultList}>{keywordsInspireList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsOther() {
-        const hasKeywordsOther = this.props.metadata.KeywordsOther && this.props.metadata.KeywordsOther.length;
-        const keywordsOtherList = hasKeywordsOther && this.props.metadata.KeywordsOther.map((keywordOther, index) => {
-            return (
-                <li key={index}>
-                    {this.props.selectedLanguage === "en" && keywordOther.EnglishKeyword && keywordOther.EnglishKeyword.length ? keywordOther.EnglishKeyword : keywordOther.KeywordValue}
-                </li>
-            )
-        });
-        return hasKeywordsOther ? (
+    const renderKeywordsOther = () => {
+        const keywordsOtherList =
+            metadata?.KeywordsOther?.length &&
+            metadata.KeywordsOther.map((keywordOther, index) => {
+                return (
+                    <li key={index}>
+                        {selectedLanguage === "en" && keywordOther.EnglishKeyword && keywordOther.EnglishKeyword.length
+                            ? keywordOther.EnglishKeyword
+                            : keywordOther.KeywordValue}
+                    </li>
+                );
+            });
+        return keywordsOtherList?.length ? (
             <div>
-                <strong>{this.props.getResource('Metadata_KeywordsOther_Label', 'Ukategoriserte nøkkelord')}:</strong>
+                <strong>{dispatch(getResource("Metadata_KeywordsOther_Label", "Ukategoriserte nøkkelord"))}:</strong>
                 <ul className={style.defaultList}>{keywordsOtherList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsAdministrativeUnits() {
-        const hasKeywordsAdministrativeUnits = this.props.metadata.KeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.length;
-        const keywordsAdministrativeUnitsList = hasKeywordsAdministrativeUnits && this.props.metadata.KeywordsAdministrativeUnits.map((keywordAdministrativeUnits, index) => {
-            return keywordAdministrativeUnits.KeywordLink ? (
-                <li key={index}>
-                    <a href={keywordAdministrativeUnits.KeywordLink}>
-                        {keywordAdministrativeUnits.KeywordValue}
-                    </a>
-                </li>
-            ) : (
-                <li key={index}>
-                    <span>
-                        {keywordAdministrativeUnits.KeywordValue}
-                    </span>
-                </li>
-            )
-        });
-        return hasKeywordsAdministrativeUnits ? (
+    const renderKeywordsAdministrativeUnits = () => {
+        const keywordsAdministrativeUnitsList =
+            metadata?.KeywordsAdministrativeUnits?.length &&
+            metadata.KeywordsAdministrativeUnits.map((keywordAdministrativeUnits, index) => {
+                return keywordAdministrativeUnits?.KeywordLink ? (
+                    <li key={index}>
+                        <a href={keywordAdministrativeUnits.KeywordLink}>{keywordAdministrativeUnits.KeywordValue}</a>
+                    </li>
+                ) : (
+                    <li key={index}>
+                        <span>{keywordAdministrativeUnits.KeywordValue}</span>
+                    </li>
+                );
+            });
+        return keywordsAdministrativeUnitsList?.length ? (
             <div>
-                <h3>{this.props.getResource('KeywordsAdministrativeUnits', 'Administrative enheter')}:</h3>
+                <h3>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h3>
                 <ul className={style.defaultList}>{keywordsAdministrativeUnitsList}</ul>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderTopicCategory() {
-        return this.props.metadata && this.props.metadata.TopicCategories ? (
+    const renderTopicCategory = () => {
+        return metadata?.TopicCategories?.length ? (
             <div>
-                <strong>{this.props.getResource('TopicCategory', 'Tematisk hovedkategori')}: </strong>{this.props.metadata.TopicCategories.join(", ")}
+                <strong>{dispatch(getResource("TopicCategory", "Tematisk hovedkategori"))}: </strong>
+                {metadata.TopicCategories.join(", ")}
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderCredits() {
-        return this.props.metadata && this.props.metadata.Credits ? (
+    const renderCredits = () => {
+        return metadata?.Credits?.length ? <div>{metadata.Credits.join(", ")}</div> : null;
+    };
+
+    const renderSpecificUsageSection = () => {
+        return metadata?.SpecificUsage?.length ? (
             <div>
-                {this.props.metadata.Credits.join(", ")}
+                <h2>{dispatch(getResource("SpecificUsage", "Bruksområde"))}</h2>
+                <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SpecificUsage)}</p>
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderSpecificUsageSection() {
-        if (this.props.metadata.SpecificUsage) {
-            return (
+    const renderDistributionsListSection = () => {
+        const selfDistributionsList =
+            metadataDistributions?.SelfDistribution?.length && metadataDistributions?.ShowSelfDistributions ? (
                 <div>
-                    <h2>{this.props.getResource('SpecificUsage', 'Bruksområde')}</h2>
-                    <p style={{whiteSpace: "pre-line" }}>{this.urlify(this.props.metadata.SpecificUsage)}</p>
+                    <h3>{metadataDistributions.TitleSelf}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.SelfDistribution} />
+                    </ErrorBoundary>
                 </div>
-            )
-        }
-    }
+            ) : null;
+        const relatedDatasetList =
+            metadataDistributions?.RelatedDataset?.length && metadataDistributions?.ShowRelatedDataset ? (
+                <div>
+                    <h3>{dispatch(getResource("Facet_type_dataset", "Datasett"))}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedDataset} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
+        const relatedSerieDatasetsList =
+            (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedDatasetSerie) ||
+            metadata?.TypeName == "series_time" ? (
+                <div>
+                    <h3>{dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}</h3>
+                    {metadata.TypeName == "series_time" ? (
+                        <form className="form-inline" onSubmit={handleSubmit}>
+                            <div className="input-group">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label>Dato fra: </label>
+                                            </td>
+                                            <td>
+                                                <DatePicker
+                                                    style={{ display: "inline" }}
+                                                    autoComplete="off"
+                                                    selectsStart
+                                                    startDate={startDate}
+                                                    selected={startDate}
+                                                    onChange={handleStartChange}
+                                                    name="startDate"
+                                                    dateFormat="dd.MM.yyyy"
+                                                    locale="nb"
+                                                />
+                                            </td>
+                                            <td>
+                                                <label>Dato til: </label>
+                                            </td>
+                                            <td>
+                                                <DatePicker
+                                                    style={{ display: "inline" }}
+                                                    autoComplete="off"
+                                                    selectsEnd
+                                                    endDate={endDate}
+                                                    selected={endDate}
+                                                    onChange={handleEndChange}
+                                                    name="endDate"
+                                                    dateFormat="dd.MM.yyyy"
+                                                    minDate={startDate}
+                                                    locale="nb"
+                                                />
+                                            </td>
+                                            <td>
+                                                <button className="btn btn-success">Søk</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    ) : null}
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedSerieDatasets} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
+        const relatedDatasetSerieList =
+            metadataDistributions?.RelatedDatasetSerie?.length && metadataDistributions?.ShowRelatedDatasetSerie ? (
+                <div>
+                    <h3>{dispatch(getResource("Facet_type_datasetserie", "Datasettet inngår i datasettserien"))}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedDatasetSerie} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
+        const relatedApplicationsList =
+            metadataDistributions?.RelatedApplications?.length && metadataDistributions?.ShowRelatedApplications ? (
+                <div>
+                    <h3>{metadataDistributions.TitleRelatedApplications}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedApplications} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
+        const relatedServiceLayersList =
+            metadataDistributions?.RelatedServiceLayer?.length && metadataDistributions?.ShowRelatedServiceLayer ? (
+                <div>
+                    <h3>{dispatch(getResource("Servicelayers", "Tjenestelag"))}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedServiceLayer} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
+        const relatedServicesList =
+            metadataDistributions?.RelatedServices?.length && metadataDistributions?.ShowRelatedServices ? (
+                <div>
+                    <h3>{dispatch(getResource("Services", "Tjenester"))}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedServices} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
+        const relatedViewServicesList =
+            metadataDistributions?.RelatedViewServices?.length && metadataDistributions?.ShowRelatedViewServices ? (
+                <div>
+                    <h3>{dispatch(getResource("DisplayServices", "Visningstjenester"))}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedViewServices} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
+        const relatedDownloadServicesList =
+            metadataDistributions?.RelatedDownloadServices?.length &&
+            metadataDistributions?.ShowRelatedDownloadServices ? (
+                <div>
+                    <h3>{dispatch(getResource("DownloadServices", "Nedlastingstjenester"))}</h3>
+                    <ErrorBoundary>
+                        <DistributionsList distributions={metadataDistributions.RelatedDownloadServices} />
+                    </ErrorBoundary>
+                </div>
+            ) : null;
 
-    renderDistributionsListSection() {
-        const hasSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.SelfDistribution && this.props.metadataDistributions.SelfDistribution.length;
-        const showSelfDistributions = this.props.metadataDistributions && this.props.metadataDistributions.ShowSelfDistributions;
-
-        const hasRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDataset && this.props.metadataDistributions.RelatedDataset.length;
-        const showRelatedDataset = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDataset;
-
-        const hasRelatedSerieDatasets = this.props.metadataDistributions && this.props.metadataDistributions.RelatedSerieDatasets && this.props.metadataDistributions.RelatedSerieDatasets.length;
-        const showRelatedSerieDatasets = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedSerieDatasets;
-
-        const hasRelatedDatasetSerie = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDatasetSerie && this.props.metadataDistributions.RelatedDatasetSerie.length;
-        const showRelatedDatasetSerie = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDatasetSerie;
-
-        const hasRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.RelatedApplications && this.props.metadataDistributions.RelatedApplications.length;
-        const showRelatedApplications = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedApplications;
-
-        const hasRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServices && this.props.metadataDistributions.RelatedServices.length;
-        const showRelatedServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServices;
-
-        const hasRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.RelatedServiceLayer && this.props.metadataDistributions.RelatedServiceLayer.length;
-        const showRelatedServiceLayers = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedServiceLayer;
-
-        const hasRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedViewServices && this.props.metadataDistributions.RelatedViewServices.length;
-        const showRelatedViewServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedViewServices;
-
-        const hasRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.RelatedDownloadServices && this.props.metadataDistributions.RelatedDownloadServices.length;
-        const showRelatedDownloadServices = this.props.metadataDistributions && this.props.metadataDistributions.ShowRelatedDownloadServices;
-
-        const selfDistributionsList = hasSelfDistributions && showSelfDistributions ? (
-            <div>
-                <h3>{this.props.metadataDistributions.TitleSelf}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.SelfDistribution} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedDatasetList = hasRelatedDataset && showRelatedDataset ? (
-            <div>
-                <h3>{this.props.getResource('Facet_type_dataset', 'Datasett')}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDataset} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedSerieDatasetsList = (hasRelatedSerieDatasets && showRelatedSerieDatasets) ||  this.props.metadata.TypeName == "series_time"? (
-            <div>
-                <h3>{this.props.getResource('Facet_type_seriedatasets', 'Datasett som inngår i datasettserien')}</h3>
-                {this.props.metadata.TypeName == "series_time"? (
-                <form className="form-inline" onSubmit={ this.handleSubmit }>
-                    <div className="input-group">
-                    <table>
-                        <tbody>
-                        <tr>
-                        <td>
-                        <label>Dato fra: </label>
-                        </td>
-                        <td>
-                        <DatePicker
-                        style={{ display: "inline" }}
-                        autoComplete="off"
-                        selectsStart
-                        startDate= {this.state.startDate}
-                        selected={ this.state.startDate }
-                        onChange={ this.handleStartChange }
-                        name="startDate"
-                        dateFormat="dd.MM.yyyy"
-                        locale="nb"
-                        />
-                        </td>
-                        <td>
-                        <label>Dato til: </label>
-                        </td>
-                        <td>
-                        <DatePicker
-                        style={{ display: "inline" }}
-                        autoComplete="off"
-                        selectsEnd
-                        endDate= {this.state.endDate}
-                        selected={ this.state.endDate }
-                        onChange={ this.handleEndChange }
-                        name="endDate"
-                        dateFormat="dd.MM.yyyy"
-                        minDate={this.state.startDate}
-                        locale="nb"
-                        />
-                        </td>
-                        <td>
-                        <button className="btn btn-success">Søk</button>
-                        </td>
-                        </tr>
-                        </tbody>
-                        </table>
-                    </div>
-                </form>
-                ) : ''}
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedSerieDatasets} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedDatasetSerieList = hasRelatedDatasetSerie && showRelatedDatasetSerie ? (
-            <div>
-                <h3>{this.props.getResource('Facet_type_datasetserie', 'Datasettet inngår i datasettserien')}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDatasetSerie} />
-                </ErrorBoundary>
-            </div>       
-        ) : '';
-        const relatedApplicationsList = hasRelatedApplications && showRelatedApplications ? (
-            <div>
-                <h3>{this.props.metadataDistributions.TitleRelatedApplications}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedApplications} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedServicesList = hasRelatedServices && showRelatedServices ? (
-            <div>
-                <h3>{this.props.getResource('Services', 'Tjenester')}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedServices} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedServiceLayersList = hasRelatedServiceLayers && showRelatedServiceLayers ? (
-            <div>
-                <h3>{this.props.getResource('Servicelayers', 'Tjenestelag')}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedServiceLayer} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedViewServicesList = hasRelatedViewServices && showRelatedViewServices ? (
-            <div>
-                <h3>{this.props.getResource('DisplayServices', 'Visningstjenester')}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedViewServices} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-        const relatedDownloadServicesList = hasRelatedDownloadServices && showRelatedDownloadServices ? (
-            <div>
-                <h3>{this.props.getResource('DownloadServices', 'Nedlastingstjenester')}</h3>
-                <ErrorBoundary>
-                    <DistributionsList distributions={this.props.metadataDistributions.RelatedDownloadServices} />
-                </ErrorBoundary>
-            </div>
-        ) : '';
-
-        const showDistributions = (hasSelfDistributions && showSelfDistributions)
-            || (hasRelatedDataset && showRelatedDataset)
-            || (hasRelatedSerieDatasets && showRelatedSerieDatasets)
-            || (hasRelatedDatasetSerie && showRelatedDatasetSerie)
-            || (hasRelatedApplications && showRelatedApplications)
-            || (hasRelatedServices && showRelatedServices)
-            || (hasRelatedServiceLayers && showRelatedServiceLayers)
-            || (hasRelatedServices && showRelatedServices)
-            || (hasRelatedViewServices && showRelatedViewServices)
-            || (hasRelatedDownloadServices && showRelatedDownloadServices);
-
+        const showDistributions =
+            !!selfDistributionsList ||
+            !!relatedDatasetList ||
+            !!relatedSerieDatasetsList ||
+            !!relatedDatasetSerieList ||
+            !!relatedApplicationsList ||
+            !!relatedServiceLayersList ||
+            !!relatedServicesList ||
+            !!relatedViewServicesList ||
+            !!relatedDownloadServicesList;
         return showDistributions ? (
             <div>
-                <h2>{this.props.getResource('Distributions', 'Distribusjoner')}</h2>
-
+                <h2>{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
                 {selfDistributionsList}
                 {relatedDatasetList}
                 {relatedSerieDatasetsList}
@@ -987,380 +1039,467 @@ class Metadata extends Component {
                 {relatedViewServicesList}
                 {relatedDownloadServicesList}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderContactSection() {
-        const hasChildren = this.renderContactMetadata() || this.renderContactOwner() || this.renderContactPublisher();
+    const renderContactSection = () => {
+        const hasChildren = renderContactMetadata() || renderContactOwner() || renderContactPublisher();
         return hasChildren ? (
             <div>
-                <h2>{this.props.getResource('ContactInformation', 'Kontaktinforsmasjon')}</h2>
+                <h2>{dispatch(getResource("ContactInformation", "Kontaktinforsmasjon"))}</h2>
                 <div className={style.flex}>
-                    {this.renderContactMetadata()}
-                    {this.renderContactOwner()}
-                    {this.renderContactPublisher()}
+                    {renderContactMetadata()}
+                    {renderContactOwner()}
+                    {renderContactPublisher()}
                 </div>
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderDistributionSection() {
-        const hasChildren = this.renderSpatialRepresentation() || this.renderDistributionsFormats() || this.renderReferenceSystems();
-
+    const renderDistributionSection = () => {
+        const hasChildren = renderSpatialRepresentation() || renderDistributionsFormats() || renderReferenceSystems();
         return hasChildren ? (
             <div>
-                <h2>{this.props.getResource('Distribution', 'Distribusjon')}</h2>
-                {this.renderSpatialRepresentation()}
-                {this.renderDistributionsFormats()}
-                {this.renderOperations()}
-                {this.renderReferenceSystems()}
+                <h2>{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
+                {renderSpatialRepresentation()}
+                {renderDistributionsFormats()}
+                {renderOperations()}
+                {renderReferenceSystems()}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderConstraintsSection() {
-        const hasChildren = this.renderUseLimitations() || this.renderAccessConstraints() || this.renderUseConstraints() || this.renderOtherConstraints() || this.renderOtherConstraintsLinkText() || this.renderSecurityConstraints() || this.renderSecurityConstraintsNote();
+    const renderConstraintsSection = () => {
+        const hasChildren =
+            renderUseLimitations() ||
+            renderAccessConstraints() ||
+            renderUseConstraints() ||
+            renderOtherConstraints() ||
+            renderOtherConstraintsLinkText() ||
+            renderSecurityConstraints() ||
+            renderSecurityConstraintsNote();
         return hasChildren ? (
             <div>
-                <h2>{this.props.getResource('Constraints', 'Restriksjoner')}</h2>
-                {this.renderUseLimitations()}
-                {this.renderAccessConstraints()}
-                {this.renderUseConstraints()}
-                {this.renderOtherConstraintsLinkText()}
-                {this.renderOtherConstraints()}
-                {this.renderSecurityConstraintsNote()}
-                {this.renderSecurityConstraints()}
+                <h2>{dispatch(getResource("Constraints", "Restriksjoner"))}</h2>
+                {renderUseLimitations()}
+                {renderAccessConstraints()}
+                {renderUseConstraints()}
+                {renderOtherConstraintsLinkText()}
+                {renderOtherConstraints()}
+                {renderSecurityConstraintsNote()}
+                {renderSecurityConstraints()}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderSupplementalDescriptionSection() {
-        return this.props.metadata && (this.props.metadata.SupplementalDescription || this.props.metadata.HelpUrl) ? (
+    const renderSupplementalDescriptionSection = () => {
+        return metadata?.SupplementalDescription?.length || metadata?.HelpUrl?.length ? (
             <div>
-                <h2 id="help-info">{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</h2>
-                <p style={{whiteSpace: "pre-line" }}>{this.urlify(this.props.metadata.SupplementalDescription)}</p>
-                {this.props.metadata.HelpUrl ? <a href={this.props.metadata.HelpUrl}>{this.props.getResource('Display', 'Vis')} {this.props.getResource('Help', 'Hjelp')}</a> : ""}
+                <h2 id="help-info">
+                    {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
+                </h2>
+                <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SupplementalDescription)}</p>
+                {metadata.HelpUrl ? (
+                    <a href={metadata.HelpUrl}>
+                        {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
+                    </a>
+                ) : null}
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderQualitySection() {
-        const hasChildren = this.renderResolutionScale() || this.renderStatus() || this.renderProcessHistory() || this.renderOrderingInstructions();
+    const renderQualitySection = () => {
+        const hasChildren =
+            renderResolutionScale() || renderStatus() || renderProcessHistory() || renderOrderingInstructions();
         return hasChildren ? (
             <div>
-                <h2>{this.props.getResource('Quality', 'Kvalitet')}</h2>
-                {this.renderResolutionScale()}
-                {this.renderStatus()}
-                {this.renderProcessHistory()}
-                {this.renderOrderingInstructions()}
+                <h2>{dispatch(getResource("Quality", "Kvalitet"))}</h2>
+                {renderResolutionScale()}
+                {renderStatus()}
+                {renderProcessHistory()}
+                {renderOrderingInstructions()}
             </div>
-        ) : '';
-    }
+        ) : (
+            ""
+        );
+    };
 
-    renderGeneral() {
-        const hasChildren = this.renderDatasetLanguage() || this.renderResourceReferenceCodespace() || this.renderResourceReferenceCode();
+    const renderGeneral = () => {
+        const hasChildren =
+            renderDatasetLanguage() || renderResourceReferenceCodespace() || renderResourceReferenceCode();
         return hasChildren ? (
             <div>
-                {this.renderDatasetLanguage()}
-                {this.renderResourceReferenceCodespace()}
-                {this.renderResourceReferenceCode()}
+                {renderDatasetLanguage()}
+                {renderResourceReferenceCodespace()}
+                {renderResourceReferenceCode()}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderQualitySpecificationsSection() {
-        const hasQualitySpecifications = this.props.metadata && this.props.metadata.QualitySpecifications && this.props.metadata.QualitySpecifications.length;
-        const qualitySpecificationsList = hasQualitySpecifications && this.props.metadata.QualitySpecifications.map((qualitySpecification, index) => {
-            return (
-                <div key={index}>
-                    <p><strong>Standard: </strong>{qualitySpecification.Title}</p>
-                    {qualitySpecification.SpecificationLink ? <p><strong>Link :</strong> <a href={qualitySpecification.SpecificationLink} target="_blank" rel="noopener noreferrer">{qualitySpecification.SpecificationLink}</a>  </p> : ''}
-                    <p><strong>{this.props.getResource('Date', 'Dato')}: </strong>
-                    {qualitySpecification.Date !== undefined ? <Moment date={qualitySpecification.Date} format="DD.MM.YYYY" /> : ''}
-                    ({qualitySpecification.DateType})</p>
-                    <p><strong>{this.props.getResource('QualitySpecificationExplanation', 'Forklaring av resultat')}: </strong>{qualitySpecification.Explanation}</p>
-                    <p>{qualitySpecification.Result ? 'Godkjent' : 'Ikke godkjent'}</p>
-                    <hr />
-                </div>
-            )
-        });
-        return hasQualitySpecifications ? (
+    const renderQualitySpecificationsSection = () => {
+        const qualitySpecificationsList =
+            metadata?.QualitySpecifications?.length &&
+            metadata?.QualitySpecifications.map((qualitySpecification, index) => {
+                return (
+                    <div key={index}>
+                        <p>
+                            <strong>Standard: </strong>
+                            {qualitySpecification.Title}
+                        </p>
+                        {qualitySpecification.SpecificationLink ? (
+                            <p>
+                                <strong>Link :</strong>{" "}
+                                <a
+                                    href={qualitySpecification.SpecificationLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {qualitySpecification.SpecificationLink}
+                                </a>{" "}
+                            </p>
+                        ) : (
+                            ""
+                        )}
+                        <p>
+                            <strong>{dispatch(getResource("Date", "Dato"))}: </strong>
+                            {qualitySpecification.Date !== undefined ? (
+                                <Moment date={qualitySpecification.Date} format="DD.MM.YYYY" />
+                            ) : (
+                                ""
+                            )}
+                            ({qualitySpecification.DateType})
+                        </p>
+                        <p>
+                            <strong>
+                                {dispatch(getResource("QualitySpecificationExplanation", "Forklaring av resultat"))}:{" "}
+                            </strong>
+                            {qualitySpecification.Explanation}
+                        </p>
+                        <p>{qualitySpecification.Result ? "Godkjent" : "Ikke godkjent"}</p>
+                        <hr />
+                    </div>
+                );
+            });
+        return qualitySpecificationsList?.length ? (
             <div>
-                <h2>{this.props.getResource('QualitySpecification', 'Konformitet')}</h2>
+                <h2>{dispatch(getResource("QualitySpecification", "Konformitet"))}</h2>
                 {qualitySpecificationsList}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderPurposeSection() {
-        return this.props.metadata && this.props.metadata.Purpose ? (
+    const renderPurposeSection = () => {
+        return metadata?.Purpose?.length ? (
             <div>
-                <h2>{this.props.getResource('Purpose', 'Formål')}</h2>
-                <p style={{whiteSpace: "pre-line"}}>{this.urlify(this.props.metadata.Purpose)}</p>
+                <h2>{dispatch(getResource("Purpose", "Formål"))}</h2>
+                <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.Purpose)}</p>
             </div>
-        ) : ''
-    }
+        ) : null;
+    };
 
-    renderTimeAndSpaceSection() {
-        const hasChildren = this.renderDateUpdated()
-            || this.renderMetadataDateUpdated()
-            || this.renderDateCreated()
-            || this.renderDatePublished()
-            || this.renderDateValidityPeriod()
-            || this.renderMaintenanceFrequency()
-            || this.renderKeywordsPlace()
-            || this.renderKeywordsAdministrativeUnits()
-            || this.renderBoundingBox()
-            || this.renderSpatialScope();
+    const renderTimeAndSpaceSection = () => {
+        const hasChildren =
+            renderDateUpdated() ||
+            renderMetadataDateUpdated() ||
+            renderDateCreated() ||
+            renderDatePublished() ||
+            renderDateValidityPeriod() ||
+            renderMaintenanceFrequency() ||
+            renderKeywordsPlace() ||
+            renderKeywordsAdministrativeUnits() ||
+            renderBoundingBox() ||
+            renderSpatialScope();
         return hasChildren ? (
             <div>
-                <h2>{this.props.getResource('TimeAndSpace', 'Tid og rom')}</h2>
-                {this.renderDateCreated()}
-                {this.renderDateUpdated()}
-                {this.renderMetadataDateUpdated()}
-                {this.renderDatePublished()}
-                {this.renderDateValidityPeriod()}
-                {this.renderMaintenanceFrequency()}
-                {this.renderKeywordsPlace()}
-                {this.renderKeywordsAdministrativeUnits()}
-                {this.renderBoundingBox()}
-                {this.renderSpatialScope()}
+                <h2>{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h2>
+                {renderDateCreated()}
+                {renderDateUpdated()}
+                {renderMetadataDateUpdated()}
+                {renderDatePublished()}
+                {renderDateValidityPeriod()}
+                {renderMaintenanceFrequency()}
+                {renderKeywordsPlace()}
+                {renderKeywordsAdministrativeUnits()}
+                {renderBoundingBox()}
+                {renderSpatialScope()}
             </div>
-        ) : '';
-    }
+        ) : null;
+    };
 
-    renderKeywordsSection() {
-        const hasChildren = this.renderKeywordsTheme()
-            || this.renderKeywordsNationalTheme()
-            || this.renderKeywordsNationalInitiative()
-            || this.renderKeywordsInspire()
-            || this.renderTopicCategory()
-            || this.renderKeywordsConcept()
-            || this.renderKeywordsInspirePriorityDataset()
-            || this.renderKeywordsInspireCategory()
-            || this.renderKeywordsOther()
-            ;
+    const renderKeywordsSection = () => {
+        const hasChildren =
+            renderKeywordsTheme() ||
+            renderKeywordsNationalTheme() ||
+            renderKeywordsNationalInitiative() ||
+            renderKeywordsInspire() ||
+            renderTopicCategory() ||
+            renderKeywordsConcept() ||
+            renderKeywordsInspirePriorityDataset() ||
+            renderKeywordsInspireCategory() ||
+            renderKeywordsOther();
         return hasChildren ? (
             <div>
-                <h2>{this.props.getResource('Facet_keyword', 'Nøkkelord')}</h2>
+                <h2>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h2>
                 <div className={style.keywordContainer}>
-                    {this.renderKeywordsTheme()}
-                    {this.renderKeywordsNationalTheme()}
-                    {this.renderKeywordsNationalInitiative()}
-                    {this.renderTopicCategory()}
-                    {this.renderKeywordsConcept()}
-                    {this.renderKeywordsInspirePriorityDataset()}
-                    {this.renderKeywordsInspireCategory()}
-                    {this.renderKeywordsOther()}
+                    {renderKeywordsTheme()}
+                    {renderKeywordsNationalTheme()}
+                    {renderKeywordsNationalInitiative()}
+                    {renderTopicCategory()}
+                    {renderKeywordsConcept()}
+                    {renderKeywordsInspirePriorityDataset()}
+                    {renderKeywordsInspireCategory()}
+                    {renderKeywordsOther()}
                 </div>
             </div>
-        ) : '';
-    }
-    renderThumbnail() {
-        const hasThumbnail = this.props.metadata && this.props.metadata.Thumbnails && this.props.metadata.Thumbnails.length;
-        let thumbnailList = hasThumbnail && this.props.metadata.Thumbnails.filter(thumbnail => {
-            return thumbnail.Type === 'medium' || thumbnail.Type === "thumbnail" || thumbnail.Type === "miniatyrbilde"
-        });
-        let thumbnail = '';
-        if (thumbnailList !== undefined && thumbnailList.length) {
-            thumbnailList.sort((a, b) => (a.Type > b.Type) ? 1 : -1)
+        ) : null;
+    };
+
+    const renderThumbnail = () => {
+        let thumbnailList =
+            metadata?.Thumbnails?.length &&
+            metadata?.Thumbnails?.filter((thumbnail) => {
+                return (
+                    thumbnail.Type === "medium" || thumbnail.Type === "thumbnail" || thumbnail.Type === "miniatyrbilde"
+                );
+            });
+        let thumbnail = "";
+        if (thumbnailList !== undefined && thumbnailList?.length) {
+            thumbnailList.sort((a, b) => (a.Type > b.Type ? 1 : -1));
             thumbnail = (
                 <div className={style.thumbnailContent}>
                     <div>
-                        <img src={thumbnailList[0].URL} alt={this.getTitle() + ' illustrasjon'} title={this.getTitle() + ' illustrasjon'} />
+                        <img
+                            src={thumbnailList[0].URL}
+                            alt={getTitle() + " illustrasjon"}
+                            title={getTitle() + " illustrasjon"}
+                        />
                     </div>
                 </div>
-            )
+            );
         }
-
         return thumbnail;
-    }
+    };
 
-    renderMetaDescription(description) {
+    const renderMetaDescription = (description) => {
         if (description) {
-            const ellipsis = description.length > 155 ? '...' : '';
+            const ellipsis = description.length > 155 ? "..." : "";
             return `${description.toString().trim().slice(0, 155)}${ellipsis}`;
-        }
-        else {
-            return '';
-        }
-    }
-
-    getPageTitle() {
-        if (this.getTitle()) {
-            return this.getTitle();
-        } else if (this.props.match.params.title) {
-            return convertUrlSlugToText(this.props.match.params.title);
         } else {
-            return '';
+            return "";
         }
-    }
+    };
 
-    renderType() {
-        if (this.props.metadata.Type) {
-            return <strong>Type: {this.props.metadata.TypeTranslated}</strong>;
+    const getPageTitle = () => {
+        if (getTitle()) {
+            return getTitle();
+        } else if (title) {
+            return convertUrlSlugToText(title);
+        } else {
+            return "";
         }
-    }
+    };
 
-    renderCanonicalTags() {
+    const renderType = () => {
+        if (metadata?.Type) {
+            return <strong>Type: {metadata?.TypeTranslated}</strong>;
+        }
+    };
+
+    const renderCanonicalTags = () => {
         let canonicalTagElements = [];
-        if (this.props.match.params.uuid && this.props.metadata && this.props.metadata.Title) {
-            canonicalTagElements.push(<link rel="canonical" key="canonicalTag" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} />);
-            canonicalTagElements.push(<link rel="alternate" key="norwegianUrl" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} hrefLang="no" />);
-            canonicalTagElements.push(<link rel="alternate" key="englishUrl" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} hrefLang="en" />);
-            canonicalTagElements.push(<link rel="alternate" key="defaultUrl" href={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} hrefLang="x-default" />);
+        if (uuid && metadata?.Title) {
+            canonicalTagElements.push(
+                <link
+                    rel="canonical"
+                    key="canonicalTag"
+                    href={`${document.location.origin}/metadata/${convertTextToUrlSlug(metadata.Title)}/${uuid}`}
+                />
+            );
+            canonicalTagElements.push(
+                <link
+                    rel="alternate"
+                    key="norwegianUrl"
+                    href={`${document.location.origin}/metadata/${convertTextToUrlSlug(metadata.Title)}/${uuid}`}
+                    hrefLang="no"
+                />
+            );
+            canonicalTagElements.push(
+                <link
+                    rel="alternate"
+                    key="englishUrl"
+                    href={`${document.location.origin}/metadata/${convertTextToUrlSlug(metadata.Title)}/${uuid}`}
+                    hrefLang="en"
+                />
+            );
+            canonicalTagElements.push(
+                <link
+                    rel="alternate"
+                    key="defaultUrl"
+                    href={`${document.location.origin}/metadata/${convertTextToUrlSlug(metadata.Title)}/${uuid}`}
+                    hrefLang="x-default"
+                />
+            );
         }
         return canonicalTagElements;
-    }
+    };
 
-    renderOpenGraphTags() {
+    const renderOpenGraphTags = () => {
         let openGraphTagElements = [];
-        openGraphTagElements.push(<meta property="og:title" key="ogTitle" content={`${this.getPageTitle()} - Kartkatalogen`} />);
-        openGraphTagElements.push(<meta property="og:description" key="ogDescription" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />);
-        openGraphTagElements.push(<meta property="og:locale" key="ogLocale" content={this.props.selectedLanguage === 'en' ? 'en_US' : 'en_NO'} />);
+        openGraphTagElements.push(
+            <meta property="og:title" key="ogTitle" content={`${getPageTitle()} - Kartkatalogen`} />
+        );
+        openGraphTagElements.push(
+            <meta
+                property="og:description"
+                key="ogDescription"
+                content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""}
+            />
+        );
+        openGraphTagElements.push(
+            <meta property="og:locale" key="ogLocale" content={selectedLanguage === "en" ? "en_US" : "en_NO"} />
+        );
 
-        if (this.props.match.params.uuid && this.props.metadata && this.props.metadata.Title) {
-            openGraphTagElements.push(<meta property="og:url" key="ogUrl" content={`${document.location.origin}/metadata/${convertTextToUrlSlug(this.props.metadata.Title)}/${this.props.match.params.uuid}`} />);
+        if (uuid && metadata?.Title) {
+            openGraphTagElements.push(
+                <meta
+                    property="og:url"
+                    key="ogUrl"
+                    content={`${document.location.origin}/metadata/${convertTextToUrlSlug(metadata?.Title)}/${uuid}`}
+                />
+            );
         }
         return openGraphTagElements;
-    }
+    };
 
-    renderTwitterTags() {
+    const renderTwitterTags = () => {
         let twitterTagElements = [];
-        twitterTagElements.push(<meta property="twitter:title" key="twitterTitle" content={`${this.getPageTitle()} - Kartkatalogen`} />);
-        twitterTagElements.push(<meta property="twitter:description" key="twitterDescription" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />);
+        twitterTagElements.push(
+            <meta property="twitter:title" key="twitterTitle" content={`${getPageTitle()} - Kartkatalogen`} />
+        );
+        twitterTagElements.push(
+            <meta
+                property="twitter:description"
+                key="twitterDescription"
+                content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""}
+            />
+        );
         return twitterTagElements;
-    }
+    };
 
-    render() {
-        return !this.props.metadata || (this.props.metadata.Message && this.props.metadata.Message === "An error has occurred.") ? (
-            <div className={style.searchResultContainer}>
-                <span>Kunne ikke finne metadata på Uuid "{this.props.match.params.uuid}"</span>
-            </div>
-        ) : (
-            <div>
-                <Helmet>
-                    <title>{this.getPageTitle()} - Kartkatalogen</title>
-                    {this.renderCanonicalTags()}
-                    <meta name="description" content={this.props.metadata && this.props.metadata.Abstract ? this.renderMetaDescription(this.getAbstract()) : ''} />
-                    <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
-                    {this.renderOpenGraphTags()}
-                    {this.renderTwitterTags()}
-                </Helmet>
-                {this.getMetadataLinkedDataSnippet(this.props.metadata)}
-                <Breadcrumb content={this.getTitle()} />
-                <div className={style.content}>
-
-
-                    <h1>{this.getTitle()}</h1>
-                    {this.renderCredits()}
-                    <div className={style.openBtns} onClick={() => this.toggleBtns()}>Velg tjeneste <FontAwesomeIcon icon={this.state.showBtns ? 'angle-up' : 'angle-down'} /></div>
-                    <div className={this.state.showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
-                        <div className={style.btns}>
-
-                            <ErrorBoundary>
-                                <MapButton listButton={false} metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <DownloadButton listButton={false} metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <ShowCoverageButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <HelpButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <ContactOwnerButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <ProductSheetButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <ProductSpecificationButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <LegendDescriptionButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <ApplicationButton listButton={false} metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <ProductPageButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <DownloadXmlButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-                            <ErrorBoundary>
-                                <EditMetadataButton metadata={this.props.metadata} />
-                            </ErrorBoundary>
-
-                        </div>
-                    </div>
-                    <div className={style.flex}>
-                        <div className={style.textContent}>
-                            <div>{this.renderType()}</div>
-                            <SimpleMDE
-                                value={this.getAbstract()}
-                                options={readOnlyMdeOptions}
-                                getMdeInstance={this.getMdeInstance} 
-                            />
-                        </div>
-                        {this.renderThumbnail()}
-                    </div>
-
-                    {this.renderSpecificUsageSection()}
-                    {this.renderDistributionsListSection()}
-                    <div className={style.flex2}>
-                        {this.renderDistributionSection()}
-                        {this.renderConstraintsSection()}
-                    </div>
-
-                    {this.renderContactSection()}
-
-                    {this.renderSupplementalDescriptionSection()}
-
-                    <div className={style.opendetails} onClick={() => this.toggleExpand()}>
-                        <h2>{this.props.getResource('DetailedInformation', 'Detaljert informasjon')}
-                            <FontAwesomeIcon title={this.state.expanded ? 'Trekk sammen' : `${this.props.getResource('Display', 'Vis')} ${this.props.getResource('DetailedInformation', 'Detaljert informasjon')}`} icon={this.state.expanded ? 'angle-up' : 'angle-down'} /></h2></div>
-                    <div className={this.state.expanded ? style.open : style.closed}>
-                        {this.renderGeneral()}
-                        <div className={style.flex}>
-                            {this.renderQualitySection()}
-                            {this.renderTimeAndSpaceSection()}
-                            {this.renderKeywordsSection()}
-                        </div>
-                        {this.renderQualitySpecificationsSection()}
-                        {this.renderPurposeSection()}
+    return !metadata || !Object.keys(metadata).length === "An error has occurred." ? (
+        <div className={style.searchResultContainer}>
+            <span>Kunne ikke finne metadata på Uuid "{uuid}"</span>
+        </div>
+    ) : (
+        <div>
+            <Helmet>
+                <title>{getPageTitle()} - Kartkatalogen</title>
+                {renderCanonicalTags()}
+                <meta name="description" content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""} />
+                <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
+                {renderOpenGraphTags()}
+                {renderTwitterTags()}
+            </Helmet>
+            {getMetadataLinkedDataSnippet()}
+            <Breadcrumb content={getTitle()} />
+            <div className={style.content}>
+                <h1>{getTitle()}</h1>
+                {renderCredits()}
+                <div className={style.openBtns} onClick={() => toggleBtns()}>
+                    Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
+                </div>
+                <div className={showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
+                    <div className={style.btns}>
+                        <ErrorBoundary>
+                            <MapButton listButton={false} metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <DownloadButton listButton={false} metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ShowCoverageButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <HelpButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ContactOwnerButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ProductSheetButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ProductSpecificationButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <LegendDescriptionButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ApplicationButton listButton={false} metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <ProductPageButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <DownloadXmlButton metadata={metadata} />
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <EditMetadataButton metadata={metadata} />
+                        </ErrorBoundary>
                     </div>
                 </div>
+                <pre>
+                </pre>
+                <div className={style.flex}>
+                    <div className={style.textContent}>
+                        <div>{renderType()}</div>
+                        {metadata?.Abstract ? (
+                                <SimpleMDE value={getAbstract(metadata)} options={readOnlyMdeOptions} getMdeInstance={getMdeInstance} />
+                        ) : ''
+                        }
+                    </div>
+                    {renderThumbnail()}
+                </div>
+
+                {renderSpecificUsageSection()}
+                {renderDistributionsListSection()}
+                <div className={style.flex2}>
+                    {renderDistributionSection()}
+                    {renderConstraintsSection()}
+                </div>
+
+                {renderContactSection()}
+
+                {renderSupplementalDescriptionSection()}
+
+                <div className={style.opendetails} onClick={() => toggleExpand()}>
+                    <h2>
+                        {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
+                        <FontAwesomeIcon
+                            title={
+                                expanded
+                                    ? "Trekk sammen"
+                                    : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
+                                          getResource("DetailedInformation", "Detaljert informasjon")
+                                      )}`
+                            }
+                            icon={expanded ? "angle-up" : "angle-down"}
+                        />
+                    </h2>
+                </div>
+                <div className={expanded ? style.open : style.closed}>
+                    {renderGeneral()}
+                    <div className={style.flex}>
+                        {renderQualitySection()}
+                        {renderTimeAndSpaceSection()}
+                        {renderKeywordsSection()}
+                    </div>
+                    {renderQualitySpecificationsSection()}
+                    {renderPurposeSection()}
+                </div>
             </div>
-        )
-    }
-}
-
-Metadata.propTypes = {
-    metadata: PropTypes.object.isRequired,
-    clearMetadata: PropTypes.func.isRequired,
-    fetchMetadata: PropTypes.func.isRequired,
-    clearMetadataDistributions: PropTypes.func.isRequired,
-    fetchMetadataDistributions: PropTypes.func.isRequired
+        </div>
+    );
 };
 
-const mapStateToProps = state => ({
-    metadata: state.metadata,
-    metadataDistributions: state.metadataDistributions,
-    selectedLanguage: state.selectedLanguage,
-    resources: state.resources
-});
-
-const mapDispatchToProps = {
-    clearMetadata,
-    fetchMetadata,
-    clearMetadataDistributions,
-    fetchMetadataDistributions,
-    getResource,
-    pushToDataLayer
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Metadata);
+export default Metadata;
