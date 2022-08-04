@@ -1,5 +1,5 @@
 .CodeMirror-vscrollbar {
-    display: none!important;
+    display: none !important;
 }
 .EasyMDEContainer .CodeMirror {
     padding: 0;
@@ -10,11 +10,12 @@
         background: #fff;
         border: none;
         padding: 0;
+        .editor-preview-full {
+            position: relative;
+            border: none;
+            padding: 0;
+            background: none;
+            display: block;
+        }
     }
-}
-.editor-preview-full {
-    position: relative;
-    border: none;
-    padding: 0;
-    background: none;
 }
