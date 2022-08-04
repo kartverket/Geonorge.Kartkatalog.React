@@ -1,83 +1,67 @@
 // Dependencies
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-// Actions
-import { updateAvailableFacets, updateSelectedFacetsFromUrl } from 'actions/FacetFilterActions';
-import { getResource } from 'actions/ResourceActions';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Helpers
-import { getQueryStringFromFacets } from 'helpers/FacetFilterHelpers';
+import { getQueryStringFromFacets } from "helpers/FacetFilterHelpers";
 
 // Stylesheets
-import style from 'components/partials/SelectedFacets.module.scss';
+import style from "components/partials/SelectedFacets.module.scss";
 
-class SelectedFacets extends Component {
-    renderSelectedFacetsList() {
-        if (this.props.selectedFacets && Object.keys(this.props.selectedFacets).length) {
-            return Object.keys(this.props.selectedFacets).map(facetTypeName => {
-                const facetType = this.props.selectedFacets[facetTypeName];
-                return (
-                    this.renderSelectedFacetType(facetType)
-                )
+const SelectedFacets = () => {
+    // Redux store
+    const selectedFacets = useSelector((state) => state.selectedFacets);
+    const searchString = useSelector((state) => state.searchString);
+
+    const renderSelectedFacetsList = () => {
+        if (selectedFacets && Object.keys(selectedFacets).length) {
+            return Object.keys(selectedFacets).map((facetTypeName) => {
+                const facetType = selectedFacets[facetTypeName];
+                return renderSelectedFacetType(facetType);
             });
         }
-    }
+    };
 
-    renderSelectedFacetType(facetType, childFacet) {
-
+    const renderSelectedFacetType = (facetType, childFacet) => {
         if (facetType.facets && Object.keys(facetType.facets).length) {
-            return Object.keys(facetType.facets).map(facetTypeKey => {
+            return Object.keys(facetType.facets).map((facetTypeKey) => {
                 const facet = childFacet ? childFacet : facetType.facets[facetTypeKey];
                 const hasChildren = facet.facets && Object.keys(facet.facets).length;
-                let childFacetElements = []
+                let childFacetElements = [];
                 if (hasChildren) {
                     const childFacets = facet.facets;
-                    Object.keys(childFacets).forEach(childFacetKey => {
-                        const childFacet = childFacets[childFacetKey]
-                        childFacetElements.push(this.renderSelectedFacetType(facetType, childFacet))
+                    Object.keys(childFacets).forEach((childFacetKey) => {
+                        const childFacet = childFacets[childFacetKey];
+                        childFacetElements.push(renderSelectedFacetType(facetType, childFacet));
                     });
                 }
                 return (
                     <div key={facet.Name} className={style.facet}>
                         {childFacetElements}
-                        <span>{facet.NameTranslated} <Link to={this.getRemoveFacetQueryString(facet, facetType.Name)}>
-                            <FontAwesomeIcon
-                                title={'Fjern'} icon={['fas', 'times']} /></Link></span>
+                        <span>
+                            {facet.NameTranslated}{" "}
+                            <Link to={getRemoveFacetQueryString(facet, facetType.Name)}>
+                                <FontAwesomeIcon title={"Fjern"} icon={["fas", "times"]} />
+                            </Link>
+                        </span>
                     </div>
                 );
-            })
-        }
-    }
-    getRemoveFacetQueryString(facet, facetField) {
-        return getQueryStringFromFacets(
-            this.props.selectedFacets,
-            this.props.searchString,
-            {
-                facetToRemove: {
-                    facetField,
-                    facet
-                }
             });
-    }
+        }
+    };
 
-    render() {
-        return (
-            <div>{this.renderSelectedFacetsList()}</div>
-        )
-    }
-}
+    const getRemoveFacetQueryString = (facet, facetField) => {
+        return getQueryStringFromFacets(selectedFacets, searchString, {
+            facetToRemove: {
+                facetField,
+                facet
+            }
+        });
+    };
 
-const mapStateToProps = state => ({
-    selectedFacets: state.selectedFacets,
-    availableFacets: state.availableFacets,
-    selectedLanguage: state.selectedLanguage
-});
-const mapDispatchToProps = {
-    updateSelectedFacetsFromUrl,
-    updateAvailableFacets,
-    getResource
+    return <div>{renderSelectedFacetsList()}</div>;
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SelectedFacets);
+
+export default SelectedFacets;
