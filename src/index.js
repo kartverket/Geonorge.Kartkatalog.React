@@ -1,37 +1,40 @@
 // Dependencies
-import React from 'react';
-import { hydrate, render } from 'react-dom';
-import * as serviceWorker from 'serviceWorker';
-import WebFont from 'webfontloader';
-import 'react-app-polyfill/ie11';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import * as serviceWorker from "serviceWorker";
+import WebFont from "webfontloader";
+import "react-app-polyfill/ie11";
 
 // Components
-import App from 'App';
-import 'layout/icons';
+import App from "App";
+import "layout/icons";
 
 // Helpers
-import { convertSearchParams, convertPath } from 'helpers/UrlHelpers'
+import { convertSearchParams, convertPath } from "helpers/UrlHelpers";
 
 // Stylesheets
-import 'index.css';
+import "index.css";
 
 if (window.location.search !== convertSearchParams(window.location.search)) {
-  window.location.href = window.location.origin + convertSearchParams(window.location.search);
+    window.location.href = window.location.origin + convertSearchParams(window.location.search);
 } else if (window.location.pathname !== convertPath(window.location.pathname)) {
-  window.location.href = window.location.origin + convertPath(window.location.pathname) + window.location.search;
+    window.location.href = window.location.origin + convertPath(window.location.pathname) + window.location.search;
 } else {
-  WebFont.load({
-    google: {
-      families: ['Raleway:100,400,500,700', 'Open Sans:400,600,700', 'sans-serif']
+    WebFont.load({
+        google: {
+            families: ["Raleway:100,400,500,700", "Open Sans:400,600,700", "sans-serif"]
+        }
+    });
+
+    if (window.location.hostname === "localhost") {
+        window.sessionStorage.setItem("isLocalKartkatalogEnvironment", "true");
+    } else {
+        window.sessionStorage.removeItem("isLocalKartkatalogEnvironment");
     }
-  });
 
-  const rootElement = document.getElementById("root");
-  if (rootElement.hasChildNodes()) {
-    hydrate(<App />, rootElement);
-  } else {
-    render(<App />, rootElement);
-  }
+    const container = document.getElementById("root");
+    const root = createRoot(container);
+    root.render(<App />);
 
-  serviceWorker.unregister();
+    serviceWorker.unregister();
 }

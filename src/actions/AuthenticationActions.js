@@ -47,15 +47,7 @@ export const updateBaatInfo = () => (dispatch, getState) => {
         const baatOrganizationName = baatInfo && baatInfo.baat_organization && baatInfo.baat_organization.name
           ? baatInfo.baat_organization.name
           : null;
-          console.log("baatInfo", baatInfo)
-          console.log("baatOrganizationName", baatOrganizationName)
         if (baatOrganizationName) {
-          console.log("to dataLayer: ", {
-            event: 'signIn',
-            category: 'baatOrganizationName',
-            activity: 'authentication',
-            baatOrganizationName: baatOrganizationName
-          });
           dispatch(pushToDataLayer(
             {
               event: 'signIn',

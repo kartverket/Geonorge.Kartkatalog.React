@@ -1,65 +1,63 @@
 // Dependencies
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Actions
-import { getResource } from 'actions/ResourceActions'
+import { getResource } from "actions/ResourceActions";
+
+// Reducers
+import { pushToDataLayer } from "reducers/TagManagerReducer";
 
 // Stylesheets
-import style from 'components/partials/Buttons/Buttons.module.scss'
+import style from "components/partials/Buttons/Buttons.module.scss";
 
+const ContactOwnerButton = (props) => {
+    const dispatch = useDispatch();
 
-export class ContactOwnerButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
+    const handleButtonClick = () => {
+        const tagData = {
+            name: props.metadata.Title,
+            uuid: props.metadata.Uuid
+        };
+        dispatch(
+            pushToDataLayer({
+                event: "contact",
+                category: "metadataDetails",
+                activity: "contactDataOwner",
+                metadata: tagData
+            })
+        );
+    };
+
+    const buttonDescription = dispatch(getResource("ContactDataOwner", "Kontakt dataeier"));
+    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "envelope"]} key="icon" />;
+    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
+    const childElements = [icon, textContent];
+
+    if (props.metadata.ContactMetadata) {
+        const email = props.metadata.ContactMetadata.Email;
+        const buttonClass = style.btn;
+        return (
+            <a
+                href={`mailto:${email}`}
+                onClick={handleButtonClick}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClass}
+            >
+                {childElements}
+            </a>
+        );
+    } else {
+        const buttonClass = `${style.btn}  ${style.disabled}`;
+        return <span className={buttonClass}>{childElements}</span>;
     }
-
-    handleButtonClick = () => {
-      const tagData = {
-        name: this.props.metadata.Title,
-        uuid: this.props.metadata.Uuid
-      }
-      this.props.pushToDataLayer({
-        event: 'contact',
-        category: 'metadataDetails',
-        activity: 'contactDataOwner',
-        metadata: tagData
-      });
-    }
-
-    render() {
-        let buttonDescription = this.props.getResource('ContactDataOwner', 'Kontakt dataeier');
-        if (this.props.metadata.ContactMetadata) {
-            let email = this.props.metadata.ContactMetadata.Email
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />;
-            let buttonClass = style.btn;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-            let childElements = [icon, textContent];
-            return (<a href={`mailto:${email}`} onClick={this.handleButtonClick} target="_blank" rel="noopener noreferrer" className={buttonClass}>{childElements}</a>);
-        } else {
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'envelope']} key="icon" />
-            let buttonClass = `${style.btn}  ${style.disabled}`;
-            let textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-            let childElements = [icon, textContent];
-            return (<span className={buttonClass}>{childElements}</span>);
-        }
-    }
-
-}
+};
 
 ContactOwnerButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapDispatchToProps = {
-    getResource
-};
-
-const mapStateToProps = state => ({
-    resources: state.resources
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactOwnerButton);
+export default ContactOwnerButton;

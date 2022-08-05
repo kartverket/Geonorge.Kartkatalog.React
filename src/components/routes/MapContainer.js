@@ -1,35 +1,31 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {fetchMapItems, removeMapItem} from '../../actions/MapItemActions'
-import { ErrorBoundary } from '../ErrorBoundary'
-import {MapContainer as Map} from 'r_map';
+// Dependencies
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { MapContainer as Map } from "r_map";
 
-class MapContainer extends Component {
-    componentDidMount() {
-        this.props.fetchMapItems();
-    }
+// Components
+import { ErrorBoundary } from "../ErrorBoundary";
 
-    render() {
-        return (
-            <div>
-                <ErrorBoundary><Map services={this.props.mapItems} removeMapItem={this.props.removeMapItems}/></ErrorBoundary>
-            </div>
-        )
-    }
-}
+// Actions
+import { fetchMapItems } from "actions/MapItemActions";
 
-MapContainer.propTypes = {
-    mapItems: PropTypes.array.isRequired
+const MapContainer = () => {
+    const dispatch = useDispatch();
+
+    // Redux store
+    const mapItems = useSelector((state) => state.mapItems);
+
+    useEffect(() => {
+        dispatch(fetchMapItems());
+    }, []);
+
+    return (
+        <div>
+            <ErrorBoundary>
+                <Map services={mapItems} />
+            </ErrorBoundary>
+        </div>
+    );
 };
 
-const mapStateToProps = state => ({
-    mapItems: state.mapItems
-});
-
-const mapDispatchToProps = {
-    fetchMapItems,
-    removeMapItem
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
+export default MapContainer;

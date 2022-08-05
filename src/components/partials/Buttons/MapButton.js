@@ -1,301 +1,300 @@
 // Dependencies
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Actions
-import {removeMapItem, addMapItem} from 'actions/MapItemActions';
-import {getResource} from 'actions/ResourceActions';
-import {getApiData} from 'actions/ApiActions';
-import { getServiceStatusApiUrl } from 'actions/ApiUrlActions';
+import { removeMapItem, addMapItem } from "actions/MapItemActions";
+import { getResource } from "actions/ResourceActions";
+import { getApiData } from "actions/ApiActions";
+import { getServiceStatusApiUrl } from "actions/ApiUrlActions";
 
 // Stylesheets
-import style from 'components/partials/Buttons/Buttons.module.scss';
+import style from "components/partials/Buttons/Buttons.module.scss";
 
-export class MapButton extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false,
-      isAdded: false,
-      serviceStatusCode: '',
-      serviceStatusLabel: '',
-      serviceStatusIsFetched: false
+const MapButton = (props) => {
+    const dispatch = useDispatch();
+
+    // Redux store
+    const mapItems = useSelector((state) => state.mapItems);
+    const availableWFSServiceStatuses = useSelector((state) => state.availableWFSServiceStatuses);
+    const availableWMSServiceStatuses = useSelector((state) => state.availableWMSServiceStatuses);
+
+    // State
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isAdded, setIsAdded] = useState(false);
+    const [serviceStatusIsFetched, setServiceStatusIsFetched] = useState(false);
+    const [serviceStatusCode, setServiceStatusCode] = useState("");
+    const [serviceStatusLabel, setServiceStatusLabel] = useState("");
+
+    const getDatasetService = () => {
+        let datasetService = null;
+        if (props.metadata.DatasetServicesWithShowMapLink?.length) {
+            datasetService = props.metadata.DatasetServicesWithShowMapLink?.find((service) => {
+                return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste";
+            });
+        } else if (props.metadata.ServiceDistributionProtocolForDataset === "OGC:WMS") {
+            datasetService = {
+                Uuid: props.metadata.ServiceUuid || props.metadata.Uuid,
+                Title: props.metadata.Title,
+                DistributionProtocol: props.metadata.ServiceDistributionProtocolForDataset,
+                GetCapabilitiesUrl: props.metadata.MapLink,
+                addLayers: []
+            };
+        }
+        return datasetService
+            ? {
+                  Uuid: datasetService.Uuid,
+                  Title: datasetService.Title,
+                  DistributionProtocol: datasetService.DistributionProtocol
+                      ? datasetService.DistributionProtocol
+                      : datasetService.Protocol,
+                  GetCapabilitiesUrl: datasetService.GetCapabilitiesUrl,
+                  addLayers: []
+              }
+            : null;
     };
-    this.parseServiceStatus = this.parseServiceStatus.bind(this);
-  }
 
-  getDatasetService() {
-    let datasetService = null;
-    if (this.props.metadata.DatasetServicesWithShowMapLink && this.props.metadata.DatasetServicesWithShowMapLink.length) {
-      datasetService = this.props.metadata.DatasetServicesWithShowMapLink && this.props.metadata.DatasetServicesWithShowMapLink.find(service => {
-        return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste";
-      });
-    } else if (this.props.metadata.ServiceDistributionProtocolForDataset === "OGC:WMS") {
-      datasetService = {
-        Uuid: this.props.metadata.ServiceUuid ? this.props.metadata.ServiceUuid : this.props.metadata.Uuid,
-        Title: this.props.metadata.Title,
-        DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset,
-        GetCapabilitiesUrl: this.props.metadata.MapLink,
-        addLayers: []
-      }
-    }
-    return datasetService
-      ? {
-        Uuid: datasetService.Uuid,
-        Title: datasetService.Title,
-        DistributionProtocol: datasetService.DistributionProtocol
-          ? datasetService.DistributionProtocol
-          : datasetService.Protocol,
-        GetCapabilitiesUrl: datasetService.GetCapabilitiesUrl,
-        addLayers: []
-      }
-      : null;
-  }
+    const getService = () => {
+        return {
+            Uuid: props.metadata.Uuid,
+            Title: props.metadata.Title,
+            DistributionProtocol:
+                props.metadata.ServiceDistributionProtocolForDataset ||
+                props.metadata.Protocol ||
+                props.metadata.DistributionProtocol,
+            GetCapabilitiesUrl:
+                props.metadata.ServiceDistributionUrlForDataset ||
+                props.metadata.GetCapabilitiesUrl ||
+                props.metadata.MapLink,
+            addLayers: []
+        };
+    };
 
-  getService() {
-    return {
-      Uuid: this.props.metadata.Uuid,
-      Title: this.props.metadata.Title,
-      DistributionProtocol: this.props.metadata.ServiceDistributionProtocolForDataset || this.props.metadata.Protocol || this.props.metadata.DistributionProtocol,
-      GetCapabilitiesUrl: this.props.metadata.ServiceDistributionUrlForDataset || this.props.metadata.GetCapabilitiesUrl || this.props.metadata.MapLink,
-      addLayers: []
-    }
-  }
+    const getMapItem = () => {
+        const isDataset =
+            props.metadata.Type === "dataset" ||
+            props.metadata.Type === "Datasett" ||
+            props.metadata.HierarchyLevel === "dataset" ||
+            props.metadata.Type === "series" ||
+            props.metadata.Type === "Datasettserie" ||
+            props.metadata.HierarchyLevel === "series";
 
-  getMapItem() {
-    const isDataset = this.props.metadata.Type === "dataset" || this.props.metadata.Type === "Datasett" || this.props.metadata.HierarchyLevel === "dataset" || this.props.metadata.Type === "series" || this.props.metadata.Type === "Datasettserie" || this.props.metadata.HierarchyLevel === "series";
-    const isWmsService = this.props.metadata.DistributionProtocol === "OGC:WMS" || this.props.metadata.DistributionProtocol === "WMS-tjeneste" || this.props.metadata.Protocol === "WMS-tjeneste" || this.props.metadata.Protocol === "Tjenestelag";
-    if (isWmsService) {
-      return this.getService();
-    } else if (isDataset) {
-      return this.getDatasetService();
-    } else {
-      return null
-    }
-  }
+        const isWmsService =
+            props.metadata.DistributionProtocol === "OGC:WMS" ||
+            props.metadata.DistributionProtocol === "WMS-tjeneste" ||
+            props.metadata.Protocol === "WMS-tjeneste" ||
+            props.metadata.Protocol === "Tjenestelag";
 
-  addToMap(mapItem) {
-    if (mapItem && mapItem.length) {
-      this.props.addMapItem(mapItem);
-    }
-  }
+        if (isWmsService) {
+            return getService();
+        } else if (isDataset) {
+            return getDatasetService();
+        } else {
+            return null;
+        }
+    };
 
-  toggleExpand() {
-    this.setState(prevState => ({
-      expanded: !prevState.expanded && !prevState.expandedDownload
-    }))
-  }
+    const addToMap = (mapItem) => {
+        if (mapItem?.length) {
+            dispatch(addMapItem(mapItem));
+        }
+    };
 
-  removeFromMap(mapItem) {
-    if (mapItem && mapItem.length) {
-      this.props.removeMapItem(mapItem);
-    }
-  }
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
 
-  statusForServiceIsAvailable(serviceUuid){
-    let hasAvailableStatus = false;
-    hasAvailableStatus = this.props.availableWFSServiceStatuses.some(availableServiceStatus => {
-      return availableServiceStatus.uuid === serviceUuid;
-    });
-    if (hasAvailableStatus) return true;
+    const removeFromMap = (mapItem) => {
+        if (mapItem?.length) {
+            dispatch(removeMapItem(mapItem));
+        }
+    };
 
-    hasAvailableStatus = this.props.availableWMSServiceStatuses.some(availableServiceStatus => {
-      return availableServiceStatus.uuid === serviceUuid;
-    });
-    return hasAvailableStatus;
-  }
-
-  setServiceStatus() {
-    let serviceUuid = null;
-    if (this.props.metadata.ServiceUuid) {
-      serviceUuid = this.props.metadata.ServiceUuid;
-    } else if (this.props.metadata.DatasetServicesWithShowMapLink && this.props.metadata.DatasetServicesWithShowMapLink.length > 0) {
-      serviceUuid = this.props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
-    }
-    if (serviceUuid && this.statusForServiceIsAvailable(serviceUuid)) {
-      this.setState({fetchingServiceStatus: true});
-      const statusApiUrl = `${this.props.getServiceStatusApiUrl()}/serviceDetail?uuid=${serviceUuid}`;
-      this.setState({
-        serviceStatusIsFetched: true
-      }, () => {
-        this.props.getApiData(statusApiUrl).then(apiData => {
-         this.parseServiceStatus(apiData)
+    const statusForServiceIsAvailable = (serviceUuid) => {
+        let hasAvailableStatus = false;
+        hasAvailableStatus = availableWFSServiceStatuses.some((availableServiceStatus) => {
+            return availableServiceStatus.uuid === serviceUuid;
         });
-      });
-    }
-  }
+        if (hasAvailableStatus) {
+            return true;
+        }
 
-  parseServiceStatus(result) {
-    var vurderingIsDefined = result && result.connect && result.connect.vurdering;
-    var numLayersIsDefined = result && result.numLayers && result.numLayers.svar;
-    var statusOK = vurderingIsDefined && result.connect.vurdering !== "no";
-    var numLayers = parseInt(
-      numLayersIsDefined
-      ? result.numLayers.svar
-      : 0);
-    if (!statusOK) {
-      this.setState({serviceStatusCode: 'service-unavailable-disabled', serviceStatusLabel: 'Tjenesten er utilgjengelig for øyeblikket'});
-    } else if (numLayers > 30) {
-      if (this.isRestrictedService()) {
-        this.setState({serviceStatusCode: 'service-slow-and-special-access', serviceStatusLabel: 'Tjenesten kan være treg å vise og krever spesiell tilgang for å kunne vises - kontakt dataeier'});
-      } else {
-        this.setState({serviceStatusCode: 'service-slow', serviceStatusLabel: 'Tjenesten kan være treg å vise'});
-      }
-    } else {
-      this.setState({serviceStatusCode: '', serviceStatusLabel: '', serviceStatusIsFetched: true});
-    }
-  }
+        hasAvailableStatus = availableWMSServiceStatuses.some((availableServiceStatus) => {
+            return availableServiceStatus.uuid === serviceUuid;
+        });
+        return hasAvailableStatus;
+    };
 
-  isRestrictedService() {
-    if (this.props.metadata.AccessIsRestricted || this.props.metadata.AccessIsProtected)
-      return true;
-    else
-      return false;
-    }
+    const setServiceStatus = () => {
+        let serviceUuid = null;
+        if (props.metadata.ServiceUuid) {
+            serviceUuid = props.metadata.ServiceUuid;
+        } else if (props.metadata.DatasetServicesWithShowMapLink?.length > 0) {
+            serviceUuid = props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
+        }
+        if (serviceUuid && statusForServiceIsAvailable(serviceUuid)) {
+            const statusApiUrl = `${dispatch(getServiceStatusApiUrl())}/serviceDetail?uuid=${serviceUuid}`;
+            setServiceStatusIsFetched(true);
+            dispatch(getApiData(statusApiUrl)).then((apiData) => {
+                parseServiceStatus(apiData);
+            });
+        }
+    };
 
-  renderListButton() {
-    if (this.props.metadata.ShowMapLink || this.props.metadata.CanShowMapUrl) {
-      let mapItem = this.getMapItem();
-      let isAdded = this.state.isAdded;
-      let buttonDescription = isAdded
-        ? this.props.getResource('RemoveFromMap', 'Fjern fra kart')
-        : this.props.getResource('AddToMap', 'Legg til i kart');
-      let buttonTitle = buttonDescription;
-      if (this.state.serviceStatusCode) {
-        buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
-      }
-      let action = isAdded
-        ? () => this.removeFromMap([mapItem])
-        : () => this.addToMap([mapItem]);
-      let icon = <FontAwesomeIcon title={buttonTitle} icon={isAdded
-          ? ['far', 'map-marker-minus']
-          : ['far', 'map-marker-plus']} key="icon"/>;
-      let buttonClass = isAdded
-        ? `${style.listButton} ${style.off}`
-        : `${style.listButton} ${style.on} ${style[this.state.serviceStatusCode]}`;
-      let textContent = React.createElement('span', {
-        key: "textContent"
-      }, buttonDescription);
-      let childElements = [icon, textContent];
-      return React.createElement('span', {
-        onClick: action,
-        className: buttonClass
-      }, childElements);
-    }
-    return null;
-  }
+    const parseServiceStatus = (result) => {
+        const vurderingIsDefined = result?.connect?.vurdering;
+        const numLayersIsDefined = result?.numLayers?.svar;
+        const statusOK = vurderingIsDefined && result.connect.vurdering !== "no";
+        const numLayers = parseInt(numLayersIsDefined ? result.numLayers.svar : 0);
+        if (!statusOK) {
+            setServiceStatusCode("service-unavailable-disabled");
+            setServiceStatusLabel("Tjenesten er utilgjengelig for øyeblikket");
+        } else if (numLayers > 30) {
+            if (isRestrictedService()) {
+                setServiceStatusCode("service-slow-and-special-access");
+                setServiceStatusLabel(
+                    "Tjenesten kan være treg å vise og krever spesiell tilgang for å kunne vises - kontakt dataeier"
+                );
+            } else {
+                setServiceStatusCode("service-slow");
+                setServiceStatusLabel("Tjenesten kan være treg å vise");
+            }
+        } else {
+            setServiceStatusCode("");
+            setServiceStatusLabel("");
+            setServiceStatusIsFetched(true);
+        }
+    };
 
-  renderButton() {
-    let isAdded = this.state.isAdded;
-    let buttonDescription = isAdded
-      ? this.props.getResource('RemoveFromMap', 'Fjern fra kart')
-      : this.props.getResource('AddToMap', 'Legg til i kart');
-    let buttonTitle = buttonDescription;
-    if (this.state.serviceStatusCode !== '' && this.state.serviceStatusLabel !== '') {
-      buttonTitle = buttonTitle + ". " + this.state.serviceStatusLabel;
-    }
-    const buttonClass = this.state.isAdded
-      ? `${style.btn}  ${style.remove}`
-      : `${style.btn}  ${style.download} ${style[this.state.serviceStatusCode]}`;
-    const buttonIcon = isAdded
-      ? ['far', 'map-marker-minus']
-      : ['far', 'map-marker-plus'];
-    if (this.props.metadata.CanShowServiceMapUrl || this.props.metadata.CanShowMapUrl) {
-      const mapItem = this.getMapItem()
-      let action = isAdded
-        ? () => this.removeFromMap([mapItem])
-        : () => this.addToMap([mapItem]);
-      let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon"/>;
-      let textContent = React.createElement('span', {
-        key: "textContent"
-      }, buttonDescription);
+    const isRestrictedService = () => {
+        return !!props.metadata.AccessIsRestricted || !!props.metadata.AccessIsProtected;
+    };
 
-      let childElements = [icon, textContent];
-      return React.createElement('span', {
-        onClick: action,
-        className: buttonClass
-      }, childElements);
-    } else {
-      let icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon"/>;
-      let buttonClass = `${style.btn}  ${style.disabled}`;
-      let textContent = React.createElement('span', {
-        key: "textContent"
-      }, buttonDescription);
+    const renderListButton = () => {
+        if (props.metadata.ShowMapLink || props.metadata.CanShowMapUrl) {
+            const mapItem = getMapItem();
+            const buttonDescription = isAdded
+                ? dispatch(getResource("RemoveFromMap", "Fjern fra kart"))
+                : dispatch(getResource("AddToMap", "Legg til i kart"));
+            let buttonTitle = buttonDescription;
+            if (serviceStatusCode?.length) {
+                buttonTitle = `${buttonTitle}. ${serviceStatusLabel}`;
+            }
+            const action = isAdded ? () => removeFromMap([mapItem]) : () => addToMap([mapItem]);
+            const icon = (
+                <FontAwesomeIcon
+                    title={buttonTitle}
+                    icon={isAdded ? ["far", "map-marker-minus"] : ["far", "map-marker-plus"]}
+                    key="icon"
+                />
+            );
+            const buttonClass = isAdded
+                ? `${style.listButton} ${style.off}`
+                : `${style.listButton} ${style.on} ${style[serviceStatusCode]}`;
+            const textContent = React.createElement(
+                "span",
+                {
+                    key: "textContent"
+                },
+                buttonDescription
+            );
+            let childElements = [icon, textContent];
+            return React.createElement(
+                "span",
+                {
+                    onClick: action,
+                    className: buttonClass
+                },
+                childElements
+            );
+        }
+        return null;
+    };
 
-      let childElements = [icon, textContent];
-      return React.createElement('span', {
-        className: buttonClass
-      }, childElements);
-    }
-  }
+    const renderButton = () => {
+        const buttonDescription = isAdded
+            ? dispatch(getResource("RemoveFromMap", "Fjern fra kart"))
+            : dispatch(getResource("AddToMap", "Legg til i kart"));
+        let buttonTitle = buttonDescription;
+        if (serviceStatusCode !== "" && serviceStatusLabel !== "") {
+            buttonTitle = `${buttonTitle}. ${serviceStatusLabel}`;
+        }
 
-  componentDidMount() {
-    const mapItemUuid = this.getMapItem() && this.getMapItem().Uuid
-      ? this.getMapItem().Uuid
-      : null;
-    const isAdded = mapItemUuid
-      ? this.props.mapItems.filter(mapItem => {
-        return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
-      }).length > 0
-      : false;
-    if (isAdded) {
-      this.setState({isAdded: isAdded});
-    }
-    this.setServiceStatus();
+        const buttonIcon = isAdded ? ["far", "map-marker-minus"] : ["far", "map-marker-plus"];
+        const icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon" />;
+        const textContent = React.createElement(
+            "span",
+            {
+                key: "textContent"
+            },
+            buttonDescription
+        );
+        const childElements = [icon, textContent];
 
-  }
+        if (props.metadata.CanShowServiceMapUrl || props.metadata.CanShowMapUrl) {
+            const buttonClass = isAdded
+                ? `${style.btn}  ${style.remove}`
+                : `${style.btn}  ${style.download} ${style[serviceStatusCode]}`;
+            const mapItem = getMapItem();
+            const action = isAdded ? () => removeFromMap([mapItem]) : () => addToMap([mapItem]);
+            return React.createElement(
+                "span",
+                {
+                    onClick: action,
+                    className: buttonClass
+                },
+                childElements
+            );
+        } else {
+            const buttonClass = `${style.btn}  ${style.disabled}`;
+            return React.createElement(
+                "span",
+                {
+                    className: buttonClass
+                },
+                childElements
+            );
+        }
+    };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.state.serviceStatusIsFetched) {
-      this.setServiceStatus();
-    }
-    const wasAdded = prevState.isAdded;
-    const mapItemUuid = this.getMapItem() && this.getMapItem().Uuid
-      ? this.getMapItem().Uuid
-      : null;
-    const isAdded = mapItemUuid
-      ? this.props.mapItems.filter(mapItem => {
-        return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
-      }).length > 0
-      : false;
-    if (wasAdded !== isAdded) {
-      this.setState({isAdded: isAdded});
-    }
-  }
+    useEffect(() => {
+        const mapItemUuid = getMapItem()?.Uuid || null;
+        const isAdded = mapItemUuid
+            ? mapItems.filter((mapItem) => {
+                  return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
+              }).length > 0
+            : false;
+        if (isAdded) {
+            setIsAdded(isAdded);
+        }
+        setServiceStatus();
+    }, []);
 
-  render() {
-      return this.props.listButton ? this.renderListButton() : this.renderButton();
-  }
-}
+    useEffect(() => {
+        if (!serviceStatusIsFetched) {
+            setServiceStatus();
+        }
+        const mapItemUuid = getMapItem()?.Uuid || null;
+        const isAdded = mapItemUuid
+            ? mapItems.filter((mapItem) => {
+                  return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
+              }).length > 0
+            : false;
+        setIsAdded(isAdded);
+    }, [serviceStatusIsFetched, mapItems]);
+
+    return props.listButton ? renderListButton() : renderButton();
+};
 
 MapButton.propTypes = {
-  metadata: PropTypes.object.isRequired,
-  listButton: PropTypes.bool,
-  removeMapItem: PropTypes.func.isRequired,
-  addMapItem: PropTypes.func.isRequired
+    metadata: PropTypes.object.isRequired,
+    listButton: PropTypes.bool
 };
 
 MapButton.defaultProps = {
-  listButton: true
+    listButton: true
 };
 
-const mapStateToProps = state => (
-  {
-    mapItems: state.mapItems,
-    resources: state.resources,
-    availableWFSServiceStatuses: state.availableWFSServiceStatuses,
-    availableWMSServiceStatuses: state.availableWMSServiceStatuses
-  }
-);
-
-const mapDispatchToProps = {
-  removeMapItem,
-  addMapItem,
-  getResource,
-  getApiData,
-  getServiceStatusApiUrl
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MapButton);
+export default MapButton;

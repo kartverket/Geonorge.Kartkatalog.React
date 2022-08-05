@@ -1,67 +1,48 @@
 // Dependencies
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Actions
-import { getResource } from 'actions/ResourceActions'
+import { getResource } from "actions/ResourceActions";
 
 // Stylesheets
-import style from 'components/partials/Buttons/Buttons.module.scss';
+import style from "components/partials/Buttons/Buttons.module.scss";
 
+const ProductPageButton = (props) => {
+    const dispatch = useDispatch();
 
-export class ProductPageButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    formatProductPageUrl(url){
+    const formatProductPageUrl = (url) => {
         let newUrl = window.decodeURIComponent(url);
         newUrl = newUrl.trim().replace(/\s/g, "");
 
-        if(/^(:\/\/)/.test(newUrl)){
+        if (/^(:\/\/)/.test(newUrl)) {
             return `https${newUrl}`;
         }
-        if(!/^(f|ht)tps?:\/\//i.test(newUrl)){
+        if (!/^(f|ht)tps?:\/\//i.test(newUrl)) {
             return `https://${newUrl}`;
         }
         return url;
+    };
+
+    const buttonDescription = dispatch(getResource("DisplayProductPage", "Vis produktside"));
+    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
+    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />;
+    const childElements = [icon, textContent];
+
+    if (props.metadata.ProductPageUrl) {
+        const url = formatProductPageUrl(props.metadata.ProductPageUrl);
+        const buttonClass = style.btn;
+        return React.createElement("a", { href: url, className: buttonClass }, childElements);
+    } else {
+        const buttonClass = `${style.btn}  ${style.disabled}`;
+        return React.createElement("span", { className: buttonClass }, childElements);
     }
-
-    render() {
-        let buttonDescription = this.props.getResource('DisplayProductPage', 'Vis produktside');
-        // TODO styling
-        if (this.props.metadata.ProductPageUrl) {
-            const url = this.formatProductPageUrl(this.props.metadata.ProductPageUrl);
-            const icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />;
-            const buttonClass = style.btn;
-            const textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-
-            const childElements = [icon, textContent];
-            return React.createElement('a', { href: url, className: buttonClass }, childElements);
-        } else {
-            const icon = <FontAwesomeIcon title={buttonDescription} icon={['far', 'external-link-square']} key="icon" />
-            const buttonClass = `${style.btn}  ${style.disabled}`;
-            const textContent = React.createElement('span', { key: "textContent" }, buttonDescription);
-            const childElements = [icon, textContent];
-            return React.createElement('span', { className: buttonClass }, childElements);
-        }
-    }
-
-}
+};
 
 ProductPageButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapDispatchToProps = {
-    getResource
-};
-
-const mapStateToProps = state => ({
-    resources: state.resources
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPageButton);
+export default ProductPageButton;

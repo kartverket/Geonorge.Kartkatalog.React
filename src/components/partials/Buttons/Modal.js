@@ -1,58 +1,52 @@
 // Dependencies
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
+import React, { useEffect, useRef } from "react";
+import classNames from "classnames/bind";
 
 // Stylesheets
-import style from 'components/partials/Buttons/Modal.module.scss';
-import styleBtn from 'components/partials/Buttons/Buttons.module.scss';
+import style from "components/partials/Buttons/Modal.module.scss";
+import styleBtn from "components/partials/Buttons/Buttons.module.scss";
 
+const Modal = (props) => {
+    // Refs
+    const wrapperRef = useRef();
 
-class Modal extends Component {
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+                props.handleClose();
+            }
+        };
+        const handleEscapeClick = (event) => {
+            if (event.keyCode === 27) {
+                props.handleClose();
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside, false);
+        document.addEventListener("keydown", handleEscapeClick, false);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside, false);
+            document.removeEventListener("keydown", handleEscapeClick, false);
+        };
+    }, [props.handleClose]);
 
-  handleClick = (e) => {
-    if (this.node && this.node.contains(e.target)) {
-      return;
-    }
-    this.props.handleClose();
-  }
-
-  escFunction = (event) => {
-    if (event.keyCode === 27) {
-      this.props.handleClose();
-    }
-  }
-
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClick, false);
-    document.addEventListener("keydown", this.escFunction, false);
-
-  }
-
-  componentWillUnmount() {
-    document.addEventListener('mousedown', this.handleClick, false);
-    document.removeEventListener("keydown", this.escFunction, false);
-
-  }
-
-  render() {
     const modalClassnames = classNames({
-      [style.modal]: true,
-      [style.hidden]: !this.props.show
+        [style.modal]: true,
+        [style.hidden]: !props.show
     });
     const modalButtonClassnames = classNames({
-      [styleBtn.btn]: true,
-      [style.modalButton]: true
+        [styleBtn.btn]: true,
+        [style.modalButton]: true
     });
     return (
-      <div className={modalClassnames}>
-        <section className={style.modalMain}>
-          {this.props.children}
-          <button className={modalButtonClassnames} onClick={this.props.handleClose}>Lukk</button>
-        </section>
-      </div>
+        <div className={modalClassnames}>
+            <section ref={wrapperRef} className={style.modalMain}>
+                {props.children}
+                <button className={modalButtonClassnames} onClick={props.handleClose}>
+                    Lukk
+                </button>
+            </section>
+        </div>
     );
-  }
-}
+};
 
-export default connect(null, null)(Modal);
+export default Modal;

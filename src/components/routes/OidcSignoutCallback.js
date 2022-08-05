@@ -1,33 +1,19 @@
-// Dependencies
-import React from "react";
-import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { SignoutCallbackComponent } from "redux-oidc";
-import { withRouter } from 'react-router-dom';
 
-// Utils
-import userManager from "../../utils/userManager";
+const OidcSignoutCallback = ({ userManager }) => {
+    const navigate = useNavigate();
 
-class SignoutCallbackPage extends React.Component {
-    successCallback = () => {
-        this.props.history.push('/');
-    };
+    return (
+        <SignoutCallbackComponent
+            userManager={userManager}
+            errorCallback={() => {
+                navigate("/");
+            }}
+        >
+            <div>Logger ut...</div>
+        </SignoutCallbackComponent>
+    );
+};
 
-    render() {
-        return (
-            <SignoutCallbackComponent
-                userManager={userManager}
-                successCallback={this.successCallback}
-                errorCallback={error => {
-                    if (this.props && this.props.history){
-                        this.props.history.push("/");
-                    }
-                    console.error(error);
-                }}
-            >
-                <div>Logger ut...</div>
-            </SignoutCallbackComponent>
-        );
-    }
-}
-
-export default withRouter(connect(null)(SignoutCallbackPage));
+export default OidcSignoutCallback;

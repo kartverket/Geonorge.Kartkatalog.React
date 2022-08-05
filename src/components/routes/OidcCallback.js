@@ -1,31 +1,25 @@
 // Dependencies
-import React from "react";
-import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { CallbackComponent } from "redux-oidc";
-import { withRouter } from 'react-router-dom';
 
-// Utils
-import userManager from "../../utils/userManager";
+const OidcCallback = ({ userManager }) => {
+    navigate = useNavigate();
 
-class CallbackPage extends React.Component {
-    successCallback = () => {
-        this.props.history.push('/');
+    const successCallback = () => {
+        navigate("/");
     };
 
-    render() {
-        return (
-            <CallbackComponent
-                userManager={userManager}
-                successCallback={this.successCallback}
-                errorCallback={error => {
-                    this.props.history.push("/");
-                    console.error(error);
-                }}
-            >
-                <div>Logger inn...</div>
-            </CallbackComponent>
-        );
-    }
-}
+    return (
+        <CallbackComponent
+            userManager={userManager}
+            successCallback={successCallback}
+            errorCallback={() => {
+                navigate("/");
+            }}
+        >
+            <div>Logger inn...</div>
+        </CallbackComponent>
+    );
+};
 
-export default withRouter(connect(null)(CallbackPage));
+export default OidcCallback;

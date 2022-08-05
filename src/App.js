@@ -1,10 +1,10 @@
 // Dependencies
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';
-import { Route, Switch } from 'react-router';
-import { ConnectedRouter } from 'connected-react-router';
-import { Helmet } from 'react-helmet';
+import { Route, Routes } from 'react-router';
+import { HistoryRouter as Router } from "redux-first-history/rr6";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // Utils
 import configureStore, { history } from 'utils/configureStore';
@@ -33,20 +33,20 @@ import 'scss/styles.scss';
 const initialState = {};
 const store = configureStore(initialState);
 
-class App extends Component {
+const App = () => {
 
-  componentDidMount() {
+  useEffect(() => {
     store.dispatch(fetchSelectedLanguage());
     store.dispatch(fetchResources());
     store.dispatch(fetchAvailableWFSServiceStatuses());
     store.dispatch(fetchAvailableWMSServiceStatuses());
     store.dispatch(getEnvironment());
-  }
+  },[])
 
-  render() {
-    return (<Provider store={store}>
-      <OidcProvider userManager={userManager} store={store}>
-        <ConnectedRouter history={history}>
+  return (<Provider store={store}>
+    <OidcProvider userManager={userManager} store={store}>
+      <HelmetProvider>
+        <Router history={history}>
           <div className={style.kartkatalogen}>
             <Helmet>
               {process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT.length
@@ -57,28 +57,28 @@ class App extends Component {
             <MainNavigationContainer />
             <div className={style.pageContent}>
               <div className={style.container}>
-                <Switch>
-                  <Route exact path="/" render={() => (<Home />)} />
-                  <Route exact path="/search" render={() => (<Home />)} />
-                  <Route exact path="/signin-oidc" render={() => (<OidcCallback />)} />
-                  <Route exact path="/signout-callback-oidc" render={() => (<OidcSignoutCallback />)} />
-                  <Route exact path="/kart" render={() => (<MapContainer />)} />
-                  <Route exact path="/metadata/:organizaton/:title/:uuid" render={(props) => (<Metadata {...props} />)} />
-                  <Route exact path="/metadata/:title/:uuid" render={(props) => (<Metadata {...props} />)} />
-                  <Route exact path="/metadata/:uuid" render={(props) => (<Metadata {...props} />)} />
-                  <Route exact path="/:category" render={(props) => (<Home {...props} />)} />
-                  <Route key={"/shell.html"} path="/shell.html" component={() => null} />
-                  <Route key={"/404.html"} component={NotFound} />
-                  <Route render={() => (<NotFound />)} />
-                </Switch>
+                <Routes>
+                  <Route exact path="/" element={<Home />} />
+                  <Route exact path="/search" element={<Home />} />
+                  <Route exact path="/signin-oidc" element={<OidcCallback />} />
+                  <Route exact path="/signout-callback-oidc" element={<OidcSignoutCallback />} />
+                  <Route exact path="/kart" element={<MapContainer />} />
+                  <Route exact path="/metadata/:organizaton/:title/:uuid" element={<Metadata />} />
+                  <Route exact path="/metadata/:title/:uuid" element={<Metadata />} />
+                  <Route exact path="/metadata/:uuid" element={<Metadata />} />
+                  <Route exact path="/:category" element={<Home />} />
+                  <Route path="*" element={<NotFound />} />
+                  <Route key={"/shell.html"} path="/shell.html" element={() => null} />
+                  <Route key={"/404.html"} element={<NotFound/>} />
+                </Routes>
               </div>
               <Footer />
             </div>
           </div>
-        </ConnectedRouter>
-      </OidcProvider>
-    </Provider>);
-  }
+        </Router>
+      </HelmetProvider>
+    </OidcProvider>
+  </Provider>);
 }
 
 export default App;
