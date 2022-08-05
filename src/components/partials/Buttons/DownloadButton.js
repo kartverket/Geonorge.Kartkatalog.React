@@ -66,8 +66,8 @@ const DownloadButton = (props) => {
         console.log({ item });
         const requestAction = dispatch(getApiData(`${item.getCapabilitiesUrl}${item.uuid}`))
             .then((capabilities) => {
+                let apiRequests = {};
                 if (capabilities && Object.keys(capabilities).length) {
-                    let apiRequests = {};
                     item.capabilities = capabilities;
                     item.capabilities._links.forEach((link) => {
                         if (link.rel === "http://rel.geonorge.no/download/order") {
