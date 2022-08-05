@@ -73,7 +73,7 @@ const FacetFilterItem = (props) => {
 
     return (
         <li className={isExpanded() ? style.filterItem : style.filterItem + " " + style.closed}>
-            <FontAwesomeIcon icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
+            <FontAwesomeIcon onClick={toggleExpand} icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
             <p onClick={toggleExpand} className={style.filterName}>
                 <span className={style.expandArrow}></span> {props.facetFilterItem.NameTranslated}
             </p>
