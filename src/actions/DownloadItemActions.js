@@ -51,8 +51,6 @@ const addItemToLocalStorage = (itemToAdd => {
   try 
   {
 
-    console.log("Start addItemToLocalStorage for uuid: " + itemToAdd.uuid);
-
     let selectedItems = localStorage.orderItems && Array.isArray(JSON.parse(localStorage.orderItems))
       ? JSON.parse(localStorage.orderItems)
       : [];
@@ -60,7 +58,6 @@ const addItemToLocalStorage = (itemToAdd => {
     Cookies.set('orderItems', selectedItems.length, { expires: 7, path: '/', domain: '.geonorge.no' });
     localStorage.orderItems = JSON.stringify(selectedItems);
     // TODO midlertidig løsning pga gammel handlekurv...
-    console.log("Set localstorage for :" + itemToAdd.uuid);
     localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
   }
   catch (e) {
