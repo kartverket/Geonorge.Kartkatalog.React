@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CallbackComponent } from "redux-oidc";
 
 const OidcCallback = ({ userManager }) => {
-    navigate = useNavigate();
+    const navigate = useNavigate();
 
     const successCallback = () => {
         navigate("/");
