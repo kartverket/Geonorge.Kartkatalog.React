@@ -13,11 +13,7 @@ import { updateOidcCookie, updateBaatInfo } from 'actions/AuthenticationActions'
 // Components
 import { MainNavigation } from '@kartverket/geonorge-web-components/MainNavigation';
 
-
-// Utils
-import userManager from 'utils/userManager';
-
-const MainNavigationContainer = () => {
+const MainNavigationContainer = ({userManager}) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,6 +42,7 @@ const MainNavigationContainer = () => {
     const searchStringParameter = searchString && searchString.length ? `?text=${searchString}` : '';
     navigate(`/${searchResultsType}${searchStringParameter}`);
   }
+
 
   useEffect(() => {
     dispatch(fetchMapItems());
