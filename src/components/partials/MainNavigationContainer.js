@@ -60,11 +60,13 @@ const MainNavigationContainer = ({userManager}) => {
       },
       onSignInClick: (event) => {
         event.preventDefault();
+        sessionStorage.autoRedirectPath = window.location.pathname;
         userManager.signinRedirect();
       },
       onSignOutClick: (event) => {
         event.preventDefault();
-        userManager.signoutRedirect({ 'id_token_hint': oidc.user.id_token });
+        sessionStorage.autoRedirectPath = window.location.pathname;
+        userManager.signoutRedirect({ 'id_token_hint': oidc?.user?.id_token });
         userManager.removeUser();
       },
       onNorwegianLanguageSelect: () => {
