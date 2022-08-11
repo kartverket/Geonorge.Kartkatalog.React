@@ -1,5 +1,5 @@
 // Dependencies
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -26,6 +26,9 @@ const MainNavigationContainer = ({userManager}) => {
   const oidc = useSelector(state => state.oidc);
   const baatInfo = useSelector(state => state.baatInfo);
 
+  // Refs
+  const userRef = useRef(null);
+
   const handleSubmitSearch = (searchString) => {
     searchString = searchString.toString();
     searchString = searchString.replace(/[^a-å0-9- ]+/ig, ""); // Removes unwanted characters
@@ -50,7 +53,21 @@ const MainNavigationContainer = ({userManager}) => {
     dispatch(updateOidcCookie());
     dispatch(updateBaatInfo());
     dispatch(autoAddItemFromLocalStorage());
+  }, [])
 
+  useEffect(() => {
+    userRef.current = oidc?.user;
+  },[oidc])
+
+  useEffect(() => {
+    const isLoggedIn = !!oidc?.user;
+    const hasBaatInfo = !!baatInfo?.user;
+    if (isLoggedIn || hasBaatInfo ) {
+      dispatch(autoAddItemFromLocalStorage());
+      dispatch(fetchItemsToDownload());
+      dispatch(updateOidcCookie());
+      dispatch(updateBaatInfo());
+    }
     MainNavigation.setup('main-navigation', {
       onSearch: event => {
         const searchEvent = event.detail || null;
@@ -66,7 +83,7 @@ const MainNavigationContainer = ({userManager}) => {
       onSignOutClick: (event) => {
         event.preventDefault();
         sessionStorage.autoRedirectPath = window.location.pathname;
-        userManager.signoutRedirect({ 'id_token_hint': oidc?.user?.id_token });
+        userManager.signoutRedirect({ 'id_token_hint': userRef?.current?.id_token });
         userManager.removeUser();
       },
       onNorwegianLanguageSelect: () => {
@@ -80,17 +97,6 @@ const MainNavigationContainer = ({userManager}) => {
         handleChangeSearchResultsType(searchType);
       }
     })
-  }, [])
-
-  useEffect(() => {
-    const isLoggedIn = !!oidc?.user;
-    const hasBaatInfo = !!baatInfo?.user;
-    if (isLoggedIn || hasBaatInfo ) {
-      dispatch(autoAddItemFromLocalStorage());
-      dispatch(fetchItemsToDownload());
-      dispatch(updateOidcCookie());
-      dispatch(updateBaatInfo());
-    }
   }, [oidc, baatInfo])
 
 
