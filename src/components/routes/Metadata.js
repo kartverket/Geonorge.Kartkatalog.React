@@ -543,6 +543,15 @@ const Metadata = () => {
         ) : null;
     };
 
+    const renderContentInformation = () => {
+        return metadata?.ContentInformation?.CloudCoverPercentage !== undefined ? (
+            <div>
+                <strong>{dispatch(getResource("CloudCoverPercentage", "Skydekke prosent"))}: </strong>
+                {metadata.ContentInformation.CloudCoverPercentage}
+            </div>
+        ) : null;
+    };
+
     const renderProcessHistory = () => {
         return metadata?.ProcessHistory?.length ? (
             <div className={style.flex}>
@@ -1110,7 +1119,7 @@ const Metadata = () => {
 
     const renderQualitySection = () => {
         const hasChildren =
-            renderResolutionScale() || renderStatus() || renderProcessHistory() || renderOrderingInstructions();
+            renderResolutionScale() || renderStatus() || renderProcessHistory() || renderOrderingInstructions() || renderContentInformation();
         return hasChildren ? (
             <div>
                 <h2>{dispatch(getResource("Quality", "Kvalitet"))}</h2>
@@ -1118,6 +1127,7 @@ const Metadata = () => {
                 {renderStatus()}
                 {renderProcessHistory()}
                 {renderOrderingInstructions()}
+                {renderContentInformation()}
             </div>
         ) : (
             ""
