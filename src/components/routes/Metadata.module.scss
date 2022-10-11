@@ -170,9 +170,6 @@
     flex-basis: 100%;
   }
 }
-:local(.keywordContainer){
-  max-height: 500px;
-}
 :local(.toggle) {
   max-height: 0;
   overflow: hidden;
@@ -189,13 +186,10 @@
   }
   max-height: 0;
   overflow: hidden;
-  transition: all 0.3s ease;
 }
 
 :local(.open) {
-  max-height: 2500px;
   overflow: auto;
-  transition: all 0.3s ease;
 }
 
 :local(.opendetails) {
