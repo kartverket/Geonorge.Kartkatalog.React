@@ -26,7 +26,7 @@ export const updateBaatInfo = () => (dispatch, getState) => {
   const savedBaatInfo = getState() && getState().baatInfo && Object.keys(getState().baatInfo).length
     ? getState().baatInfo
     : null;
-  if (user && user.profile && user.profile.sub && !savedBaatInfo) {
+  if (user && user.profile && user.profile.preffered_username && !savedBaatInfo) {
     const accessToken = user.access_token
       ? user.access_token
       : null;
@@ -34,7 +34,7 @@ export const updateBaatInfo = () => (dispatch, getState) => {
       ? user.expires_at * 1000
       : null;
     if (accessToken && expiresAt) {
-      const userInfoUrl = `${process.env.REACT_APP_GEOID_BAATAUTHZ_APIURL}info/${user.profile.sub}`;
+      const userInfoUrl = `${process.env.REACT_APP_GEOID_BAATAUTHZ_APIURL}info/${user.profile.preffered_username}`;
       fetch(userInfoUrl, {
         method: 'GET',
         headers: {
