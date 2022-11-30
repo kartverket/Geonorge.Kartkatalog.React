@@ -1,4 +1,4 @@
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import { fetchResources } from 'actions/ResourceActions';
 import { FETCH_SELECTED_LANGUAGE } from 'actions/types';
 

@@ -1,0 +1,21 @@
+.CodeMirror-vscrollbar {
+    display: none !important;
+}
+.EasyMDEContainer .CodeMirror {
+    padding: 0;
+    border: none;
+}
+.mdePreview {
+    div {
+        background: #fff;
+        border: none;
+        padding: 0;
+        .editor-preview-full {
+            position: relative;
+            border: none;
+            padding: 0;
+            background: none;
+            display: block;
+        }
+    }
+}
