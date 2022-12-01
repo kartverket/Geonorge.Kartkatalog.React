@@ -95,6 +95,12 @@ const MainNavigationContainer = ({userManager}) => {
       onSearchTypeChange: event => {
         const searchType = event?.detail?.value || null;
         handleChangeSearchResultsType(searchType);
+      },
+      onMapItemsChange: event => {
+        dispatch(fetchMapItems());
+      },
+      onDownloadItemsChange: event => {
+        dispatch(fetchItemsToDownload());
       }
     })
   }, [oidc, baatInfo])
