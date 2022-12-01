@@ -337,10 +337,8 @@ const DownloadButton = (props) => {
     };
 
     useEffect(() => {
-        if (isAdded) {
-            setIsAdded(metadataIsAdded(props.metadata));
-        }
-    }, [props.metadata]);
+        setIsAdded(metadataIsAdded(props.metadata));
+    }, [props.metadata, itemsToDownload]);
 
     if (hasError) {
         return (
