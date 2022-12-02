@@ -1,75 +1,67 @@
 // Dependencies
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import classNames from "classnames/bind";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Components
-import FacetFilterItem from 'components/partials/FacetFilter/FacetFilterItem';
-import { ErrorBoundary } from 'components/ErrorBoundary';
+import FacetFilterItem from "components/partials/FacetFilter/FacetFilterItem";
+import { ErrorBoundary } from "components/ErrorBoundary";
 
 // Stylesheets
-import style from 'components/partials/FacetFilter.module.scss';
+import style from "components/partials/FacetFilter.module.scss";
 
-class FacetFilter extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            expanded: false
-        }
-    }
+export const FacetFilter = () => {
+    // Redux store
+    const availableFacets = useSelector((state) => state.availableFacets);
 
-    toggleFacets() {
-        this.setState({
-            expanded: !this.state.expanded
-        })
-    }
+    // State
+    const [expanded, setExpanded] = useState();
 
-    renderFacets(availableFacets) {
+    const toggleFacets = () => {
+        setExpanded(!expanded);
+    };
+
+
+    const renderFacets = () => {
         const togglefacetClassnames = classNames({
             [style.facetFilter]: true,
-            [style.open]: this.state.expanded
+            [style.open]: expanded
         });
 
-        let facets = availableFacets && Object.keys(availableFacets).length
-            ? Object.keys(availableFacets).map((facetField, i) => {
-                return <ErrorBoundary key={facetField}>
-                    <FacetFilterItem
-                        facetFilterItem={this.props.availableFacets[facetField]} key={facetField} />
-                </ErrorBoundary>;
-            })
-            : '';
+        const facets =
+            availableFacets && Object.keys(availableFacets).length
+                ? Object.keys(availableFacets).map((facetField) => {
+                      return availableFacets[facetField] 
+                      ? (
+                          <ErrorBoundary key={facetField}>
+                              <FacetFilterItem facetFilterItem={availableFacets[facetField]} />
+                          </ErrorBoundary>
+                      ) : null;
+                  })
+                : null;
         return (
             <div className={togglefacetClassnames}>
                 <label className={style.showLabel}>Valgte filter:</label>
-                <ul>
-                    {facets}
-                </ul>
-            </div>);
-    }
-
-    render() {
-        return (
-            <div>
-                <div className={style.togglefacet} onClick={() => this.toggleFacets()}><FontAwesomeIcon
-                    icon={this.state.expanded ? ['fas', 'times'] : ['far', 'filter']} /></div>
-                {this.renderFacets(this.props.availableFacets)}
+                <ul>{facets}</ul>
             </div>
-        )
-    }
-}
+        );
+    };
+
+    return (
+        <div>
+            <div className={style.togglefacet} onClick={() => toggleFacets()}>
+                <FontAwesomeIcon icon={expanded ? ["fas", "times"] : ["far", "filter"]} />
+            </div>
+            {renderFacets()}
+        </div>
+    );
+};
 
 // Validering av props...
 FacetFilter.propTypes = {
     searchResults: PropTypes.object
 };
 
-// Metode som binder state til lokale props
-const mapStateToProps = state => ({
-    searchResults: state.searchResults,
-    availableFacets: state.availableFacets
-});
-
-
-export default connect(mapStateToProps)(FacetFilter);
+export default FacetFilter;

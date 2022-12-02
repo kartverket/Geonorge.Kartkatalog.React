@@ -1,5 +1,5 @@
 import {UPDATE_BAAT_INFO} from 'actions/types';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import {pushToDataLayer} from 'reducers/TagManagerReducer';
 
 export const updateOidcCookie = () => (dispatch, getState) => {
@@ -26,7 +26,7 @@ export const updateBaatInfo = () => (dispatch, getState) => {
   const savedBaatInfo = getState() && getState().baatInfo && Object.keys(getState().baatInfo).length
     ? getState().baatInfo
     : null;
-  if (user && user.profile && user.profile.sub && !savedBaatInfo) {
+  if (user && user.profile && user.profile.preferred_username && !savedBaatInfo) {
     const accessToken = user.access_token
       ? user.access_token
       : null;
@@ -34,7 +34,7 @@ export const updateBaatInfo = () => (dispatch, getState) => {
       ? user.expires_at * 1000
       : null;
     if (accessToken && expiresAt) {
-      const userInfoUrl = `${process.env.REACT_APP_GEOID_BAATAUTHZ_APIURL}info/${user.profile.sub}`;
+      const userInfoUrl = `${process.env.REACT_APP_GEOID_BAATAUTHZ_APIURL}info/${user.profile.preferred_username}`;
       fetch(userInfoUrl, {
         method: 'GET',
         headers: {
@@ -47,15 +47,7 @@ export const updateBaatInfo = () => (dispatch, getState) => {
         const baatOrganizationName = baatInfo && baatInfo.baat_organization && baatInfo.baat_organization.name
           ? baatInfo.baat_organization.name
           : null;
-          console.log("baatInfo", baatInfo)
-          console.log("baatOrganizationName", baatOrganizationName)
         if (baatOrganizationName) {
-          console.log("to dataLayer: ", {
-            event: 'signIn',
-            category: 'baatOrganizationName',
-            activity: 'authentication',
-            baatOrganizationName: baatOrganizationName
-          });
           dispatch(pushToDataLayer(
             {
               event: 'signIn',

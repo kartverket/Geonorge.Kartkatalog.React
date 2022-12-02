@@ -10,7 +10,7 @@ export const clearMetadataDistributions = () => dispatch => {
     })
 };
 
-export const fetchMetadataDistributions = (uuid = "") => (dispatch, getState) => {
+export const fetchMetadataDistributions = (uuid = "", datefrom = "", dateto ="") => (dispatch, getState) => {
     const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : 'no';
     const fetchOptions = {
         headers: new Headers({
@@ -18,7 +18,7 @@ export const fetchMetadataDistributions = (uuid = "") => (dispatch, getState) =>
         })
     };
     const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
-    return fetch(`${kartkatalogApiUrl}/distribution-lists/${uuid}`, fetchOptions)
+    return fetch(`${kartkatalogApiUrl}/distribution-lists/${uuid}?datefrom=${datefrom}&dateto=${dateto}`, fetchOptions)
         .then(res => res.json())
         .then(metadata => dispatch({
             type: FETCH_METADATADISTRIBUTIONS,

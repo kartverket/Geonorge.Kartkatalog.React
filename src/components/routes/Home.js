@@ -1,126 +1,181 @@
 // Dependencies
-import React, { Component } from 'react';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams, useSearchParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Actions
-import { updateAvailableFacets, updateSelectedFacetsFromUrl, addSelectedFacetsToAnalytics } from 'actions/FacetFilterActions'
-import { updateSearchStringFromUrl } from 'actions/SearchStringActions'
-import { updateSelectedSearchResultsType } from 'actions/SelectedSearchResultsTypeActions';
+import { updateAvailableFacets, updateSelectedFacetsFromUrl } from "actions/FacetFilterActions";
+import { updateSearchStringFromUrl } from "actions/SearchStringActions";
+import { updateSelectedSearchResultsType } from "actions/SelectedSearchResultsTypeActions";
 import { fetchMetadataSearchResults, fetchArticleSearchResults } from "actions/SearchResultActions";
-import { clearMetadata } from 'actions/MetadataActions'
-import { getResource } from 'actions/ResourceActions'
+import { clearMetadata } from "actions/MetadataActions";
+import { getResource } from "actions/ResourceActions";
 
 // Components
-import SelectedFacets from 'components/partials/SelectedFacets';
-import SearchResults from 'components/partials/SearchResults';
-import { ErrorBoundary } from 'components/ErrorBoundary'
-import Breadcrumb from 'components/partials/Breadcrumb';
+import SelectedFacets from "components/partials/SelectedFacets";
+import SearchResults from "components/partials/SearchResults";
+import { ErrorBoundary } from "components/ErrorBoundary";
+import Breadcrumb from "components/partials/Breadcrumb";
 
 // Stylesheets
-import style from './Home.module.scss';
+import style from "./Home.module.scss";
 
-class Home extends Component {
-    setSelectedSearchResultsType() {
-        const searchResultsTypeRegex = /type=articles/i;
-        const searchResultsType = searchResultsTypeRegex.exec(window.location.search) !== null ? 'articles' : 'metadata';
-        this.props.updateSelectedSearchResultsType(searchResultsType);
-    }
+const Home = () => {
+    const dispatch = useDispatch();
+    const params = useParams();
+    const [searchParams] = useSearchParams();
 
-    setSelectedCategory() {
-        const selectedCategory = this.props && this.props.match && this.props.match.params && this.props.match.params.category ? this.props.match.params.category : null;
+    const selectedCategory = params.category || "metadata";
+
+    // Redux store
+    const availableFacets = useSelector((state) => state.availableFacets);
+    const searchResults = useSelector((state) => state.searchResults);
+    const searchString = useSelector((state) => state.searchString);
+    const selectedSearchResultsType = useSelector((state) => state.selectedSearchResultsType);
+    const selectedLanguage = useSelector((state) => state.selectedLanguage);
+    const selectedFacets = useSelector((state) => state.selectedFacets);
+
+    // State
+    const [hasAvailableFacets, setHasAvailableFacets] = useState(false);
+    const [hasInitialSearchResults, setHasInitialSearchResults] = useState(false);
+
+    const setSelectedCategory = () => {
         if (selectedCategory) {
-            this.props.updateSelectedSearchResultsType(this.props.match.params.category);
+            dispatch(updateSelectedSearchResultsType(selectedCategory));
         }
-    }
+    };
 
-    componentDidMount() {
-        this.props.clearMetadata();
-        this.setSelectedCategory();
-        this.setSelectedSearchResultsType();
-        const appIsPreviouslyInitialised = this.props.selectedLanguage !== "";
-        if (appIsPreviouslyInitialised){
-          this.fetchSearchResults();
+    const getInitialSearchResults = () => {
+        dispatch(fetchMetadataSearchResults(searchString));
+        dispatch(fetchArticleSearchResults(searchString));
+    };
+
+    const getFacetFilteredSearchResults = () => {
+        dispatch(fetchMetadataSearchResults(searchString, selectedFacets));
+    };
+
+    const getAvailableFacets = () => {
+        let availableFacets = {};
+        if (searchResults?.metadata?.Facets?.length) {
+            searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+            });
         }
-    }
+        setHasAvailableFacets(true);
+        return dispatch(updateAvailableFacets(availableFacets));
+    };
 
-    componentDidUpdate(prevProps) {
-        this.setSelectedCategory();
-        const oldUrlParameterString = prevProps.router && prevProps.router.location && prevProps.router.location.search ? prevProps.router.location.search : '';
-        const newUrlParameterString = this.props.router && this.props.router.location && this.props.router.location.search ? this.props.router.location.search : '';
+    const setSelectedFacets = () => {
+        dispatch(updateSelectedFacetsFromUrl(availableFacets)).payload;
+    };
 
-        const urlParameterStringHasChanged = oldUrlParameterString !== newUrlParameterString;
-        const selectedLanguageHasChanged = prevProps.selectedLanguage !== this.props.selectedLanguage;
+    useEffect(() => {
+        setHasInitialSearchResults(false);
+        setHasAvailableFacets(false);
+    }, [selectedLanguage]);
 
-        const componentShouldFetch = urlParameterStringHasChanged || selectedLanguageHasChanged;
+    useEffect(() => {
+        setSelectedCategory();
+    }, [params]);
 
-        if (componentShouldFetch) {
-          this.fetchSearchResults();
+    useEffect(() => {
+        const newSearchString = searchParams.get("text");
+        if (searchString !== newSearchString) {
+            setHasInitialSearchResults(false);
+            setHasAvailableFacets(false);
+            dispatch(updateSearchStringFromUrl(searchParams.get("text")));
         }
-    }
+    }, [searchParams]);
 
-    fetchSearchResults(){
-      const searchString = this.props.updateSearchStringFromUrl();
-      const selectedFacets = this.props.updateSelectedFacetsFromUrl(this.props.availableFacets).payload;
-      this.props.fetchMetadataSearchResults(searchString, selectedFacets).then(() => {
-          let availableFacets = {};
-          if (this.props.searchResults && this.props.searchResults.metadata && this.props.searchResults.metadata.Facets && this.props.searchResults.metadata.Facets.length) {
-              this.props.searchResults.metadata.Facets.forEach((facetFilterItem) => {
-                  availableFacets[facetFilterItem.FacetField] = facetFilterItem;
-              });
-          }
-          const newSelectedFacets = this.props.updateSelectedFacetsFromUrl(availableFacets).payload;
-          this.props.fetchMetadataSearchResults(searchString, newSelectedFacets).then(() => {
-              this.props.updateAvailableFacets(availableFacets);
-          });
-      });
-      this.props.fetchArticleSearchResults(searchString);
-      this.setSelectedSearchResultsType();
-    }
+    useEffect(() => {
+        dispatch(clearMetadata());
+        if (!hasAvailableFacets && !hasInitialSearchResults) {
+            setHasInitialSearchResults(true);
+            getInitialSearchResults();
+        }
+    }, [searchString, hasInitialSearchResults, hasAvailableFacets]);
 
-    renderSearchQuery() {
-        let searchString = "";
-        const hasSearchResults = this.props.searchResults && Object.keys(this.props.searchResults).length;
-        if (!hasSearchResults) return (<h1>Kartkatalogen</h1>);
-        if (this.props.selectedSearchResultsType === 'metadata') {
-            if (this.props.searchString && this.props.searchResults && this.props.searchResults.metadata) {
+    useEffect(() => {
+        const hasMetadataSearchResults = searchResults?.metadata && Object.keys(searchResults.metadata)?.length;
+        const hasArticlesSearchResults = searchResults?.articles && Object.keys(searchResults.articles)?.length;
+        if (hasMetadataSearchResults && hasArticlesSearchResults) {
+            getAvailableFacets();
+        }
+    }, [searchResults]);
+
+    useEffect(() => {
+        if (hasAvailableFacets) {
+            setSelectedFacets();
+        }
+    }, [params, hasAvailableFacets]);
+
+    useEffect(() => {
+        const hasSelectedFacets =
+            !!selectedFacets &&
+            !!Object.keys(selectedFacets)?.length &&
+            !!Object.keys(selectedFacets)?.filter((facetField) => {
+                const facetFilterItem = selectedFacets[facetField];
+                return !!facetFilterItem && !!Object.keys(facetFilterItem)?.length;
+            })?.length;
+        if (hasSelectedFacets) {
+            getFacetFilteredSearchResults();
+        }
+    }, [selectedFacets]);
+
+    const renderSearchQuery = () => {
+        let searchResultsText = "";
+        const hasSearchResults = searchResults && Object.keys(searchResults)?.length;
+        if (!hasSearchResults) return <h1>Kartkatalogen</h1>;
+        if (selectedSearchResultsType === "metadata") {
+            if (searchString && searchResults?.metadata) {
                 const resourceVariables = [
-                    this.props.searchString,
-                    this.props.searchResults.metadata.NumFound,
-                    this.props.getResource('MapCatalog', 'Kartkatalogen')
-                ]
-                searchString = this.props.searchResults.metadata.NumFound === 1
-                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables)
-                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables);
+                    searchString,
+                    searchResults.metadata.NumFound,
+                    dispatch(getResource("MapCatalog", "Kartkatalogen"))
+                ];
+                searchResultsText =
+                    searchResults.metadata.NumFound === 1
+                        ? dispatch(
+                              getResource("SearchResultCountText", "Søk på {0} ga {1} treff i {2}", resourceVariables)
+                          )
+                        : dispatch(
+                              getResource("SearchResultsCountText", "Søk på {0} ga {1} treff i {2}", resourceVariables)
+                          );
             }
             return (
                 <div className={style.activeContent}>
                     <div className={style.searchResultContainer}>
-
-                        <span className={searchString !== "" ? style.searchResultInformation : ""}>{searchString}
+                        <span className={searchString !== "" ? style.searchResultInformation : ""}>
+                            {searchResultsText}
                             <span className={searchString !== "" ? style.show : style.hide}>
-                                <Link to="/"> {this.props.getResource('ClearSearch', 'Nullstill søk')}
-                                    <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
+                                <Link to="/">
+                                    {" "}
+                                    {dispatch(getResource("ClearSearch", "Nullstill søk"))}
+                                    <FontAwesomeIcon
+                                        title={dispatch(getResource("ClearSearch", "Nullstill søk"))}
+                                        className={style.resetSearchResults}
+                                        icon={"times"}
+                                    />
                                 </Link>
                             </span>
                         </span>
                     </div>
                 </div>
-            )
-
-        } else if (this.props.selectedSearchResultsType === 'articles') {
-            const numFound = this.props.searchResults && this.props.searchResults.articles && this.props.searchResults.articles.NumFound ? this.props.searchResults.articles.NumFound : 0;
-            if (this.props.searchString) {
-                const resourceVariables = [
-                    this.props.searchString,
-                    numFound,
-                    this.props.getResource('Articles', 'Artikler')
-                ]
-                searchString = numFound === 1
-                    ? this.props.getResource('SearchResultCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables)
-                    : this.props.getResource('SearchResultsCountText', 'Søk på {0} ga {1} treff i {2}', resourceVariables);
+            );
+        } else if (selectedSearchResultsType === "articles") {
+            const numFound = searchResults?.articles?.NumFound || 0;
+            if (searchString) {
+                const resourceVariables = [searchString, numFound, dispatch(getResource("Articles", "Artikler"))];
+                searchString =
+                    numFound === 1
+                        ? dispatch(
+                              getResource("SearchResultCountText", "Søk på {0} ga {1} treff i {2}", resourceVariables)
+                          )
+                        : dispatch(
+                              getResource("SearchResultsCountText", "Søk på {0} ga {1} treff i {2}", resourceVariables)
+                          );
             }
             return (
                 <div className={style.searchResultContainer}>
@@ -128,61 +183,49 @@ class Home extends Component {
                         {searchString}
                         <span className={searchString !== "" ? style.show : style.hide}>
                             <Link to="/">
-                                {this.props.getResource('ClearSearch', 'Nullstill søk')}
-                                <FontAwesomeIcon title={this.props.getResource('ClearSearch', 'Nullstill søk')} className={style.resetSearchResults} icon={'times'} />
+                                {dispatch(getResource("ClearSearch", "Nullstill søk"))}
+                                <FontAwesomeIcon
+                                    title={dispatch(getResource("ClearSearch", "Nullstill søk"))}
+                                    className={style.resetSearchResults}
+                                    icon={"times"}
+                                />
                             </Link>
                         </span>
                     </span>
                 </div>
             );
         } else {
-            return (
-                ""
-            )
+            return "";
         }
-    }
+    };
 
-    render() {
-      const searchResultsTypeText = this.props.selectedSearchResultsType === 'articles' ? 'Artikkelsøk' : 'Metadatasøk';
-        return (
-            <div>
-                <Helmet>
-                    <title>{this.props.searchString && this.props.searchString.length ? `${searchResultsTypeText} på '${this.props.searchString}' - ` : '' }Kartkatalogen</title>
-                    <link rel="canonical" href={`${document.location.origin}/${this.props.selectedSearchResultsType ? this.props.selectedSearchResultsType : 'metadata'}`} />
-                    <meta name="description" content='Bruk Geonorges kartkatalog til å søke etter, se på og laste ned norske offentlige kartdata' />
-                    <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
-                </Helmet>
-                <Breadcrumb content={this.props.searchString && this.props.searchString.length ? `${searchResultsTypeText} på '${this.props.searchString}'` : null} />
-                <div className={style.header}>
-                    {this.props.searchString && this.props.searchResults ? this.renderSearchQuery() : <h1>Kartkatalogen</h1>}
-                    <ErrorBoundary><SelectedFacets /></ErrorBoundary>
-                </div>
-                <ErrorBoundary><SearchResults /></ErrorBoundary>
+    const searchResultsTypeText = selectedSearchResultsType === "articles" ? "Artikkelsøk" : "Metadatasøk";
+    return (
+        <div>
+            <Helmet>
+                <title>
+                    {searchString?.length ? `${searchResultsTypeText} på '${searchString}' - ` : ""}
+                    Kartkatalogen
+                </title>
+                <link rel="canonical" href={`${document.location.origin}/${selectedSearchResultsType || "metadata"}`} />
+                <meta
+                    name="description"
+                    content="Bruk Geonorges kartkatalog til å søke etter, se på og laste ned norske offentlige kartdata"
+                />
+                <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
+            </Helmet>
+            <Breadcrumb content={searchString?.length ? `${searchResultsTypeText} på '${searchString}'` : null} />
+            <div className={style.header}>
+                {searchString && searchResults ? renderSearchQuery() : <h1>Kartkatalogen</h1>}
+                <ErrorBoundary>
+                    <SelectedFacets />
+                </ErrorBoundary>
             </div>
-        )
-    }
-}
-
-const mapStateToProps = state => ({
-    router: state.router,
-    availableFacets: state.availableFacets,
-    selectedFacets: state.selectedFacets,
-    searchResults: state.searchResults,
-    searchString: state.searchString,
-    selectedSearchResultsType: state.selectedSearchResultsType,
-    selectedLanguage: state.selectedLanguage
-});
-
-const mapDispatchToProps = {
-    updateSelectedFacetsFromUrl,
-    updateAvailableFacets,
-    addSelectedFacetsToAnalytics,
-    fetchMetadataSearchResults,
-    fetchArticleSearchResults,
-    updateSearchStringFromUrl,
-    updateSelectedSearchResultsType,
-    clearMetadata,
-    getResource
+            <ErrorBoundary>
+                <SearchResults />
+            </ErrorBoundary>
+        </div>
+    );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

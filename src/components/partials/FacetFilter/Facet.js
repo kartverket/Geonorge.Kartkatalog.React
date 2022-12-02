@@ -1,54 +1,52 @@
 // Dependencies
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { withRouter } from 'react-router-dom'
-
-// Actions
-import { updateSelectedFacetsFromUrl } from 'actions/FacetFilterActions';
-import { fetchMetadataSearchResults } from 'actions/SearchResultActions';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import classNames from "classnames/bind";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 
 // Reducers
-import { pushToDataLayer } from 'reducers/TagManagerReducer';
+import { pushToDataLayer } from "reducers/TagManagerReducer";
 
 // Helpers
-import { getQueryStringFromFacets } from 'helpers/FacetFilterHelpers';
+import { getQueryStringFromFacets } from "helpers/FacetFilterHelpers";
 
 // Components
-import { ErrorBoundary } from 'components/ErrorBoundary';
+import { ErrorBoundary } from "components/ErrorBoundary";
 
 // Stylesheets
-import style from 'components/partials/FacetFilter/Facet.module.scss';
+import style from "components/partials/FacetFilter/Facet.module.scss";
 
-class Facet extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            checked: false,
-            link: ''
-        };
-    }
+const Facet = (props) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    getParentFacets(facet, parents = []) {
-        const hasParent = facet.parent && Object.keys(facet.parent).length;
+    // Redux store
+    const selectedFacets = useSelector((state) => state.selectedFacets);
+    const searchString = useSelector((state) => state.searchString);
+
+    // State
+    const [checked, setChecked] = useState(false);
+
+    const getParentFacets = (facet, parents = []) => {
+        const hasParent = !!facet.parent && !!Object.keys(facet.parent).length;
         if (hasParent) {
             parents.push(facet.parent);
-            if (this.getParentFacets(facet.parent)) {
-                this.getParentFacets(facet.parent, parents);
+            if (getParentFacets(facet.parent)) {
+                getParentFacets(facet.parent, parents);
             }
         } else {
             return false;
         }
         return parents.reverse();
-    }
+    };
 
-    getClosestParentSelectedFacetsArray(parents, facets, index = 0) {
-        facets = facets ? facets : this.props.selectedFacets[this.props.facetField].facets;
-        if (facets && parents && parents.length) {
+    const getClosestParentSelectedFacetsArray = (parents, facets, index = 0) => {
+        facets = facets ? facets : selectedFacets[props.facetField].facets;
+        if (facets && parents?.length) {
             if (index < parents.length - 1) {
-                this.getClosestParentSelectedFacetsArray(parents, facets[parents[index].facet.Name].facets, index + 1);
+                getClosestParentSelectedFacetsArray(parents, facets[parents[index].facet.Name].facets, index + 1);
             }
             const hasSelectedFacets = facets[parents[index].facet.Name] && facets[parents[index].facet.Name].facets;
             if (hasSelectedFacets) {
@@ -57,179 +55,125 @@ class Facet extends Component {
                 return null;
             }
         } else {
-            return facets
-        }
-    }
-
-    isChecked = () => {
-        const hasSelectedFacets = this.props.selectedFacets
-            && this.props.selectedFacets[this.props.facetField]
-            && this.props.selectedFacets[this.props.facetField].facets;
-        if (hasSelectedFacets) {
-            let isChecked = false;
-            const parents = this.getParentFacets(this.props.facet);
-            const closestSelectedFacetsArray = this.getClosestParentSelectedFacetsArray(parents);
-            if (closestSelectedFacetsArray && Object.keys(closestSelectedFacetsArray).length) {
-                Object.keys(closestSelectedFacetsArray).forEach((selectedFacetName) => {
-                    if (selectedFacetName === this.props.facet.Name) {
-                        isChecked = true;
-                    }
-                })
-            }
-            if (isChecked) {
-                this.setState({
-                    checked: true,
-                    link: this.getRemoveFacetQueryString()
-                });
-            } else {
-                this.setState({
-                    checked: false,
-                    link: this.getAddFacetQueryString()
-                });
-            }
+            return facets;
         }
     };
 
-    componentDidMount() {
-        this.isChecked();
-    }
-
-    renderSelectedFacetsList(facets) {
-        if (facets && Object.keys(facets).length) {
-            return Object.keys(facets).map(facetName => {
-                const facet = facets[facetName];
-                return (
-                    <ErrorBoundary key={facetName}>
-                        <Facet {...this.props} facet={{ ...facet, parent: this.props }} key={facetName} />
-                    </ErrorBoundary>
-                )
-            });
+    const isChecked = () => {
+        const hasSelectedFacets = !!selectedFacets?.[props.facetField]?.facets;
+        if (hasSelectedFacets) {
+            let isChecked = false;
+            const parents = getParentFacets(props.facet);
+            const closestSelectedFacetsArray = getClosestParentSelectedFacetsArray(parents);
+            if (!!closestSelectedFacetsArray && !!Object.keys(closestSelectedFacetsArray)?.length) {
+                Object.keys(closestSelectedFacetsArray).forEach((selectedFacetName) => {
+                    if (selectedFacetName === props.facet.Name) {
+                        isChecked = true;
+                    }
+                });
+            }
+            if (isChecked) {
+                setChecked(true);
+            } else {
+                setChecked(false);
+            }
+        } else {
+            setChecked(false);
         }
-    }
+    };
 
-    renderList(facets) {
+    useEffect(() => {
+        isChecked();
+    }, []);
+
+    const renderList = (facets) => {
         if (facets) {
-            let ulClassNames = classNames({
+            const ulClassNames = classNames({
                 [style.filterItems]: true,
-                [style.hidden]: !this.state.checked
+                [style.hidden]: !checked
             });
-            let filterItemElements = facets.map((facet, i) => {
+            const filterItemElements = facets.map((facet, i) => {
                 return (
                     <ErrorBoundary key={i}>
-                        <Facet {...this.props} facet={{ ...facet, parent: this.props }} key={i} />
+                        <Facet {...props} facet={{ ...facet, parent: props }} key={i} />
                     </ErrorBoundary>
                 );
             });
-            return React.createElement('ul', { className: ulClassNames }, filterItemElements);
+            return React.createElement("ul", { className: ulClassNames }, filterItemElements);
         } else {
-            return "";
+            return null;
         }
-    }
+    };
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const hasSelectedFacets = this.props.selectedFacets
-            && this.props.selectedFacets[this.props.facetField]
-            && this.props.selectedFacets[this.props.facetField].facets;
-        const hasPrevPropsSelectedFacets = prevProps.selectedFacets
-            && prevProps.selectedFacets[this.props.facetField]
-            && prevProps.selectedFacets[this.props.facetField].facets;
-        if (hasSelectedFacets || hasPrevPropsSelectedFacets) {
-            const parents = this.getParentFacets(this.props.facet);
-            if (hasSelectedFacets !== hasPrevPropsSelectedFacets) {
-                this.isChecked();
-            } else if (parents && parents.length) {
-                const oldClosestSelectedFacetsArray = hasPrevPropsSelectedFacets ? this.getClosestParentSelectedFacetsArray(parents, prevProps.selectedFacets[prevProps.facetField].facets) : null;
-                const newClosestSelectedFacetsArray = hasSelectedFacets ? this.getClosestParentSelectedFacetsArray(parents) : null;
-                if (oldClosestSelectedFacetsArray && newClosestSelectedFacetsArray && Object.keys(oldClosestSelectedFacetsArray).length !== Object.keys(newClosestSelectedFacetsArray).length) {
-                    this.isChecked();
-                }
-            } else {
-                let oldFacet = hasPrevPropsSelectedFacets && prevProps.selectedFacets[this.props.facetField].facets[this.props.facet.Name];
-                let newFacet = hasSelectedFacets && this.props.selectedFacets[this.props.facetField].facets[this.props.facet.Name];
-                if (oldFacet !== newFacet) {
-                    this.isChecked();
-                }
+    useEffect(() => {
+        isChecked();
+    }, [selectedFacets]);
+
+    const getAddFacetQueryString = () => {
+        return getQueryStringFromFacets(selectedFacets, searchString, {
+            facetToAdd: {
+                facetField: props.facetField,
+                facet: props.facet
             }
-        } else {
-            if (this.state.checked) {
-                this.unCheck();
+        });
+    };
+
+    const getRemoveFacetQueryString = () => {
+        return getQueryStringFromFacets(selectedFacets, searchString, {
+            facetToRemove: {
+                facetField: props.facetField,
+                facet: props.facet
             }
-        }
-    }
+        });
+    };
 
-    getAddFacetQueryString() {
-        return getQueryStringFromFacets(
-            this.props.selectedFacets,
-            this.props.searchString,
-            {
-                facetToAdd: {
-                    facetField: this.props.facetField,
-                    facet: this.props.facet
-                }
-            });
-    }
+    const handleFacetClick = () => {
+        dispatch(
+            pushToDataLayer({
+                event: "updateSelectedFacets",
+                category: "facets",
+                activity: "addFacetType",
+                facet: { NameTranslated: props.facetFieldNameTranslated }
+            })
+        );
+        dispatch(
+            pushToDataLayer({
+                event: "updateSelectedFacets",
+                category: "facets",
+                activity: "addFacet",
+                facet: props.facet
+            })
+        );
+        navigate(checked ? getRemoveFacetQueryString() : getAddFacetQueryString());
+    };
 
-    getRemoveFacetQueryString() {
-        return getQueryStringFromFacets(
-            this.props.selectedFacets,
-            this.props.searchString,
-            {
-                facetToRemove: {
-                    facetField: this.props.facetField,
-                    facet: this.props.facet
-                }
-            });
-    }
-
-    unCheck() {
-        this.setState({
-            checked: false
-        })
-    }
-
-    handleFacetClick = () => {
-      this.props.pushToDataLayer({
-        event: 'updateSelectedFacets',
-        category: 'facets',
-        activity: 'addFacetType',
-        facet: {NameTranslated: this.props.facetFieldNameTranslated}
-      });
-      this.props.pushToDataLayer({
-        event: 'updateSelectedFacets',
-        category: 'facets',
-        activity: 'addFacet',
-        facet: this.props.facet
-      });
-      this.props.history.push(this.state.checked ? this.getRemoveFacetQueryString() : this.getAddFacetQueryString());
-      
-
-    }
-
-    renderFacet() {
+    const renderFacet = () => {
         const liClassNames = classNames({
             [style.facet]: true,
-            [style.empty]: this.props.facet.Count === 0,
+            [style.empty]: props.facet.Count === 0
         });
 
-        return this.state.checked || this.props.facet.Count
-        ? (
+        return checked || props.facet.Count ? (
             <li className={liClassNames}>
-                <span onClick={this.handleFacetClick} className={style.clickable}>
-                    <FontAwesomeIcon className={style.svgCheckbox}
-                        icon={this.state.checked ? ['far', 'check-square'] : ['far', 'square']} />
-                    <label htmlFor={this.props.facet.Name}>
-                        <span>{this.props.facet.NameTranslated} </span><span>({this.props.facet.Count})</span>
+                <span onClick={handleFacetClick} className={style.clickable}>
+                    <FontAwesomeIcon
+                        className={style.svgCheckbox}
+                        icon={checked ? ["far", "check-square"] : ["far", "square"]}
+                    />
+                    <label htmlFor={props.facet.Name}>
+                        <span>{props.facet.NameTranslated} </span>
+                        <span>({props.facet.Count})</span>
                     </label>
                 </span>
-                {this.renderList(this.props.facet.FacetResults)}
+                {renderList(props.facet.FacetResults)}
             </li>
-        ) : '';
-    }
+        ) : (
+            ""
+        );
+    };
 
-    render() {
-        return this.renderFacet();
-    }
-}
+    return renderFacet();
+};
 
 Facet.propTypes = {
     facetField: PropTypes.string.isRequired,
@@ -238,23 +182,7 @@ Facet.propTypes = {
         Count: PropTypes.number.isRequired,
         Name: PropTypes.string.isRequired,
         NameTranslated: PropTypes.string.isRequired
-    }),
-    selectedFacets: PropTypes.object.isRequired
+    })
 };
 
-// Store State mappes til lokale states
-const mapStateToProps = state => ({
-    selectedFacets: state.selectedFacets,
-    searchString: state.searchString
-});
-
-
-const mapDispatchToProps = {
-    fetchMetadataSearchResults,
-    updateSelectedFacetsFromUrl,
-    pushToDataLayer
-};
-
-
-// "Blir tilgjengelig som en prop"... Store state, Actions, Klassen du er i...
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Facet));
+export default Facet;

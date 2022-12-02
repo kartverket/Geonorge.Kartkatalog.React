@@ -1,4 +1,4 @@
-import { UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS } from 'actions/types';
+import { UPDATE_AVAILABLEFACETS, UPDATE_SELECTED_FACETS_FROM_URL, UPDATE_SELECTEDFACETS, UPDATE_EXPANDEDFACETFILTERS } from 'actions/types';
 import { pushToDataLayer } from 'reducers/TagManagerReducer';
 
 export const updateAvailableFacets = (facets) => dispatch => {
@@ -116,3 +116,10 @@ export const updateSelectedFacetsFromUrl = (availableFacets = {}) => dispatch =>
         payload: facets,
     });
 };
+
+export const updateExpandedFacetFilters = (expandedFacetFilters) => dispatch => {
+    return dispatch({
+        type: UPDATE_EXPANDEDFACETFILTERS,
+        payload: expandedFacetFilters
+    });
+}

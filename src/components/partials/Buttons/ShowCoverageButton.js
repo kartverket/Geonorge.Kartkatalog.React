@@ -1,104 +1,90 @@
 // Dependencies
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Components
-import Modal from 'components/partials/Buttons/Modal.js'
+import Modal from "components/partials/Buttons/Modal.js";
 
 // Actions
-import { getResource } from 'actions/ResourceActions'
+import { getResource } from "actions/ResourceActions";
 
 // Reducers
-import { pushToDataLayer } from 'reducers/TagManagerReducer';
+import { pushToDataLayer } from "reducers/TagManagerReducer";
 
 // Stylesheets
-import style from 'components/partials/Buttons/Buttons.module.scss';
+import style from "components/partials/Buttons/Buttons.module.scss";
 
+const ShowCoverageButton = (props) => {
+    const dispatch = useDispatch();
 
-export class ShowCoverageButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            show: false,
-            mounted: false
+    // State
+    const [showModal, setShowModal] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    const handleButtonClick = () => {
+        setShowModal(true);
+        const tagData = {
+            name: props.metadata.Title,
+            uuid: props.metadata.Uuid
         };
-    }
-
-    showModal = () => {
-        this.setState({ show: true });
-    };
-
-    hideModal = () => {
-        this.setState({ show: false });
-    };
-
-    handleButtonClick = () => {
-      this.showModal();
-      const tagData = {
-        name: this.props.metadata.Title,
-        uuid: this.props.metadata.Uuid
-      }
-      this.props.pushToDataLayer({
-				event: 'showMore',
-				category: 'metadataDetails',
-				activity: 'showCoverageMap',
-				metadata: tagData
-			});
-    }
-
-    componentDidMount = () => {
-        this.setState({ mounted: true });
-    }
-
-    renderModal() {
-        return this.props.metadata.CoverageUrl && this.state.mounted
-            ? (
-                <Modal show={this.state.show} handleClose={this.hideModal}>
-                    <iframe src={this.state.show ? this.props.metadata.CoverageUrl : ''} title="Coverage map" width="100%" height="800px" />
-                </Modal>
-            ) : '';
-    }
-
-    renderButton() {
-        let buttonDescription = this.props.getResource('DisplayCoverageMap', 'Vis dekningskart');
-
-        if (this.props.metadata.CoverageUrl) {
-            let buttonClass = style.btn;
-            return <span className={buttonClass} onClick={this.handleButtonClick}>
-                <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
-            </span>
-        }
-        else {
-            let buttonClass = `${style.btn}  ${style.disabled}`;
-            return <span className={buttonClass}>
-                <FontAwesomeIcon title={buttonDescription} icon={['far', 'globe']} key="icon" />{buttonDescription}
-            </span>
-        }
-    }
-
-    render() {
-        return (
-            <React.Fragment>
-                {this.renderModal()}
-                {this.renderButton()}
-            </React.Fragment>
+        dispatch(
+            pushToDataLayer({
+                event: "showMore",
+                category: "metadataDetails",
+                activity: "showCoverageMap",
+                metadata: tagData
+            })
         );
-    }
-}
+    };
+
+    const renderModal = () => {
+        return props.metadata.CoverageUrl && isMounted ? (
+            <Modal show={showModal} handleClose={() => setShowModal(false)}>
+                <iframe
+                    src={showModal ? props.metadata.CoverageUrl : ""}
+                    title="Coverage map"
+                    width="100%"
+                    height="800px"
+                />
+            </Modal>
+        ) : null;
+    };
+
+    const renderButton = () => {
+        const buttonDescription = dispatch(getResource("DisplayCoverageMap", "Vis dekningskart"));
+        const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "globe"]} key="icon" />;
+        const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
+        const childElements = [icon, textContent];
+
+        if (props.metadata.CoverageUrl) {
+            const buttonClass = style.btn;
+            return (
+                <span className={buttonClass} onClick={handleButtonClick}>
+                    {childElements}
+                </span>
+            );
+        } else {
+            const buttonClass = `${style.btn}  ${style.disabled}`;
+            return <span className={buttonClass}>{childElements}</span>;
+        }
+    };
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    return (
+        <Fragment>
+            {renderModal()}
+            {renderButton()}
+        </Fragment>
+    );
+};
 
 ShowCoverageButton.propTypes = {
     metadata: PropTypes.object.isRequired
 };
 
-const mapDispatchToProps = {
-    getResource,
-    pushToDataLayer
-};
-
-const mapStateToProps = state => ({
-    resources: state.resources
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowCoverageButton);
+export default ShowCoverageButton;
