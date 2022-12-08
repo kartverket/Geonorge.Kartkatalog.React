@@ -912,7 +912,7 @@ const Metadata = () => {
                 </div>
             ) : null;
         const relatedSerieDatasetsList =
-            (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedDatasetSerie) ||
+            (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
             metadata?.TypeName == "series_time" ? (
                 <div>
                     <h3>{dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}</h3>
