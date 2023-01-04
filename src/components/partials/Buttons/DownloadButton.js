@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Utils
 import userManager from "utils/userManager";
+import userManagerPromise from "utils/userManager";
 
 // Actions
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from "actions/DownloadItemActions";
@@ -35,7 +36,10 @@ const DownloadButton = (props) => {
     const [hasError, setHasError] = useState(false);
 
     const handleLoginClick = () => {
-        userManager.signinRedirect();
+        userManagerPromise.then((userManagerConfig) => {
+            const userManager = userManagerConfig;
+            userManager.signinRedirect();
+        });
     };
 
     const getDownloadItem = (metadata) => {
