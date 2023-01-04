@@ -68,7 +68,7 @@ const addItemToLocalStorage = (itemToAdd => {
 });
 
 export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) => {
-    if (itemToAdd.accessIsOpendata) {
+    if (itemToAdd?.accessIsOpendata) {
         addItemToLocalStorage(itemToAdd);
         const tagData = {
             name: itemToAdd.name,
@@ -82,11 +82,11 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
             pushToDataLayer({ event: "updateCart", category: "download", activity: "addToCart", metadata: tagData })
         );
         dispatch(fetchItemsToDownload());
-    } else if (itemToAdd.accessIsRestricted) {
+    } else if (itemToAdd?.accessIsRestricted) {
         const baatInfo = getState() && getState().baatInfo ? getState().baatInfo : null;
         if (baatInfo) {
             const roles = baatInfo.baat_services ? baatInfo.baat_services : null;
-            const constraintRequiredRole = itemToAdd.capabilities.accessConstraintRequiredRole;
+            const constraintRequiredRole = itemToAdd?.capabilities?.accessConstraintRequiredRole;
             let addDatasetIsAllowed = true;
             if (constraintRequiredRole === undefined) {
                 addDatasetIsAllowed = true;
