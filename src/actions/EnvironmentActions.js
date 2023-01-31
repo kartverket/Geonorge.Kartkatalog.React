@@ -5,7 +5,8 @@ export const getEnvironment = () => dispatch => {
       buildNumber: process.env.REACT_APP_BUILD_NUMBER || null,
       majorMinorVersionMaster: process.env.REACT_APP_MAJOR_MINOR_VERSION_MASTER || null,
       majorMinorVersionDevelopment: process.env.REACT_APP_MAJOR_MINOR_VERSION_DEVELOPMENT || null,
-      environment: process.env.REACT_APP_ENVIRONMENT || null
+      environment: process.env.REACT_APP_ENVIRONMENT || null,
+      accessibilityStatementUrl: process.env.REACT_APP_ACCESSIBILITY_STATEMENT_URL || null
     };
     dispatch({
         type: GET_ENVIRONMENT,

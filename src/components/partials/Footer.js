@@ -21,6 +21,7 @@ const Footer = () => {
             language={selectedLanguage}
             environment={environment?.environment}
             version={environment?.buildNumber}
+            accessibilitystatementurl={environment?.accessibilityStatementUrl}
         />
     ) : null;
 };
