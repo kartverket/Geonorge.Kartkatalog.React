@@ -950,7 +950,7 @@ const Metadata = () => {
             metadata?.TypeName == "series_time" ? (
                 <div>
                     <heading-text>
-                    <h3>{dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}</h3>
+                        <h3>{dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}</h3>
                     </heading-text>
                     {metadata.TypeName == "series_time" ? (
                         <form className="form-inline" onSubmit={handleSubmit}>
@@ -959,40 +959,50 @@ const Metadata = () => {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <label>Dato fra: </label>
+                                                <gn-label>
+                                                    <label>Dato fra: </label>
+                                                </gn-label>
                                             </td>
                                             <td>
-                                                <DatePicker
-                                                    style={{ display: "inline" }}
-                                                    autoComplete="off"
-                                                    selectsStart
-                                                    startDate={startDate}
-                                                    selected={startDate}
-                                                    onChange={handleStartChange}
-                                                    name="startDate"
-                                                    dateFormat="dd.MM.yyyy"
-                                                    locale="nb"
-                                                />
+                                                <gn-input>
+                                                    <DatePicker
+                                                        style={{ display: "inline" }}
+                                                        autoComplete="off"
+                                                        selectsStart
+                                                        startDate={startDate}
+                                                        selected={startDate}
+                                                        onChange={handleStartChange}
+                                                        name="startDate"
+                                                        dateFormat="dd.MM.yyyy"
+                                                        locale="nb"
+                                                    />
+                                                </gn-input>
                                             </td>
                                             <td>
-                                                <label>Dato til: </label>
+                                                <gn-label>
+                                                    <label>Dato til: </label>
+                                                </gn-label>
                                             </td>
                                             <td>
-                                                <DatePicker
-                                                    style={{ display: "inline" }}
-                                                    autoComplete="off"
-                                                    selectsEnd
-                                                    endDate={endDate}
-                                                    selected={endDate}
-                                                    onChange={handleEndChange}
-                                                    name="endDate"
-                                                    dateFormat="dd.MM.yyyy"
-                                                    minDate={startDate}
-                                                    locale="nb"
-                                                />
+                                                <gn-input>
+                                                    <DatePicker
+                                                        style={{ display: "inline" }}
+                                                        autoComplete="off"
+                                                        selectsEnd
+                                                        endDate={endDate}
+                                                        selected={endDate}
+                                                        onChange={handleEndChange}
+                                                        name="endDate"
+                                                        dateFormat="dd.MM.yyyy"
+                                                        minDate={startDate}
+                                                        locale="nb"
+                                                    />
+                                                </gn-input>
                                             </td>
                                             <td>
-                                                <button className="btn btn-success">Søk</button>
+                                                <gn-button color="primary">
+                                                    <button>Søk</button>
+                                                </gn-button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1570,13 +1580,13 @@ const Metadata = () => {
                         <h2>
                             {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
                             <FontAwesomeIcon
-                            title={
-                                expanded
-                                    ? "Trekk sammen"
-                                    : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
-                                          getResource("DetailedInformation", "Detaljert informasjon")
-                                      )}`
-                            }
+                                title={
+                                    expanded
+                                        ? "Trekk sammen"
+                                        : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
+                                            getResource("DetailedInformation", "Detaljert informasjon")
+                                        )}`
+                                }
                                 icon={expanded ? "angle-up" : "angle-down"}
                             />
                         </h2>
