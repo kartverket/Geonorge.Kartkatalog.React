@@ -274,7 +274,9 @@ const Metadata = () => {
         if (metadata?.ContactMetadata) {
             return (
                 <div>
-                    <h3>{dispatch(getResource("ContactMetadata", "Metadatakontakt"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("ContactMetadata", "Metadatakontakt"))}</h3>
+                    </heading-text>
                     <div>
                         <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Name}</a>
                     </div>
@@ -293,7 +295,9 @@ const Metadata = () => {
         if (metadata?.ContactOwner) {
             return (
                 <div>
-                    <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
+                    </heading-text>
                     <div>
                         <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Name}</a>
                     </div>
@@ -312,7 +316,9 @@ const Metadata = () => {
         if (metadata?.ContactPublisher) {
             return (
                 <div>
-                    <h3>{dispatch(getResource("ContactPublisher", "Teknisk kontakt"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("ContactPublisher", "Teknisk kontakt"))}</h3>
+                    </heading-text>
                     {metadata.ContactPublisher?.Name?.length ? (
                         <div>
                             {metadata.ContactPublisher?.Email?.length ? (
@@ -368,7 +374,9 @@ const Metadata = () => {
 
                 return (
                     <div key={urlIndex}>
-                        <h3>{dispatch(getResource("DistributionType", "Distribusjonstype"))}:</h3>
+                        <heading-text>
+                            <h3>{dispatch(getResource("DistributionType", "Distribusjonstype"))}:</h3>
+                        </heading-text>
                         <div>{protocolFormats[0].ProtocolName}</div>
                         {protocolFormats[0].URL ? (
                             <div>
@@ -390,8 +398,9 @@ const Metadata = () => {
                         ) : (
                             ""
                         )}
-
-                        <h3>Format:</h3>
+                        <heading-text>
+                            <h3>Format:</h3>
+                        </heading-text>
                         <ul className={style.defaultList}>{protocolFormatElements}</ul>
                     </div>
                 );
@@ -415,7 +424,9 @@ const Metadata = () => {
             });
         return operationsList?.length ? (
             <div>
-                <h3>Kall som tjenesten tilbyr:</h3>
+                <heading-text>
+                    <h3>Kall som tjenesten tilbyr:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{operationsList}</ul>
             </div>
         ) : null;
@@ -458,7 +469,9 @@ const Metadata = () => {
             });
         return referenceSystemList?.length ? (
             <div>
-                <h3>{dispatch(getResource("ReferenceSystems", "Romlig referansesystem"))}:</h3>
+                <heading-text>
+                    <h3>{dispatch(getResource("ReferenceSystems", "Romlig referansesystem"))}:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{referenceSystemList}</ul>
             </div>
         ) : null;
@@ -676,7 +689,9 @@ const Metadata = () => {
             });
         return keywordsPlaceList?.length ? (
             <div>
-                <h3>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h3>
+                <heading-text>
+                    <h3>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{keywordsPlaceList}</ul>
             </div>
         ) : null;
@@ -685,7 +700,9 @@ const Metadata = () => {
     const renderBoundingBox = () => {
         return metadata?.BoundingBox && Object.keys(metadata?.BoundingBox)?.length ? (
             <div>
-                <h3>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h3>
+                <heading-text>
+                    <h3>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>
                     <li>
                         {dispatch(getResource("North", "Nord"))}: {metadata.BoundingBox.NorthBoundLatitude}
@@ -718,7 +735,9 @@ const Metadata = () => {
             });
         return keywordsThemeList?.length ? (
             <div>
-                <h3>{dispatch(getResource("Facet_theme", "Tema"))}:</h3>
+                <heading-text>
+                    <h3>{dispatch(getResource("Facet_theme", "Tema"))}:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{keywordsThemeList}</ul>
             </div>
         ) : null;
@@ -738,7 +757,9 @@ const Metadata = () => {
             });
         return keywordsNationalThemeList?.length ? (
             <div>
-                <h3>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h3>
+                <heading-text>
+                    <h3>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{keywordsNationalThemeList}</ul>
             </div>
         ) : null;
@@ -758,7 +779,9 @@ const Metadata = () => {
             });
         return keywordsNationalInitiativeList?.length ? (
             <div>
-                <h3>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h3>
+                <heading-text>
+                    <h3>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{keywordsNationalInitiativeList}</ul>
             </div>
         ) : null;
@@ -772,7 +795,9 @@ const Metadata = () => {
             });
         return keywordsInspireList?.length ? (
             <div>
-                <h3>Inspire:</h3>
+                <heading-text>
+                    <h3>Inspire:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{keywordsInspireList}</ul>
             </div>
         ) : null;
@@ -868,7 +893,9 @@ const Metadata = () => {
             });
         return keywordsAdministrativeUnitsList?.length ? (
             <div>
-                <h3>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h3>
+                <heading-text>
+                    <h3>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h3>
+                </heading-text>
                 <ul className={style.defaultList}>{keywordsAdministrativeUnitsList}</ul>
             </div>
         ) : null;
@@ -890,7 +917,9 @@ const Metadata = () => {
     const renderSpecificUsageSection = () => {
         return metadata?.SpecificUsage?.length ? (
             <div>
-                <h2>{dispatch(getResource("SpecificUsage", "Bruksområde"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("SpecificUsage", "Bruksområde"))}</h2>
+                </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SpecificUsage)}</p>
             </div>
         ) : null;
@@ -900,7 +929,9 @@ const Metadata = () => {
         const selfDistributionsList =
             metadataDistributions?.SelfDistribution?.length && metadataDistributions?.ShowSelfDistributions ? (
                 <div>
-                    <h3>{metadataDistributions.TitleSelf}</h3>
+                    <heading-text>
+                        <h3>{metadataDistributions.TitleSelf}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.SelfDistribution} />
                     </ErrorBoundary>
@@ -909,7 +940,9 @@ const Metadata = () => {
         const relatedDatasetList =
             metadataDistributions?.RelatedDataset?.length && metadataDistributions?.ShowRelatedDataset ? (
                 <div>
-                    <h3>{dispatch(getResource("Facet_type_dataset", "Datasett"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("Facet_type_dataset", "Datasett"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedDataset} />
                     </ErrorBoundary>
@@ -919,7 +952,9 @@ const Metadata = () => {
             (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
             metadata?.TypeName == "series_time" ? (
                 <div>
+                    <heading-text>
                     <h3>{dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}</h3>
+                    </heading-text>
                     {metadata.TypeName == "series_time" ? (
                         <form className="form-inline" onSubmit={handleSubmit}>
                             <div className="input-group">
@@ -976,7 +1011,9 @@ const Metadata = () => {
         const relatedDatasetSerieList =
             metadataDistributions?.RelatedDatasetSerie?.length && metadataDistributions?.ShowRelatedDatasetSerie ? (
                 <div>
-                    <h3>{dispatch(getResource("Facet_type_datasetserie", "Datasettet inngår i datasettserien"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("Facet_type_datasetserie", "Datasettet inngår i datasettserien"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedDatasetSerie} />
                     </ErrorBoundary>
@@ -985,7 +1022,9 @@ const Metadata = () => {
         const relatedApplicationsList =
             metadataDistributions?.RelatedApplications?.length && metadataDistributions?.ShowRelatedApplications ? (
                 <div>
-                    <h3>{metadataDistributions.TitleRelatedApplications}</h3>
+                    <heading-text>
+                        <h3>{metadataDistributions.TitleRelatedApplications}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedApplications} />
                     </ErrorBoundary>
@@ -994,7 +1033,9 @@ const Metadata = () => {
         const relatedServiceLayersList =
             metadataDistributions?.RelatedServiceLayer?.length && metadataDistributions?.ShowRelatedServiceLayer ? (
                 <div>
-                    <h3>{dispatch(getResource("Servicelayers", "Tjenestelag"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("Servicelayers", "Tjenestelag"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedServiceLayer} />
                     </ErrorBoundary>
@@ -1003,7 +1044,9 @@ const Metadata = () => {
         const relatedServicesList =
             metadataDistributions?.RelatedServices?.length && metadataDistributions?.ShowRelatedServices ? (
                 <div>
-                    <h3>{dispatch(getResource("Services", "Tjenester"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("Services", "Tjenester"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedServices} />
                     </ErrorBoundary>
@@ -1012,7 +1055,9 @@ const Metadata = () => {
         const relatedViewServicesList =
             metadataDistributions?.RelatedViewServices?.length && metadataDistributions?.ShowRelatedViewServices ? (
                 <div>
-                    <h3>{dispatch(getResource("DisplayServices", "Visningstjenester"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("DisplayServices", "Visningstjenester"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedViewServices} />
                     </ErrorBoundary>
@@ -1022,7 +1067,9 @@ const Metadata = () => {
             metadataDistributions?.RelatedDownloadServices?.length &&
             metadataDistributions?.ShowRelatedDownloadServices ? (
                 <div>
-                    <h3>{dispatch(getResource("DownloadServices", "Nedlastingstjenester"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("DownloadServices", "Nedlastingstjenester"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedDownloadServices} />
                     </ErrorBoundary>
@@ -1041,7 +1088,9 @@ const Metadata = () => {
             !!relatedDownloadServicesList;
         return showDistributions ? (
             <div>
-                <h2>{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
+                </heading-text>
                 {selfDistributionsList}
                 {relatedDatasetList}
                 {relatedSerieDatasetsList}
@@ -1059,7 +1108,9 @@ const Metadata = () => {
         const hasChildren = renderContactMetadata() || renderContactOwner() || renderContactPublisher();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("ContactInformation", "Kontaktinforsmasjon"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("ContactInformation", "Kontaktinforsmasjon"))}</h2>
+                </heading-text>
                 <div className={style.flex}>
                     {renderContactMetadata()}
                     {renderContactOwner()}
@@ -1073,7 +1124,9 @@ const Metadata = () => {
         const hasChildren = renderSpatialRepresentation() || renderDistributionsFormats() || renderReferenceSystems();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
+                </heading-text>
                 {renderSpatialRepresentation()}
                 {renderDistributionsFormats()}
                 {renderOperations()}
@@ -1093,7 +1146,9 @@ const Metadata = () => {
             renderSecurityConstraintsNote();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Constraints", "Restriksjoner"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("Constraints", "Restriksjoner"))}</h2>
+                </heading-text>
                 {renderUseLimitations()}
                 {renderAccessConstraints()}
                 {renderUseConstraints()}
@@ -1108,9 +1163,11 @@ const Metadata = () => {
     const renderSupplementalDescriptionSection = () => {
         return metadata?.SupplementalDescription?.length || metadata?.HelpUrl?.length ? (
             <div>
-                <h2 id="help-info">
-                    {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
-                </h2>
+                <heading-text>
+                    <h2 id="help-info">
+                        {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
+                    </h2>
+                </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SupplementalDescription)}</p>
                 {metadata.HelpUrl ? (
                     <a href={metadata.HelpUrl}>
@@ -1126,7 +1183,9 @@ const Metadata = () => {
             renderResolutionScale() || renderStatus() || renderProcessHistory() || renderOrderingInstructions() || renderContentInformation();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Quality", "Kvalitet"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("Quality", "Kvalitet"))}</h2>
+                </heading-text>
                 {renderResolutionScale()}
                 {renderStatus()}
                 {renderProcessHistory()}
@@ -1196,7 +1255,9 @@ const Metadata = () => {
             });
         return qualitySpecificationsList?.length ? (
             <div>
-                <h2>{dispatch(getResource("QualitySpecification", "Konformitet"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("QualitySpecification", "Konformitet"))}</h2>
+                </heading-text>
                 {qualitySpecificationsList}
             </div>
         ) : null;
@@ -1205,7 +1266,9 @@ const Metadata = () => {
     const renderPurposeSection = () => {
         return metadata?.Purpose?.length ? (
             <div>
-                <h2>{dispatch(getResource("Purpose", "Formål"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("Purpose", "Formål"))}</h2>
+                </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.Purpose)}</p>
             </div>
         ) : null;
@@ -1225,7 +1288,9 @@ const Metadata = () => {
             renderSpatialScope();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h2>
+                </heading-text>
                 {renderDateCreated()}
                 {renderDateUpdated()}
                 {renderMetadataDateUpdated()}
@@ -1253,7 +1318,9 @@ const Metadata = () => {
             renderKeywordsOther();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h2>
+                <heading-text>
+                    <h2>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h2>
+                </heading-text>
                 <div className={style.keywordContainer}>
                     {renderKeywordsTheme()}
                     {renderKeywordsNationalTheme()}
@@ -1432,7 +1499,7 @@ const Metadata = () => {
             {getMetadataLinkedDataSnippet()}
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div className={style.content}>
-                <h1>{getTitle()}</h1>
+                <heading-text><h1>{getTitle()}</h1></heading-text>
                 {renderCredits()}
                 <div className={style.openBtns} onClick={() => toggleBtns()}>
                     Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
@@ -1502,9 +1569,10 @@ const Metadata = () => {
                 {renderSupplementalDescriptionSection()}
 
                 <div className={style.opendetails} onClick={() => toggleExpand()}>
-                    <h2>
-                        {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
-                        <FontAwesomeIcon
+                    <heading-text>
+                        <h2>
+                            {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
+                            <FontAwesomeIcon
                             title={
                                 expanded
                                     ? "Trekk sammen"
@@ -1512,9 +1580,10 @@ const Metadata = () => {
                                           getResource("DetailedInformation", "Detaljert informasjon")
                                       )}`
                             }
-                            icon={expanded ? "angle-up" : "angle-down"}
-                        />
-                    </h2>
+                                icon={expanded ? "angle-up" : "angle-down"}
+                            />
+                        </h2>
+                    </heading-text>
                 </div>
                 <div className={expanded ? style.open : style.closed}>
                     {renderGeneral()}

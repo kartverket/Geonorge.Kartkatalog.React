@@ -230,7 +230,13 @@ const Home = () => {
             </Helmet>
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div className={style.header}>
-                {searchString && searchResults ? renderSearchQuery() : <h1>Kartkatalogen</h1>}
+                    {searchData?.searchString?.length && searchData?.results ? (
+                        renderSearchQuery()
+                    ) : (
+                        <heading-text>
+                            <h1>Kartkatalogen</h1>
+                        </heading-text>
+                    )}
                 <ErrorBoundary>
                     <SelectedFacets />
                 </ErrorBoundary>
