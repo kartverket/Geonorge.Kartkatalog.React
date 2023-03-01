@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+// Geonorge WebComponents
+// eslint-disable-next-line no-unused-vars
+import { BreadcrumbList, HeadingText } from "@kartverket/geonorge-web-components";
+
 // Actions
 import { updateAvailableFacets, updateSelectedFacetsFromUrl } from "actions/FacetFilterActions";
 import { updateSearchStringFromUrl } from "actions/SearchStringActions";
@@ -200,6 +204,16 @@ const Home = () => {
     };
 
     const searchResultsTypeText = selectedSearchResultsType === "articles" ? "Artikkelsøk" : "Metadatasøk";
+    const breadcrumbs = [
+        {
+            name: "Geonorge",
+            url: "https://www.geonorge.no/"
+        },
+        {
+            name: dispatch(getResource("AppPageTitle", "Kartkatalogen")),
+            url: "/"
+        }
+    ];
     return (
         <div>
             <Helmet>
@@ -214,7 +228,7 @@ const Home = () => {
                 />
                 <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
             </Helmet>
-            <Breadcrumb content={searchString?.length ? `${searchResultsTypeText} på '${searchString}'` : null} />
+            <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div className={style.header}>
                 {searchString && searchResults ? renderSearchQuery() : <h1>Kartkatalogen</h1>}
                 <ErrorBoundary>

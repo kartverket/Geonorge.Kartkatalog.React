@@ -8,6 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import SimpleMDE from "react-simplemde-editor";
 
+// Geonorge WebComponents
+// eslint-disable-next-line no-unused-vars
+import { BreadcrumbList, GnInput, HeadingText } from "@kartverket/geonorge-web-components";
+
 // Actions
 import { getResource } from "actions/ResourceActions";
 import { clearMetadata, fetchMetadata } from "actions/MetadataActions";
@@ -1396,6 +1400,21 @@ const Metadata = () => {
         return twitterTagElements;
     };
 
+    const breadcrumbs = [
+        {
+            name: "Geonorge",
+            url: "https://www.geonorge.no/"
+        },
+        {
+            name: dispatch(getResource("AppPageTitle", "Kartkatalogen")),
+            url: "/"
+        },
+        {
+            name: getTitle(),
+            url: window.location.pathname
+        }
+    ];
+
     return !metadata || !Object.keys(metadata).length === "An error has occurred." ? (
         <div className={style.searchResultContainer}>
             <span>Kunne ikke finne metadata på Uuid "{uuid}"</span>
@@ -1411,7 +1430,7 @@ const Metadata = () => {
                 {renderTwitterTags()}
             </Helmet>
             {getMetadataLinkedDataSnippet()}
-            <Breadcrumb content={getTitle()} />
+            <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div className={style.content}>
                 <h1>{getTitle()}</h1>
                 {renderCredits()}
