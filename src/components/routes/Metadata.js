@@ -43,7 +43,6 @@ import Breadcrumb from "components/partials/Breadcrumb";
 // Stylesheets
 import style from "components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "easymde/dist/easymde.min.css";
 import "scss/mdeOverride.scss";
 
