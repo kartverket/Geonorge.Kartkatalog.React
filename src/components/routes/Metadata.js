@@ -76,8 +76,6 @@ const Metadata = () => {
 
     // State
     const [expanded, setExpanded] = useState(false);
-    const [expandedDownload, setExpandedDownload] = useState(false);
-    const [expandedBtns, setExpandedBtns] = useState(false);
     const [showBtns, setShowBtns] = useState(false);
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
@@ -190,10 +188,10 @@ const Metadata = () => {
     };
 
     const toggleExpand = () => {
-        setExpanded(!expanded && !expandedDownload);
+        setExpanded(!expanded);
     };
     const toggleBtns = () => {
-        setShowBtns(!showBtns && !expandedBtns);
+        setShowBtns(!showBtns);
     };
 
     const fetchApiData = () => {
