@@ -2,7 +2,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import * as serviceWorker from "serviceWorker";
-import WebFont from "webfontloader";
 import "react-app-polyfill/ie11";
 
 // Components
@@ -20,12 +19,6 @@ if (window.location.search !== convertSearchParams(window.location.search)) {
 } else if (window.location.pathname !== convertPath(window.location.pathname)) {
     window.location.href = window.location.origin + convertPath(window.location.pathname) + window.location.search;
 } else {
-    WebFont.load({
-        google: {
-            families: ["Raleway:100,400,500,700", "Open Sans:400,600,700", "sans-serif"]
-        }
-    });
-
     if (window.location.hostname === "localhost") {
         window.sessionStorage.setItem("isLocalKartkatalogEnvironment", "true");
     } else {

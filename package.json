@@ -42,7 +42,6 @@
     "redux-thunk": "^2.3.0",
     "sass": "^1.29.0",
     "url-search-params-polyfill": "^8.1.0",
-    "webfontloader": "^1.6.28",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
