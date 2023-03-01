@@ -19,5 +19,22 @@
     background-color: #7da1c4;
 }
 
-
-
+#ie div {
+    margin: 130px 20px 20px;
+    overflow: hidden;
+}
+#ie div .banner {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    background-color: #f7f7f7;
+    height: 100px;
+    margin: -20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+}
+#ie div .banner > img {
+    height: 37px;
+    margin-top: 40px;
+    margin-left: 20px;
+}

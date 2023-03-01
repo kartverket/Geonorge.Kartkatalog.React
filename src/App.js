@@ -27,7 +27,6 @@ import Metadata from "components/routes/Metadata";
 import MainNavigationContainer from "components/partials/MainNavigationContainer";
 
 // Stylesheets
-import style from "App.module.scss";
 import "scss/styles.scss";
 
 const initialState = {};
