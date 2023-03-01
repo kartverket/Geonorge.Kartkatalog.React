@@ -38,7 +38,6 @@ import HelpButton from "components/partials/Buttons/HelpButton";
 import ShowCoverageButton from "components/partials/Buttons/ShowCoverageButton";
 import DownloadXmlButton from "components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "components/partials/Buttons/EditMetadataButton";
-import Breadcrumb from "components/partials/Breadcrumb";
 
 // Stylesheets
 import style from "components/routes/Metadata.module.scss";

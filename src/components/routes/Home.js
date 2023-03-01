@@ -21,7 +21,6 @@ import { getResource } from "actions/ResourceActions";
 import SelectedFacets from "components/partials/SelectedFacets";
 import SearchResults from "components/partials/SearchResults";
 import { ErrorBoundary } from "components/ErrorBoundary";
-import Breadcrumb from "components/partials/Breadcrumb";
 
 // Stylesheets
 import style from "./Home.module.scss";
