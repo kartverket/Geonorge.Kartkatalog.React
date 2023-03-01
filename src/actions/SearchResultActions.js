@@ -80,33 +80,3 @@ export const fetchArticleSearchResults = (searchString = "", Offset = 1, append 
             searchString: searchString
         }))
 };
-
-export const fetchDropdownSearchResults = (searchString = "") => async (dispatch, getState) => {
-    const urlParameterStrings = {
-        dataset: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=dataset`,
-        series: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=series`,
-        service: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=service`,
-        software: `search?text=${searchString}&facets%5B1%5Dname=type&facets%5B1%5Dvalue=software`,
-        articles: `articles?text=${searchString}`
-    };
-    const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : 'no';
-    const fetchOptions = {
-        headers: new Headers({
-            'Accept-Language': selectedLanguage
-        })
-    };
-    const limitParameterString = 'limit=5';
-
-    await Promise.all(Object.keys(urlParameterStrings).map(async (searchResultsType) => {
-        const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
-        let urlParameterString = urlParameterStrings[searchResultsType];
-        return fetch(`${kartkatalogApiUrl}/${urlParameterString}&${limitParameterString}`, fetchOptions)
-            .then(res => res.json())
-            .then(searchResults => dispatch({
-                type: FETCH_DROPDOWNSEARCHRESULTS,
-                payload: searchResults,
-                searchString: searchString,
-                searchResultsType: searchResultsType
-            }))
-    }))
-};
