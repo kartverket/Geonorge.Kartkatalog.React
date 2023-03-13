@@ -36,7 +36,6 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "redux": "^4.0.1",
-    "redux-first-history": "^5.0.9",
     "redux-oidc": "^4.0.0-beta1",
     "redux-thunk": "^2.3.0",
     "sass": "^1.29.0",

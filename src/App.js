@@ -3,7 +3,6 @@ import React, { Component, useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { OidcProvider } from "redux-oidc";
 import { Route, Routes } from "react-router";
-import { HistoryRouter as Router } from "redux-first-history/rr6";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // Utils
