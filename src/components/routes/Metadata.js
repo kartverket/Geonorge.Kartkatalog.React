@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
-import SimpleMDE from "react-simplemde-editor";
+import MDEditor from "@uiw/react-md-editor";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
@@ -42,7 +42,6 @@ import EditMetadataButton from "components/partials/Buttons/EditMetadataButton";
 // Stylesheets
 import style from "components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import "easymde/dist/easymde.min.css";
 import "scss/mdeOverride.scss";
 
 import { registerLocale } from "react-datepicker";
@@ -50,13 +49,6 @@ import nb from "date-fns/locale/nb";
 registerLocale("nb", nb);
 
 import moment from "moment";
-
-const readOnlyMdeOptions = {
-    toolbar: false,
-    status: false,
-    spellChecker: false,
-    readOnly: true
-};
 
 const Metadata = () => {
     const dispatch = useDispatch();
@@ -79,18 +71,6 @@ const Metadata = () => {
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
-
-    const getMdeInstance = (instance) => {
-        const container = instance?.element?.nextSibling;
-        if (container) {
-            container.setAttribute("tabIndex", "0");
-            const editableElement = container.getElementsByClassName("CodeMirror-scroll")?.[0];
-            editableElement.style.display = "none";
-            instance.togglePreview();
-            instance.codemirror.options.readOnly = true;
-            container.classList.add('mdePreview');
-        }
-    };
 
     const handleStartChange = (date) => {
         setStartDate(date);
@@ -572,11 +552,9 @@ const Metadata = () => {
                     <div>
                         <strong>{dispatch(getResource("ProcessHistory", "Prosesshistorie"))}: </strong>
                     </div>
-                    <SimpleMDE
-                        value={metadata.ProcessHistory}
-                        options={readOnlyMdeOptions}
-                        getMdeInstance={getMdeInstance}
-                    />
+                    <div data-color-mode="light">
+                        <MDEditor.Markdown id="abstract" source={metadata.ProcessHistory} />
+                    </div>
                 </div>
             </div>
         ) : null;
@@ -1550,15 +1528,15 @@ const Metadata = () => {
                         </ErrorBoundary>
                     </div>
                 </div>
-                <pre>
-                </pre>
+                <pre></pre>
                 <div className={style.flex}>
                     <div className={style.textContent}>
                         <div>{renderType()}</div>
                         {metadata?.Abstract ? (
-                                <SimpleMDE value={getAbstract(metadata)} options={readOnlyMdeOptions} getMdeInstance={getMdeInstance} />
-                        ) : ''
-                        }
+                            <div data-color-mode="light">
+                                <MDEditor.Markdown id="abstract" source={getAbstract(metadata)} />
+                            </div>
+                        ) : null}
                     </div>
                     {renderThumbnail()}
                 </div>
