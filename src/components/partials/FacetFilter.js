@@ -1,7 +1,6 @@
 // Dependencies
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -12,17 +11,13 @@ import { ErrorBoundary } from "components/ErrorBoundary";
 // Stylesheets
 import style from "components/partials/FacetFilter.module.scss";
 
-export const FacetFilter = () => {
-    // Redux store
-    const availableFacets = useSelector((state) => state.availableFacets);
-
+export const FacetFilter = ({ searchData }) => {
     // State
     const [expanded, setExpanded] = useState();
 
     const toggleFacets = () => {
         setExpanded(!expanded);
     };
-
 
     const renderFacets = () => {
         const togglefacetClassnames = classNames({
@@ -31,12 +26,14 @@ export const FacetFilter = () => {
         });
 
         const facets =
-            availableFacets && Object.keys(availableFacets).length
-                ? Object.keys(availableFacets).map((facetField) => {
-                      return availableFacets[facetField] 
-                      ? (
+            searchData?.availableFacets && Object.keys(searchData.availableFacets).length
+                ? Object.keys(searchData.availableFacets).map((facetField) => {
+                      return searchData.availableFacets[facetField] ? (
                           <ErrorBoundary key={facetField}>
-                              <FacetFilterItem facetFilterItem={availableFacets[facetField]} />
+                              <FacetFilterItem
+                                  searchData={searchData}
+                                  facetFilterItem={searchData.availableFacets[facetField]}
+                              />
                           </ErrorBoundary>
                       ) : null;
                   })
@@ -61,7 +58,7 @@ export const FacetFilter = () => {
 
 // Validering av props...
 FacetFilter.propTypes = {
-    searchResults: PropTypes.object
+    searchData: PropTypes.object
 };
 
 export default FacetFilter;

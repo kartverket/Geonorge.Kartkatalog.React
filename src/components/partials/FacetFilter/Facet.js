@@ -1,10 +1,10 @@
 // Dependencies
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Reducers
 import { pushToDataLayer } from "reducers/TagManagerReducer";
@@ -20,11 +20,6 @@ import style from "components/partials/FacetFilter/Facet.module.scss";
 
 const Facet = (props) => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    // Redux store
-    const selectedFacets = useSelector((state) => state.selectedFacets);
-    const searchString = useSelector((state) => state.searchString);
 
     // State
     const [checked, setChecked] = useState(false);
@@ -43,7 +38,7 @@ const Facet = (props) => {
     };
 
     const getClosestParentSelectedFacetsArray = (parents, facets, index = 0) => {
-        facets = facets ? facets : selectedFacets[props.facetField].facets;
+        facets = facets ? facets : props?.searchData?.selectedFacets?.[props.facetField]?.facets;
         if (facets && parents?.length) {
             if (index < parents.length - 1) {
                 getClosestParentSelectedFacetsArray(parents, facets[parents[index].facet.Name].facets, index + 1);
@@ -60,7 +55,7 @@ const Facet = (props) => {
     };
 
     const isChecked = () => {
-        const hasSelectedFacets = !!selectedFacets?.[props.facetField]?.facets;
+        const hasSelectedFacets = !!props?.searchData?.selectedFacets?.[props.facetField]?.facets;
         if (hasSelectedFacets) {
             let isChecked = false;
             const parents = getParentFacets(props.facet);
@@ -95,7 +90,7 @@ const Facet = (props) => {
             const filterItemElements = facets.map((facet, i) => {
                 return (
                     <ErrorBoundary key={i}>
-                        <Facet {...props} facet={{ ...facet, parent: props }} key={i} />
+                        <Facet {...props} facet={{ ...facet, parent: props }} parentIsExpanded={checked} key={i} />
                     </ErrorBoundary>
                 );
             });
@@ -107,10 +102,10 @@ const Facet = (props) => {
 
     useEffect(() => {
         isChecked();
-    }, [selectedFacets]);
+    }, [props?.searchData?.selectedFacets]);
 
     const getAddFacetQueryString = () => {
-        return getQueryStringFromFacets(selectedFacets, searchString, {
+        return getQueryStringFromFacets(props?.searchData?.selectedFacets, props?.searchData?.searchString, {
             facetToAdd: {
                 facetField: props.facetField,
                 facet: props.facet
@@ -119,7 +114,7 @@ const Facet = (props) => {
     };
 
     const getRemoveFacetQueryString = () => {
-        return getQueryStringFromFacets(selectedFacets, searchString, {
+        return getQueryStringFromFacets(props?.searchData?.selectedFacets, props?.searchData?.searchString, {
             facetToRemove: {
                 facetField: props.facetField,
                 facet: props.facet
@@ -144,7 +139,6 @@ const Facet = (props) => {
                 facet: props.facet
             })
         );
-        navigate(checked ? getRemoveFacetQueryString() : getAddFacetQueryString());
     };
 
     const renderFacet = () => {
