@@ -5,7 +5,7 @@ $imagePath: "../../../../";
   :local(.filterName) {
     font-size: 1em;
     line-height: 1.25;
-    padding: 5px 0 5px 20px;
+    padding: 5px 0 5px 30px;
     font-weight: 600;
     border-bottom: 1px solid $primary-border;
   }
@@ -15,9 +15,6 @@ $imagePath: "../../../../";
     max-height: 0;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
-    list-style: none;
-    line-height: 1.5em;
-    padding: 0;
   }
 
   &:local(.closed) {
@@ -31,6 +28,7 @@ $imagePath: "../../../../";
     font-size: 1.3em;
     font-weight: 400;
     margin-top: 6px;
+    margin-left: 6px;
   }
 
   &:hover {

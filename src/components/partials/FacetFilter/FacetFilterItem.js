@@ -39,7 +39,7 @@ const FacetFilterItem = (props) => {
         return facetResultsLength;
     };
 
-    const renderList = () => {
+    const renderList = (parentIsExpanded) => {
         if (props.facetFilterItem?.FacetResults?.length) {
             let facetElements = props.facetFilterItem.FacetResults.map((facet, i) => {
                 return (
@@ -47,6 +47,7 @@ const FacetFilterItem = (props) => {
                         facet={facet}
                         facetField={props.facetFilterItem.FacetField}
                         facetFieldNameTranslated={props.facetFilterItem.NameTranslated}
+                        parentIsExpanded={parentIsExpanded}
                         key={i}
                     />
                 );
@@ -77,7 +78,7 @@ const FacetFilterItem = (props) => {
             <p onClick={toggleExpand} className={style.filterName}>
                 <span className={style.expandArrow}></span> {props.facetFilterItem.NameTranslated}
             </p>
-            {renderList()}
+            {renderList(isExpanded())}
         </li>
     );
 };

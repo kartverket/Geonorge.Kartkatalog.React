@@ -1,4 +1,4 @@
-@import './../../../scss/abstracts/all';
+@import "./../../../scss/abstracts/all";
 $imagePath: "../../../../";
 
 :local(.facet) {
@@ -6,55 +6,40 @@ $imagePath: "../../../../";
     opacity: 0.7;
   }
 
-  a,
-  :local(.clickable) {
-    white-space: nowrap;
+  a {
+    height: 22.5px;
+
+    display: flex;
+    align-items: center;
     color: $default-text;
     text-decoration: none;
-
-    &:not(:root:root) {
-      line-height: 26px;
-    }
-
+    white-space: nowrap;
+    margin: 4px;
     &:hover {
       cursor: pointer;
       color: $anchor-active;
     }
 
-    input {
-      position: absolute;
-      opacity: 0;
-      height: 22px;
-      width: 22px;
-      cursor: pointer;
-
-      &+label {
-        position: relative;
-        padding-left: 25px;
-        margin: 5px 0;
-        font-weight: normal;
-        cursor: pointer;
-      }
+    &:focus-visible {
+      outline-color: $anchor-active;
+      outline-style: auto;
+      outline-width: 2px;
+      outline-offset: 2px;
     }
 
-    label {
-      &:hover {
-        cursor: pointer;
-      }
-      margin-bottom: 0;
-      padding-left: 10px;
-      text-decoration: none;
-      line-height: 22px;
+    :local(.facetCheckbox) {
+      display: inline-block;
+      font-size: 1.4em;
+      margin-bottom: -1px;
       vertical-align: middle;
+    }
 
+    :local(.facetName) {
+      padding-left: 8px;
       > span {
-        max-width: 80%;
         text-overflow: ellipsis;
         overflow: hidden;
-        text-decoration: none;
-        display: inline-block;
-        position: relative;
-        margin-right: 4px;
+        display: inline;
         font-weight: 400;
       }
 
@@ -62,58 +47,12 @@ $imagePath: "../../../../";
         font-weight: 700;
       }
     }
-
-    :local(.svgCheckbox) {
-      font-size: 1.4em;
-      display: inline-block;
-      margin-bottom: 2px;
-      vertical-align: middle;
-    }
   }
 }
 
 :local(.filterItems) {
-  list-style: none;
   margin-left: 16px;
-
   &:local(.hidden) {
     display: none;
-  }
-}
-
-:local(.badge) a {
-  display: inline-block;
-  font-size: 0.8em;
-  margin: 0 5px;
-  color: $default-text;
-  text-decoration: none;
-
-  + :local(.badge) a {
-    font-size: 0.7em;
-  }
-
-  &:hover {
-    color: $anchor-active;
-    cursor: pointer;
-  }
-
-  label {
-    display: flex;
-    align-items: center;
-    padding: 0 4px 4px;
-    border: 1px solid $primary-border;
-
-    > span {
-      overflow: visible;
-      max-width: 100%;
-      padding-bottom: 4px;
-      padding-right: 5px;
-    }
-
-    > svg.svg-checkbox {
-      position: relative;
-      top: 2px;
-      font-size: 1em;
-    }
   }
 }

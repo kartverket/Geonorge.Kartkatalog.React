@@ -155,16 +155,16 @@ const Facet = (props) => {
 
         return checked || props.facet.Count ? (
             <li className={liClassNames}>
-                <span onClick={handleFacetClick} className={style.clickable}>
+                <Link tabIndex={props.parentIsExpanded ? null : "-1"} to={checked ? getRemoveFacetQueryString() : getAddFacetQueryString()} onClick={handleFacetClick}>
                     <FontAwesomeIcon
-                        className={style.svgCheckbox}
+                        className={style.facetCheckbox}
                         icon={checked ? ["far", "check-square"] : ["far", "square"]}
                     />
-                    <label htmlFor={props.facet.Name}>
+                    <div className={style.facetName}>
                         <span>{props.facet.NameTranslated} </span>
                         <span>({props.facet.Count})</span>
-                    </label>
-                </span>
+                    </div>
+                </Link>
                 {renderList(props.facet.FacetResults)}
             </li>
         ) : (
@@ -182,7 +182,8 @@ Facet.propTypes = {
         Count: PropTypes.number.isRequired,
         Name: PropTypes.string.isRequired,
         NameTranslated: PropTypes.string.isRequired
-    })
+    }),
+    parentIsExpanded: PropTypes.bool
 };
 
 export default Facet;
