@@ -67,7 +67,6 @@ const DownloadButton = (props) => {
 
     const addToDownloadList = (item) => {
         const isNotAuthenticated = !oidc?.user;
-        console.log({ item });
         const requestAction = dispatch(getApiData(`${item.getCapabilitiesUrl}${item.uuid}`))
             .then((capabilities) => {
                 let apiRequests = {};
