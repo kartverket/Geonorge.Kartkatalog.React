@@ -1,19 +1,5 @@
 @import '../../scss/abstracts/all';
 
-:local(.maplist) {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 20px;
-  list-style-position: outside;
-}
-
-:local(.defaultList) {
-  list-style: disc;
-  padding-inline-start: 28px;
-  li {
-    list-style: disc;
-  }
-}
 
 :local(.morecontainer) {
   width: 100%;
@@ -55,13 +41,6 @@
   margin: 15px;
   @include breakpoint('tablet') {
     margin: 40px;
-  }
-
-  a,
-  li,
-  p,
-  strong {
-    line-height: 1.6em;
   }
 }
 

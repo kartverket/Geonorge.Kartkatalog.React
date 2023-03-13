@@ -18,6 +18,10 @@ import MapButton from "components/partials/Buttons/MapButton";
 import DownloadButton from "components/partials/Buttons/DownloadButton";
 import ApplicationButton from "components/partials/Buttons/ApplicationButton";
 
+// Geonorge WebComponents
+// eslint-disable-next-line no-unused-vars
+import { GnBadgeList } from "@kartverket/geonorge-web-components";
+
 // Stylesheets
 import style from "components/partials/SearchResults/MetadataSearchResult.module.scss";
 
@@ -90,18 +94,19 @@ const MetadataSearchResult = (props) => {
     const renderDistributionFormats = () => {
         const dirstibutionFormatsElement = props.searchResult.DistributionFormats
             ? props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-                  return <span key={i}>{distributionFormat.Name} </span>;
+                  return <li key={i}>{distributionFormat.Name} </li>;
               })
             : null;
         return props.searchResult.DistributionFormats && props.visibleFields.includes("DistributionFormats") ? (
-            <div className={style.formatsContainer}>
+            <div>
                 <ErrorBoundary>
-                    {dispatch(getResource("Formats", "Formater"))}: {dirstibutionFormatsElement}
+                    {dispatch(getResource("Formats", "Formater"))}:
+                    <gn-badge-list>
+                        <ul>{dirstibutionFormatsElement}</ul>
+                    </gn-badge-list>
                 </ErrorBoundary>
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderListItemInfo = () => {

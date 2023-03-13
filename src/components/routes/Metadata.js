@@ -10,7 +10,7 @@ import MDEditor from "@uiw/react-md-editor";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
-import { BreadcrumbList, GnInput, HeadingText } from "@kartverket/geonorge-web-components";
+import { BreadcrumbList, GnBadgeList, GnInput, GnList, HeadingText } from "@kartverket/geonorge-web-components";
 
 // Actions
 import { getResource } from "actions/ResourceActions";
@@ -377,7 +377,9 @@ const Metadata = () => {
                         <heading-text>
                             <h3>Format:</h3>
                         </heading-text>
-                        <ul className={style.defaultList}>{protocolFormatElements}</ul>
+                        <gn-badge-list>
+                            <ul>{protocolFormatElements}</ul>
+                        </gn-badge-list>
                     </div>
                 );
             });
@@ -403,7 +405,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>Kall som tjenesten tilbyr:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{operationsList}</ul>
+                <gn-list>
+                    <ul>{operationsList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -448,7 +452,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("ReferenceSystems", "Romlig referansesystem"))}:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{referenceSystemList}</ul>
+                <gn-list>
+                    <ul>{referenceSystemList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -666,7 +672,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{keywordsPlaceList}</ul>
+                <gn-list>
+                    <ul>{keywordsPlaceList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -677,20 +685,22 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>
-                    <li>
-                        {dispatch(getResource("North", "Nord"))}: {metadata.BoundingBox.NorthBoundLatitude}
-                    </li>
-                    <li>
-                        {dispatch(getResource("South", "Sør"))}: {metadata.BoundingBox.SouthBoundLatitude}
-                    </li>
-                    <li>
-                        {dispatch(getResource("East", "Øst"))}: {metadata.BoundingBox.EastBoundLongitude}
-                    </li>
-                    <li>
-                        {dispatch(getResource("West", "Vest"))}: {metadata.BoundingBox.WestBoundLongitude}
-                    </li>
-                </ul>
+                <gn-list>
+                    <ul>
+                        <li>
+                            {dispatch(getResource("North", "Nord"))}: {metadata.BoundingBox.NorthBoundLatitude}
+                        </li>
+                        <li>
+                            {dispatch(getResource("South", "Sør"))}: {metadata.BoundingBox.SouthBoundLatitude}
+                        </li>
+                        <li>
+                            {dispatch(getResource("East", "Øst"))}: {metadata.BoundingBox.EastBoundLongitude}
+                        </li>
+                        <li>
+                            {dispatch(getResource("West", "Vest"))}: {metadata.BoundingBox.WestBoundLongitude}
+                        </li>
+                    </ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -712,7 +722,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("Facet_theme", "Tema"))}:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{keywordsThemeList}</ul>
+                <gn-list>
+                    <ul>{keywordsThemeList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -734,7 +746,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{keywordsNationalThemeList}</ul>
+                <gn-list>
+                    <ul>{keywordsNationalThemeList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -756,7 +770,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{keywordsNationalInitiativeList}</ul>
+                <gn-list>
+                    <ul>{keywordsNationalInitiativeList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -772,7 +788,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>Inspire:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{keywordsInspireList}</ul>
+                <gn-list>
+                    <ul>{keywordsInspireList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -792,7 +810,9 @@ const Metadata = () => {
         return keywordsConceptList?.length ? (
             <div>
                 <strong>{dispatch(getResource("Concept", "Begreper"))}:</strong>
-                <ul className={style.defaultList}>{keywordsConceptList}</ul>
+                <gn-list>
+                    <ul>{keywordsConceptList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -812,7 +832,9 @@ const Metadata = () => {
         return keywordsInspirePriorityDatasetList?.length ? (
             <div>
                 <strong>{dispatch(getResource("EuPriorityDataset", "EU - prioriterte datasett"))}:</strong>
-                <ul className={style.defaultList}>{keywordsInspirePriorityDatasetList}</ul>
+                <gn-list>
+                    <ul>{keywordsInspirePriorityDatasetList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -826,7 +848,9 @@ const Metadata = () => {
         return renderKeywordsInspireCategory?.length ? (
             <div>
                 <strong>{dispatch(getResource("Metadata_KeywordsInspire_Label", "Inspire kategorier"))}:</strong>
-                <ul className={style.defaultList}>{keywordsInspireList}</ul>
+                <gn-list>
+                    <ul>{keywordsInspireList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -846,7 +870,9 @@ const Metadata = () => {
         return keywordsOtherList?.length ? (
             <div>
                 <strong>{dispatch(getResource("Metadata_KeywordsOther_Label", "Ukategoriserte nøkkelord"))}:</strong>
-                <ul className={style.defaultList}>{keywordsOtherList}</ul>
+                <gn-list>
+                    <ul>{keywordsOtherList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -870,7 +896,9 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h3>
                 </heading-text>
-                <ul className={style.defaultList}>{keywordsAdministrativeUnitsList}</ul>
+                <gn-list>
+                    <ul>{keywordsAdministrativeUnitsList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -892,7 +920,7 @@ const Metadata = () => {
         return metadata?.SpecificUsage?.length ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("SpecificUsage", "Bruksområde"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("SpecificUsage", "Bruksområde"))}</h2>
                 </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SpecificUsage)}</p>
             </div>
@@ -927,7 +955,9 @@ const Metadata = () => {
             metadata?.TypeName == "series_time" ? (
                 <div>
                     <heading-text>
-                        <h3>{dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}</h3>
+                        <h3>
+                            {dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}
+                        </h3>
                     </heading-text>
                     {metadata.TypeName == "series_time" ? (
                         <form className="form-inline" onSubmit={handleSubmit}>
@@ -996,7 +1026,9 @@ const Metadata = () => {
             metadataDistributions?.RelatedDatasetSerie?.length && metadataDistributions?.ShowRelatedDatasetSerie ? (
                 <div>
                     <heading-text>
-                        <h3>{dispatch(getResource("Facet_type_datasetserie", "Datasettet inngår i datasettserien"))}</h3>
+                        <h3>
+                            {dispatch(getResource("Facet_type_datasetserie", "Datasettet inngår i datasettserien"))}
+                        </h3>
                     </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedDatasetSerie} />
@@ -1073,7 +1105,7 @@ const Metadata = () => {
         return showDistributions ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
                 </heading-text>
                 {selfDistributionsList}
                 {relatedDatasetList}
@@ -1093,7 +1125,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("ContactInformation", "Kontaktinforsmasjon"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("ContactInformation", "Kontaktinforsmasjon"))}</h2>
                 </heading-text>
                 <div className={style.flex}>
                     {renderContactMetadata()}
@@ -1109,7 +1141,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
                 </heading-text>
                 {renderSpatialRepresentation()}
                 {renderDistributionsFormats()}
@@ -1131,7 +1163,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("Constraints", "Restriksjoner"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("Constraints", "Restriksjoner"))}</h2>
                 </heading-text>
                 {renderUseLimitations()}
                 {renderAccessConstraints()}
@@ -1148,7 +1180,7 @@ const Metadata = () => {
         return metadata?.SupplementalDescription?.length || metadata?.HelpUrl?.length ? (
             <div>
                 <heading-text>
-                    <h2 id="help-info">
+                    <h2 underline="true" id="help-info">
                         {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
                     </h2>
                 </heading-text>
@@ -1164,11 +1196,15 @@ const Metadata = () => {
 
     const renderQualitySection = () => {
         const hasChildren =
-            renderResolutionScale() || renderStatus() || renderProcessHistory() || renderOrderingInstructions() || renderContentInformation();
+            renderResolutionScale() ||
+            renderStatus() ||
+            renderProcessHistory() ||
+            renderOrderingInstructions() ||
+            renderContentInformation();
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("Quality", "Kvalitet"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("Quality", "Kvalitet"))}</h2>
                 </heading-text>
                 {renderResolutionScale()}
                 {renderStatus()}
@@ -1240,7 +1276,7 @@ const Metadata = () => {
         return qualitySpecificationsList?.length ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("QualitySpecification", "Konformitet"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("QualitySpecification", "Konformitet"))}</h2>
                 </heading-text>
                 {qualitySpecificationsList}
             </div>
@@ -1251,7 +1287,7 @@ const Metadata = () => {
         return metadata?.Purpose?.length ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("Purpose", "Formål"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("Purpose", "Formål"))}</h2>
                 </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.Purpose)}</p>
             </div>
@@ -1273,7 +1309,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h2>
                 </heading-text>
                 {renderDateCreated()}
                 {renderDateUpdated()}
@@ -1303,7 +1339,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h2>
                 </heading-text>
                 <div className={style.keywordContainer}>
                     {renderKeywordsTheme()}
@@ -1475,7 +1511,10 @@ const Metadata = () => {
             <Helmet>
                 <title>{getPageTitle()} - Kartkatalogen</title>
                 {renderCanonicalTags()}
-                <meta name="description" content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""} />
+                <meta
+                    name="description"
+                    content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""}
+                />
                 <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                 {renderOpenGraphTags()}
                 {renderTwitterTags()}
@@ -1483,7 +1522,9 @@ const Metadata = () => {
             {getMetadataLinkedDataSnippet()}
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div className={style.content}>
-                <heading-text><h1>{getTitle()}</h1></heading-text>
+                <heading-text>
+                    <h1>{getTitle()}</h1>
+                </heading-text>
                 {renderCredits()}
                 <div className={style.openBtns} onClick={() => toggleBtns()}>
                     Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
@@ -1554,15 +1595,15 @@ const Metadata = () => {
 
                 <div className={style.opendetails} onClick={() => toggleExpand()}>
                     <heading-text>
-                        <h2>
+                        <h2 underline="true">
                             {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
                             <FontAwesomeIcon
                                 title={
                                     expanded
                                         ? "Trekk sammen"
                                         : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
-                                            getResource("DetailedInformation", "Detaljert informasjon")
-                                        )}`
+                                              getResource("DetailedInformation", "Detaljert informasjon")
+                                          )}`
                                 }
                                 icon={expanded ? "angle-up" : "angle-down"}
                             />
