@@ -5,25 +5,25 @@
         position: static;
         height: auto;
       }
-      margin-top: 184px;
-      height: calc(100% - 184px);
+      margin-top: 177px;
+      height: calc(100% - 177px);
       overflow-y: auto;
       width: 100%;
       position: absolute;
       @media (min-width: 340px) {
-        margin-top: 147px;
-        height: calc(100% - 147px);
+        margin-top: 141px;
+        height: calc(100% - 141px);
       }
       @media (min-width: 410px) {
-        margin-top: 142px;
-        height: calc(100% - 142px);
+        margin-top: 141px;
+        height: calc(100% - 141px);
       }
       @media (min-width: 540px) {
-        margin-top: 105px;
-        height: calc(100% - 105px);
+        margin-top: 104px;
+        height: calc(100% - 104px);
       }
       @include breakpoint(phablet) {
-        margin: 57px 0;
-        height: calc(100% - 57px);
+        margin: 63px 0;
+        height: calc(100% - 63px);
       }
 }
