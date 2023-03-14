@@ -169,6 +169,11 @@ const App = () => {
                         .dispatch(fetchMetadataSearchResults(searchStringParam, selectedFacets))
                         .then((metadata) => {
                             searchData.results.metadata = metadata.payload;
+
+                            const availableFacets = getAvailableFacetsFromSearchResults(searchData.results);
+                            searchData.availableFacets = availableFacets;
+                            store.dispatch(updateAvailableFacets(availableFacets));
+
                             setExpandedFacetFilters(searchData.selectedFacets);
                             return { params, searchData };
                         });
