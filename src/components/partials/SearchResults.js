@@ -1,7 +1,6 @@
 // Dependencies
 import React from "react";
 import { useDispatch } from "react-redux";
-import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
