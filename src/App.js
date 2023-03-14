@@ -204,23 +204,14 @@ const App = () => {
                 {
                     element: <Metadata />,
                     path: "metadata/:uuid",
-                    loader: async ({ params }) => {
-                        return { testprop: "testvalue" };
-                    }
                 },
                 {
                     element: <Metadata />,
-                    path: "metadata/:title/:uuid",
-                    loader: async ({ params }) => {
-                        return { testprop: "testvalue" };
-                    }
+                    path: "metadata/:title/:uuid"
                 },
                 {
                     element: <Metadata />,
                     path: "metadata/:organizaton/:title/:uuid",
-                    loader: async ({ params }) => {
-                        return { testprop: "testvalue" };
-                    }
                 },
                 {
                     element: <MapContainer />,
