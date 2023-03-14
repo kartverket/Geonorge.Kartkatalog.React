@@ -223,7 +223,7 @@ const App = () => {
                     }
                 },
                 {
-                    //     element: <MapContainer />,
+                    element: <MapContainer />,
                     path: "kart"
                 },
                 {
