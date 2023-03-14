@@ -20,7 +20,7 @@ import FacetFilter from "components/partials/FacetFilter";
 // Stylesheets
 import style from "components/partials/SearchResults.module.scss";
 
-export const SearchResults = ({ searchData }) => {
+export const SearchResults = ({ searchData, searchResultsType }) => {
     const dispatch = useDispatch();
 
     const getShowMoreLink = () => {
@@ -86,7 +86,7 @@ export const SearchResults = ({ searchData }) => {
     };
 
     const renderActiveTabContent = () => {
-        if (searchData?.selectedType === "metadata") {
+        if (searchResultsType === "metadata") {
             return (
                 <div className={style.activeContent}>
                     <div className={style.facets}>
@@ -107,7 +107,7 @@ export const SearchResults = ({ searchData }) => {
                     </div>
                 </div>
             );
-        } else if (searchData?.selectedType === "articles") {
+        } else if (searchResultsType === "articles") {
             return (
                 <div className={style.searchResultContainer}>
                     {renderArticleSearchResults()}

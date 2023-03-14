@@ -22,14 +22,14 @@ import style from "./Home.module.scss";
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { searchData } = useRouteLoaderData("root");
+    const { searchData, params } = useRouteLoaderData("root");
 
     const renderSearchQuery = () => {
         let searchResultsText = "";
         const hasSearchResults = searchData?.results && Object.keys(searchData.results)?.length;
         const numFound = searchData?.results?.metadata?.NumFound || 0;
         if (!hasSearchResults) return <h1>Kartkatalogen</h1>;
-        if (searchData?.selectedType === "metadata") {
+        if (params.searchResultsType === "metadata") {
             if (searchData?.searchString?.length && searchData?.results?.metadata) {
                 const resourceVariables = [
                     searchData.searchString,
@@ -65,7 +65,7 @@ const Home = () => {
                     </div>
                 </div>
             );
-        } else if (searchData?.selectedType === "articles") {
+        } else if (params.searchResultsType === "articles") {
             const numFound = searchData?.results?.articles?.NumFound || 0;
             if (searchData?.searchString) {
                 const resourceVariables = [
@@ -104,7 +104,7 @@ const Home = () => {
         }
     };
 
-    const searchResultsTypeText = searchData?.selectedType === "articles" ? "Artikkelsøk" : "Metadatasøk";
+    const searchResultsTypeText = params.searchResultsType === "articles" ? "Artikkelsøk" : "Metadatasøk";
 
     const breadcrumbs = [
         {
@@ -125,7 +125,7 @@ const Home = () => {
                         : ""}
                     Kartkatalogen
                 </title>
-                <link rel="canonical" href={`${document.location.origin}/${searchData?.selectedType || "metadata"}`} />
+                <link rel="canonical" href={`${document.location.origin}/${params.searchResultsType || "metadata"}`} />
                 <meta
                     name="description"
                     content="Bruk Geonorges kartkatalog til å søke etter, se på og laste ned norske offentlige kartdata"
@@ -143,11 +143,11 @@ const Home = () => {
                         </heading-text>
                     )}
                     <ErrorBoundary>
-                        <SelectedFacets searchData={searchData} />
+                        <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} />
                     </ErrorBoundary>
                 </div>
                 <ErrorBoundary>
-                    <SearchResults searchData={searchData} />
+                    <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} />
                 </ErrorBoundary>
             </div>
         </div>

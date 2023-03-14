@@ -1,6 +1,6 @@
 // Dependencies
 import React, { Fragment, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet-async";
 
@@ -16,9 +16,8 @@ import { MainNavigation } from "@kartverket/geonorge-web-components/MainNavigati
 const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const params = useParams();
 
-    const { searchData } = layoutLoaderData;
+    const { searchData, params } = layoutLoaderData;
 
     // Redux store
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
@@ -69,7 +68,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             onSearch: (event) => {
                 const searchEvent = event.detail || null;
                 if (searchEvent) {
-                    handleSubmitSearch(searchEvent.searchString, searchData.selectedType);
+                    handleSubmitSearch(searchEvent.searchString, params.searchResultsType);
                 }
             },
             onSignInClick: (event) => {
@@ -110,7 +109,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         language: selectedLanguage,
         environment: process.env.REACT_APP_ENVIRONMENT,
         searchString: searchData?.searchString || "",
-        searchType: searchData.selectedType,
+        searchType: params.searchResultsType,
         showsearchtypeselector: true,//showSearchTypeSelector,
         metadataresultsfound: metadataResultsFound,
         articlesresultsfound: articlesResultsFound,

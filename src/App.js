@@ -90,6 +90,12 @@ const App = () => {
         const appendParam = new URL(request.url).searchParams.get("append");
         const selectedResultsTypeParam = params.category || "metadata";
 
+
+        params = {
+            ...params,
+            searchResultsType: params?.searchResultsType || "metadata"
+        };
+
         const state = store.getState();
         const hasData =
             state?.searchResults &&
@@ -104,7 +110,6 @@ const App = () => {
             },
             searchString: searchStringParam,
             offset: !!offsetParam && !isNaN(offsetParam) ? parseInt(offsetParam) : 0,
-            selectedType: selectedResultsTypeParam,
             request
         };
 
@@ -188,7 +193,7 @@ const App = () => {
     const router = createBrowserRouter([
         {
             element: <Layout userManager={userManager} />,
-            path: "/",
+            path: "/:searchResultsType?",
             id: "root",
             loader: searchDataLoader,
             children: [
@@ -197,13 +202,8 @@ const App = () => {
                     index: true
                 },
                 {
-                    element: <Home />,
-                    path: ":category",
-                    exact: true
-                },
-                {
                     element: <Metadata />,
-                    path: "metadata/:uuid",
+                    path: "metadata/:uuid"
                 },
                 {
                     element: <Metadata />,
@@ -211,7 +211,7 @@ const App = () => {
                 },
                 {
                     element: <Metadata />,
-                    path: "metadata/:organizaton/:title/:uuid",
+                    path: "metadata/:organizaton/:title/:uuid"
                 },
                 {
                     element: <MapContainer />,
