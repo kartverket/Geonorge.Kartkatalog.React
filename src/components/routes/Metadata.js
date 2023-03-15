@@ -670,7 +670,7 @@ const Metadata = () => {
         return keywordsPlaceList?.length ? (
             <div>
                 <heading-text>
-                    <h3>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h3>
+                    <h4>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h4>
                 </heading-text>
                 <gn-list>
                     <ul>{keywordsPlaceList}</ul>
@@ -683,7 +683,7 @@ const Metadata = () => {
         return metadata?.BoundingBox && Object.keys(metadata?.BoundingBox)?.length ? (
             <div>
                 <heading-text>
-                    <h3>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h3>
+                    <h4>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h4>
                 </heading-text>
                 <gn-list>
                     <ul>
@@ -720,7 +720,7 @@ const Metadata = () => {
         return keywordsThemeList?.length ? (
             <div>
                 <heading-text>
-                    <h3>{dispatch(getResource("Facet_theme", "Tema"))}:</h3>
+                    <h4>{dispatch(getResource("Facet_theme", "Tema"))}:</h4>
                 </heading-text>
                 <gn-list>
                     <ul>{keywordsThemeList}</ul>
@@ -744,7 +744,7 @@ const Metadata = () => {
         return keywordsNationalThemeList?.length ? (
             <div>
                 <heading-text>
-                    <h3>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h3>
+                    <h4>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h4>
                 </heading-text>
                 <gn-list>
                     <ul>{keywordsNationalThemeList}</ul>
@@ -768,7 +768,7 @@ const Metadata = () => {
         return keywordsNationalInitiativeList?.length ? (
             <div>
                 <heading-text>
-                    <h3>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h3>
+                    <h4>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h4>
                 </heading-text>
                 <gn-list>
                     <ul>{keywordsNationalInitiativeList}</ul>
@@ -894,7 +894,7 @@ const Metadata = () => {
         return keywordsAdministrativeUnitsList?.length ? (
             <div>
                 <heading-text>
-                    <h3>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h3>
+                    <h4>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h4>
                 </heading-text>
                 <gn-list>
                     <ul>{keywordsAdministrativeUnitsList}</ul>
@@ -1204,7 +1204,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2 underline="true">{dispatch(getResource("Quality", "Kvalitet"))}</h2>
+                    <h3>{dispatch(getResource("Quality", "Kvalitet"))}</h3>
                 </heading-text>
                 {renderResolutionScale()}
                 {renderStatus()}
@@ -1276,7 +1276,7 @@ const Metadata = () => {
         return qualitySpecificationsList?.length ? (
             <div>
                 <heading-text>
-                    <h2 underline="true">{dispatch(getResource("QualitySpecification", "Konformitet"))}</h2>
+                    <h3>{dispatch(getResource("QualitySpecification", "Konformitet"))}</h3>
                 </heading-text>
                 {qualitySpecificationsList}
             </div>
@@ -1287,7 +1287,7 @@ const Metadata = () => {
         return metadata?.Purpose?.length ? (
             <div>
                 <heading-text>
-                    <h2 underline="true">{dispatch(getResource("Purpose", "Formål"))}</h2>
+                    <h3>{dispatch(getResource("Purpose", "Formål"))}</h3>
                 </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.Purpose)}</p>
             </div>
@@ -1309,7 +1309,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2 underline="true">{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h2>
+                    <h3>{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h3>
                 </heading-text>
                 {renderDateCreated()}
                 {renderDateUpdated()}
@@ -1339,7 +1339,7 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h2 underline="true">{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h2>
+                    <h3>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h3>
                 </heading-text>
                 <div className={style.keywordContainer}>
                     {renderKeywordsTheme()}
