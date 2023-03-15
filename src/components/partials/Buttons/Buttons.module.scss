@@ -16,21 +16,27 @@
   width: 100%;
   text-align: center;
   padding: 10px;
-  transition: all 0.3s ease-in-out;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
   border: 1px solid rgba($primary-brand, 0.2);
   border-right-width: 1px;
   margin-left: -1px;
   margin-bottom: -1px;
+  &:focus-visible {
+    outline-color: $anchor-active;
+    border-color: $anchor-active;
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: -2px;
+    z-index: 1;
+  }
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     cursor: pointer;
     background: $primary-brand;
     color: white;
     text-decoration: none;
-
     > svg {
-      font-size: 1.6em;
-      margin-right: 5px;
       color: white;
     }
   }
@@ -50,18 +56,14 @@
   }
 
   &:local(.disabled) {
-    &:hover {
+    &:hover,
+    &:focus-visible {
       cursor: default;
       background: white;
-
-      > svg {
-        margin-right: 5px;
-      }
     }
     color: $icon-disabled;
 
     > svg {
-      margin-right: 5px;
       color: $icon-disabled;
     }
   }
@@ -70,10 +72,11 @@
     > svg {
       margin-right: 5px;
     }
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background-color: $primary-success;
     }
-    &:not(:hover) {
+    &:not(:hover):not(:focus-visible) {
       > svg {
         color: $primary-success;
       }
@@ -81,13 +84,11 @@
   }
 
   &:local(.remove) {
-    > svg {
-      margin-right: 5px;
-    }
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background-color: $primary-danger;
     }
-    &:not(:hover) {
+    &:not(:hover):not(:focus-visible) {
       > svg {
         color: $primary-danger;
       }
@@ -98,13 +99,14 @@
     > svg {
       color: orange;
     }
-    &:hover {
+    &:hover,
+    &:focus-visible {
       background-color: orange;
       > svg {
         color: #fff;
       }
     }
-    &:not(:hover) {
+    &:not(:hover):not(:focus-visible) {
       > svg {
         color: orange;
       }
@@ -208,6 +210,14 @@
   align-items: center;
   font-size: 1em !important;
   align-items: center;
+  background: none;
+  border: none;
+  &:focus-visible {
+    outline-color: $anchor-active;
+    outline-style: auto;
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
   @include breakpoint(tablet) {
     font-size: 1.2em !important;
     width: 140px;
