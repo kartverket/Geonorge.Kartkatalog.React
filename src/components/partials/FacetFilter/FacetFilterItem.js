@@ -13,7 +13,7 @@ import { updateExpandedFacetFilters } from "actions/FacetFilterActions";
 // Stylesheets
 import style from "components/partials/FacetFilter/FacetFilterItem.module.scss";
 
-const FacetFilterItem = ({searchData, facetFilterItem}) => {
+const FacetFilterItem = ({ searchData, facetFilterItem }) => {
     const dispatch = useDispatch();
 
     // Redux store
@@ -75,10 +75,12 @@ const FacetFilterItem = ({searchData, facetFilterItem}) => {
 
     return (
         <li className={isExpanded() ? style.filterItem : style.filterItem + " " + style.closed}>
-            <FontAwesomeIcon onClick={toggleExpand} icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
-            <p onClick={toggleExpand} className={style.filterName}>
-                <span className={style.expandArrow}></span> {facetFilterItem.NameTranslated}
-            </p>
+            <button onClick={toggleExpand} className={style.expandButton}>
+                <FontAwesomeIcon icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
+                <p className={style.filterName}>
+                    <span className={style.expandArrow}></span> {facetFilterItem.NameTranslated}
+                </p>
+            </button>
             {renderList(isExpanded())}
         </li>
     );

@@ -233,7 +233,7 @@ const DownloadButton = (props) => {
             const buttonClass = `${style.listButton} ${isAdded ? style.off : style.on}`;
 
             return (
-                <span
+                <button
                     onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
                     className={buttonClass}
                 >
@@ -243,7 +243,7 @@ const DownloadButton = (props) => {
                         key="icon"
                     />
                     <span>{buttonDescription}</span>
-                </span>
+                </button>
             );
         } else if (showDownloadLink()) {
             const buttonDescription = dispatch(getResource("ToBasket", "Til nedlasting"));
@@ -275,7 +275,7 @@ const DownloadButton = (props) => {
             const buttonClass = isAdded ? `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download}`;
 
             return (
-                <span
+                <button
                     onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
                     className={buttonClass}
                 >
@@ -285,7 +285,7 @@ const DownloadButton = (props) => {
                         key="icon"
                     />
                     <span>{buttonDescription}</span>
-                </span>
+                </button>
             );
         } else if (props.metadata.CanShowDownloadUrl) {
             const buttonDescription = dispatch(getResource("ToBasket", "Til nedlasting"));
@@ -304,10 +304,10 @@ const DownloadButton = (props) => {
             const buttonClass = `${style.btn}  ${style.disabled}`;
 
             return (
-                <span className={buttonClass}>
+                <button className={buttonClass}>
                     <FontAwesomeIcon title={buttonDescription} icon={["fas", "cloud-download"]} key="icon" />
                     <span>{buttonDescription}</span>
-                </span>
+                </button>
             );
         }
     };

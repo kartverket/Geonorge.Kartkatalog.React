@@ -37,7 +37,7 @@ const ProductPageButton = (props) => {
         return React.createElement("a", { href: url, className: buttonClass }, childElements);
     } else {
         const buttonClass = `${style.btn}  ${style.disabled}`;
-        return React.createElement("span", { className: buttonClass }, childElements);
+        return React.createElement("button", { className: buttonClass, disabled: true }, childElements);
     }
 };
 

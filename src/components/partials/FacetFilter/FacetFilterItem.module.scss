@@ -1,13 +1,34 @@
-@import '../../../scss/abstracts/all';
+@import "../../../scss/abstracts/all";
 $imagePath: "../../../../";
 
 :local(.filterItem) {
-  :local(.filterName) {
-    font-size: 1em;
-    line-height: 1.25;
-    padding: 5px 0 5px 30px;
-    font-weight: 600;
+  :local(.expandButton) {
+    border: none;
+    padding: 0;
+    text-align: left;
+    background: none;
+    display: flex;
+    width: 100%;
     border-bottom: 1px solid $primary-border;
+    align-items: center;
+    margin: 10px 6px;
+    &:focus-visible {
+      outline-color: $anchor-active;
+      outline-style: auto;
+      outline-width: 2px;
+      outline-offset: 2px;
+    }
+    :local(.expandArrow) {
+      position: absolute;
+      font-size: 1.3em;
+      font-weight: 400;
+    }
+    :local(.filterName) {
+      font-size: 1em;
+      padding: 0 0 0 24px;
+      font-weight: 600;
+      margin: 0;
+    }
   }
 
   :local(.facets) {
@@ -19,16 +40,8 @@ $imagePath: "../../../../";
 
   &:local(.closed) {
     :local(.facets) {
-      max-height: 0px!important;
+      max-height: 0px !important;
     }
-  }
-
-  :local(.expandArrow) {
-    position: absolute;
-    font-size: 1.3em;
-    font-weight: 400;
-    margin-top: 6px;
-    margin-left: 6px;
   }
 
   &:hover {
