@@ -149,7 +149,14 @@ const Facet = (props) => {
 
         return checked || props.facet.Count ? (
             <li className={liClassNames}>
-                <Link tabIndex={props.parentIsExpanded ? null : "-1"} to={checked ? getRemoveFacetQueryString() : getAddFacetQueryString()} onClick={handleFacetClick}>
+                <Link
+                    role="checkbox"
+                    aria-checked={checked}
+                    aria-labelledby={props.labelId}
+                    tabIndex={props.parentIsExpanded ? null : "-1"}
+                    to={checked ? getRemoveFacetQueryString() : getAddFacetQueryString()}
+                    onClick={handleFacetClick}
+                >
                     <FontAwesomeIcon
                         className={style.facetCheckbox}
                         icon={checked ? ["far", "check-square"] : ["far", "square"]}
@@ -161,9 +168,7 @@ const Facet = (props) => {
                 </Link>
                 {renderList(props.facet.FacetResults)}
             </li>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     return renderFacet();
@@ -177,6 +182,7 @@ Facet.propTypes = {
         Name: PropTypes.string.isRequired,
         NameTranslated: PropTypes.string.isRequired
     }),
+    labelId: PropTypes.string.isRequired,
     parentIsExpanded: PropTypes.bool
 };
 

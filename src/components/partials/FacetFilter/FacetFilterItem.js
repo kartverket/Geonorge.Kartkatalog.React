@@ -39,7 +39,7 @@ const FacetFilterItem = ({ searchData, facetFilterItem }) => {
         return facetResultsLength;
     };
 
-    const renderList = (parentIsExpanded) => {
+    const renderList = (parentIsExpanded, labelId) => {
         if (facetFilterItem?.FacetResults?.length) {
             let facetElements = facetFilterItem.FacetResults.map((facet, i) => {
                 return (
@@ -49,6 +49,7 @@ const FacetFilterItem = ({ searchData, facetFilterItem }) => {
                         facetFieldNameTranslated={facetFilterItem.NameTranslated}
                         searchData={searchData}
                         parentIsExpanded={parentIsExpanded}
+                        labelId={labelId}
                         key={i}
                     />
                 );
@@ -73,15 +74,17 @@ const FacetFilterItem = ({ searchData, facetFilterItem }) => {
         return !!expandedFacetFilters?.[facetFilterItem.FacetField];
     };
 
+    const labelId = `facet-label-${facetFilterItem.Name}`;
+
     return (
         <li className={isExpanded() ? style.filterItem : style.filterItem + " " + style.closed}>
-            <button onClick={toggleExpand} className={style.expandButton}>
+            <button onClick={toggleExpand} className={style.expandButton} aria-expanded={isExpanded()}>
                 <FontAwesomeIcon icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
                 <p className={style.filterName}>
-                    <span className={style.expandArrow}></span> {facetFilterItem.NameTranslated}
+                    <span className={style.expandArrow}></span> <span id={labelId}>{facetFilterItem.NameTranslated}</span>
                 </p>
             </button>
-            {renderList(isExpanded())}
+            {renderList(isExpanded(), labelId)}
         </li>
     );
 };
