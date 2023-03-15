@@ -1593,7 +1593,7 @@ const Metadata = () => {
 
                 {renderSupplementalDescriptionSection()}
 
-                <div className={style.opendetails} onClick={() => toggleExpand()}>
+                <div role="button" aria-expanded={expanded} aria-controls="detailed-information" className={style.opendetails} onClick={() => toggleExpand()}>
                     <heading-text>
                         <h2 underline="true">
                             {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
@@ -1610,7 +1610,7 @@ const Metadata = () => {
                         </h2>
                     </heading-text>
                 </div>
-                <div className={expanded ? style.open : style.closed}>
+                <div id="detailed-information" className={expanded ? style.open : style.closed}>
                     {renderGeneral()}
                     <div className={style.flex}>
                         {renderQualitySection()}
