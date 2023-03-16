@@ -52,9 +52,7 @@ const MetadataSearchResult = (props) => {
             <div className={style.typeContainer}>
                 <span>Type: {props.searchResult.Protocol}</span>
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderButtons = () => {
@@ -62,25 +60,19 @@ const MetadataSearchResult = (props) => {
             <ErrorBoundary>
                 <DownloadButton metadata={props.searchResult}></DownloadButton>
             </ErrorBoundary>
-        ) : (
-            ""
-        );
+        ) : null;
 
         const mapButtonElement = props.visibleFields?.includes("MapButton") ? (
             <ErrorBoundary>
                 <MapButton metadata={props.searchResult}></MapButton>
             </ErrorBoundary>
-        ) : (
-            ""
-        );
+        ) : null;
 
         const applicationButtonElement = props.visibleFields?.includes("ApplicationButton") ? (
             <ErrorBoundary>
                 <ApplicationButton metadata={props.searchResult}></ApplicationButton>
             </ErrorBoundary>
-        ) : (
-            ""
-        );
+        ) : null;
 
         return (
             <div className={style.buttonGroupContainer}>
@@ -149,10 +141,7 @@ const MetadataSearchResult = (props) => {
         return props.metadata?.Uuid === props.searchResult.Uuid ? (
             <span>{props.searchResult.Title}</span>
         ) : (
-            <Link
-                title={props.searchResult.Title}
-                to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}
-            >
+            <Link to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}>
                 {props.searchResult.Title}
             </Link>
         );
@@ -184,7 +173,6 @@ const MetadataSearchResult = (props) => {
                 </div>
                 {renderCopyUrl()}
             </div>
-
             {renderButtons()}
         </div>
     );

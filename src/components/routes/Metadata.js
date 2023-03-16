@@ -220,9 +220,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("LanguageInDataset", "Språk i datasett"))}:</strong>{" "}
                 {metadata.DatasetLanguage}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderResourceReferenceCodespace = () => {
@@ -231,9 +229,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("NamespaceToDataset", "Navnerom til datasett"))}:</strong>{" "}
                 {metadata.ResourceReferenceCodespace}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderResourceReferenceCode = () => {
@@ -241,9 +237,7 @@ const Metadata = () => {
             <div>
                 <strong>{dispatch(getResource("DatasetName", "Datasett-ID"))}:</strong> {metadata.ResourceReferenceCode}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderContactMetadata = () => {
@@ -253,13 +247,13 @@ const Metadata = () => {
                     <heading-text>
                         <h3>{dispatch(getResource("ContactMetadata", "Metadatakontakt"))}</h3>
                     </heading-text>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Name}</a>
-                    </div>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Email}</a> -{" "}
-                        {metadata.ContactMetadata.Organization}
-                    </div>
+                    {metadata?.ContactMetadata?.Name?.length ? <div>{metadata.ContactMetadata.Name}</div> : null}
+                    {metadata?.ContactMetadata?.Email?.length ? (
+                        <div>
+                            <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Email}</a> -{" "}
+                            {metadata.ContactMetadata.Organization}
+                        </div>
+                    ) : null}
                 </div>
             );
         } else {
@@ -274,17 +268,17 @@ const Metadata = () => {
                     <heading-text>
                         <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
                     </heading-text>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Name}</a>
-                    </div>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Email}</a> -{" "}
-                        {metadata.ContactOwner.Organization}
-                    </div>
+                    {metadata?.ContactOwner.Name ? <div>{metadata.ContactOwner.Name}</div> : null}
+                    {metadata?.ContactOwner?.Email?.length ? (
+                        <div>
+                            <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Email}</a> -{" "}
+                            {metadata.ContactOwner.Organization}
+                        </div>
+                    ) : null}
                 </div>
             );
         } else {
-            return "";
+            return null;
         }
     };
 
@@ -295,27 +289,17 @@ const Metadata = () => {
                     <heading-text>
                         <h3>{dispatch(getResource("ContactPublisher", "Teknisk kontakt"))}</h3>
                     </heading-text>
-                    {metadata.ContactPublisher?.Name?.length ? (
+                    {metadata?.ContactPublisher?.Name?.length ? <div>{metadata.ContactPublisher.Name}</div> : null}
+                    {metadata?.ContactPublisher?.Email?.length ? (
                         <div>
-                            {metadata.ContactPublisher?.Email?.length ? (
-                                <a href={"mailto:" + metadata.ContactPublisher.Email}>
-                                    {metadata.ContactPublisher.Name}
-                                </a>
-                            ) : (
-                                <span>{metadata.ContactPublisher.Name} </span>
-                            )}
+                            <a href={"mailto:" + metadata.ContactPublisher.Email}>{metadata.ContactPublisher.Email}</a>{" "}
+                            - {metadata.ContactPublisher.Organization}
                         </div>
-                    ) : (
-                        ""
-                    )}
-                    <div>
-                        <a href={"mailto:" + metadata.ContactPublisher.Email}>{metadata.ContactPublisher.Email}</a> -{" "}
-                        {metadata.ContactPublisher.Organization}
-                    </div>
+                    ) : null}
                 </div>
             );
         } else {
-            return "";
+            return null;
         }
     };
 
@@ -325,9 +309,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("SpatialRepresentation", "Representasjonsform"))}: </strong>
                 {metadata.SpatialRepresentation}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderDistributionsFormats = () => {
@@ -359,9 +341,7 @@ const Metadata = () => {
                                 <b>URL: </b>
                                 <a href={protocolFormats[0].URL}>{protocolFormats[0].URL}</a>
                             </div>
-                        ) : (
-                            ""
-                        )}
+                        ) : null}
                         {protocolFormats[0].UnitsOfDistribution ? (
                             <div>
                                 <b>
@@ -371,9 +351,7 @@ const Metadata = () => {
                                     ? protocolFormats[0].EnglishUnitsOfDistribution
                                     : protocolFormats[0].UnitsOfDistribution}
                             </div>
-                        ) : (
-                            ""
-                        )}
+                        ) : null}
                         <heading-text>
                             <h3>Format:</h3>
                         </heading-text>
@@ -418,9 +396,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("DistributionType", "Distribusjonstype"))}: </strong>
                 {metadata.DistributionDetails.ProtocolName}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderDistributionUrl = () => {
@@ -1369,11 +1345,7 @@ const Metadata = () => {
             thumbnail = (
                 <div className={style.thumbnailContent}>
                     <div>
-                        <img
-                            src={thumbnailList[0].URL}
-                            alt={getTitle() + " illustrasjon"}
-                            title={getTitle() + " illustrasjon"}
-                        />
+                        <img src={thumbnailList[0].URL} alt={getTitle() + " illustrasjon"} />
                     </div>
                 </div>
             );
@@ -1595,7 +1567,13 @@ const Metadata = () => {
 
                 {renderSupplementalDescriptionSection()}
 
-                <div role="button" aria-expanded={expanded} aria-controls="detailed-information" className={style.opendetails} onClick={() => toggleExpand()}>
+                <div
+                    role="button"
+                    aria-expanded={expanded}
+                    aria-controls="detailed-information"
+                    className={style.opendetails}
+                    onClick={() => toggleExpand()}
+                >
                     <heading-text>
                         <h2 underline="true">
                             {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
