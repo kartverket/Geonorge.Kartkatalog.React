@@ -1522,9 +1522,11 @@ const Metadata = () => {
             {getMetadataLinkedDataSnippet()}
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div className={style.content}>
-                <heading-text>
-                    <h1>{getTitle()}</h1>
-                </heading-text>
+                <header>
+                    <heading-text>
+                        <h1>{getTitle()}</h1>
+                    </heading-text>
+                </header>
                 {renderCredits()}
                 <div className={style.openBtns} onClick={() => toggleBtns()}>
                     Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />

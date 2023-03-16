@@ -134,7 +134,7 @@ const Home = () => {
             </Helmet>
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div id="main-content">
-                <div className={style.header}>
+                <header className={style.header}>
                     {searchData?.searchString?.length && searchData?.results ? (
                         renderSearchQuery()
                     ) : (
@@ -145,7 +145,7 @@ const Home = () => {
                     <ErrorBoundary>
                         <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} />
                     </ErrorBoundary>
-                </div>
+                </header>
                 <ErrorBoundary>
                     <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} />
                 </ErrorBoundary>

@@ -17,12 +17,14 @@ const Footer = () => {
     const hasFetchedEnvironmentVariables = !!Object.keys(environment).length;
 
     return !isMapRoute && hasFetchedEnvironmentVariables ? (
-        <geonorge-footer
-            language={selectedLanguage}
-            environment={environment?.environment}
-            version={environment?.buildNumber}
-            accessibilitystatementurl={environment?.accessibilityStatementUrl}
-        />
+        <footer>
+            <geonorge-footer
+                language={selectedLanguage}
+                environment={environment?.environment}
+                version={environment?.buildNumber}
+                accessibilitystatementurl={environment?.accessibilityStatementUrl}
+            />
+        </footer>
     ) : null;
 };
 
