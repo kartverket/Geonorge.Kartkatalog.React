@@ -46,7 +46,11 @@ const EditMetadataButton = (props) => {
         );
     } else {
         let buttonClass = `${style.btn}  ${style.disabled}`;
-        return <span className={buttonClass}>{childElements}</span>;
+        return (
+            <button disabled className={buttonClass}>
+                {childElements}
+            </button>
+        );
     }
 };
 

@@ -45,7 +45,11 @@ const ProductSheetButton = (props) => {
         );
     } else {
         const buttonClass = `${style.btn}  ${style.disabled}`;
-        return <span className={buttonClass}>{childElements}</span>;
+        return (
+            <button disabled className={buttonClass}>
+                {childElements}
+            </button>
+        );
     }
 };
 

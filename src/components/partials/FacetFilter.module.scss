@@ -6,7 +6,7 @@
   }
   @include breakpoint(tablet) {
     margin: 0 0 16px 20px;
-    padding: 10px 20px;
+    padding: 0px 20px;
   }
   list-style: none;
   background-color: $primary-background;
@@ -16,6 +16,7 @@
   position: absolute;
   opacity: 1;
   flex: 1;
+  border-radius: 4px;
 
   &:local(.open) {
     width: auto;
@@ -33,6 +34,10 @@
   @include breakpoint(tablet) {
     width: auto;
     position: relative;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
   }
 }
 

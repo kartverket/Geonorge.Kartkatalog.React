@@ -18,6 +18,10 @@ import MapButton from "components/partials/Buttons/MapButton";
 import DownloadButton from "components/partials/Buttons/DownloadButton";
 import ApplicationButton from "components/partials/Buttons/ApplicationButton";
 
+// Geonorge WebComponents
+// eslint-disable-next-line no-unused-vars
+import { GnBadgeList } from "@kartverket/geonorge-web-components";
+
 // Stylesheets
 import style from "components/partials/SearchResults/MetadataSearchResult.module.scss";
 
@@ -48,9 +52,7 @@ const MetadataSearchResult = (props) => {
             <div className={style.typeContainer}>
                 <span>Type: {props.searchResult.Protocol}</span>
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderButtons = () => {
@@ -58,25 +60,19 @@ const MetadataSearchResult = (props) => {
             <ErrorBoundary>
                 <DownloadButton metadata={props.searchResult}></DownloadButton>
             </ErrorBoundary>
-        ) : (
-            ""
-        );
+        ) : null;
 
         const mapButtonElement = props.visibleFields?.includes("MapButton") ? (
             <ErrorBoundary>
                 <MapButton metadata={props.searchResult}></MapButton>
             </ErrorBoundary>
-        ) : (
-            ""
-        );
+        ) : null;
 
         const applicationButtonElement = props.visibleFields?.includes("ApplicationButton") ? (
             <ErrorBoundary>
                 <ApplicationButton metadata={props.searchResult}></ApplicationButton>
             </ErrorBoundary>
-        ) : (
-            ""
-        );
+        ) : null;
 
         return (
             <div className={style.buttonGroupContainer}>
@@ -90,18 +86,19 @@ const MetadataSearchResult = (props) => {
     const renderDistributionFormats = () => {
         const dirstibutionFormatsElement = props.searchResult.DistributionFormats
             ? props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-                  return <span key={i}>{distributionFormat.Name} </span>;
+                  return <li key={i}>{distributionFormat.Name} </li>;
               })
             : null;
         return props.searchResult.DistributionFormats && props.visibleFields.includes("DistributionFormats") ? (
-            <div className={style.formatsContainer}>
+            <div>
                 <ErrorBoundary>
-                    {dispatch(getResource("Formats", "Formater"))}: {dirstibutionFormatsElement}
+                    {dispatch(getResource("Formats", "Formater"))}:
+                    <gn-badge-list>
+                        <ul>{dirstibutionFormatsElement}</ul>
+                    </gn-badge-list>
                 </ErrorBoundary>
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderListItemInfo = () => {
@@ -144,10 +141,7 @@ const MetadataSearchResult = (props) => {
         return props.metadata?.Uuid === props.searchResult.Uuid ? (
             <span>{props.searchResult.Title}</span>
         ) : (
-            <Link
-                title={props.searchResult.Title}
-                to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}
-            >
+            <Link to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}>
                 {props.searchResult.Title}
             </Link>
         );
@@ -179,7 +173,6 @@ const MetadataSearchResult = (props) => {
                 </div>
                 {renderCopyUrl()}
             </div>
-
             {renderButtons()}
         </div>
     );

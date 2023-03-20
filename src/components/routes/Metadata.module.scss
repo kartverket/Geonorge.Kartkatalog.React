@@ -1,19 +1,5 @@
 @import '../../scss/abstracts/all';
 
-:local(.maplist) {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 20px;
-  list-style-position: outside;
-}
-
-:local(.defaultList) {
-  list-style: disc;
-  padding-inline-start: 28px;
-  li {
-    list-style: disc;
-  }
-}
 
 :local(.morecontainer) {
   width: 100%;
@@ -55,46 +41,6 @@
   margin: 15px;
   @include breakpoint('tablet') {
     margin: 40px;
-  }
-
-  > h1 {
-    font-weight: 100;
-    font-size: 1.8em;
-    @include breakpoint('tablet') {
-      font-size: 3em;
-    }
-  }
-
-  a,
-  li,
-  p,
-  strong {
-    line-height: 1.6em;
-    font-size: 0.94em;
-  }
-
-  h2 {
-    font-size: 1.6em;
-    font-weight: 100;
-    @media print {
-      font-family: 'arial, sans-serif';
-    }
-    font-family: $header-font;
-    border-bottom: 2px solid $primary-brand;
-    display: inline-block;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    @include breakpoint('tablet') {
-      font-size: 2.5em;
-    }
-  }
-
-  h3 {
-    font-size: 1.2em;
-    font-weight: 300;
-    @include breakpoint('tablet') {
-      font-size: 1.3em;
-    }
   }
 }
 

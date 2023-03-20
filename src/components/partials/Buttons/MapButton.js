@@ -1,7 +1,7 @@
 // Dependencies
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Actions
@@ -22,7 +22,6 @@ const MapButton = (props) => {
     const availableWMSServiceStatuses = useSelector((state) => state.availableWMSServiceStatuses);
 
     // State
-    const [isExpanded, setIsExpanded] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
     const [serviceStatusIsFetched, setServiceStatusIsFetched] = useState(false);
     const [serviceStatusCode, setServiceStatusCode] = useState("");
@@ -100,10 +99,6 @@ const MapButton = (props) => {
         if (mapItem?.length) {
             dispatch(addMapItem(mapItem));
         }
-    };
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
     };
 
     const removeFromMap = (mapItem) => {
@@ -202,7 +197,7 @@ const MapButton = (props) => {
             );
             let childElements = [icon, textContent];
             return React.createElement(
-                "span",
+                "button",
                 {
                     onClick: action,
                     className: buttonClass
@@ -240,7 +235,7 @@ const MapButton = (props) => {
             const mapItem = getMapItem();
             const action = isAdded ? () => removeFromMap([mapItem]) : () => addToMap([mapItem]);
             return React.createElement(
-                "span",
+                "button",
                 {
                     onClick: action,
                     className: buttonClass
@@ -250,7 +245,7 @@ const MapButton = (props) => {
         } else {
             const buttonClass = `${style.btn}  ${style.disabled}`;
             return React.createElement(
-                "span",
+                "button",
                 {
                     className: buttonClass
                 },

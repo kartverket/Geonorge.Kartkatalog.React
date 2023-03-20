@@ -1,25 +1,12 @@
-:local(.facet) {
-  display: inline-block;
-  margin: 20px 0;
-  font-size: 0.8em;
-
-  > div {
-    display: inline-block;
-    margin: 20px 0 0;
-    font-size: 1em;
-
-    > span {
-      background-color: white;
-      padding: 5px 20px;
-      margin: 5px;
-      border: 1px solid #d8d8d8;
-    }
-  }
-
-  > span {
+:local(.selectedFacets) {
+  display: flex;
+  column-gap: 6px;
+  row-gap: 6px;
+  flex-wrap: wrap;
+  :local(.selectedFacet) {
     background-color: white;
-    padding: 5px 20px;
-    margin: 5px;
+    padding: 4px 8px;
     border: 1px solid #d8d8d8;
+    border-radius: 4px;
   }
 }

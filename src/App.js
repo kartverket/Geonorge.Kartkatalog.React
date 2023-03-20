@@ -1,13 +1,12 @@
 // Dependencies
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { OidcProvider } from "redux-oidc";
-import { Route, Routes } from "react-router";
-import { HistoryRouter as Router } from "redux-first-history/rr6";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // Utils
-import configureStore, { history } from "utils/configureStore";
+import configureStore from "utils/configureStore";
 import userManagerPromise from "utils/userManager";
 
 // Actions
@@ -15,19 +14,24 @@ import { fetchResources } from "actions/ResourceActions";
 import { fetchSelectedLanguage } from "actions/SelectedLanguageActions";
 import { getEnvironment } from "actions/EnvironmentActions";
 import { fetchAvailableWFSServiceStatuses, fetchAvailableWMSServiceStatuses } from "actions/ServiceStatusActions";
+import { fetchArticleSearchResults, fetchMetadataSearchResults } from "actions/SearchResultActions";
+import { updateSelectedSearchResultsType } from "actions/SelectedSearchResultsTypeActions";
+import {
+    updateAvailableFacets,
+    updateExpandedFacetFilters,
+    updateSelectedFacetsFromUrl
+} from "actions/FacetFilterActions";
 
 // Components
+import Layout from "components/Layout";
 import NotFound from "components/routes/NotFound";
 import Home from "components/routes/Home";
 import OidcCallback from "components/routes/OidcCallback";
 import OidcSignoutCallback from "components/routes/OidcSignoutCallback";
-import Footer from "components/partials/Footer";
 import MapContainer from "components/routes/MapContainer";
 import Metadata from "components/routes/Metadata";
-import MainNavigationContainer from "components/partials/MainNavigationContainer";
 
 // Stylesheets
-import style from "App.module.scss";
 import "scss/styles.scss";
 
 const initialState = {};
@@ -52,66 +56,199 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-      if (storeIsLoaded){
-        store.dispatch(fetchSelectedLanguage());
-        store.dispatch(fetchResources());
-        store.dispatch(fetchAvailableWFSServiceStatuses());
-        store.dispatch(fetchAvailableWMSServiceStatuses());
-        store.dispatch(getEnvironment());
-      }
+        if (storeIsLoaded) {
+            store.dispatch(fetchSelectedLanguage());
+            store.dispatch(fetchResources());
+            store.dispatch(fetchAvailableWFSServiceStatuses());
+            store.dispatch(fetchAvailableWMSServiceStatuses());
+            store.dispatch(getEnvironment());
+        }
     }, [storeIsLoaded]);
+
+    const getAvailableFacetsFromSearchResults = (searchResults) => {
+        let availableFacets = {};
+        if (searchResults?.metadata?.Facets?.length) {
+            searchResults.metadata.Facets.forEach((facetFilterItem) => {
+                availableFacets[facetFilterItem.FacetField] = facetFilterItem;
+            });
+        }
+        return availableFacets;
+    };
+
+    const setExpandedFacetFilters = (selectedFacets) => {
+        const state = store.getState();
+        const expandedFacetFilters = state.expandedFacetFilters || {};
+        Object.keys(selectedFacets).forEach((selectedFacetKey) => {
+            expandedFacetFilters[selectedFacetKey] = true;
+        });
+        store.dispatch(updateExpandedFacetFilters(expandedFacetFilters));
+    };
+
+    const searchDataLoader = async ({ request, params }) => {
+        const searchStringParam = new URL(request.url).searchParams.get("text") || "";
+        const offsetParam = new URL(request.url).searchParams.get("offset");
+        const appendParam = new URL(request.url).searchParams.get("append");
+        const selectedResultsTypeParam = params.category || "metadata";
+
+
+        params = {
+            ...params,
+            searchResultsType: params?.searchResultsType || "metadata"
+        };
+
+        const state = store.getState();
+        const hasData =
+            state?.searchResults &&
+            Object.keys(state.searchResults)?.length &&
+            state?.availableFacets &&
+            Object.keys(state.availableFacets)?.length;
+
+        let searchData = {
+            results: {
+                metadata: state?.searchResults?.metadata || [],
+                articles: state?.searchResults?.articles || []
+            },
+            searchString: searchStringParam,
+            offset: !!offsetParam && !isNaN(offsetParam) ? parseInt(offsetParam) : 0,
+            request
+        };
+
+        if (hasData && appendParam === "true") {
+            searchData.selectedFacets = state?.selectedFacets;
+            searchData.availableFacets = state?.availableFacets;
+            return await Promise.all([
+                store
+                    .dispatch(
+                        fetchMetadataSearchResults(
+                            searchStringParam,
+                            searchData.selectedFacets,
+                            searchData.offset,
+                            true
+                        )
+                    )
+                    .then((metadata) => {
+                        const oldMetadataSearchResults = searchData?.results?.metadata?.Results || [];
+                        const newMetadataSearchResults = metadata?.payload?.Results || [];
+                        searchData.results.metadata = {
+                            ...metadata?.payload,
+                            Results: oldMetadataSearchResults.concat(newMetadataSearchResults)
+                        };
+                        return metadata?.payload;
+                    }),
+                store
+                    .dispatch(fetchArticleSearchResults(searchStringParam, searchData.offset, true))
+                    .then((articles) => {
+                        const oldArticlesSearchResults = searchData?.results?.articles?.Results || [];
+                        const newArticlesSearchResults = articles?.payload?.Results || [];
+                        searchData.results.articles = {
+                            ...articles?.payload,
+                            Results: oldArticlesSearchResults.concat(newArticlesSearchResults)
+                        };
+                        return articles?.payload;
+                    })
+            ]).then(() => {
+                setExpandedFacetFilters(searchData.selectedFacets);
+                return { params, searchData };
+            });
+        } else {
+            store.dispatch(updateSelectedSearchResultsType(selectedResultsTypeParam));
+            return await Promise.all([
+                store.dispatch(fetchMetadataSearchResults(searchStringParam)).then((metadata) => {
+                    searchData.results.metadata = metadata.payload;
+                    return metadata?.payload;
+                }),
+                store.dispatch(fetchArticleSearchResults(searchStringParam)).then((articles) => {
+                    searchData.results.articles = articles.payload;
+                    return articles?.payload;
+                })
+            ]).then(() => {
+                const availableFacets = getAvailableFacetsFromSearchResults(searchData.results);
+                searchData.availableFacets = availableFacets;
+                store.dispatch(updateAvailableFacets(availableFacets));
+                const selectedFacets = store.dispatch(
+                    updateSelectedFacetsFromUrl(availableFacets, decodeURIComponent(request.url))
+                );
+                searchData.selectedFacets = selectedFacets;
+                if (!!selectedFacets && !!Object.keys(selectedFacets)?.length) {
+                    return store
+                        .dispatch(fetchMetadataSearchResults(searchStringParam, selectedFacets))
+                        .then((metadata) => {
+                            searchData.results.metadata = metadata.payload;
+
+                            const availableFacets = getAvailableFacetsFromSearchResults(searchData.results);
+                            searchData.availableFacets = availableFacets;
+                            store.dispatch(updateAvailableFacets(availableFacets));
+
+                            setExpandedFacetFilters(searchData.selectedFacets);
+                            return { params, searchData };
+                        });
+                } else {
+                    setExpandedFacetFilters(searchData.selectedFacets);
+                    return { params, searchData };
+                }
+            });
+        }
+    };
+
+    const router = createBrowserRouter([
+        {
+            element: <Layout userManager={userManager} />,
+            path: "/:searchResultsType?",
+            id: "root",
+            loader: searchDataLoader,
+            children: [
+                {
+                    element: <Home />,
+                    index: true
+                },
+                {
+                    element: <Metadata />,
+                    path: "metadata/:uuid"
+                },
+                {
+                    element: <Metadata />,
+                    path: "metadata/:title/:uuid"
+                },
+                {
+                    element: <Metadata />,
+                    path: "metadata/:organizaton/:title/:uuid"
+                },
+                {
+                    element: <MapContainer />,
+                    path: "kart"
+                },
+                {
+                    element: <OidcCallback userManager={userManager} />,
+                    path: "signin-oidc"
+                },
+                {
+                    element: <OidcSignoutCallback userManager={userManager} />,
+                    path: "signout-callback-oidc"
+                }
+            ]
+        },
+        {
+            element: <NotFound />,
+            path: "*"
+        }
+    ]);
 
     if (userManager && userManagerIsLoaded && storeIsLoaded) {
         return (
             <Provider store={store}>
                 <OidcProvider userManager={userManager} store={store}>
                     <HelmetProvider>
-                        <Router history={history}>
-                            <div className={style.kartkatalogen}>
-                                <Helmet>
-                                    {process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT.length ? (
-                                        <meta name="robots" content="noindex" />
-                                    ) : (
-                                        ""
-                                    )}
-                                </Helmet>
-                                <MainNavigationContainer userManager={userManager} />
-                                <div className={style.pageContent}>
-                                    <div className={style.container}>
-                                        <Routes>
-                                            <Route exact path="/signin-oidc" element={<OidcCallback userManager={userManager}/>} />
-                                            <Route
-                                                exact
-                                                path="/signout-callback-oidc"
-                                                element={<OidcSignoutCallback userManager={userManager} />}
-                                            />
-                                            <Route exact path="/" element={<Home />} />
-                                            <Route exact path="/search" element={<Home />} />
-                                            <Route exact path="/kart" element={<MapContainer />} />
-                                            <Route
-                                                exact
-                                                path="/metadata/:organizaton/:title/:uuid"
-                                                element={<Metadata />}
-                                            />
-                                            <Route exact path="/metadata/:title/:uuid" element={<Metadata />} />
-                                            <Route exact path="/metadata/:uuid" element={<Metadata />} />
-                                            <Route exact path="/:category" element={<Home />} />
-                                            <Route path="*" element={<NotFound />} />
-                                            <Route key={"/shell.html"} path="/shell.html" element={() => null} />
-                                            <Route key={"/404.html"} element={<NotFound />} />
-                                        </Routes>
-                                    </div>
-                                    <Footer />
-                                </div>
-                            </div>
-                        </Router>
+                        <Helmet>
+                            {process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT.length ? (
+                                <meta name="robots" content="noindex" />
+                            ) : null}
+                        </Helmet>
+                        <RouterProvider router={router} />
                     </HelmetProvider>
                 </OidcProvider>
             </Provider>
         );
-    } else {
-        return "";
-    }
+    } else return null;
 };
 
 export default App;

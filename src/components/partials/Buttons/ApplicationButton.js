@@ -67,7 +67,11 @@ const ApplicationButton = (props) => {
                 let buttonClass = `btn btn-sm ${style.listButton} ${style.disabled} ${style.off}`;
                 let textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
                 let childElements = [icon, textContent];
-                return <span className={buttonClass}>{childElements}</span>;
+                return (
+                    <button disabled className={buttonClass}>
+                        {childElements}
+                    </button>
+                );
             }
         }
         return null;
@@ -85,7 +89,7 @@ const ApplicationButton = (props) => {
             let buttonClass = `${style.btn}  ${style.disabled}`;
             let textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
             let childElements = [icon, textContent];
-            return React.createElement("span", { className: buttonClass }, childElements);
+            return React.createElement("button", { className: buttonClass, disabled: true }, childElements);
         }
     }
 };

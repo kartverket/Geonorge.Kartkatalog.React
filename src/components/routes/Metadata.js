@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
-import SimpleMDE from "react-simplemde-editor";
+import MDEditor from "@uiw/react-md-editor";
+
+// Geonorge WebComponents
+// eslint-disable-next-line no-unused-vars
+import { BreadcrumbList, GnBadgeList, GnInput, GnList, HeadingText } from "@kartverket/geonorge-web-components";
 
 // Actions
 import { getResource } from "actions/ResourceActions";
@@ -34,13 +38,10 @@ import HelpButton from "components/partials/Buttons/HelpButton";
 import ShowCoverageButton from "components/partials/Buttons/ShowCoverageButton";
 import DownloadXmlButton from "components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "components/partials/Buttons/EditMetadataButton";
-import Breadcrumb from "components/partials/Breadcrumb";
 
 // Stylesheets
 import style from "components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "easymde/dist/easymde.min.css";
 import "scss/mdeOverride.scss";
 
 import { registerLocale } from "react-datepicker";
@@ -48,13 +49,6 @@ import nb from "date-fns/locale/nb";
 registerLocale("nb", nb);
 
 import moment from "moment";
-
-const readOnlyMdeOptions = {
-    toolbar: false,
-    status: false,
-    spellChecker: false,
-    readOnly: true
-};
 
 const Metadata = () => {
     const dispatch = useDispatch();
@@ -73,24 +67,10 @@ const Metadata = () => {
 
     // State
     const [expanded, setExpanded] = useState(false);
-    const [expandedDownload, setExpandedDownload] = useState(false);
-    const [expandedBtns, setExpandedBtns] = useState(false);
     const [showBtns, setShowBtns] = useState(false);
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
-
-    const getMdeInstance = (instance) => {
-        const container = instance?.element?.nextSibling;
-        if (container) {
-            container.setAttribute("tabIndex", "0");
-            const editableElement = container.getElementsByClassName("CodeMirror-scroll")?.[0];
-            editableElement.style.display = "none";
-            instance.togglePreview();
-            instance.codemirror.options.readOnly = true;
-            container.classList.add('mdePreview');
-        }
-    };
 
     const handleStartChange = (date) => {
         setStartDate(date);
@@ -187,10 +167,10 @@ const Metadata = () => {
     };
 
     const toggleExpand = () => {
-        setExpanded(!expanded && !expandedDownload);
+        setExpanded(!expanded);
     };
     const toggleBtns = () => {
-        setShowBtns(!showBtns && !expandedBtns);
+        setShowBtns(!showBtns);
     };
 
     const fetchApiData = () => {
@@ -240,9 +220,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("LanguageInDataset", "Språk i datasett"))}:</strong>{" "}
                 {metadata.DatasetLanguage}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderResourceReferenceCodespace = () => {
@@ -251,9 +229,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("NamespaceToDataset", "Navnerom til datasett"))}:</strong>{" "}
                 {metadata.ResourceReferenceCodespace}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderResourceReferenceCode = () => {
@@ -261,23 +237,23 @@ const Metadata = () => {
             <div>
                 <strong>{dispatch(getResource("DatasetName", "Datasett-ID"))}:</strong> {metadata.ResourceReferenceCode}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderContactMetadata = () => {
         if (metadata?.ContactMetadata) {
             return (
                 <div>
-                    <h3>{dispatch(getResource("ContactMetadata", "Metadatakontakt"))}</h3>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Name}</a>
-                    </div>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Email}</a> -{" "}
-                        {metadata.ContactMetadata.Organization}
-                    </div>
+                    <heading-text>
+                        <h3>{dispatch(getResource("ContactMetadata", "Metadatakontakt"))}</h3>
+                    </heading-text>
+                    {metadata?.ContactMetadata?.Name?.length ? <div>{metadata.ContactMetadata.Name}</div> : null}
+                    {metadata?.ContactMetadata?.Email?.length ? (
+                        <div>
+                            <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Email}</a> -{" "}
+                            {metadata.ContactMetadata.Organization}
+                        </div>
+                    ) : null}
                 </div>
             );
         } else {
@@ -289,18 +265,20 @@ const Metadata = () => {
         if (metadata?.ContactOwner) {
             return (
                 <div>
-                    <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Name}</a>
-                    </div>
-                    <div>
-                        <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Email}</a> -{" "}
-                        {metadata.ContactOwner.Organization}
-                    </div>
+                    <heading-text>
+                        <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
+                    </heading-text>
+                    {metadata?.ContactOwner.Name ? <div>{metadata.ContactOwner.Name}</div> : null}
+                    {metadata?.ContactOwner?.Email?.length ? (
+                        <div>
+                            <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Email}</a> -{" "}
+                            {metadata.ContactOwner.Organization}
+                        </div>
+                    ) : null}
                 </div>
             );
         } else {
-            return "";
+            return null;
         }
     };
 
@@ -308,28 +286,20 @@ const Metadata = () => {
         if (metadata?.ContactPublisher) {
             return (
                 <div>
-                    <h3>{dispatch(getResource("ContactPublisher", "Teknisk kontakt"))}</h3>
-                    {metadata.ContactPublisher?.Name?.length ? (
+                    <heading-text>
+                        <h3>{dispatch(getResource("ContactPublisher", "Teknisk kontakt"))}</h3>
+                    </heading-text>
+                    {metadata?.ContactPublisher?.Name?.length ? <div>{metadata.ContactPublisher.Name}</div> : null}
+                    {metadata?.ContactPublisher?.Email?.length ? (
                         <div>
-                            {metadata.ContactPublisher?.Email?.length ? (
-                                <a href={"mailto:" + metadata.ContactPublisher.Email}>
-                                    {metadata.ContactPublisher.Name}
-                                </a>
-                            ) : (
-                                <span>{metadata.ContactPublisher.Name} </span>
-                            )}
+                            <a href={"mailto:" + metadata.ContactPublisher.Email}>{metadata.ContactPublisher.Email}</a>{" "}
+                            - {metadata.ContactPublisher.Organization}
                         </div>
-                    ) : (
-                        ""
-                    )}
-                    <div>
-                        <a href={"mailto:" + metadata.ContactPublisher.Email}>{metadata.ContactPublisher.Email}</a> -{" "}
-                        {metadata.ContactPublisher.Organization}
-                    </div>
+                    ) : null}
                 </div>
             );
         } else {
-            return "";
+            return null;
         }
     };
 
@@ -339,9 +309,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("SpatialRepresentation", "Representasjonsform"))}: </strong>
                 {metadata.SpatialRepresentation}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderDistributionsFormats = () => {
@@ -364,16 +332,16 @@ const Metadata = () => {
 
                 return (
                     <div key={urlIndex}>
-                        <h3>{dispatch(getResource("DistributionType", "Distribusjonstype"))}:</h3>
+                        <heading-text>
+                            <h3>{dispatch(getResource("DistributionType", "Distribusjonstype"))}:</h3>
+                        </heading-text>
                         <div>{protocolFormats[0].ProtocolName}</div>
                         {protocolFormats[0].URL ? (
                             <div>
                                 <b>URL: </b>
                                 <a href={protocolFormats[0].URL}>{protocolFormats[0].URL}</a>
                             </div>
-                        ) : (
-                            ""
-                        )}
+                        ) : null}
                         {protocolFormats[0].UnitsOfDistribution ? (
                             <div>
                                 <b>
@@ -383,12 +351,13 @@ const Metadata = () => {
                                     ? protocolFormats[0].EnglishUnitsOfDistribution
                                     : protocolFormats[0].UnitsOfDistribution}
                             </div>
-                        ) : (
-                            ""
-                        )}
-
-                        <h3>Format:</h3>
-                        <ul className={style.defaultList}>{protocolFormatElements}</ul>
+                        ) : null}
+                        <heading-text>
+                            <h3>Format:</h3>
+                        </heading-text>
+                        <gn-badge-list>
+                            <ul>{protocolFormatElements}</ul>
+                        </gn-badge-list>
                     </div>
                 );
             });
@@ -411,8 +380,12 @@ const Metadata = () => {
             });
         return operationsList?.length ? (
             <div>
-                <h3>Kall som tjenesten tilbyr:</h3>
-                <ul className={style.defaultList}>{operationsList}</ul>
+                <heading-text>
+                    <h3>Kall som tjenesten tilbyr:</h3>
+                </heading-text>
+                <gn-list>
+                    <ul>{operationsList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -423,9 +396,7 @@ const Metadata = () => {
                 <strong>{dispatch(getResource("DistributionType", "Distribusjonstype"))}: </strong>
                 {metadata.DistributionDetails.ProtocolName}
             </div>
-        ) : (
-            ""
-        );
+        ) : null;
     };
 
     const renderDistributionUrl = () => {
@@ -454,8 +425,12 @@ const Metadata = () => {
             });
         return referenceSystemList?.length ? (
             <div>
-                <h3>{dispatch(getResource("ReferenceSystems", "Romlig referansesystem"))}:</h3>
-                <ul className={style.defaultList}>{referenceSystemList}</ul>
+                <heading-text>
+                    <h3>{dispatch(getResource("ReferenceSystems", "Romlig referansesystem"))}:</h3>
+                </heading-text>
+                <gn-list>
+                    <ul>{referenceSystemList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -559,11 +534,9 @@ const Metadata = () => {
                     <div>
                         <strong>{dispatch(getResource("ProcessHistory", "Prosesshistorie"))}: </strong>
                     </div>
-                    <SimpleMDE
-                        value={metadata.ProcessHistory}
-                        options={readOnlyMdeOptions}
-                        getMdeInstance={getMdeInstance}
-                    />
+                    <div data-color-mode="light">
+                        <MDEditor.Markdown id="abstract" source={metadata.ProcessHistory} />
+                    </div>
                 </div>
             </div>
         ) : null;
@@ -672,8 +645,12 @@ const Metadata = () => {
             });
         return keywordsPlaceList?.length ? (
             <div>
-                <h3>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h3>
-                <ul className={style.defaultList}>{keywordsPlaceList}</ul>
+                <heading-text>
+                    <h4>{dispatch(getResource("KeywordsPlace", "Geografisk område"))}:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsPlaceList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -681,21 +658,25 @@ const Metadata = () => {
     const renderBoundingBox = () => {
         return metadata?.BoundingBox && Object.keys(metadata?.BoundingBox)?.length ? (
             <div>
-                <h3>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h3>
-                <ul className={style.defaultList}>
-                    <li>
-                        {dispatch(getResource("North", "Nord"))}: {metadata.BoundingBox.NorthBoundLatitude}
-                    </li>
-                    <li>
-                        {dispatch(getResource("South", "Sør"))}: {metadata.BoundingBox.SouthBoundLatitude}
-                    </li>
-                    <li>
-                        {dispatch(getResource("East", "Øst"))}: {metadata.BoundingBox.EastBoundLongitude}
-                    </li>
-                    <li>
-                        {dispatch(getResource("West", "Vest"))}: {metadata.BoundingBox.WestBoundLongitude}
-                    </li>
-                </ul>
+                <heading-text>
+                    <h4>{dispatch(getResource("BoundingBox", "Geografisk utstrekning"))}:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>
+                        <li>
+                            {dispatch(getResource("North", "Nord"))}: {metadata.BoundingBox.NorthBoundLatitude}
+                        </li>
+                        <li>
+                            {dispatch(getResource("South", "Sør"))}: {metadata.BoundingBox.SouthBoundLatitude}
+                        </li>
+                        <li>
+                            {dispatch(getResource("East", "Øst"))}: {metadata.BoundingBox.EastBoundLongitude}
+                        </li>
+                        <li>
+                            {dispatch(getResource("West", "Vest"))}: {metadata.BoundingBox.WestBoundLongitude}
+                        </li>
+                    </ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -714,8 +695,12 @@ const Metadata = () => {
             });
         return keywordsThemeList?.length ? (
             <div>
-                <h3>{dispatch(getResource("Facet_theme", "Tema"))}:</h3>
-                <ul className={style.defaultList}>{keywordsThemeList}</ul>
+                <heading-text>
+                    <h4>{dispatch(getResource("Facet_theme", "Tema"))}:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsThemeList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -734,8 +719,12 @@ const Metadata = () => {
             });
         return keywordsNationalThemeList?.length ? (
             <div>
-                <h3>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h3>
-                <ul className={style.defaultList}>{keywordsNationalThemeList}</ul>
+                <heading-text>
+                    <h4>{dispatch(getResource("KeywordsNationalTheme", "Nasjonale tema"))}:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsNationalThemeList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -754,8 +743,12 @@ const Metadata = () => {
             });
         return keywordsNationalInitiativeList?.length ? (
             <div>
-                <h3>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h3>
-                <ul className={style.defaultList}>{keywordsNationalInitiativeList}</ul>
+                <heading-text>
+                    <h4>{dispatch(getResource("Facet_nationalinitiative", "Samarbeid og lover"))}:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsNationalInitiativeList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -768,8 +761,12 @@ const Metadata = () => {
             });
         return keywordsInspireList?.length ? (
             <div>
-                <h3>Inspire:</h3>
-                <ul className={style.defaultList}>{keywordsInspireList}</ul>
+                <heading-text>
+                    <h3>Inspire:</h3>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsInspireList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -789,7 +786,9 @@ const Metadata = () => {
         return keywordsConceptList?.length ? (
             <div>
                 <strong>{dispatch(getResource("Concept", "Begreper"))}:</strong>
-                <ul className={style.defaultList}>{keywordsConceptList}</ul>
+                <gn-list>
+                    <ul>{keywordsConceptList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -809,7 +808,9 @@ const Metadata = () => {
         return keywordsInspirePriorityDatasetList?.length ? (
             <div>
                 <strong>{dispatch(getResource("EuPriorityDataset", "EU - prioriterte datasett"))}:</strong>
-                <ul className={style.defaultList}>{keywordsInspirePriorityDatasetList}</ul>
+                <gn-list>
+                    <ul>{keywordsInspirePriorityDatasetList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -823,7 +824,9 @@ const Metadata = () => {
         return renderKeywordsInspireCategory?.length ? (
             <div>
                 <strong>{dispatch(getResource("Metadata_KeywordsInspire_Label", "Inspire kategorier"))}:</strong>
-                <ul className={style.defaultList}>{keywordsInspireList}</ul>
+                <gn-list>
+                    <ul>{keywordsInspireList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -843,7 +846,9 @@ const Metadata = () => {
         return keywordsOtherList?.length ? (
             <div>
                 <strong>{dispatch(getResource("Metadata_KeywordsOther_Label", "Ukategoriserte nøkkelord"))}:</strong>
-                <ul className={style.defaultList}>{keywordsOtherList}</ul>
+                <gn-list>
+                    <ul>{keywordsOtherList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -864,8 +869,12 @@ const Metadata = () => {
             });
         return keywordsAdministrativeUnitsList?.length ? (
             <div>
-                <h3>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h3>
-                <ul className={style.defaultList}>{keywordsAdministrativeUnitsList}</ul>
+                <heading-text>
+                    <h4>{dispatch(getResource("KeywordsAdministrativeUnits", "Administrative enheter"))}:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsAdministrativeUnitsList}</ul>
+                </gn-list>
             </div>
         ) : null;
     };
@@ -886,7 +895,9 @@ const Metadata = () => {
     const renderSpecificUsageSection = () => {
         return metadata?.SpecificUsage?.length ? (
             <div>
-                <h2>{dispatch(getResource("SpecificUsage", "Bruksområde"))}</h2>
+                <heading-text>
+                    <h2 underline="true">{dispatch(getResource("SpecificUsage", "Bruksområde"))}</h2>
+                </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SpecificUsage)}</p>
             </div>
         ) : null;
@@ -896,7 +907,9 @@ const Metadata = () => {
         const selfDistributionsList =
             metadataDistributions?.SelfDistribution?.length && metadataDistributions?.ShowSelfDistributions ? (
                 <div>
-                    <h3>{metadataDistributions.TitleSelf}</h3>
+                    <heading-text>
+                        <h3>{metadataDistributions.TitleSelf}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.SelfDistribution} />
                     </ErrorBoundary>
@@ -905,7 +918,9 @@ const Metadata = () => {
         const relatedDatasetList =
             metadataDistributions?.RelatedDataset?.length && metadataDistributions?.ShowRelatedDataset ? (
                 <div>
-                    <h3>{dispatch(getResource("Facet_type_dataset", "Datasett"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("Facet_type_dataset", "Datasett"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedDataset} />
                     </ErrorBoundary>
@@ -915,7 +930,11 @@ const Metadata = () => {
             (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
             metadata?.TypeName == "series_time" ? (
                 <div>
-                    <h3>{dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}</h3>
+                    <heading-text>
+                        <h3>
+                            {dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}
+                        </h3>
+                    </heading-text>
                     {metadata.TypeName == "series_time" ? (
                         <form className="form-inline" onSubmit={handleSubmit}>
                             <div className="input-group">
@@ -923,40 +942,50 @@ const Metadata = () => {
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <label>Dato fra: </label>
+                                                <gn-label>
+                                                    <label>Dato fra: </label>
+                                                </gn-label>
                                             </td>
                                             <td>
-                                                <DatePicker
-                                                    style={{ display: "inline" }}
-                                                    autoComplete="off"
-                                                    selectsStart
-                                                    startDate={startDate}
-                                                    selected={startDate}
-                                                    onChange={handleStartChange}
-                                                    name="startDate"
-                                                    dateFormat="dd.MM.yyyy"
-                                                    locale="nb"
-                                                />
+                                                <gn-input>
+                                                    <DatePicker
+                                                        style={{ display: "inline" }}
+                                                        autoComplete="off"
+                                                        selectsStart
+                                                        startDate={startDate}
+                                                        selected={startDate}
+                                                        onChange={handleStartChange}
+                                                        name="startDate"
+                                                        dateFormat="dd.MM.yyyy"
+                                                        locale="nb"
+                                                    />
+                                                </gn-input>
                                             </td>
                                             <td>
-                                                <label>Dato til: </label>
+                                                <gn-label>
+                                                    <label>Dato til: </label>
+                                                </gn-label>
                                             </td>
                                             <td>
-                                                <DatePicker
-                                                    style={{ display: "inline" }}
-                                                    autoComplete="off"
-                                                    selectsEnd
-                                                    endDate={endDate}
-                                                    selected={endDate}
-                                                    onChange={handleEndChange}
-                                                    name="endDate"
-                                                    dateFormat="dd.MM.yyyy"
-                                                    minDate={startDate}
-                                                    locale="nb"
-                                                />
+                                                <gn-input>
+                                                    <DatePicker
+                                                        style={{ display: "inline" }}
+                                                        autoComplete="off"
+                                                        selectsEnd
+                                                        endDate={endDate}
+                                                        selected={endDate}
+                                                        onChange={handleEndChange}
+                                                        name="endDate"
+                                                        dateFormat="dd.MM.yyyy"
+                                                        minDate={startDate}
+                                                        locale="nb"
+                                                    />
+                                                </gn-input>
                                             </td>
                                             <td>
-                                                <button className="btn btn-success">Søk</button>
+                                                <gn-button color="primary">
+                                                    <button>Søk</button>
+                                                </gn-button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -972,7 +1001,11 @@ const Metadata = () => {
         const relatedDatasetSerieList =
             metadataDistributions?.RelatedDatasetSerie?.length && metadataDistributions?.ShowRelatedDatasetSerie ? (
                 <div>
-                    <h3>{dispatch(getResource("Facet_type_datasetserie", "Datasettet inngår i datasettserien"))}</h3>
+                    <heading-text>
+                        <h3>
+                            {dispatch(getResource("Facet_type_datasetserie", "Datasettet inngår i datasettserien"))}
+                        </h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedDatasetSerie} />
                     </ErrorBoundary>
@@ -981,7 +1014,9 @@ const Metadata = () => {
         const relatedApplicationsList =
             metadataDistributions?.RelatedApplications?.length && metadataDistributions?.ShowRelatedApplications ? (
                 <div>
-                    <h3>{metadataDistributions.TitleRelatedApplications}</h3>
+                    <heading-text>
+                        <h3>{metadataDistributions.TitleRelatedApplications}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedApplications} />
                     </ErrorBoundary>
@@ -990,7 +1025,9 @@ const Metadata = () => {
         const relatedServiceLayersList =
             metadataDistributions?.RelatedServiceLayer?.length && metadataDistributions?.ShowRelatedServiceLayer ? (
                 <div>
-                    <h3>{dispatch(getResource("Servicelayers", "Tjenestelag"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("Servicelayers", "Tjenestelag"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedServiceLayer} />
                     </ErrorBoundary>
@@ -999,7 +1036,9 @@ const Metadata = () => {
         const relatedServicesList =
             metadataDistributions?.RelatedServices?.length && metadataDistributions?.ShowRelatedServices ? (
                 <div>
-                    <h3>{dispatch(getResource("Services", "Tjenester"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("Services", "Tjenester"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedServices} />
                     </ErrorBoundary>
@@ -1008,7 +1047,9 @@ const Metadata = () => {
         const relatedViewServicesList =
             metadataDistributions?.RelatedViewServices?.length && metadataDistributions?.ShowRelatedViewServices ? (
                 <div>
-                    <h3>{dispatch(getResource("DisplayServices", "Visningstjenester"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("DisplayServices", "Visningstjenester"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedViewServices} />
                     </ErrorBoundary>
@@ -1018,7 +1059,9 @@ const Metadata = () => {
             metadataDistributions?.RelatedDownloadServices?.length &&
             metadataDistributions?.ShowRelatedDownloadServices ? (
                 <div>
-                    <h3>{dispatch(getResource("DownloadServices", "Nedlastingstjenester"))}</h3>
+                    <heading-text>
+                        <h3>{dispatch(getResource("DownloadServices", "Nedlastingstjenester"))}</h3>
+                    </heading-text>
                     <ErrorBoundary>
                         <DistributionsList distributions={metadataDistributions.RelatedDownloadServices} />
                     </ErrorBoundary>
@@ -1037,7 +1080,9 @@ const Metadata = () => {
             !!relatedDownloadServicesList;
         return showDistributions ? (
             <div>
-                <h2>{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
+                <heading-text>
+                    <h2 underline="true">{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
+                </heading-text>
                 {selfDistributionsList}
                 {relatedDatasetList}
                 {relatedSerieDatasetsList}
@@ -1055,7 +1100,9 @@ const Metadata = () => {
         const hasChildren = renderContactMetadata() || renderContactOwner() || renderContactPublisher();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("ContactInformation", "Kontaktinforsmasjon"))}</h2>
+                <heading-text>
+                    <h2 underline="true">{dispatch(getResource("ContactInformation", "Kontaktinforsmasjon"))}</h2>
+                </heading-text>
                 <div className={style.flex}>
                     {renderContactMetadata()}
                     {renderContactOwner()}
@@ -1069,7 +1116,9 @@ const Metadata = () => {
         const hasChildren = renderSpatialRepresentation() || renderDistributionsFormats() || renderReferenceSystems();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
+                <heading-text>
+                    <h2 underline="true">{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
+                </heading-text>
                 {renderSpatialRepresentation()}
                 {renderDistributionsFormats()}
                 {renderOperations()}
@@ -1089,7 +1138,9 @@ const Metadata = () => {
             renderSecurityConstraintsNote();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Constraints", "Restriksjoner"))}</h2>
+                <heading-text>
+                    <h2 underline="true">{dispatch(getResource("Constraints", "Restriksjoner"))}</h2>
+                </heading-text>
                 {renderUseLimitations()}
                 {renderAccessConstraints()}
                 {renderUseConstraints()}
@@ -1104,9 +1155,11 @@ const Metadata = () => {
     const renderSupplementalDescriptionSection = () => {
         return metadata?.SupplementalDescription?.length || metadata?.HelpUrl?.length ? (
             <div>
-                <h2 id="help-info">
-                    {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
-                </h2>
+                <heading-text>
+                    <h2 underline="true" id="help-info">
+                        {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
+                    </h2>
+                </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SupplementalDescription)}</p>
                 {metadata.HelpUrl ? (
                     <a href={metadata.HelpUrl}>
@@ -1119,10 +1172,16 @@ const Metadata = () => {
 
     const renderQualitySection = () => {
         const hasChildren =
-            renderResolutionScale() || renderStatus() || renderProcessHistory() || renderOrderingInstructions() || renderContentInformation();
+            renderResolutionScale() ||
+            renderStatus() ||
+            renderProcessHistory() ||
+            renderOrderingInstructions() ||
+            renderContentInformation();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Quality", "Kvalitet"))}</h2>
+                <heading-text>
+                    <h3>{dispatch(getResource("Quality", "Kvalitet"))}</h3>
+                </heading-text>
                 {renderResolutionScale()}
                 {renderStatus()}
                 {renderProcessHistory()}
@@ -1192,7 +1251,9 @@ const Metadata = () => {
             });
         return qualitySpecificationsList?.length ? (
             <div>
-                <h2>{dispatch(getResource("QualitySpecification", "Konformitet"))}</h2>
+                <heading-text>
+                    <h3>{dispatch(getResource("QualitySpecification", "Konformitet"))}</h3>
+                </heading-text>
                 {qualitySpecificationsList}
             </div>
         ) : null;
@@ -1201,7 +1262,9 @@ const Metadata = () => {
     const renderPurposeSection = () => {
         return metadata?.Purpose?.length ? (
             <div>
-                <h2>{dispatch(getResource("Purpose", "Formål"))}</h2>
+                <heading-text>
+                    <h3>{dispatch(getResource("Purpose", "Formål"))}</h3>
+                </heading-text>
                 <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.Purpose)}</p>
             </div>
         ) : null;
@@ -1221,7 +1284,9 @@ const Metadata = () => {
             renderSpatialScope();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h2>
+                <heading-text>
+                    <h3>{dispatch(getResource("TimeAndSpace", "Tid og rom"))}</h3>
+                </heading-text>
                 {renderDateCreated()}
                 {renderDateUpdated()}
                 {renderMetadataDateUpdated()}
@@ -1249,7 +1314,9 @@ const Metadata = () => {
             renderKeywordsOther();
         return hasChildren ? (
             <div>
-                <h2>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h2>
+                <heading-text>
+                    <h3>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h3>
+                </heading-text>
                 <div className={style.keywordContainer}>
                     {renderKeywordsTheme()}
                     {renderKeywordsNationalTheme()}
@@ -1278,11 +1345,7 @@ const Metadata = () => {
             thumbnail = (
                 <div className={style.thumbnailContent}>
                     <div>
-                        <img
-                            src={thumbnailList[0].URL}
-                            alt={getTitle() + " illustrasjon"}
-                            title={getTitle() + " illustrasjon"}
-                        />
+                        <img src={thumbnailList[0].URL} alt={getTitle() + " illustrasjon"} />
                     </div>
                 </div>
             );
@@ -1396,6 +1459,21 @@ const Metadata = () => {
         return twitterTagElements;
     };
 
+    const breadcrumbs = [
+        {
+            name: "Geonorge",
+            url: "https://www.geonorge.no/"
+        },
+        {
+            name: dispatch(getResource("AppPageTitle", "Kartkatalogen")),
+            url: "/"
+        },
+        {
+            name: getTitle(),
+            url: window.location.pathname
+        }
+    ];
+
     return !metadata || !Object.keys(metadata).length === "An error has occurred." ? (
         <div className={style.searchResultContainer}>
             <span>Kunne ikke finne metadata på Uuid "{uuid}"</span>
@@ -1405,15 +1483,22 @@ const Metadata = () => {
             <Helmet>
                 <title>{getPageTitle()} - Kartkatalogen</title>
                 {renderCanonicalTags()}
-                <meta name="description" content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""} />
+                <meta
+                    name="description"
+                    content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""}
+                />
                 <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
                 {renderOpenGraphTags()}
                 {renderTwitterTags()}
             </Helmet>
             {getMetadataLinkedDataSnippet()}
-            <Breadcrumb content={getTitle()} />
+            <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div className={style.content}>
-                <h1>{getTitle()}</h1>
+                <header>
+                    <heading-text>
+                        <h1>{getTitle()}</h1>
+                    </heading-text>
+                </header>
                 {renderCredits()}
                 <div className={style.openBtns} onClick={() => toggleBtns()}>
                     Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
@@ -1458,15 +1543,15 @@ const Metadata = () => {
                         </ErrorBoundary>
                     </div>
                 </div>
-                <pre>
-                </pre>
+                <pre></pre>
                 <div className={style.flex}>
                     <div className={style.textContent}>
                         <div>{renderType()}</div>
                         {metadata?.Abstract ? (
-                                <SimpleMDE value={getAbstract(metadata)} options={readOnlyMdeOptions} getMdeInstance={getMdeInstance} />
-                        ) : ''
-                        }
+                            <div data-color-mode="light">
+                                <MDEditor.Markdown id="abstract" source={getAbstract(metadata)} />
+                            </div>
+                        ) : null}
                     </div>
                     {renderThumbnail()}
                 </div>
@@ -1482,22 +1567,30 @@ const Metadata = () => {
 
                 {renderSupplementalDescriptionSection()}
 
-                <div className={style.opendetails} onClick={() => toggleExpand()}>
-                    <h2>
-                        {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
-                        <FontAwesomeIcon
-                            title={
-                                expanded
-                                    ? "Trekk sammen"
-                                    : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
-                                          getResource("DetailedInformation", "Detaljert informasjon")
-                                      )}`
-                            }
-                            icon={expanded ? "angle-up" : "angle-down"}
-                        />
-                    </h2>
+                <div
+                    role="button"
+                    aria-expanded={expanded}
+                    aria-controls="detailed-information"
+                    className={style.opendetails}
+                    onClick={() => toggleExpand()}
+                >
+                    <heading-text>
+                        <h2 underline="true">
+                            {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
+                            <FontAwesomeIcon
+                                title={
+                                    expanded
+                                        ? "Trekk sammen"
+                                        : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
+                                              getResource("DetailedInformation", "Detaljert informasjon")
+                                          )}`
+                                }
+                                icon={expanded ? "angle-up" : "angle-down"}
+                            />
+                        </h2>
+                    </heading-text>
                 </div>
-                <div className={expanded ? style.open : style.closed}>
+                <div id="detailed-information" className={expanded ? style.open : style.closed}>
                     {renderGeneral()}
                     <div className={style.flex}>
                         {renderQualitySection()}

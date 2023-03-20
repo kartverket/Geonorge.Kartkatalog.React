@@ -1,0 +1,29 @@
+@import '../scss/abstracts/all';
+
+:local(content-container.test) {
+    @media print {
+        position: static;
+        height: auto;
+      }
+      margin-top: 177px;
+      height: calc(100% - 177px);
+      overflow-y: auto;
+      width: 100%;
+      position: absolute;
+      @media (min-width: 340px) {
+        margin-top: 141px;
+        height: calc(100% - 141px);
+      }
+      @media (min-width: 410px) {
+        margin-top: 141px;
+        height: calc(100% - 141px);
+      }
+      @media (min-width: 540px) {
+        margin-top: 104px;
+        height: calc(100% - 104px);
+      }
+      @include breakpoint(phablet) {
+        margin: 63px 0;
+        height: calc(100% - 63px);
+      }
+}

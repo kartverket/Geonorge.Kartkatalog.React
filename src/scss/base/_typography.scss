@@ -1,11 +1,10 @@
 body {
 	font-family: $default-font;
-	font-weight: 300;
+	font-weight: normal;
     line-height: 1.4;
 }
 a {
 	color: $anchor-active;
-	font-weight: 600;
 }
 .btn {
 	font-size: .85em;

@@ -1,0 +1,7 @@
+@import "../../../scss/abstracts/all";
+
+:local(.coverageMap) {
+    border: none;
+    border-top: 1px solid $primary-border;
+    margin-bottom: -5px;
+}

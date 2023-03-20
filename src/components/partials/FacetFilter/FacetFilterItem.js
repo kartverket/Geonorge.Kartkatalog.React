@@ -13,24 +13,24 @@ import { updateExpandedFacetFilters } from "actions/FacetFilterActions";
 // Stylesheets
 import style from "components/partials/FacetFilter/FacetFilterItem.module.scss";
 
-const FacetFilterItem = (props) => {
+const FacetFilterItem = ({ searchData, facetFilterItem }) => {
     const dispatch = useDispatch();
 
     // Redux store
     const expandedFacetFilters = useSelector((state) => state.expandedFacetFilters);
 
     const toggleExpand = () => {
-        const isExpanded = expandedFacetFilters?.[props.facetFilterItem.FacetField];
+        const isExpanded = expandedFacetFilters?.[facetFilterItem.FacetField];
 
         const newExpandedFacetFilters = {
             ...expandedFacetFilters,
-            [props.facetFilterItem.FacetField]: !isExpanded
+            [facetFilterItem.FacetField]: !isExpanded
         };
         dispatch(updateExpandedFacetFilters(newExpandedFacetFilters));
     };
 
-    const getFacetResultsLength = (facetFilterItem = props.facetFilterItem, facetResultsLength = 0) => {
-        facetFilterItem.FacetResults.forEach((facetResultItem) => {
+    const getFacetResultsLength = (localFacetFilterItem = facetFilterItem, facetResultsLength = 0) => {
+        localFacetFilterItem.FacetResults.forEach((facetResultItem) => {
             if (facetResultItem?.FacetResults?.length) {
                 facetResultsLength = getFacetResultsLength(facetResultItem, facetResultsLength);
             }
@@ -39,14 +39,17 @@ const FacetFilterItem = (props) => {
         return facetResultsLength;
     };
 
-    const renderList = () => {
-        if (props.facetFilterItem?.FacetResults?.length) {
-            let facetElements = props.facetFilterItem.FacetResults.map((facet, i) => {
+    const renderList = (parentIsExpanded, labelId) => {
+        if (facetFilterItem?.FacetResults?.length) {
+            let facetElements = facetFilterItem.FacetResults.map((facet, i) => {
                 return (
                     <Facet
                         facet={facet}
-                        facetField={props.facetFilterItem.FacetField}
-                        facetFieldNameTranslated={props.facetFilterItem.NameTranslated}
+                        facetField={facetFilterItem.FacetField}
+                        facetFieldNameTranslated={facetFilterItem.NameTranslated}
+                        searchData={searchData}
+                        parentIsExpanded={parentIsExpanded}
+                        labelId={labelId}
                         key={i}
                     />
                 );
@@ -68,16 +71,20 @@ const FacetFilterItem = (props) => {
     };
 
     const isExpanded = () => {
-        return !!expandedFacetFilters?.[props.facetFilterItem.FacetField];
+        return !!expandedFacetFilters?.[facetFilterItem.FacetField];
     };
+
+    const labelId = `facet-label-${facetFilterItem.Name}`;
 
     return (
         <li className={isExpanded() ? style.filterItem : style.filterItem + " " + style.closed}>
-            <FontAwesomeIcon onClick={toggleExpand} icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
-            <p onClick={toggleExpand} className={style.filterName}>
-                <span className={style.expandArrow}></span> {props.facetFilterItem.NameTranslated}
-            </p>
-            {renderList()}
+            <button onClick={toggleExpand} className={style.expandButton} aria-expanded={isExpanded()}>
+                <FontAwesomeIcon icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
+                <p className={style.filterName}>
+                    <span className={style.expandArrow}></span> <span id={labelId}>{facetFilterItem.NameTranslated}</span>
+                </p>
+            </button>
+            {renderList(isExpanded(), labelId)}
         </li>
     );
 };

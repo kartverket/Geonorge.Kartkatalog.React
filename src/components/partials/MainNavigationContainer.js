@@ -1,5 +1,5 @@
 // Dependencies
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet-async";
@@ -13,16 +13,13 @@ import { updateOidcCookie, updateBaatInfo } from "actions/AuthenticationActions"
 // Components
 import { MainNavigation } from "@kartverket/geonorge-web-components/MainNavigation";
 
-const MainNavigationContainer = ({ userManager }) => {
+const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [showSearchType, setShowSearchType] = useState(false);
+    const { searchData, params } = layoutLoaderData;
 
     // Redux store
-    const selectedSearchResultsType = useSelector((state) => state.selectedSearchResultsType) || "metadata";
-    const searchResults = useSelector((state) => state.searchResults);
-    const searchString = useSelector((state) => state.searchString);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
     const oidc = useSelector((state) => state.oidc);
     const baatInfo = useSelector((state) => state.baatInfo);
@@ -30,17 +27,16 @@ const MainNavigationContainer = ({ userManager }) => {
     // Refs
     const userRef = useRef(null);
 
-    const handleSubmitSearch = (searchString) => {
+    const handleSubmitSearch = (searchString, selectedType) => {
         searchString = searchString.toString();
         searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         if (searchString.length > 1) {
-            navigate(`/${selectedSearchResultsType}?text=${searchString}`);
+            navigate(`/${selectedType}?text=${searchString}`);
         }
     };
 
-    const handleChangeSearchResultsType = (searchResultsType) => {
-        let searchString = searchString?.toString() || "";
+    const handleChangeSearchResultsType = (searchResultsType, searchString) => {
         searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         const searchStringParameter = searchString && searchString.length ? `?text=${searchString}` : "";
@@ -72,7 +68,7 @@ const MainNavigationContainer = ({ userManager }) => {
             onSearch: (event) => {
                 const searchEvent = event.detail || null;
                 if (searchEvent) {
-                    handleSubmitSearch(searchEvent.searchString);
+                    handleSubmitSearch(searchEvent.searchString, params.searchResultsType);
                 }
             },
             onSignInClick: (event) => {
@@ -92,9 +88,9 @@ const MainNavigationContainer = ({ userManager }) => {
             onEnglishLanguageSelect: () => {
                 dispatch(updateSelectedLanguage("en"));
             },
-            onSearchTypeChange: event => {
-              const searchType = event?.detail?.value || null;
-              handleChangeSearchResultsType(searchType);
+            onSearchTypeChange: (event) => {
+                const searchType = event?.detail?.value || null;
+                handleChangeSearchResultsType(searchType, searchData?.searchString);
             },
             onMapItemsChange: (event) => {
                 dispatch(fetchMapItems());
@@ -105,27 +101,26 @@ const MainNavigationContainer = ({ userManager }) => {
         });
     }, [oidc, baatInfo]);
 
-    const metadataResultsFound = searchResults?.metadata?.NumFound || 0;
-    const articlesResultsFound = searchResults?.articles?.NumFound || 0;
+    const metadataResultsFound = searchData?.results?.metadata?.NumFound || 0;
+    const articlesResultsFound = searchData?.results?.articles?.NumFound || 0;
 
     const mainNavigationProps = {
         isLoggedIn: !!oidc.user,
         language: selectedLanguage,
         environment: process.env.REACT_APP_ENVIRONMENT,
-        searchString: searchString,
-        searchType: selectedSearchResultsType,
-        showsearchtypeselector: true,
+        searchString: searchData?.searchString || "",
+        searchType: params.searchResultsType,
+        showsearchtypeselector: true,//showSearchTypeSelector,
         metadataresultsfound: metadataResultsFound,
-        articlesresultsfound: articlesResultsFound
+        articlesresultsfound: articlesResultsFound,
+        maincontentid: "main-content"
     };
-    return searchResults ? (
+    return (
         <Fragment>
             <Helmet htmlAttributes={{ lang: selectedLanguage }} />
-            <main-navigation
-                {...mainNavigationProps}
-            ></main-navigation>
+            <main-navigation {...mainNavigationProps}></main-navigation>
         </Fragment>
-    ) : null;
+    );
 };
 
 export default MainNavigationContainer;

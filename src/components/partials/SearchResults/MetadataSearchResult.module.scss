@@ -2,13 +2,13 @@
 
 :local(.listItem) {
 	line-height: 1.6;
-	border-bottom: 1px solid $primary-border;
 	padding: 20px 0 20px 10px;
 	width: 100%;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	align-content: stretch;
+	border-bottom: 1px solid $primary-border;
 
 	> div:first-child {
 		flex: 5;
@@ -26,10 +26,16 @@
 
 	:local(.listItemTitle) {
 		display: block;
-		font-size: 1em;
+		font-size: 16px;
 		margin-bottom: 5px;
 		@include breakpoint(tablet) {
-			font-size: 1.2em;
+			font-size: 19px;
+		}
+		a {
+			text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	}
 
@@ -55,10 +61,6 @@
 		}
 	}
 
-	&:first-of-type {
-		border-top: 1px solid $primary-border;
-	}
-
 	:local(.typeContainer) {
 		margin-right: 20px;
 
@@ -70,6 +72,7 @@
 	:local(.buttonGroupContainer) {
 		display: flex;
 		justify-content: flex-end;
+		align-items: center;
 		:local(.buttonContainer) {
 			&:not(:first-of-type) {
 				width: 100px;
@@ -79,35 +82,11 @@
 			}
 		}
 	}
-
-	:local(.formatsContainer) {
-		display: block;
-		font-size: 1.1rem;
-
-		span {
-			display: inline-block;
-			background-color: $secondary-brand;
-			color: white;
-			margin: 0 5px;
-			padding: 0 10px;
-			font-weight: 600;
-			border-radius: 3px;
-		}
-
-		span {
-			&:last-of-type {
-				&::after {
-					content: none;
-				}
-			}
-		}
-	}
 }
 
 :local(.flex) {
 	margin-top: 10px;
 	flex-direction: column;
-	font-size: 1.1rem;
 	display: flex;
 	flex-wrap: wrap;
 

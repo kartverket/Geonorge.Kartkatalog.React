@@ -86,3 +86,7 @@ package-lock\.json
 
 # Misc
 .DS_Store
+
+# Yarn files
+.yarnrc.yml
+.yarn/
