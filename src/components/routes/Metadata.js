@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLoaderData, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import MDEditor from "@uiw/react-md-editor";
@@ -14,8 +14,7 @@ import { BreadcrumbList, GnBadgeList, GnInput, GnList, HeadingText } from "@kart
 
 // Actions
 import { getResource } from "actions/ResourceActions";
-import { clearMetadata, fetchMetadata } from "actions/MetadataActions";
-import { clearMetadataDistributions, fetchMetadataDistributions } from "actions/MetadataDistributionActions";
+import { fetchMetadataDistributions } from "actions/MetadataDistributionActions";
 
 // Reducers
 import { pushToDataLayer } from "reducers/TagManagerReducer";
@@ -55,14 +54,14 @@ const Metadata = () => {
     const params = useParams();
     const location = useLocation();
 
+    const {metadata, metadataDistributions} = useLoaderData();
+
     const uuid = params.uuid;
     const title = params.title;
     const dateStart = params.dateStart;
     const dateEnd = params.dateEnd;
 
     // Redux store
-    const metadata = useSelector((state) => state.metadata);
-    const metadataDistributions = useSelector((state) => state.metadataDistributions);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
     // State
@@ -173,19 +172,8 @@ const Metadata = () => {
         setShowBtns(!showBtns);
     };
 
-    const fetchApiData = () => {
-        dispatch(clearMetadata());
-        dispatch(fetchMetadata(uuid));
-        dispatch(clearMetadataDistributions());
-        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd));
-    };
 
     useEffect(() => {
-        fetchApiData();
-    }, []);
-
-    useEffect(() => {
-        fetchApiData();
         const hasRecievedMetadataProps = metadata && Object.keys(metadata)?.length;
         if (hasRecievedMetadataProps && !hasPushedPageViewTag) {
             pushPageViewTag();
