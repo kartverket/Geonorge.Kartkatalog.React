@@ -23,6 +23,7 @@ const ShowCoverageButton = (props) => {
     // State
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [hasBeenOpened, setHasBeenOpened] = useState(false);
 
     const handleButtonClick = () => {
         openDialog();
@@ -45,7 +46,7 @@ const ShowCoverageButton = (props) => {
             <gn-dialog width="1000px" nopadding="true" show={dialogOpen} overflow="hidden">
                 <iframe
                     className={style.coverageMap}
-                    src={props.metadata.CoverageUrl}
+                    src={hasBeenOpened ? props.metadata.CoverageUrl : ""}
                     title="Coverage map"
                     width="1000px"
                     height="720px"
@@ -81,6 +82,7 @@ const ShowCoverageButton = (props) => {
         setDialogOpen(false);
         setTimeout(() => {
             setDialogOpen(true);
+            setHasBeenOpened(true);
         });
     };
 
