@@ -47,7 +47,7 @@ const ShowCoverageButton = (props) => {
                     className={style.coverageMap}
                     src={props.metadata.CoverageUrl}
                     title="Coverage map"
-                    width="100%"
+                    width="1000px"
                     height="720px"
                 />
             </gn-dialog>
