@@ -23,6 +23,7 @@ import {
 } from "actions/FacetFilterActions";
 import { fetchMetadata } from "actions/MetadataActions";
 import { fetchMetadataDistributions } from "actions/MetadataDistributionActions";
+import { fetchMetadataQuality } from "actions/MetadataQualityActions";
 
 // Components
 import Layout from "components/Layout";
@@ -207,7 +208,11 @@ const App = () => {
                 .then((metadataDistributions) => {
                     loaderData.metadataDistributions = metadataDistributions;
                     return metadataDistributions;
-                })
+                }),
+            store.dispatch(fetchMetadataQuality(uuidParam)).then((metadataQuality) => {
+                loaderData.metadataQuality = metadataQuality;
+                return metadataQuality;
+            })
         ]).then(() => {
             return loaderData;
         });
