@@ -3,19 +3,18 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useLoaderData, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import MDEditor from "@uiw/react-md-editor";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
-import { BreadcrumbList, GnBadgeList, GnInput, GnList, HeadingText } from "@kartverket/geonorge-web-components";
+import { BreadcrumbList, GnBadgeList, GnIcon, GnInput, GnList, HeadingText } from "@kartverket/geonorge-web-components";
 
 // Actions
 import { getResource } from "actions/ResourceActions";
-import { clearMetadata, fetchMetadata } from "actions/MetadataActions";
-import { clearMetadataDistributions, fetchMetadataDistributions } from "actions/MetadataDistributionActions";
+import { fetchMetadataDistributions } from "actions/MetadataDistributionActions";
 
 // Reducers
 import { pushToDataLayer } from "reducers/TagManagerReducer";
@@ -55,14 +54,14 @@ const Metadata = () => {
     const params = useParams();
     const location = useLocation();
 
+    const { metadata, metadataDistributions, metadataQuality } = useLoaderData();
+
     const uuid = params.uuid;
     const title = params.title;
     const dateStart = params.dateStart;
     const dateEnd = params.dateEnd;
 
     // Redux store
-    const metadata = useSelector((state) => state.metadata);
-    const metadataDistributions = useSelector((state) => state.metadataDistributions);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
     // State
@@ -173,19 +172,7 @@ const Metadata = () => {
         setShowBtns(!showBtns);
     };
 
-    const fetchApiData = () => {
-        dispatch(clearMetadata());
-        dispatch(fetchMetadata(uuid));
-        dispatch(clearMetadataDistributions());
-        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd));
-    };
-
     useEffect(() => {
-        fetchApiData();
-    }, []);
-
-    useEffect(() => {
-        fetchApiData();
         const hasRecievedMetadataProps = metadata && Object.keys(metadata)?.length;
         if (hasRecievedMetadataProps && !hasPushedPageViewTag) {
             pushPageViewTag();
@@ -1474,6 +1461,35 @@ const Metadata = () => {
         }
     ];
 
+    const getMetadataQualityIconName = (fairStatus) => {
+        switch (fairStatus) {
+            case "deficient":
+                return "status-deficient";
+            case "useable":
+                return "status-useable";
+            case "satisfactory":
+                return "status-satisfactory";
+            case "good":
+                return "status-good";
+            default:
+                return null;
+        }
+    };
+
+    const renderMetadataQuality = (metadataQuality) => {
+        if (metadataQuality && Object.keys(metadataQuality)?.length) {
+            const iconName = getMetadataQualityIconName(metadataQuality?.FairStatus);
+            const icon = iconName?.length ? <gn-icon icon={iconName} height="21px" width="21px"></gn-icon> : null;
+            return (
+                <div className={style.subTitle}>
+                    <span>Metadatakvalitet: {metadataQuality.FAIRStatusPerCent}%</span> {icon}
+                </div>
+            );
+        } else {
+            return null;
+        }
+    };
+
     return !metadata || !Object.keys(metadata).length === "An error has occurred." ? (
         <div className={style.searchResultContainer}>
             <span>Kunne ikke finne metadata på Uuid "{uuid}"</span>
@@ -1499,6 +1515,7 @@ const Metadata = () => {
                         <h1>{getTitle()}</h1>
                     </heading-text>
                 </header>
+                {renderMetadataQuality(metadataQuality)}
                 {renderCredits()}
                 <div className={style.openBtns} onClick={() => toggleBtns()}>
                     Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
