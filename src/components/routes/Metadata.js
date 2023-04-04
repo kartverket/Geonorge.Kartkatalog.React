@@ -1480,9 +1480,20 @@ const Metadata = () => {
         if (metadataQuality && Object.keys(metadataQuality)?.length) {
             const iconName = getMetadataQualityIconName(metadataQuality?.FairStatus);
             const icon = iconName?.length ? <gn-icon icon={iconName} height="21px" width="21px"></gn-icon> : null;
+            const detailsUrl = metadataQuality?.DetailsPage?.length && metadataQuality?.DetailsPage;
+            const ariaLabel = `Metadatakvalitet: ${
+                metadataQuality.FAIRStatusPerCent
+            }%. Klikk for å se detaljer om metadatakvalitet for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
             return (
                 <div className={style.subTitle}>
-                    <span>Metadatakvalitet: {metadataQuality.FAIRStatusPerCent}%</span> {icon}
+                    {detailsUrl ? (
+                        <a href={detailsUrl} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel}>
+                            Metadatakvalitet: {metadataQuality.FAIRStatusPerCent}%
+                        </a>
+                    ) : (
+                        <span>Metadatakvalitet: {metadataQuality.FAIRStatusPerCent}%</span>
+                    )}
+                    {icon}
                 </div>
             );
         } else {
