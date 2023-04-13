@@ -1481,17 +1481,17 @@ const Metadata = () => {
             const iconName = getMetadataQualityIconName(metadataQuality?.FairStatus);
             const icon = iconName?.length ? <gn-icon icon={iconName} height="21px" width="21px"></gn-icon> : null;
             const detailsUrl = metadataQuality?.DetailsPage?.length && metadataQuality?.DetailsPage;
-            const ariaLabel = `Metadatakvalitet: ${
+            const ariaLabel = `FAIR-status: ${
                 metadataQuality.FAIRStatusPerCent
-            }%. Klikk for å se detaljer om metadatakvalitet for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
+            }%. Klikk for å se detaljer om FAIR-status for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
             return (
                 <div className={style.subTitle}>
                     {detailsUrl ? (
                         <a href={detailsUrl} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel}>
-                            Metadatakvalitet: {metadataQuality.FAIRStatusPerCent}%
+                            FAIR-status: {metadataQuality.FAIRStatusPerCent}%
                         </a>
                     ) : (
-                        <span>Metadatakvalitet: {metadataQuality.FAIRStatusPerCent}%</span>
+                        <span>FAIR-status: {metadataQuality.FAIRStatusPerCent}%</span>
                     )}
                     {icon}
                 </div>
