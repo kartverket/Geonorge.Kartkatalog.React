@@ -12945,8 +12945,8 @@ __metadata:
   linkType: hard
 
 "r_map@https://github.com/kartverket/r_map.git":
-  version: 2.4.8
-  resolution: "r_map@https://github.com/kartverket/r_map.git#commit=45dc91f42fe6cb495207fb4c71ac9ba733b66063"
+  version "2.4.9"
+  resolved "https://github.com/kartverket/r_map.git#2a109a6f6b82d911ebd69eaea7107eaee52bd7f0"
   dependencies:
     "@fortawesome/fontawesome-svg-core": ^1.2.34
     "@fortawesome/free-regular-svg-icons": ^5.15.2
