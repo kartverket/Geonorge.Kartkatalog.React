@@ -21,6 +21,9 @@ import {
     updateExpandedFacetFilters,
     updateSelectedFacetsFromUrl
 } from "actions/FacetFilterActions";
+import { fetchMetadata } from "actions/MetadataActions";
+import { fetchMetadataDistributions } from "actions/MetadataDistributionActions";
+import { fetchMetadataQuality } from "actions/MetadataQualityActions";
 
 // Components
 import Layout from "components/Layout";
@@ -89,7 +92,6 @@ const App = () => {
         const offsetParam = new URL(request.url).searchParams.get("offset");
         const appendParam = new URL(request.url).searchParams.get("append");
         const selectedResultsTypeParam = params.category || "metadata";
-
 
         params = {
             ...params,
@@ -190,6 +192,32 @@ const App = () => {
         }
     };
 
+    const metadataLoader = async ({ request, params }) => {
+        const uuidParam = params.uuid;
+        const dateStartParam = new URL(request.url).searchParams.get("dateStart");
+        const dateEndParam = new URL(request.url).searchParams.get("dateEnd");
+        const loaderData = {};
+
+        return await Promise.all([
+            store.dispatch(fetchMetadata(uuidParam)).then((metadata) => {
+                loaderData.metadata = metadata;
+                return metadata;
+            }),
+            store
+                .dispatch(fetchMetadataDistributions(uuidParam, dateStartParam, dateEndParam))
+                .then((metadataDistributions) => {
+                    loaderData.metadataDistributions = metadataDistributions;
+                    return metadataDistributions;
+                }),
+            store.dispatch(fetchMetadataQuality(uuidParam)).then((metadataQuality) => {
+                loaderData.metadataQuality = metadataQuality;
+                return metadataQuality;
+            })
+        ]).then(() => {
+            return loaderData;
+        });
+    };
+
     const router = createBrowserRouter([
         {
             element: <Layout userManager={userManager} />,
@@ -203,15 +231,18 @@ const App = () => {
                 },
                 {
                     element: <Metadata />,
-                    path: "metadata/:uuid"
+                    path: "metadata/:uuid",
+                    loader: metadataLoader
                 },
                 {
                     element: <Metadata />,
-                    path: "metadata/:title/:uuid"
+                    path: "metadata/:title/:uuid",
+                    loader: metadataLoader
                 },
                 {
                     element: <Metadata />,
-                    path: "metadata/:organizaton/:title/:uuid"
+                    path: "metadata/:organizaton/:title/:uuid",
+                    loader: metadataLoader
                 },
                 {
                     element: <MapContainer />,
