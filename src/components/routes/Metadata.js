@@ -496,6 +496,15 @@ const Metadata = () => {
         ) : null;
     };
 
+    const renderResolutionDistance = () => {
+        return !isNaN(metadata?.ResolutionDistance) ? (
+            <div>
+                <strong>{dispatch(getResource("ResolutionDistance", "Distanse i meter"))}: </strong>
+                {metadata.ResolutionDistance}
+            </div>
+        ) : null;
+    };
+
     const renderStatus = () => {
         return metadata?.Status?.length ? (
             <div>
@@ -1160,6 +1169,7 @@ const Metadata = () => {
     const renderQualitySection = () => {
         const hasChildren =
             renderResolutionScale() ||
+            renderResolutionDistance() ||
             renderStatus() ||
             renderProcessHistory() ||
             renderOrderingInstructions() ||
@@ -1170,6 +1180,7 @@ const Metadata = () => {
                     <h3>{dispatch(getResource("Quality", "Kvalitet"))}</h3>
                 </heading-text>
                 {renderResolutionScale()}
+                {renderResolutionDistance()}
                 {renderStatus()}
                 {renderProcessHistory()}
                 {renderOrderingInstructions()}
