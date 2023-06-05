@@ -12,8 +12,6 @@ import AvailableFacetsReducer from 'reducers/AvailableFacetsReducer';
 import ExpandedFacetFiltersReducer from 'reducers/ExpandedFacetFiltersReducer';
 import SelectedSearchResultsTypeReducer from 'reducers/SelectedSearchResultsTypeReducer';
 import SearchStringReducer from 'reducers/SearchStringReducer';
-import MetadataReducer from "reducers/MetadataReducer";
-import MetadataDistributionReducer from "reducers/MetadataDistributionReducer";
 import GeonorgeMenuReducer from "reducers/GeonorgeMenuReducer";
 import SelectedLanguageReducer from "reducers/SelectedLanguageReducer";
 import ResourceReducer from "reducers/ResourceReducer";
@@ -30,8 +28,6 @@ export default (history) => combineReducers({
     baatInfo: BaatInfoReducer,
     searchResults: SearchResultReducer,
     selectedSearchResultsType: SelectedSearchResultsTypeReducer,
-    metadata: MetadataReducer,
-    metadataDistributions: MetadataDistributionReducer,
     mapItems: MapItemReducer,
     itemsToDownload: DownloadItemReducer,
     selectedFacets: SelectedFacetsReducer,
