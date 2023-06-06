@@ -2367,9 +2367,9 @@ __metadata:
   linkType: hard
 
 "@kartverket/geonorge-web-components@npm:^2.4.0":
-  version: 2.18.1
-  resolution: "@kartverket/geonorge-web-components@npm:2.18.1"
-  checksum: 06a6a6a9ba4df412e14651411a7bcda47471e144891388097c1b7184f26c4dd5739a31a4c186cdc9a8cc399913c4a264dd0bf78c910b3818138d4a45e5dfba47
+  version: 2.18.2
+  resolution: "@kartverket/geonorge-web-components@npm:2.18.2"
+  checksum: d57d692c694bc947b0e8680992371aee5ad7031000e67c66fc0ffa2070b6b7fe26572737cb5900d6e1d8b239ea548f7f29546d4178e03a06e8099109c5ebb34a
   languageName: node
   linkType: hard
 
