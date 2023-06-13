@@ -31,7 +31,7 @@ const MapButton = (props) => {
         let datasetService = null;
         if (props.metadata.DatasetServicesWithShowMapLink?.length) {
             datasetService = props.metadata.DatasetServicesWithShowMapLink?.find((service) => {
-                return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste";
+                return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste" || service.DistributionProtocol === "Tjenestelag";
             });
         } else if (props.metadata.ServiceDistributionProtocolForDataset === "OGC:WMS") {
             datasetService = {
