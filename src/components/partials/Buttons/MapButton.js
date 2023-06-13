@@ -46,9 +46,7 @@ const MapButton = (props) => {
             ? {
                   Uuid: datasetService.Uuid,
                   Title: datasetService.Title,
-                  DistributionProtocol: datasetService.DistributionProtocol
-                      ? datasetService.DistributionProtocol
-                      : datasetService.Protocol,
+                  DistributionProtocol: getProtocol(datasetService),
                   GetCapabilitiesUrl: datasetService.GetCapabilitiesUrl,
                   addLayers: []
               }
@@ -69,6 +67,20 @@ const MapButton = (props) => {
                 props.metadata.MapLink,
             addLayers: []
         };
+    };
+
+    const getProtocol = (service) => {
+        let distributionProtocol =  service.DistributionProtocol
+                      ? service.DistributionProtocol
+                      : service.Protocol;
+        if(distributionProtocol == "Tjenestelag")
+        {
+            if(service?.GetCapabilitiesUrl?.toLowerCase().endsWith("service=wms"))
+                return "OGC:WMS";
+            else if(service?.GetCapabilitiesUrl?.toLowerCase().endsWith("service=wfs"))
+            return "OGC:WFS";
+        }
+        return distributionProtocol;
     };
 
     const getMapItem = () => {
