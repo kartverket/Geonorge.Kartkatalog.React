@@ -38,7 +38,7 @@ const MapButton = (props) => {
                 Uuid: props.metadata.ServiceUuid || props.metadata.Uuid,
                 Title: props.metadata.Title,
                 DistributionProtocol: props.metadata.ServiceDistributionProtocolForDataset,
-                GetCapabilitiesUrl: props.metadata.MapLink,
+                GetCapabilitiesUrl: props.metadata.ServiceDistributionUrlForDataset || props.metadata.MapLink,
                 addLayers: []
             };
         }
