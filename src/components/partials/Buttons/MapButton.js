@@ -54,17 +54,26 @@ const MapButton = (props) => {
     };
 
     const getService = () => {
+
+        let protocol = props.metadata.ServiceDistributionProtocolForDataset ||
+        props.metadata.Protocol ||
+        props.metadata.DistributionProtocol;
+
+        let getCapabilitiesUri = props.metadata.ServiceDistributionUrlForDataset ||
+        props.metadata.GetCapabilitiesUrl ||
+        props.metadata.MapLink;
+
+        if(protocol == "Tjenestelag")
+            if(getCapabilitiesUri?.toLowerCase().endsWith("service=wms"))
+                protocol = "OGC:WMS";
+             else if(getCapabilitiesUri?.toLowerCase().endsWith("service=wfs"))
+                protocol = "OGC:WFS"
+
         return {
             Uuid: props.metadata.Uuid,
             Title: props.metadata.Title,
-            DistributionProtocol:
-                props.metadata.ServiceDistributionProtocolForDataset ||
-                props.metadata.Protocol ||
-                props.metadata.DistributionProtocol,
-            GetCapabilitiesUrl:
-                props.metadata.ServiceDistributionUrlForDataset ||
-                props.metadata.GetCapabilitiesUrl ||
-                props.metadata.MapLink,
+            DistributionProtocol: protocol,
+            GetCapabilitiesUrl: getCapabilitiesUri,
             addLayers: []
         };
     };
