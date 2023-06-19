@@ -31,14 +31,14 @@ const MapButton = (props) => {
         let datasetService = null;
         if (props.metadata.DatasetServicesWithShowMapLink?.length) {
             datasetService = props.metadata.DatasetServicesWithShowMapLink?.find((service) => {
-                return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste";
+                return service.DistributionProtocol === "OGC:WMS" || service.DistributionProtocol === "WMS-tjeneste" || service.DistributionProtocol === "Tjenestelag";
             });
         } else if (props.metadata.ServiceDistributionProtocolForDataset === "OGC:WMS") {
             datasetService = {
                 Uuid: props.metadata.ServiceUuid || props.metadata.Uuid,
                 Title: props.metadata.Title,
                 DistributionProtocol: props.metadata.ServiceDistributionProtocolForDataset,
-                GetCapabilitiesUrl: props.metadata.MapLink,
+                GetCapabilitiesUrl: props.metadata.ServiceDistributionUrlForDataset || props.metadata.MapLink,
                 addLayers: []
             };
         }
@@ -46,9 +46,7 @@ const MapButton = (props) => {
             ? {
                   Uuid: datasetService.Uuid,
                   Title: datasetService.Title,
-                  DistributionProtocol: datasetService.DistributionProtocol
-                      ? datasetService.DistributionProtocol
-                      : datasetService.Protocol,
+                  DistributionProtocol: getProtocol(datasetService),
                   GetCapabilitiesUrl: datasetService.GetCapabilitiesUrl,
                   addLayers: []
               }
@@ -56,19 +54,42 @@ const MapButton = (props) => {
     };
 
     const getService = () => {
+
+        let protocol = props.metadata.ServiceDistributionProtocolForDataset ||
+        props.metadata.Protocol ||
+        props.metadata.DistributionProtocol;
+
+        let getCapabilitiesUri = props.metadata.ServiceDistributionUrlForDataset ||
+        props.metadata.GetCapabilitiesUrl ||
+        props.metadata.MapLink;
+
+        if(protocol == "Tjenestelag")
+            if(getCapabilitiesUri?.toLowerCase().endsWith("service=wms"))
+                protocol = "OGC:WMS";
+             else if(getCapabilitiesUri?.toLowerCase().endsWith("service=wfs"))
+                protocol = "OGC:WFS"
+
         return {
             Uuid: props.metadata.Uuid,
             Title: props.metadata.Title,
-            DistributionProtocol:
-                props.metadata.ServiceDistributionProtocolForDataset ||
-                props.metadata.Protocol ||
-                props.metadata.DistributionProtocol,
-            GetCapabilitiesUrl:
-                props.metadata.ServiceDistributionUrlForDataset ||
-                props.metadata.GetCapabilitiesUrl ||
-                props.metadata.MapLink,
+            DistributionProtocol: protocol,
+            GetCapabilitiesUrl: getCapabilitiesUri,
             addLayers: []
         };
+    };
+
+    const getProtocol = (service) => {
+        let distributionProtocol =  service.DistributionProtocol
+                      ? service.DistributionProtocol
+                      : service.Protocol;
+        if(distributionProtocol == "Tjenestelag")
+        {
+            if(service?.GetCapabilitiesUrl?.toLowerCase().endsWith("service=wms"))
+                return "OGC:WMS";
+            else if(service?.GetCapabilitiesUrl?.toLowerCase().endsWith("service=wfs"))
+            return "OGC:WFS";
+        }
+        return distributionProtocol;
     };
 
     const getMapItem = () => {
