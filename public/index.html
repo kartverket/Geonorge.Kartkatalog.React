@@ -22,7 +22,8 @@
     -->
     <script type="text/javascript">
      var isProduction = '%REACT_APP_ENVIRONMENT%' !== 'dev' && '%REACT_APP_ENVIRONMENT%' !== 'test';
-    // if (isProduction) {
+     console.log("REACT_APP_ENVIRONMENT: " + '%REACT_APP_ENVIRONMENT%')
+     if (isProduction) {
       /* Google Analytics */
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -43,7 +44,7 @@
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-MR2X5P');
 
-  //   }
+     }
     </script>
   <title>Kartkatalogen</title>
 </head>
