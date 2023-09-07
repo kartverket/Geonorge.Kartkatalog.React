@@ -1608,12 +1608,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.8, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.22.3
   resolution: "@babel/runtime@npm:7.22.3"
   dependencies:
     regenerator-runtime: ^0.13.11
   checksum: 8fc50785ca4cba749fed90bffca7e6fd52d4709755654e95b8d2a945fc034b56fb8c2e8a0183fea7c4abb86bf5fa77678c0ea35163b6920649833d180c34c234
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.13.8, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.8.7":
+  version: 7.22.15
+  resolution: "@babel/runtime@npm:7.22.15"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 793296df1e41599a935a3d77ec01eb6088410d3fd4dbe4e92f06c6b7bb2f8355024e6d78621a3a35f44e0e23b0b59107f23d585384df4f3123256a1e1492040e
   languageName: node
   linkType: hard
 
@@ -1886,26 +1895,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/fontawesome-common-types@npm:^0.2.36":
-  version: 0.2.36
-  resolution: "@fortawesome/fontawesome-common-types@npm:0.2.36::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffontawesome-common-types%2F-%2F0.2.36%2Ffontawesome-common-types-0.2.36.tgz"
-  checksum: d604ac51da0b1597127fde70c64157b70ead6af7f2643ab7dfca268ef99d4ed0b4cc823afba206362422a622e389828408bec573df802bf4f02b118d0fa18dc8
-  languageName: node
-  linkType: hard
-
 "@fortawesome/fontawesome-pro@npm:^6.1.1":
   version: 6.4.0
   resolution: "@fortawesome/fontawesome-pro@npm:6.4.0::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffontawesome-pro%2F-%2F6.4.0%2Ffontawesome-pro-6.4.0.tgz"
   checksum: 4de15a52e406ae0d46736710d94e0f82c99a3eeb16d067343e9889a28dea400f73b5e77edf775e16f3cb36019666241803e4d3be017ced3cceff47ba2fb7c43f
-  languageName: node
-  linkType: hard
-
-"@fortawesome/fontawesome-svg-core@npm:^1.2.34":
-  version: 1.2.36
-  resolution: "@fortawesome/fontawesome-svg-core@npm:1.2.36::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffontawesome-svg-core%2F-%2F1.2.36%2Ffontawesome-svg-core-1.2.36.tgz"
-  dependencies:
-    "@fortawesome/fontawesome-common-types": ^0.2.36
-  checksum: 3011d8c1452b5df52a62eaee8b1ec925b9fdfabcc170fd6da5eaac7cfdef56258b9292ddd06c30f03a6a8ed6faa886565211f2e469fee3c9831c32f93e9383d8
   languageName: node
   linkType: hard
 
@@ -1918,30 +1911,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/free-regular-svg-icons@npm:^5.15.2":
-  version: 5.15.4
-  resolution: "@fortawesome/free-regular-svg-icons@npm:5.15.4::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffree-regular-svg-icons%2F-%2F5.15.4%2Ffree-regular-svg-icons-5.15.4.tgz"
-  dependencies:
-    "@fortawesome/fontawesome-common-types": ^0.2.36
-  checksum: 2e6039e3bb2125940ed2cb5738b6562b082755c1e45b73571ee92d976773ab81118c9efb9a7b57453b664a025613e81e1dafd2235aafeaadd8f0d75f8e1fe25e
-  languageName: node
-  linkType: hard
-
 "@fortawesome/free-regular-svg-icons@npm:^6.1.1":
   version: 6.4.0
   resolution: "@fortawesome/free-regular-svg-icons@npm:6.4.0::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffree-regular-svg-icons%2F-%2F6.4.0%2Ffree-regular-svg-icons-6.4.0.tgz"
   dependencies:
     "@fortawesome/fontawesome-common-types": 6.4.0
   checksum: a52689349b858a73b179532a207f98d9ee0f28b31e22eaffa6ce23cf3bfec8cc52bcd35770a0943a2dd1328bafbfdea6809231abee7a8601796bc0fb9759d25f
-  languageName: node
-  linkType: hard
-
-"@fortawesome/free-solid-svg-icons@npm:^5.15.2":
-  version: 5.15.4
-  resolution: "@fortawesome/free-solid-svg-icons@npm:5.15.4::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Ffree-solid-svg-icons%2F-%2F5.15.4%2Ffree-solid-svg-icons-5.15.4.tgz"
-  dependencies:
-    "@fortawesome/fontawesome-common-types": ^0.2.36
-  checksum: eb037b703827ee37af3387a964afc7a190ff42a674ef46f4a6c295b634a38e849741eca78306b6423eaf3062d6ab1e7372aac5be2aec06f0fd9e8bd8110efcf9
   languageName: node
   linkType: hard
 
@@ -1978,18 +1953,6 @@ __metadata:
   dependencies:
     "@fortawesome/fontawesome-common-types": 6.4.0
   checksum: f30e6573528355c6238ba96801bf2eaa9b0221b5e2d70e99b0874dd946e8e8bd2e193ff8cd6bc966d741264162fca1f606b458b611bd262e61d49b6679d44b3a
-  languageName: node
-  linkType: hard
-
-"@fortawesome/react-fontawesome@npm:^0.1.14":
-  version: 0.1.19
-  resolution: "@fortawesome/react-fontawesome@npm:0.1.19::__archiveUrl=https%3A%2F%2Fnpm.fontawesome.com%2F%40fortawesome%2Freact-fontawesome%2F-%2F0.1.19%2Freact-fontawesome-0.1.19.tgz"
-  dependencies:
-    prop-types: ^15.8.1
-  peerDependencies:
-    "@fortawesome/fontawesome-svg-core": ~1 || ~6
-    react: ">=16.x"
-  checksum: 77dbe1d5fa156a2ff4aa069d6c11f0ba1fcf43df72c9f03f1eec353d23798513a1f2773957a2bc3107fb8dc79fa606999ed91bf21659745bcc166abc4072819e
   languageName: node
   linkType: hard
 
@@ -2486,9 +2449,9 @@ __metadata:
   linkType: hard
 
 "@petamoriken/float16@npm:^3.4.7":
-  version: 3.8.1
-  resolution: "@petamoriken/float16@npm:3.8.1"
-  checksum: 06d030e036a662d79d7b40a8616cc004272dac6790c5f6ea5e9ddf679f1f6db9e096be525309b8c3d922b8881e91fdd39f12b17eb4782179e919771bca2e0fb1
+  version: 3.8.3
+  resolution: "@petamoriken/float16@npm:3.8.3"
+  checksum: 608b8a3568b5545ced9fccd3a90bc1d87290b484f4c6065c53586c6c3101de5937f55d86c718915575da3e9c00886e808ff7ba642d61fdfe120d4ef2bf84dfee
   languageName: node
   linkType: hard
 
@@ -2555,13 +2518,13 @@ __metadata:
   linkType: hard
 
 "@restart/hooks@npm:^0.4.7":
-  version: 0.4.9
-  resolution: "@restart/hooks@npm:0.4.9"
+  version: 0.4.11
+  resolution: "@restart/hooks@npm:0.4.11"
   dependencies:
-    dequal: ^2.0.2
+    dequal: ^2.0.3
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 2481b21ee984328f41134d94c23b244aff0b82091b9ae6252b9ec9408634bed13473e2e74959c898a198b88602521a021f1c1b9683d52cf0878fea6e0f2b47df
+  checksum: c82cbd9c96cc5423e8f83cb7bd1d92f8f5627e9b8fafa294cf715096606b0d50957ac576d6ab315b9763cd71ad3acbdaa0cfdc4bf307349eda46da8087ad78b6
   languageName: node
   linkType: hard
 
@@ -3196,7 +3159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16.14.8, @types/react@npm:>=16.9.11":
+"@types/react@npm:*":
   version: 18.2.8
   resolution: "@types/react@npm:18.2.8"
   dependencies:
@@ -3204,6 +3167,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 351fe2450d30bff2ceb6aa84788e948317555e5ea22cb44f6778e08c977aab1878a0119bd94bc3d1bec5f5af4a75ffaa2ce111df5cd9d4ce26bfd719e4d971c2
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:>=16.14.8, @types/react@npm:>=16.9.11":
+  version: 18.2.21
+  resolution: "@types/react@npm:18.2.21"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: ffed203bfe7aad772b8286f7953305c9181ac3a8f27d3f5400fbbc2a8e27ca8e5bbff818ee014f39ca0d19d2b3bb154e5bdbec7e232c6f80b59069375aa78349
   languageName: node
   linkType: hard
 
@@ -4526,7 +4500,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap@npm:^4.6.0":
+"bootstrap@npm:^4.6.2":
   version: 4.6.2
   resolution: "bootstrap@npm:4.6.2"
   peerDependencies:
@@ -5941,7 +5915,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dequal@npm:^2.0.0, dequal@npm:^2.0.2":
+"dequal@npm:^2.0.0, dequal@npm:^2.0.3":
   version: 2.0.3
   resolution: "dequal@npm:2.0.3"
   checksum: 8679b850e1a3d0ebbc46ee780d5df7b478c23f335887464023a631d1b9af051ad4a6595a44220f9ff8ff95a8ddccf019b5ad778a976fd7bbf77383d36f412f90
@@ -6237,6 +6211,13 @@ __metadata:
   version: 0.1.2
   resolution: "duplexer@npm:0.1.2"
   checksum: 62ba61a830c56801db28ff6305c7d289b6dc9f859054e8c982abd8ee0b0a14d2e9a8e7d086ffee12e868d43e2bbe8a964be55ddbd8c8957714c87373c7a4f9b0
+  languageName: node
+  linkType: hard
+
+"earcut@npm:^2.2.3":
+  version: 2.2.4
+  resolution: "earcut@npm:2.2.4"
+  checksum: aea0466cb2f24e0c3c57148d8d28ac9846f53c4f43ee66780826474303ac851b305ef988152d0bdeb31e8f7ca939dc0df737e7505cfb1c1bdf2ff9d7f9ea2faa
   languageName: node
   linkType: hard
 
@@ -7119,14 +7100,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^4.0.9":
-  version: 4.2.4
-  resolution: "fast-xml-parser@npm:4.2.4"
+"fast-xml-parser@npm:^4.2.7":
+  version: 4.2.7
+  resolution: "fast-xml-parser@npm:4.2.7"
   dependencies:
     strnum: ^1.0.5
   bin:
     fxparser: src/cli/cli.js
-  checksum: d3b4d0c0152c09f98def792769fca6bb3fa1d597f9745d9564451c239089bd86bdf573c9263b4944860028cb7edb81752d64399c1aff8b87c9225ecef96905f7
+  checksum: d8b0c9e04756f6c43fa0399428f30149acadae21350e42e26e8fe98e24e6afa6b9b00aa554453795036b00e9fee974a1b556fe2ba18be391d51a9bf1ab790e7c
   languageName: node
   linkType: hard
 
@@ -7557,18 +7538,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"geotiff@npm:2.0.4":
-  version: 2.0.4
-  resolution: "geotiff@npm:2.0.4"
+"geotiff@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "geotiff@npm:2.0.7"
   dependencies:
     "@petamoriken/float16": ^3.4.7
     lerc: ^3.0.0
-    lru-cache: ^6.0.0
     pako: ^2.0.4
     parse-headers: ^2.0.2
+    quick-lru: ^6.1.1
     web-worker: ^1.2.0
     xml-utils: ^1.0.2
-  checksum: 68d54ea7b9a8965287b20a7c30b5eb9552bd21ed341edfd65dfd424309b7d91fffb2dc474298f23bc2274ed8b34d1792812fa444385bd6000173d706de675169
+  checksum: d64bd3c3cf0342368899fe693059520e003a6610515760e6afe1cb4191397e5fc180591f2aa75729bb0283190eda0574e10e3da0241be2556cbedc5c50222f69
   languageName: node
   linkType: hard
 
@@ -9702,10 +9683,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jquery@npm:^3.6.0":
-  version: 3.7.0
-  resolution: "jquery@npm:3.7.0"
-  checksum: 907785e133afc427650a131af5fccef66a404885037513b3d4d7d63aee6409bcc32a39836868c60e59b05aa0fb8ace8961c18b2ee3ffdf6ffdb571d6d7cd88ff
+"jquery@npm:^3.7.0":
+  version: 3.7.1
+  resolution: "jquery@npm:3.7.1"
+  checksum: 4370b8139d6ae82867eb6f7f21d1edccf1d1bdf41c0840920ea80d366c2cd5dbe1ceebb110ee9772aa839b04400faa1572c5c560b507c688ed7b61cea26c0e27
   languageName: node
   linkType: hard
 
@@ -11525,25 +11506,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol-mapbox-style@npm:^8.0.5":
-  version: 8.2.1
-  resolution: "ol-mapbox-style@npm:8.2.1"
+"ol-mapbox-style@npm:^10.1.0":
+  version: 10.7.0
+  resolution: "ol-mapbox-style@npm:10.7.0"
   dependencies:
     "@mapbox/mapbox-gl-style-spec": ^13.23.1
     mapbox-to-css-font: ^2.4.1
-  checksum: eeb9d010bec66f7832b3b6b9d20cdf7275ee2856ba5c0c37e502b3235de568a1ff22f603d906adf6233f54a9c6098abfb55d0b1d116e7eee56800b1bca8a451f
+    ol: ^7.3.0
+  checksum: c6f9b121b69870a6b68969a108f5272d2e2e4c629dfac9ad317c3bd1a676fe5cc5e4e9fb9e8bea9f86122707cd9af378ee80bd60ec9c9528005128a7438be959
   languageName: node
   linkType: hard
 
-"ol@npm:^6.15.1":
-  version: 6.15.1
-  resolution: "ol@npm:6.15.1"
+"ol@npm:^7.3.0, ol@npm:^7.5.1":
+  version: 7.5.2
+  resolution: "ol@npm:7.5.2"
   dependencies:
-    geotiff: 2.0.4
-    ol-mapbox-style: ^8.0.5
+    earcut: ^2.2.3
+    geotiff: ^2.0.7
+    ol-mapbox-style: ^10.1.0
     pbf: 3.2.1
     rbush: ^3.0.1
-  checksum: 61199a0cfd11830919861f92cc7dcd50f94077972cd5777691834186991cfc0f59da69a5c35281047c64a8e0b857a228cc37e663b5579c93b5fb08d2eb0f4b4d
+  checksum: 6390caa4a66a5e2b6b71475c9dbfd64eb99762b3d00d38896e35452f45adbd9f927a2d10f86f57e53e27930edcccbe18f00c1f8e219f117301c1364ccabf8689
   languageName: node
   linkType: hard
 
@@ -12882,7 +12865,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proj4@npm:^2.8.0":
+"proj4@npm:^2.9.0":
   version: 2.9.0
   resolution: "proj4@npm:2.9.0"
   dependencies:
@@ -13077,6 +13060,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"quick-lru@npm:^6.1.1":
+  version: 6.1.2
+  resolution: "quick-lru@npm:6.1.2"
+  checksum: 0491a24dcd39b8a325e9d3ae719fad7690a1da7a0dbfa8f16613663dc7d262d08b565005ce16a04497ed4700f1f477b8e06cd46e10a7a112a481a18d056c38f7
+  languageName: node
+  linkType: hard
+
 "quickselect@npm:^2.0.0":
   version: 2.0.0
   resolution: "quickselect@npm:2.0.0"
@@ -13085,27 +13075,27 @@ __metadata:
   linkType: hard
 
 "r_map@https://github.com/kartverket/r_map.git":
-  version: 2.4.9
-  resolution: "r_map@https://github.com/kartverket/r_map.git#commit=2a109a6f6b82d911ebd69eaea7107eaee52bd7f0"
+  version: 2.4.11
+  resolution: "r_map@https://github.com/kartverket/r_map.git#commit=66fca454e88ac46716771fda0d7392f3372d37dd"
   dependencies:
-    "@fortawesome/fontawesome-svg-core": ^1.2.34
-    "@fortawesome/free-regular-svg-icons": ^5.15.2
-    "@fortawesome/free-solid-svg-icons": ^5.15.2
-    "@fortawesome/react-fontawesome": ^0.1.14
-    bootstrap: ^4.6.0
-    fast-xml-parser: ^4.0.9
-    jquery: ^3.6.0
-    ol: ^6.15.1
-    proj4: ^2.8.0
+    "@fortawesome/fontawesome-svg-core": ^6.1.1
+    "@fortawesome/free-regular-svg-icons": ^6.1.1
+    "@fortawesome/free-solid-svg-icons": ^6.1.1
+    "@fortawesome/react-fontawesome": ^0.2.0
+    bootstrap: ^4.6.2
+    fast-xml-parser: ^4.2.7
+    jquery: ^3.7.0
+    ol: ^7.5.1
+    proj4: ^2.9.0
     query-string: ^7.1.1
     react: ^18.2.0
     react-bootstrap: ^1.5.0
     react-dom: ^18.2.0
     react-scripts: 5.0.1
-    sass: ^1.54.1
+    sass: ^1.66.1
     set-query-string: ^2.2.0
     uniqid: ^5.4.0
-  checksum: 07c1308cd2ac5bf6ad78efd7220dc27676e94df257133dbe6d3100403e6abaaa677a2ddf9fe94010652a7b3e319bf65e3f04b19227abc45f7f308e336ec591b4
+  checksum: 47008e1955508ca79acbd4ab45419c0c0c2f48299ceb8bbb6b0e23bfcd0ae106d2a75994665156b2eb85e0843c977d0f31efbdc6a9b78fdfcafc9f58b1fa86c4
   languageName: node
   linkType: hard
 
@@ -13810,6 +13800,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"regenerator-runtime@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "regenerator-runtime@npm:0.14.0"
+  checksum: 1c977ad82a82a4412e4f639d65d22be376d3ebdd30da2c003eeafdaaacd03fc00c2320f18120007ee700900979284fc78a9f00da7fb593f6e6eeebc673fba9a3
+  languageName: node
+  linkType: hard
+
 "regenerator-transform@npm:^0.15.1":
   version: 0.15.1
   resolution: "regenerator-transform@npm:0.15.1"
@@ -14403,7 +14400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.29.0, sass@npm:^1.54.1":
+"sass@npm:^1.29.0":
   version: 1.62.1
   resolution: "sass@npm:1.62.1"
   dependencies:
@@ -14413,6 +14410,19 @@ __metadata:
   bin:
     sass: sass.js
   checksum: 1b1b3584b38a63dd94156b65f13b90e3f84b170a38c3d5e3fa578b7a32a37aeb349b4926b0eaf9448d48e955e86b1ee01b13993f19611dad8068af07a607c13b
+  languageName: node
+  linkType: hard
+
+"sass@npm:^1.66.1":
+  version: 1.66.1
+  resolution: "sass@npm:1.66.1"
+  dependencies:
+    chokidar: ">=3.0.0 <4.0.0"
+    immutable: ^4.0.0
+    source-map-js: ">=0.6.2 <2.0.0"
+  bin:
+    sass: sass.js
+  checksum: 74fc11d0fcd5e16c5331b57dd59865705a299c64e89f2b99646869caeb011dc8d0b6144a6c74a90c264e9ef70654207dbf44fc9b7e3393f8bd14809b904c8a52
   languageName: node
   linkType: hard
 
