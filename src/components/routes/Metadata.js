@@ -54,7 +54,8 @@ const Metadata = () => {
     const params = useParams();
     const location = useLocation();
 
-    const { metadata, metadataDistributions, metadataQuality } = useLoaderData();
+    const { metadata, metadataQuality } = useLoaderData();
+    const metadataDistributionsLoaderData = useLoaderData()?.metadataDistributions;
 
     const uuid = params.uuid;
     const title = params.title;
@@ -70,6 +71,8 @@ const Metadata = () => {
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
+    const [metadataDistributions, setMetadataDistributions] = useState(metadataDistributionsLoaderData);
+    const [isLoadingMetadataDistributions, setIsLoadingMetadataDistributions] = useState(false);
 
     const handleStartChange = (date) => {
         setStartDate(date);
@@ -83,7 +86,11 @@ const Metadata = () => {
         e.preventDefault();
         const dateStart = moment(startDate).format("YYYY-MM-DD");
         const dateEnd = moment(endDate).format("YYYY-MM-DD");
-        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd));
+        setIsLoadingMetadataDistributions(true);
+        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd)).then(response => {
+            setMetadataDistributions(response);
+            setIsLoadingMetadataDistributions(false);
+        });
     };
 
     const getTitle = () => {
@@ -990,7 +997,11 @@ const Metadata = () => {
                         </form>
                     ) : null}
                     <ErrorBoundary>
-                        <DistributionsList distributions={metadataDistributions.RelatedSerieDatasets} />
+                        {isLoadingMetadataDistributions ? (
+                            <div>Laster inn datasett...</div>
+                        ): (
+                            <DistributionsList distributions={metadataDistributions.RelatedSerieDatasets} />
+                        )}
                     </ErrorBoundary>
                 </div>
             ) : null;
