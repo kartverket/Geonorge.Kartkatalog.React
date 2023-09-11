@@ -48,6 +48,7 @@ import nb from "date-fns/locale/nb";
 registerLocale("nb", nb);
 
 import moment from "moment";
+import { scrollToTop } from "helpers/GuiHelpers";
 
 const Metadata = () => {
     const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const Metadata = () => {
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
-    const [metadataDistributions, setMetadataDistributions] = useState(metadataDistributionsLoaderData);
+    const [metadataDistributions, setMetadataDistributions] = useState();
     const [isLoadingMetadataDistributions, setIsLoadingMetadataDistributions] = useState(false);
 
     const handleStartChange = (date) => {
@@ -178,6 +179,15 @@ const Metadata = () => {
     const toggleBtns = () => {
         setShowBtns(!showBtns);
     };
+
+    useEffect(() => {
+        setMetadataDistributions(metadataDistributionsLoaderData);
+    }, [metadataDistributionsLoaderData])
+
+    useEffect(() => {
+        scrollToTop();
+    }, [location])
+
 
     useEffect(() => {
         const hasRecievedMetadataProps = metadata && Object.keys(metadata)?.length;
