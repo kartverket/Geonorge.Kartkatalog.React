@@ -999,8 +999,8 @@ const Metadata = () => {
                     <ErrorBoundary>
                         {isLoadingMetadataDistributions ? (
                             <div>Laster inn datasett...</div>
-                        ): (
-                            <DistributionsList distributions={metadataDistributions.RelatedSerieDatasets} />
+                        ) : (
+                            <DistributionsList distributions={metadataDistributions?.RelatedSerieDatasets?.length ? metadataDistributions.RelatedSerieDatasets : []} />
                         )}
                     </ErrorBoundary>
                 </div>
