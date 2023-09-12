@@ -19,6 +19,8 @@ export const fetchMetadataDistributions =
             searchParams.append("dateto", dateto);
         }
 
+        searchParams.append("limit", "5");
+
         const searchParamsString = !!searchParams?.size ? `?${searchParams.toString()}` : "";
 
         return fetch(`${kartkatalogApiUrl}/distribution-lists/${uuid}${searchParamsString}`, fetchOptions)

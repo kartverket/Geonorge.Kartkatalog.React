@@ -1,9 +1,9 @@
 // Dependencies
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData, useLocation, useParams } from "react-router-dom";
+import { Link, useLoaderData, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import MDEditor from "@uiw/react-md-editor";
@@ -916,6 +916,28 @@ const Metadata = () => {
         ) : null;
     };
 
+    const getShowMoreDistributionsLink = () => {
+        const newOffset = metadataDistributions?.offset + 25;
+        const activeSearchParameters = new URL(searchData?.request?.url)?.search || "";
+        const urlParams = new URLSearchParams(activeSearchParameters);
+        urlParams.set("offset", newOffset);
+        urlParams.set("append", true);
+        return `?${decodeURIComponent(urlParams.toString())}`;
+    };
+
+    const renderShowMoreDistributionsLink = () => {
+        return (
+            <div className={style.morecontainer}>
+                <gn-button color="default">
+                    <Link to={{ search: getShowMoreDistributionsLink() }} replace className={style.morebtn}>
+                        <span>{dispatch(getResource("ShowMoreResults", "Vis flere"))}</span>
+                        <FontAwesomeIcon icon={"angle-down"} key="icon" />
+                    </Link>
+                </gn-button>
+            </div>
+        );
+    };
+
     const renderDistributionsListSection = () => {
         const selfDistributionsList =
             metadataDistributions?.SelfDistribution?.length && metadataDistributions?.ShowSelfDistributions ? (
@@ -1010,7 +1032,13 @@ const Metadata = () => {
                         {isLoadingMetadataDistributions ? (
                             <div>Laster inn datasett...</div>
                         ) : (
-                            <DistributionsList distributions={metadataDistributions?.RelatedSerieDatasets?.length ? metadataDistributions.RelatedSerieDatasets : []} />
+                            <Fragment>
+                                <DistributionsList distributions={metadataDistributions?.RelatedSerieDatasets?.length ? metadataDistributions.RelatedSerieDatasets : []} />
+                                {/* {searchData?.results?.metadata?.Offset < searchData?.results?.metadata?.NumFound */}
+                                {5 < 7
+                                    ? renderShowMoreDistributionsLink()
+                                    : null}
+                            </Fragment>
                         )}
                     </ErrorBoundary>
                 </div>
