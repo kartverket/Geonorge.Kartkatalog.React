@@ -19,7 +19,7 @@ export const fetchMetadataDistributions =
             searchParams.append("dateto", dateto);
         }
 
-        const searchParamsString = searchParams?.length ? `?${searchParams}` : "";
+        const searchParamsString = !!searchParams?.size ? `?${searchParams.toString()}` : "";
 
         return fetch(`${kartkatalogApiUrl}/distribution-lists/${uuid}${searchParamsString}`, fetchOptions)
             .then((res) => {
