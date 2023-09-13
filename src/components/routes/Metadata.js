@@ -48,13 +48,15 @@ import nb from "date-fns/locale/nb";
 registerLocale("nb", nb);
 
 import moment from "moment";
+import { scrollToTop } from "helpers/GuiHelpers";
 
 const Metadata = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const location = useLocation();
 
-    const { metadata, metadataDistributions, metadataQuality } = useLoaderData();
+    const { metadata, metadataQuality } = useLoaderData();
+    const metadataDistributionsLoaderData = useLoaderData()?.metadataDistributions;
 
     const uuid = params.uuid;
     const title = params.title;
@@ -70,6 +72,8 @@ const Metadata = () => {
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
+    const [metadataDistributions, setMetadataDistributions] = useState();
+    const [isLoadingMetadataDistributions, setIsLoadingMetadataDistributions] = useState(false);
 
     const handleStartChange = (date) => {
         setStartDate(date);
@@ -83,7 +87,11 @@ const Metadata = () => {
         e.preventDefault();
         const dateStart = moment(startDate).format("YYYY-MM-DD");
         const dateEnd = moment(endDate).format("YYYY-MM-DD");
-        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd));
+        setIsLoadingMetadataDistributions(true);
+        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd)).then(response => {
+            setMetadataDistributions(response);
+            setIsLoadingMetadataDistributions(false);
+        });
     };
 
     const getTitle = () => {
@@ -171,6 +179,15 @@ const Metadata = () => {
     const toggleBtns = () => {
         setShowBtns(!showBtns);
     };
+
+    useEffect(() => {
+        setMetadataDistributions(metadataDistributionsLoaderData);
+    }, [metadataDistributionsLoaderData])
+
+    useEffect(() => {
+        scrollToTop();
+    }, [location])
+
 
     useEffect(() => {
         const hasRecievedMetadataProps = metadata && Object.keys(metadata)?.length;
@@ -990,7 +1007,11 @@ const Metadata = () => {
                         </form>
                     ) : null}
                     <ErrorBoundary>
-                        <DistributionsList distributions={metadataDistributions.RelatedSerieDatasets} />
+                        {isLoadingMetadataDistributions ? (
+                            <div>Laster inn datasett...</div>
+                        ) : (
+                            <DistributionsList distributions={metadataDistributions?.RelatedSerieDatasets?.length ? metadataDistributions.RelatedSerieDatasets : []} />
+                        )}
                     </ErrorBoundary>
                 </div>
             ) : null;

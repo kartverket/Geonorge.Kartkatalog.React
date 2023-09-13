@@ -59,7 +59,7 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (storeIsLoaded) {
+        if (!!store && storeIsLoaded) {
             store.dispatch(fetchSelectedLanguage());
             store.dispatch(fetchResources());
             store.dispatch(fetchAvailableWFSServiceStatuses());
