@@ -33,11 +33,12 @@ const EditMetadataButton = (props) => {
 
     const buttonDescription = `${dispatch(getResource("Edit", "Rediger"))} metadata`;
     const url = props.metadata.MetadataEditUrl;
+    const metMetadata = props.metadata.MetMetadata;
     const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "edit"]} key="icon" />;
     const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
     const childElements = [icon, textContent];
 
-    if (url) {
+    if (url && !metMetadata) {
         let buttonClass = style.btn;
         return (
             <a href={url} onClick={handleButtonClick} className={buttonClass}>

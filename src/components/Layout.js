@@ -19,7 +19,7 @@ const Layout = (props) => {
     return (
         <ErrorBoundary>
             <MainNavigationContainer layoutLoaderData={layoutLoaderData} userManager={props.userManager} />
-            <content-container fullwidth class={style.test}>
+            <content-container fullwidth class={style.test} id="main-content">
                 <Outlet />
                 <Footer />
             </content-container>

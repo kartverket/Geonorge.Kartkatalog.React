@@ -10,10 +10,24 @@ export const fetchMetadataDistributions =
             })
         };
         const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
-        return fetch(
-            `${kartkatalogApiUrl}/distribution-lists/${uuid}?datefrom=${datefrom}&dateto=${dateto}`,
-            fetchOptions
-        )
-            .then((res) => res.json())
+        const searchParams = new URLSearchParams();
+
+        if (!!datefrom?.length && datefrom?.toLowerCase() !== "null") {
+            searchParams.append("datefrom", datefrom);
+        }
+        if (!!dateto?.length && dateto?.toLowerCase() !== "null") {
+            searchParams.append("dateto", dateto);
+        }
+
+        const searchParamsString = !!searchParams?.size ? `?${searchParams.toString()}` : "";
+
+        return fetch(`${kartkatalogApiUrl}/distribution-lists/${uuid}${searchParamsString}`, fetchOptions)
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    return null;
+                }
+            })
             .then((metadataDistributions) => metadataDistributions);
     };
