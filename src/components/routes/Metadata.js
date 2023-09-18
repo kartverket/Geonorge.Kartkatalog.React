@@ -945,7 +945,7 @@ const Metadata = () => {
                 <div>
                     <heading-text>
                         <h3>
-                            {dispatch(getResource("Facet_type_seriedatasets", "Datasett som inngår i datasettserien"))}
+                            {dispatch(getResource("Facet_type_seriedatasets", "Søk etter datasett som inngår i serien"))}
                         </h3>
                     </heading-text>
                     {metadata.TypeName == "series_time" ? (
