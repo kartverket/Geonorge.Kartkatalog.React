@@ -251,19 +251,27 @@ const Metadata = () => {
                     <heading-text>
                         <h3>{dispatch(getResource("ContactMetadata", "Metadatakontakt"))}</h3>
                     </heading-text>
-                    {metadata?.ContactMetadata?.Name?.length ? <div>{metadata.ContactMetadata.Name}</div> : null}
-                    {metadata?.ContactMetadata?.Email?.length ? (
+                    {metadata?.ContactMetadata.Name ? <div>{metadata.ContactMetadata.Name}</div> : null}
+                    {metadata?.ContactMetadata?.Email?.length || metadata?.ContactMetadata?.Organization?.length ? (
                         <div>
-                            <a href={"mailto:" + metadata.ContactMetadata.Email}>{metadata.ContactMetadata.Email}</a> -{" "}
-                            {metadata.ContactMetadata.Organization}
+                            {metadata?.ContactMetadata?.Email?.length ? (
+                            <a href={"mailto:" + metadata.ContactMetadata.Email.toString().replace(',',';')}>{metadata.ContactMetadata.Email}</a>
+                            ) : null}
+                            {metadata?.ContactMetadata?.Email?.length && metadata?.ContactMetadata?.Organization?.length ? (
+                                 <span> -&nbsp;</span>
+                                ) : null}
+                            {metadata?.ContactMetadata?.Organization?.length ? (
+                            <span>{metadata.ContactMetadata.Organization}</span>
+                            ) : null}
                         </div>
                     ) : null}
                 </div>
             );
         } else {
-            return "";
+            return null;
         }
     };
+
 
     const renderContactOwner = () => {
         if (metadata?.ContactOwner) {
@@ -273,10 +281,17 @@ const Metadata = () => {
                         <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
                     </heading-text>
                     {metadata?.ContactOwner.Name ? <div>{metadata.ContactOwner.Name}</div> : null}
-                    {metadata?.ContactOwner?.Email?.length ? (
+                    {metadata?.ContactOwner?.Email?.length || metadata?.ContactOwner?.Organization?.length ? (
                         <div>
-                            <a href={"mailto:" + metadata.ContactOwner.Email}>{metadata.ContactOwner.Email}</a> -{" "}
-                            {metadata.ContactOwner.Organization}
+                            {metadata?.ContactOwner?.Email?.length ? (
+                            <a href={"mailto:" + metadata.ContactOwner.Email.toString().replace(',',';')}>{metadata.ContactOwner.Email}</a>
+                            ) : null}
+                            {metadata?.ContactOwner?.Email?.length && metadata?.ContactOwner?.Organization?.length ? (
+                                 <span> -&nbsp;</span>
+                                ) : null}
+                            {metadata?.ContactOwner?.Organization?.length ? (
+                            <span>{metadata.ContactOwner.Organization}</span>
+                            ) : null}
                         </div>
                     ) : null}
                 </div>
@@ -293,11 +308,18 @@ const Metadata = () => {
                     <heading-text>
                         <h3>{dispatch(getResource("ContactPublisher", "Teknisk kontakt"))}</h3>
                     </heading-text>
-                    {metadata?.ContactPublisher?.Name?.length ? <div>{metadata.ContactPublisher.Name}</div> : null}
-                    {metadata?.ContactPublisher?.Email?.length ? (
+                    {metadata?.ContactPublisher.Name ? <div>{metadata.ContactPublisher.Name}</div> : null}
+                    {metadata?.ContactPublisher?.Email?.length || metadata?.ContactPublisher?.Organization?.length ? (
                         <div>
-                            <a href={"mailto:" + metadata.ContactPublisher.Email}>{metadata.ContactPublisher.Email}</a>{" "}
-                            - {metadata.ContactPublisher.Organization}
+                            {metadata?.ContactPublisher?.Email?.length ? (
+                            <a href={"mailto:" + metadata.ContactPublisher.Email.toString().replace(',',';')}>{metadata.ContactPublisher.Email}</a>
+                            ) : null}
+                            {metadata?.ContactPublisher?.Email?.length && metadata?.ContactPublisher?.Organization?.length ? (
+                                 <span> -&nbsp;</span>
+                                ) : null}
+                            {metadata?.ContactPublisher?.Organization?.length ? (
+                            <span>{metadata.ContactPublisher.Organization}</span>
+                            ) : null}
                         </div>
                     ) : null}
                 </div>
