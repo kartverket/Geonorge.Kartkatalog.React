@@ -42,8 +42,8 @@ export const updateBaatInfo = () => (dispatch, getState) => {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + accessToken
         }
-      }).then((res) => res).then((baatInfo) => {
-        Cookies.set('baatInfo', baatInfo, {expires: new Date(expiresAt)});
+      }).then((res) => res.json()).then((baatInfo) => {
+        Cookies.set('baatInfo', JSON.stringify(baatInfo), {expires: new Date(expiresAt)});
         const baatOrganizationName = baatInfo && baatInfo.baat_organization && baatInfo.baat_organization.name
           ? baatInfo.baat_organization.name
           : null;
