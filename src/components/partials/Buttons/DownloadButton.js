@@ -174,7 +174,8 @@ const DownloadButton = (props) => {
 
         if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
             if (metadata.SerieDatasets) {
-                let asyncActions = metadata.SerieDatasets.map((serieDataset) => {
+                const serieDatasets = metadata.SerieDatasets.filter( (dataset) => dataset.DistributionProtocol.includes('GEONORGE:DOWNLOAD'));
+                let asyncActions = serieDatasets.map((serieDataset) => {
                     const item = getDownloadItem(serieDataset);
                     return addToDownloadList(item);
                 });
@@ -210,7 +211,10 @@ const DownloadButton = (props) => {
     const removeFromDownloadListAction = () => {
         const metadata = props.metadata;
         if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
-            metadata.SerieDatasets.forEach((serieDataset) => {
+
+            const serieDatasets = metadata.SerieDatasets.filter( (dataset) => dataset.DistributionProtocol.includes('GEONORGE:DOWNLOAD'));
+
+                serieDatasets.forEach((serieDataset) => {
                 const item = getDownloadItem(serieDataset);
                 removeFromDownloadList(item);
             });
