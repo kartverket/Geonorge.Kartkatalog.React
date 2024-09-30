@@ -1320,7 +1320,7 @@ const Metadata = () => {
             renderDateValidityPeriod() ||
             renderMaintenanceFrequency() ||
             renderKeywordsPlace() ||
-            renderKeywordsAdministrativeUnits() ||
+            //renderKeywordsAdministrativeUnits() ||
             renderBoundingBox() ||
             renderSpatialScope();
         return hasChildren ? (
@@ -1335,7 +1335,7 @@ const Metadata = () => {
                 {renderDateValidityPeriod()}
                 {renderMaintenanceFrequency()}
                 {renderKeywordsPlace()}
-                {renderKeywordsAdministrativeUnits()}
+                {/*renderKeywordsAdministrativeUnits()*/}
                 {renderBoundingBox()}
                 {renderSpatialScope()}
             </div>
