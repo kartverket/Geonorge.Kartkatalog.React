@@ -144,7 +144,8 @@ const DownloadButton = (props) => {
             distributionProtocol === "GEONORGE:FILEDOWNLOAD" ||
             protocol === "Egen nedlastningsside" ||
             protocol === "OPeNDAP" ||
-            distributionProtocol === "OPENDAP:OPENDAP";
+            distributionProtocol === "OPENDAP:OPENDAP" ||
+            protocol === "Webside";
 
         return distributionUrl && typeIsDataset && distributionProtocolIsDownload;
     };
