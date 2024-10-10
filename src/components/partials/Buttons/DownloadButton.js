@@ -145,7 +145,8 @@ const DownloadButton = (props) => {
             protocol === "Egen nedlastningsside" ||
             protocol === "OPeNDAP" ||
             distributionProtocol === "OPENDAP:OPENDAP" ||
-            protocol === "Webside";
+            protocol === "Webside" ||
+            protocol === "OGC API - Features";
 
         return distributionUrl && typeIsDataset && distributionProtocolIsDownload;
     };
@@ -251,7 +252,8 @@ const DownloadButton = (props) => {
                 </button>
             );
         } else if (showDownloadLink()) {
-            const buttonDescription = dispatch(getResource("ToBasket", "Til nedlasting"));
+            const buttonDescription = props.metadata.Protocol === "OGC API - Features" ? "Vis API" 
+            : dispatch(getResource("ToBasket", "Til nedlasting"));
             const distributionUrl = props.metadata.DistributionUrl;
             const buttonClass = `${style.listButton} ${style.on}`;
 
