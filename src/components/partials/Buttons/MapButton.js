@@ -150,13 +150,14 @@ const MapButton = (props) => {
         } else if (props.metadata.DatasetServicesWithShowMapLink?.length > 0) {
             serviceUuid = props.metadata.DatasetServicesWithShowMapLink[0].Uuid;
         }
-        if (serviceUuid && statusForServiceIsAvailable(serviceUuid)) {
-            const statusApiUrl = `${dispatch(getServiceStatusApiUrl())}/serviceDetail?uuid=${serviceUuid}`;
-            setServiceStatusIsFetched(true);
-            dispatch(getApiData(statusApiUrl)).then((apiData) => {
-                parseServiceStatus(apiData);
-            });
-        }
+        //comment out since service status api is unstabile
+        //if (serviceUuid && statusForServiceIsAvailable(serviceUuid)) {
+        //    const statusApiUrl = `${dispatch(getServiceStatusApiUrl())}/serviceDetail?uuid=${serviceUuid}`;
+        //    setServiceStatusIsFetched(true);
+        //    dispatch(getApiData(statusApiUrl)).then((apiData) => {
+        //        parseServiceStatus(apiData);
+        //    });
+        //}
     };
 
     const parseServiceStatus = (result) => {
