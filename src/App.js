@@ -62,8 +62,9 @@ const App = () => {
         if (!!store && storeIsLoaded) {
             store.dispatch(fetchSelectedLanguage());
             store.dispatch(fetchResources());
-            store.dispatch(fetchAvailableWFSServiceStatuses());
-            store.dispatch(fetchAvailableWMSServiceStatuses());
+            //Uncomment since service not working well
+            //store.dispatch(fetchAvailableWFSServiceStatuses());
+            //store.dispatch(fetchAvailableWMSServiceStatuses());
             store.dispatch(getEnvironment());
         }
     }, [storeIsLoaded]);
