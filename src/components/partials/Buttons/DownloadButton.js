@@ -252,8 +252,12 @@ const DownloadButton = (props) => {
                 </button>
             );
         } else if (showDownloadLink()) {
-            const buttonDescription = props.metadata.Protocol === "OGC API - Features" ? "Vis API" 
+            let buttonDescription = props.metadata.Protocol === "OGC API - Features" ? "Vis API" 
             : dispatch(getResource("ToBasket", "Til nedlasting"));
+            if(props.metadata.Protocol === "Webside") 
+            {
+                buttonDescription = dispatch(getResource("Webpage", "Webside")); 
+            }
             const distributionUrl = props.metadata.DistributionUrl;
             const buttonClass = `${style.listButton} ${style.on}`;
 
