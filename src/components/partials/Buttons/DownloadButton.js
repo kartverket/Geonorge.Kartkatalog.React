@@ -252,7 +252,7 @@ const DownloadButton = (props) => {
                 </button>
             );
         } else if (showDownloadLink()) {
-            let buttonDescription = props.metadata.Protocol === "OGC API - Features" ? "Vis API" 
+            let buttonDescription = (props.metadata.Protocol === "OGC API - Features" || props.metadata.Protocol === "OPeNDAP") ? "Vis API" 
             : dispatch(getResource("ToBasket", "Til nedlasting"));
             if(props.metadata.Protocol === "Webside") 
             {
