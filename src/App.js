@@ -82,8 +82,23 @@ const App = () => {
     const setExpandedFacetFilters = (selectedFacets) => {
         const state = store.getState();
         const expandedFacetFilters = state.expandedFacetFilters || {};
+        Object.keys(expandedFacetFilters).forEach((selectedFacetKey) => {
+            var selected = expandedFacetFilters[selectedFacetKey]
+            var existsExpanded = expandedFacetFilters[selectedFacetKey];
+            if(existsExpanded === undefined)
+            {
+                selected = true;
+            }
+            expandedFacetFilters[selectedFacetKey] = selected;
+        });
         Object.keys(selectedFacets).forEach((selectedFacetKey) => {
-            expandedFacetFilters[selectedFacetKey] = true;
+            var selected = expandedFacetFilters[selectedFacetKey]
+            var existsExpanded = expandedFacetFilters[selectedFacetKey];
+            if(existsExpanded === undefined)
+            {
+                selected = true;
+            }
+            expandedFacetFilters[selectedFacetKey] = selected;
         });
         store.dispatch(updateExpandedFacetFilters(expandedFacetFilters));
     };
