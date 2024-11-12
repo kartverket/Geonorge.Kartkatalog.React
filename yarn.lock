@@ -9547,8 +9547,8 @@ quickselect@^2.0.0:
   integrity sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==
 
 "r_map@https://github.com/kartverket/r_map.git":
-  version "2.4.19"
-  resolved "https://github.com/kartverket/r_map.git#d95dcb98a9907d146b2be67f924d2bee9b5347af"
+  version "2.4.21"
+  resolved "https://github.com/kartverket/r_map.git#32d9e12b020b5e55064201e983914d5a7238cd0e"
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.1.1"
     "@fortawesome/free-regular-svg-icons" "^6.1.1"
@@ -9557,8 +9557,8 @@ quickselect@^2.0.0:
     bootstrap "^4.6.2"
     fast-xml-parser "^3.12.3"
     jquery "^3.7.0"
-    ol "^10.0.0"
-    proj4 "^2.11.0"
+    ol "^10.2.1"
+    proj4 "^2.14.0"
     query-string "^7.1.1"
     react "^18.2.0"
     react-bootstrap "^1.5.0"
