@@ -1270,6 +1270,15 @@ const Metadata = () => {
                         ) : (
                             ""
                         )}
+                        {qualitySpecification.QuantitativeResult ? (
+                            <p>
+                                <strong>Resultat :</strong>{" "}                            
+                                {qualitySpecification.QuantitativeResult}                            
+                            </p>
+                        ) : (
+                            ""
+                        )}                        
+                        {qualitySpecification.Date ? (
                         <p>
                             <strong>{dispatch(getResource("Date", "Dato"))}: </strong>
                             {qualitySpecification.Date !== undefined ? (
@@ -1279,13 +1288,20 @@ const Metadata = () => {
                             )}
                             ({qualitySpecification.DateType})
                         </p>
+                        ) : (
+                            ""
+                        )}
                         <p>
                             <strong>
                                 {dispatch(getResource("QualitySpecificationExplanation", "Forklaring av resultat"))}:{" "}
                             </strong>
                             {qualitySpecification.Explanation}
                         </p>
+                        {!qualitySpecification.QuantitativeResult ? (
                         <p>{qualitySpecification.Result ? "Godkjent" : "Ikke godkjent"}</p>
+                        ) : (
+                            ""
+                        )}
                         <hr />
                     </div>
                 );
