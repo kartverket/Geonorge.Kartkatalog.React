@@ -592,10 +592,23 @@ const Metadata = () => {
                 ) : null}
                 {metadata?.QuantitativeResult?.Performance?.length ? (
                     <div> {metadata.QuantitativeResult.Performance} </div>
-                ) : null}
+                ) : null}               
             </div>
         ) : null;
     };
+
+    const renderQualityResult = () => {
+        return metadata?.QuantitativeResult?.FAIR?.length || metadata?.QuantitativeResult?.Coverage?.length ? (
+            <div>
+                {metadata?.QuantitativeResult?.FAIR?.length ? (
+                    <div> {metadata.QuantitativeResult.FAIR} </div>
+                ) : null}
+                {metadata?.QuantitativeResult?.Coverage?.length ? (
+                    <div> {metadata.QuantitativeResult.Coverage} </div>
+                ) : null}                
+            </div>
+        ) : null;
+    };   
 
     const renderDateCreated = () => {
         return metadata?.DateCreated?.length ? (
@@ -1216,6 +1229,7 @@ const Metadata = () => {
             renderStatus() ||
             renderProcessHistory() ||
             renderOrderingInstructions() ||
+            renderQualityResult() ||
             renderContentInformation();
         return hasChildren ? (
             <div>
@@ -1227,6 +1241,7 @@ const Metadata = () => {
                 {renderStatus()}
                 {renderProcessHistory()}
                 {renderOrderingInstructions()}
+                {renderQualityResult()}
                 {renderContentInformation()}
             </div>
         ) : (
@@ -1270,6 +1285,15 @@ const Metadata = () => {
                         ) : (
                             ""
                         )}
+                        {qualitySpecification.QuantitativeResult ? (
+                            <p>
+                                <strong>Resultat :</strong>{" "}                            
+                                {qualitySpecification.QuantitativeResult}                            
+                            </p>
+                        ) : (
+                            ""
+                        )}                        
+                        {qualitySpecification.Date ? (
                         <p>
                             <strong>{dispatch(getResource("Date", "Dato"))}: </strong>
                             {qualitySpecification.Date !== undefined ? (
@@ -1279,13 +1303,20 @@ const Metadata = () => {
                             )}
                             ({qualitySpecification.DateType})
                         </p>
+                        ) : (
+                            ""
+                        )}
                         <p>
                             <strong>
                                 {dispatch(getResource("QualitySpecificationExplanation", "Forklaring av resultat"))}:{" "}
                             </strong>
                             {qualitySpecification.Explanation}
                         </p>
+                        {!qualitySpecification.QuantitativeResult ? (
                         <p>{qualitySpecification.Result ? "Godkjent" : "Ikke godkjent"}</p>
+                        ) : (
+                            ""
+                        )}
                         <hr />
                     </div>
                 );
