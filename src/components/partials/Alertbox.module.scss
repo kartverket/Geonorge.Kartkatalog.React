@@ -4,11 +4,12 @@
   background-color: #ecf1f6;
   color: black;
   padding: 20px;
-  border-radius: 8px;
   margin: 10px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
   
+  @include breakpoint('desktop') {
+    max-width: 50%;
+  }
+
   @include breakpoint('tablet') {
     width: 100%;
   }
@@ -21,18 +22,14 @@
 
     .alertText {
       padding-top: 5px;
+      padding-right: 20px;
       flex: 1;
     }
 
     .alertLink {
       color: #26488c;
       text-decoration: underline;
-      margin-left: 20px;
-
-      @media (max-width: 768px) {
-        margin-left: 0;
-        padding-top: 5px;
-      }
+      padding-top: 5px;
     }
   }
 }
