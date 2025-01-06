@@ -37,6 +37,7 @@ import HelpButton from "components/partials/Buttons/HelpButton";
 import ShowCoverageButton from "components/partials/Buttons/ShowCoverageButton";
 import DownloadXmlButton from "components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "components/partials/Buttons/EditMetadataButton";
+import AlertBox from "components/partials/AlertBox";
 
 // Stylesheets
 import style from "components/routes/Metadata.module.scss";
@@ -1656,6 +1657,8 @@ const Metadata = () => {
                         </ErrorBoundary>
                     </div>
                 </div>
+                <pre></pre>
+                <AlertBox uuid={uuid} />
                 <pre></pre>
                 <div className={style.flex}>
                     <div className={style.textContent}>

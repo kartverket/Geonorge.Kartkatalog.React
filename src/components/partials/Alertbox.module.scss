@@ -1,0 +1,35 @@
+@import '../../scss/abstracts/all';
+
+.alertContainer {
+  background-color: #ecf1f6;
+  color: black;
+  padding: 20px;
+  margin: 10px 0;
+  
+  @include breakpoint('desktop') {
+    max-width: 50%;
+  }
+
+  @include breakpoint('tablet') {
+    width: 100%;
+  }
+
+  .alertContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .alertText {
+      padding-top: 5px;
+      padding-right: 20px;
+      flex: 1;
+    }
+
+    .alertLink {
+      color: #26488c;
+      text-decoration: underline;
+      padding-top: 5px;
+    }
+  }
+}
