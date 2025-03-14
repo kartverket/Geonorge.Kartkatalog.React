@@ -21,6 +21,41 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script type="text/javascript">
+
+     function shouldRedirectDownload() {
+      var redirectDownload = getCookie('_redirectDownload');
+      setCookie('_redirectDownload', 'false');
+      console.log("redirectDownload: " + redirectDownload);
+      if (redirectDownload === 'true') {
+        return true;
+      }
+      return false;
+    }
+
+     function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function setCookie(cname, cvalue) {
+      document.cookie = cname + "=" + cvalue + ";";
+    }
+
+    if (shouldRedirectDownload()) {
+       window.location.href = '/nedlasting';
+    }
+
      var isProduction = '%REACT_APP_ENVIRONMENT%' !== 'dev' && '%REACT_APP_ENVIRONMENT%' !== 'test';
      console.log("REACT_APP_ENVIRONMENT: " + '%REACT_APP_ENVIRONMENT%')
      if (isProduction) {
