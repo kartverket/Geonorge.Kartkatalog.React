@@ -24,7 +24,13 @@
 
      function shouldRedirectDownload() {
       var redirectDownload = getCookie('_redirectDownload');
-      setCookie('_redirectDownload', 'false');
+      
+      console.log(window.location.pathname);
+
+      if(window.location.pathname === '/') {
+        setCookie('_redirectDownload', 'false');
+      }
+      
       console.log("redirectDownload: " + redirectDownload);
       if (redirectDownload === 'true') {
         return true;
