@@ -131,7 +131,20 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const metadataResultsFound = searchData?.results?.metadata?.NumFound || 0;
     const articlesResultsFound = searchData?.results?.articles?.NumFound || 0;
 
+    const userinfo = {
+        name: oidc?.user?.profile?.name,
+        email: oidc?.user?.profile?.email,
+    };
+
+    const orginfo = {
+        organizationNumber: baatInfo?.organizationNumber,
+        organizationName: baatInfo?.organizationName
+
+    }
+
     const mainNavigationProps = {
+        userinfo: JSON.stringify(userinfo),
+        orginfo: JSON.stringify(orginfo),
         isLoggedIn: !!oidc.user,
         language: selectedLanguage,
         environment: process.env.REACT_APP_ENVIRONMENT,
