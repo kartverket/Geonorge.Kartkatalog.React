@@ -61,7 +61,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         const isLoggedIn = !!oidc?.user;
         const hasBaatInfo = !!baatInfo?.user;
 
-        var loggedInCookie = Cookies.get('_loggedIn');
+        var loggedInCookie = Cookies.get('_loggedInOtherApp');
         let autoRedirectPath = null;
 
         if(loggedInCookie === "true" && !isLoggedIn){
