@@ -1668,10 +1668,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@kartverket/geonorge-web-components@^2.22.3":
-  version "2.22.3"
-  resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-2.22.3.tgz#590d08aefa12f37defec6a818bac03e6da3e937f"
-  integrity sha512-RVih6ZvX6cf46mZgVdxBttHTqinM7mz0lBUaEflCxwRYkcV4yDVlF9DolJE2X5nftYDOCtFLPVnd1n5KFRr54w==
+"@kartverket/geonorge-web-components@^2.22.4":
+  version "2.22.4"
+  resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-2.22.4.tgz#b1861b6803ecf29ec40652362227d00c68ad1003"
+  integrity sha512-dASJSuxdcPpF2+XEu41XHewP6QBHkDhJxLVxBuITWOrYUpTHWBHyz/6OxsjuDBUtXAf9LEHa5y1Bsd7FSACDCw==
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
