@@ -12,7 +12,7 @@ import { updateOidcCookie, updateBaatInfo } from "actions/AuthenticationActions"
 
 // Components
 import { MainNavigation } from "@kartverket/geonorge-web-components/MainNavigation";
-
+import '@kartverket/geonorge-web-components/index.css';
 import Cookies from 'js-cookie';
 
 const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
