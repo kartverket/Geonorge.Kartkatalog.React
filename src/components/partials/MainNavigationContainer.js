@@ -59,9 +59,10 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
     useEffect(() => {
         const isLoggedIn = !!oidc?.user;
+        console.log("isLoggedIn: " + isLoggedIn);
         const hasBaatInfo = !!baatInfo?.user;
 
-        var loggedInCookie = Cookies.get('_loggedInOtherApp');
+        var loggedInCookie = Cookies.get('_loggedIn');
         let autoRedirectPath = null;
 
         if(loggedInCookie === "true" && !isLoggedIn){

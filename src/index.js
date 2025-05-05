@@ -13,6 +13,7 @@ import { convertSearchParams, convertPath } from "helpers/UrlHelpers";
 
 // Stylesheets
 import "index.css";
+import "@kartverket/geonorge-web-components/index.css";
 
 if (window.location.search !== convertSearchParams(window.location.search)) {
     window.location.href = window.location.origin + convertSearchParams(window.location.search);
