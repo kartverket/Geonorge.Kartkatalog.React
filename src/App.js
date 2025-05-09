@@ -266,11 +266,11 @@ const App = () => {
                 },
                 {
                     element: <OidcCallback userManager={userManager} />,
-                    path: "signin-oidc"
+                    path: "login-oidc"
                 },
                 {
                     element: <OidcSignoutCallback userManager={userManager} />,
-                    path: "signout-callback-oidc"
+                    path: "logout-callback-oidc"
                 }
             ]
         },
