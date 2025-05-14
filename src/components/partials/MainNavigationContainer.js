@@ -12,6 +12,8 @@ import { updateOidcCookie, updateBaatInfo } from "actions/AuthenticationActions"
 
 // Components
 import { MainNavigation } from "@kartverket/geonorge-web-components/MainNavigation";
+import '@kartverket/geonorge-web-components/index.css';
+import Cookies from 'js-cookie';
 
 const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const navigate = useNavigate();
@@ -58,12 +60,32 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     useEffect(() => {
         const isLoggedIn = !!oidc?.user;
         const hasBaatInfo = !!baatInfo?.user;
+
+        var loggedInCookie = Cookies.get('_loggedInOtherApp');
+        let autoRedirectPath = null;
+
+        if(loggedInCookie === "true" && !isLoggedIn){
+            sessionStorage.autoRedirectPath = window.location.pathname;
+            console.log("redirecting to login");
+            userManager.signinRedirect(); 
+        }
+        else if(sessionStorage?.autoRedirectPath){
+                autoRedirectPath = sessionStorage.autoRedirectPath; 
+        }
+
         if (isLoggedIn || hasBaatInfo) {
             dispatch(autoAddItemFromLocalStorage());
             dispatch(fetchItemsToDownload());
             dispatch(updateOidcCookie());
             dispatch(updateBaatInfo());
         }
+
+        if(autoRedirectPath !== null){
+            console.log("autoRedirectPath: " + autoRedirectPath);
+            navigate(autoRedirectPath);
+        }
+
+
         MainNavigation.setup("main-navigation", {
             onSearch: (event) => {
                 const searchEvent = event.detail || null;
@@ -79,6 +101,11 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             onSignOutClick: (event) => {
                 event.preventDefault();
                 sessionStorage.autoRedirectPath = window.location.pathname;
+                if (isLocalhost) 
+                    Cookies.set('_loggedIn', 'false');
+                else
+                    Cookies.set('_loggedIn', 'false', { domain: 'geonorge.no' });
+                console.log("logging out");
                 userManager.signoutRedirect({ id_token_hint: userRef?.current?.id_token });
                 userManager.removeUser();
             },
@@ -104,7 +131,20 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const metadataResultsFound = searchData?.results?.metadata?.NumFound || 0;
     const articlesResultsFound = searchData?.results?.articles?.NumFound || 0;
 
+    const userinfo = {
+        name: oidc?.user?.profile?.name,
+        email: oidc?.user?.profile?.email,
+    };
+
+    const orginfo = {
+        organizationNumber: baatInfo?.organizationNumber,
+        organizationName: baatInfo?.organizationName
+
+    }
+
     const mainNavigationProps = {
+        userinfo: JSON.stringify(userinfo),
+        orginfo: JSON.stringify(orginfo),
         isLoggedIn: !!oidc.user,
         language: selectedLanguage,
         environment: process.env.REACT_APP_ENVIRONMENT,
@@ -122,5 +162,15 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         </Fragment>
     );
 };
+
+const isLocalhost = Boolean(
+    window.location.hostname === 'localhost' ||
+      // [::1] is the IPv6 localhost address.
+      window.location.hostname === '[::1]' ||
+      // 127.0.0.1/8 is considered localhost for IPv4.
+      window.location.hostname.match(
+        /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+      )
+  );
 
 export default MainNavigationContainer;
