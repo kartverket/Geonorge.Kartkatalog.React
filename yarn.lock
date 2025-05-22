@@ -9525,8 +9525,8 @@ quickselect@^3.0.0:
   integrity sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==
 
 "r_map@https://github.com/kartverket/r_map.git":
-  version "2.4.23"
-  resolved "https://github.com/kartverket/r_map.git#ccfa086c941d6113ba448266150f83efdb855d8b"
+  version "2.4.24"
+  resolved "https://github.com/kartverket/r_map.git#2017fb299528192252fa5b9e672cbaa4bca5f0de"
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.1.1"
     "@fortawesome/free-regular-svg-icons" "^6.1.1"
