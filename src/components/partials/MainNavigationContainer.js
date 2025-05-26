@@ -62,12 +62,18 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         const hasBaatInfo = !!baatInfo?.user;
 
         var loggedInCookie = Cookies.get('_loggedInOtherApp');
+        var loggedInMenu = Cookies.get('_loggedIn');
         let autoRedirectPath = null;
 
         if(loggedInCookie === "true" && !isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
             console.log("redirecting to login");
             userManager.signinRedirect(); 
+        }
+        else if(loggedInMenu == "false" && isLoggedIn){
+            sessionStorage.autoRedirectPath = window.location.pathname;
+            console.log("redirecting to logout");
+            userManager.signoutRedirect();
         }
         else if(sessionStorage?.autoRedirectPath){
                 autoRedirectPath = sessionStorage.autoRedirectPath; 
