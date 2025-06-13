@@ -74,6 +74,11 @@
     var loggedInOtherApp = getCookie('_loggedIn');
     setCookie('_loggedInOtherApp', loggedInOtherApp);
 
+    if (loggedInOtherApp === 'false') {
+      console.log("User is not logged in to other app, clearing sessionStorage");
+      sessionStorage.clear();
+    }
+
      var isProduction = '%REACT_APP_ENVIRONMENT%' !== 'dev' && '%REACT_APP_ENVIRONMENT%' !== 'test';
      console.log("REACT_APP_ENVIRONMENT: " + '%REACT_APP_ENVIRONMENT%')
      if (isProduction) {
