@@ -24,15 +24,12 @@
 
      function shouldRedirectDownload() {
       var redirectDownload = getCookie('_redirectDownload');
-      
+   
       console.log(window.location.pathname);
-
-      if(window.location.pathname === '/' || window.location.pathname === '/SignIn' || window.location.pathname === '/search/SignIn') {
-        setCookie('_redirectDownload', 'false');
-      }
       
       console.log("redirectDownload: " + redirectDownload);
       if (redirectDownload === 'true') {
+            setCookie('_redirectDownload', 'false');
         return true;
       }
       return false;
@@ -76,6 +73,11 @@
 
     var loggedInOtherApp = getCookie('_loggedIn');
     setCookie('_loggedInOtherApp', loggedInOtherApp);
+
+    if (loggedInOtherApp === 'false') {
+      console.log("User is not logged in to other app, clearing sessionStorage");
+      sessionStorage.clear();
+    }
 
      var isProduction = '%REACT_APP_ENVIRONMENT%' !== 'dev' && '%REACT_APP_ENVIRONMENT%' !== 'test';
      console.log("REACT_APP_ENVIRONMENT: " + '%REACT_APP_ENVIRONMENT%')
