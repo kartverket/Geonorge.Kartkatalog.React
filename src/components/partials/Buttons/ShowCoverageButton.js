@@ -26,19 +26,27 @@ const ShowCoverageButton = (props) => {
     const [hasBeenOpened, setHasBeenOpened] = useState(false);
 
     const handleButtonClick = () => {
-        openDialog();
-        const tagData = {
-            name: props.metadata.Title,
-            uuid: props.metadata.Uuid
-        };
-        dispatch(
-            pushToDataLayer({
-                event: "showMore",
-                category: "metadataDetails",
-                activity: "showCoverageMap",
-                metadata: tagData
-            })
-        );
+
+        if(props.metadata.CoverageUrl && props.metadata.CoverageUrl.includes("det-offentlige-kartgrunnlaget/dekning")) 
+        {
+           window.open(props.metadata.CoverageUrl,"dekningskart","width=1000,height=720,scrollbars=yes,resizable=yes"); 
+        }
+        else
+        {
+            openDialog();
+            const tagData = {
+                name: props.metadata.Title,
+                uuid: props.metadata.Uuid
+            };
+            dispatch(
+                pushToDataLayer({
+                    event: "showMore",
+                    category: "metadataDetails",
+                    activity: "showCoverageMap",
+                    metadata: tagData
+                })
+            );
+        }
     };
 
     const renderDialog = () => {
