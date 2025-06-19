@@ -1,13 +1,13 @@
 // Dependencies
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteLoaderData } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
-import { BreadcrumbList, HeadingText } from "@kartverket/geonorge-web-components";
+import { BreadcrumbList, HeadingText, GnShortcutButton } from "@kartverket/geonorge-web-components";
 
 // Actions
 import { getResource } from "actions/ResourceActions";
@@ -23,6 +23,24 @@ import style from "./Home.module.scss";
 const Home = () => {
     const dispatch = useDispatch();
     const { searchData, params } = useRouteLoaderData("root");
+
+    // Redux store
+    const oidc = useSelector((state) => state.oidc);
+    const environment = useSelector((state) => state.environment);
+    const selectedLanguage = useSelector((state) => state.selectedLanguage);
+
+    useEffect(() => {
+        const isLoggedIn = !!oidc?.user?.access_token?.length;
+
+        if (isLoggedIn) {
+            GnShortcutButton.setup("gn-shortcut-button", {
+                getAuthToken: () => {
+                    const token = oidc?.user?.access_token;
+                    return token?.length ? token : null;
+                }
+            });
+        }
+    }, [oidc]);
 
     const renderSearchQuery = () => {
         let searchResultsText = "";
@@ -134,6 +152,8 @@ const Home = () => {
             </Helmet>
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div id="main-content">
+                <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
+
                 <header className={style.header}>
                     {searchData?.searchString?.length && searchData?.results ? (
                         renderSearchQuery()

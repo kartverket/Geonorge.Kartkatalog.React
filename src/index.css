@@ -38,3 +38,9 @@
     margin-top: 40px;
     margin-left: 20px;
 }
+
+gn-shortcut-button {
+    position: fixed;
+    left: -10000px;
+    z-index: 99;
+}
