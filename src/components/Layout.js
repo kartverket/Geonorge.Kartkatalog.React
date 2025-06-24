@@ -1,5 +1,5 @@
 // Dependencies
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Outlet, useLoaderData } from "react-router-dom";
 
 // Components
@@ -7,15 +7,22 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import Footer from "./partials/Footer";
 import MainNavigationContainer from "./partials/MainNavigationContainer";
 
-// Geonorge WebComponents
-// eslint-disable-next-line no-unused-vars
-import { ContentContainer } from "@kartverket/geonorge-web-components";
-
 // Stylesheets
 import style from "./Layout.module.scss";
+import { useSelector } from "react-redux";
 
 const Layout = (props) => {
+    // Redux store
+    const oidc = useSelector((state) => state.oidc);
     const layoutLoaderData = useLoaderData();
+
+    // Refs
+    const userRef = useRef(null);
+
+    useEffect(() => {
+        userRef.current = oidc?.user;
+    }, [oidc]);
+
     return (
         <ErrorBoundary>
             <MainNavigationContainer layoutLoaderData={layoutLoaderData} userManager={props.userManager} />

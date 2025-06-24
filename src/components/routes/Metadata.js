@@ -10,7 +10,7 @@ import MDEditor from "@uiw/react-md-editor";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
-import { BreadcrumbList, GnBadgeList, GnIcon, GnInput, GnList, HeadingText } from "@kartverket/geonorge-web-components";
+import { BreadcrumbList, GnBadgeList, GnIcon, GnInput, GnList, HeadingText, GnShortcutButton } from "@kartverket/geonorge-web-components";
 
 // Actions
 import { getResource } from "actions/ResourceActions";
@@ -65,6 +65,8 @@ const Metadata = () => {
     const dateEnd = params.dateEnd;
 
     // Redux store
+    const oidc = useSelector((state) => state.oidc);
+    const environment = useSelector((state) => state.environment);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
     // State
@@ -177,9 +179,23 @@ const Metadata = () => {
     const toggleExpand = () => {
         setExpanded(!expanded);
     };
+    
     const toggleBtns = () => {
         setShowBtns(!showBtns);
     };
+
+    useEffect(() => {
+        const isLoggedIn = !!oidc?.user?.access_token?.length;
+
+        if (isLoggedIn) {
+            GnShortcutButton.setup("gn-shortcut-button", {
+                getAuthToken: () => {
+                    const token = oidc?.user?.access_token;
+                    return token?.length ? token : null;
+                }
+            });
+        }
+    }, [oidc]);
 
     useEffect(() => {
         setMetadataDistributions(metadataDistributionsLoaderData);
@@ -1606,6 +1622,7 @@ const Metadata = () => {
             </Helmet>
             {getMetadataLinkedDataSnippet()}
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
+            <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
             <div className={style.content}>
                 <header>
                     <heading-text>
