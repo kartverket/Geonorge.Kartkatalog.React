@@ -71,7 +71,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         if(loggedInCookie === "true" && !isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
             console.log("redirecting to login");
-            userManager.signinRedirect(); 
+            userManager.signinRedirect({redirect_uri: window.location}); 
         }
         else if(loggedInMenu == "false" && isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
@@ -105,7 +105,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             onSignInClick: (event) => {
                 event.preventDefault();
                 sessionStorage.autoRedirectPath = window.location.pathname;
-                userManager.signinRedirect();
+                userManager.signinRedirect({redirect_uri: window.location});
             },
             onSignOutClick: (event) => {
                 event.preventDefault();
