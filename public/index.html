@@ -22,17 +22,38 @@
     -->
     <script type="text/javascript">
 
-     function shouldRedirectDownload() {
+     function shouldRedirect() {
+
+      var currentPath = window.location.pathname;
+      console.log("Current path: " + currentPath);
+
       var redirectDownload = getCookie('_redirectDownload');
-   
-      console.log(window.location.pathname);
+      var redirectDetails = sessionStorage.getItem('redirectDetails');
+      if(redirectDetails === null) {
+        redirectDetails = '';
+      }
+
+      console.log("Redirect Details: " + redirectDetails);
+
+      if(redirectDetails.startsWith("/metadata/") && !currentPath.startsWith("/metadata/") )
+      {
+        console.log("Redirect to details: " + redirectDetails);
+        sessionStorage.setItem('redirectDetails', '');
+        window.location.href = redirectDetails;
+      }
+
+      if(currentPath.startsWith("/metadata/"))
+      {
+        console.log("Setting _redirectDetails: " + currentPath);
+        sessionStorage.setItem('redirectDetails', currentPath);
+      }
+  
       
       console.log("redirectDownload: " + redirectDownload);
       if (redirectDownload === 'true') {
             setCookie('_redirectDownload', 'false');
-        return true;
+            window.location.href = '/nedlasting';
       }
-      return false;
     }
 
      function getCookie(cname) {
@@ -66,10 +87,7 @@
         document.cookie = cname + "=" + cvalue + "; Domain=geonorge.no";
     }
 
-    if (shouldRedirectDownload()) {
-       window.location.href = '/nedlasting';
-    }
-
+   shouldRedirect();
 
     var loggedInOtherApp = getCookie('_loggedIn');
     setCookie('_loggedInOtherApp', loggedInOtherApp);
