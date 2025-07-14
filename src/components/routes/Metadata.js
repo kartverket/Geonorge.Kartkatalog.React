@@ -953,6 +953,32 @@ const Metadata = () => {
         ) : null;
     };
 
+   const renderHighValueDatasetCategories = () => {
+        const keywordsHighValueDatasetCategoriesList =
+            metadata?.KeywordsHighValueDatasetCategories?.length &&
+            metadata.KeywordsHighValueDatasetCategories.map((keywordHighValueDatasetCategory, index) => {
+                return keywordHighValueDatasetCategory?.KeywordLink ? (
+                    <li key={index}>
+                        <a href={keywordHighValueDatasetCategory.KeywordLink}>{keywordHighValueDatasetCategory.KeywordValue}</a>
+                    </li>
+                ) : (
+                    <li key={index}>
+                        <span>{keywordHighValueDatasetCategory.KeywordValue}</span>
+                    </li>
+                );
+            });
+            return keywordsHighValueDatasetCategoriesList?.length ? (
+            <div>
+                <heading-text>
+                    <h4>High value dataset:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsHighValueDatasetCategoriesList}</ul>
+                </gn-list>
+            </div>
+        ) : null;
+    };
+
     const renderCredits = () => {
         return metadata?.Credits?.length ? <div>{metadata.Credits.join(", ")}</div> : null;
     };
@@ -1400,6 +1426,7 @@ const Metadata = () => {
             renderKeywordsConcept() ||
             renderKeywordsInspirePriorityDataset() ||
             renderKeywordsInspireCategory() ||
+            renderHighValueDatasetCategories() ||
             renderKeywordsOther();
         return hasChildren ? (
             <div>
@@ -1414,6 +1441,7 @@ const Metadata = () => {
                     {renderKeywordsConcept()}
                     {renderKeywordsInspirePriorityDataset()}
                     {renderKeywordsInspireCategory()}
+                    {renderHighValueDatasetCategories()}
                     {renderKeywordsOther()}
                 </div>
             </div>
