@@ -957,13 +957,18 @@ const Metadata = () => {
         const keywordsHighValueDatasetCategoriesList =
             metadata?.KeywordsHighValueDatasetCategories?.length &&
             metadata.KeywordsHighValueDatasetCategories.map((keywordHighValueDatasetCategory, index) => {
+                console.log("keywordHighValueDatasetCategory", keywordHighValueDatasetCategory);
                 return keywordHighValueDatasetCategory?.KeywordLink ? (
                     <li key={index}>
-                        <a href={keywordHighValueDatasetCategory.KeywordLink}>{keywordHighValueDatasetCategory.KeywordValue}</a>
+                        <a href={keywordHighValueDatasetCategory.KeywordLink}>{selectedLanguage === "en" && keywordHighValueDatasetCategory?.EnglishKeyword?.length
+                            ? keywordHighValueDatasetCategory.EnglishKeyword
+                            : keywordHighValueDatasetCategory.KeywordValue}</a>
                     </li>
                 ) : (
                     <li key={index}>
-                        <span>{keywordHighValueDatasetCategory.KeywordValue}</span>
+                        {selectedLanguage === "en" && keywordHighValueDatasetCategory?.EnglishKeyword?.length
+                            ? keywordHighValueDatasetCategory.EnglishKeyword
+                            : keywordHighValueDatasetCategory.KeywordValue}
                     </li>
                 );
             });
