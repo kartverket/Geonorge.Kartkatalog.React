@@ -31,7 +31,7 @@ const Home = () => {
 
     useEffect(() => {
         const isLoggedIn = !!oidc?.user?.access_token?.length;
-
+        // Todo fix problem navigation from MainNavigationContainer https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
         if (isLoggedIn) {
             GnShortcutButton.setup("gn-shortcut-button", {
                 getAuthToken: () => {

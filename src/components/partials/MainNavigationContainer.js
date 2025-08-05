@@ -34,7 +34,14 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         if (searchString.length > 1) {
+            const isLoggedIn = !!oidc?.user;
+            if (isLoggedIn) {
+                //Todo fix problem when navigating https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
+                location.href= `/${selectedType}?text=${searchString}`;
+            }
+            else{
             navigate(`/${selectedType}?text=${searchString}`);
+            }
         }
     };
 
