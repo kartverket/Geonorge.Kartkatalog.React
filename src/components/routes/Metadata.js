@@ -953,6 +953,37 @@ const Metadata = () => {
         ) : null;
     };
 
+   const renderHighValueDatasetCategories = () => {
+        const keywordsHighValueDatasetCategoriesList =
+            metadata?.KeywordsHighValueDatasetCategories?.length &&
+            metadata.KeywordsHighValueDatasetCategories.map((keywordHighValueDatasetCategory, index) => {
+                console.log("keywordHighValueDatasetCategory", keywordHighValueDatasetCategory);
+                return keywordHighValueDatasetCategory?.KeywordLink ? (
+                    <li key={index}>
+                        <a href={keywordHighValueDatasetCategory.KeywordLink}>{selectedLanguage === "en" && keywordHighValueDatasetCategory?.EnglishKeyword?.length
+                            ? keywordHighValueDatasetCategory.EnglishKeyword
+                            : keywordHighValueDatasetCategory.KeywordValue}</a>
+                    </li>
+                ) : (
+                    <li key={index}>
+                        {selectedLanguage === "en" && keywordHighValueDatasetCategory?.EnglishKeyword?.length
+                            ? keywordHighValueDatasetCategory.EnglishKeyword
+                            : keywordHighValueDatasetCategory.KeywordValue}
+                    </li>
+                );
+            });
+            return keywordsHighValueDatasetCategoriesList?.length ? (
+            <div>
+                <heading-text>
+                    <h4>High value dataset:</h4>
+                </heading-text>
+                <gn-list>
+                    <ul>{keywordsHighValueDatasetCategoriesList}</ul>
+                </gn-list>
+            </div>
+        ) : null;
+    };
+
     const renderCredits = () => {
         return metadata?.Credits?.length ? <div>{metadata.Credits.join(", ")}</div> : null;
     };
@@ -1400,6 +1431,7 @@ const Metadata = () => {
             renderKeywordsConcept() ||
             renderKeywordsInspirePriorityDataset() ||
             renderKeywordsInspireCategory() ||
+            renderHighValueDatasetCategories() ||
             renderKeywordsOther();
         return hasChildren ? (
             <div>
@@ -1414,6 +1446,7 @@ const Metadata = () => {
                     {renderKeywordsConcept()}
                     {renderKeywordsInspirePriorityDataset()}
                     {renderKeywordsInspireCategory()}
+                    {renderHighValueDatasetCategories()}
                     {renderKeywordsOther()}
                 </div>
             </div>
