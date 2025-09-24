@@ -1,9 +1,9 @@
 // Dependencies
 import {combineReducers} from 'redux';
 import {connectRouter} from 'connected-react-router'
-import { reducer as oidcReducer } from 'redux-oidc';
 
 // Reducers
+import authReducer from 'reducers/authReducer';
 import SearchResultReducer from 'reducers/SearchResultReducer';
 import MapItemReducer from 'reducers/MapItemReducer';
 import DownloadItemReducer from 'reducers/DownloadItemReducer';
@@ -24,7 +24,7 @@ import AvailableWMSServiceStatusesForReducer from 'reducers/AvailableWMSServiceS
 export default (history) => combineReducers({
     dataLayer: TagManagerReducer,
     router: connectRouter(history),
-    oidc: oidcReducer,
+    auth: authReducer,
     baatInfo: BaatInfoReducer,
     searchResults: SearchResultReducer,
     selectedSearchResultsType: SelectedSearchResultsTypeReducer,

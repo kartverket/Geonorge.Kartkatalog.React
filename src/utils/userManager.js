@@ -1,5 +1,5 @@
 // Dependencies
-import { createUserManager } from "redux-oidc";
+import { UserManager } from "oidc-client-ts";
 
 const configIsLoaded = () => {
     return new Promise((resolve, reject) => {
@@ -12,6 +12,7 @@ const configIsLoaded = () => {
             metadata: {
                 issuer: process.env.REACT_APP_GEOID_ISSUER,
                 authorization_endpoint: process.env.REACT_APP_GEOID_AUTHORIZATION_ENDPOINT,
+                token_endpoint: process.env.REACT_APP_GEOID_TOKEN_ENDPOINT,
                 userinfo_endpoint: process.env.REACT_APP_GEOID_USERINFO_ENDPOINT,
                 end_session_endpoint: process.env.REACT_APP_GEOID_END_SESSION_ENDPOINT,
                 jwks_uri: process.env.REACT_APP_GEOID_JWKS_URI
@@ -26,15 +27,17 @@ const configIsLoaded = () => {
                     n: process.env.REACT_APP_GEOID_N
                 }
             ],
-            response_type: "id_token token",
+            response_type: "code",
             scope: "openid profile",
-            loadUserInfo: false
+            loadUserInfo: true,
+            pkceMethod: "S256",
+            automaticSilentRenew: true,
         };
         resolve(userManagerConfig);
     });
 };
 const getUserManagerConfigWhenReady = configIsLoaded().then((userManagerConfig) => {
-    return createUserManager(userManagerConfig);
+    return new UserManager(userManagerConfig);
 });
 
 export default getUserManagerConfigWhenReady;

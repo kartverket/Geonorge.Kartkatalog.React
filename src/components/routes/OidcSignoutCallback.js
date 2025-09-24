@@ -1,30 +1,23 @@
 // Dependencies
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { SignoutCallbackComponent } from "redux-oidc";
 
 const OidcSignoutCallback = ({ userManager }) => {
     const navigate = useNavigate();
 
-    const successCallback = () => {};
-
     useEffect(() => {
-        const autoRedirectPath = sessionStorage?.autoRedirectPath || "/";
-        sessionStorage.removeItem("autoRedirectPath");
-        navigate(autoRedirectPath);
-    }, [navigate]);
-
-    return (
-        <SignoutCallbackComponent
-            userManager={userManager}
-            successCallback={successCallback}
-            errorCallback={() => {
+        userManager.signoutRedirectCallback()
+            .then(() => {
+                const autoRedirectPath = sessionStorage?.autoRedirectPath || "/";
+                sessionStorage.removeItem("autoRedirectPath");
+                navigate(autoRedirectPath);
+            })
+            .catch(() => {
                 navigate("/");
-            }}
-        >
-            <div>Logger ut...</div>
-        </SignoutCallbackComponent>
-    );
+            });
+    }, [userManager, navigate]);
+
+    return <div>Logger ut...</div>;
 };
 
 export default OidcSignoutCallback;
