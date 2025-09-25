@@ -127,7 +127,7 @@ export const autoAddItemFromLocalStorage = () => (dispatch, getState) => {
         localStorage.autoAddDownloadItemOnLoad !== "undefined" &&
         localStorage.autoAddDownloadItemOnLoad !== "null";
     const itemToAdd = hasItemToAdd ? JSON.parse(localStorage.autoAddDownloadItemOnLoad) : null;
-    const isLoggedIn = getState().oidc && getState().oidc.user;
+    const isLoggedIn = getState().auth && getState().auth.user;
     const hasBaatInfo = getState().baatInfo && getState().baatInfo.user;
     if (itemToAdd && isLoggedIn && hasBaatInfo) {
         dispatch(addItemSelectedForDownload(itemToAdd));

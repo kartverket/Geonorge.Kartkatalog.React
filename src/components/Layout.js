@@ -13,15 +13,15 @@ import { useSelector } from "react-redux";
 
 const Layout = (props) => {
     // Redux store
-    const oidc = useSelector((state) => state.oidc);
+    const auth = useSelector((state) => state.auth);
     const layoutLoaderData = useLoaderData();
 
     // Refs
     const userRef = useRef(null);
 
     useEffect(() => {
-        userRef.current = oidc?.user;
-    }, [oidc]);
+        userRef.current = auth?.user;
+    }, [auth]);
 
     return (
         <ErrorBoundary>

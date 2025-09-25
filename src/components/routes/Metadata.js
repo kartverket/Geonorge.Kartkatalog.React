@@ -65,7 +65,7 @@ const Metadata = () => {
     const dateEnd = params.dateEnd;
 
     // Redux store
-    const oidc = useSelector((state) => state.oidc);
+    const auth = useSelector((state) => state.auth);
     const environment = useSelector((state) => state.environment);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
@@ -185,17 +185,17 @@ const Metadata = () => {
     };
 
     useEffect(() => {
-        const isLoggedIn = !!oidc?.user?.access_token?.length;
+        const isLoggedIn = !!auth?.user?.access_token?.length;
 
         if (isLoggedIn) {
             GnShortcutButton.setup("gn-shortcut-button", {
                 getAuthToken: () => {
-                    const token = oidc?.user?.access_token;
+                    const token = auth?.user?.access_token;
                     return token?.length ? token : null;
                 }
             });
         }
-    }, [oidc]);
+    }, [auth]);
 
     useEffect(() => {
         setMetadataDistributions(metadataDistributionsLoaderData);

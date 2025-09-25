@@ -1,7 +1,6 @@
 // Dependencies
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
-import { OidcProvider } from "redux-oidc";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
@@ -39,21 +38,22 @@ import "scss/styles.scss";
 
 const initialState = {};
 const storePromise = configureStore(initialState, userManagerPromise);
-let store = null;
-let userManager = null;
 
 const App = () => {
     // State
+
+    const [store, setStore] = useState(null);
+    const [userManager, setUserManager] = useState(null);
     const [storeIsLoaded, setStoreIsLoaded] = useState(false);
     const [userManagerIsLoaded, setUserManagerIsLoaded] = useState(false);
 
     useEffect(() => {
         storePromise.then((storeConfig) => {
-            store = storeConfig;
+            setStore(storeConfig);
             setStoreIsLoaded(true);
         });
         userManagerPromise.then((userManagerConfig) => {
-            userManager = userManagerConfig;
+            setUserManager(userManagerConfig);
             setUserManagerIsLoaded(true);
         });
     }, []);
@@ -280,19 +280,17 @@ const App = () => {
         }
     ]);
 
-    if (userManager && userManagerIsLoaded && storeIsLoaded) {
+    if (userManager && store && userManagerIsLoaded && storeIsLoaded && router) {
         return (
             <Provider store={store}>
-                <OidcProvider userManager={userManager} store={store}>
-                    <HelmetProvider>
-                        <Helmet>
-                            {process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT.length ? (
-                                <meta name="robots" content="noindex" />
-                            ) : null}
-                        </Helmet>
-                        <RouterProvider router={router} />
-                    </HelmetProvider>
-                </OidcProvider>
+                <HelmetProvider>
+                    <Helmet>
+                        {process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT.length ? (
+                            <meta name="robots" content="noindex" />
+                        ) : null}
+                    </Helmet>
+                    <RouterProvider router={router} />
+                </HelmetProvider>
             </Provider>
         );
     } else return null;

@@ -23,7 +23,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
     // Redux store
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
-    const oidc = useSelector((state) => state.oidc);
+    const auth = useSelector((state) => state.auth);
     const baatInfo = useSelector((state) => state.baatInfo);
 
     // Refs
@@ -34,7 +34,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         if (searchString.length > 1) {
-            const isLoggedIn = !!oidc?.user;
+            const isLoggedIn = !!auth?.user;
             if (isLoggedIn) {
                 //Todo fix problem when navigating https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
                 location.href= `/${selectedType}?text=${searchString}`;
@@ -61,11 +61,11 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     }, []);
 
     useEffect(() => {
-        userRef.current = oidc?.user;
-    }, [oidc]);
+        userRef.current = auth?.user;
+    }, [auth]);
 
     useEffect(() => {
-        const isLoggedIn = !!oidc?.user;
+        const isLoggedIn = !!auth?.user;
         const hasBaatInfo = !!baatInfo?.user;
 
         var loggedInCookie = Cookies.get('_loggedInOtherApp');
@@ -77,12 +77,10 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
         if(loggedInCookie === "true" && !isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
-            console.log("redirecting to login");
             userManager.signinRedirect(); 
         }
         else if(loggedInMenu == "false" && isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
-            console.log("redirecting to logout");
             userManager.signoutRedirect();
         }
         else if(sessionStorage?.autoRedirectPath){
@@ -97,7 +95,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         }
 
         if(autoRedirectPath !== null){
-            console.log("autoRedirectPath: " + autoRedirectPath);
             navigate(autoRedirectPath);
         }
 
@@ -121,7 +118,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
                     Cookies.set('_loggedIn', 'false');
                 else
                     Cookies.set('_loggedIn', 'false', { domain: 'geonorge.no' });
-                console.log("logging out");
                 userManager.signoutRedirect({ id_token_hint: userRef?.current?.id_token });
                 userManager.removeUser();
             },
@@ -142,14 +138,14 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
                 dispatch(fetchItemsToDownload());
             }
         });
-    }, [oidc, baatInfo]);
+    }, [auth, baatInfo]);
 
     const metadataResultsFound = searchData?.results?.metadata?.NumFound || 0;
     const articlesResultsFound = searchData?.results?.articles?.NumFound || 0;
 
     const userinfo = {
-        name: oidc?.user?.profile?.name,
-        email: oidc?.user?.profile?.email,
+        name: auth?.user?.profile?.name,
+        email: auth?.user?.profile?.email,
     };
 
     const orginfo = {
@@ -161,7 +157,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const mainNavigationProps = {
         userinfo: JSON.stringify(userinfo),
         orginfo: JSON.stringify(orginfo),
-        isLoggedIn: !!oidc.user,
+        isLoggedIn: !!auth.user,
         language: selectedLanguage,
         environment: process.env.REACT_APP_ENVIRONMENT,
         searchString: searchData?.searchString || "",
