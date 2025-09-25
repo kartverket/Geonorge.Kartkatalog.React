@@ -2,29 +2,26 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userLoaded } from "reducers/authActions"; // Create this action
-
-const processSigninResponse = async (userManager, navigate, dispatch) => {
-  try {
-    console.log("Processing sign-in response...");
-    const user = await userManager.signinRedirectCallback();
-    dispatch(userLoaded(user)); // Dispatch to Redux
-    const autoRedirectPath = sessionStorage?.autoRedirectPath || "/";
-    sessionStorage.removeItem("autoRedirectPath");
-    navigate(autoRedirectPath);
-  } catch (error) {
-    console.error("Sign-in response error:", error);
-    navigate("/");
-  }
-};
+import { userLoaded } from "reducers/authActions";
 
 const OidcCallback = ({ userManager }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    processSigninResponse(userManager, navigate, dispatch);
-  }, [navigate, userManager, dispatch]);
+    userManager
+      .signinRedirectCallback()
+      .then((user) => {
+        dispatch(userLoaded(user));
+        const autoRedirectPath = sessionStorage?.autoRedirectPath || "/";
+        sessionStorage.removeItem("autoRedirectPath");
+        navigate(autoRedirectPath);
+      })
+      .catch((error) => {
+        console.error("Sign-in response error:", error);
+        navigate("/");
+      });
+  }, [userManager, navigate, dispatch]);
 
   return <div>Logger inn...</div>;
 };
