@@ -38,8 +38,6 @@ import "scss/styles.scss";
 
 const initialState = {};
 const storePromise = configureStore(initialState, userManagerPromise);
-//let store = null;
-//let userManager = null;
 
 const App = () => {
     // State

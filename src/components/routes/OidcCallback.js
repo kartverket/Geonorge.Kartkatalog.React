@@ -14,7 +14,7 @@ const processSigninResponse = async (userManager, navigate, dispatch) => {
     navigate(autoRedirectPath);
   } catch (error) {
     console.error("Sign-in response error:", error);
-    //navigate("/");
+    navigate("/");
   }
 };
 

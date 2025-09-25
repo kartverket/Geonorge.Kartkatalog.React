@@ -77,12 +77,10 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
         if(loggedInCookie === "true" && !isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
-            console.log("redirecting to login");
             userManager.signinRedirect(); 
         }
         else if(loggedInMenu == "false" && isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
-            console.log("redirecting to logout");
             userManager.signoutRedirect();
         }
         else if(sessionStorage?.autoRedirectPath){
@@ -97,8 +95,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         }
 
         if(autoRedirectPath !== null){
-            console.log("autoRedirectPath: " + autoRedirectPath);
-            //navigate(autoRedirectPath);
+            navigate(autoRedirectPath);
         }
 
 
@@ -112,8 +109,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             onSignInClick: (event) => {
                 event.preventDefault();
                 sessionStorage.autoRedirectPath = window.location.pathname;
-                console.log("redirecting to login");
-                userManager.signinRedirect("login-oidc");
+                userManager.signinRedirect();
             },
             onSignOutClick: (event) => {
                 event.preventDefault();
@@ -122,7 +118,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
                     Cookies.set('_loggedIn', 'false');
                 else
                     Cookies.set('_loggedIn', 'false', { domain: 'geonorge.no' });
-                console.log("logging out");
                 userManager.signoutRedirect({ id_token_hint: userRef?.current?.id_token });
                 userManager.removeUser();
             },

@@ -25,9 +25,6 @@
      function shouldRedirectDownload() {
       var redirectDownload = getCookie('_redirectDownload');
    
-      console.log(window.location.pathname);
-      
-      console.log("redirectDownload: " + redirectDownload);
       if (redirectDownload === 'true') {
             setCookie('_redirectDownload', 'false');
         return true;
