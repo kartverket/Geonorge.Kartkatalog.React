@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet-async";
+import { userLoaded } from "reducers/authActions";
 
 // Actions
 import { fetchMapItems } from "actions/MapItemActions";
@@ -92,6 +93,18 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             dispatch(fetchItemsToDownload());
             dispatch(updateOidcCookie());
             dispatch(updateBaatInfo());
+
+            console.log("User is logged in, setting up silent renew and user loaded event.");
+            // Listen for silent renew and update Redux state when user is loaded
+            userManager.events.addUserLoaded(function(user) {
+                dispatch(userLoaded(user)); // <-- update Redux state
+            });
+
+            userManager.events.addAccessTokenExpiring(function(){
+                console.log("token expiring...");
+                userManager.startSilentRenew(); 
+            });
+
         }
 
         if(autoRedirectPath !== null){
