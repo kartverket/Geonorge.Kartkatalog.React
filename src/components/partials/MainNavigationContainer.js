@@ -66,6 +66,33 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     }, [auth]);
 
     useEffect(() => {
+        const onAccessTokenExpiring = () => {
+            // Handle token expiring (e.g., show warning, trigger silent renew, etc.)
+            console.log("Access token is expiring soon!");
+            userManager.signinSilent();
+        };
+
+        userManager.events.addAccessTokenExpiring(onAccessTokenExpiring);
+
+        return () => {
+            userManager.events.removeAccessTokenExpiring(onAccessTokenExpiring);
+        };
+    }, [userManager]);  
+    
+    useEffect(() => {
+        const onUserLoaded = (user) => {
+            // Handle user loaded event (e.g., dispatch to Redux, log, etc.)
+            dispatch(userLoaded(user));
+        };
+
+        userManager.events.addUserLoaded(onUserLoaded);
+
+        return () => {
+            userManager.events.removeUserLoaded(onUserLoaded);
+        };
+    }, [userManager, dispatch]);    
+
+    useEffect(() => {
         const isLoggedIn = !!auth?.user;
         const hasBaatInfo = !!baatInfo?.user;
 
@@ -93,18 +120,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             dispatch(fetchItemsToDownload());
             dispatch(updateOidcCookie());
             dispatch(updateBaatInfo());
-
-            console.log("User is logged in, setting up silent renew and user loaded event.");
-            // Listen for silent renew and update Redux state when user is loaded
-            userManager.events.addUserLoaded(function(user) {
-                dispatch(userLoaded(user)); // <-- update Redux state
-            });
-
-            userManager.events.addAccessTokenExpiring(function(){
-                console.log("token expiring...");
-                userManager.startSilentRenew(); 
-            });
-
         }
 
         if(autoRedirectPath !== null){
