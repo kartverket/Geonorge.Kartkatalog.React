@@ -25,22 +25,22 @@ const Home = () => {
     const { searchData, params } = useRouteLoaderData("root");
 
     // Redux store
-    const oidc = useSelector((state) => state.oidc);
+    const auth = useSelector((state) => state.auth);
     const environment = useSelector((state) => state.environment);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
     useEffect(() => {
-        const isLoggedIn = !!oidc?.user?.access_token?.length;
+        const isLoggedIn = !!auth?.user?.access_token?.length;
         // Todo fix problem navigation from MainNavigationContainer https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
         if (isLoggedIn) {
             GnShortcutButton.setup("gn-shortcut-button", {
                 getAuthToken: () => {
-                    const token = oidc?.user?.access_token;
+                    const token = auth?.user?.access_token;
                     return token?.length ? token : null;
                 }
             });
         }
-    }, [oidc]);
+    }, [auth]);
 
     const renderSearchQuery = () => {
         let searchResultsText = "";

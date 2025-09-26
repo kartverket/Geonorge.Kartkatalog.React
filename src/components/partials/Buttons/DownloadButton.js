@@ -28,7 +28,7 @@ const DownloadButton = (props) => {
 
     // Redux store
     const itemsToDownload = useSelector((state) => state.itemsToDownload);
-    const oidc = useSelector((state) => state.oidc);
+    const auth = useSelector((state) => state.auth);
 
     // State
     const [isAdded, setIsAdded] = useState(false);
@@ -66,7 +66,7 @@ const DownloadButton = (props) => {
     };
 
     const addToDownloadList = (item) => {
-        const isNotAuthenticated = !oidc?.user;
+        const isNotAuthenticated = !auth?.user;
         const requestAction = dispatch(getApiData(`${item.getCapabilitiesUrl}${item.uuid}`))
             .then((capabilities) => {
                 let apiRequests = {};
