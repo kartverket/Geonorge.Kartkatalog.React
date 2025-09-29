@@ -2,7 +2,6 @@ import {createBrowserHistory} from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {loadUser} from 'redux-oidc';
 import thunk from 'redux-thunk';
 import createRootReducer from 'reducers';
 import googleTagManager from 'utils/googleTagManager';
@@ -13,23 +12,24 @@ const composeEnhancers = composeWithDevTools({
   // options like actionSanitizer, stateSanitizer
 });
 
-export default function configureStore(preloadedState, userManager) {
+export default function configureStore(preloadedState, userManagerPromise) {
   const middleware = [googleTagManager, thunk];
-	const history = createBrowserHistory();
+  const history = createBrowserHistory();
   const store = createStore(
     createRootReducer(history),
     preloadedState,
     composeEnhancers(
       applyMiddleware(
         ...middleware,
-				routerMiddleware(history)
+        routerMiddleware(history)
       )
     )
   );
 
-  return userManager.then((values) => {
-		loadUser(store, values);
-		return store;
-	})
-
+  return userManagerPromise.then((userManager) => {
+    userManager.getUser().then((user) => {
+      store.dispatch({ type: 'SET_USER', payload: user });
+    });
+    return store;
+  });
 }

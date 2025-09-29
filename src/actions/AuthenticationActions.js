@@ -3,8 +3,8 @@ import Cookies from 'js-cookie';
 import {pushToDataLayer} from 'reducers/TagManagerReducer';
 
 export const updateOidcCookie = () => (dispatch, getState) => {
-  const user = getState() && getState().oidc && getState().oidc.user
-    ? getState().oidc.user
+  const user = getState() && getState().auth && getState().auth.user
+    ? getState().auth.user
     : null;
   if (user) {
     const accessToken = user.access_token
@@ -20,8 +20,8 @@ export const updateOidcCookie = () => (dispatch, getState) => {
 };
 
 export const updateBaatInfo = () => (dispatch, getState) => {
-  const user = getState() && getState().oidc && getState().oidc.user
-    ? getState().oidc.user
+  const user = getState() && getState().auth && getState().auth.user
+    ? getState().auth.user
     : null;
   const savedBaatInfo = getState() && getState().baatInfo && Object.keys(getState().baatInfo).length
     ? getState().baatInfo

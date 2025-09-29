@@ -1,30 +1,32 @@
 // Dependencies
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CallbackComponent } from "redux-oidc";
+import { useDispatch } from "react-redux";
+import { userLoaded } from "reducers/authActions";
+
+const processSigninResponse = async (userManager, navigate, dispatch) => {
+  try {
+    const user = await userManager.signinRedirectCallback();
+    console.log(user);
+    dispatch(userLoaded(user)); // Dispatch to Redux
+    const autoRedirectPath = sessionStorage?.autoRedirectPath || "/";
+    sessionStorage.removeItem("autoRedirectPath");
+    navigate(autoRedirectPath);
+  } catch (error) {
+    console.error("Sign-in response error:", error);
+    navigate("/");
+  }
+};
 
 const OidcCallback = ({ userManager }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const successCallback = () => {};
+  useEffect(() => {
+    processSigninResponse(userManager, navigate, dispatch);
+  }, [navigate, userManager, dispatch]);
 
-    useEffect(() => {
-        const autoRedirectPath = sessionStorage?.autoRedirectPath || "/";
-        sessionStorage.removeItem("autoRedirectPath");
-        navigate(autoRedirectPath);
-    }, [navigate]);
-
-    return (
-        <CallbackComponent
-            userManager={userManager}
-            successCallback={successCallback}
-            errorCallback={() => {
-                navigate("/");
-            }}
-        >
-            <div>Logger inn...</div>
-        </CallbackComponent>
-    );
+  return <div>Logger inn...</div>;
 };
 
 export default OidcCallback;

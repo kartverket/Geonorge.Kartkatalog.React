@@ -15,7 +15,9 @@ import { convertSearchParams, convertPath } from "helpers/UrlHelpers";
 import "index.css";
 import "@kartverket/geonorge-web-components/index.css";
 
-if (window.location.search !== convertSearchParams(window.location.search)) {
+ var pathName = window.location.pathname;
+
+if (pathName !== "/login-oidc" && window.location.search !== convertSearchParams(window.location.search)) {
     window.location.href = window.location.origin + convertSearchParams(window.location.search);
 } else if (window.location.pathname !== convertPath(window.location.pathname)) {
     window.location.href = window.location.origin + convertPath(window.location.pathname) + window.location.search;
