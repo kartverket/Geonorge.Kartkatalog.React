@@ -1119,17 +1119,21 @@ const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
                 
                     <form className="form-inline" onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <input
-                        type="text"
-                        name="searchText"
-                        value={text}
-                        onChange={e => handleSearchChange(e.target.value)}
-                        placeholder="Skriv inn søketekst"
-                        style={{ marginRight: "8px", padding: "6px", width: "200px" }}
-                        />
-                        <button type="submit" style={{ padding: "6px 16px" }}>
-                        Søk etter datasett
-                        </button>
+                        <gn-input>
+                            <input
+                            type="text"
+                            name="searchText"
+                            value={text}
+                            onChange={e => handleSearchChange(e.target.value)}
+                            placeholder="Skriv inn søketekst"
+                            style={{ marginRight: "8px", padding: "6px", width: "200px" }}
+                            />
+                        </gn-input>
+                        <gn-button color="primary">
+                            <button type="submit" style={{ padding: "6px 16px" }}>
+                            Søk etter datasett
+                            </button>
+                        </gn-button>
                     </div>
                     </form>
 
