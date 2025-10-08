@@ -74,10 +74,11 @@ const Metadata = () => {
     const [showBtns, setShowBtns] = useState(false);
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
+    const [text, setText] = useState('');
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
     const [metadataDistributions, setMetadataDistributions] = useState();
     const [isLoadingMetadataDistributions, setIsLoadingMetadataDistributions] = useState(false);
-
+    
     const handleStartChange = (date) => {
         setStartDate(date);
     };
@@ -86,12 +87,16 @@ const Metadata = () => {
         setEndDate(date);
     };
 
+    const handleSearchChange = (text) => {
+        setText(text);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const dateStart = moment(startDate).format("YYYY-MM-DD");
         const dateEnd = moment(endDate).format("YYYY-MM-DD");
         setIsLoadingMetadataDistributions(true);
-        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd)).then(response => {
+        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd, text)).then(response => {
             setMetadataDistributions(response);
             setIsLoadingMetadataDistributions(false);
         });
@@ -1022,7 +1027,7 @@ const Metadata = () => {
                     </ErrorBoundary>
                 </div>
             ) : null;
-        const relatedSerieDatasetsList =
+        let relatedSerieDatasetsList =
             (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
             metadata?.TypeName == "series_time" ? (
                 <div>
@@ -1098,6 +1103,41 @@ const Metadata = () => {
                     </ErrorBoundary>
                 </div>
             ) : null;
+        const relatedClimateDatasetsList =
+            (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
+            (metadata?.Uuid == "no.met.adc:0f449e05-892a-5da2-b8d9-686f040ef4b5" || metadata?.Uuid == "no.met.adc:53e19fd0-2370-535c-b58a-be1635b3862a") ? (
+                <div>
+                    <heading-text>
+                        <h3>
+                            Klimadatasett
+                        </h3>
+                    </heading-text>
+                
+                    <form className="form-inline" onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <input
+                        type="text"
+                        name="searchText"
+                        value={text}
+                        onChange={e => handleSearchChange(e.target.value)}
+                        placeholder="Skriv inn søketekst"
+                        style={{ marginRight: "8px", padding: "6px", width: "200px" }}
+                        />
+                        <button type="submit" style={{ padding: "6px 16px" }}>
+                        Søk etter datasett
+                        </button>
+                    </div>
+                    </form>
+
+                    <ErrorBoundary>
+                        {isLoadingMetadataDistributions ? (
+                            <div>Laster inn datasett...</div>
+                        ) : (
+                            <DistributionsList distributions={metadataDistributions?.RelatedSerieDatasets?.length ? metadataDistributions.RelatedSerieDatasets : []} />
+                        )}
+                    </ErrorBoundary>
+                </div>
+            ) : null;            
         const relatedDatasetSerieList =
             metadataDistributions?.RelatedDatasetSerie?.length && metadataDistributions?.ShowRelatedDatasetSerie ? (
                 <div>
@@ -1167,11 +1207,17 @@ const Metadata = () => {
                     </ErrorBoundary>
                 </div>
             ) : null;
+        
+        if(relatedClimateDatasetsList)
+        {
+          relatedSerieDatasetsList  = null;
+        }    
 
         const showDistributions =
             !!selfDistributionsList ||
             !!relatedDatasetList ||
             !!relatedSerieDatasetsList ||
+            !!relatedClimateDatasetsList ||
             !!relatedDatasetSerieList ||
             !!relatedApplicationsList ||
             !!relatedServiceLayersList ||
@@ -1186,6 +1232,7 @@ const Metadata = () => {
                 {selfDistributionsList}
                 {relatedDatasetList}
                 {relatedSerieDatasetsList}
+                {relatedClimateDatasetsList}
                 {relatedDatasetSerieList}
                 {relatedApplicationsList}
                 {relatedServiceLayersList}

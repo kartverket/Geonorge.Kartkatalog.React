@@ -1,7 +1,7 @@
 import { getKartkatalogApiUrl } from "actions/ApiUrlActions";
 
 export const fetchMetadataDistributions =
-    (uuid = "", datefrom = "", dateto = "") =>
+    (uuid = "", datefrom = "", dateto = "", text = "") =>
     (dispatch, getState) => {
         const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : "no";
         const fetchOptions = {
@@ -18,7 +18,9 @@ export const fetchMetadataDistributions =
         if (!!dateto?.length && dateto?.toLowerCase() !== "null") {
             searchParams.append("dateto", dateto);
         }
-
+        if (!!text?.length && text?.toLowerCase() !== "null") {
+            searchParams.append("text", text);
+        }
         const searchParamsString = !!searchParams?.size ? `?${searchParams.toString()}` : "";
 
         return fetch(`${kartkatalogApiUrl}/distribution-lists/${uuid}${searchParamsString}`, fetchOptions)
