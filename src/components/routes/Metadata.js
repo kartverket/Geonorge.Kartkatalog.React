@@ -52,6 +52,10 @@ import moment from "moment";
 import { scrollToTop } from "helpers/GuiHelpers";
 
 const Metadata = () => {
+
+const CLIMATE_SERIE_UUID_1 = process.env.REACT_APP_CLIMATE_SERIE_UUID_1;
+const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
+
     const dispatch = useDispatch();
     const params = useParams();
     const location = useLocation();
@@ -1105,7 +1109,7 @@ const Metadata = () => {
             ) : null;
         const relatedClimateDatasetsList =
             (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
-            (metadata?.Uuid == "no.met.adc:0f449e05-892a-5da2-b8d9-686f040ef4b5" || metadata?.Uuid == "no.met.adc:53e19fd0-2370-535c-b58a-be1635b3862a") ? (
+            (metadata?.Uuid == CLIMATE_SERIE_UUID_1 || metadata?.Uuid == CLIMATE_SERIE_UUID_2) ? (
                 <div>
                     <heading-text>
                         <h3>
