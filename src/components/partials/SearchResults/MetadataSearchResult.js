@@ -103,10 +103,17 @@ const MetadataSearchResult = (props) => {
 
     const renderListItemInfo = () => {
         const openDataSymbolClass = restrictionsClassnames();
-        const openDataSymbolTitle =
+        console.log(props);
+        let openDataSymbolTitle =
             props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
                 ? "Åpne datasett"
                 : "Krever innlogging";
+            if (props.searchResult.AccessConstraint && (props.searchResult.AccessConstraint === "Personvern begrenset" || props.searchResult.AccessConstraint === "Privacy restricted")
+            || props.searchResult.DataAccess &&(props.searchResult.DataAccess === "Personvern begrenset" || props.searchResult.DataAccess === "Privacy restricted")
+            || props.searchResult.DataAccess &&(props.searchResult.DataAccess === "Skjermede data" || props.searchResult.DataAccess === "Restricted data")
+            ) {
+                openDataSymbolTitle = "Kontakt dataeieren for tilgang";
+            }
         const openDataSymbolIcon =
             props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
                 ? ["fas", "lock-open"]
