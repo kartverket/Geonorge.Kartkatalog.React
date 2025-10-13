@@ -300,26 +300,30 @@ const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
 
 
     const renderContactOwner = () => {
-        if (metadata?.ContactOwner) {
+        if (metadata?.ContactOwners) {
             return (
                 <div>
                     <heading-text>
                         <h3>{dispatch(getResource("ContactOwner", "Faglig kontakt"))}</h3>
                     </heading-text>
-                    {metadata?.ContactOwner.Name ? <div>{metadata.ContactOwner.Name}</div> : null}
-                    {metadata?.ContactOwner?.Email?.length || metadata?.ContactOwner?.Organization?.length ? (
-                        <div>
-                            {metadata?.ContactOwner?.Email?.length ? (
-                            <a href={"mailto:" + metadata.ContactOwner.Email.toString().replace(',',';')}>{metadata.ContactOwner.Email}</a>
-                            ) : null}
-                            {metadata?.ContactOwner?.Email?.length && metadata?.ContactOwner?.Organization?.length ? (
-                                 <span> -&nbsp;</span>
-                                ) : null}
-                            {metadata?.ContactOwner?.Organization?.length ? (
-                            <span>{metadata.ContactOwner.Organization}</span>
+                    {metadata?.ContactOwners?.map((owner, index) => (
+                        <div key={index}>
+                            {owner.Name ? <div>{owner.Name}</div> : null}
+                            {owner?.Email?.length || owner?.Organization?.length ? (
+                                <div>
+                                    {owner?.Email?.length ? (
+                                        <a href={"mailto:" + owner.Email.toString().replace(',', ';')}>{owner.Email}</a>
+                                    ) : null}
+                                    {owner?.Email?.length && owner?.Organization?.length ? (
+                                        <span> -&nbsp;</span>
+                                    ) : null}
+                                    {owner?.Organization?.length ? (
+                                        <span>{owner.Organization}</span>
+                                    ) : null}
+                                </div>
                             ) : null}
                         </div>
-                    ) : null}
+                    ))}
                 </div>
             );
         } else {
