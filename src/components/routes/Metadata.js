@@ -92,7 +92,7 @@ const Metadata = () => {
         const dateStart = moment(startDate).format("YYYY-MM-DD");
         const dateEnd = moment(endDate).format("YYYY-MM-DD");
         setIsLoadingMetadataDistributions(true);
-        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd, text)).then(response => {
+        dispatch(fetchMetadataDistributions(uuid, dateStart, dateEnd)).then(response => {
             setMetadataDistributions(response);
             setIsLoadingMetadataDistributions(false);
         });
