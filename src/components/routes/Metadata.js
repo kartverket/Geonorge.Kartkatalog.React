@@ -53,9 +53,6 @@ import { scrollToTop } from "helpers/GuiHelpers";
 
 const Metadata = () => {
 
-const CLIMATE_SERIE_UUID_1 = process.env.REACT_APP_CLIMATE_SERIE_UUID_1;
-const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
-
     const dispatch = useDispatch();
     const params = useParams();
     const location = useLocation();
@@ -78,7 +75,6 @@ const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
     const [showBtns, setShowBtns] = useState(false);
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
-    const [text, setText] = useState('');
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
     const [metadataDistributions, setMetadataDistributions] = useState();
     const [isLoadingMetadataDistributions, setIsLoadingMetadataDistributions] = useState(false);
@@ -89,10 +85,6 @@ const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
 
     const handleEndChange = (date) => {
         setEndDate(date);
-    };
-
-    const handleSearchChange = (text) => {
-        setText(text);
     };
 
     const handleSubmit = (e) => {
@@ -1110,26 +1102,7 @@ const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
                         )}
                     </ErrorBoundary>
                 </div>
-            ) : null;
-        const relatedClimateDatasetsList =
-            (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
-            (metadata?.Uuid == CLIMATE_SERIE_UUID_1 || metadata?.Uuid == CLIMATE_SERIE_UUID_2) ? (
-                <div>
-                    <heading-text>
-                        <h3>
-                            Datasett som inngår i datasettserien
-                        </h3>
-                    </heading-text>
-
-                    <ErrorBoundary>
-                        {isLoadingMetadataDistributions ? (
-                            <div>Laster inn datasett...</div>
-                        ) : (
-                            <DistributionsList distributions={metadataDistributions?.RelatedSerieDatasets?.length ? metadataDistributions.RelatedSerieDatasets : []} />
-                        )}
-                    </ErrorBoundary>
-                </div>
-            ) : null;            
+            ) : null;           
         const relatedDatasetSerieList =
             metadataDistributions?.RelatedDatasetSerie?.length && metadataDistributions?.ShowRelatedDatasetSerie ? (
                 <div>
@@ -1198,18 +1171,12 @@ const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
                         <DistributionsList distributions={metadataDistributions.RelatedDownloadServices} />
                     </ErrorBoundary>
                 </div>
-            ) : null;
-        
-        if(relatedClimateDatasetsList)
-        {
-          relatedSerieDatasetsList  = null;
-        }    
+            ) : null;   
 
         const showDistributions =
             !!selfDistributionsList ||
             !!relatedDatasetList ||
             !!relatedSerieDatasetsList ||
-            !!relatedClimateDatasetsList ||
             !!relatedDatasetSerieList ||
             !!relatedApplicationsList ||
             !!relatedServiceLayersList ||
@@ -1224,7 +1191,6 @@ const CLIMATE_SERIE_UUID_2 = process.env.REACT_APP_CLIMATE_SERIE_UUID_2;
                 {selfDistributionsList}
                 {relatedDatasetList}
                 {relatedSerieDatasetsList}
-                {relatedClimateDatasetsList}
                 {relatedDatasetSerieList}
                 {relatedApplicationsList}
                 {relatedServiceLayersList}
