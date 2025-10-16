@@ -120,16 +120,42 @@ const MetadataSearchResult = (props) => {
                 : ["fas", "lock"];
 
         const listItemType = props.searchResult.TypeTranslated || props.searchResult.Type;
-        const listItemOrganization = props.searchResult.Organization;
+        const listItemOrganizations = props.searchResult.Organizations;
 
-        const linkTitle = dispatch(
-            getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [listItemOrganization])
-        );
-        const linkElement = (
-            <Link title={linkTitle} to={"/?organization=" + listItemOrganization}>
-                {listItemOrganization}
+        // Handle array of organizations
+        const organizationLinks = listItemOrganizations && Array.isArray(listItemOrganizations) 
+            ? listItemOrganizations.map((org, index) => {
+                const linkTitle = dispatch(
+                    getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [org])
+                );
+                
+                return (
+                    <span key={index}>
+                        <Link title={linkTitle} to={"/?organizations=" + org}>
+                            {org}
+                        </Link>
+                        {index < listItemOrganizations.length - 1 ? ", " : ""}
+                    </span>
+                );
+            })
+            : null;
+
+        // For single organization (fallback)
+        const singleOrganization = listItemOrganizations && !Array.isArray(listItemOrganizations) 
+            ? listItemOrganizations 
+            : null;
+
+        const singleLinkTitle = singleOrganization ? dispatch(
+            getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [singleOrganization])
+        ) : null;
+
+        const singleLinkElement = singleOrganization ? (
+            <Link title={singleLinkTitle} to={"/?organizations=" + singleOrganization}>
+                {singleOrganization}
             </Link>
-        );
+        ) : null;
+
+        const linkElement = organizationLinks || singleLinkElement;
 
         return (
             <span className={style.listItemInfo}>
