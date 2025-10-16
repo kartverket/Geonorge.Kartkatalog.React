@@ -121,6 +121,7 @@ const MetadataSearchResult = (props) => {
 
         const listItemType = props.searchResult.TypeTranslated || props.searchResult.Type;
         const listItemOrganizations = props.searchResult.Organizations;
+        const listItemOrganization = props.searchResult.Organization;
 
         // Handle array of organizations
         const organizationLinks = listItemOrganizations && Array.isArray(listItemOrganizations) 
@@ -141,8 +142,8 @@ const MetadataSearchResult = (props) => {
             : null;
 
         // For single organization (fallback)
-        const singleOrganization = listItemOrganizations && !Array.isArray(listItemOrganizations) 
-            ? listItemOrganizations 
+        const singleOrganization = listItemOrganization && !Array.isArray(listItemOrganization) 
+            ? listItemOrganization
             : null;
 
         const singleLinkTitle = singleOrganization ? dispatch(
