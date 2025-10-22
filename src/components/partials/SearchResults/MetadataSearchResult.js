@@ -103,26 +103,60 @@ const MetadataSearchResult = (props) => {
 
     const renderListItemInfo = () => {
         const openDataSymbolClass = restrictionsClassnames();
-        const openDataSymbolTitle =
+        console.log(props);
+        let openDataSymbolTitle =
             props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
                 ? "Åpne datasett"
                 : "Krever innlogging";
+            if (props.searchResult.AccessConstraint && (props.searchResult.AccessConstraint === "Personvern begrenset" || props.searchResult.AccessConstraint === "Privacy restricted")
+            || props.searchResult.DataAccess &&(props.searchResult.DataAccess === "Personvern begrenset" || props.searchResult.DataAccess === "Privacy restricted")
+            || props.searchResult.DataAccess &&(props.searchResult.DataAccess === "Skjermede data" || props.searchResult.DataAccess === "Restricted data")
+            ) {
+                openDataSymbolTitle = "Kontakt dataeieren for tilgang";
+            }
         const openDataSymbolIcon =
             props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
                 ? ["fas", "lock-open"]
                 : ["fas", "lock"];
 
         const listItemType = props.searchResult.TypeTranslated || props.searchResult.Type;
+        const listItemOrganizations = props.searchResult.Organizations;
         const listItemOrganization = props.searchResult.Organization;
 
-        const linkTitle = dispatch(
-            getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [listItemOrganization])
-        );
-        const linkElement = (
-            <Link title={linkTitle} to={"/?organization=" + listItemOrganization}>
-                {listItemOrganization}
+        // Handle array of organizations
+        const organizationLinks = listItemOrganizations && Array.isArray(listItemOrganizations) 
+            ? listItemOrganizations.map((org, index) => {
+                const linkTitle = dispatch(
+                    getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [org])
+                );
+                
+                return (
+                    <span key={index}>
+                        <Link title={linkTitle} to={"/?organizations=" + org}>
+                            {org}
+                        </Link>
+                        {index < listItemOrganizations.length - 1 ? ", " : ""}
+                    </span>
+                );
+            })
+            : null;
+
+        // For single organization (fallback)
+        const singleOrganization = listItemOrganization && !Array.isArray(listItemOrganization) 
+            ? listItemOrganization
+            : null;
+
+        const singleLinkTitle = singleOrganization ? dispatch(
+            getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [singleOrganization])
+        ) : null;
+
+        const singleLinkElement = singleOrganization ? (
+            <Link title={singleLinkTitle} to={"/?organizations=" + singleOrganization}>
+                {singleOrganization}
             </Link>
-        );
+        ) : null;
+
+        const linkElement = organizationLinks || singleLinkElement;
 
         return (
             <span className={style.listItemInfo}>
