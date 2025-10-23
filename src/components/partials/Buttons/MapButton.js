@@ -86,6 +86,8 @@ const MapButton = (props) => {
         {
             if(service?.GetCapabilitiesUrl?.toLowerCase().endsWith("service=wms"))
                 return "OGC:WMS";
+            else if(service?.GetCapabilitiesUrl?.toLowerCase().includes("service=wms"))
+                return "OGC:WMS";
             else if(service?.GetCapabilitiesUrl?.toLowerCase().endsWith("service=wfs"))
             return "OGC:WFS";
         }
