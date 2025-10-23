@@ -962,7 +962,7 @@ const Metadata = () => {
         const keywordsHighValueDatasetCategoriesList =
             metadata?.KeywordsHighValueDatasetCategories?.length &&
             metadata.KeywordsHighValueDatasetCategories.map((keywordHighValueDatasetCategory, index) => {
-                console.log("keywordHighValueDatasetCategory", keywordHighValueDatasetCategory);
+                
                 return keywordHighValueDatasetCategory?.KeywordLink ? (
                     <li key={index}>
                         <a href={keywordHighValueDatasetCategory.KeywordLink}>{selectedLanguage === "en" && keywordHighValueDatasetCategory?.EnglishKeyword?.length
