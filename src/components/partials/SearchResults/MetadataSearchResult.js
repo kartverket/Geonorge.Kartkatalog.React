@@ -103,7 +103,6 @@ const MetadataSearchResult = (props) => {
 
     const renderListItemInfo = () => {
         const openDataSymbolClass = restrictionsClassnames();
-        console.log(props);
         let openDataSymbolTitle =
             props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
                 ? "Åpne datasett"
