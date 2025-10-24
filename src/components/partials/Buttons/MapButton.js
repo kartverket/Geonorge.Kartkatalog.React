@@ -64,9 +64,9 @@ const MapButton = (props) => {
         props.metadata.MapLink;
 
         if(protocol == "Tjenestelag")
-            if(getCapabilitiesUri?.toLowerCase().endsWith("service=wms"))
+            if(getCapabilitiesUri?.toLowerCase().includes("service=wms"))
                 protocol = "OGC:WMS";
-             else if(getCapabilitiesUri?.toLowerCase().endsWith("service=wfs"))
+             else if(getCapabilitiesUri?.toLowerCase().includes("service=wfs"))
                 protocol = "OGC:WFS"
 
         return {
