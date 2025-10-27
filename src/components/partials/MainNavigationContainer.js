@@ -149,11 +149,13 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
                 userManager.signoutRedirect({ id_token_hint: userRef?.current?.id_token });
                 userManager.removeUser();
             },
-            onNorwegianLanguageSelect: () => {
-                dispatch(updateSelectedLanguage("no"));
+            onNorwegianLanguageSelect: async () => {
+                await dispatch(updateSelectedLanguage("no"));
+                window.location.reload();
             },
-            onEnglishLanguageSelect: () => {
-                dispatch(updateSelectedLanguage("en"));
+            onEnglishLanguageSelect: async () => {
+                await dispatch(updateSelectedLanguage("en"));
+                window.location.reload();
             },
             onSearchTypeChange: (event) => {
                 const searchType = event?.detail?.value || null;
