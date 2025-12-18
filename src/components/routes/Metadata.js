@@ -1713,7 +1713,7 @@ const Metadata = () => {
                     </div>
                 </div>
                 <pre></pre>
-                <AlertBox uuid={uuid} />
+                <AlertBox key={`${uuid}`} uuid={uuid} />
                 <pre></pre>
                 <div className={style.flex}>
                     <div className={style.textContent}>
