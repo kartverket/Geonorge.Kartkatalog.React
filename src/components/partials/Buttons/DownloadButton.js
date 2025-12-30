@@ -56,15 +56,6 @@ const DownloadButton = (props) => {
         };
     };
 
-    const addAccessToken = (fileUrl) => {
-        const bearerToken = Cookies.get("oidcAccessToken");
-        if (bearerToken) {
-            if (bearerToken.indexOf("?") > -1) fileUrl = fileUrl + "&access_token=" + bearerToken;
-            else fileUrl = fileUrl + "?access_token=" + bearerToken;
-        }
-        return fileUrl;
-    };
-
     const addToDownloadList = (item) => {
         const isNotAuthenticated = !auth?.user;
         const requestAction = dispatch(getApiData(`${item.getCapabilitiesUrl}${item.uuid}`))
@@ -80,7 +71,7 @@ const DownloadButton = (props) => {
                             item.canDownloadUrl = link.href;
                         }
                         if (link.rel === "http://rel.geonorge.no/download/area") {
-                            apiRequests.areas = dispatch(getApiData(addAccessToken(link.href))).then((areas) => {
+                            apiRequests.areas = dispatch(getApiData(link.href)).then((areas) => {
                                 return areas;
                             });
                         }
