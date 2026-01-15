@@ -19,10 +19,16 @@ const ShowCoverageButton = (props) => {
 
     const handleButtonClick = () => {
         if (props.metadata.CoverageUrl) {
+            // Calculate window size and position for centering
+            const windowWidth = 1400;
+            const windowHeight = 900;
+            const left = (window.screen.width - windowWidth) / 2;
+            const top = (window.screen.height - windowHeight) / 2;
+            
             window.open(
                 props.metadata.CoverageUrl,
                 "dekningskart",
-                "width=1000,height=720,scrollbars=yes,resizable=yes,menubar=no,toolbar=no,location=no,status=no"
+                `width=${windowWidth},height=${windowHeight},left=${left},top=${top},scrollbars=yes,resizable=yes,menubar=no,toolbar=no,location=no,status=no`
             );
             
             const tagData = {
