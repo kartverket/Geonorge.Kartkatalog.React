@@ -1,11 +1,8 @@
 // Dependencies
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// Geonorge Webcomponents
-import { GnDialog } from "@kartverket/geonorge-web-components";
 
 // Actions
 import { getResource } from "actions/ResourceActions";
@@ -20,20 +17,20 @@ import style from "components/partials/Buttons/ShowCoverageButton.module.scss";
 const ShowCoverageButton = (props) => {
     const dispatch = useDispatch();
 
-    // State
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
-    const [hasBeenOpened, setHasBeenOpened] = useState(false);
-
     const handleButtonClick = () => {
-
-        if(props.metadata.CoverageUrl && props.metadata.CoverageUrl.includes("det-offentlige-kartgrunnlaget/dekning")) 
-        {
-           window.open(props.metadata.CoverageUrl,"dekningskart","width=1000,height=720,scrollbars=yes,resizable=yes"); 
-        }
-        else
-        {
-            openDialog();
+        if (props.metadata.CoverageUrl) {
+            // Calculate window size and position for centering
+            const windowWidth = 1400;
+            const windowHeight = 900;
+            const left = (window.screen.width - windowWidth) / 2;
+            const top = (window.screen.height - windowHeight) / 2;
+            
+            window.open(
+                props.metadata.CoverageUrl,
+                "dekningskart",
+                `width=${windowWidth},height=${windowHeight},left=${left},top=${top},scrollbars=yes,resizable=yes,menubar=no,toolbar=no,location=no,status=no`
+            );
+            
             const tagData = {
                 name: props.metadata.Title,
                 uuid: props.metadata.Uuid
@@ -47,20 +44,6 @@ const ShowCoverageButton = (props) => {
                 })
             );
         }
-    };
-
-    const renderDialog = () => {
-        return props.metadata.CoverageUrl && isMounted ? (
-            <gn-dialog width="1000px" nopadding="true" show={dialogOpen} overflow="hidden">
-                <iframe
-                    className={style.coverageMap}
-                    src={hasBeenOpened ? props.metadata.CoverageUrl : ""}
-                    title="Coverage map"
-                    width="1000px"
-                    height="720px"
-                />
-            </gn-dialog>
-        ) : null;
     };
 
     const renderButton = () => {
@@ -86,21 +69,8 @@ const ShowCoverageButton = (props) => {
         }
     };
 
-    const openDialog = () => {
-        setDialogOpen(false);
-        setTimeout(() => {
-            setDialogOpen(true);
-            setHasBeenOpened(true);
-        });
-    };
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
     return (
         <Fragment>
-            {renderDialog()}
             {renderButton()}
         </Fragment>
     );
