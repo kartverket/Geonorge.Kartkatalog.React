@@ -1,4 +1,4 @@
-@import "../../../scss/abstracts/all";
+@use "../../../scss/abstracts/all" as *;
 $imagePath: "../../../../";
 
 :local(.filterItem) {

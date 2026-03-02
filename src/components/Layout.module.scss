@@ -1,15 +1,15 @@
-@import '../scss/abstracts/all';
+@use '../scss/abstracts/all' as *;
 
 :local(content-container.test) {
-    @media print {
-        position: static;
-        height: auto;
-      }
       margin-top: 177px;
       height: calc(100% - 177px);
       overflow-y: auto;
       width: 100%;
       position: absolute;
+      @media print {
+        position: static;
+        height: auto;
+      }
       @media (min-width: 340px) {
         margin-top: 141px;
         height: calc(100% - 141px);

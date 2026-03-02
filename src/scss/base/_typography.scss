@@ -1,3 +1,5 @@
+@use '../abstracts/all' as *;
+
 body {
 	font-family: $default-font;
 	font-weight: normal;

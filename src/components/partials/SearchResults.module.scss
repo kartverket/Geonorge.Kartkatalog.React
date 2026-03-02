@@ -1,4 +1,4 @@
-@import "../../scss/abstracts/all";
+@use "../../scss/abstracts/all" as *;
 
 :local(.tabs) {
   margin: 0 0 32px;
