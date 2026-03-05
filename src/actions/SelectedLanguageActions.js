@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
-import { fetchResources } from 'actions/ResourceActions';
-import { FETCH_SELECTED_LANGUAGE } from 'actions/types';
+import { fetchResources } from '@/actions/ResourceActions';
+import { FETCH_SELECTED_LANGUAGE } from '@/actions/types';
 
 export const fetchSelectedLanguage = () => dispatch => {
     let selectedLanguage = Cookies.get('_culture') ? Cookies.get('_culture') : 'no';

@@ -1,4 +1,4 @@
-import { getGeonorgeRegisterApiUrl } from "actions/ApiUrlActions";
+import { getGeonorgeRegisterApiUrl } from "@/actions/ApiUrlActions";
 
 export const fetchMetadataQuality = (uuid) => (dispatch) => {
     if (uuid?.length) {

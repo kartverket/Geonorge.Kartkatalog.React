@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { getKartkatalogApiUrl } from "actions/ApiUrlActions";
+import { getKartkatalogApiUrl } from "@/actions/ApiUrlActions";
 
 
 export const fetchMetadata =

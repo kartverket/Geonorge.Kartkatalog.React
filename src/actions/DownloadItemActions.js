@@ -2,10 +2,10 @@
 import Cookies from "js-cookie";
 
 // Actions
-import { FETCH_ITEMS_TO_DOWNLOAD } from "actions/types";
+import { FETCH_ITEMS_TO_DOWNLOAD } from "@/actions/types";
 
 // Reducers
-import { pushToDataLayer } from "reducers/TagManagerReducer";
+import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 export const fetchItemsToDownload = () => (dispatch) => {
     let itemsToDownload =

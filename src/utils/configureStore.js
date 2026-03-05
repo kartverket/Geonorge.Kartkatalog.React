@@ -3,8 +3,8 @@ import { routerMiddleware } from 'connected-react-router';
 import {createStore, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import createRootReducer from 'reducers';
-import googleTagManager from 'utils/googleTagManager';
+import createRootReducer from '@/reducers';
+import googleTagManager from '@/utils/googleTagManager';
 
 export const history = createBrowserHistory();
 

@@ -1,7 +1,7 @@
 import {
     FETCH_RESOURCES
-} from 'actions/types';
-import { getKartkatalogApiUrl } from "actions/ApiUrlActions";
+} from '@/actions/types';
+import { getKartkatalogApiUrl } from "@/actions/ApiUrlActions";
 
 
 export const fetchResources = () => (dispatch, getState) => {

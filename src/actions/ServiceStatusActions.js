@@ -1,7 +1,7 @@
 import {
   FETCH_AVAILABLE_WFS_SERVICE_STATUSES, FETCH_AVAILABLE_WMS_SERVICE_STATUSES
-} from 'actions/types';
-import { getServiceStatusApiUrl } from 'actions/ApiUrlActions';
+} from '@/actions/types';
+import { getServiceStatusApiUrl } from '@/actions/ApiUrlActions';
 
 
 export const fetchAvailableWFSServiceStatuses = () => dispatch => {

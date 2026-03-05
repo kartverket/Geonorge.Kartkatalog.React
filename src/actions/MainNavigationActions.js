@@ -1,7 +1,7 @@
-import { getGeonorgeMenuUrl } from 'actions/ApiUrlActions';
+import { getGeonorgeMenuUrl } from '@/actions/ApiUrlActions';
 import {
     FETCH_GEONORGE_MENU,
-} from 'actions/types';
+} from '@/actions/types';
 
 
 export const fetchGeonorgeMenu = () => (dispatch, getState) => {

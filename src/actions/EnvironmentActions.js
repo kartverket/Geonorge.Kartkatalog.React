@@ -1,12 +1,12 @@
-import { GET_ENVIRONMENT } from 'actions/types';
+import { GET_ENVIRONMENT } from '@/actions/types';
 
 export const getEnvironment = () => dispatch => {
     const environment =  {
-      buildNumber: process.env.REACT_APP_BUILD_NUMBER || null,
-      majorMinorVersionMaster: process.env.REACT_APP_MAJOR_MINOR_VERSION_MASTER || null,
-      majorMinorVersionDevelopment: process.env.REACT_APP_MAJOR_MINOR_VERSION_DEVELOPMENT || null,
-      environment: process.env.REACT_APP_ENVIRONMENT || null,
-      accessibilityStatementUrl: process.env.REACT_APP_ACCESSIBILITY_STATEMENT_URL || null
+      buildNumber: import.meta.env.VITE_BUILD_NUMBER || null,
+      majorMinorVersionMaster: import.meta.env.VITE_MAJOR_MINOR_VERSION_MASTER || null,
+      majorMinorVersionDevelopment: import.meta.env.VITE_MAJOR_MINOR_VERSION_DEVELOPMENT || null,
+      environment: import.meta.env.VITE_ENVIRONMENT || null,
+      accessibilityStatementUrl: import.meta.env.VITE_ACCESSIBILITY_STATEMENT_URL || null
     };
     dispatch({
         type: GET_ENVIRONMENT,
