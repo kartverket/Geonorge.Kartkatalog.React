@@ -90,3 +90,5 @@ package-lock\.json
 # Yarn files
 .yarnrc.yml
 .yarn/
+
+dist/
