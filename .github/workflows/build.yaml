@@ -23,10 +23,21 @@ jobs:
     outputs:
       version: ${{ steps.set_output.outputs.version }}
       tags: ${{ steps.meta.outputs.tags }}
+      commit_message: ${{ steps.get_commit_message.outputs.frontend_commit_message }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # Extract the latest commit message from the current repo
+      - name: Get commit message
+        id: get_commit_message
+        run: |
+          {
+            echo 'frontend_commit_message<<EOF'
+            git log -1 --pretty=%B
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Extract Docker metadata
         id: meta
@@ -77,3 +88,22 @@ jobs:
       - name: Remove temporary npmrc secret
         if: always()
         run: rm -f .npmrc.github-actions
+
+  deploy:
+    needs: [build_image]
+    name: Deploy
+    permissions:
+      id-token: write
+    uses: kartverket/geonorge-apps/.github/workflows/release-new-dev.yml@main
+    with:
+      # Apps repo namespace
+      namespace: geonorge-kartkatalog
+      # Apps repo app name
+      application: kartkatalog-frontend
+      # Ghrc.io image tag
+      tag: ${{ needs.build_image.outputs.tags }}
+      # identity for the octo-sts action
+      identity: Geonorge.Kartkatalog.React
+      ghcr_path: ghcr.io/kartverket/geonorge-kartkatalog-frontend
+      dev_env: atgcp1
+      commit_message: ${{ needs.build_image.outputs.commit_message }}
