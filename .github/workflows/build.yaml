@@ -89,21 +89,33 @@ jobs:
         if: always()
         run: rm -f .npmrc.github-actions
 
-  deploy:
+  trigger_internal:
     needs: [build_image]
-    name: Deploy
-    permissions:
-      id-token: write
-    uses: kartverket/geonorge-apps/.github/workflows/release-new-dev.yml@main
-    with:
-      # Apps repo namespace
-      namespace: geonorge-kartkatalog
-      # Apps repo app name
-      application: kartkatalog-frontend
-      # Ghrc.io image tag
-      tag: ${{ needs.build_image.outputs.tags }}
-      # identity for the octo-sts action
-      identity: Geonorge.Kartkatalog.React
-      ghcr_path: ghcr.io/kartverket/geonorge-kartkatalog-frontend
-      dev_env: atgcp1
-      commit_message: ${{ needs.build_image.outputs.commit_message }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger internal repo workflow
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.INTERNAL_PAT }}" \
+          https://api.github.com/repos/kartverket/datadeling-apps/actions/workflows/release-new-dev-public.yml/dispatches \
+          -d '{"ref":"main","inputs":{"application":"geonorge-kartkatalog-frontend", "ghcr_path":"ghcr.io/kartverket/geonorge-kartkatalog-frontend", "dev_env":"atgcp1", "namespace":"geonorge-kartkatalog","tag":"${{needs.build_image.outputs.tags}}","commit_message":"${{needs.build_image.outputs.commit_message}}"}}'
+
+  # deploy:
+  #   needs: [build_image]
+  #   name: Deploy
+  #   permissions:
+  #     id-token: write
+  #   uses: kartverket/geonorge-apps/.github/workflows/release-new-dev.yml@main
+  #   with:
+  #     # Apps repo namespace
+  #     namespace: geonorge-kartkatalog
+  #     # Apps repo app name
+  #     application: kartkatalog-frontend
+  #     # Ghrc.io image tag
+  #     tag: ${{ needs.build_image.outputs.tags }}
+  #     # identity for the octo-sts action
+  #     identity: Geonorge.Kartkatalog.React
+  #     ghcr_path: ghcr.io/kartverket/geonorge-kartkatalog-frontend
+  #     dev_env: atgcp1
+  #     commit_message: ${{ needs.build_image.outputs.commit_message }}
