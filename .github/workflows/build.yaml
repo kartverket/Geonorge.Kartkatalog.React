@@ -98,7 +98,7 @@ jobs:
           curl -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ secrets.INTERNAL_PAT }}" \
-          https://api.github.com/repos/kartverket/datadeling-apps/actions/workflows/release-new-dev-public.yml/dispatches \
+          https://api.github.com/repos/kartverket/geonorge-apps/actions/workflows/release-new-dev-public.yml/dispatches \
           -d '{"ref":"main","inputs":{"application":"geonorge-kartkatalog-frontend", "ghcr_path":"ghcr.io/kartverket/geonorge-kartkatalog-frontend", "dev_env":"atgcp1", "namespace":"geonorge-kartkatalog","tag":"${{needs.build_image.outputs.tags}}","commit_message":"${{needs.build_image.outputs.commit_message}}"}}'
 
   # deploy:
