@@ -1,0 +1,79 @@
+name: ImageBuild
+
+on:
+  push:
+    branches:
+      - cra-vite-migration
+  workflow_dispatch:
+
+env:
+  DOCKER_REGISTRY: ghcr.io
+  NAME: kartverket/geonorge-kartkatalog-frontend
+
+jobs:
+  build_image:
+    name: Build image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      id-token: write
+
+    outputs:
+      version: ${{ steps.set_output.outputs.version }}
+      tags: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,format=short
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Create temporary npmrc secret
+        run: |
+          echo "::add-mask::${FONTAWESOME_NPM_AUTH_TOKEN}"
+          umask 077
+          cat <<EOF > .npmrc.github-actions
+          @fortawesome:registry=https://npm.fontawesome.com/
+          //npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}
+          EOF
+        env:
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
+      - name: Build docker image and push
+        id: build_image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./
+          file: ./Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          secret-files: |
+            npmrc=.npmrc.github-actions
+
+      - name: Summarize image digest and set output
+        id: set_output
+        run: |
+          echo "Tags: ${{ steps.meta.outputs.tags }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Digest: ${{ steps.build_image.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "version=${{ github.ref_name }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_OUTPUT"
+
+      - name: Remove temporary npmrc secret
+        if: always()
+        run: rm -f .npmrc.github-actions

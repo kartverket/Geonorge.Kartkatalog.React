@@ -35,6 +35,7 @@ import Metadata from "@/components/routes/Metadata";
 
 // Stylesheets
 import "@/scss/styles.scss";
+import { getEnvironment as getRuntimeEnvironment } from "@/utils/runtimeConfig";
 
 const initialState = {};
 const storePromise = configureStore(initialState, userManagerPromise);
@@ -285,7 +286,7 @@ const App = () => {
             <Provider store={store}>
                 <HelmetProvider>
                     <Helmet>
-                        {import.meta.env.VITE_ENVIRONMENT && import.meta.env.VITE_ENVIRONMENT.length ? (
+                        {getRuntimeEnvironment() && getRuntimeEnvironment().length ? (
                             <meta name="robots" content="noindex" />
                         ) : null}
                     </Helmet>

@@ -1,0 +1,15 @@
+services:
+  kartkatalog:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      secrets:
+        - npmrc
+    ports:
+      - "${PORT:-5173}:80"
+    env_file:
+      - .env
+
+secrets:
+  npmrc:
+    file: .npmrc
