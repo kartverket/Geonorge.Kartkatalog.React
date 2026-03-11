@@ -106,7 +106,7 @@ jobs:
         run: |
           payload="$(jq -n \
             --arg ref "main" \
-            --arg application "geonorge-kartkatalog-frontend" \
+            --arg application "kartkatalog-frontend" \
             --arg ghcr_path "ghcr.io/kartverket/geonorge-kartkatalog-frontend" \
             --arg dev_env "atgcp1" \
             --arg namespace "geonorge-kartkatalog" \
