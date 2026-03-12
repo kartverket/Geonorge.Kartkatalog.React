@@ -1,5 +1,9 @@
 @import "../../scss/abstracts/all";
 
+@import "@digdir/designsystemet-css/index.css";
+
+
+
 :local(.tabs) {
   margin: 0 0 32px;
   list-style: none;
@@ -92,11 +96,22 @@
 }
 
 :local(.list) {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 20px;
-  list-style-position: outside;
+    display: grid;
+    grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 24px;
+
 }
+
+//styling of card component from Designsystemet
+:global(.ds-card){
+  border-radius:10px;
+  border: 1px solid #d3d3d3;
+  width: 100%;
+  min-height:200px;
+  padding: 24px;
+
+}
+
 
 :local(.morecontainer) {
   width: 100%;

@@ -1359,6 +1359,45 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
+"@digdir/designsystemet-css@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-css/-/designsystemet-css-1.12.1.tgz#f61024c5b0d5493aefd89431970526a35d0fadbf"
+  integrity sha512-0P3QMXH/kAKJqZ5oBhLag3WiyzMCB+PgAfQzG72TjBcRzi4MEu6Cs2XH66aBhZWEBeUPR0DTeTUtGr5hyQ4rnQ==
+  dependencies:
+    "@digdir/designsystemet-types" "^1.12.1"
+
+"@digdir/designsystemet-react@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-react/-/designsystemet-react-1.12.1.tgz#7f793508ccbd6fc096b8d4201991eee75b0bec47"
+  integrity sha512-PvcRWNvVNC06+tJdQLlSNdMj2o3+WIbfsB/gohgce+R3axNuaXh2lIFHl+G2+me/XIegXnUw8LJKpEGNhGAF5w==
+  dependencies:
+    "@digdir/designsystemet-types" "^1.12.1"
+    "@digdir/designsystemet-web" "^1.12.1"
+    "@floating-ui/dom" "^1.7.5"
+    "@floating-ui/react" "0.26.23"
+    "@navikt/aksel-icons" "^8.4.1"
+    "@radix-ui/react-slot" "^1.2.4"
+    "@tanstack/react-virtual" "^3.13.18"
+    clsx "^2.1.1"
+
+"@digdir/designsystemet-types@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-types/-/designsystemet-types-1.12.1.tgz#ea67d92fc46b6551208d8ed3f1906c25a1a13c55"
+  integrity sha512-HE6D81h9IuNofEq1Gx1/FEVomxDID4SxCo7tcCYT16ZOQzHsUpSjirJD4Z3cIBY1SDDknwUTszyGz7QsBb5a8A==
+
+"@digdir/designsystemet-web@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-web/-/designsystemet-web-1.12.1.tgz#af5d08eb3cba50e22628295baae20cd3fd53659e"
+  integrity sha512-yv4Umnlg00TyOfBY72l7YacfVJc7te5LRT5HzJYBaDauKFm1uzMxLBKJHwIqjN5BfKhnm1cWCF/pFCFvhYD2bg==
+  dependencies:
+    "@floating-ui/dom" "^1.7.5"
+    "@u-elements/u-combobox" "^1.0.7"
+    "@u-elements/u-datalist" "^1.1.0"
+    "@u-elements/u-details" "^0.2.2"
+    "@u-elements/u-progress" "^0.0.7"
+    "@u-elements/u-tabs" "^0.1.2"
+    invokers-polyfill "^0.6.1"
+
 "@esbuild/aix-ppc64@0.27.3":
   version "0.27.3"
   resolved "https://registry.yarnpkg.com/@esbuild/aix-ppc64/-/aix-ppc64-0.27.3.tgz#815b39267f9bffd3407ea6c376ac32946e24f8d2"
@@ -1520,6 +1559,42 @@
   version "8.57.1"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
+
+"@floating-ui/core@^1.7.5":
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.7.5.tgz#d4af157a03330af5a60e69da7a4692507ada0622"
+  integrity sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==
+  dependencies:
+    "@floating-ui/utils" "^0.2.11"
+
+"@floating-ui/dom@^1.7.5", "@floating-ui/dom@^1.7.6":
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.7.6.tgz#f915bba5abbb177e1f227cacee1b4d0634b187bf"
+  integrity sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==
+  dependencies:
+    "@floating-ui/core" "^1.7.5"
+    "@floating-ui/utils" "^0.2.11"
+
+"@floating-ui/react-dom@^2.1.1":
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/@floating-ui/react-dom/-/react-dom-2.1.8.tgz#5fb5a20d10aafb9505f38c24f38d00c8e1598893"
+  integrity sha512-cC52bHwM/n/CxS87FH0yWdngEZrjdtLW/qVruo68qg+prK7ZQ4YGdut2GyDVpoGeAYe/h899rVeOVm6Oi40k2A==
+  dependencies:
+    "@floating-ui/dom" "^1.7.6"
+
+"@floating-ui/react@0.26.23":
+  version "0.26.23"
+  resolved "https://registry.yarnpkg.com/@floating-ui/react/-/react-0.26.23.tgz#28985e5ce482c34f347f28076f11267e47a933bd"
+  integrity sha512-9u3i62fV0CFF3nIegiWiRDwOs7OW/KhSUJDNx2MkQM3LbE5zQOY01sL3nelcVBXvX7Ovvo3A49I8ql+20Wg/Hw==
+  dependencies:
+    "@floating-ui/react-dom" "^2.1.1"
+    "@floating-ui/utils" "^0.2.7"
+    tabbable "^6.0.0"
+
+"@floating-ui/utils@^0.2.11", "@floating-ui/utils@^0.2.7":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.11.tgz#a269e055e40e2f45873bae9d1a2fdccbd314ea3f"
+  integrity sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==
 
 "@fortawesome/fontawesome-common-types@6.7.2":
   version "6.7.2"
@@ -1916,6 +1991,11 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
+"@navikt/aksel-icons@^8.4.1":
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/@navikt/aksel-icons/-/aksel-icons-8.7.0.tgz#71371b0ac52d8760340b655f20580faeb47a2fb5"
+  integrity sha512-pANfaE/xr2a9Q3CYMWbCjhAk9+UNuUa50Ez37Zk2nZQYtjP1vLXluOgHrxGAGTs6T4ToE+IjtJdU9DoEBnBbdw==
+
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
   resolved "https://registry.yarnpkg.com/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz#323d72dd25103d0c4fbdce89dadf574a787b1f9b"
@@ -2065,6 +2145,18 @@
   version "2.11.8"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
+
+"@radix-ui/react-compose-refs@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-compose-refs/-/react-compose-refs-1.1.2.tgz#a2c4c47af6337048ee78ff6dc0d090b390d2bb30"
+  integrity sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg==
+
+"@radix-ui/react-slot@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-slot/-/react-slot-1.2.4.tgz#63c0ba05fdf90cc49076b94029c852d7bac1fb83"
+  integrity sha512-Jl+bCv8HxKnlTLVrcDE8zTMJ09R9/ukw4qBs/oZClOfoQk/cOTbDn+NceXfV7j09YPVQUryJPHurafcSg6EVKA==
+  dependencies:
+    "@radix-ui/react-compose-refs" "1.1.2"
 
 "@remix-run/router@1.23.0":
   version "1.23.0"
@@ -2403,6 +2495,18 @@
   integrity sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==
   dependencies:
     defer-to-connect "^1.0.1"
+
+"@tanstack/react-virtual@^3.13.18":
+  version "3.13.21"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.13.21.tgz#4e6feb326d2fc57f591046bad372ef4ff7d6d82f"
+  integrity sha512-SYXFrmrbPgXBvf+HsOsKhFgqSe4M6B29VHOsX9Jih9TlNkNkDWx0hWMiMLUghMEzyUz772ndzdEeCEBx+3GIZw==
+  dependencies:
+    "@tanstack/virtual-core" "3.13.21"
+
+"@tanstack/virtual-core@3.13.21":
+  version "3.13.21"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.13.21.tgz#925eec83d17d28a30ad4c3645d54d5fbe797bbb3"
+  integrity sha512-ww+fmLHyCbPSf7JNbWZP3g7wl6SdNo3ah5Aiw+0e9FDErkVHLKprYUrwTm7dF646FtEkN/KkAKPYezxpmvOjxw==
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -2917,6 +3021,31 @@
   dependencies:
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
+
+"@u-elements/u-combobox@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@u-elements/u-combobox/-/u-combobox-1.0.7.tgz#0b4098119680f5740cebde6b48b4cd6176f76bd9"
+  integrity sha512-rueG+Wof9ycmbjIW2omS4bLite5BkH87SWfkBrvSjrR1GWn4wgpjnUQ1lORDRalYcPYlgFWy2uGFEqqKPx3Yqw==
+
+"@u-elements/u-datalist@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@u-elements/u-datalist/-/u-datalist-1.1.0.tgz#a4a85fdcb9e1f66240deea015dfeb24f13f9e38f"
+  integrity sha512-t8H3OddziXmq0YBuXodVWnvRi56WW4sfbJEIO1fx4i39sZ0s/0xjHBsoAsTZkb9mXJEtpgrsH8IkDYP0ZSgSXQ==
+
+"@u-elements/u-details@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@u-elements/u-details/-/u-details-0.2.2.tgz#65aff02a0e6e6f6f739793e226d627c25b956b9c"
+  integrity sha512-8EJH3ajS34IjX4bauUi7z16FNZOLa3GNxfS6QReO1dck4nGNsHT25GYSyDaoQOQX7ZMxlsWADWrUJ9AGLgDO7w==
+
+"@u-elements/u-progress@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@u-elements/u-progress/-/u-progress-0.0.7.tgz#a41d41c741be5d489900e798aa87ad6fe50a0f5e"
+  integrity sha512-T2Q6jwWL60we4qiZCOPqnhEfoI2lOaUP3EmYYvnVpZ+iA8HVuqT+kgdQgACiVymfGWgIzapTcP6xaM02AvPa/A==
+
+"@u-elements/u-tabs@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@u-elements/u-tabs/-/u-tabs-0.1.2.tgz#6abf70e5d9dec2d6241cabde5b60af1f94fdb11d"
+  integrity sha512-KVYJFDPZdo+LXrW+mCMPEUen4wXi8VfSMDKWLt2+q6VgYqWBcAIZcaWBRWxIjXFzGfXQSJqD0amnYGaL1RGZ/w==
 
 "@uiw/copy-to-clipboard@~1.0.12":
   version "1.0.17"
@@ -4117,6 +4246,11 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==
+
+clsx@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.1.tgz#eed397c9fd8bd882bfb18deab7102049a2f32999"
+  integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
 
 co@^4.6.0:
   version "4.6.0"
@@ -6850,6 +6984,11 @@ invariant@^2.2.4:
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   dependencies:
     loose-envify "^1.0.0"
+
+invokers-polyfill@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/invokers-polyfill/-/invokers-polyfill-0.6.1.tgz#416c159adf69e72696577e57abdbe1c7a22f7ca0"
+  integrity sha512-SOl+PfmPcjaXGYvUs3GkbwXN5rAADzl3i33GJ1jOsGhwtlwfMonQvVu5/4aI7X9+J4g+KX2kfiO8jUIvISBubg==
 
 ipaddr.js@1.9.1:
   version "1.9.1"
@@ -12053,6 +12192,11 @@ symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
+
+tabbable@^6.0.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-6.4.0.tgz#36eb7a06d80b3924a22095daf45740dea3bf5581"
+  integrity sha512-05PUHKSNE8ou2dwIxTngl4EzcnsCDZGJ/iCLtDflR/SHB/ny14rXc+qU5P4mG9JkusiV7EivzY9Mhm55AzAvCg==
 
 tailwindcss@^3.0.2:
   version "3.4.17"
