@@ -18,6 +18,12 @@ import MapButton from "@/components/partials/Buttons/MapButton";
 import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
 
+//Designsystemet
+import { Card } from "@digdir/designsystemet-react";
+import "@digdir/designsystemet-css";
+
+
+
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
 import { GnBadgeList } from "@kartverket/geonorge-web-components";
@@ -195,21 +201,25 @@ const MetadataSearchResult = (props) => {
     };
 
     return (
+        //designsystemet list card element
         <div className={style.listItem}>
-            <div>
+            <Card color="neutral" variant="outline">
                 <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
                 </span>
                 {renderListItemInfo()}
                 <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
+
                 </div>
                 {renderCopyUrl()}
-            </div>
-            {renderButtons()}
+                {renderButtons()}  
+            </Card>
         </div>
     );
+   
 };
+
 
 MetadataSearchResult.propTypes = {
     searchResult: PropTypes.object.isRequired,
