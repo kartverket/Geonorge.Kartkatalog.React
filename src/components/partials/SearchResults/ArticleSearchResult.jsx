@@ -25,7 +25,7 @@ const ArticleSearchResult = (props) => {
             </span>
             <span className={style.listItemInfo}>{props.searchResult.Intro}</span>
             <span className={style.listItemDate}>
-                <Moment format="DD.MM.YYYY">{props.searchResult.Date}</Moment>
+                {moment(props.searchResult.Date).format("DD.MM.YYYY")}
             </span>
         </div>
     );
