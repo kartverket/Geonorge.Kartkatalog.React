@@ -14,6 +14,15 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "src"),
       },
     },
+    //Demper deprecation warnings fra r_map
+    css: {
+      preprocessorOptions: {
+        scss: {
+          quietDeps: true,
+          silenceDeprecations: ["import", "global-builtin"],
+        },
+      },
+    },
     server: {
       https: useHttps,
     },
