@@ -682,13 +682,12 @@ const Metadata = () => {
     const renderDateValidityPeriod = () => {
         const validFrom = metadata?.DatePublished ? metadata?.DateMetadataValidFrom : "";
         const validTo = metadata?.DatePublished ? metadata?.DateMetadataValidTo : "";
-
         return validFrom || validTo ? (
             <div>
                 <strong>{dispatch(getResource("ValidityPeriod", "Gyldighetsperiode"))}: </strong>
                 {validFrom && moment(validFrom).isValid() ? moment(validFrom).format("DD.MM.YYYY") : null}
                 {" - "}
-                {moment(validTo).format("DD.MM.YYYY")}
+                {validTo && moment(validTo).isValid() ? moment(validTo).format("DD.MM.YYYY") : null}
             </div>
         ) : null;
     };
