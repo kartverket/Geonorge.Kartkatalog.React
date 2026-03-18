@@ -1,30 +1,31 @@
 // Dependencies
 import { UserManager } from "oidc-client-ts";
+import { getConfig } from "utils/runtimeConfig";
 
 const configIsLoaded = () => {
     return new Promise((resolve, reject) => {
         const userManagerConfig = {
-            client_id: process.env.REACT_APP_GEOID_CLIENT_ID,
-            authority: process.env.REACT_APP_GEOID_AUTHORITY,
-            issuer: process.env.REACT_APP_GEOID_ISSUER,
-            redirect_uri: process.env.REACT_APP_GEOID_REDIRECT_URI,
-            post_logout_redirect_uri: process.env.REACT_APP_GEOID_POST_LOGOUT_REDIRECT_URI,
+            client_id: getConfig("REACT_APP_GEOID_CLIENT_ID", ""),
+            authority: getConfig("REACT_APP_GEOID_AUTHORITY", ""),
+            issuer: getConfig("REACT_APP_GEOID_ISSUER", ""),
+            redirect_uri: getConfig("REACT_APP_GEOID_REDIRECT_URI", ""),
+            post_logout_redirect_uri: getConfig("REACT_APP_GEOID_POST_LOGOUT_REDIRECT_URI", ""),
             metadata: {
-                issuer: process.env.REACT_APP_GEOID_ISSUER,
-                authorization_endpoint: process.env.REACT_APP_GEOID_AUTHORIZATION_ENDPOINT,
-                token_endpoint: process.env.REACT_APP_GEOID_TOKEN_ENDPOINT,
-                userinfo_endpoint: process.env.REACT_APP_GEOID_USERINFO_ENDPOINT,
-                end_session_endpoint: process.env.REACT_APP_GEOID_END_SESSION_ENDPOINT,
-                jwks_uri: process.env.REACT_APP_GEOID_JWKS_URI
+                issuer: getConfig("REACT_APP_GEOID_ISSUER", ""),
+                authorization_endpoint: getConfig("REACT_APP_GEOID_AUTHORIZATION_ENDPOINT", ""),
+                token_endpoint: getConfig("REACT_APP_GEOID_TOKEN_ENDPOINT", ""),
+                userinfo_endpoint: getConfig("REACT_APP_GEOID_USERINFO_ENDPOINT", ""),
+                end_session_endpoint: getConfig("REACT_APP_GEOID_END_SESSION_ENDPOINT", ""),
+                jwks_uri: getConfig("REACT_APP_GEOID_JWKS_URI", "")
             },
             signingKeys: [
                 {
                     kty: "RSA",
                     e: "AQAB",
                     use: "sig",
-                    kid: process.env.REACT_APP_GEOID_KID,
+                    kid: getConfig("REACT_APP_GEOID_KID", ""),
                     alg: "RS256",
-                    n: process.env.REACT_APP_GEOID_N
+                    n: getConfig("REACT_APP_GEOID_N", "")
                 }
             ],
             response_type: "code",

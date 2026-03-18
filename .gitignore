@@ -83,10 +83,13 @@ package-lock\.json
 
 # Environment variables
 .env
-
+.env*
 # Misc
 .DS_Store
 
 # Yarn files
 .yarnrc.yml
 .yarn/
+
+nginx.crt
+nginx.key
