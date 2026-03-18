@@ -99,6 +99,7 @@
     display: grid;
     grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); 
     gap: 24px;
+    margin-top: 24px;
 
 }
 
@@ -109,8 +110,13 @@
   width: 100%;
   min-height:200px;
   padding: 24px;
+  margin-bottom:24px
 
 }
+
+:local(.list) :global(.ds-card) {
+		margin-bottom: 0px;
+	}
 
 
 :local(.morecontainer) {

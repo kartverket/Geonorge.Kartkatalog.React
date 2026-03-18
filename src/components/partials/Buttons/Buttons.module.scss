@@ -231,10 +231,15 @@
   > span {
     font-size: 0.8em;
     color: $anchor-active;
+    color: black;
+    &:hover{
+      color:#707070;
+    }
   }
 
   &:hover {
     cursor: pointer;
+    
   }
 
   :local(.loadingAnimation) {
