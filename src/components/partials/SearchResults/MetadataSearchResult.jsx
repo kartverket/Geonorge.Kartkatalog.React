@@ -204,10 +204,11 @@ const MetadataSearchResult = (props) => {
         //designsystemet list card element
         <div className={style.listItem}>
             <Card color="neutral" variant="outline">
-                <span className={style.listItemTitle}>
+               
+                {renderListItemInfo()}
+                 <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
                 </span>
-                {renderListItemInfo()}
                 <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
 
@@ -215,6 +216,7 @@ const MetadataSearchResult = (props) => {
                 {renderCopyUrl()}
                 {renderButtons()}  
             </Card>
+  
         </div>
     );
    
