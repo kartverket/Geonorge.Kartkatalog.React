@@ -39,6 +39,8 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
     "@vitejs/plugin-basic-ssl": "^2.1.4",
     "@vitejs/plugin-react": "^5.1.4",
     "esbuild": "^0.27.3",
