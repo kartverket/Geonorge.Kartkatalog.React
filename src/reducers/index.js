@@ -21,9 +21,9 @@ import TagManagerReducer from '@/reducers/TagManagerReducer';
 import AvailableWFSServiceStatusesForReducer from '@/reducers/AvailableWFSServiceStatusesReducer';
 import AvailableWMSServiceStatusesForReducer from '@/reducers/AvailableWMSServiceStatusesReducer';
 
-export default (history) => combineReducers({
+export default (history) => combineReducers({ //FJERN - Gjør om til export default combineReducers, altså fjern parameter
     dataLayer: TagManagerReducer,
-    router: connectRouter(history),
+    router: connectRouter(history), //FJERN - Hele kan fjernes
     auth: authReducer,
     baatInfo: BaatInfoReducer,
     searchResults: SearchResultReducer,

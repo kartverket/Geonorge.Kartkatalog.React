@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import createRootReducer from '@/reducers';
 import googleTagManager from '@/utils/googleTagManager';
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory(); //FJERN - Hele kan fjernes. 
 
 const composeEnhancers = composeWithDevTools({
   // options like actionSanitizer, stateSanitizer
@@ -16,12 +16,12 @@ export default function configureStore(preloadedState, userManagerPromise) {
   const middleware = [googleTagManager, thunk];
   const history = createBrowserHistory();
   const store = createStore(
-    createRootReducer(history),
+    createRootReducer(history),   //FJERN - Parameteren kan fjernes. 
     preloadedState,
     composeEnhancers(
       applyMiddleware(
         ...middleware,
-        routerMiddleware(history)
+        routerMiddleware(history) //FJERN - Hele routerMiddleware(history) kan fjernes. 
       )
     )
   );
