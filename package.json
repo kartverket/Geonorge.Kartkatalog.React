@@ -40,9 +40,13 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.29.0",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
     "@vitejs/plugin-basic-ssl": "^2.1.4",
     "@vitejs/plugin-react": "^5.1.4",
+    "babel-jest": "^30.3.0",
     "esbuild": "^0.27.3",
     "identity-obj-proxy": "^3.0.0",
     "jest-teamcity-reporter": "^0.9.0",
