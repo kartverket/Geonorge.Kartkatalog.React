@@ -97,7 +97,7 @@
 
 :local(.list) {
     display: grid;
-    grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); 
+    grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); 
     gap: 24px;
     margin-top: 24px;
 
@@ -105,6 +105,8 @@
 
 //styling of card component from Designsystemet
 :global(.ds-card){
+  display: flex;
+  flex-direction: column;
   border-radius:10px;
   border: 1px solid #d3d3d3;
   width: 100%;

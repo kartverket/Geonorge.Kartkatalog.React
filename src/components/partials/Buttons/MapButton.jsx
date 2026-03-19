@@ -12,6 +12,7 @@ import { getServiceStatusApiUrl } from "@/actions/ApiUrlActions";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
+import { Button } from "@digdir/designsystemet-react";
 
 const MapButton = (props) => {
     const dispatch = useDispatch();
@@ -200,31 +201,21 @@ const MapButton = (props) => {
                 buttonTitle = `${buttonTitle}. ${serviceStatusLabel}`;
             }
             const action = isAdded ? () => removeFromMap([mapItem]) : () => addToMap([mapItem]);
-            const icon = (
-                <FontAwesomeIcon
-                    title={buttonTitle}
-                    icon={isAdded ? ["far", "map-marker-minus"] : ["far", "map-marker-plus"]}
-                    key="icon"
-                />
-            );
+
             const buttonClass = isAdded
                 ? `${style.listButton} ${style.off}`
                 : `${style.listButton} ${style.on} ${style[serviceStatusCode]}`;
-            const textContent = React.createElement(
-                "span",
-                {
-                    key: "textContent"
-                },
-                buttonDescription
-            );
-            let childElements = [icon, textContent];
-            return React.createElement(
-                "button",
-                {
-                    onClick: action,
-                    className: buttonClass
-                },
-                childElements
+
+            return(
+                //knapp importert fra digdir designssystemet
+                <Button 
+                    variant='primary'
+                    title={buttonTitle}
+                    className={buttonClass}
+                    onClick={action}
+                    >
+                        {buttonDescription}
+                </Button>
             );
         }
         return null;

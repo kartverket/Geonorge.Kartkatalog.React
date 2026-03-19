@@ -1,4 +1,7 @@
 @use "../../../scss/abstracts/all" as *;
+@import "@digdir/designsystemet-css/index.css";
+
+@import "@digdir/designsystemet-css";
 
 :local(.open) {
   display: inline;
@@ -208,7 +211,7 @@
   width: 100px;
   flex-direction: column;
   align-items: center;
-  font-size: 1em !important;
+  font-size: 0.875rem;
   align-items: center;
   background: none;
   border: none;
@@ -219,7 +222,7 @@
     outline-offset: 2px;
   }
   @include breakpoint(tablet) {
-    font-size: 1.2em !important;
+    font-size: 1.2rem !important;
     width: 140px;
   }
 
@@ -229,12 +232,9 @@
   }
 
   > span {
-    font-size: 0.8em;
+    font-size: 1rem;
     color: $anchor-active;
     color: black;
-    &:hover{
-      color:#707070;
-    }
   }
 
   &:hover {
@@ -247,6 +247,25 @@
     width: 140px;
   }
 }
+
+//css til knapp designssystemet
+:global(.ds-button){
+  display: flex;
+  width: 135px;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.875rem;
+  border-radius:6px;
+  border: 1px solid black;
+  min-height: 44px;
+  background-color: var(--ds-color-neutral-background-hover);
+
+      &:hover {
+        background-color: #f0f0f0;
+        cursor:pointer;
+    }
+}
+
 
 :local(.loading) {
   &:local(.btn) {

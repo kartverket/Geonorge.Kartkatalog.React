@@ -216,6 +216,7 @@ const MetadataSearchResult = (props) => {
                 {renderCopyUrl()}
                 {renderButtons()}  
             </Card>
+  
         </div>
     );
    

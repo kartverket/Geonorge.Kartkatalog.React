@@ -22,6 +22,7 @@ import loadingAnimation from "@/images/gif/loading.gif";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
+import { Button } from "@digdir/designsystemet-react";
 
 const DownloadButton = (props) => {
     const dispatch = useDispatch();
@@ -230,18 +231,21 @@ const DownloadButton = (props) => {
             const buttonClass = `${style.listButton} ${isAdded ? style.off : style.on}`;
 
             return (
-                <button
-                    onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
-                    className={buttonClass}
-                >
-                    <FontAwesomeIcon
-                        title={buttonDescription}
-                        icon={isAdded ? ["far", "trash"] : ["fas", "cloud-download"]}
-                        key="icon"
-                    />
-                    <span>{buttonDescription}</span>
-                </button>
+                //knapp importert fra digdir sitt designssystem
+    
+                <Button
+                variant='secondary'
+                title={buttonDescription}
+                className={buttonClass}
+                onClick={() =>(isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
+                >   
+                {buttonDescription}
+
+                </Button>
+                
             );
+
+
         } else if (showDownloadLink()) {
             let buttonDescription = (props.metadata.Protocol === "OGC API - Features" || props.metadata.Protocol === "OPeNDAP") ? "Vis API" 
             : dispatch(getResource("ToBasket", "Til nedlasting"));
@@ -253,16 +257,20 @@ const DownloadButton = (props) => {
             const buttonClass = `${style.listButton} ${style.on}`;
 
             return (
-                <a
+            //komponent fra designsystemet
+         
+            <Button
+                    as="a"
                     href={distributionUrl}
                     onClick={handleExternalDownloadButtonClick}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={buttonClass}
-                >
-                    <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />
-                    <span>{buttonDescription}</span>
-                </a>
+                    variant="primary"
+                    >
+                        {buttonDescription}
+                    </Button>
+                 
             );
         } else return null;
     };
@@ -289,6 +297,9 @@ const DownloadButton = (props) => {
                     <span>{buttonDescription}</span>
                 </button>
             );
+            
+
+
         } else if (props.metadata.CanShowDownloadUrl) {
             const buttonDescription = dispatch(getResource("ToBasket", "Til nedlasting"));
             const distributionUrl = props.metadata.DistributionUrl;
