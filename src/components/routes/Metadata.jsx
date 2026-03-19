@@ -1356,9 +1356,17 @@ const Metadata = () => {
                         ) : (
                             ""
                         )}                        
-                        {qualitySpecification?.Date && moment(qualitySpecification.Date).isValid()
-                            ? moment(qualitySpecification.Date).format("DD.MM.YYYY")
-                            : null}
+                        {qualitySpecification.Date ? (
+                            <p>
+                                <strong>{dispatch(getResource("Date", "Dato"))}: </strong>
+                                {moment(qualitySpecification.Date).isValid()
+                                    ? moment(qualitySpecification.Date).format("DD.MM.YYYY")
+                                    : ""}
+                                ({qualitySpecification.DateType})
+                            </p>
+                        ) : (
+                            ""
+                        )}
                         <p>
                             <strong>
                                 {dispatch(getResource("QualitySpecificationExplanation", "Forklaring av resultat"))}:{" "}
