@@ -13,6 +13,9 @@ import { BreadcrumbList, HeadingText, GnShortcutButton } from "@kartverket/geono
 // Actions
 import { getResource } from "actions/ResourceActions";
 
+// Helpers
+import { getActiveFiltersFromSelectedFacets } from "helpers/FacetFilterHelpers";
+
 // Components
 import SelectedFacets from "components/partials/SelectedFacets";
 import SearchResults from "components/partials/SearchResults";
@@ -35,22 +38,7 @@ const Home = () => {
     useEffect(() => {
         const searchString = searchData?.searchString || "";
         const selectedFacets = searchData?.selectedFacets || {};
-
-        // Helper to extract active filters
-        const activeFilters = [];
-        const flattenFacets = (facets, fieldName) => {
-            Object.values(facets).forEach((facet) => {
-                activeFilters.push(`${fieldName}: ${facet.NameTranslated || facet.Name}`);
-                if (facet.facets && Object.keys(facet.facets).length > 0) {
-                    flattenFacets(facet.facets, fieldName);
-                }
-            });
-        };
-        Object.keys(selectedFacets).forEach((fieldKey) => {
-            if (selectedFacets[fieldKey].facets) {
-                flattenFacets(selectedFacets[fieldKey].facets, fieldKey);
-            }
-        });
+        const activeFilters = getActiveFiltersFromSelectedFacets(selectedFacets);
 
         if (posthog && searchString !== lastCapturedSearchString.current) {
             lastCapturedSearchString.current = searchString;

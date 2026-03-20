@@ -11,7 +11,7 @@ import { usePostHog } from "@posthog/react";
 import { pushToDataLayer } from "reducers/TagManagerReducer";
 
 // Helpers
-import { getQueryStringFromFacets } from "helpers/FacetFilterHelpers";
+import { getActiveFiltersFromSelectedFacets, getQueryStringFromFacets } from "helpers/FacetFilterHelpers";
 
 // Components
 import { ErrorBoundary } from "components/ErrorBoundary";
@@ -143,20 +143,7 @@ const Facet = (props) => {
         );
 
         const selectedFacets = props?.searchData?.selectedFacets || {};
-        const activeFilters = [];
-        const flattenFacets = (facets, fieldName) => {
-            Object.values(facets).forEach((facet) => {
-                activeFilters.push(`${fieldName}: ${facet.NameTranslated || facet.Name}`);
-                if (facet.facets && Object.keys(facet.facets).length > 0) {
-                    flattenFacets(facet.facets, fieldName);
-                }
-            });
-        };
-        Object.keys(selectedFacets).forEach((fieldKey) => {
-            if (selectedFacets[fieldKey].facets) {
-                flattenFacets(selectedFacets[fieldKey].facets, fieldKey);
-            }
-        });
+        const activeFilters = getActiveFiltersFromSelectedFacets(selectedFacets);
 
         posthog?.capture("facet_filter_applied", {
             facet_field: props.facetField,

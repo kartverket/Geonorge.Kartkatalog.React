@@ -16,6 +16,28 @@ const getChildFacetsName = (facet, facetField, options = {}) => {
     return queryString;
 };
 
+export const getActiveFiltersFromSelectedFacets = (selectedFacets = {}) => {
+    const activeFilters = [];
+
+    const flattenFacets = (facets, fieldName) => {
+        Object.values(facets || {}).forEach((facet) => {
+            activeFilters.push(`${fieldName}: ${facet.NameTranslated || facet.Name}`);
+
+            if (facet.facets && Object.keys(facet.facets).length > 0) {
+                flattenFacets(facet.facets, fieldName);
+            }
+        });
+    };
+
+    Object.keys(selectedFacets || {}).forEach((fieldKey) => {
+        if (selectedFacets[fieldKey]?.facets) {
+            flattenFacets(selectedFacets[fieldKey].facets, fieldKey);
+        }
+    });
+
+    return activeFilters;
+};
+
 export const getQueryStringFromFacets = (selectedFacets = {}, searchString, options = {}) => {
 
     let queryStringFromFacets = searchString ? `?text=${searchString}` : '';
