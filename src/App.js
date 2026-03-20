@@ -6,6 +6,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // Utils
 import configureStore from "utils/configureStore";
+import { getEnvironment as getRuntimeEnvironment } from "utils/runtimeConfig";
 import userManagerPromise from "utils/userManager";
 
 // Actions
@@ -285,7 +286,7 @@ const App = () => {
             <Provider store={store}>
                 <HelmetProvider>
                     <Helmet>
-                        {process.env.REACT_APP_ENVIRONMENT && process.env.REACT_APP_ENVIRONMENT.length ? (
+                        {getRuntimeEnvironment() && getRuntimeEnvironment().length ? (
                             <meta name="robots" content="noindex" />
                         ) : null}
                     </Helmet>

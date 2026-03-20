@@ -15,6 +15,7 @@ import { updateOidcCookie, updateBaatInfo } from "actions/AuthenticationActions"
 import { MainNavigation } from "@kartverket/geonorge-web-components/MainNavigation";
 import '@kartverket/geonorge-web-components/index.css';
 import Cookies from 'js-cookie';
+import { getEnvironment } from "utils/runtimeConfig";
 
 const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const navigate = useNavigate();
@@ -189,7 +190,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         orginfo: JSON.stringify(orginfo),
         isLoggedIn: !!auth.user,
         language: selectedLanguage,
-        environment: process.env.REACT_APP_ENVIRONMENT,
+        environment: getEnvironment(),
         searchString: searchData?.searchString || "",
         searchType: params.searchResultsType,
         showsearchtypeselector: true,//showSearchTypeSelector,

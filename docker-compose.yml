@@ -1,0 +1,60 @@
+# for runnning locally with https, run the following command in the project root to generate self-signed certificates: 
+# openssl req -x509 -nodes -newkey rsa:2048 -keyout nginx.key -out nginx.crt -days 365 -subj "/CN=localhost" -addext "subjectAltName=DNS:localhost,IP:127.0.0.1" && chmod 644 nginx.key
+
+
+services:
+  kartkatalog:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      secrets:
+        - npmrc
+    ports:
+      - "${PORT:-5173}:443"
+    env_file:
+      - .env
+    configs:
+      - source: nginx_local_conf
+        target: /etc/nginx/conf.d/default.conf
+    volumes:
+      - ./nginx.key:/etc/ssl/private/selfsigned.key
+      - ./nginx.crt:/etc/ssl/certs/selfsigned.crt
+
+configs:
+  nginx_local_conf:
+    content: |
+      server {
+          listen 443 ssl;
+          server_name _;
+
+          ssl_certificate /etc/ssl/certs/selfsigned.crt;
+          ssl_certificate_key /etc/ssl/private/selfsigned.key;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location = /config.js {
+          alias /tmp/config.js;
+          add_header Cache-Control "no-store";
+        }
+
+        location = /version.js {
+          alias /tmp/version.js;
+          add_header Cache-Control "no-store";
+        }
+
+        # React Router (browser history) fallback
+        location / {
+          try_files $$uri $$uri/ /index.html;
+        }
+
+        # Cache immutable static assets
+        location /assets/ {
+          expires 1y;
+          add_header Cache-Control "public, immutable";
+        }
+      }
+
+secrets:
+  npmrc:
+    file: .npmrc
