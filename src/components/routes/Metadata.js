@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData, useLocation, useParams } from "react-router-dom";
+import { usePostHog } from "@posthog/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import MDEditor from "@uiw/react-md-editor";
@@ -54,6 +55,7 @@ import { scrollToTop } from "helpers/GuiHelpers";
 const Metadata = () => {
 
     const dispatch = useDispatch();
+    const posthog = usePostHog();
     const params = useParams();
     const location = useLocation();
 
@@ -234,6 +236,15 @@ const Metadata = () => {
                 metadata: tagData
             })
         );
+        posthog?.capture("metadata_detail_viewed", {
+            title: getTitle(),
+            uuid: metadata.Uuid,
+            type: metadata.Type,
+            access_is_open_data: metadata.AccessIsOpendata,
+            access_is_restricted: metadata.AccessIsRestricted,
+            organization: metadata.ContactMetadata?.Organization || null,
+            theme: metadata.Theme || null,
+        });
     };
 
     const renderDatasetLanguage = () => {

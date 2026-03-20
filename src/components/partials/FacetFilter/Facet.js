@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { usePostHog } from "@posthog/react";
 
 // Reducers
 import { pushToDataLayer } from "reducers/TagManagerReducer";
@@ -20,6 +21,7 @@ import style from "components/partials/FacetFilter/Facet.module.scss";
 
 const Facet = (props) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
     // State
     const [checked, setChecked] = useState(false);
@@ -139,6 +141,32 @@ const Facet = (props) => {
                 facet: props.facet
             })
         );
+
+        const selectedFacets = props?.searchData?.selectedFacets || {};
+        const activeFilters = [];
+        const flattenFacets = (facets, fieldName) => {
+            Object.values(facets).forEach((facet) => {
+                activeFilters.push(`${fieldName}: ${facet.NameTranslated || facet.Name}`);
+                if (facet.facets && Object.keys(facet.facets).length > 0) {
+                    flattenFacets(facet.facets, fieldName);
+                }
+            });
+        };
+        Object.keys(selectedFacets).forEach((fieldKey) => {
+            if (selectedFacets[fieldKey].facets) {
+                flattenFacets(selectedFacets[fieldKey].facets, fieldKey);
+            }
+        });
+
+        posthog?.capture("facet_filter_applied", {
+            facet_field: props.facetField,
+            facet_field_name: props.facetFieldNameTranslated,
+            facet_name: props.facet.Name,
+            facet_name_translated: props.facet.NameTranslated,
+            facet_count: props.facet.Count,
+            action: checked ? "remove" : "add",
+            active_filters: activeFilters,
+        });
     };
 
     const renderFacet = () => {

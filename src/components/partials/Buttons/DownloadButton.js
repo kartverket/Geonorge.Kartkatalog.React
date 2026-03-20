@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePostHog } from "@posthog/react";
 
 // Utils
 import userManager from "utils/userManager";
@@ -25,6 +26,7 @@ import style from "components/partials/Buttons/Buttons.module.scss";
 
 const DownloadButton = (props) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
     // Redux store
     const itemsToDownload = useSelector((state) => state.itemsToDownload);
@@ -159,11 +161,26 @@ const DownloadButton = (props) => {
                 metadata: tagData
             })
         );
+        posthog?.capture("download_link_clicked", {
+            title: props.metadata.Title,
+            uuid: props.metadata.Uuid,
+            distribution_url: props.metadata.DistributionUrl,
+            protocol: props.metadata.Protocol,
+            organization: props.metadata.Organization,
+        });
     };
 
     const addToDownloadListAction = () => {
         const metadata = props.metadata;
         setIsLoading(true);
+        posthog?.capture("download_added_to_basket", {
+            title: metadata.Title,
+            uuid: metadata.Uuid,
+            type_name: metadata.TypeName,
+            organization: metadata.Organization || metadata.ContactMetadata?.Organization,
+            access_is_open_data: metadata.AccessIsOpendata,
+            access_is_restricted: metadata.AccessIsRestricted,
+        });
 
         if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
             if (metadata.SerieDatasets) {

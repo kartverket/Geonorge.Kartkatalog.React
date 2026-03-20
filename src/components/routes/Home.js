@@ -1,9 +1,10 @@
 // Dependencies
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteLoaderData } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePostHog } from "@posthog/react";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
@@ -23,11 +24,47 @@ import style from "./Home.module.scss";
 const Home = () => {
     const dispatch = useDispatch();
     const { searchData, params } = useRouteLoaderData("root");
+    const posthog = usePostHog();
+    const lastCapturedSearchString = useRef(null);
 
     // Redux store
     const auth = useSelector((state) => state.auth);
     const environment = useSelector((state) => state.environment);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
+
+    useEffect(() => {
+        const searchString = searchData?.searchString || "";
+        const selectedFacets = searchData?.selectedFacets || {};
+
+        // Helper to extract active filters
+        const activeFilters = [];
+        const flattenFacets = (facets, fieldName) => {
+            Object.values(facets).forEach((facet) => {
+                activeFilters.push(`${fieldName}: ${facet.NameTranslated || facet.Name}`);
+                if (facet.facets && Object.keys(facet.facets).length > 0) {
+                    flattenFacets(facet.facets, fieldName);
+                }
+            });
+        };
+        Object.keys(selectedFacets).forEach((fieldKey) => {
+            if (selectedFacets[fieldKey].facets) {
+                flattenFacets(selectedFacets[fieldKey].facets, fieldKey);
+            }
+        });
+
+        if (posthog && searchString !== lastCapturedSearchString.current) {
+            lastCapturedSearchString.current = searchString;
+            if (searchString.length > 0) {
+                posthog.capture("search_performed", {
+                    search_string: searchString,
+                    results_type: params?.searchResultsType || "metadata",
+                    num_found_metadata: searchData?.results?.metadata?.NumFound || 0,
+                    num_found_articles: searchData?.results?.articles?.NumFound || 0,
+                    active_filters: activeFilters,
+                });
+            }
+        }
+    }, [searchData, params, posthog]);
 
     useEffect(() => {
         const isLoggedIn = !!auth?.user?.access_token?.length;

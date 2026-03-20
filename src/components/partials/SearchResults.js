@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { usePostHog } from "@posthog/react";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
@@ -22,6 +23,7 @@ import style from "components/partials/SearchResults.module.scss";
 
 export const SearchResults = ({ searchData, searchResultsType }) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
     const getShowMoreLink = () => {
         const newOffset = searchData?.offset + 25;
@@ -72,11 +74,19 @@ export const SearchResults = ({ searchData, searchResultsType }) => {
         return localStorage.getItem("urlDownloadCsv");
     };
 
+    const handleShowMoreClick = () => {
+        posthog?.capture("show_more_results_clicked", {
+            results_type: searchResultsType,
+            current_offset: searchData?.offset,
+            search_string: searchData?.searchString,
+        });
+    };
+
     const renderShowMoreLink = () => {
         return (
             <div className={style.morecontainer}>
                 <gn-button color="default">
-                    <Link to={{ search: getShowMoreLink() }} replace className={style.morebtn}>
+                    <Link to={{ search: getShowMoreLink() }} replace className={style.morebtn} onClick={handleShowMoreClick}>
                         <span>{dispatch(getResource("ShowMoreResults", "Vis flere"))}</span>
                         <FontAwesomeIcon icon={"angle-down"} key="icon" />
                     </Link>

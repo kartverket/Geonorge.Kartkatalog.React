@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePostHog } from "@posthog/react";
 
 // Actions
 import { getResource } from "actions/ResourceActions";
@@ -15,6 +16,7 @@ import style from "components/partials/Buttons/Buttons.module.scss";
 
 const ApplicationButton = (props) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
     const handleButtonClick = () => {
         const tagData = {
@@ -29,6 +31,12 @@ const ApplicationButton = (props) => {
                 metadata: tagData
             })
         );
+        posthog?.capture("application_link_clicked", {
+            title: props.metadata.Title,
+            uuid: props.metadata.Uuid,
+            distribution_url: props.metadata.DistributionUrl || props.metadata.DownloadUrl,
+            organization: props.metadata.Organization,
+        });
     };
 
     const isApplication = () => {
