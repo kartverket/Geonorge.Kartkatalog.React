@@ -36,6 +36,7 @@ import Metadata from "@/components/routes/Metadata";
 // Stylesheets
 import "@/scss/styles.scss";
 import { getEnvironment as getRuntimeEnvironment } from "@/utils/runtimeConfig";
+import "@/scss/theme.scss";
 
 const initialState = {};
 const storePromise = configureStore(initialState, userManagerPromise);

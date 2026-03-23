@@ -1777,38 +1777,38 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
-"@digdir/designsystemet-css@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-css/-/designsystemet-css-1.12.1.tgz#f61024c5b0d5493aefd89431970526a35d0fadbf"
-  integrity sha512-0P3QMXH/kAKJqZ5oBhLag3WiyzMCB+PgAfQzG72TjBcRzi4MEu6Cs2XH66aBhZWEBeUPR0DTeTUtGr5hyQ4rnQ==
+"@digdir/designsystemet-css@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-css/-/designsystemet-css-1.13.0.tgz#f9ee1630de41bdc9cd10b4e201664cab5d18d22c"
+  integrity sha512-Wqo5dUpdbcyr2JmCs2n9PrYGa2P3IoVT/415shPZCk3eB7rJ2WyTSbKmNFRLzQO8iaEToCeLs+2rxhUoiuqvUA==
   dependencies:
-    "@digdir/designsystemet-types" "^1.12.1"
+    "@digdir/designsystemet-types" "^1.13.0"
 
-"@digdir/designsystemet-react@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-react/-/designsystemet-react-1.12.1.tgz#7f793508ccbd6fc096b8d4201991eee75b0bec47"
-  integrity sha512-PvcRWNvVNC06+tJdQLlSNdMj2o3+WIbfsB/gohgce+R3axNuaXh2lIFHl+G2+me/XIegXnUw8LJKpEGNhGAF5w==
+"@digdir/designsystemet-react@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-react/-/designsystemet-react-1.13.0.tgz#50de922ebfc6fbe3a4a4e2128ede6e750d1b2c9d"
+  integrity sha512-4eMUucwLYuSJn5tI3cffB7R/w08sevpj41EjwKHIKS/6u5pF8od0IJgavezXlJOmgT3H0Howhr0y+9s0Fkzqcg==
   dependencies:
-    "@digdir/designsystemet-types" "^1.12.1"
-    "@digdir/designsystemet-web" "^1.12.1"
-    "@floating-ui/dom" "^1.7.5"
+    "@digdir/designsystemet-types" "^1.13.0"
+    "@digdir/designsystemet-web" "^1.13.0"
+    "@floating-ui/dom" "^1.7.6"
     "@floating-ui/react" "0.26.23"
-    "@navikt/aksel-icons" "^8.4.1"
+    "@navikt/aksel-icons" "^8.6.0"
     "@radix-ui/react-slot" "^1.2.4"
-    "@tanstack/react-virtual" "^3.13.18"
+    "@tanstack/react-virtual" "^3.13.21"
     clsx "^2.1.1"
 
-"@digdir/designsystemet-types@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-types/-/designsystemet-types-1.12.1.tgz#ea67d92fc46b6551208d8ed3f1906c25a1a13c55"
-  integrity sha512-HE6D81h9IuNofEq1Gx1/FEVomxDID4SxCo7tcCYT16ZOQzHsUpSjirJD4Z3cIBY1SDDknwUTszyGz7QsBb5a8A==
+"@digdir/designsystemet-types@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-types/-/designsystemet-types-1.13.0.tgz#74c2426ce8b932f35e3cafa09ec2d2c519b03c64"
+  integrity sha512-36t36fjDkzZH2GNuXSsgVoEsdBgQ2NMzdz4BbS1PXvwarXz5lT7GuloMvER+JCzvBlzx/2C3/pfWIaVoN5v6pg==
 
-"@digdir/designsystemet-web@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-web/-/designsystemet-web-1.12.1.tgz#af5d08eb3cba50e22628295baae20cd3fd53659e"
-  integrity sha512-yv4Umnlg00TyOfBY72l7YacfVJc7te5LRT5HzJYBaDauKFm1uzMxLBKJHwIqjN5BfKhnm1cWCF/pFCFvhYD2bg==
+"@digdir/designsystemet-web@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-web/-/designsystemet-web-1.13.0.tgz#d8429b49fc7ce9e5c8b89c528e1eb55b4effddb7"
+  integrity sha512-wagk+PEJw8X3NrFFOSiwzkvKW9D4MPvhIArqTwRNLnDdu2GsDD32Bv73yIsjvnggp/ZxCrO2lelDCdMDgURDFA==
   dependencies:
-    "@floating-ui/dom" "^1.7.5"
+    "@floating-ui/dom" "^1.7.6"
     "@u-elements/u-combobox" "^1.0.7"
     "@u-elements/u-datalist" "^1.1.0"
     "@u-elements/u-details" "^0.2.2"
@@ -2115,7 +2115,7 @@
   dependencies:
     "@floating-ui/utils" "^0.2.11"
 
-"@floating-ui/dom@^1.7.5", "@floating-ui/dom@^1.7.6":
+"@floating-ui/dom@^1.7.6":
   version "1.7.6"
   resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.7.6.tgz#f915bba5abbb177e1f227cacee1b4d0634b187bf"
   integrity sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==
@@ -2574,10 +2574,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@navikt/aksel-icons@^8.4.1":
-  version "8.7.0"
-  resolved "https://registry.yarnpkg.com/@navikt/aksel-icons/-/aksel-icons-8.7.0.tgz#71371b0ac52d8760340b655f20580faeb47a2fb5"
-  integrity sha512-pANfaE/xr2a9Q3CYMWbCjhAk9+UNuUa50Ez37Zk2nZQYtjP1vLXluOgHrxGAGTs6T4ToE+IjtJdU9DoEBnBbdw==
+"@navikt/aksel-icons@^8.6.0":
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/@navikt/aksel-icons/-/aksel-icons-8.8.0.tgz#9b61d6181f2dec2ea5f721c40f24d10e8fb42d21"
+  integrity sha512-VUyD/P/LLsmOisc127ih1/AIvx8kG6ENwfZNgQLgOjASkNLfzhvDBZ582q7m2lFLS+jC/D6hxJMNlRr76zsvGQ==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
@@ -3084,17 +3084,17 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tanstack/react-virtual@^3.13.18":
-  version "3.13.21"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.13.21.tgz#4e6feb326d2fc57f591046bad372ef4ff7d6d82f"
-  integrity sha512-SYXFrmrbPgXBvf+HsOsKhFgqSe4M6B29VHOsX9Jih9TlNkNkDWx0hWMiMLUghMEzyUz772ndzdEeCEBx+3GIZw==
+"@tanstack/react-virtual@^3.13.21":
+  version "3.13.23"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.13.23.tgz#27e969396c39ee919dead847b2f513e2f3b707bf"
+  integrity sha512-XnMRnHQ23piOVj2bzJqHrRrLg4r+F86fuBcwteKfbIjJrtGxb4z7tIvPVAe4B+4UVwo9G4Giuz5fmapcrnZ0OQ==
   dependencies:
-    "@tanstack/virtual-core" "3.13.21"
+    "@tanstack/virtual-core" "3.13.23"
 
-"@tanstack/virtual-core@3.13.21":
-  version "3.13.21"
-  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.13.21.tgz#925eec83d17d28a30ad4c3645d54d5fbe797bbb3"
-  integrity sha512-ww+fmLHyCbPSf7JNbWZP3g7wl6SdNo3ah5Aiw+0e9FDErkVHLKprYUrwTm7dF646FtEkN/KkAKPYezxpmvOjxw==
+"@tanstack/virtual-core@3.13.23":
+  version "3.13.23"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.13.23.tgz#72bcaad8bbf6bd86e0d02776dc7dc968d0aba07b"
+  integrity sha512-zSz2Z2HNyLjCplANTDyl3BcdQJc2k1+yyFoKhNRmCr7V7dY8o8q5m8uFTI1/Pg1kL+Hgrz6u3Xo6eFUB7l66cg==
 
 "@tootallnate/once@1":
   version "1.1.2"

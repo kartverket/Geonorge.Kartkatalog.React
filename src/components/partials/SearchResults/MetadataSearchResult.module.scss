@@ -1,4 +1,6 @@
 @use "../../../scss/abstracts/all" as *;
+@import "@digdir/designsystemet-css/index.css";
+
 
 :local(.listItem) {
 	line-height: 1.6;
@@ -33,6 +35,8 @@
 		a {
 			text-decoration: none;
 			color: black;
+			//color: var (--ds-color-text-default);
+
 		
 
 			&:hover {
