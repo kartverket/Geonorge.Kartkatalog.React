@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useRef } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 import posthog from "posthog-js";
 import { PostHogErrorBoundary, PostHogProvider } from "@posthog/react";
 import { getConfig } from "utils/runtimeConfig";
@@ -11,6 +11,19 @@ const defaultConsent = {
 };
 
 const ConsentContext = createContext(defaultConsent);
+const consentCategoryKeys = Object.keys(defaultConsent);
+
+const normalizeConsent = ({ categories = {}, accepted } = {}) => {
+    const acceptedValues = Array.isArray(accepted) ? accepted : null;
+
+    return consentCategoryKeys.reduce((normalizedConsent, categoryKey) => {
+        normalizedConsent[categoryKey] = acceptedValues
+            ? acceptedValues.includes(categoryKey)
+            : !!categories?.[categoryKey];
+
+        return normalizedConsent;
+    }, { ...defaultConsent });
+};
 
 const getInitialConsent = () => {
     if (typeof window === "undefined" || !window.getCkyConsent) {
@@ -23,12 +36,7 @@ const getInitialConsent = () => {
         return defaultConsent;
     }
 
-    return {
-        analytics: !!existingConsent.categories?.analytics,
-        functional: !!existingConsent.categories?.functional,
-        performance: !!existingConsent.categories?.performance,
-        advertisement: !!existingConsent.categories?.advertisement,
-    };
+    return normalizeConsent({ categories: existingConsent.categories });
 };
 
 export function ConsentProvider({ children }) {
@@ -74,23 +82,11 @@ export function ConsentProvider({ children }) {
 
     useEffect(() => {
         function handleBannerLoad(event) {
-            const { categories } = event.detail;
-            setConsent({
-                analytics:     categories.analytics,
-                functional:    categories.functional,
-                performance:   categories.performance,
-                advertisement: categories.advertisement,
-            });
+            setConsent(normalizeConsent({ categories: event?.detail?.categories }));
         }
 
         function handleConsentUpdate(event) {
-            const { accepted } = event.detail;
-            setConsent({
-                analytics:     accepted.includes("analytics"),
-                functional:    accepted.includes("functional"),
-                performance:   accepted.includes("performance"),
-                advertisement: accepted.includes("advertisement"),
-            });
+            setConsent(normalizeConsent({ accepted: event?.detail?.accepted }));
         }
 
         document.addEventListener("cookieyes_banner_load", handleBannerLoad);
@@ -113,5 +109,3 @@ export function ConsentProvider({ children }) {
         </ConsentContext.Provider>
     );
 }
-
-export const useConsent = () => useContext(ConsentContext);
