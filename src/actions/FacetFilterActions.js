@@ -23,19 +23,17 @@ export const updateSelectedFacets = (facets) => (dispatch) => {
 const addSelectedChildFacetsToAnalytics = (facet, facetType) => (dispatch) => {
     dispatch(
         pushToDataLayer({
-            event: "selected_facets_updated",
+            event: "updateSelectedFacets",
             category: "facets",
-            activity: "facet_type_toggled",
-            action: "add",
+            activity: "addFacetType",
             facet: facetType
         })
     );
     dispatch(
         pushToDataLayer({
-            event: "selected_facets_updated",
+            event: "updateSelectedFacets",
             category: "facets",
-            activity: "facet_toggled",
-            action: "add",
+            activity: "addFacet",
             facet: facet
         })
     );

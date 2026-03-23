@@ -133,19 +133,17 @@ const Facet = (props) => {
 
         dispatch(
             pushToDataLayer({
-                event: "selected_facets_updated",
+                event: "updateSelectedFacets",
                 category: "facets",
-                activity: "facet_type_toggled",
-                action,
+                activity: "addFacetType",
                 facet: { NameTranslated: props.facetFieldNameTranslated }
             })
         );
         dispatch(
             pushToDataLayer({
-                event: "selected_facets_updated",
+                event: "updateSelectedFacets",
                 category: "facets",
-                activity: "facet_toggled",
-                action,
+                activity: "addFacet",
                 facet: props.facet
             })
         );
