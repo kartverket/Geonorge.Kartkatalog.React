@@ -11,7 +11,11 @@ import { usePostHog } from "@posthog/react";
 import { pushToDataLayer } from "reducers/TagManagerReducer";
 
 // Helpers
-import { getActiveFiltersFromSelectedFacets, getQueryStringFromFacets } from "helpers/FacetFilterHelpers";
+import {
+    getActiveFiltersFromSelectedFacets,
+    getNextSelectedFacetsFromFacetToggle,
+    getQueryStringFromFacets
+} from "helpers/FacetFilterHelpers";
 
 // Components
 import { ErrorBoundary } from "components/ErrorBoundary";
@@ -125,25 +129,30 @@ const Facet = (props) => {
     };
 
     const handleFacetClick = () => {
+        const action = checked ? "remove" : "add";
+
         dispatch(
             pushToDataLayer({
-                event: "updateSelectedFacets",
+                event: "selected_facets_updated",
                 category: "facets",
-                activity: "addFacetType",
+                activity: "facet_type_toggled",
+                action,
                 facet: { NameTranslated: props.facetFieldNameTranslated }
             })
         );
         dispatch(
             pushToDataLayer({
-                event: "updateSelectedFacets",
+                event: "selected_facets_updated",
                 category: "facets",
-                activity: "addFacet",
+                activity: "facet_toggled",
+                action,
                 facet: props.facet
             })
         );
 
         const selectedFacets = props?.searchData?.selectedFacets || {};
-        const activeFilters = getActiveFiltersFromSelectedFacets(selectedFacets);
+        const nextSelectedFacets = getNextSelectedFacetsFromFacetToggle(selectedFacets, props.facetField, props.facet, action);
+        const activeFilters = getActiveFiltersFromSelectedFacets(nextSelectedFacets);
 
         posthog?.capture("facet_filter_applied", {
             facet_field: props.facetField,
@@ -151,7 +160,7 @@ const Facet = (props) => {
             facet_name: props.facet.Name,
             facet_name_translated: props.facet.NameTranslated,
             facet_count: props.facet.Count,
-            action: checked ? "remove" : "add",
+            action,
             active_filters: activeFilters,
         });
     };
