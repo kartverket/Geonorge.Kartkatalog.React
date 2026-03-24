@@ -35,7 +35,6 @@
 		a {
 			text-decoration: none;
 			color: black;
-			//color: var (--ds-color-text-default);
 
 		
 
@@ -83,24 +82,31 @@
 	:local(.typeContainer) {
 		margin-right: 20px;
 
+
 		span {
 			display: inline-block;
 		}
 	}
 
 	:local(.buttonGroupContainer) {
-		display: flex;
+		display:flex;
+		gap: 1rem;
 		justify-content: center;
-		align-items: flex-end;
+		align-items:flex;
 		margin-top:auto;
-		white-space: nowrap;
+		flex-wrap:wrap;
+
 		:local(.buttonContainer) {
 			&:not(:first-of-type) {
-				width: 100px;
+				width:auto;
 				@include breakpoint(tablet) {
 					width: 140px;
 				}
 			}
+			    a   {
+					text-decoration: none;
+					color: #292c30;;
+  }
 		}
 	}
 }

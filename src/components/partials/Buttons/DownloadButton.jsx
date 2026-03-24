@@ -256,21 +256,23 @@ const DownloadButton = (props) => {
             const distributionUrl = props.metadata.DistributionUrl;
             const buttonClass = `${style.listButton} ${style.on}`;
 
-            return (
-            //komponent fra designsystemet
-         
-            <Button
-                    as="a"
-                    href={distributionUrl}
+    
+             return (
+                <Button
+                asChild variant= "primary" className={buttonClass}
+                >
+                <a href={distributionUrl}
                     onClick={handleExternalDownloadButtonClick}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={buttonClass}
-                    variant="primary"
                     >
-                        {buttonDescription}
-                    </Button>
-                 
+                    
+                
+                    {buttonDescription}
+                </a>
+             
+             
+                </Button>
             );
         } else return null;
     };
