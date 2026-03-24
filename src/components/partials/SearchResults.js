@@ -82,6 +82,14 @@ export const SearchResults = ({ searchData, searchResultsType }) => {
         });
     };
 
+    const handleCsvDownloadClick = () => {
+        posthog?.capture("search_results_csv_clicked", {
+            results_type: searchResultsType,
+            search_string: searchData?.searchString,
+            csv_url: downloadAsCsvUrl(),
+        });
+    };
+
     const renderShowMoreLink = () => {
         return (
             <div className={style.morecontainer}>
@@ -107,7 +115,7 @@ export const SearchResults = ({ searchData, searchResultsType }) => {
                     <div className={style.searchResultContainer}>
                         {renderMetadataSearchResults()}
                         <div className={style.downloadcsv}>
-                            <a href={downloadAsCsvUrl()}>
+                            <a href={downloadAsCsvUrl()} onClick={handleCsvDownloadClick}>
                                 {dispatch(getResource("SaveResultsAsCSV", "Lagre listen som CSV"))}
                             </a>
                         </div>
