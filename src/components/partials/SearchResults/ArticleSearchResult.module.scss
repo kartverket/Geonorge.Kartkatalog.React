@@ -1,4 +1,4 @@
-@import '../../../scss/abstracts/all';
+@use '../../../scss/abstracts/all' as *;
 
 :local(.listItem) {
 	line-height: 1.6;

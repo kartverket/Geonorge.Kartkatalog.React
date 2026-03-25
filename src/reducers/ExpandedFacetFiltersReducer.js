@@ -1,4 +1,4 @@
-import { UPDATE_EXPANDEDFACETFILTERS } from "actions/types";
+import { UPDATE_EXPANDEDFACETFILTERS } from "@/actions/types";
 
 const initialState = {
     type: true

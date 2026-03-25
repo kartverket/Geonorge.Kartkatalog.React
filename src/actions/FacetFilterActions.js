@@ -3,8 +3,8 @@ import {
     UPDATE_SELECTED_FACETS_FROM_URL,
     UPDATE_SELECTEDFACETS,
     UPDATE_EXPANDEDFACETFILTERS
-} from "actions/types";
-import { pushToDataLayer } from "reducers/TagManagerReducer";
+} from "@/actions/types";
+import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 export const updateAvailableFacets = (facets) => (dispatch) => {
     dispatch({

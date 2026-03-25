@@ -1,0 +1,19 @@
+.git
+.github
+node_modules
+dist
+coverage
+
+# Local environment and secrets
+.env
+*.env
+.npmrc
+.yarnrc.yml
+
+# Local tooling noise
+.vscode
+.idea
+.DS_Store
+
+# Not required for image build
+docs

@@ -91,5 +91,7 @@ package-lock\.json
 .yarnrc.yml
 .yarn/
 
+dist/
+
 nginx.crt
 nginx.key

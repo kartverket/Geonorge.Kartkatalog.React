@@ -1,4 +1,8 @@
-@import "../../scss/abstracts/all";
+@use "../../scss/abstracts/all" as *;
+
+@import "@digdir/designsystemet-css/index.css";
+
+
 
 :local(.tabs) {
   margin: 0 0 32px;
@@ -92,11 +96,33 @@
 }
 
 :local(.list) {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 20px;
-  list-style-position: outside;
+    display: grid;
+    grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); 
+    gap: 24px;
+    margin-top: 24px;
+
 }
+
+//styling of card component from Designsystemet
+:global(.ds-card){
+  background-color: var(--ds-color-accent-background-default);
+  color: var (--ds-color-text-default);
+  display: flex;
+  flex-direction: column;
+  border-radius:10px;
+  border: 1px solid #d3d3d3;
+  width: 100%;
+  min-height:200px;
+  padding: 24px;
+  margin-bottom:24px
+
+
+}
+
+:local(.list) :global(.ds-card) {
+		margin-bottom: 0px;
+	}
+
 
 :local(.morecontainer) {
   width: 100%;

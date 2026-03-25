@@ -1,6 +1,6 @@
 import {
     FETCH_AVAILABLE_WFS_SERVICE_STATUSES
-} from 'actions/types';
+} from '@/actions/types';
 
 const initialState = [
     {

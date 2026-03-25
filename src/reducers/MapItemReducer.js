@@ -1,4 +1,4 @@
-import { FETCH_MAPITEMS } from 'actions/types';
+import { FETCH_MAPITEMS } from '@/actions/types';
 
 const initialState = []
 
