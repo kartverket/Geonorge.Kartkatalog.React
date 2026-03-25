@@ -200,12 +200,13 @@ const MetadataSearchResult = (props) => {
         ) : null;
     };
 
-    return (
+   return (
         //designsystemet list card element
         <div className={style.listItem}>
             <Card color="neutral" variant="outline">
                
                 {renderListItemInfo()}
+                <div>
                  <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
                 </span>
@@ -214,12 +215,15 @@ const MetadataSearchResult = (props) => {
 
                 </div>
                 {renderCopyUrl()}
-                {renderButtons()}  
+            </div>
+                
+            {renderButtons()}
+             
             </Card>
+            
   
         </div>
     );
-   
 };
 
 

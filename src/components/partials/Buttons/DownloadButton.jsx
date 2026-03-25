@@ -234,7 +234,7 @@ const DownloadButton = (props) => {
                 //knapp importert fra digdir sitt designssystem
     
                 <Button
-                variant='secondary'
+                variant='primary'
                 title={buttonDescription}
                 className={buttonClass}
                 onClick={() =>(isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}

@@ -12,6 +12,8 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
+import { Button } from "@digdir/designsystemet-react";
+
 
 const ApplicationButton = (props) => {
     const dispatch = useDispatch();
@@ -43,34 +45,38 @@ const ApplicationButton = (props) => {
                 let distributionUrl = props.metadata.DistributionUrl
                     ? props.metadata.DistributionUrl
                     : props.metadata.DownloadUrl;
-                let icon = (
-                    <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />
-                );
+
                 let buttonClass = `${style.listButton} ${style.ext}`;
-                let textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-                let childElements = [icon, textContent];
+                //digdir designssystem knapp
                 return (
-                    <a
-                        href={distributionUrl}
+                    <Button
+                        asChild variant= "primary" className={buttonClass}
+                        >
+                        <a href={distributionUrl}
                         onClick={handleButtonClick}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={buttonClass}
-                    >
-                        {childElements}
-                    </a>
+                        >
+                                        
+                                    
+                            {buttonDescription}
+                        </a>
+                                 
+                                 
+                    </Button>
                 );
             } else {
-                let icon = (
-                    <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />
-                );
                 let buttonClass = `btn btn-sm ${style.listButton} ${style.disabled} ${style.off}`;
-                let textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-                let childElements = [icon, textContent];
                 return (
-                    <button disabled className={buttonClass}>
-                        {childElements}
-                    </button>
+                    <Button  
+                    variant="secondary" 
+                    className={buttonClass}
+                    disabled
+                    >
+                        {buttonDescription}
+
+                    </Button>
+
                 );
             }
         }
@@ -78,6 +84,7 @@ const ApplicationButton = (props) => {
     } else {
         if (props.metadata.CanShowWebsiteUrl && props.metadata.DistributionUrl) {
             let url = props.metadata.DistributionUrl;
+            //nettside lenke inn til listitem
             let icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />;
             let buttonClass = style.btn;
             let textContent = React.createElement("span", { key: "textContent" }, buttonDescription);

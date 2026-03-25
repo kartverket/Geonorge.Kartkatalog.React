@@ -10,6 +10,7 @@
 	flex-wrap: wrap;
 	align-content: stretch;
 
+
 	> div:first-child {
 		flex: 5;
 	}
@@ -88,28 +89,30 @@
 		}
 	}
 
+
 	:local(.buttonGroupContainer) {
-		display:flex;
+		display: flex;
 		gap: 1rem;
 		justify-content: center;
-		align-items:flex;
+		align-items: center;
 		margin-top:auto;
-		flex-wrap:wrap;
-
+		margin-left: -0.5rem;
+		flex-wrap:nowrap;
 		:local(.buttonContainer) {
-			&:not(:first-of-type) {
-				width:auto;
+			 &:not(:first-of-type) {
+			 	width: auto;
 				@include breakpoint(tablet) {
 					width: 140px;
 				}
-			}
-			    a   {
-					text-decoration: none;
-					color: #292c30;;
-  }
+			 }
+			  a   {
+ 					text-decoration: none;
+ 					color: #292c30;
+			  }
 		}
 	}
 }
+
 
 :local(.flex) {
 	margin-top: 10px;
