@@ -31,6 +31,7 @@ const DistributionsList = (props) => {
                     searchResult={distribution}
                     visibleFields={["Type", "DownloadButton", "MapButton", "ApplicationButton", "DistributionFormats"]}
                     key={i}
+                    enableThumbnail={false}
                 />
             );
         });

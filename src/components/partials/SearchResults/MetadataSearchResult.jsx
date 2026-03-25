@@ -200,13 +200,49 @@ const MetadataSearchResult = (props) => {
         ) : null;
     };
 
-   return (
+        // TESTER UT BILDE
+    const renderThumbnail = () => {
+    const thumbnailUrl = props.searchResult?.ThumbnailUrl;
+    const title = props.searchResult?.Title || "Forhåndsvisning av datasett";
+
+    if (!thumbnailUrl) {
+        return (
+            <div className={style.thumbnailContainer}>
+                <div className={style.thumbnailFallback}>
+                    Ingen forhåndsvisning
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className={style.thumbnailContainer}>
+            <img
+                src={thumbnailUrl}
+                alt={title}
+                className={style.thumbnail}
+                onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    const fallback = e.currentTarget.nextElementSibling;
+                    if (fallback) {
+                        fallback.style.display = "flex";
+                    }
+                }}
+            />
+            <div className={style.thumbnailFallback} style={{ display: "none" }}>
+                Ingen forhåndsvisning
+            </div>
+        </div>
+    );
+};
+
+
+    return (
         //designsystemet list card element
         <div className={style.listItem}>
             <Card color="neutral" variant="outline">
-               
+                {props.enableThumbnail ? renderThumbnail() : null}
                 {renderListItemInfo()}
-                <div>
                  <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
                 </span>
@@ -215,15 +251,12 @@ const MetadataSearchResult = (props) => {
 
                 </div>
                 {renderCopyUrl()}
-            </div>
-                
-            {renderButtons()}
-             
+                {renderButtons()}  
             </Card>
-            
   
         </div>
     );
+   
 };
 
 
@@ -233,7 +266,8 @@ MetadataSearchResult.propTypes = {
 };
 
 MetadataSearchResult.defaultProps = {
-    visibleFields: []
+    visibleFields: [],
+    enableThumbnail: true
 };
 
 export default MetadataSearchResult;
