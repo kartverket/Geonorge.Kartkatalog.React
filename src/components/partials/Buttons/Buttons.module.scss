@@ -265,6 +265,7 @@
   border: 1px solid black;
   min-height: 44px;
   background-color: var(--ds-color-neutral-background-hover);
+  color: var(--ds-color-neutral-text-default);
   box-sizing:border-box;
 
  
@@ -276,6 +277,7 @@
   }
       &:hover {
         background-color: #f0f0f0;
+        color: var(--ds-color-neutral-text-default);
         cursor:pointer;
     }
     

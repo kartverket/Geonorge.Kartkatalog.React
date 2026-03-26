@@ -4,6 +4,13 @@
   margin-bottom: 10px;
 }
 
+:local(.alertWrapper) {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  margin: 16px 0;
+}
+
 :local(.searchResultInformation) {
   font-size: 1.3em;
   padding: 20px 0;
