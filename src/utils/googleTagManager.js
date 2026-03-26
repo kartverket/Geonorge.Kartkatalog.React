@@ -1,4 +1,4 @@
-import {Types, getDataLayer} from 'reducers/TagManagerReducer';
+import {Types, getDataLayer} from '@/reducers/TagManagerReducer';
 
 export default({getState}) => {
   const DATA_LAYER_CONTAINER = 'dataLayer';

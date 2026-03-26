@@ -1,4 +1,7 @@
-@import "../../../scss/abstracts/all";
+@use "../../../scss/abstracts/all" as *;
+@import "@digdir/designsystemet-css/index.css";
+
+@import "@digdir/designsystemet-css";
 
 :local(.open) {
   display: inline;
@@ -205,22 +208,26 @@
 
 :local(.listButton) {
   display: flex;
-  width: 100px;
+  //width: 100px;
   flex-direction: column;
   align-items: center;
-  font-size: 1em !important;
+
+  font-size: 0.875rem;
   align-items: center;
   background: none;
   border: none;
+
   &:focus-visible {
     outline-color: $anchor-active;
     outline-style: auto;
     outline-width: 2px;
     outline-offset: 2px;
   }
+
+
   @include breakpoint(tablet) {
-    font-size: 1.2em !important;
-    width: 140px;
+    font-size: 1.2rem !important;
+   // width: 140px;
   }
 
   > svg {
@@ -229,12 +236,14 @@
   }
 
   > span {
-    font-size: 0.8em;
+    font-size: 1rem;
     color: $anchor-active;
+    color: black;
   }
 
   &:hover {
     cursor: pointer;
+    
   }
 
   :local(.loadingAnimation) {
@@ -242,6 +251,37 @@
     width: 140px;
   }
 }
+
+//css til knapp designssystemet
+:global(.ds-button){
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  white-space:nowrap;
+  width: 130px;
+  font-size: 0.875rem;
+  border-radius:6px;
+  border: 1px solid black;
+  min-height: 44px;
+  background-color: var(--ds-color-neutral-background-hover);
+  box-sizing:border-box;
+
+ 
+   @include breakpoint(tablet) {
+
+    min-width: 140px;
+
+
+  }
+      &:hover {
+        background-color: #f0f0f0;
+        cursor:pointer;
+    }
+    
+
+}
+
 
 :local(.loading) {
   &:local(.btn) {

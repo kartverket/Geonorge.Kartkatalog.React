@@ -1,4 +1,4 @@
-@import '../../scss/abstracts/all';
+@use '../../scss/abstracts/all' as *;
 
 .alertContainer {
   background-color: #ecf1f6;

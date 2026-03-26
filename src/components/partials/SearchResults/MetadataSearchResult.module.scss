@@ -1,14 +1,15 @@
-@import "../../../scss/abstracts/all";
+@use "../../../scss/abstracts/all" as *;
+@import "@digdir/designsystemet-css/index.css";
+
 
 :local(.listItem) {
 	line-height: 1.6;
-	padding: 20px 0 20px 10px;
 	width: 100%;
 	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
+	flex-direction: column;
+	flex-wrap: wrap;
 	align-content: stretch;
-	border-bottom: 1px solid $primary-border;
+
 
 	> div:first-child {
 		flex: 5;
@@ -23,7 +24,46 @@
 			cursor: pointer;
 		}
 	}
+	
+	:local(.thumbnailContainer) {
+		width: 100%;
+		height: 160px;
+		margin-bottom: 12px;
+		overflow: hidden;
+		border-radius: 6px;
+		background: #f3f3f3;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
+	:local(.thumbnail) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	:local(.thumbnailFallback) {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.9rem;
+		color: #666;
+		background: #f3f3f3;
+		text-align: center;
+		padding: 8px;
+	}
+
+	:local(.url) {
+		font-size: 0.8em;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	
 	:local(.listItemTitle) {
 		display: block;
 		font-size: 16px;
@@ -33,15 +73,32 @@
 		}
 		a {
 			text-decoration: none;
+			color: black;
+
+		
+
 			&:hover {
 				text-decoration: underline;
+				color: #707070;
 			}
 		}
 	}
 
 	:local(.listItemInfo) {
-		display: block;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+
 		font-size: 0.8em;
+		a{
+			color:black;
+
+			&:hover{
+				color:#707070;
+			}
+
+		}
+		
 
 		> svg {
 			margin-right: 5px;
@@ -64,25 +121,36 @@
 	:local(.typeContainer) {
 		margin-right: 20px;
 
+
 		span {
 			display: inline-block;
 		}
 	}
 
+
 	:local(.buttonGroupContainer) {
 		display: flex;
-		justify-content: flex-end;
+		gap: 1rem;
+		justify-content: center;
 		align-items: center;
+		margin-top:auto;
+		margin-left: -0.5rem;
+		flex-wrap:nowrap;
 		:local(.buttonContainer) {
-			&:not(:first-of-type) {
-				width: 100px;
+			 &:not(:first-of-type) {
+			 	width: auto;
 				@include breakpoint(tablet) {
 					width: 140px;
 				}
-			}
+			 }
+			  a   {
+ 					text-decoration: none;
+ 					color: #292c30;
+			  }
 		}
 	}
 }
+
 
 :local(.flex) {
 	margin-top: 10px;

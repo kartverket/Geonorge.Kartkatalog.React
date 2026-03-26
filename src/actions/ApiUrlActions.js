@@ -1,4 +1,4 @@
-import { getEnvironment } from 'utils/runtimeConfig';
+import { getEnvironment } from '@/utils/runtimeConfig';
 
 export const getKartkatalogApiUrl = () => () => {
     const environment = getEnvironment();

@@ -8,7 +8,7 @@ export const getConfig = (key, fallback = null) => {
         return runtimeValue;
     }
 
-    const buildValue = process.env[key];
+    const buildValue = import.meta.env[key];
 
     if (buildValue !== undefined && buildValue !== "") {
         return buildValue;
@@ -17,4 +17,4 @@ export const getConfig = (key, fallback = null) => {
     return fallback;
 };
 
-export const getEnvironment = () => getConfig("REACT_APP_ENVIRONMENT", "");
+export const getEnvironment = () => getConfig("VITE_ENVIRONMENT", "");

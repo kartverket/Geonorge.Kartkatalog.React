@@ -94,43 +94,43 @@ jobs:
         if: always()
         run: rm -f .npmrc.github-actions
 
-#   trigger_internal:
-#     needs: [build_image]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Trigger internal repo workflow
-#         env:
-#           INTERNAL_PAT: ${{ secrets.INTERNAL_PAT }}
-#           SHORT_TAG: ${{ needs.build_image.outputs.short_tag }}
-#           COMMIT_MESSAGE: ${{ needs.build_image.outputs.commit_message }}
-#         run: |
-#           payload="$(jq -n \
-#             --arg ref "main" \
-#             --arg application "kartkatalog-frontend" \
-#             --arg ghcr_path "ghcr.io/kartverket/geonorge-kartkatalog-frontend" \
-#             --arg dev_env "atgcp1" \
-#             --arg namespace "geonorge-kartkatalog" \
-#             --arg tag "$SHORT_TAG" \
-#             --arg commit_message "$COMMIT_MESSAGE" \
-#             '{
-#               ref: $ref,
-#               inputs: {
-#                 application: $application,
-#                 ghcr_path: $ghcr_path,
-#                 dev_env: $dev_env,
-#                 namespace: $namespace,
-#                 tag: $tag,
-#                 commit_message: $commit_message
-#               }
-#             }'
-#           )"
+  trigger_internal:
+    needs: [build_image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger internal repo workflow
+        env:
+          INTERNAL_PAT: ${{ secrets.INTERNAL_PAT }}
+          SHORT_TAG: ${{ needs.build_image.outputs.short_tag }}
+          COMMIT_MESSAGE: ${{ needs.build_image.outputs.commit_message }}
+        run: |
+          payload="$(jq -n \
+            --arg ref "main" \
+            --arg application "kartkatalog-frontend" \
+            --arg ghcr_path "ghcr.io/kartverket/geonorge-kartkatalog-frontend" \
+            --arg dev_env "atgcp1" \
+            --arg namespace "geonorge-kartkatalog-dev" \
+            --arg tag "$SHORT_TAG" \
+            --arg commit_message "$COMMIT_MESSAGE" \
+            '{
+              ref: $ref,
+              inputs: {
+                application: $application,
+                ghcr_path: $ghcr_path,
+                dev_env: $dev_env,
+                namespace: $namespace,
+                tag: $tag,
+                commit_message: $commit_message
+              }
+            }'
+          )"
 
-#           curl -X POST \
-#             -H "Accept: application/vnd.github+json" \
-#             -H "Authorization: Bearer $INTERNAL_PAT" \
-#             -H "X-GitHub-Api-Version: 2022-11-28" \
-#             https://api.github.com/repos/kartverket/geonorge-apps/actions/workflows/release-new-dev-public.yml/dispatches \
-#             -d "$payload"
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $INTERNAL_PAT" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/kartverket/geonorge-apps/actions/workflows/release-new-dev-public.yml/dispatches \
+            -d "$payload"
 
   # deploy:
   #   needs: [build_image]

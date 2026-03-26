@@ -1,4 +1,4 @@
-@import '../scss/abstracts/all';
+@use '../scss/abstracts/all' as *;
 
 :local(content-container.test) {
     @media print {

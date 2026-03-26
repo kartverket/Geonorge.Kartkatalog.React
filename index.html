@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="theme-color" content="#000000" />
+  <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+  <link rel="manifest" href="/manifest.json" />
+  <script src="/config.js"></script>
+  <script src="/version.js"></script>
+  <!--
+      Notice the use of  in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <script type="text/javascript">
+
+     function shouldRedirectDownload() {
+      var redirectDownload = getCookie('_redirectDownload');
+   
+      if (redirectDownload === 'true') {
+            setCookie('_redirectDownload', 'false');
+        return true;
+      }
+      return false;
+    }
+
+     function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function isLocalhost() {
+        return window.location.hostname === 'localhost' ||
+        // [::1] is the IPv6 localhost address.
+        window.location.hostname === '[::1]' ||
+        // 127.0.0.0/8 are considered localhost for IPv4.
+        window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+    }
+
+    function setCookie(cname, cvalue) {
+      if(isLocalhost())
+        document.cookie = cname + "=" + cvalue;
+      else
+        document.cookie = cname + "=" + cvalue + "; Domain=geonorge.no";
+    }
+
+    if (shouldRedirectDownload()) {
+       window.location.href = '/nedlasting';
+    }
+
+
+    var loggedInOtherApp = getCookie('_loggedIn');
+    setCookie('_loggedInOtherApp', loggedInOtherApp);
+
+    //if (loggedInOtherApp === 'false') {
+    //  console.log("User is not logged in to other app, clearing sessionStorage");
+    //  sessionStorage.clear();
+    //}
+
+     var appConfig = window.__APP_CONFIG__ || {};
+     var runtimeEnvironment = appConfig.VITE_ENVIRONMENT || '';
+     var isProduction = runtimeEnvironment !== 'dev' && runtimeEnvironment !== 'test';
+     console.log("VITE_ENVIRONMENT: " + runtimeEnvironment)
+     if (isProduction) {
+      /* Google Tag Manager */
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MR2X5P');
+
+     }
+    </script>
+  <title>Kartkatalogen</title>
+</head>
+
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MR2X5P"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="ie"></div>
+  <script>
+    var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+    if (isIE11) {
+      document.getElementById("ie").innerHTML = '<div><div class="banner"><img src="/static/media/geonorge-navbar-logo_dev.43841dc5.svg" /></div><p>Det ser ut som du bruker en eldre versjon av Internet Explorer.</p> <p>For å bruke denne tjenesten på best mulig måte bør du laste ned og installere Chrome, Firefox eller oppgradere til Microsoft Edge.</p><p> <a href="https://www.microsoft.com/nb-no/windows/microsoft-edge">Prøv Microsoft Edge</a></p><p><a href="https://www.google.com/chrome/">Last ned Chrome</a></p><p><a href="https://www.mozilla.org/nb-NO/firefox/">Last ned Firefox</a></p></div>';
+    }
+  </script>
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

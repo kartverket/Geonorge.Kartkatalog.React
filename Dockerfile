@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.7
+
 FROM node:24-alpine AS build
 WORKDIR /app
 
@@ -17,7 +19,7 @@ USER root
 RUN apk add --no-cache gettext
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.sh /docker-entrypoint.sh
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 RUN chmod +x /docker-entrypoint.sh
 
 USER 150

@@ -1,7 +1,7 @@
-import {UPDATE_BAAT_INFO} from 'actions/types';
+import {UPDATE_BAAT_INFO} from '@/actions/types';
 import Cookies from 'js-cookie';
-import {pushToDataLayer} from 'reducers/TagManagerReducer';
-import { getConfig } from 'utils/runtimeConfig';
+import {pushToDataLayer} from '@/reducers/TagManagerReducer';
+import { getConfig } from '@/utils/runtimeConfig';
 
 export const updateOidcCookie = () => (dispatch, getState) => {
   const user = getState() && getState().auth && getState().auth.user
@@ -35,7 +35,7 @@ export const updateBaatInfo = () => (dispatch, getState) => {
       ? user.expires_at * 1000
       : null;
     if (accessToken && expiresAt) {
-      const userInfoUrl = `${getConfig('REACT_APP_GEOID_BAATAUTHZ_APIURL', '')}info/${user.profile.preferred_username}`;
+      const userInfoUrl = `${getConfig("VITE_GEOID_BAATAUTHZ_APIURL", "")}info/${user.profile.preferred_username}`;
       fetch(userInfoUrl, {
         method: 'GET',
         headers: {

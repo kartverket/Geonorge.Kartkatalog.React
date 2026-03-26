@@ -1,4 +1,4 @@
-import { FETCH_GEONORGE_MENU } from 'actions/types';
+import { FETCH_GEONORGE_MENU } from '@/actions/types';
 
 const initialState = []
 

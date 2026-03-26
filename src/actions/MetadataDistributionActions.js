@@ -1,4 +1,4 @@
-import { getKartkatalogApiUrl } from "actions/ApiUrlActions";
+import { getKartkatalogApiUrl } from "@/actions/ApiUrlActions";
 
 export const fetchMetadataDistributions =
     (uuid = "", datefrom = "", dateto = "") =>
