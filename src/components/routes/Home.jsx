@@ -19,6 +19,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Stylesheets
 import style from "./Home.module.scss";
+import {Alert} from "@digdir/designsystemet-react";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -153,7 +154,12 @@ const Home = () => {
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <div id="main-content">
                 <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
-
+                <div className={style.alertWrapper}>
+                    <Alert className={style.alertBanner} data-color='info'>
+                        Vi prøver ut endringer i visningen av Kartkatalogen! Det vil komme mindre justeringer fortløpende.
+                        Innholdet er det samme. Gi oss gjerne tilbakemelding <a target="_blank" href="https://response.questback.com/kartverket/yupv1rvfve">her</a>.
+                    </Alert>
+                </div>
                 <header className={style.header}>
                     {searchData?.searchString?.length && searchData?.results ? (
                         renderSearchQuery()
