@@ -81,12 +81,12 @@ const MetadataSearchResult = (props) => {
         ) : null;
 
         return (
-            <div className={style.buttonGroupContainer}>
-                <div className={style.buttonContainer}>{applicationButtonElement}</div>
-                <div className={style.buttonContainer}>{mapButtonElement}</div>
-                <div className={style.buttonContainer}>{downloadButtonElement}</div>
-            </div>
-        );
+    <div className={style.buttonGroupContainer}>
+        {applicationButtonElement}
+        {mapButtonElement}
+        {downloadButtonElement}
+    </div>
+);
     };
 
     const renderDistributionFormats = () => {

@@ -68,6 +68,7 @@
 		display: block;
 		font-size: 16px;
 		margin-bottom: 5px;
+		min-height: 3.2em;
 		@include breakpoint(tablet) {
 			font-size: 19px;
 		}
@@ -88,7 +89,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px;
-
+		min-height: 2.4em;
 		font-size: 0.8em;
 		a{
 			color:black;
@@ -129,31 +130,17 @@
 
 
 	:local(.buttonGroupContainer) {
-		display: flex;
-		gap: 1rem;
-		justify-content: center;
-		align-items: center;
-		margin-top:auto;
-		margin-left: -0.5rem;
-		flex-wrap:nowrap;
-		:local(.buttonContainer) {
-			 &:not(:first-of-type) {
-			 	width: auto;
-				@include breakpoint(tablet) {
-					width: 140px;
-				}
-			 }
-			  a   {
- 					text-decoration: none;
- 					color: #292c30;
-			  }
-		}
-	}
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: 0rem;
+}
 }
 
 
 :local(.flex) {
-	margin-top: 10px;
+	margin-top: 0px;
 	flex-direction: column;
 	display: flex;
 	flex-wrap: wrap;
