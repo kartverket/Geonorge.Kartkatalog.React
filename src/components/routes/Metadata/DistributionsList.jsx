@@ -32,6 +32,7 @@ const DistributionsList = (props) => {
                     visibleFields={["Type", "DownloadButton", "MapButton", "ApplicationButton", "DistributionFormats"]}
                     key={i}
                     enableThumbnail={false}
+                    buttonAlignment="left"
                 />
             );
         });

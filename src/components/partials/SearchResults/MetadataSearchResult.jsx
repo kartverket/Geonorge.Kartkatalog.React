@@ -80,13 +80,19 @@ const MetadataSearchResult = (props) => {
             </ErrorBoundary>
         ) : null;
 
+        const containerClass = [
+            style.buttonGroupContainer,
+            props.stretchButtons ? style.stretch : null,
+            props.buttonAlignment === "left" ? style.forceLeft : null,
+        ].filter(Boolean).join(" ");
+
         return (
-    <div className={style.buttonGroupContainer}>
-        {applicationButtonElement}
-        {mapButtonElement}
-        {downloadButtonElement}
-    </div>
-);
+            <div className={containerClass}>
+                {applicationButtonElement}
+                {mapButtonElement}
+                {downloadButtonElement}
+            </div>
+        );
     };
 
     const renderDistributionFormats = () => {
