@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePostHog } from "@posthog/react";
 
 // Actions
 import { removeMapItem, addMapItem } from "@/actions/MapItemActions";
@@ -16,6 +17,7 @@ import { Button } from "@digdir/designsystemet-react";
 
 const MapButton = (props) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
     // Redux store
     const mapItems = useSelector((state) => state.mapItems);
@@ -120,12 +122,24 @@ const MapButton = (props) => {
     const addToMap = (mapItem) => {
         if (mapItem?.length) {
             dispatch(addMapItem(mapItem));
+            posthog?.capture("map_item_added", {
+                title: props.metadata.Title,
+                uuid: props.metadata.Uuid,
+                protocol: props.metadata.DistributionProtocol || props.metadata.Protocol,
+                organization: props.metadata.Organization,
+            });
         }
     };
 
     const removeFromMap = (mapItem) => {
         if (mapItem?.length) {
             dispatch(removeMapItem(mapItem));
+            posthog?.capture("map_item_removed", {
+                title: props.metadata.Title,
+                uuid: props.metadata.Uuid,
+                protocol: props.metadata.DistributionProtocol || props.metadata.Protocol,
+                organization: props.metadata.Organization,
+            });
         }
     };
 
