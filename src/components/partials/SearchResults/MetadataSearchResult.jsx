@@ -82,11 +82,17 @@ const MetadataSearchResult = (props) => {
             </ErrorBoundary>
         ) : null;
 
+        const containerClass = [
+            style.buttonGroupContainer,
+            props.stretchButtons ? style.stretch : null,
+            props.buttonAlignment === "left" ? style.forceLeft : null,
+        ].filter(Boolean).join(" ");
+
         return (
-            <div className={style.buttonGroupContainer}>
-                <div className={style.buttonContainer}>{applicationButtonElement}</div>
-                <div className={style.buttonContainer}>{mapButtonElement}</div>
-                <div className={style.buttonContainer}>{downloadButtonElement}</div>
+            <div className={containerClass}>
+                {applicationButtonElement}
+                {mapButtonElement}
+                {downloadButtonElement}
             </div>
         );
     };

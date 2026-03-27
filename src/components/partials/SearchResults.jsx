@@ -44,6 +44,7 @@ export const SearchResults = ({ searchData, searchResultsType }) => {
                             searchResult={searchResult}
                             visibleFields={["DownloadButton", "MapButton", "ApplicationButton"]}
                             key={i}
+                            stretchButtons
                         />
                     </ErrorBoundary>
                 );
