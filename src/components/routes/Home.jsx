@@ -14,7 +14,7 @@ import { BreadcrumbList, HeadingText, GnShortcutButton } from "@kartverket/geono
 import { getResource } from "@/actions/ResourceActions";
 
 // Helpers
-import { getActiveFiltersFromSelectedFacets } from "helpers/FacetFilterHelpers";
+import { getActiveFiltersFromSelectedFacets } from "@/helpers/FacetFilterHelpers";
 
 // Components
 import SelectedFacets from "@/components/partials/SelectedFacets";

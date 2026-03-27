@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, useRef } from "react";
 import posthog from "posthog-js";
 import { PostHogErrorBoundary, PostHogProvider } from "@posthog/react";
-import { getConfig } from "utils/runtimeConfig";
+import { getConfig } from "@/utils/runtimeConfig";
 
 const defaultConsent = {
     analytics: false,

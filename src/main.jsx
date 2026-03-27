@@ -3,7 +3,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import * as serviceWorker from "@/serviceWorker";
 import "react-app-polyfill/ie11";
-import { ConsentProvider } from "utils/consentContext";
+import { ConsentProvider } from "@/utils/consentContext";
 
 // Components
 import App from "@/App.jsx";
