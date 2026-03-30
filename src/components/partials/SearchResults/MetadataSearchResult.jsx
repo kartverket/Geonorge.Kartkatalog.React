@@ -19,7 +19,7 @@ import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
 
 //Designsystemet
-import { Card } from "@digdir/designsystemet-react";
+import {Card, Heading, Paragraph} from "@digdir/designsystemet-react";
 import "@digdir/designsystemet-css";
 
 
@@ -186,9 +186,11 @@ const MetadataSearchResult = (props) => {
         return props.metadata?.Uuid === props.searchResult.Uuid ? (
             <span>{props.searchResult.Title}</span>
         ) : (
-            <Link to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}>
-                {props.searchResult.Title}
-            </Link>
+            <Heading>
+                <Link id={`card-link-${props.searchResult.Uuid}`} to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}>
+                    {props.searchResult.Title}
+                </Link>
+            </Heading>
         );
     };
 
@@ -249,17 +251,15 @@ const MetadataSearchResult = (props) => {
             <Card color="neutral" variant="outline">
                 {props.enableThumbnail ? renderThumbnail() : null}
                 {renderListItemInfo()}
-                 <span className={style.listItemTitle}>
+                <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
                 </span>
                 <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
-
                 </div>
                 {renderCopyUrl()}
-                {renderButtons()}  
+                {renderButtons()}
             </Card>
-  
         </div>
     );
    
