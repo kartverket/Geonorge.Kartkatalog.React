@@ -203,15 +203,10 @@ const MetadataSearchResult = (props) => {
                 <CopyToClipboard onCopy={() => setCopied(true)} text={props.searchResult.GetCapabilitiesUrl}>
                         <Button variant= "primary"
                         title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
-
-                            <span>
-                        
+                            <span>    
                         {copied ? "Lenke kopiert": "Kopier lenke"}
                         </span>
-                        </Button>
-                        
-                        
-                    
+                        </Button>         
                 </CopyToClipboard>
             </ErrorBoundary>
         ) : null;
@@ -267,7 +262,6 @@ const MetadataSearchResult = (props) => {
                     {renderType()} {renderDistributionFormats()}
 
                 </div>
-                {/* {renderCopyUrl()} */}
                 {renderButtons()}  
             </Card>
   

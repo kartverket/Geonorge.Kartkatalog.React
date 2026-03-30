@@ -224,11 +224,6 @@
   }
 
 
-  @include breakpoint(tablet) {
-    font-size: 1.2rem !important;
-
-  }
-
   > svg {
     font-size: 1.5em;
     margin-right: 5px;
@@ -259,7 +254,6 @@
   justify-content: center;
   white-space:nowrap;
   width: 130px;
-  font-size: 0.875rem;
   border-radius:6px;
   border: 1px solid black;
   min-height: 44px;
@@ -267,15 +261,17 @@
   color: var(--ds-color-neutral-text-default);
   box-sizing:border-box;
 
-  		  span {
-
-		font-size: 1.19rem !important;
-	
-	}
  
    @include breakpoint(tablet) {
 
     min-width: 140px;
+    font-size: 1.2rem !important;
+       		  span {
+
+	 	font-size: 1.2rem !important;
+	
+	 }
+
 
 
   }
