@@ -16,8 +16,7 @@
 	}
 
 	> div:last-child {
-		flex: 1;
-		  
+		flex: 1;  
 	}
 
 	:local(.url) {
@@ -26,8 +25,6 @@
 			cursor: pointer;
 		}
 	}
-
-
 	
 	:local(.thumbnailContainer) {
 		width: 100%;
