@@ -19,7 +19,7 @@ import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
 
 //Designsystemet
-import {Card, Heading, Paragraph} from "@digdir/designsystemet-react";
+import {Card, Heading} from "@digdir/designsystemet-react";
 import { Button } from  "@digdir/designsystemet-react";
 import "@digdir/designsystemet-css";
 
