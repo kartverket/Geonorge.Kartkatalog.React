@@ -134,13 +134,25 @@
 	gap: 1rem;
 	justify-content: flex-start;
 	align-items: center;
-	margin-top: 0rem;
+	margin-top: 0.75rem;
+
+	&:has(> *:nth-child(2)) {
+		justify-content: center;
+	}
+
+	&:local(.stretch) > * {
+		width: calc(50% - 0.5rem);
+	}
+
+	&:local(.forceLeft) {
+		justify-content: flex-start;
+		margin-top: 2rem;
+	}
 
 	a{
 		text-decoration:none;
 	}
 	span {
-
 		font-size: 0.875rem;
 	}
 }

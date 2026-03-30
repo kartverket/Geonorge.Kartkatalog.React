@@ -80,16 +80,22 @@ const MetadataSearchResult = (props) => {
                 <ApplicationButton metadata={props.searchResult}></ApplicationButton>
             </ErrorBoundary>
         ) : null;
+
+        const containerClass = [
+            style.buttonGroupContainer,
+            props.stretchButtons ? style.stretch : null,
+            props.buttonAlignment === "left" ? style.forceLeft : null,
+        ].filter(Boolean).join(" ");
         const copyUrlElement = renderCopyUrl();
 
         return (
-    <div className={style.buttonGroupContainer}>
-        {applicationButtonElement}
-        {mapButtonElement}
-        {downloadButtonElement}
-        {copyUrlElement}
+            <div className={containerClass}>
+                {applicationButtonElement}
+                {mapButtonElement}
+                {downloadButtonElement}
+                {copyUrlElement}
     </div>
-);
+        );
     };
 
     const renderDistributionFormats = () => {
