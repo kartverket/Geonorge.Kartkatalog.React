@@ -207,11 +207,9 @@ const MetadataSearchResult = (props) => {
                         title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
 
                             <span>
-
                         {copied ? "Lenke kopiert": "Kopier lenke"}
                         </span>
                         </Button>
-
 
 
                 </CopyToClipboard>
@@ -268,7 +266,6 @@ const MetadataSearchResult = (props) => {
                 <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
                 </div>
-                {/* {renderCopyUrl()} */}
                 {renderButtons()}
             </Card>
         </div>
