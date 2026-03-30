@@ -19,7 +19,7 @@ import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
 
 //Designsystemet
-import { Card } from "@digdir/designsystemet-react";
+import {Card, Heading} from "@digdir/designsystemet-react";
 import { Button } from  "@digdir/designsystemet-react";
 import "@digdir/designsystemet-css";
 
@@ -189,9 +189,11 @@ const MetadataSearchResult = (props) => {
         return props.metadata?.Uuid === props.searchResult.Uuid ? (
             <span>{props.searchResult.Title}</span>
         ) : (
-            <Link to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}>
-                {props.searchResult.Title}
-            </Link>
+            <Heading>
+                <Link id={`card-link-${props.searchResult.Uuid}`} to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}>
+                    {props.searchResult.Title}
+                </Link>
+            </Heading>
         );
     };
 
@@ -203,10 +205,13 @@ const MetadataSearchResult = (props) => {
                 <CopyToClipboard onCopy={() => setCopied(true)} text={props.searchResult.GetCapabilitiesUrl}>
                         <Button variant= "primary"
                         title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
-                            <span>    
+
+                            <span>
                         {copied ? "Lenke kopiert": "Kopier lenke"}
                         </span>
-                        </Button>         
+                        </Button>
+
+
                 </CopyToClipboard>
             </ErrorBoundary>
         ) : null;
@@ -255,16 +260,14 @@ const MetadataSearchResult = (props) => {
             <Card color="neutral" variant="outline">
                 {props.enableThumbnail ? renderThumbnail() : null}
                 {renderListItemInfo()}
-                 <span className={style.listItemTitle}>
+                <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
                 </span>
                 <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
-
                 </div>
-                {renderButtons()}  
+                {renderButtons()}
             </Card>
-  
         </div>
     );
    
