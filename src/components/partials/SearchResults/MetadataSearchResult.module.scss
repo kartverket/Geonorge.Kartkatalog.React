@@ -6,6 +6,14 @@
 	line-height: 1.6;
 	width: 100%;
 	display: flex;
+
+	&:hover:not(:has(.buttonGroupContainer:hover)) :global(.ds-card) {
+		background: var(--ds-color-neutral-surface-hover);
+
+		:global(.ds-button) {
+			background: var(--ds-color-surface-default, white);
+		}
+	}
 	flex-direction: column;
 	flex-wrap: wrap;
 	align-content: stretch;
@@ -17,7 +25,7 @@
 
 	> div:last-child {
 		flex: 1;
-		  
+
 	}
 
 	:local(.url) {
@@ -28,7 +36,7 @@
 	}
 
 
-	
+
 	:local(.thumbnailContainer) {
 		width: 100%;
 		height: 160px;
@@ -67,7 +75,7 @@
 			cursor: pointer;
 		}
 	}
-	
+
 	:local(.listItemTitle) {
 		display: block;
 		font-size: 16px;
@@ -79,12 +87,6 @@
 		a {
 			text-decoration: none;
 			color: black;
-
-
-			&:hover {
-				text-decoration: underline;
-				color: #707070;
-			}
 		}
 	}
 
