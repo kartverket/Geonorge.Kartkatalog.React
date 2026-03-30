@@ -20,6 +20,7 @@ import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
 
 //Designsystemet
 import {Card, Heading, Paragraph} from "@digdir/designsystemet-react";
+import { Button } from  "@digdir/designsystemet-react";
 import "@digdir/designsystemet-css";
 
 
@@ -85,13 +86,15 @@ const MetadataSearchResult = (props) => {
             props.stretchButtons ? style.stretch : null,
             props.buttonAlignment === "left" ? style.forceLeft : null,
         ].filter(Boolean).join(" ");
+        const copyUrlElement = renderCopyUrl();
 
         return (
             <div className={containerClass}>
                 {applicationButtonElement}
                 {mapButtonElement}
                 {downloadButtonElement}
-            </div>
+                {copyUrlElement}
+    </div>
         );
     };
 
@@ -194,15 +197,23 @@ const MetadataSearchResult = (props) => {
         );
     };
 
-    const renderCopyUrl = () => {
+
+        const renderCopyUrl = () => {
         return (props.searchResult.Type === "service" || props.searchResult.Type === "Tjeneste") &&
             props.searchResult.GetCapabilitiesUrl !== undefined ? (
             <ErrorBoundary>
                 <CopyToClipboard onCopy={() => setCopied(true)} text={props.searchResult.GetCapabilitiesUrl}>
-                    <span title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
-                        Kopier lenke <FontAwesomeIcon icon={["far", "copy"]} />{" "}
-                        {copied ? <span>Lenke kopiert til utklippstavle</span> : null}
-                    </span>
+                        <Button variant= "primary"
+                        title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
+
+                            <span>
+
+                        {copied ? "Lenke kopiert": "Kopier lenke"}
+                        </span>
+                        </Button>
+
+
+
                 </CopyToClipboard>
             </ErrorBoundary>
         ) : null;
@@ -257,7 +268,7 @@ const MetadataSearchResult = (props) => {
                 <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
                 </div>
-                {renderCopyUrl()}
+                {/* {renderCopyUrl()} */}
                 {renderButtons()}
             </Card>
         </div>

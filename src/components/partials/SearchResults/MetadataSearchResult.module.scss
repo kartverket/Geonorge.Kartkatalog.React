@@ -27,7 +27,7 @@
 		flex: 1;
 	}
 	:local(.url) {
-		font-size: 0.8em;
+		font-size: 0.8rem;
 		&:hover {
 			cursor: pointer;
 		}
@@ -148,6 +148,13 @@
 	&:local(.forceLeft) {
 		justify-content: flex-start;
 		margin-top: 2rem;
+	}
+
+	a{
+		text-decoration:none;
+	}
+	span {
+		font-size: 0.875rem;
 	}
 }
 }
