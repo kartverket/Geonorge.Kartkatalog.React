@@ -17,13 +17,17 @@
 
 	> div:last-child {
 		flex: 1;
+		  
 	}
+
 	:local(.url) {
 		font-size: 0.8rem;
 		&:hover {
 			cursor: pointer;
 		}
 	}
+
+
 	
 	:local(.thumbnailContainer) {
 		width: 100%;
@@ -76,7 +80,6 @@
 			text-decoration: none;
 			color: black;
 
-		
 
 			&:hover {
 				text-decoration: underline;

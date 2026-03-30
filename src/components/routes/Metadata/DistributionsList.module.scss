@@ -1,7 +1,27 @@
+@use "../../../scss/abstracts/all" as *;
+
 :local(.distributionsList) {
-  margin: 0;
-  padding: 0;
+  display: grid;
+  column-gap: 24px;
+  grid-template-columns: 1fr;
+  min-width: 350px;
+  margin: 0px;
+  padding: 0px;
   margin-bottom: 20px;
-  list-style-position: outside;
   margin-top: 15px;
+
+    @include breakpoint(tablet){
+    grid-template-columns: repeat(2, 1fr);
+
+  @include breakpoint(desktop){
+    grid-template-columns: repeat(3, 1fr);
+      }
+   }
 }
+
+
+
+ 
+
+
+
