@@ -1,174 +1,247 @@
 @use "../../../scss/abstracts/all" as *;
 @import "@digdir/designsystemet-css/index.css";
 
+/* =========================
+   BASE (gjelder alle modes)
+   ========================= */
+
+:global(.ds-card) {
+  background-color: var(--ds-color-accent-background-default);
+  color: var(--ds-color-text-default);
+  display: flex;
+  border-radius: 10px;
+  border: 1px solid #d3d3d3;
+  width: 100%;
+  padding: 24px;
+  margin-bottom: 24px;
+
+  &:hover:not(:has(.buttonGroupContainer:hover)) {
+    background: var(--ds-color-neutral-surface-hover);
+
+    :global(.ds-button) {
+      background: var(--ds-color-surface-default, white);
+    }
+  }
+}
 
 :local(.listItem) {
-	line-height: 1.6;
-	width: 100%;
-	display: flex;
-
-	&:hover:not(:has(.buttonGroupContainer:hover)) :global(.ds-card) {
-		background: var(--ds-color-neutral-surface-hover);
-
-		:global(.ds-button) {
-			background: var(--ds-color-surface-default, white);
-		}
-	}
-	flex-direction: column;
-	flex-wrap: wrap;
-	align-content: stretch;
-
-
-	> div:first-child {
-		flex: 5;
-	}
-
-	> div:last-child {
-		flex: 1;
-
-	}
-
-	:local(.url) {
-		font-size: 0.8rem;
-		&:hover {
-			cursor: pointer;
-		}
-	}
-	
-	:local(.thumbnailContainer) {
-		width: 100%;
-		height: 160px;
-		margin-bottom: 12px;
-		overflow: hidden;
-		border-radius: 6px;
-		background: #f3f3f3;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	:local(.thumbnail) {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	:local(.thumbnailFallback) {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 0.9rem;
-		color: #666;
-		background: #f3f3f3;
-		text-align: center;
-		padding: 8px;
-	}
-
-	:local(.url) {
-		font-size: 0.8em;
-		&:hover {
-			cursor: pointer;
-		}
-	}
-
-	:local(.listItemTitle) {
-		display: block;
-		font-size: 16px;
-		margin-bottom: 5px;
-		min-height: 3.2em;
-		@include breakpoint(tablet) {
-			font-size: 19px;
-		}
-		a {
-			text-decoration: none;
-			color: black;
-		}
-	}
-
-	:local(.listItemInfo) {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		min-height: 2.4em;
-		font-size: 0.8em;
-		a{
-			color:black;
-
-			&:hover{
-				color:#707070;
-			}
-
-		}
-		
-
-		> svg {
-			margin-right: 5px;
-			font-size: 1.2em;
-
-			&:local(.red) {
-				color: $primary-danger;
-			}
-
-			&:local(.yellow) {
-				color: $primary-warning;
-			}
-
-			&:local(.green) {
-				color: $primary-success;
-			}
-		}
-	}
-
-	:local(.typeContainer) {
-		margin-right: 20px;
-
-
-		span {
-			display: inline-block;
-		}
-	}
-
-
-	:local(.buttonGroupContainer) {
-	display: flex;
-	gap: 1rem;
-	justify-content: flex-start;
-	align-items: center;
-	margin-top: 0.75rem;
-
-	&:has(> *:nth-child(2)) {
-		justify-content: center;
-	}
-
-	&:local(.stretch) > * {
-		width: calc(50% - 0.5rem);
-	}
-
-	&:local(.forceLeft) {
-		justify-content: flex-start;
-		margin-top: 2rem;
-	}
-
-	a{
-		text-decoration:none;
-	}
-	span {
-		font-size: 0.875rem;
-	}
+  line-height: 1.6;
+  width: 100%;
 }
+
+:local(.listItemTitle) {
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}
+
+:local(.url) {
+  font-size: 0.8em;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+:local(.thumbnail) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+:local(.thumbnailFallback) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #666;
+  background: #f3f3f3;
+  text-align: center;
+  padding: 8px;
+}
+
+:local(.listItemInfo) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.8em;
+
+  a {
+    color: black;
+
+    &:hover {
+      color: #707070;
+    }
+  }
+
+  > svg {
+    margin-right: 5px;
+    font-size: 1.2em;
+
+    &:local(.red) {
+      color: $primary-danger;
+    }
+
+    &:local(.yellow) {
+      color: $primary-warning;
+    }
+
+    &:local(.green) {
+      color: $primary-success;
+    }
+  }
+}
+
+:local(.typeContainer) {
+  margin-right: 20px;
+
+  span {
+    display: inline-block;
+  }
+}
+
+:local(.buttonGroupContainer) {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.75rem;
+
+  &:has(> *:nth-child(2)) {
+    justify-content: center;
+  }
+
+  &:local(.stretch) > * {
+    width: calc(50% - 0.5rem);
+  }
+
+  &:local(.forceLeft) {
+    justify-content: flex-start;
+    margin-top: 2rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  span {
+    font-size: 0.875rem;
+  }
 }
 
 
-:local(.flex) {
-	margin-top: 0px;
-	flex-direction: column;
-	display: flex;
-	flex-wrap: wrap;
+:local(.contentWrapper) {
+  min-width: 0;
+}
 
-	:nth-child(0) {
-		flex-grow: 1;
-	}
+
+/* =========================
+   GRID MODE
+   ========================= */
+
+:local(.gridMode) {
+  display: flex;
+
+  :global(.ds-card) {
+    flex-direction: column;
+    min-height: 200px;
+  }
+
+  :local(.thumbnailContainer) {
+    width: 100%;
+    height: 160px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :local(.listItemTitle) {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    min-height: 3.2em;
+
+    @include breakpoint(tablet) {
+      font-size: 19px;
+    }
+
+    
+  }
+
+  :local(.listItemInfo) {
+    min-height: 2.4em;
+  }
+
+  :local(.flex) {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+}
+
+/* =========================
+   LIST MODE
+   ========================= */
+
+:local(.listMode) {
+  :global(.ds-card) {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  :local(.thumbnailContainer) {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+
+  :local(.contentWrapper) {
+    flex: 1;
+  }
+
+  :local(.buttonGroupContainer) {
+    margin-left: auto;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    margin-top: 0;
+  }
+
+  //Gjør at mobil versjonen av liste, bare viser vanlig grid. 
+  @include breakpoint(mobileonly) {
+    :global(.ds-card) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    :local(.thumbnailContainer) {
+      width: 100%;
+      height: 120px;
+    }
+
+    :local(.contentWrapper) {
+      width: 100%;
+    }
+
+    :local(.buttonGroupContainer) {
+      margin-left: 0;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+  }
 }
