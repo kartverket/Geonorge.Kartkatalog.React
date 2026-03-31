@@ -1,14 +1,16 @@
 @use "../../scss/abstracts/all" as *;
-
 @import "@digdir/designsystemet-css/index.css";
 
-
+/* =========================
+   TABS
+   ========================= */
 
 :local(.tabs) {
   margin: 0 0 32px;
   list-style: none;
   background-color: #f8f8f7;
   flex: 1;
+
   @include breakpoint(tablet) {
     padding: 0 20px;
   }
@@ -23,6 +25,7 @@
     font-weight: 600;
     margin-right: 16px;
     cursor: pointer;
+
     @include breakpoint(tablet) {
       padding: 10px;
     }
@@ -51,6 +54,10 @@
     }
   }
 }
+
+/* =========================
+   SUB TABS
+   ========================= */
 
 :local(.subTabs) {
   margin: 0 0 16px;
@@ -89,37 +96,35 @@
   }
 }
 
+/* =========================
+   RESULT CONTAINERS
+   ========================= */
+
+:local(.resultsGrid) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+
+
+:local(.resultsList) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* =========================
+   MISC UI
+   ========================= */
+
 :local(.downloadcsv) {
   margin: 10px;
   text-align: right;
   margin-bottom: 20px;
 }
-
-:local(.list) {
-    display: grid;
-    grid-template-columns:repeat(auto-fill, minmax(350px, 1fr)); 
-    gap: 24px;
-    margin-bottom: 24px;
-
-}
-
-//styling of card component from Designsystemet
-:global(.ds-card){
-  background-color: var(--ds-color-accent-background-default);
-  color: var (--ds-color-text-default);
-  display: flex;
-  flex-direction: column;
-  border-radius:10px;
-  border: 1px solid #d3d3d3;
-  width: 100%;
-  min-height:200px;
-  padding: 24px;
-  margin-bottom:24px;
-}
-
-:local(.list) :global(.ds-card) {
-		margin-bottom: 0px;
-	}
 
 :local(.morecontainer) {
   width: 100%;
@@ -131,6 +136,7 @@
   margin: 0 80px 20px;
   font-size: 20px;
   height: 52px;
+
   > span {
     margin: 0 10px;
     display: inline-block;
@@ -147,13 +153,18 @@
   }
 }
 
+/* =========================
+   LAYOUT STRUCTURE
+   ========================= */
+
 :local(.activeContent) {
   display: block;
+  margin-top: 70px;
+
   @media print {
     margin-top: 0;
   }
-  margin-top: 70px;
-  flex-wrap: nowrap;
+
   @include breakpoint(tablet) {
     flex: 4;
     display: flex;
@@ -161,22 +172,10 @@
   }
 }
 
-:local(.resetSearchResults) {
-  margin-left: 10px;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: inline;
-  padding-left: 10px;
-}
-
 :local(.searchResultContainer) {
   flex: 100%;
   margin: 0 20px;
+
   @include breakpoint(tablet) {
     flex: 3;
   }
@@ -194,4 +193,21 @@
   font-weight: 600;
   display: block;
   margin-bottom: 10px;
+}
+
+/* =========================
+   UTIL
+   ========================= */
+
+:local(.resetSearchResults) {
+  margin-left: 10px;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: inline;
+  padding-left: 10px;
 }
