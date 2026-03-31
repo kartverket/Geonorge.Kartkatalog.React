@@ -95,7 +95,7 @@
 		min-height: 2.4em;
 		font-size: 0.8em;
 		a{
-			color:black;
+           			color:black;
 
 			&:hover{
 				color:#707070;
@@ -138,6 +138,7 @@
 	justify-content: flex-start;
 	align-items: center;
 	margin-top: 0.75rem;
+	margin-top:auto;
 
 	&:has(> *:nth-child(2)) {
 		justify-content: center;
