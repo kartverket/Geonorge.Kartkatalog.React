@@ -1,7 +1,7 @@
 @use "../../../scss/abstracts/all" as *;
 @import "@digdir/designsystemet-css/index.css";
 
-/* =========================
+/* 
    BASE (gjelder alle modes)
    ========================= */
 
@@ -143,7 +143,7 @@
 }
 
 
-/* =========================
+/* 
    GRID MODE
    ========================= */
 
@@ -192,7 +192,7 @@
   }
 }
 
-/* =========================
+/* 
    LIST MODE
    ========================= */
 
@@ -221,7 +221,7 @@
     margin-top: 0;
   }
 
-  //Gjør at mobil versjonen av liste, bare viser vanlig grid. 
+  //Makes mobile version basically the same as list. Should be changed once we figure out how mobile list version is supposed to look like. 
   @include breakpoint(mobileonly) {
     :global(.ds-card) {
       flex-direction: column;

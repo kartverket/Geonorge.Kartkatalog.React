@@ -14,6 +14,7 @@
     grid-template-columns: repeat(2, 1fr);
 
   @include breakpoint(desktop){
+    
     grid-template-columns: repeat(3, 1fr);
       }
    }
