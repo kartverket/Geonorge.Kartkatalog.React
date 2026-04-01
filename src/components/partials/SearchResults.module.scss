@@ -112,8 +112,12 @@
 :local(.resultsList) {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 24px;
+  border-radius:10px;
+  border: 1px solid #d3d3d3;
+  width: 100%;
+  min-height:200px;
+  padding: 24px;
+  margin-bottom:24px;
 }
 
 /* =========================
