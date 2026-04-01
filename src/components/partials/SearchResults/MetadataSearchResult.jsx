@@ -35,6 +35,8 @@ import style from "@/components/partials/SearchResults/MetadataSearchResult.modu
 const MetadataSearchResult = (props) => {
     const dispatch = useDispatch();
 
+    
+
     // State
     const [copied, setCopied] = useState(false);
 
@@ -256,15 +258,17 @@ const MetadataSearchResult = (props) => {
 
     return (
         //designsystemet list card element
-        <div className={style.listItem}>
+        <div className={`${style.listItem} ${props.viewMode === "list" ? style.listMode : style.gridMode}`}>
             <Card color="neutral" variant="outline">
                 {props.enableThumbnail ? renderThumbnail() : null}
-                {renderListItemInfo()}
-                <span className={style.listItemTitle}>
+                <div className={style.contentWrapper}>
+                    {renderListItemInfo()}
+                    <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
-                </span>
-                <div className={style.flex}>
+                    </span>
+                    <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
+                    </div>
                 </div>
                 {renderButtons()}
             </Card>
@@ -276,12 +280,14 @@ const MetadataSearchResult = (props) => {
 
 MetadataSearchResult.propTypes = {
     searchResult: PropTypes.object.isRequired,
-    visibleFields: PropTypes.array
+    visibleFields: PropTypes.array,
+    viewMode: PropTypes.oneOf(["grid", "list"])
 };
 
 MetadataSearchResult.defaultProps = {
     visibleFields: [],
-    enableThumbnail: true
+    enableThumbnail: true,
+    viewMode: "grid"
 };
 
 export default MetadataSearchResult;
