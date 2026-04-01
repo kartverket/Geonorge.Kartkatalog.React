@@ -1,10 +1,10 @@
 // Dependencies
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteLoaderData } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BulletListIcon, MenuGridIcon } from "@navikt/aksel-icons";
+
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
 import { BreadcrumbList, HeadingText, GnShortcutButton } from "@kartverket/geonorge-web-components";
@@ -30,9 +30,6 @@ const Home = () => {
     const environment = useSelector((state) => state.environment);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
-
-   
-
     useEffect(() => {
         const isLoggedIn = !!auth?.user?.access_token?.length;
         // Todo fix problem navigation from MainNavigationContainer https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
@@ -45,30 +42,6 @@ const Home = () => {
             });
         }
     }, [auth]);
-
-
-    const [viewMode, setViewMode] = useState("grid");
-    const ViewModeToggle = () => (
-        <div className={style.viewModeToggle}>
-            <button
-                type="button"
-                className={viewMode === "list" ? style.active : ""}
-                onClick={() => setViewMode("list")}
-            >
-            <BulletListIcon title="Listevisning"/>
-            </button>
-
-            <button
-                type="button"
-                className={viewMode === "grid" ? style.active : ""}
-                onClick={() => setViewMode("grid")}
-            >
-            <MenuGridIcon title="Gridvisning"/>
-            </button>
-        </div>
-    );
-
-
 
     const renderSearchQuery = () => {
         let searchResultsText = "";
@@ -195,15 +168,12 @@ const Home = () => {
                             <h1>Kartkatalogen</h1>
                         </heading-text>
                     )}
-                    <div className={style.headerActions}>
-                        <ViewModeToggle />
-                    </div>
                     <ErrorBoundary>
                         <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} />
                     </ErrorBoundary>
                 </header>
                 <ErrorBoundary>
-                    <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} />
+                    <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} />
                 </ErrorBoundary>
             </div>
         </div>
