@@ -32,6 +32,7 @@
 :local(.listItemTitle) {
   a {
     text-decoration: none;
+	font-size:20px;
     color: inherit;
 
     &:hover {
@@ -113,7 +114,7 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  margin-top: 0.75rem;
+  margin-top: auto; 
 
   &:has(> *:nth-child(2)) {
     justify-content: center;
