@@ -7,6 +7,19 @@
   align-items: center;
 }
 
+:local(.headerContent) {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+:local(.headerLeft) {
+  display: flex;
+  flex-direction: column;
+}
+
 :local(.headerActions) {
   margin-left: auto;
   margin-right: 40px;

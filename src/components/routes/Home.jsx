@@ -188,19 +188,23 @@ const Home = () => {
                     </Alert>
                 </div>
                 <header className={style.header}>
-                    {searchData?.searchString?.length && searchData?.results ? (
-                        renderSearchQuery()
-                    ) : (
-                        <heading-text>
-                            <h1>Kartkatalogen</h1>
-                        </heading-text>
-                    )}
-                    <div className={style.headerActions}>
-                        <ViewModeToggle />
+                    <div className={style.headerContent}>
+                        <div className={style.headerLeft}>
+                            {searchData?.searchString?.length && searchData?.results ? (
+                                renderSearchQuery()
+                            ) : (
+                                <heading-text>
+                                    <h1>Kartkatalogen</h1>
+                                </heading-text>
+                            )}
+                            <ErrorBoundary>
+                                <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} />
+                            </ErrorBoundary>
+                        </div>
+                        <div className={style.headerActions}>
+                            <ViewModeToggle />
+                        </div>
                     </div>
-                    <ErrorBoundary>
-                        <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} />
-                    </ErrorBoundary>
                 </header>
                 <ErrorBoundary>
                     <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} />
