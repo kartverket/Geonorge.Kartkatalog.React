@@ -148,5 +148,5 @@ jobs:
   #     # identity for the octo-sts action
   #     identity: Geonorge.Kartkatalog.React
   #     ghcr_path: ghcr.io/kartverket/geonorge-kartkatalog-frontend
-  #     dev_env: atgcp1
+  #     dev_env: atkv3
   #     commit_message: ${{ needs.build_image.outputs.commit_message }}
