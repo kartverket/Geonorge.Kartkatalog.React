@@ -5,12 +5,17 @@ import { useDispatch } from "react-redux";
 import classNames from "classnames/bind";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { usePostHog } from "@posthog/react";
 
 // Reducers
 import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Helpers
-import { getQueryStringFromFacets } from "@/helpers/FacetFilterHelpers";
+import {
+    getActiveFiltersFromSelectedFacets,
+    getNextSelectedFacetsFromFacetToggle,
+    getQueryStringFromFacets
+} from "@/helpers/FacetFilterHelpers";
 
 // Components
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -20,6 +25,7 @@ import style from "@/components/partials/FacetFilter/Facet.module.scss";
 
 const Facet = (props) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
     // State
     const [checked, setChecked] = useState(false);
@@ -123,6 +129,8 @@ const Facet = (props) => {
     };
 
     const handleFacetClick = () => {
+        const action = checked ? "remove" : "add";
+
         dispatch(
             pushToDataLayer({
                 event: "updateSelectedFacets",
@@ -139,6 +147,20 @@ const Facet = (props) => {
                 facet: props.facet
             })
         );
+
+        const selectedFacets = props?.searchData?.selectedFacets || {};
+        const nextSelectedFacets = getNextSelectedFacetsFromFacetToggle(selectedFacets, props.facetField, props.facet, action);
+        const activeFilters = getActiveFiltersFromSelectedFacets(nextSelectedFacets);
+
+        posthog?.capture("facet_filter_applied", {
+            facet_field: props.facetField,
+            facet_field_name: props.facetFieldNameTranslated,
+            facet_name: props.facet.Name,
+            facet_name_translated: props.facet.NameTranslated,
+            facet_count: props.facet.Count,
+            action,
+            active_filters: activeFilters,
+        });
     };
 
     const renderFacet = () => {

@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { usePostHog } from "@posthog/react";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
@@ -23,6 +24,7 @@ import style from "@/components/partials/SearchResults.module.scss";
 export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
 
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
     const getShowMoreLink = () => {
         const newOffset = searchData?.offset + 25;
@@ -84,11 +86,27 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
         return localStorage.getItem("urlDownloadCsv");
     };
 
+    const handleShowMoreClick = () => {
+        posthog?.capture("show_more_results_clicked", {
+            results_type: searchResultsType,
+            current_offset: searchData?.offset,
+            search_string: searchData?.searchString,
+        });
+    };
+
+    const handleCsvDownloadClick = () => {
+        posthog?.capture("search_results_csv_clicked", {
+            results_type: searchResultsType,
+            search_string: searchData?.searchString,
+            csv_url: downloadAsCsvUrl(),
+        });
+    };
+
     const renderShowMoreLink = () => {
         return (
             <div className={style.morecontainer}>
                 <gn-button color="default">
-                    <Link to={{ search: getShowMoreLink() }} replace className={style.morebtn}>
+                    <Link to={{ search: getShowMoreLink() }} replace className={style.morebtn} onClick={handleShowMoreClick}>
                         <span>{dispatch(getResource("ShowMoreResults", "Vis flere"))}</span>
                         <FontAwesomeIcon icon={"angle-down"} key="icon" />
                     </Link>
@@ -109,7 +127,7 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
                     <div className={style.searchResultContainer}>
                         {renderMetadataSearchResults()}
                         <div className={style.downloadcsv}>
-                            <a href={downloadAsCsvUrl()}>
+                            <a href={downloadAsCsvUrl()} onClick={handleCsvDownloadClick}>
                                 {dispatch(getResource("SaveResultsAsCSV", "Lagre listen som CSV"))}
                             </a>
                         </div>
