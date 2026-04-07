@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { usePostHog } from "@posthog/react";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
@@ -34,8 +35,9 @@ import style from "@/components/partials/SearchResults/MetadataSearchResult.modu
 
 const MetadataSearchResult = (props) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
 
-    
+
 
     // State
     const [copied, setCopied] = useState(false);
@@ -187,24 +189,45 @@ const MetadataSearchResult = (props) => {
         );
     };
 
+    const handleResultClick = () => {
+        posthog?.capture("search_result_clicked", {
+            title: props.searchResult.Title,
+            uuid: props.searchResult.Uuid,
+            type: props.searchResult.Type,
+            organization: props.searchResult.Organization,
+            is_open_data: props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata,
+        });
+    };
+
     const renderLink = () => {
         return props.metadata?.Uuid === props.searchResult.Uuid ? (
             <span>{props.searchResult.Title}</span>
         ) : (
             <Heading>
-                <Link id={`card-link-${props.searchResult.Uuid}`} to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}>
-                    {props.searchResult.Title}
-                </Link>
-            </Heading>
+                <Link
+               id={`card-link-${props.searchResult.Uuid}`} to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}
+                onClick={handleResultClick}
+            >
+                {props.searchResult.Title}
+            </Link></Heading>
         );
     };
 
 
-        const renderCopyUrl = () => {
+        const handleCopyUrl = () => {
+        setCopied(true);
+        posthog?.capture("service_url_copied", {
+            title: props.searchResult.Title,
+            uuid: props.searchResult.Uuid,
+            get_capabilities_url: props.searchResult.GetCapabilitiesUrl,
+        });
+    };
+
+    const renderCopyUrl = () => {
         return (props.searchResult.Type === "service" || props.searchResult.Type === "Tjeneste") &&
             props.searchResult.GetCapabilitiesUrl !== undefined ? (
             <ErrorBoundary>
-                <CopyToClipboard onCopy={() => setCopied(true)} text={props.searchResult.GetCapabilitiesUrl}>
+                <CopyToClipboard onCopy={handleCopyUrl} text={props.searchResult.GetCapabilitiesUrl}>
                         <Button variant= "primary"
                         title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
 
@@ -212,7 +235,6 @@ const MetadataSearchResult = (props) => {
                         {copied ? "Lenke kopiert": "Kopier lenke"}
                         </span>
                         </Button>
-
 
                 </CopyToClipboard>
             </ErrorBoundary>
