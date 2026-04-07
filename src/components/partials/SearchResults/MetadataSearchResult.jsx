@@ -20,7 +20,8 @@ import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
 
 //Designsystemet
-import { Card } from "@digdir/designsystemet-react";
+import {Card, Heading} from "@digdir/designsystemet-react";
+import { Button } from  "@digdir/designsystemet-react";
 import "@digdir/designsystemet-css";
 
 
@@ -35,6 +36,8 @@ import style from "@/components/partials/SearchResults/MetadataSearchResult.modu
 const MetadataSearchResult = (props) => {
     const dispatch = useDispatch();
     const posthog = usePostHog();
+
+
 
     // State
     const [copied, setCopied] = useState(false);
@@ -87,13 +90,15 @@ const MetadataSearchResult = (props) => {
             props.stretchButtons ? style.stretch : null,
             props.buttonAlignment === "left" ? style.forceLeft : null,
         ].filter(Boolean).join(" ");
+        const copyUrlElement = renderCopyUrl();
 
         return (
             <div className={containerClass}>
                 {applicationButtonElement}
                 {mapButtonElement}
                 {downloadButtonElement}
-            </div>
+                {copyUrlElement}
+    </div>
         );
     };
 
@@ -198,16 +203,18 @@ const MetadataSearchResult = (props) => {
         return props.metadata?.Uuid === props.searchResult.Uuid ? (
             <span>{props.searchResult.Title}</span>
         ) : (
-            <Link
-                to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}
+            <Heading>
+                <Link
+               id={`card-link-${props.searchResult.Uuid}`} to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}
                 onClick={handleResultClick}
             >
                 {props.searchResult.Title}
-            </Link>
+            </Link></Heading>
         );
     };
 
-    const handleCopyUrl = () => {
+
+        const handleCopyUrl = () => {
         setCopied(true);
         posthog?.capture("service_url_copied", {
             title: props.searchResult.Title,
@@ -221,10 +228,14 @@ const MetadataSearchResult = (props) => {
             props.searchResult.GetCapabilitiesUrl !== undefined ? (
             <ErrorBoundary>
                 <CopyToClipboard onCopy={handleCopyUrl} text={props.searchResult.GetCapabilitiesUrl}>
-                    <span title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
-                        Kopier lenke <FontAwesomeIcon icon={["far", "copy"]} />{" "}
-                        {copied ? <span>Lenke kopiert til utklippstavle</span> : null}
-                    </span>
+                        <Button variant= "primary"
+                        title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
+
+                            <span>
+                        {copied ? "Lenke kopiert": "Kopier lenke"}
+                        </span>
+                        </Button>
+
                 </CopyToClipboard>
             </ErrorBoundary>
         ) : null;
@@ -269,21 +280,20 @@ const MetadataSearchResult = (props) => {
 
     return (
         //designsystemet list card element
-        <div className={style.listItem}>
+        <div className={`${style.listItem} ${props.viewMode === "list" ? style.listMode : style.gridMode}`}>
             <Card color="neutral" variant="outline">
                 {props.enableThumbnail ? renderThumbnail() : null}
-                {renderListItemInfo()}
-                 <span className={style.listItemTitle}>
+                <div className={style.contentWrapper}>
+                    {renderListItemInfo()}
+                    <span className={style.listItemTitle}>
                     <ErrorBoundary>{renderLink()}</ErrorBoundary>
-                </span>
-                <div className={style.flex}>
+                    </span>
+                    <div className={style.flex}>
                     {renderType()} {renderDistributionFormats()}
-
+                    </div>
                 </div>
-                {renderCopyUrl()}
-                {renderButtons()}  
+                {renderButtons()}
             </Card>
-  
         </div>
     );
    
@@ -292,12 +302,14 @@ const MetadataSearchResult = (props) => {
 
 MetadataSearchResult.propTypes = {
     searchResult: PropTypes.object.isRequired,
-    visibleFields: PropTypes.array
+    visibleFields: PropTypes.array,
+    viewMode: PropTypes.oneOf(["grid", "list"])
 };
 
 MetadataSearchResult.defaultProps = {
     visibleFields: [],
-    enableThumbnail: true
+    enableThumbnail: true,
+    viewMode: "grid"
 };
 
 export default MetadataSearchResult;

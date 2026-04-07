@@ -21,7 +21,8 @@ import FacetFilter from "@/components/partials/FacetFilter";
 // Stylesheets
 import style from "@/components/partials/SearchResults.module.scss";
 
-export const SearchResults = ({ searchData, searchResultsType }) => {
+export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
+
     const dispatch = useDispatch();
     const posthog = usePostHog();
 
@@ -45,11 +46,21 @@ export const SearchResults = ({ searchData, searchResultsType }) => {
                             visibleFields={["DownloadButton", "MapButton", "ApplicationButton"]}
                             key={i}
                             stretchButtons
+                            viewMode={viewMode}
                         />
                     </ErrorBoundary>
                 );
             });
-            return React.createElement("div", { className: style.list, key: "searchResult" }, listItemElements);
+            return React.createElement(
+                "div",
+                {
+                    className: viewMode === "list" ? style.resultsList : style.resultsGrid,
+                    key: "searchResult"
+                },
+                listItemElements
+            );
+
+
         } else {
             return null;
         }

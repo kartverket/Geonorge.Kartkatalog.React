@@ -1,9 +1,10 @@
 // Dependencies
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useRouteLoaderData } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BulletListIcon, MenuGridIcon } from "@navikt/aksel-icons";
 import { usePostHog } from "@posthog/react";
 
 // Geonorge WebComponents
@@ -67,6 +68,30 @@ const Home = () => {
             });
         }
     }, [auth]);
+
+
+    const [viewMode, setViewMode] = useState("grid");
+    const ViewModeToggle = () => (
+        <div className={style.viewModeToggle}>
+            <button
+                type="button"
+                className={viewMode === "list" ? style.active : ""}
+                onClick={() => setViewMode("list")}
+            >
+            <BulletListIcon title="Listevisning"/>
+            </button>
+
+            <button
+                type="button"
+                className={viewMode === "grid" ? style.active : ""}
+                onClick={() => setViewMode("grid")}
+            >
+            <MenuGridIcon title="Gridvisning"/>
+            </button>
+        </div>
+    );
+
+
 
     const renderSearchQuery = () => {
         let searchResultsText = "";
@@ -193,12 +218,15 @@ const Home = () => {
                             <h1>Kartkatalogen</h1>
                         </heading-text>
                     )}
+                    <div className={style.headerActions}>
+                        <ViewModeToggle />
+                    </div>
                     <ErrorBoundary>
                         <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} />
                     </ErrorBoundary>
                 </header>
                 <ErrorBoundary>
-                    <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} />
+                    <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} />
                 </ErrorBoundary>
             </div>
         </div>

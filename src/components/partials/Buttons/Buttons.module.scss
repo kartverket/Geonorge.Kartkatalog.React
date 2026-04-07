@@ -208,7 +208,6 @@
 
 :local(.listButton) {
   display: flex;
-  //width: 100px;
   flex-direction: column;
   align-items: center;
 
@@ -224,11 +223,6 @@
     outline-offset: 2px;
   }
 
-
-  @include breakpoint(tablet) {
-    font-size: 1.2rem !important;
-   // width: 140px;
-  }
 
   > svg {
     font-size: 1.5em;
@@ -260,7 +254,6 @@
   justify-content: center;
   white-space:nowrap;
   width: 130px;
-  font-size: 0.875rem;
   border-radius:6px;
   border: 1px solid black;
   min-height: 44px;
@@ -272,6 +265,13 @@
    @include breakpoint(tablet) {
 
     min-width: 140px;
+    font-size: 1.2rem !important;
+       		  span {
+
+	 	font-size: 1.2rem !important;
+	
+	 }
+
 
 
   }
