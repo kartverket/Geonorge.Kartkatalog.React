@@ -227,7 +227,7 @@ const Home = () => {
                                 </heading-text>
                             )}
                             <ErrorBoundary>
-                                <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} />
+                                <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} />
                             </ErrorBoundary>
                         </div>
                         <div className={style.headerActions}>
