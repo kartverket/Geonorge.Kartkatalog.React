@@ -38,13 +38,12 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
     const renderMetadataSearchResults = () => {
         const listItems = searchData?.results?.metadata?.Results;
         if (listItems?.length) {
-            let listItemElements = listItems.map((searchResult, i) => {
+            let listItemElements = listItems.map((searchResult) => {
                 return (
-                    <ErrorBoundary key={i}>
+                    <ErrorBoundary key={searchResult.Uuid}>
                         <MetadataSearchResult
                             searchResult={searchResult}
                             visibleFields={["DownloadButton", "MapButton", "ApplicationButton"]}
-                            key={i}
                             stretchButtons
                             viewMode={viewMode}
                         />
