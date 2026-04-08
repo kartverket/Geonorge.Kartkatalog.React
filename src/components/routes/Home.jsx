@@ -1,8 +1,8 @@
 // Dependencies
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef} from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useRouteLoaderData } from "react-router-dom";
+import { Link, useRouteLoaderData, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BulletListIcon, MenuGridIcon } from "@navikt/aksel-icons";
 import { usePostHog } from "@posthog/react";
@@ -31,6 +31,35 @@ const Home = () => {
     const { searchData, params } = useRouteLoaderData("root");
     const posthog = usePostHog();
     const lastCapturedSearchString = useRef(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    //ViewMode - Grid/List
+    const viewMode = searchParams.get("view") === "list" ? "list" : "grid";
+    const setMode = (mode) => {
+        const next = new URLSearchParams(searchParams);
+        next.set("view", mode);
+        setSearchParams(next);
+    };
+
+    const ViewModeToggle = () => (
+        <div className={style.viewModeToggle}>
+            <button
+                type="button"
+                className={viewMode === "list" ? style.active : ""}
+                onClick={() => setMode("list")}
+            >
+            <BulletListIcon title="Listevisning"/>
+            </button>
+
+            <button
+                type="button"
+                className={viewMode === "grid" ? style.active : ""}
+                onClick={() => setMode("grid")}
+            >
+            <MenuGridIcon title="Gridvisning"/>
+            </button>
+        </div>
+    );
 
     // Redux store
     const auth = useSelector((state) => state.auth);
@@ -68,29 +97,6 @@ const Home = () => {
             });
         }
     }, [auth]);
-
-
-    const [viewMode, setViewMode] = useState("grid");
-    const ViewModeToggle = () => (
-        <div className={style.viewModeToggle}>
-            <button
-                type="button"
-                className={viewMode === "list" ? style.active : ""}
-                onClick={() => setViewMode("list")}
-            >
-            <BulletListIcon title="Listevisning"/>
-            </button>
-
-            <button
-                type="button"
-                className={viewMode === "grid" ? style.active : ""}
-                onClick={() => setViewMode("grid")}
-            >
-            <MenuGridIcon title="Gridvisning"/>
-            </button>
-        </div>
-    );
-
 
 
     const renderSearchQuery = () => {
