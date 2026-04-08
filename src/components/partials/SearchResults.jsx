@@ -121,7 +121,7 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
                 <div className={style.activeContent}>
                     <div className={style.facets}>
                         <ErrorBoundary key="facetFilter">
-                            {<FacetFilter searchData={searchData} key="facetFilter" />}
+                            {<FacetFilter searchData={searchData} key="facetFilter" viewMode={viewMode} />}
                         </ErrorBoundary>
                     </div>
                     <div className={style.searchResultContainer}>
