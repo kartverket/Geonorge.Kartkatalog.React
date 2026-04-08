@@ -425,8 +425,11 @@ const Metadata = () => {
     };
 
     const renderOperations = () => {
+
+        const isEmptyOperations = metadata?.Operations.every(op => Object.keys(op).length === 0);
+
         const operationsList =
-            metadata?.Operations?.length &&
+            metadata?.Operations?.length && !isEmptyOperations &&
             metadata.Operations.map((operation, index) => {
                 return (
                     <li key={index}>
