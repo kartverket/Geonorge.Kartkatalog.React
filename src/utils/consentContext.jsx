@@ -45,8 +45,8 @@ export function ConsentProvider({ children }) {
 
     useEffect(() => {
         if (consent.analytics) {
-            const posthogKey = getConfig("REACT_APP_POSTHOG_KEY", "");
-            const posthogHost = getConfig("REACT_APP_POSTHOG_HOST", "");
+            const posthogKey = getConfig("VITE_POSTHOG_KEY", "");
+            const posthogHost = getConfig("VITE_POSTHOG_HOST", "");
 
             if (!posthogKey || !posthogHost) {
                 return;
