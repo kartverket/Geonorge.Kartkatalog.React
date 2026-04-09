@@ -142,15 +142,16 @@ const MetadataSearchResult = (props) => {
         const listItemOrganization = props.searchResult.Organization;
 
         // Handle array of organizations
-        const organizationLinks = listItemOrganizations && Array.isArray(listItemOrganizations) 
+        const viewParam = props.viewMode === "list" ? "&view=list" : "";
+        const organizationLinks = listItemOrganizations && Array.isArray(listItemOrganizations)
             ? listItemOrganizations.map((org, index) => {
                 const linkTitle = dispatch(
                     getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [org])
                 );
-                
+
                 return (
                     <span key={index}>
-                        <Link title={linkTitle} to={"/?organizations=" + org}>
+                        <Link title={linkTitle} to={"/?organizations=" + org + viewParam}>
                             {org}
                         </Link>
                         {index < listItemOrganizations.length - 1 ? ", " : ""}
@@ -160,7 +161,7 @@ const MetadataSearchResult = (props) => {
             : null;
 
         // For single organization (fallback)
-        const singleOrganization = listItemOrganization && !Array.isArray(listItemOrganization) 
+        const singleOrganization = listItemOrganization && !Array.isArray(listItemOrganization)
             ? listItemOrganization
             : null;
 
@@ -169,7 +170,7 @@ const MetadataSearchResult = (props) => {
         ) : null;
 
         const singleLinkElement = singleOrganization ? (
-            <Link title={singleLinkTitle} to={"/?organizations=" + singleOrganization}>
+            <Link title={singleLinkTitle} to={"/?organizations=" + singleOrganization + viewParam}>
                 {singleOrganization}
             </Link>
         ) : null;
