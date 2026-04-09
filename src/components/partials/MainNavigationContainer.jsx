@@ -30,6 +30,13 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
     // Refs
     const userRef = useRef(null);
+    const lastSearchStringRef = useRef(searchData?.searchString || "");
+
+    // Keep the last non-empty search string so navigating away and back
+    // doesn't reopen the autocomplete popup.
+    if (searchData?.searchString) {
+        lastSearchStringRef.current = searchData.searchString;
+    }
 
     const handleSubmitSearch = (searchString, selectedType) => {
         searchString = searchString.toString();
@@ -163,7 +170,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             },
             onSearchTypeChange: (event) => {
                 const searchType = event?.detail?.value || null;
-                handleChangeSearchResultsType(searchType, searchData?.searchString);
+                handleChangeSearchResultsType(searchType, lastSearchStringRef.current);
             },
             onMapItemsChange: (event) => {
                 dispatch(fetchMapItems());
@@ -172,7 +179,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
                 dispatch(fetchItemsToDownload());
             }
         });
-    }, [auth, baatInfo]);
+    }, [auth, baatInfo, searchData?.searchString]);
 
     const metadataResultsFound = searchData?.results?.metadata?.NumFound || 0;
     const articlesResultsFound = searchData?.results?.articles?.NumFound || 0;
@@ -194,7 +201,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         isLoggedIn: !!auth.user,
         language: selectedLanguage,
         environment: getEnvironment(),
-        searchString: searchData?.searchString || "",
+        searchString: lastSearchStringRef.current,
         searchType: params.searchResultsType,
         showsearchtypeselector: true,//showSearchTypeSelector,
         metadataresultsfound: metadataResultsFound,
