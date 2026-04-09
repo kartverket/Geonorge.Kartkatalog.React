@@ -99,6 +99,8 @@ const Home = () => {
     }, [auth]);
 
 
+    const clearSearchPath = viewMode === "list" ? "/?view=list" : "/";
+
     const renderSearchQuery = () => {
         let searchResultsText = "";
         const hasSearchResults = searchData?.results && Object.keys(searchData.results)?.length;
@@ -126,7 +128,7 @@ const Home = () => {
                         <span className={searchData?.searchString !== "" ? style.searchResultInformation : ""}>
                             {searchResultsText}
                             <span className={searchData?.searchString !== "" ? style.show : style.hide}>
-                                <Link to="/">
+                                <Link to={clearSearchPath}>
                                     {" "}
                                     {dispatch(getResource("ClearSearch", "Nullstill søk"))}
                                     <FontAwesomeIcon
@@ -162,7 +164,7 @@ const Home = () => {
                     <span className={searchData?.searchString !== "" ? style.searchResultInformation : ""}>
                         {searchResultsText}
                         <span className={searchData?.searchString !== "" ? style.show : style.hide}>
-                            <Link to="/">
+                            <Link to={clearSearchPath}>
                                 {dispatch(getResource("ClearSearch", "Nullstill søk"))}
                                 <FontAwesomeIcon
                                     title={dispatch(getResource("ClearSearch", "Nullstill søk"))}
