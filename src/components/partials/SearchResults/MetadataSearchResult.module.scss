@@ -15,9 +15,12 @@
   padding: 24px;
   
 
-  &:hover {
-    transform: translateY(-6px); // løfter kortet litt
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); // gir dybde
+   &:hover:not(:has(.buttonGroupContainer:hover)) {
+    background: var(--ds-color-neutral-surface-hover);
+
+    :global(.ds-button) {
+      background: var(--ds-color-surface-default, white);
+    }
   }
 }
 

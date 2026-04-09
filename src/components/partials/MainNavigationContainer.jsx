@@ -44,12 +44,13 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         if (searchString.length > 1) {
             const isLoggedIn = !!auth?.user;
+            const view = new URLSearchParams(window.location.search).get("view");
+            const viewParam = view ? `&view=${view}` : "";
             if (isLoggedIn) {
-                //Todo fix problem when navigating https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
-                location.href = `/${selectedType}?text=${searchString}`;
+                location.href = `/${selectedType}?text=${searchString}${viewParam}`;
             }
             else{
-            navigate(`/${selectedType}?text=${searchString}`);
+                navigate(`/${selectedType}?text=${searchString}${viewParam}`);
             }
         }
     };
@@ -57,8 +58,10 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const handleChangeSearchResultsType = (searchResultsType, searchString) => {
         searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
+        const view = new URLSearchParams(window.location.search).get("view");
+        const viewParam = view ? `${searchString && searchString.length ? "&" : "?"}view=${view}` : "";
         const searchStringParameter = searchString && searchString.length ? `?text=${searchString}` : "";
-        navigate(`/${searchResultsType}${searchStringParameter}`);
+        navigate(`/${searchResultsType}${searchStringParameter}${viewParam}`);
     };
 
     useEffect(() => {
