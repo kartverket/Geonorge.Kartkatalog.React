@@ -251,12 +251,12 @@ const DownloadButton = (props) => {
                 //knapp importert fra digdir sitt designssystem
     
                 <Button
-                variant='primary'
-                title={buttonDescription}
-                className={buttonClass}
-                onClick={() =>(isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
-                >   
-                {buttonDescription}
+                    variant='primary'
+                    title={buttonDescription}
+                    className={buttonClass}
+                    onClick={() =>(isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
+                    >   
+                    {buttonDescription}
 
                 </Button>
                 
@@ -271,12 +271,11 @@ const DownloadButton = (props) => {
                 buttonDescription = dispatch(getResource("Webpage", "Webside")); 
             }
             const distributionUrl = props.metadata.DistributionUrl;
-            const buttonClass = `${style.listButton} ${style.on}`;
 
     
              return (
                 <Button
-                asChild variant= "primary" className={buttonClass}
+                    asChild variant= "primary" 
                 >
                 <a href={distributionUrl}
                     onClick={handleExternalDownloadButtonClick}

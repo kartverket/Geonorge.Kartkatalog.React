@@ -65,8 +65,6 @@ const ApplicationButton = (props) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         >
-                                        
-                                    
                             {buttonDescription}
                         </a>
                                  
@@ -82,7 +80,6 @@ const ApplicationButton = (props) => {
                     disabled
                     >
                         {buttonDescription}
-
                     </Button>
 
                 );
