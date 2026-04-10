@@ -204,7 +204,7 @@ const MetadataSearchResult = (props) => {
         return props.metadata?.Uuid === props.searchResult.Uuid ? (
             <span>{props.searchResult.Title}</span>
         ) : (
-            <Heading>
+            <Heading className={style.title}>
                 <Link
                id={`card-link-${props.searchResult.Uuid}`} to={`/metadata/${convertTextToUrlSlug(props.searchResult.Title)}/${props.searchResult.Uuid}`}
                 onClick={handleResultClick}
@@ -280,22 +280,35 @@ const MetadataSearchResult = (props) => {
 
 
     return (
-        //designsystemet list card element
-        <div className={`${style.listItem} ${props.viewMode === "list" ? style.listMode : style.gridMode}`}>
-            <Card color="neutral" variant="outline">
-                {props.enableThumbnail ? renderThumbnail() : null}
-                <div className={style.contentWrapper}>
+
+    <div className={`${style.cardWrapper} ${props.viewMode === "list" ? style.listMode : style.gridMode}`}>
+        <Card className={style.card} data-color="brand3" data-variant="default">
+            {props.enableThumbnail ? (
+                <Card.Block className={style.thumbnailBlock}>
+                {renderThumbnail()}
+                </Card.Block>
+            ) : null}
+
+            <Card.Block className={style.primaryBlock}>
+                <div className={style.meta}>
                     {renderListItemInfo()}
-                    <span className={style.listItemTitle}>
-                    <ErrorBoundary>{renderLink()}</ErrorBoundary>
-                    </span>
-                    <div className={style.flex}>
-                    {renderType()} {renderDistributionFormats()}
-                    </div>
                 </div>
+                <div className={style.title}>
+                    <ErrorBoundary>{renderLink()}</ErrorBoundary>
+                </div>
+            </Card.Block>
+
+            <Card.Block className={style.secondaryBlock}>
+                {renderType()}
+                {renderDistributionFormats()}
+            </Card.Block>
+
+            <Card.Block className={style.actionsBlock}>
                 {renderButtons()}
-            </Card>
-        </div>
+            </Card.Block>
+        </Card>
+
+    </div>
     );
    
 };
