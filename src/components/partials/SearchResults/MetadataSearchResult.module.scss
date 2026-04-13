@@ -73,7 +73,7 @@
 :local(.listItemInfo) {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 3px;
   font-size: 0.8em;
 
   a {
@@ -85,7 +85,7 @@
   }
 
   > svg {
-    margin-right: 5px;
+    margin-right: 2px;
     font-size: 1.2em;
 
     &:local(.red) {
@@ -139,9 +139,7 @@
 }
 
 
-:local(.contentWrapper) {
-  min-width: 0;
-}
+
 
 
 /* 
