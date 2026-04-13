@@ -171,8 +171,8 @@
   :local(.listItemTitle) {
     display: block;
     font-size: 16px;
-    margin-bottom: 5px;
-    min-height: 3.2em;
+    margin-bottom: 15px;
+    margin-top: 5px;
 
     @include breakpoint(tablet) {
       font-size: 19px;
