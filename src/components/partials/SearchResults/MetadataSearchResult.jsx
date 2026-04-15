@@ -242,7 +242,7 @@ const MetadataSearchResult = (props) => {
         ) : null;
     };
 
-        // TESTER UT BILDE
+        
     const renderThumbnail = () => {
     const thumbnailUrl = props.searchResult?.ThumbnailUrl;
     const title = props.searchResult?.Title || "Forhåndsvisning av datasett";
