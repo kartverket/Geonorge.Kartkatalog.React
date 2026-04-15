@@ -1,8 +1,8 @@
 // Dependencies
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useRouteLoaderData, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useRouteLoaderData, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BulletListIcon, MenuGridIcon } from "@navikt/aksel-icons";
 import { usePostHog } from "@posthog/react";
@@ -24,21 +24,33 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Stylesheets
 import style from "./Home.module.scss";
-import {Alert} from "@digdir/designsystemet-react";
+import { Alert } from "@digdir/designsystemet-react";
 
 const Home = () => {
     const dispatch = useDispatch();
     const { searchData, params } = useRouteLoaderData("root");
     const posthog = usePostHog();
     const lastCapturedSearchString = useRef(null);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    //ViewMode - Grid/List
+    // ViewMode - Grid/List
     const viewMode = searchParams.get("view") === "list" ? "list" : "grid";
+
     const setMode = (mode) => {
-        const next = new URLSearchParams(searchParams);
-        next.set("view", mode);
-        setSearchParams(next);
+        const currentSearch = location.search || "";
+        let nextSearch;
+
+        if (!currentSearch) {
+            nextSearch = `?view=${mode}`;
+        } else if (/[?&]view=/.test(currentSearch)) {
+            nextSearch = currentSearch.replace(/([?&]view=)[^&]*/, `$1${mode}`);
+        } else {
+            nextSearch = `${currentSearch}&view=${mode}`;
+        }
+
+        navigate(`${location.pathname}${nextSearch}`);
     };
 
     const ViewModeToggle = () => (
@@ -48,7 +60,7 @@ const Home = () => {
                 className={viewMode === "list" ? style.active : ""}
                 onClick={() => setMode("list")}
             >
-            <BulletListIcon title="Listevisning"/>
+                <BulletListIcon title="Listevisning" />
             </button>
 
             <button
@@ -56,7 +68,7 @@ const Home = () => {
                 className={viewMode === "grid" ? style.active : ""}
                 onClick={() => setMode("grid")}
             >
-            <MenuGridIcon title="Gridvisning"/>
+                <MenuGridIcon title="Gridvisning" />
             </button>
         </div>
     );
@@ -85,9 +97,9 @@ const Home = () => {
         }
     }, [searchData, params, posthog]);
 
+    // Todo fix problem navigation from MainNavigationContainer https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
     useEffect(() => {
         const isLoggedIn = !!auth?.user?.access_token?.length;
-        // Todo fix problem navigation from MainNavigationContainer https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
         if (isLoggedIn) {
             GnShortcutButton.setup("gn-shortcut-button", {
                 getAuthToken: () => {
@@ -98,7 +110,6 @@ const Home = () => {
         }
     }, [auth]);
 
-
     const clearSearchPath = viewMode === "list" ? "/?view=list" : "/";
 
     const renderSearchQuery = () => {
@@ -106,6 +117,7 @@ const Home = () => {
         const hasSearchResults = searchData?.results && Object.keys(searchData.results)?.length;
         const numFound = searchData?.results?.metadata?.NumFound || 0;
         if (!hasSearchResults) return <h1>Kartkatalogen</h1>;
+
         if (params.searchResultsType === "metadata") {
             if (searchData?.searchString?.length && searchData?.results?.metadata) {
                 const resourceVariables = [
@@ -122,6 +134,7 @@ const Home = () => {
                               getResource("SearchResultsCountText", "Søk på {0} ga {1} treff i {2}", resourceVariables)
                           );
             }
+
             return (
                 <div className={style.activeContent}>
                     <div className={style.searchResultContainer}>
@@ -159,6 +172,7 @@ const Home = () => {
                               getResource("SearchResultsCountText", "Søk på {0} ga {1} treff i {2}", resourceVariables)
                           );
             }
+
             return (
                 <div className={style.searchResultContainer}>
                     <span className={searchData?.searchString !== "" ? style.searchResultInformation : ""}>
@@ -193,6 +207,7 @@ const Home = () => {
             url: "/"
         }
     ];
+
     return (
         <div>
             <Helmet>
@@ -209,15 +224,20 @@ const Home = () => {
                 />
                 <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
             </Helmet>
+
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
+
             <div id="main-content">
                 <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
+
                 <div className={style.alertWrapper}>
-                    <Alert className={style.alertBanner} data-color='info'>
+                    <Alert className={style.alertBanner} data-color="info">
                         Vi prøver ut endringer i visningen av Kartkatalogen! Det vil komme mindre justeringer fortløpende.
-                        Innholdet er det samme. Gi oss gjerne tilbakemelding <a target="_blank" href="https://response.questback.com/kartverket/yupv1rvfve">her</a>.
+                        Innholdet er det samme. Gi oss gjerne tilbakemelding{" "}
+                        <a target="_blank" href="https://response.questback.com/kartverket/yupv1rvfve">her</a>.
                     </Alert>
                 </div>
+
                 <header className={style.header}>
                     <div className={style.headerContent}>
                         <div className={style.headerLeft}>
@@ -229,14 +249,20 @@ const Home = () => {
                                 </heading-text>
                             )}
                             <ErrorBoundary>
-                                <SelectedFacets searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} />
+                                <SelectedFacets
+                                    searchData={searchData}
+                                    searchResultsType={params.searchResultsType}
+                                    viewMode={viewMode}
+                                />
                             </ErrorBoundary>
                         </div>
+
                         <div className={style.headerActions}>
                             <ViewModeToggle />
                         </div>
                     </div>
                 </header>
+
                 <ErrorBoundary>
                     <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} />
                 </ErrorBoundary>
