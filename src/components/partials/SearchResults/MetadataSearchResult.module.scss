@@ -169,8 +169,8 @@
   :local(.listItemTitle) {
     display: block;
     font-size: 16px;
-    margin-bottom: 5px;
-    min-height: 3.2em;
+    margin-bottom: 10px;
+    
 
     @include breakpoint(tablet) {
       font-size: 19px;
@@ -179,9 +179,6 @@
     
   }
 
-  :local(.listItemInfo) {
-    min-height: 2.4em;
-  }
 
   :local(.flex) {
     margin-top: 0;
