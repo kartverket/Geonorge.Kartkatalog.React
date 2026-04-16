@@ -74,7 +74,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 3px;
-  font-size: 0.8em;
+  font-size: 1em;
 
   a {
     color: black;
@@ -140,8 +140,6 @@
 
 
 
-
-
 /* 
    GRID MODE
    ========================= */
@@ -169,14 +167,13 @@
   :local(.listItemTitle) {
     display: block;
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 0.156em;
+    margin-top: 0.156em;
     min-height: 3.2em;
 
     @include breakpoint(tablet) {
       font-size: 19px;
     }
-
-    
   }
 
   :local(.listItemInfo) {
