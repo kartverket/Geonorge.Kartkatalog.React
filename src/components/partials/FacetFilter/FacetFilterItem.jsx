@@ -1,5 +1,5 @@
 // Dependencies
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import style from "@/components/partials/FacetFilter/FacetFilterItem.module.scss
 
 const FacetFilterItem = ({ searchData, facetFilterItem, viewMode }) => {
     const dispatch = useDispatch();
+    const [organizationFilter, setOrganizationFilter] = useState("");
 
     // Redux store
     const expandedFacetFilters = useSelector((state) => state.expandedFacetFilters);
@@ -29,8 +30,22 @@ const FacetFilterItem = ({ searchData, facetFilterItem, viewMode }) => {
         dispatch(updateExpandedFacetFilters(newExpandedFacetFilters));
     };
 
+    const handleOrganizationFilterChange = (event) => {
+        setOrganizationFilter(event.target.value);
+    };
+
+    const getFilteredFacetResults = (facetResults) => {
+        if (facetFilterItem.Name === "organizations" && organizationFilter.trim()) {
+            return facetResults.filter((facet) => 
+                facet.Name?.toLowerCase().includes(organizationFilter.toLowerCase().trim())
+            );
+        }
+        return facetResults;
+    };
+
     const getFacetResultsLength = (localFacetFilterItem = facetFilterItem, facetResultsLength = 0) => {
-        localFacetFilterItem.FacetResults.forEach((facetResultItem) => {
+        const results = getFilteredFacetResults(localFacetFilterItem.FacetResults);
+        results.forEach((facetResultItem) => {
             if (facetResultItem?.FacetResults?.length) {
                 facetResultsLength = getFacetResultsLength(facetResultItem, facetResultsLength);
             }
@@ -41,7 +56,8 @@ const FacetFilterItem = ({ searchData, facetFilterItem, viewMode }) => {
 
     const renderList = (parentIsExpanded, labelId) => {
         if (facetFilterItem?.FacetResults?.length) {
-            let facetElements = facetFilterItem.FacetResults.map((facet, i) => {
+            const filteredResults = getFilteredFacetResults(facetFilterItem.FacetResults);
+            let facetElements = filteredResults.map((facet, i) => {
                 return (
                     <Facet
                         facet={facet}
@@ -76,6 +92,7 @@ const FacetFilterItem = ({ searchData, facetFilterItem, viewMode }) => {
     };
 
     const labelId = `facet-label-${facetFilterItem.Name}`;
+    const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
     return (
         <li className={isExpanded() ? style.filterItem : style.filterItem + " " + style.closed}>
@@ -85,6 +102,16 @@ const FacetFilterItem = ({ searchData, facetFilterItem, viewMode }) => {
                     <span className={style.expandArrow}></span> <span id={labelId}>{facetFilterItem.NameTranslated}</span>
                 </p>
             </button>
+            {facetFilterItem.Name === "organizations" && isExpanded() && (
+                <input 
+                    type="text" 
+                    id="filter-organizations" 
+                    className={style.filterInput} 
+                    placeholder={selectedLanguage == "no" ? "Søk på organisasjon..." : "Search for organization..."} 
+                    value={organizationFilter}
+                    onChange={handleOrganizationFilterChange}
+                />
+            )}
             {renderList(isExpanded(), labelId)}
         </li>
     );
