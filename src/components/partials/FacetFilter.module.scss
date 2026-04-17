@@ -49,24 +49,20 @@
   display: none;
 }
 
+
 :local(.togglefacet) {
   @media print {
     display: none;
   }
-  display: block;
   position: absolute;
-  //top: 150px;
-  //top: calc(150px, 20px);
   font-size: 1.2em;
   border: 1px solid $primary-border;
   background: $primary-background;
   width: 40px;
   height: 40px;
   color: $primary-brand;
-  //margin-left: 20px;
-  margin-left: 20px;
+  right:16px;
   transform: translateY(-55px);
-  //margin-top: -55px;
 
   > svg {
     margin-left: 10px;
