@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 import posthog from "posthog-js";
+import { useSelector } from "react-redux";
 
 // Components
 import { ErrorBoundary } from "./ErrorBoundary";
@@ -10,7 +11,6 @@ import MainNavigationContainer from "./partials/MainNavigationContainer";
 
 // Stylesheets
 import style from "./Layout.module.scss";
-import { useSelector } from "react-redux";
 
 const Layout = (props) => {
     // Redux store
@@ -20,44 +20,31 @@ const Layout = (props) => {
 
     // Refs
     const userRef = useRef(null);
-    const hasTrackedInitialRoute = useRef(false);
-    const previousUrlRef = useRef(null);
+    const previousUrlRef = useRef(window.location.href);
 
     useEffect(() => {
         userRef.current = auth?.user;
     }, [auth]);
 
     useEffect(() => {
-        if (!hasTrackedInitialRoute.current) {
-            hasTrackedInitialRoute.current = true;
-            return;
-        }
+        const currentUrl = window.location.href;
+
         if (!posthog.has_opted_in_capturing()) {
-            previousUrlRef.current = window.location.href;
+            previousUrlRef.current = currentUrl;
             return;
         }
 
-        if (previousUrlRef.current) {
-            // Emit pageleave for the previous SPA route before capturing the next view.
-            posthog.capture("$pageleave");
+        // Emit pageleave only when moving away from a different SPA route.
+        if (previousUrlRef.current && previousUrlRef.current !== currentUrl) {
+            posthog.capture("$pageleave", {
+                $current_url: previousUrlRef.current
+            });
         }
 
         posthog.capture("$pageview", {
-            $current_url: window.location.href
+            $current_url: currentUrl
         });
-        previousUrlRef.current = window.location.href;
-    }, [location.pathname, location.search, location.hash]);
-
-    useEffect(() => {
-
-
-        if (!posthog.has_opted_in_capturing()) {
-            return;
-        }
-
-        posthog.capture("$pageview", {
-            $current_url: window.location.href
-        });
+        previousUrlRef.current = currentUrl;
     }, [location.pathname, location.search, location.hash]);
 
     return (
