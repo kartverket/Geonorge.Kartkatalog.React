@@ -70,12 +70,16 @@ export function ConsentProvider({ children }) {
 
             posthog.opt_in_capturing({
                 autocapture: true,
-                capture_pageview: true
+                capture_pageview: true,
+                capture_pageleave: true,
+                enable_heatmaps: true
             });
         } else if (hasInitPosthog.current) {
             posthog.opt_out_capturing({
                 autocapture: false,
-                capture_pageview: false
+                capture_pageview: false,
+                capture_pageleave: false,
+                enable_heatmaps: false
             });
         }
     }, [consent.analytics]);

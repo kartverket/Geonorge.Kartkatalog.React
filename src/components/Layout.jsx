@@ -1,6 +1,7 @@
 // Dependencies
 import React, { useEffect, useRef } from "react";
-import { Outlet, useLoaderData } from "react-router-dom";
+import { Outlet, useLoaderData, useLocation } from "react-router-dom";
+import posthog from "posthog-js";
 
 // Components
 import { ErrorBoundary } from "./ErrorBoundary";
@@ -15,13 +16,30 @@ const Layout = (props) => {
     // Redux store
     const auth = useSelector((state) => state.auth);
     const layoutLoaderData = useLoaderData();
+    const location = useLocation();
 
     // Refs
     const userRef = useRef(null);
+    const previousUrlRef = useRef(null);
 
     useEffect(() => {
         userRef.current = auth?.user;
     }, [auth]);
+
+    useEffect(() => {
+        if (!posthog.has_opted_in_capturing()) {
+            previousUrlRef.current = window.location.href;
+            return;
+        }
+
+        if (previousUrlRef.current) {
+            // Emit pageleave for the previous SPA route before capturing the next view.
+            posthog.capture("$pageleave");
+        }
+
+        posthog.capture("$pageview", { $current_url: window.location.href });
+        previousUrlRef.current = window.location.href;
+    }, [location.pathname, location.search, location.hash]);
 
     return (
         <ErrorBoundary>
