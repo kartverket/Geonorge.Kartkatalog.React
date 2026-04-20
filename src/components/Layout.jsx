@@ -20,6 +20,7 @@ const Layout = (props) => {
 
     // Refs
     const userRef = useRef(null);
+    const hasTrackedInitialRoute = useRef(false);
     const previousUrlRef = useRef(null);
 
     useEffect(() => {
@@ -27,6 +28,10 @@ const Layout = (props) => {
     }, [auth]);
 
     useEffect(() => {
+        if (!hasTrackedInitialRoute.current) {
+            hasTrackedInitialRoute.current = true;
+            return;
+        }
         if (!posthog.has_opted_in_capturing()) {
             previousUrlRef.current = window.location.href;
             return;
@@ -37,8 +42,22 @@ const Layout = (props) => {
             posthog.capture("$pageleave");
         }
 
-        posthog.capture("$pageview", { $current_url: window.location.href });
+        posthog.capture("$pageview", {
+            $current_url: window.location.href
+        });
         previousUrlRef.current = window.location.href;
+    }, [location.pathname, location.search, location.hash]);
+
+    useEffect(() => {
+
+
+        if (!posthog.has_opted_in_capturing()) {
+            return;
+        }
+
+        posthog.capture("$pageview", {
+            $current_url: window.location.href
+        });
     }, [location.pathname, location.search, location.hash]);
 
     return (

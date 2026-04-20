@@ -44,37 +44,41 @@ export function ConsentProvider({ children }) {
     const hasInitPosthog = useRef(false);
 
     useEffect(() => {
+        const posthogKey = getConfig("VITE_POSTHOG_KEY", "");
+        const posthogHost = getConfig("VITE_POSTHOG_HOST", "");
+
+        if (!posthogKey || !posthogHost || hasInitPosthog.current) {
+            return;
+        }
+
+        posthog.init(posthogKey, {
+            api_host: posthogHost,
+            ui_host: "https://eu.posthog.com",
+            autocapture: false,
+            capture_pageview: false,
+            opt_out_capturing_by_default: true,
+            session_idle_timeout_seconds: 60 * 10,
+            capture_exceptions: window.location.hostname !== "localhost",
+            session_recording: {
+                session_idle_threshold_ms: 3 * 60 * 1000
+            }
+        });
+        hasInitPosthog.current = true;
+    }, []);
+
+    useEffect(() => {
+        if (!hasInitPosthog.current) {
+            return;
+        }
+
         if (consent.analytics) {
-            const posthogKey = getConfig("VITE_POSTHOG_KEY", "");
-            const posthogHost = getConfig("VITE_POSTHOG_HOST", "");
-
-            if (!posthogKey || !posthogHost) {
-                return;
-            }
-
-            if (!hasInitPosthog.current) {
-                posthog.init(posthogKey, {
-                    api_host: posthogHost,
-                    ui_host: "https://eu.posthog.com",
-                    autocapture: false,
-                    capture_pageview: false,
-                    opt_out_capturing_by_default: true,
-                    session_idle_timeout_seconds: 60 * 10,
-                    capture_exceptions: window.location.hostname !== "localhost",
-                    session_recording: {
-                        session_idle_threshold_ms: 3 * 60 * 1000
-                    }
-                });
-                hasInitPosthog.current = true;
-            }
-
             posthog.opt_in_capturing({
                 autocapture: true,
                 capture_pageview: true,
                 capture_pageleave: true,
                 enable_heatmaps: true
             });
-        } else if (hasInitPosthog.current) {
+        } else {
             posthog.opt_out_capturing({
                 autocapture: false,
                 capture_pageview: false,
