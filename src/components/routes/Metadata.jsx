@@ -39,6 +39,7 @@ import ShowCoverageButton from "@/components/partials/Buttons/ShowCoverageButton
 import DownloadXmlButton from "@/components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "@/components/partials/Buttons/EditMetadataButton";
 import AlertBox from "@/components/partials/AlertBox";
+import { renderMetadataOwnership } from "@/components/partials/SearchResults/parts/MetadataOwnership"
 
 // Stylesheets
 import style from "@/components/routes/Metadata.module.scss";
@@ -65,6 +66,9 @@ const Metadata = () => {
     const title = params.title;
     const dateStart = params.dateStart;
     const dateEnd = params.dateEnd;
+
+    const searchParams = new URLSearchParams(location.search);
+    const viewMode = searchParams.get("view") === "list" ? "list" : "grid";
 
     // Redux store
     const auth = useSelector((state) => state.auth);
@@ -1684,6 +1688,12 @@ const Metadata = () => {
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
             <div className={style.content}>
+
+                 {renderMetadataOwnership(
+                                        metadata,
+                                        viewMode,
+                                        dispatch
+                                    )}
                 <header>
                     <heading-text>
                         <h1>{getTitle()}</h1>
