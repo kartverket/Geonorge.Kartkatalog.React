@@ -203,6 +203,7 @@ const MetadataSearchResult = (props) => {
             <Card color="neutral" variant="outline">
                 {props.enableThumbnail ? renderThumbnail() : null}
                 <div className={style.contentWrapper}>
+                    
                     {renderMetadataOwnership(
                         props.searchResult,
                         props.viewMode,

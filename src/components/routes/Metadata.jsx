@@ -1689,11 +1689,7 @@ const Metadata = () => {
             <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
             <div className={style.content}>
 
-                 {renderMetadataOwnership(
-                                        metadata,
-                                        viewMode,
-                                        dispatch
-                                    )}
+        
                 <header>
                     <heading-text>
                         <h1>{getTitle()}</h1>
