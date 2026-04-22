@@ -161,13 +161,7 @@
 }
 
 
-:local(.title){
 
-}
-
-:local(.organization){
-
-}
 
 
 
@@ -192,8 +186,8 @@
 
 :local(.metadataSection) {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
   width: 100%;
   
 }
@@ -208,6 +202,7 @@
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.2;
+    overflow-wrap: anywhere;
   }
 
   :local(.value) {
