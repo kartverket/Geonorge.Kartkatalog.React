@@ -159,3 +159,80 @@
     margin-left: 10px;
   }
 }
+
+
+:local(.title){
+
+}
+
+:local(.organization){
+
+}
+
+
+
+:local(.topSection) {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+}
+
+:local(.topSectionLeft) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+:local(.topSectionRight) {
+  flex: 0 0 auto;
+}
+
+:local(.metadataSection) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0px;
+  width: 100%;
+  
+}
+
+:local(.metadataItem) {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  min-width: 0;
+
+  :local(.title) {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  :local(.value) {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  :local(.metadataContent)  {
+    min-width: 0;
+  }
+
+}
+
+@include breakpoint('phablet') {
+  :local(.metadataSection) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include breakpoint('tablet') {
+  :local(.metadataSection) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+
+
+

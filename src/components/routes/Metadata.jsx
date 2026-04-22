@@ -45,6 +45,7 @@ import { renderMetadataOwnership } from "@/components/partials/SearchResults/par
 import style from "@/components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import "@/scss/mdeOverride.scss";
+import "@/scss/abstracts/mixin/_breakpoints.scss";
 
 import { registerLocale } from "react-datepicker";
 import nb from "date-fns/locale/nb";
@@ -61,6 +62,7 @@ const Metadata = () => {
 
     const { metadata, metadataQuality } = useLoaderData();
     const metadataDistributionsLoaderData = useLoaderData()?.metadataDistributions;
+    console.log(metadata);
 
     const uuid = params.uuid;
     const title = params.title;
@@ -249,6 +251,103 @@ const Metadata = () => {
             theme: metadata.Theme || null,
         });
     };
+
+
+
+    //--------------------------------------------------------------------------DEV--------------------
+
+const renderSimpleFormats = () => {
+    const formats = metadata?.DistributionFormats;
+
+    if (!formats?.length) return null;
+
+    const uniqueFormats = Array.from(
+        new Set(formats.map((f) => f.Name))
+    );
+
+    return uniqueFormats.length ? (
+        <div className={style.metadataItem}>
+            <div className={style.title}>Filformater</div>
+            <div className={style.metadataContent}>
+                <gn-badge-list>
+                    <ul>
+                        {uniqueFormats.map((name, index) => (
+                            <li key={index}>{name}</li>
+                        ))}
+                    </ul>
+                </gn-badge-list>
+            </div>
+        </div>
+    ) : null;
+};
+
+const renderKeywordsThemeBadges = () => {
+    const keywords = metadata?.KeywordsTheme;
+
+    if (!keywords?.length) return null;
+
+    const uniqueKeywords = Array.from(
+        new Set(
+            keywords.map((keywordTheme) =>
+                selectedLanguage === "en" &&
+                keywordTheme.EnglishKeyword &&
+                keywordTheme.EnglishKeyword.length
+                    ? keywordTheme.EnglishKeyword
+                    : keywordTheme.KeywordValue
+            )
+        )
+    );
+
+    return uniqueKeywords.length ? (
+        <div className={style.metadataItem}>
+            <div className={style.title}>Tema</div>
+            <div className={style.MetadataContent}>
+                <gn-badge-list>
+                    <ul>
+                        {uniqueKeywords.map((keyword, index) => (
+                            <li key={index}>{keyword}</li>
+                        ))}
+                    </ul>
+                </gn-badge-list>
+            </div>
+        </div>
+    ) : null;
+};
+
+const renderDateUpdated2 = () => {
+    if (!metadata?.DateUpdated?.length) return null;
+
+    const formattedDate =
+        metadata.DateUpdated && moment(metadata.DateUpdated).isValid()
+            ? moment(metadata.DateUpdated).format("DD.MM.YYYY")
+            : null;
+
+    if (!formattedDate) return null;
+
+    return (
+        <div className={style.metadataItem}>
+            <div className={style.title}>Sist oppdatert</div>
+            <div className={style.value}>{formattedDate}</div>
+        </div>
+    );
+};
+
+const renderMaintenanceFrequency2 = () => {
+    if (!metadata?.MaintenanceFrequency?.length) return null;
+
+    return (
+        <div className={style.metadataItem}>
+            <div className={style.title}>Oppdateringshyppighet</div>
+            <div className={style.value}>{metadata.MaintenanceFrequency}</div>
+        </div>
+    );
+};
+
+
+
+
+
+    //--------------------------------------------------------------------------DEV--------------
 
     const renderDatasetLanguage = () => {
         return metadata?.DatasetLanguage ? (
@@ -1687,15 +1786,31 @@ const Metadata = () => {
             {getMetadataLinkedDataSnippet()}
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
-            <div className={style.content}>
 
-        
-                <header>
-                    <heading-text>
-                        <h1>{getTitle()}</h1>
-                    </heading-text>
-                </header>
-                {renderMetadataQuality(metadataQuality)}
+
+            {/*-------------------------------------------------------------------------------------------------------- */}
+
+
+            <div className = {style.topSection}>
+                <div className = {style.topContentLeft}>
+                    <div className = {style.oganization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
+                    <header>
+                        <h1 className = {style.title}> {getTitle()}</h1>
+                    </header>
+                    <div className = {style.metadataSection}>
+                        <div className={style.metadataItem}>{renderDateUpdated2()}</div>
+                        <div className={style.metadataItem}>{renderMaintenanceFrequency2()}</div>
+                        <div className={style.metadataItem}>{renderSimpleFormats()}</div>
+                        <div className={style.metadataItem}>{renderKeywordsThemeBadges()}</div>
+                    </div>
+                </div>
+                <div className = {style.topContentRight}>
+                    {renderThumbnail()}
+                </div>
+            </div>
+
+
+            {/*--------------------------------------------------------------------------------------------------------- */}
                 {renderCredits()}
                 <div className={style.openBtns} onClick={() => toggleBtns()}>
                     Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
@@ -1752,7 +1867,7 @@ const Metadata = () => {
                             </div>
                         ) : null}
                     </div>
-                    {renderThumbnail()}
+                    
                 </div>
 
                 {renderSpecificUsageSection()}
@@ -1800,7 +1915,7 @@ const Metadata = () => {
                     {renderPurposeSection()}
                 </div>
             </div>
-        </div>
+        
     );
 };
 
