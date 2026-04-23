@@ -193,13 +193,6 @@
 }
   :global(.ds-tag){
     border-radius: 8px;
-    :local(.span){
-      gap: 8px;
-    }
-    :local(.li){
-      gap: 8px;
-    }
-
   }
 
 :local(.metadataItem) {
