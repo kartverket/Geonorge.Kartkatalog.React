@@ -173,14 +173,14 @@
   width: 100%;
 }
 
-:local(.topSectionLeft) {
+:local(.topContentLeft) {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   min-width: 0;
 }
 
-:local(.topSectionRight) {
+:local(.topContentRight) {
   flex: 0 0 auto;
 }
 

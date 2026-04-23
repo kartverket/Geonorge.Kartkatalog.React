@@ -254,7 +254,7 @@ const Metadata = () => {
 
 
 
-    //--------------------------------------------------------------------------DEV--------------------
+    //--------------------------------------------------------------------------DEV---------------------------
 
 const renderSimpleFormats = () => {
     const formats = metadata?.DistributionFormats;
@@ -343,11 +343,7 @@ const renderMaintenanceFrequency2 = () => {
     );
 };
 
-
-
-
-
-    //--------------------------------------------------------------------------DEV--------------
+    //--------------------------------------------------------------------------DEV---------------------------------------------------
 
     const renderDatasetLanguage = () => {
         return metadata?.DatasetLanguage ? (
@@ -1790,7 +1786,7 @@ const renderMaintenanceFrequency2 = () => {
 
             {/*-------------------------------------------------------------------------------------------------------- */}
 
-
+        <div className={style.content}>
             <div className = {style.topSection}>
                 <div className = {style.topContentLeft}>
                     <div className = {style.oganization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
@@ -1915,6 +1911,7 @@ const renderMaintenanceFrequency2 = () => {
                     {renderPurposeSection()}
                 </div>
             </div>
+        </div>
         
     );
 };
