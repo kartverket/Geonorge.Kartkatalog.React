@@ -268,18 +268,13 @@ const renderSimpleFormats = () => {
 
     return uniqueFormats.length ? (
         <div className={style.metadataItem}>
-                <heading-text>
-                    <h4><strong>
-                        Filformater
-                        </strong>
-                    </h4>
-                </heading-text>
+            <h4 className = {style.metadataItemTitle}>Filformater</h4>
             <div className={style.metadataContent}>
-                    <ul>
-                        {uniqueFormats.map((name, index) => (
-                            <Tag key={index}><li>{name}</li></Tag>
-                        ))}
-                    </ul>
+                <ul>
+                    {uniqueFormats.map((name, index) => (
+                        <Tag key={index}><li>{name}</li></Tag>
+                    ))}
+                </ul>
             </div>
         </div>
     ) : null;
@@ -304,15 +299,13 @@ const renderKeywordsThemeBadges = () => {
 
     return uniqueKeywords.length ? (
         <div className={style.metadataItem}>
-                <heading-text>
-                        <h4><strong>Tema</strong></h4>
-                </heading-text>
+            <h4 className = {style.metadataItemTitle}>Tema</h4>
             <div className={style.metadataContent}>
-                    <ul>
-                        {uniqueKeywords.map((keyword, index) => (
-                            <Tag data-color="success" key={index}><li>{keyword}</li></Tag>
-                        ))}
-                    </ul>
+                <ul>
+                    {uniqueKeywords.map((keyword, index) => (
+                        <Tag data-color="success" key={index}><li>{keyword}</li></Tag>
+                    ))}
+                </ul>
             </div>
         </div>
     ) : null;
@@ -330,9 +323,7 @@ const renderDateUpdated2 = () => {
 
     return (
         <div className={style.metadataItem}>
-                <heading-text>
-                    <h4><strong>Sist oppdatert</strong></h4>
-                </heading-text>
+            <h4 className = {style.metadataItemTitle}>Sist oppdatert</h4>
             <div className={style.value}>{formattedDate}</div>
         </div>
     );
@@ -343,14 +334,7 @@ const renderMaintenanceFrequency2 = () => {
 
     return (
         <div className={style.metadataItem}>
-            <div>
-                <heading-text>
-                    <h4><strong>
-                        Oppdateringshyppighet
-                        </strong>
-                    </h4>
-            </heading-text>
-            </div>
+            <h4 className = {style.metadataItemTitle}>Oppdateringshyppighet</h4>
             <div className={style.value}>{metadata.MaintenanceFrequency}</div>
         </div>
     );
@@ -1798,15 +1782,13 @@ const renderMaintenanceFrequency2 = () => {
         <div className={style.content}>
             <div className = {style.topSection}>
                 
-                
-                
                 <div className = {style.topContentLeft}>
                     <div className = {style.fairWrapper}>{renderMetadataQuality(metadataQuality)}</div>
-                    <div className = {style.oganization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
+                    <div className = {style.organization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
                     <header>
-                        <heading-text>
-                        <h1> <strong>{getTitle()}</strong></h1>
-                        </heading-text>
+                        
+                        <h1 className={style.title}>{getTitle()}</h1>
+                        
                     </header>
                     <div className = {style.metadataSection}>
                         <div className={style.metadataItem}>{renderDateUpdated2()}</div>
