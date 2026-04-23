@@ -1788,7 +1788,11 @@ const renderMaintenanceFrequency2 = () => {
 
         <div className={style.content}>
             <div className = {style.topSection}>
+                
+                
+                
                 <div className = {style.topContentLeft}>
+                    <div className = {style.fairWrapper}>{renderMetadataQuality(metadataQuality)}</div>
                     <div className = {style.oganization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
                     <header>
                         <h1 className = {style.title}> {getTitle()}</h1>

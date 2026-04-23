@@ -216,6 +216,10 @@
 
 }
 
+:local(.fairWrapper) {
+  align-self: flex-end;
+}
+
 @include breakpoint('phablet') {
   :local(.metadataSection) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
