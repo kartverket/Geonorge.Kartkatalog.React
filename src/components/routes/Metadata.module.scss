@@ -220,6 +220,24 @@
   align-self: flex-end;
 }
 
+:local(.thumbnailFrame) {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+:local(.thumbnailFrame) img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+
 @include breakpoint('phablet') {
   :local(.metadataSection) {
     grid-template-columns: repeat(2, minmax(0, 1fr));

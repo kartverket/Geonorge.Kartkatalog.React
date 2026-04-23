@@ -1590,13 +1590,7 @@ const renderMaintenanceFrequency2 = () => {
         let thumbnail = "";
         if (thumbnailList !== undefined && thumbnailList?.length) {
             thumbnailList.sort((a, b) => (a.Type > b.Type ? 1 : -1));
-            thumbnail = (
-                <div className={style.thumbnailContent}>
-                    <div>
-                        <img src={thumbnailList[0].URL} alt={getTitle() + " illustrasjon"} />
-                    </div>
-                </div>
-            );
+            thumbnail = (<img src={thumbnailList[0].URL} alt={getTitle() + " illustrasjon"} />);
         }
         return thumbnail;
     };
@@ -1805,7 +1799,9 @@ const renderMaintenanceFrequency2 = () => {
                     </div>
                 </div>
                 <div className = {style.topContentRight}>
-                    {renderThumbnail()}
+                    <div className = {style.thumbnailFrame}>
+                        {renderThumbnail()}
+                    </div>
                 </div>
             </div>
 
