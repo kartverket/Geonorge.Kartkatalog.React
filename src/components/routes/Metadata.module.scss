@@ -171,6 +171,7 @@
   align-items: flex-start;
   gap: 32px;
   width: 100%;
+  padding-bottom: 50px;
 }
 
 :local(.topContentLeft) {
@@ -189,11 +190,18 @@
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
   width: 100%;
+  margin-top: 25px;
   
 }
   :global(.ds-tag){
     border-radius: 8px;
   }
+
+:local(.title) {
+  font-size: 3rem;
+  margin-top: 15px;
+}
+
 
 :local(.metadataItem) {
   display: flex;
@@ -201,16 +209,15 @@
   gap: 0x;
   min-width: 0;
 
-  :local(.title) {
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.2;
-    overflow-wrap: anywhere;
+  :local(.metadataItemTitle){
+    font-size: 1.2rem;
   }
+  
 
   :local(.value) {
-    font-size: 1rem;
+    font-size: 1.2rem;
     line-height: 1.3;
+    font-weight: bold;
   }
 
   :local(.metadataContent)  {
@@ -243,6 +250,10 @@
   width: auto;
   height: auto;
   display: block;
+}
+
+:local(.organization){
+  font-size: 1.5;
 }
 
 
