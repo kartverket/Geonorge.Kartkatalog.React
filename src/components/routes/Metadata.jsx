@@ -46,6 +46,7 @@ import style from "@/components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import "@/scss/mdeOverride.scss";
 import "@/scss/abstracts/mixin/_breakpoints.scss";
+import { Tag } from "@digdir/designsystemet-react";
 
 import { registerLocale } from "react-datepicker";
 import nb from "date-fns/locale/nb";
@@ -267,15 +268,18 @@ const renderSimpleFormats = () => {
 
     return uniqueFormats.length ? (
         <div className={style.metadataItem}>
-            <div className={style.title}>Filformater</div>
+                <heading-text>
+                    <h4><strong>
+                        Filformater
+                        </strong>
+                    </h4>
+                </heading-text>
             <div className={style.metadataContent}>
-                <gn-badge-list>
                     <ul>
                         {uniqueFormats.map((name, index) => (
-                            <li key={index}>{name}</li>
+                            <Tag key={index}><li>{name}</li></Tag>
                         ))}
                     </ul>
-                </gn-badge-list>
             </div>
         </div>
     ) : null;
@@ -300,15 +304,15 @@ const renderKeywordsThemeBadges = () => {
 
     return uniqueKeywords.length ? (
         <div className={style.metadataItem}>
-            <div className={style.title}>Tema</div>
-            <div className={style.MetadataContent}>
-                <gn-badge-list>
+                <heading-text>
+                        <h4><strong>Tema</strong></h4>
+                </heading-text>
+            <div className={style.metadataContent}>
                     <ul>
                         {uniqueKeywords.map((keyword, index) => (
-                            <li key={index}>{keyword}</li>
+                            <Tag data-color="success" key={index}><li>{keyword}</li></Tag>
                         ))}
                     </ul>
-                </gn-badge-list>
             </div>
         </div>
     ) : null;
@@ -326,7 +330,9 @@ const renderDateUpdated2 = () => {
 
     return (
         <div className={style.metadataItem}>
-            <div className={style.title}>Sist oppdatert</div>
+                <heading-text>
+                    <h4><strong>Sist oppdatert</strong></h4>
+                </heading-text>
             <div className={style.value}>{formattedDate}</div>
         </div>
     );
@@ -337,11 +343,20 @@ const renderMaintenanceFrequency2 = () => {
 
     return (
         <div className={style.metadataItem}>
-            <div className={style.title}>Oppdateringshyppighet</div>
+            <div>
+                <heading-text>
+                    <h4><strong>
+                        Oppdateringshyppighet
+                        </strong>
+                    </h4>
+            </heading-text>
+            </div>
             <div className={style.value}>{metadata.MaintenanceFrequency}</div>
         </div>
     );
 };
+
+
 
     //--------------------------------------------------------------------------DEV---------------------------------------------------
 
@@ -1789,9 +1804,11 @@ const renderMaintenanceFrequency2 = () => {
         <div className={style.content}>
             <div className = {style.topSection}>
                 <div className = {style.topContentLeft}>
-                    <div className = {style.oganization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
+                    <div className = {style.organization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
                     <header>
-                        <h1 className = {style.title}> {getTitle()}</h1>
+                        <heading-text>
+                        <h1> <strong>{getTitle()}</strong></h1>
+                        </heading-text>
                     </header>
                     <div className = {style.metadataSection}>
                         <div className={style.metadataItem}>{renderDateUpdated2()}</div>

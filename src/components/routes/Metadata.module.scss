@@ -191,11 +191,21 @@
   width: 100%;
   
 }
+  :global(.ds-tag){
+    border-radius: 8px;
+    :local(.span){
+      gap: 8px;
+    }
+    :local(.li){
+      gap: 8px;
+    }
+
+  }
 
 :local(.metadataItem) {
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 0x;
   min-width: 0;
 
   :local(.title) {
@@ -212,6 +222,11 @@
 
   :local(.metadataContent)  {
     min-width: 0;
+    ul{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
   }
 
 }
