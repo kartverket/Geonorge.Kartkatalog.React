@@ -1786,9 +1786,7 @@ const renderMaintenanceFrequency2 = () => {
                     <div className = {style.fairWrapper}>{renderMetadataQuality(metadataQuality)}</div>
                     <div className = {style.organization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
                     <header>
-                        
                         <h1 className={style.title}>{getTitle()}</h1>
-                        
                     </header>
                     <div className = {style.metadataSection}>
                         <div className={style.metadataItem}>{renderDateUpdated2()}</div>
