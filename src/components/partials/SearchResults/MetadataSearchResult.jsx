@@ -23,6 +23,7 @@ import { renderMetadataOwnership } from "./parts/MetadataOwnership";
 //Designsystemet
 import {Card, Heading} from "@digdir/designsystemet-react";
 import { Button } from  "@digdir/designsystemet-react";
+import { Tag } from "@digdir/designsystemet-react";
 import "@digdir/designsystemet-css";
 
 
@@ -92,16 +93,16 @@ const MetadataSearchResult = (props) => {
     const renderDistributionFormats = () => {
         const dirstibutionFormatsElement = props.searchResult.DistributionFormats
             ? props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-                  return <li key={i}>{distributionFormat.Name} </li>;
+                  return <li key={i}><Tag>{distributionFormat.Name}</Tag></li> ;
               })
             : null;
         return props.searchResult.DistributionFormats && props.visibleFields.includes("DistributionFormats") ? (
             <div>
                 <ErrorBoundary>
                     {dispatch(getResource("Formats", "Formater"))}:
-                    <gn-badge-list>
-                        <ul>{dirstibutionFormatsElement}</ul>
-                    </gn-badge-list>
+                    <ul>
+                        {dirstibutionFormatsElement}
+                    </ul>
                 </ErrorBoundary>
             </div>
         ) : null;

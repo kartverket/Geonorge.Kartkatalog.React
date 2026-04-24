@@ -272,7 +272,7 @@ const renderSimpleFormats = () => {
             <div className={style.metadataContent}>
                 <ul>
                     {uniqueFormats.map((name, index) => (
-                        <Tag key={index}><li>{name}</li></Tag>
+                        <li key={index}><Tag>{name}</Tag></li>
                     ))}
                 </ul>
             </div>
@@ -303,7 +303,7 @@ const renderKeywordsThemeBadges = () => {
             <div className={style.metadataContent}>
                 <ul>
                     {uniqueKeywords.map((keyword, index) => (
-                        <Tag data-color="success" key={index}><li>{keyword}</li></Tag>
+                        <li key={index}><Tag data-color="success">{keyword}</Tag></li>
                     ))}
                 </ul>
             </div>
@@ -481,7 +481,7 @@ const renderMaintenanceFrequency2 = () => {
                 const protocolFormatElements = protocolFormats.map((protocolFormat, formatIndex) => {
                     return (
                         <li key={formatIndex}>
-                            {protocolFormat.FormatName} {protocolFormat.FormatVersion}
+                            <Tag>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</Tag>
                         </li>
                     );
                 });
@@ -511,9 +511,7 @@ const renderMaintenanceFrequency2 = () => {
                         <heading-text>
                             <h3>Format:</h3>
                         </heading-text>
-                        <gn-badge-list>
                             <ul>{protocolFormatElements}</ul>
-                        </gn-badge-list>
                     </div>
                 );
             });

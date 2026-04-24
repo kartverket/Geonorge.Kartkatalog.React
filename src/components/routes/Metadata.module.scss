@@ -195,7 +195,7 @@
 }
   :global(.ds-tag){
     border-radius: 8px;
-        font-size: 1.1rem;
+    font-size: 1.1rem;
 
   }
 
@@ -213,6 +213,9 @@
 
   :local(.metadataItemTitle){
     font-size: 1.2rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space:normal;
   }
   
 
