@@ -128,6 +128,14 @@
     flex-basis: 100%;
   }
 }
+
+:local(.flex3){
+          ul{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+}
 :local(.toggle) {
   max-height: 0;
   overflow: hidden;
@@ -285,4 +293,8 @@ img {
 
   }
 
+}
+:global(.ds-tag){
+    border-radius: 8px;
+        font-size: 1.1rem;
 }
