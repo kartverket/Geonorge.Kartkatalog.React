@@ -323,7 +323,7 @@ const renderDateUpdated2 = () => {
 
     return (
         <div className={style.metadataItem}>
-            <h4 className = {style.metadataItemTitle}>Sist oppdatert</h4>
+            <h4 className = {style.metadataItemTitle}>Ressurs sist oppdatert</h4>
             <div className={style.value}>{formattedDate}</div>
         </div>
     );
@@ -334,7 +334,7 @@ const renderMaintenanceFrequency2 = () => {
 
     return (
         <div className={style.metadataItem}>
-            <h4 className = {style.metadataItemTitle}>Ressurs sist oppdatert</h4>
+            <h4 className = {style.metadataItemTitle}>Oppdateringshyppighet</h4>
             <div className={style.value}>{metadata.MaintenanceFrequency}</div>
         </div>
     );
