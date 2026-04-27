@@ -242,8 +242,17 @@
   border-radius: 8px;
   a {
     color: black;
+    @include breakpoint('mobileonly'){
+      display:none;
+    }
   }
-}
+  gn-icon {
+    @include breakpoint('mobileonly'){
+      display:none;
+    }
+
+  }
+ }
 
 :local(.thumbnailFrame) {
   width: 180px;
@@ -254,13 +263,16 @@
   overflow: hidden;
 }
 
-:local(.thumbnailFrame) img {
+:local(.thumbnailFrame) 
+img {
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
   display: block;
-}
+
+  }
+
 
 :local(.organization){
   font-size: 1.5;
