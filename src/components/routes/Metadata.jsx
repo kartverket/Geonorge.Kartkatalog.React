@@ -1830,7 +1830,7 @@ const metadataItems = [
                 >
                     {item.content}
                 </div>
-))}
+            ))}
             
             <div className = {style.fairStatus}>
                 <div className = {style.fairWrapper}>
