@@ -44,7 +44,7 @@
   }
   :local(.subTitle) {
     font-size: 18px;
-    font-weight: bold;
+    
     span {
       display: inline-block;
       vertical-align: middle;
@@ -164,15 +164,18 @@
 :local(.topContent){
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 20px;
+  gap: 0px;
   align-items: start;
 
   :local(.fromOrganization){
     grid-row: 1;
     grid-column: 1 / 4;
+    align-self: end;
     
   }
   :local(.metadataTitle){
+    margin-top: 10px;
+    margin-bottom: 40px;
     grid-row: 2;
     grid-column: 1 / 4;
     
@@ -238,9 +241,10 @@
 
 
   :local(.fairWrapper) {
-  align-self: flex-end;
+  align-self: start;
   background-color: #e6effc;
   border-radius: 8px;
+  justify-self: start;
   a {
     color: black;
   }
