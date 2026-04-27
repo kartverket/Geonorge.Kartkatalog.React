@@ -164,8 +164,9 @@
 :local(.topContent){
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0px;
+  column-gap: 20px;
   align-items: start;
+  margin-bottom: 60px;
 
   :local(.fromOrganization){
     grid-row: 1;
@@ -207,6 +208,8 @@
   :local(.metadataImage){
     grid-row: 1 / 4;
     grid-column: 5;
+    align-self: center;
+    justify-self: center;
   }
 
 
