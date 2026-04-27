@@ -1779,29 +1779,30 @@ const renderMaintenanceFrequency2 = () => {
             {/*-------------------------------------------------------------------------------------------------------- */}
 
         <div className={style.content}>
-            <div className = {style.topSection}>
-                
-                <div className = {style.topContentLeft}>
-                    <div className = {style.fairWrapper}>{renderMetadataQuality(metadataQuality)}</div>
-                    <div className = {style.organization}> {renderMetadataOwnership(metadata, viewMode, dispatch)} </div>
-                    <header>
-                        
-                        <h1 className={style.title}>{getTitle()}</h1>
-                    </header>
-                    <div className = {style.metadataSection}>
-                        <div className={style.metadataItem}>{renderDateUpdated2()}</div>
-                        <div className={style.metadataItem}>{renderMaintenanceFrequency2()}</div>
-                        <div className={style.metadataItem}>{renderSimpleFormats()}</div>
-                        <div className={style.metadataItem}>{renderKeywordsThemeBadges()}</div>
-                    </div>
-                </div>
-                <div className = {style.topContentRight}>
-                    <div className = {style.thumbnailFrame}>
-                        {renderThumbnail()}
-                    </div>
+            
+        <div className ={style.topContent}>
+            <div className = {style.fromOrganization}>{renderMetadataOwnership(metadata, viewMode, dispatch)}</div>
+            <div className = {style.metadataTitle}>
+                <header>
+                    <h1>{getTitle()}</h1>
+                </header>
+            </div>
+            <div className = {style.lastUpdated}>{renderDateUpdated2()}</div>
+            <div className = {style.updateFrequency}>{renderMaintenanceFrequency2()}</div>
+            <div className = {style.fileFormats}>{renderSimpleFormats()}</div>
+            <div className = {style.fairStatus}>
+                <div className = {style.fairWrapper}>
+                    {renderMetadataQuality(metadataQuality)}
                 </div>
             </div>
-
+            <div className = {style.themeBadges}>{renderKeywordsThemeBadges()}</div>
+            <div className = {style.metadataImage}>
+                <div className = {style.thumbnailFrame}>
+                    {renderThumbnail()}
+                </div>
+                
+            </div>
+        </div>
 
             {/*--------------------------------------------------------------------------------------------------------- */}
                 {renderCredits()}
