@@ -161,51 +161,55 @@
 }
 
 
-
-
-
-
-:local(.topSection) {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 32px;
-  width: 100%;
-  padding-bottom: 50px;
-}
-
-:local(.topContentLeft) {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-:local(.topContentRight) {
-  flex: 0 0 auto;
-}
-
-:local(.metadataSection) {
+:local(.topContent){
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 20px;
-  width: 100%;
-  margin-top: 25px;
-  
-}
-  :global(.ds-tag){
-    border-radius: 8px;
-        font-size: 1.1rem;
+  align-items: start;
 
+  :local(.fromOrganization){
+    grid-row: 1;
+    grid-column: 1 / 4;
+    
+  }
+  :local(.metadataTitle){
+    grid-row: 2;
+    grid-column: 1 / 4;
+    
   }
 
-:local(.title) {
-  font-size: 3rem;
-  margin-top: 15px;
-}
+  :local(.lastUpdated){
+    grid-row: 3 / 4;
+    grid-column: 1;
+  }
+
+  :local(.updateFrequency){
+    grid-row: 3 / 4;
+    grid-column: 2;
+  }
+
+  :local(.fileFormats){
+    grid-row: 3 / 4;
+    grid-column: 3;
+  }
+  :local(.themeBadges){
+    grid-row: 3 / 4;
+    grid-column: 4;
+  }
+  :local(.fairStatus){
+    grid-row: 1;
+    grid-column: 4;
+  }
+
+  :local(.metadataImage){
+    grid-row: 1 / 4;
+    grid-column: 5;
+  }
 
 
-:local(.metadataItem) {
+
+
+  :local(.metadataItem) {
   display: flex;
   flex-direction: column;
   gap: 0x;
@@ -230,10 +234,10 @@
       gap: 8px;
     }
   }
+  }
 
-}
 
-:local(.fairWrapper) {
+  :local(.fairWrapper) {
   align-self: flex-end;
   background-color: #e6effc;
   border-radius: 8px;
@@ -241,6 +245,7 @@
     color: black;
   }
 }
+
 
 :local(.thumbnailFrame) {
   width: 180px;
@@ -259,23 +264,4 @@
   display: block;
 }
 
-:local(.organization){
-  font-size: 1.5;
 }
-
-
-@include breakpoint('phablet') {
-  :local(.metadataSection) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@include breakpoint('tablet') {
-  :local(.metadataSection) {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-
-
-
