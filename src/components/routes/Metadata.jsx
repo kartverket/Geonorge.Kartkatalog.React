@@ -312,18 +312,33 @@ const renderKeywordsThemeBadges = () => {
 };
 
 const renderDateUpdated2 = () => {
+    const hierarchy = metadata?.HierarchyLevel?.toLowerCase();
+
+    // Ikke vis for software eller serie
+    if (hierarchy === "software" || hierarchy === "series") return null;
+
+    // Må ha dato
     if (!metadata?.DateUpdated?.length) return null;
 
     const formattedDate =
-        metadata.DateUpdated && moment(metadata.DateUpdated).isValid()
+        moment(metadata.DateUpdated).isValid()
             ? moment(metadata.DateUpdated).format("DD.MM.YYYY")
             : null;
 
     if (!formattedDate) return null;
 
+    // Dynamisk tittel
+    let label = "Sist oppdatert";
+
+    if (hierarchy === "dataset") {
+        label = "Datasett sist oppdatert";
+    } else if (hierarchy === "service") {
+        label = "Tjeneste sist oppdatert";
+    }
+
     return (
         <div className={style.metadataItem}>
-            <h4 className = {style.metadataItemTitle}>Ressurs sist oppdatert</h4>
+            <h4 className={style.metadataItemTitle}>{label}</h4>
             <div className={style.value}>{formattedDate}</div>
         </div>
     );
