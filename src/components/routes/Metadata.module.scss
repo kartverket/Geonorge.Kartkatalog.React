@@ -279,6 +279,12 @@
   }
 }
 
-
+:local(.flex3){
+          ul{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
+}
 
 

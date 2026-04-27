@@ -334,7 +334,7 @@ const renderMaintenanceFrequency2 = () => {
 
     return (
         <div className={style.metadataItem}>
-            <h4 className = {style.metadataItemTitle}>Oppdateringshyppighet</h4>
+            <h4 className = {style.metadataItemTitle}>Ressurs sist oppdatert</h4>
             <div className={style.value}>{metadata.MaintenanceFrequency}</div>
         </div>
     );
@@ -511,7 +511,8 @@ const renderMaintenanceFrequency2 = () => {
                         <heading-text>
                             <h3>Format:</h3>
                         </heading-text>
-                            <ul>{protocolFormatElements}</ul>
+                        
+                           <div className= {style.flex3}> <ul>{protocolFormatElements}</ul></div>
                     </div>
                 );
             });
