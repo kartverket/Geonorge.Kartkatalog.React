@@ -254,132 +254,6 @@ const Metadata = () => {
     };
 
 
-
-    //--------------------------------------------------------------------------DEV---------------------------
-
-
-
-    
-
-const renderSimpleFormats = () => {
-    const formats = metadata?.DistributionFormats;
-
-    if (!formats?.length) return null;
-
-    const uniqueFormats = Array.from(
-        new Set(formats.map((f) => f.Name))
-    );
-
-    return uniqueFormats.length ? (
-        <div className={style.metadataItem}>
-            <h4 className = {style.metadataItemTitle}>Filformater</h4>
-            <div className={style.metadataContent}>
-                <ul>
-                    {uniqueFormats.map((name, index) => (
-                        <li key={index}><Tag>{name}</Tag></li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    ) : null;
-};
-
-const renderKeywordsThemeBadges = () => {
-    const keywords = metadata?.KeywordsTheme;
-
-    if (!keywords?.length) return null;
-
-    const uniqueKeywords = Array.from(
-        new Set(
-            keywords.map((keywordTheme) =>
-                selectedLanguage === "en" &&
-                keywordTheme.EnglishKeyword &&
-                keywordTheme.EnglishKeyword.length
-                    ? keywordTheme.EnglishKeyword
-                    : keywordTheme.KeywordValue
-            )
-        )
-    );
-
-    return uniqueKeywords.length ? (
-        <div className={style.metadataItem}>
-            <h4 className = {style.metadataItemTitle}>Tema</h4>
-            <div className={style.metadataContent}>
-                <ul>
-                    {uniqueKeywords.map((keyword, index) => (
-                        <li key={index}><Tag data-color="success">{keyword}</Tag></li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    ) : null;
-};
-
-const renderDateUpdated2 = () => {
-    const hierarchy = metadata?.HierarchyLevel?.toLowerCase();
-
-    // Ikke vis for software eller serie
-    if (hierarchy === "software" || hierarchy === "series") return null;
-
-    // Må ha dato
-    if (!metadata?.DateUpdated?.length) return null;
-
-    const formattedDate =
-        moment(metadata.DateUpdated).isValid()
-            ? moment(metadata.DateUpdated).format("DD.MM.YYYY")
-            : null;
-
-    if (!formattedDate) return null;
-
-    // Dynamisk tittel
-    let label = "Sist oppdatert";
-
-    if (hierarchy === "dataset") {
-        label = "Datasett sist oppdatert";
-    } else if (hierarchy === "service") {
-        label = "Tjeneste sist oppdatert";
-    }
-
-    return (
-        <div className={style.metadataItem}>
-            <h4 className={style.metadataItemTitle}>{label}</h4>
-            <div className={style.value}>{formattedDate}</div>
-        </div>
-    );
-};
-
-const renderMaintenanceFrequency2 = () => {
-    if (!metadata?.MaintenanceFrequency?.length) return null;
-
-    return (
-        <div className={style.metadataItem}>
-            <h4 className = {style.metadataItemTitle}>Oppdateringshyppighet</h4>
-            <div className={style.value}>{metadata.MaintenanceFrequency}</div>
-        </div>
-    );
-};
-
-const metadataItems = [
-    {
-        key: "lastUpdated",
-        content: renderDateUpdated2()
-    },
-    {
-        key: "updateFrequency",
-        content: renderMaintenanceFrequency2()
-    },
-    {
-        key: "fileFormats",
-        content: renderSimpleFormats()
-    },
-    {
-        key: "themeBadges",
-        content: renderKeywordsThemeBadges()
-    }
-].filter((item) => item.content);
-
-    //--------------------------------------------------------------------------DEV---------------------------------------------------
-
     const renderDatasetLanguage = () => {
         return metadata?.DatasetLanguage ? (
             <div>
@@ -555,6 +429,29 @@ const metadataItems = [
         } else {
             return null;
         }
+    };
+
+    const renderSimpleDistributionFormats = () => {
+        const formats = metadata?.DistributionFormats;
+
+        if (!formats?.length) return null;
+
+        const uniqueFormats = Array.from(
+            new Set(formats.map((f) => f.Name))
+        );
+
+        return uniqueFormats.length ? (
+            <div className={style.metadataItem}>
+                <h4 className = {style.metadataItemTitle}>Filformater</h4>
+                <div className={style.metadataContent}>
+                    <ul>
+                        {uniqueFormats.map((name, index) => (
+                            <li key={index}><Tag>{name}</Tag></li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        ) : null;
     };
 
     const renderOperations = () => {
@@ -791,6 +688,7 @@ const metadataItems = [
         ) : null;
     };
 
+    //Denne må etterhert fjernes. Det er laget en ny versjon. Når denne ble flyttet lengre opp på siden. Den er fortsatt knyttet til noe funksjonalitet som fortsatt er eksisterende. 
     const renderDateUpdated = () => {
         return metadata?.DateUpdated?.length ? (
             <div>
@@ -803,6 +701,43 @@ const metadataItems = [
             </div>
         ) : null;
     };
+
+    const renderDateUpdated2 = () => {
+    const hierarchy = metadata?.HierarchyLevel?.toLowerCase();
+
+    // Ikke vis for software eller serie
+    if (hierarchy === "software" || hierarchy === "series") return null;
+
+    // Må ha dato
+    if (!metadata?.DateUpdated?.length) return null;
+
+    const formattedDate =
+        moment(metadata.DateUpdated).isValid()
+            ? moment(metadata.DateUpdated).format("DD.MM.YYYY")
+            : null;
+
+    if (!formattedDate) return null;
+
+    // Dynamisk tittel
+    let label = "Sist oppdatert";
+
+    if (hierarchy === "dataset") {
+        label = "Datasett sist oppdatert";
+    } else if (hierarchy === "service") {
+        label = "Tjeneste sist oppdatert";
+    }
+
+    return (
+        <div className={style.metadataItem}>
+            <h4 className={style.metadataItemTitle}>{label}</h4>
+            <div className={style.value}>{formattedDate}</div>
+        </div>
+    );
+};
+
+
+
+
 
     const renderMetadataDateUpdated = () => {
         return metadata?.DateMetadataUpdated?.length ? (
@@ -840,6 +775,7 @@ const metadataItems = [
         ) : null;
     };
 
+    //Denne må etterhert fjernes. Det er laget en ny versjon. Når denne ble flyttet lengre opp på siden. Den er fortsatt knyttet til noe funksjonalitet som fortsatt er eksisterende. 
     const renderMaintenanceFrequency = () => {
         return metadata?.MaintenanceFrequency?.length ? (
             <div>
@@ -847,6 +783,17 @@ const metadataItems = [
                 {metadata.MaintenanceFrequency}
             </div>
         ) : null;
+    };
+
+    const renderMaintenanceFrequency2 = () => {
+        if (!metadata?.MaintenanceFrequency?.length) return null;
+
+        return (
+            <div className={style.metadataItem}>
+                <h4 className = {style.metadataItemTitle}>Oppdateringshyppighet</h4>
+                <div className={style.value}>{metadata.MaintenanceFrequency}</div>
+            </div>
+        );
     };
 
     const renderSpatialScope = () => {
@@ -928,6 +875,38 @@ const metadataItems = [
                 <gn-list>
                     <ul>{keywordsThemeList}</ul>
                 </gn-list>
+            </div>
+        ) : null;
+    };
+
+    const renderKeywordsThemeBadges = () => {
+
+        const keywords = metadata?.KeywordsTheme;
+
+        if (!keywords?.length) return null;
+
+        const uniqueKeywords = Array.from(
+            new Set(
+                keywords.map((keywordTheme) =>
+                    selectedLanguage === "en" &&
+                    keywordTheme.EnglishKeyword &&
+                    keywordTheme.EnglishKeyword.length
+                        ? keywordTheme.EnglishKeyword
+                        : keywordTheme.KeywordValue
+                )
+            )
+        );
+
+        return uniqueKeywords.length ? (
+            <div className={style.metadataItem}>
+                <h4 className = {style.metadataItemTitle}>Tema</h4>
+                <div className={style.metadataContent}>
+                    <ul>
+                        {uniqueKeywords.map((keyword, index) => (
+                            <li key={index}><Tag data-color="success">{keyword}</Tag></li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         ) : null;
     };
@@ -1790,11 +1769,31 @@ const metadataItems = [
         }
     };
 
+    const metadataItems = [
+    {
+        key: "lastUpdated",
+        content: renderDateUpdated2()
+    },
+    {
+        key: "updateFrequency",
+        content: renderMaintenanceFrequency2()
+    },
+    {
+        key: "fileFormats",
+        content: renderSimpleDistributionFormats()
+    },
+    {
+        key: "themeBadges",
+        content: renderKeywordsThemeBadges()
+    }
+].filter((item) => item.content);
+
     return !metadata || !Object.keys(metadata).length === "An error has occurred." ? (
         <div className={style.searchResultContainer}>
             <span>Kunne ikke finne metadata på Uuid "{uuid}"</span>
         </div>
-    ) : (
+    ) : 
+        (
         <div>
             <Helmet>
                 <title>{getPageTitle()} - Kartkatalogen</title>
@@ -1811,47 +1810,53 @@ const metadataItems = [
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
             <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
 
+            <div className={style.content}>
+                <div className={style.topContent}>
+                    <div className={style.fromOrganization}>
+                        {renderMetadataOwnership(metadata, viewMode, dispatch)}
+                    </div>
 
-            {/*-------------------------------------------------------------------------------------------------------- */}
+                    <div className={style.metadataTitle}>
+                        <header>
+                            <h1>{getTitle()}</h1>
+                        </header>
+                    </div>
 
-        <div className={style.content}>
-            
-        <div className ={style.topContent}>
-            <div className = {style.fromOrganization}>{renderMetadataOwnership(metadata, viewMode, dispatch)}</div>
-            <div className = {style.metadataTitle}>
-                <header>
-                    <h1>{getTitle()}</h1>
-                </header>
-            </div>
-            {metadataItems.map((item, index) => (
-                <div
-                    key={item.key}
-                    className={`${style.metadataGridItem} ${style[`metadataColumn${index + 1}`]}`}
-                >
-                    {item.content}
-                </div>
-            ))}
-            
-            <div className = {style.fairStatus}>
-                <div className = {style.fairWrapper}>
-                    {renderMetadataQuality(metadataQuality)}
-                </div>
-            </div>
-            
-            <div className = {style.metadataImage}>
-                <div className = {style.thumbnailFrame}>
-                    {renderThumbnail()}
-                </div>
-                
-            </div>
-        </div>
+                    {metadataItems.map((item, index) => (
+                        <div
+                            key={item.key}
+                            className={`${style.metadataGridItem} ${style[`metadataColumn${index + 1}`]}`}
+                        >
+                            {item.content}
+                        </div>
+                    ))}
 
-            {/*--------------------------------------------------------------------------------------------------------- */}
+                    <div className={style.fairStatus}>
+                        <div className={style.fairWrapper}>
+                            {renderMetadataQuality(metadataQuality)}
+                        </div>
+                    </div>
+
+                    <div className={style.metadataImage}>
+                        <div className={style.thumbnailFrame}>
+                            {renderThumbnail()}
+                        </div>
+                    </div>
+                </div>
+
                 {renderCredits()}
+
                 <div className={style.openBtns} onClick={() => toggleBtns()}>
                     Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
                 </div>
-                <div className={showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
+
+                <div
+                    className={
+                        showBtns
+                            ? style.openBtnsContainer
+                            : `${style.openBtnsContainer} ${style.closed}`
+                    }
+                >
                     <div className={style.btns}>
                         <ErrorBoundary>
                             <MapButton listButton={false} metadata={metadata} />
@@ -1891,9 +1896,11 @@ const metadataItems = [
                         </ErrorBoundary>
                     </div>
                 </div>
+
                 <pre></pre>
                 <AlertBox key={`${uuid}`} uuid={uuid} />
                 <pre></pre>
+
                 <div className={style.flex}>
                     <div className={style.textContent}>
                         <div>{renderType()}</div>
@@ -1903,18 +1910,17 @@ const metadataItems = [
                             </div>
                         ) : null}
                     </div>
-                    
                 </div>
 
                 {renderSpecificUsageSection()}
                 {renderDistributionsListSection()}
+
                 <div className={style.flex2}>
                     {renderDistributionSection()}
                     {renderConstraintsSection()}
                 </div>
 
                 {renderContactSection()}
-
                 {renderSupplementalDescriptionSection()}
 
                 <div
@@ -1932,14 +1938,15 @@ const metadataItems = [
                                     expanded
                                         ? "Trekk sammen"
                                         : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
-                                              getResource("DetailedInformation", "Detaljert informasjon")
-                                          )}`
+                                            getResource("DetailedInformation", "Detaljert informasjon")
+                                        )}`
                                 }
                                 icon={expanded ? "angle-up" : "angle-down"}
                             />
                         </h2>
                     </heading-text>
                 </div>
+
                 <div id="detailed-information" className={expanded ? style.open : style.closed}>
                     {renderGeneral()}
                     <div className={style.flex}>
@@ -1952,7 +1959,6 @@ const metadataItems = [
                 </div>
             </div>
         </div>
-        
     );
 };
 
