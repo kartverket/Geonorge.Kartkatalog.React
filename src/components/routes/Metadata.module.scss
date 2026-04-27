@@ -190,24 +190,26 @@
     
   }
 
-  :local(.lastUpdated){
+  :local(.metadataGridItem) {
     grid-row: 3 / 4;
-    grid-column: 1;
-  }
+    min-width: 0;
+}
 
-  :local(.updateFrequency){
-    grid-row: 3 / 4;
-    grid-column: 2;
-  }
+:local(.metadataColumn1) {
+  grid-column: 1;
+}
 
-  :local(.fileFormats){
-    grid-row: 3 / 4;
-    grid-column: 3;
-  }
-  :local(.themeBadges){
-    grid-row: 3 / 4;
-    grid-column: 4;
-  }
+:local(.metadataColumn2) {
+  grid-column: 2;
+}
+
+:local(.metadataColumn3) {
+  grid-column: 3;
+}
+
+:local(.metadataColumn4) {
+  grid-column: 4;
+}
   :local(.fairStatus){
     grid-row: 1;
     grid-column: 4;

@@ -257,6 +257,10 @@ const Metadata = () => {
 
     //--------------------------------------------------------------------------DEV---------------------------
 
+
+
+    
+
 const renderSimpleFormats = () => {
     const formats = metadata?.DistributionFormats;
 
@@ -355,7 +359,24 @@ const renderMaintenanceFrequency2 = () => {
     );
 };
 
-
+const metadataItems = [
+    {
+        key: "lastUpdated",
+        content: renderDateUpdated2()
+    },
+    {
+        key: "updateFrequency",
+        content: renderMaintenanceFrequency2()
+    },
+    {
+        key: "fileFormats",
+        content: renderSimpleFormats()
+    },
+    {
+        key: "themeBadges",
+        content: renderKeywordsThemeBadges()
+    }
+].filter((item) => item.content);
 
     //--------------------------------------------------------------------------DEV---------------------------------------------------
 
@@ -1802,15 +1823,21 @@ const renderMaintenanceFrequency2 = () => {
                     <h1>{getTitle()}</h1>
                 </header>
             </div>
-            <div className = {style.lastUpdated}>{renderDateUpdated2()}</div>
-            <div className = {style.updateFrequency}>{renderMaintenanceFrequency2()}</div>
-            <div className = {style.fileFormats}>{renderSimpleFormats()}</div>
+            {metadataItems.map((item, index) => (
+                <div
+                    key={item.key}
+                    className={`${style.metadataGridItem} ${style[`metadataColumn${index + 1}`]}`}
+                >
+                    {item.content}
+                </div>
+))}
+            
             <div className = {style.fairStatus}>
                 <div className = {style.fairWrapper}>
                     {renderMetadataQuality(metadataQuality)}
                 </div>
             </div>
-            <div className = {style.themeBadges}>{renderKeywordsThemeBadges()}</div>
+            
             <div className = {style.metadataImage}>
                 <div className = {style.thumbnailFrame}>
                     {renderThumbnail()}
