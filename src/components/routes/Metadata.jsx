@@ -446,7 +446,10 @@ const Metadata = () => {
             description = "Formater tjenesten leveres i."
 
         }
-        
+        else if (hierarchy === "series"){
+            fileformatTitle = "Filformater"
+            description = "Formater datasett i serien kan lastes ned i"
+        }
 
      
         const uniqueFormats = Array.from(
