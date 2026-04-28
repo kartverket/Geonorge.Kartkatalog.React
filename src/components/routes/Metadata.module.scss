@@ -176,6 +176,12 @@
   align-items: start;
   margin-bottom: 60px;
 
+  @include breakpoint('mobileonly') {
+    display: flex; 
+    flex-direction: column;
+      }
+
+
   :local(.fromOrganization) {
     grid-row: 1;
     grid-column: 1 / 4;
@@ -220,7 +226,18 @@
     justify-self: center;
     align-self: center;
     min-width: 0;
-  }
+    
+    @include breakpoint ('mobileonly'){
+      grid-column: 1;
+      grid-row: 6;
+    }
+
+    @media (min-width: 37.6em) and (max-width: 75em){
+      grid-column:1;
+      grid-row: 6;
+    }
+    }
+
 
   :local(.metadataItem) {
     display: flex;
