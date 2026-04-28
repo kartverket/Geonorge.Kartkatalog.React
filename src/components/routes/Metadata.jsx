@@ -1629,9 +1629,21 @@ const Metadata = () => {
 
     const renderType = () => {
         if (metadata?.Type) {
-            return <strong>Type: {metadata?.TypeTranslated}</strong>;
+            return <div>Type: {metadata?.TypeTranslated}</div>;
         }
     };
+
+    const renderDescriptionTitle = () => {
+        const dTitle = 
+        <heading-text>
+        <h2 underline="true" className={style.DescTitle}> Beskrivelse </h2>
+        </heading-text>
+        return (
+            <div>
+            {dTitle}
+                </div>
+        );
+    }
 
     const renderCanonicalTags = () => {
         let canonicalTagElements = [];
@@ -1857,6 +1869,9 @@ const Metadata = () => {
                             : `${style.openBtnsContainer} ${style.closed}`
                     }
                 >
+                <pre></pre>
+                <AlertBox key={`${uuid}`} uuid={uuid} />
+                <pre></pre>
                     <div className={style.btns}>
                         <ErrorBoundary>
                             <MapButton listButton={false} metadata={metadata} />
@@ -1897,13 +1912,9 @@ const Metadata = () => {
                     </div>
                 </div>
 
-                <pre></pre>
-                <AlertBox key={`${uuid}`} uuid={uuid} />
-                <pre></pre>
-
                 <div className={style.flex}>
                     <div className={style.textContent}>
-                        <div>{renderType()}</div>
+                        <div>{renderDescriptionTitle()}</div>
                         {metadata?.Abstract ? (
                             <div data-color-mode="light">
                                 <MDEditor.Markdown id="abstract" source={getAbstract(metadata)} />
