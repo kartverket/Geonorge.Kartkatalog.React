@@ -434,16 +434,31 @@ const Metadata = () => {
 
     const renderSimpleDistributionFormats = () => {
         const formats = metadata?.DistributionFormats;
-
+        const hierarchy = metadata?.HierarchyLevel?.toLowerCase();
+        let fileformatTitle = "Formater";
+        let description = "Formater"
         if (!formats?.length) return null;
+        if (hierarchy === "dataset") {
+            fileformatTitle = "Filformater"
+            description = "Formater datasettet kan lastes ned i."
+            
+        } else if (hierarchy === "service"){
+            description = "Formater tjenesten leveres i."
 
+        }
+        
+
+     
         const uniqueFormats = Array.from(
             new Set(formats.map((f) => f.Name))
         );
 
         return uniqueFormats.length ? (
             <div className={style.metadataItem}>
-                <h4 className = {style.metadataItemTitle}>Filformater</h4>
+                <h4 className = {style.metadataItemTitle}>
+                    {fileformatTitle}
+                    <QuestionmarkCircleIcon title={description} fontSize="1.5rem" />
+                    </h4>
                 <div className={style.metadataContent}>
                     <ul>
                         {uniqueFormats.map((name, index) => (
@@ -732,10 +747,10 @@ const Metadata = () => {
     }
 
     return (
-        <div className={style.metadataItem}>
-            <h4 className={style.metadataItemTitle}>
-                {label}
-                <QuestionmarkCircleIcon title={description} fontSize="1.5rem" />
+            <div className={style.metadataItem}>
+                <h4 className={style.metadataItemTitle}>
+                    {label}
+                    <QuestionmarkCircleIcon title={description} fontSize="1.5rem" />
                 </h4>
             <div className={style.value}>{formattedDate}</div>
         </div>
@@ -797,7 +812,10 @@ const Metadata = () => {
 
         return (
             <div className={style.metadataItem}>
-                <h4 className = {style.metadataItemTitle}>Oppdateringshyppighet</h4>
+                <h4 className = {style.metadataItemTitle}>
+                    Oppdateringshyppighet
+                    <QuestionmarkCircleIcon title="Frekvens for hvor ofte data blir oppdatert" fontSize="1.5rem" />
+                </h4>
                 <div className={style.value}>{metadata.MaintenanceFrequency}</div>
             </div>
         );
