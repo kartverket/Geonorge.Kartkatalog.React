@@ -65,13 +65,13 @@ const AlertBox = ({ uuid }) => {
     <div className={styles.alertContainer}>
       <div className={styles.alertContent}>
         <div>
-          <div>
+          {/* <div>
             {new Date(alert.AlertDate).toLocaleDateString("no-NB", {
               year: 'numeric',
               month: 'numeric',
               day: 'numeric'
             })}
-          </div>
+          </div> */}
           <div className={styles.alertText}>
             <strong>Varsel:</strong> Det vil bli gjort endringer i {alert.AlertCategory == "Tjenestevarsel" ? "denne tjenesten" : "dette datasettet"} fra {new Date(alert.EffectiveDate).toLocaleDateString("no-NB", {
               year: 'numeric',
@@ -81,7 +81,7 @@ const AlertBox = ({ uuid }) => {
           </div>
         </div>
         <div className={styles.alertLink}>
-          <br />
+          
           <a
             href={`${apiUrl.replace("api", "varsler")}/${cleanString(alert.Label)}/${alert.SystemId}`}
           >
