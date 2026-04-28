@@ -47,6 +47,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "@/scss/mdeOverride.scss";
 import "@/scss/abstracts/mixin/_breakpoints.scss";
 import { Tag } from "@digdir/designsystemet-react";
+import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
 
 import { registerLocale } from "react-datepicker";
 import nb from "date-fns/locale/nb";
@@ -720,16 +721,22 @@ const Metadata = () => {
 
     // Dynamisk tittel
     let label = "Sist oppdatert";
+    let description = "";
 
     if (hierarchy === "dataset") {
         label = "Datasett sist oppdatert";
+        description = "Produksjonsdato for det siste produsert formatet."
     } else if (hierarchy === "service") {
         label = "Tjeneste sist oppdatert";
+        description = "Dato for når innholdet i tjenesten sist ble oppdatert"
     }
 
     return (
         <div className={style.metadataItem}>
-            <h4 className={style.metadataItemTitle}>{label}</h4>
+            <h4 className={style.metadataItemTitle}>
+                {label}
+                <QuestionmarkCircleIcon title={description} fontSize="1.5rem" />
+                </h4>
             <div className={style.value}>{formattedDate}</div>
         </div>
     );
