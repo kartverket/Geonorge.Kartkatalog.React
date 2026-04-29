@@ -397,17 +397,23 @@ const Metadata = () => {
             const urls = distributionsFormats
                 .map((item) => item.URL)
                 .filter((value, index, self) => self.indexOf(value) === index);
+
             return urls.map((url, urlIndex) => {
                 const protocolFormats = distributionsFormats.filter((distribution) => {
                     return distribution.URL == url;
                 });
-                const protocolFormatElements = protocolFormats.map((protocolFormat, formatIndex) => {
-                    return (
-                        <li key={formatIndex}>
-                        {(protocolFormat.FormatName) && <Tag>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</Tag>}
+
+                const protocolFormatElements = protocolFormats
+                    .map((pf) => ({
+                        name: pf?.FormatName?.trim(),
+                        version: pf?.FormatVersion?.trim()
+                    }))
+                    .filter((pf) => pf.name && pf.name !== "{}")
+                    .map((pf, index) => (
+                        <li key={index}>
+                            <Tag>{pf.name} {pf.version}</Tag>
                         </li>
-                    );
-                });
+                    ));
 
                 return (
                     <div key={urlIndex}>
@@ -431,11 +437,17 @@ const Metadata = () => {
                                     : protocolFormats[0].UnitsOfDistribution}
                             </div>
                         ) : null}
-                        <heading-text>
-                            <h3>Format:</h3>
-                        </heading-text>
-                        
-                           <div className= {style.flex3}> <ul>{protocolFormatElements}</ul></div>
+                        {protocolFormatElements.length ? (
+                            <>
+                                <heading-text>
+                                    <h3>Format:</h3>
+                                </heading-text>
+
+                                <div className={style.flex3}>
+                                    <ul>{protocolFormatElements}</ul>
+                                </div>
+                            </>
+                        ) : null}
                     </div>
                 );
             });
@@ -448,42 +460,44 @@ const Metadata = () => {
         const formats = metadata?.DistributionFormats;
         const hierarchy = metadata?.HierarchyLevel?.toLowerCase();
         let fileformatTitle = "Formater";
-        let description = "Formater"
+        let description = "Formater";
+
         if (!formats?.length) return null;
+
         if (hierarchy === "dataset") {
-            fileformatTitle = "Filformater"
-            description = "Formater datasettet kan lastes ned i."
-            
-        } else if (hierarchy === "service"){
-            description = "Formater tjenesten leveres i."
-
-        }
-        else if (hierarchy === "series"){
-            fileformatTitle = "Filformater"
-            description = "Formater datasett i serien kan lastes ned i"
+            fileformatTitle = "Filformater";
+            description = "Formater datasettet kan lastes ned i.";
+        } else if (hierarchy === "service") {
+            description = "Formater tjenesten leveres i.";
         }
 
-     
         const uniqueFormats = Array.from(
-            new Set(formats.map((f) => f.Name))
+            new Set(
+                formats
+                    .map((f) => f?.Name?.trim())
+                    .filter((name) => name && name !== "{}")
+            )
         );
 
-        return uniqueFormats.length ? (
+        if (!uniqueFormats.length) return null;
+
+        return (
             <div className={style.metadataItem}>
-                <h4 className = {style.metadataItemTitle}>
+                <h4 className={style.metadataItemTitle}>
                     {fileformatTitle}
                     <QuestionmarkCircleIcon title={description} fontSize="1.5rem" />
-                    </h4>
+                </h4>
                 <div className={style.metadataContent}>
                     <ul>
                         {uniqueFormats.map((name, index) => (
-                            <li key={index}>{name && <Tag>{name}</Tag>}</li>
-
+                            <li key={index}>
+                                <Tag>{name}</Tag>
+                            </li>
                         ))}
                     </ul>
                 </div>
             </div>
-        ) : null;
+        );
     };
 
     const renderOperations = () => {
