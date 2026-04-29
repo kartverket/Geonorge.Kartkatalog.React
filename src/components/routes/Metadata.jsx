@@ -54,6 +54,7 @@ import { FaceLaughIcon } from '@navikt/aksel-icons';
 import { FaceSmileIcon } from '@navikt/aksel-icons';
 import { FaceIcon } from '@navikt/aksel-icons';
 import { FaceFrownIcon } from '@navikt/aksel-icons';
+import { Tooltip } from "@digdir/designsystemet-react";
 
 
 
@@ -76,7 +77,6 @@ const Metadata = () => {
 
     const { metadata, metadataQuality } = useLoaderData();
     const metadataDistributionsLoaderData = useLoaderData()?.metadataDistributions;
-    console.log(metadata);
 
     const uuid = params.uuid;
     const title = params.title;
@@ -485,7 +485,9 @@ const Metadata = () => {
             <div className={style.metadataItem}>
                 <h4 className={style.metadataItemTitle}>
                     {fileformatTitle}
-                    <QuestionmarkCircleIcon title={description} fontSize="1.5rem" />
+                    <Tooltip content={description}>
+                        <QuestionmarkCircleIcon className={style.helpIcon} fontSize="1.5rem" />
+                    </Tooltip>
                 </h4>
                 <div className={style.metadataContent}>
                     <ul>
@@ -780,7 +782,9 @@ const Metadata = () => {
             <div className={style.metadataItem}>
                 <h4 className={style.metadataItemTitle}>
                     {label}
-                    <QuestionmarkCircleIcon title={description} fontSize="1.5rem" />
+                    <Tooltip content={description}>
+                        <QuestionmarkCircleIcon className={style.helpIcon} fontSize="1.5rem" />
+                    </Tooltip>
                 </h4>
             <div className={style.value}>{formattedDate}</div>
         </div>
@@ -844,7 +848,9 @@ const Metadata = () => {
             <div className={style.metadataItem}>
                 <h4 className = {style.metadataItemTitle}>
                     Oppdateringshyppighet
-                    <QuestionmarkCircleIcon title="Frekvens for hvor ofte data blir oppdatert" fontSize="1.5rem" />
+                    <Tooltip content="Frekvens for hvor ofte data blir oppdatert">
+                        <QuestionmarkCircleIcon className={style.helpIcon} fontSize="1.5rem" />
+                    </Tooltip>
                 </h4>
                 <div className={style.value}>{metadata.MaintenanceFrequency}</div>
             </div>

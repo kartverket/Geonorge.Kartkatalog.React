@@ -287,6 +287,12 @@
         gap: 8px;
       }
     }
+
+    :local(.helpIcon){
+      cursor: help;
+      flex-shrink: 0;
+  
+    }
   }
 
   :local(.fairWrapper) {
