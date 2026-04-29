@@ -93,7 +93,8 @@ const MetadataSearchResult = (props) => {
     const renderDistributionFormats = () => {
         const dirstibutionFormatsElement = props.searchResult.DistributionFormats
             ? props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-                  return <li key={i}><Tag>{distributionFormat.Name}</Tag></li> ;
+                //   return <li key={i}><Tag>{distributionFormat.Name}</Tag></li> ;
+                return <li key={i}>{distributionFormat.Name && <Tag>{distributionFormat.Name}</Tag>}</li> ;
               })
             : null;
         return props.searchResult.DistributionFormats && props.visibleFields.includes("DistributionFormats") ? (
