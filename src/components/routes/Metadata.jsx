@@ -1805,16 +1805,16 @@ const Metadata = () => {
     const getFaceIcons = (fairstatus) => {
         switch (fairstatus) {
             case "deficient":
-                return <FaceFrownIcon fontSize="2rem" />;
+                return <FaceFrownIcon className={style.faceIconWrapper} fontSize="2rem" />;
 
             case "useable":
-                return <FaceIcon fontSize="2rem" />;
+                return <FaceIcon className={style.faceIconWrapper} fontSize="2rem" />;
 
             case "satisfactory":
-                return <FaceSmileIcon fontSize="2rem" />;
+                return <FaceSmileIcon className={style.faceIconWrapper} fontSize="2rem" />;
 
             case "good":
-                return <FaceLaughIcon fontSize="2rem" />;
+                return <FaceLaughIcon className={style.faceIconWrapper} fontSize="2rem" />;
             default:
                 return null;
         }

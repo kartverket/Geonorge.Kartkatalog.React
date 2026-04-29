@@ -208,18 +208,30 @@
 
   :local(.metadataColumn1) {
     grid-column: 1;
+    @include breakpoint ('mobileonly'){
+     margin-bottom: 50px;
+    }
   }
 
   :local(.metadataColumn2) {
     grid-column: 2;
+      @include breakpoint ('mobileonly'){
+     margin-bottom: 50px;
+    }
   }
 
   :local(.metadataColumn3) {
     grid-column: 3;
+    @include breakpoint ('mobileonly'){
+     margin-bottom: 50px;
+    }
   }
 
   :local(.metadataColumn4) {
     grid-column: 4;
+    @include breakpoint ('mobileonly'){
+     margin-bottom: 50px;
+    }
   }
 
   :local(.fairStatus) {
@@ -297,11 +309,14 @@
       }
     }
 
-    gn-icon {
+    }
+  }
+  :local(.faceIconWrapper){
+    margin-left: 5px;
       @include breakpoint('mobileonly') {
         display: none;
       }
-    }
+
   }
 
   :local(.thumbnailFrame) {
@@ -323,5 +338,4 @@
     border-radius: 8px;
     font-size: 1.1rem;
   }
-}
 
