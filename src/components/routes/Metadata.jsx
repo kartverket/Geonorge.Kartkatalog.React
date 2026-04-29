@@ -47,7 +47,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import "@/scss/mdeOverride.scss";
 import "@/scss/abstracts/mixin/_breakpoints.scss";
 import { Tag } from "@digdir/designsystemet-react";
+
+//navikoner
 import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
+import { FaceLaughIcon } from '@navikt/aksel-icons';
+import { FaceSmileIcon } from '@navikt/aksel-icons';
+import { FaceIcon } from '@navikt/aksel-icons';
+import { FaceFrownIcon } from '@navikt/aksel-icons';
+
+
+
+
+
+
 
 import { registerLocale } from "react-datepicker";
 import nb from "date-fns/locale/nb";
@@ -392,7 +404,7 @@ const Metadata = () => {
                 const protocolFormatElements = protocolFormats.map((protocolFormat, formatIndex) => {
                     return (
                         <li key={formatIndex}>
-                            <Tag>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</Tag>
+                        {(protocolFormat.FormatName) && <Tag>{protocolFormat.FormatName} {protocolFormat.FormatVersion}</Tag>}
                         </li>
                     );
                 });
@@ -465,7 +477,8 @@ const Metadata = () => {
                 <div className={style.metadataContent}>
                     <ul>
                         {uniqueFormats.map((name, index) => (
-                            <li key={index}><Tag>{name}</Tag></li>
+                            <li key={index}>{name && <Tag>{name}</Tag>}</li>
+
                         ))}
                     </ul>
                 </div>
@@ -1769,25 +1782,28 @@ const Metadata = () => {
         }
     ];
 
-    const getMetadataQualityIconName = (fairStatus) => {
-        switch (fairStatus) {
+    const getFaceIcons = (fairstatus) => {
+        switch (fairstatus) {
             case "deficient":
-                return "status-deficient";
+                return <FaceFrownIcon fontSize="2rem" />;
+
             case "useable":
-                return "status-useable";
+                return <FaceIcon fontSize="2rem" />;
+
             case "satisfactory":
-                return "status-satisfactory";
+                return <FaceSmileIcon fontSize="2rem" />;
+
             case "good":
-                return "status-good";
+                return <FaceLaughIcon fontSize="2rem" />;
             default:
                 return null;
         }
-    };
+    }
+
 
     const renderMetadataQuality = (metadataQuality) => {
         if (metadataQuality && Object.keys(metadataQuality)?.length) {
-            const iconName = getMetadataQualityIconName(metadataQuality?.FairStatus);
-            const icon = iconName?.length ? <gn-icon icon={iconName} height="21px" width="21px"></gn-icon> : null;
+            const icon = getFaceIcons(metadataQuality?.FairStatus);
             const detailsUrl = metadataQuality?.DetailsPage?.length && metadataQuality?.DetailsPage;
             const ariaLabel = `FAIR-status: ${
                 metadataQuality.FAIRStatusPerCent
@@ -1808,6 +1824,7 @@ const Metadata = () => {
             return null;
         }
     };
+
 
     const metadataItems = [
     {
