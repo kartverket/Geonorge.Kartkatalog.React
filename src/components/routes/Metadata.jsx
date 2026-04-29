@@ -458,7 +458,11 @@ const Metadata = () => {
             description = "Formater tjenesten leveres i."
 
         }
-        
+        else if (hierarchy === "series"){
+            fileformatTitle = "Filformater"
+            description = "Formater datasett i serien kan lastes ned i"
+        }
+
      
         const uniqueFormats = Array.from(
             new Set(formats.map((f) => f.Name))
@@ -1881,6 +1885,12 @@ const Metadata = () => {
                             className={`${style.metadataGridItem} ${style[`metadataColumn${index + 1}`]}`}
                         >
                             {item.content}
+
+                            {index === 0 ? (
+                                <div className={style.alertBox}>
+                                    <AlertBox key={`${uuid}`} uuid={uuid} />
+                                </div>
+                            ) : null}
                         </div>
                     ))}
 
@@ -1895,6 +1905,8 @@ const Metadata = () => {
                             {renderThumbnail()}
                         </div>
                     </div>
+
+                    
                 </div>
 
                 {renderCredits()}
@@ -1911,7 +1923,7 @@ const Metadata = () => {
                     }
                 >
                 <pre></pre>
-                <AlertBox key={`${uuid}`} uuid={uuid} />
+                
                 <pre></pre>
                     <div className={style.btns}>
                         <ErrorBoundary>
