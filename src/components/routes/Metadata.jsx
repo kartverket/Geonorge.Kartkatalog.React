@@ -941,30 +941,44 @@ const Metadata = () => {
     };
 
     const renderKeywordsThemeBadges = () => {
-
         const keywords = metadata?.KeywordsTheme;
+        const nationalKeywords = metadata?.KeywordsNationalTheme;
 
-        if (!keywords?.length) return null;
+        const nationalThemeValues = nationalKeywords?.length
+            ? nationalKeywords
+                .map((keywordTheme) => keywordTheme?.KeywordValue?.trim())
+                .filter((keyword) => keyword && keyword !== "{}")
+            : [];
 
-        const uniqueKeywords = Array.from(
-            new Set(
-                keywords.map((keywordTheme) =>
+        const themeValues = keywords?.length
+            ? keywords
+                .map((keywordTheme) =>
                     selectedLanguage === "en" &&
                     keywordTheme.EnglishKeyword &&
                     keywordTheme.EnglishKeyword.length
                         ? keywordTheme.EnglishKeyword
                         : keywordTheme.KeywordValue
                 )
-            )
+                .map((keyword) => keyword?.trim())
+                .filter((keyword) => keyword && keyword !== "{}")
+            : [];
+
+        const uniqueKeywords = Array.from(
+            new Set([
+                ...nationalThemeValues,
+                ...themeValues
+            ])
         );
 
         return uniqueKeywords.length ? (
             <div className={style.metadataItem}>
-                <h4 className = {style.metadataItemTitle}>Tema</h4>
+                <h4 className={style.metadataItemTitle}>Tema</h4>
                 <div className={style.metadataContent}>
                     <ul>
                         {uniqueKeywords.map((keyword, index) => (
-                            <li key={index}><Tag data-color="success">{keyword}</Tag></li>
+                            <li key={index}>
+                                <Tag data-color="success">{keyword}</Tag>
+                            </li>
                         ))}
                     </ul>
                 </div>
