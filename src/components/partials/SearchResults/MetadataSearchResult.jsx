@@ -91,18 +91,28 @@ const MetadataSearchResult = (props) => {
     };
 
     const renderDistributionFormats = () => {
-        const dirstibutionFormatsElement = props.searchResult.DistributionFormats
-            ? props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-                //   return <li key={i}><Tag>{distributionFormat.Name}</Tag></li> ;
-                return <li key={i}>{distributionFormat.Name && <Tag>{distributionFormat.Name}</Tag>}</li> ;
-              })
-            : null;
-        return props.searchResult.DistributionFormats && props.visibleFields.includes("DistributionFormats") ? (
+        const distributionFormats = props.searchResult.DistributionFormats;
+
+        const uniqueFormats = distributionFormats?.length
+            ? Array.from(
+                new Set(
+                    distributionFormats
+                        .map((format) => format?.Name?.trim())
+                        .filter((name) => name && name !== "{}")
+                )
+            )
+            : [];
+
+        return uniqueFormats.length && props.visibleFields.includes("DistributionFormats") ? (
             <div>
                 <ErrorBoundary>
                     {dispatch(getResource("Formats", "Formater"))}:
                     <ul>
-                        {dirstibutionFormatsElement}
+                        {uniqueFormats.map((name, i) => (
+                            <li key={i}>
+                                <Tag>{name}</Tag>
+                            </li>
+                        ))}
                     </ul>
                 </ErrorBoundary>
             </div>
