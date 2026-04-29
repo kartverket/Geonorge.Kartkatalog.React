@@ -195,6 +195,7 @@
   }
 
   :local(.alertBox) {
+    margin-top: 20px;
     grid-column: 1;
     grid-row: 4; // eller der du vil ha den
     
@@ -280,6 +281,7 @@
     background-color: #e6effc;
     border-radius: 8px;
     justify-self: start;
+    
 
     a {
       color: black;
