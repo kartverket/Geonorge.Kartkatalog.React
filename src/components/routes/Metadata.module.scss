@@ -275,6 +275,13 @@
         gap: 8px;
       }
     }
+
+    :local(.helpIcon){
+      cursor: help;
+      flex-shrink: 0;
+      --dsc-tooltip-transition-delay: 2s;
+      --dsc-tooltip-transition-duration: 6s;
+    }
   }
 
   :local(.fairWrapper) {
@@ -318,3 +325,4 @@
     font-size: 1.1rem;
   }
 }
+
