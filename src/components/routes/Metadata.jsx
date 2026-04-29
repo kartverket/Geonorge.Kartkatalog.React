@@ -1868,6 +1868,12 @@ const Metadata = () => {
                             className={`${style.metadataGridItem} ${style[`metadataColumn${index + 1}`]}`}
                         >
                             {item.content}
+
+                            {index === 0 ? (
+                                <div className={style.alertBox}>
+                                    <AlertBox key={`${uuid}`} uuid={uuid} />
+                                </div>
+                            ) : null}
                         </div>
                     ))}
 
@@ -1882,6 +1888,8 @@ const Metadata = () => {
                             {renderThumbnail()}
                         </div>
                     </div>
+
+                    
                 </div>
 
                 {renderCredits()}
@@ -1898,7 +1906,7 @@ const Metadata = () => {
                     }
                 >
                 <pre></pre>
-                <AlertBox key={`${uuid}`} uuid={uuid} />
+                
                 <pre></pre>
                     <div className={style.btns}>
                         <ErrorBoundary>

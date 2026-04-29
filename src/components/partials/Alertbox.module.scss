@@ -3,12 +3,14 @@
 .alertContainer {
   background-color: #ecf1f6;
   color: black;
-  padding: 20px;
+  padding: 8px 12px;
   margin: 10px 0;
   border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
   
   @include breakpoint('desktop') {
-    max-width: 25%;
+    max-width: none;
   }
 
   @include breakpoint('tablet') {
@@ -17,20 +19,22 @@
 
   .alertContent {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
 
-    .alertText {
-      padding-top: 5px;
-      padding-right: 20px;
-      flex: 1;
-    }
+    height: auto;
+  }
 
-    .alertLink {
-      color: #26488c;
-      text-decoration: underline;
-      padding-top: 5px;
-    }
+  .alertText {
+    width: 100%;
+    margin: 0;
+  }
+
+  .alertLink {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    align-self: flex-start;
   }
 }
