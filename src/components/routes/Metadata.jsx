@@ -1821,34 +1821,6 @@ const Metadata = () => {
         }
     };
 
-    
-    // const renderMetadataQuality = (metadataQuality) => {
-    //     if (metadataQuality && Object.keys(metadataQuality)?.length) {
-    //         const iconName = getMetadataQualityIconName(metadataQuality?.FairStatus);
-    //         const icon = iconName?.length ? <gn-icon icon={iconName} height="21px" width="21px"></gn-icon> : null;
-    //         // const iconName: "status-deficient" | "status-useable" | "status-satisfactory" | "status-good" | null
-    //         //Akselikoner: FaceFrown|Face|FaceSmile|Facelaugh |null
-    //         const detailsUrl = metadataQuality?.DetailsPage?.length && metadataQuality?.DetailsPage;
-    //         const ariaLabel = `FAIR-status: ${
-    //             metadataQuality.FAIRStatusPerCent
-    //         }%. Klikk for å se detaljer om FAIR-status for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
-    //         return (
-    //             <div className={style.subTitle}>
-    //                 {detailsUrl ? (
-    //                     <a href={detailsUrl} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel}>
-    //                         FAIR-status: {metadataQuality.FAIRStatusPerCent}%
-    //                     </a>
-    //                 ) : (
-    //                     <span>FAIR-status: {metadataQuality.FAIRStatusPerCent}%</span>
-    //                 )}
-    //                 {icon}
-    //             </div>
-    //         );
-    //     } else {
-    //         return null;
-    //     }
-    // };
-
 
     const metadataItems = [
     {
