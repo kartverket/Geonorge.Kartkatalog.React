@@ -77,7 +77,6 @@ const Metadata = () => {
 
     const { metadata, metadataQuality } = useLoaderData();
     const metadataDistributionsLoaderData = useLoaderData()?.metadataDistributions;
-    console.log(metadata);
 
     const uuid = params.uuid;
     const title = params.title;

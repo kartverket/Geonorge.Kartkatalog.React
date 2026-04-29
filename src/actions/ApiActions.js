@@ -22,6 +22,6 @@ export const getApiData = (url) => (dispatch, getState) => {
       return apiData
     }
   ).catch(error => {
-    console.log(error);
+    console.error('Error fetching API data:', error);
   })
 }

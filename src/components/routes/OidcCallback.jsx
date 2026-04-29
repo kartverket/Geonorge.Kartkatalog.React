@@ -8,7 +8,6 @@ import posthog from "posthog-js";
 const processSigninResponse = async (userManager, navigate, dispatch) => {
   try {
     const user = await userManager.signinRedirectCallback();
-    console.log(user);
     dispatch(userLoaded(user)); // Dispatch to Redux
     posthog?.capture("user_logged_in");
     const autoRedirectPath = sessionStorage?.autoRedirectPath || "/";
