@@ -7,6 +7,19 @@
   align-items: center;
 }
 
+:local(.headerContent) {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+:local(.headerLeft) {
+  display: flex;
+  flex-direction: column;
+}
+
 :local(.headerActions) {
   margin-left: auto;
   margin-right: 40px;
@@ -59,7 +72,20 @@
   background: #f3f3f3;
 }
 
-:local(.active) {
-  background: #e9ecef;
-  border-color: #bfc5cc;
+:local(.viewModeToggle) {
+  button {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: 1px solid #e0e0e0;
+
+    &:hover {
+      background: #f3f3f3;
+    }
+
+    &.active {
+      background: #e9ecef;
+      border-color: #bfc5cc;
+    }
+  }
 }

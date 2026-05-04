@@ -104,15 +104,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 24px;
-  margin-bottom: 24px;
 }
-
-
 
 :local(.resultsList) {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   margin-bottom: 24px;
 }
 

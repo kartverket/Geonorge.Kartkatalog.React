@@ -18,10 +18,12 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import MapButton from "@/components/partials/Buttons/MapButton";
 import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
+import { renderMetadataOwnership } from "./parts/MetadataOwnership";
 
 //Designsystemet
 import {Card, Heading} from "@digdir/designsystemet-react";
 import { Button } from  "@digdir/designsystemet-react";
+import { Tag } from "@digdir/designsystemet-react";
 import "@digdir/designsystemet-css";
 
 
@@ -42,21 +44,7 @@ const MetadataSearchResult = (props) => {
     // State
     const [copied, setCopied] = useState(false);
 
-    const restrictionsClassnames = () => {
-        if (props.searchResult.AccessConstraint === "restricted" || props.searchResult.AccessIsProtected) {
-            return style.red;
-        }
-        if (
-            (props.searchResult.AccessConstraint === "otherRestrictions" &&
-                props.searchResult.OtherConstraintsAccess === "norway digital restricted") ||
-            props.searchResult.AccessIsRestricted ||
-            props.searchResult.AccessConstraint === "norway digital restricted"
-        ) {
-            return style.yellow;
-        } else {
-            return style.green;
-        }
-    };
+
 
     const renderType = () => {
         return props.searchResult.Type && props.visibleFields.includes("Type") ? (
@@ -103,91 +91,34 @@ const MetadataSearchResult = (props) => {
     };
 
     const renderDistributionFormats = () => {
-        const dirstibutionFormatsElement = props.searchResult.DistributionFormats
-            ? props.searchResult.DistributionFormats.map((distributionFormat, i) => {
-                  return <li key={i}>{distributionFormat.Name} </li>;
-              })
-            : null;
-        return props.searchResult.DistributionFormats && props.visibleFields.includes("DistributionFormats") ? (
+        const distributionFormats = props.searchResult.DistributionFormats;
+
+        const uniqueFormats = distributionFormats?.length
+            ? Array.from(
+                new Set(
+                    distributionFormats
+                        .map((format) => format?.Name?.trim())
+                        .filter((name) => name && name !== "{}")
+                )
+            )
+            : [];
+
+        return uniqueFormats.length && props.visibleFields.includes("DistributionFormats") ? (
             <div>
                 <ErrorBoundary>
                     {dispatch(getResource("Formats", "Formater"))}:
-                    <gn-badge-list>
-                        <ul>{dirstibutionFormatsElement}</ul>
-                    </gn-badge-list>
+                    <ul>
+                        {uniqueFormats.map((name, i) => (
+                            <li key={i}>
+                                <Tag>{name}</Tag>
+                            </li>
+                        ))}
+                    </ul>
                 </ErrorBoundary>
             </div>
         ) : null;
     };
 
-    const renderListItemInfo = () => {
-        const openDataSymbolClass = restrictionsClassnames();
-        let openDataSymbolTitle =
-            props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
-                ? "Åpne datasett"
-                : "Krever innlogging";
-            if (props.searchResult.AccessConstraint && (props.searchResult.AccessConstraint === "Personvern begrenset" || props.searchResult.AccessConstraint === "Privacy restricted")
-            || props.searchResult.DataAccess &&(props.searchResult.DataAccess === "Personvern begrenset" || props.searchResult.DataAccess === "Privacy restricted")
-            || props.searchResult.DataAccess &&(props.searchResult.DataAccess === "Skjermede data" || props.searchResult.DataAccess === "Restricted data")
-            ) {
-                openDataSymbolTitle = "Kontakt dataeieren for tilgang";
-            }
-        const openDataSymbolIcon =
-            props.searchResult.IsOpenData || props.searchResult.AccessIsOpendata
-                ? ["fas", "lock-open"]
-                : ["fas", "lock"];
-
-        const listItemType = props.searchResult.TypeTranslated || props.searchResult.Type;
-        const listItemOrganizations = props.searchResult.Organizations;
-        const listItemOrganization = props.searchResult.Organization;
-
-        // Handle array of organizations
-        const organizationLinks = listItemOrganizations && Array.isArray(listItemOrganizations) 
-            ? listItemOrganizations.map((org, index) => {
-                const linkTitle = dispatch(
-                    getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [org])
-                );
-                
-                return (
-                    <span key={index}>
-                        <Link title={linkTitle} to={"/?organizations=" + org}>
-                            {org}
-                        </Link>
-                        {index < listItemOrganizations.length - 1 ? ", " : ""}
-                    </span>
-                );
-            })
-            : null;
-
-        // For single organization (fallback)
-        const singleOrganization = listItemOrganization && !Array.isArray(listItemOrganization) 
-            ? listItemOrganization
-            : null;
-
-        const singleLinkTitle = singleOrganization ? dispatch(
-            getResource("DisplayEverythingByVariable", "Vis alt fra {0}", [singleOrganization])
-        ) : null;
-
-        const singleLinkElement = singleOrganization ? (
-            <Link title={singleLinkTitle} to={"/?organizations=" + singleOrganization}>
-                {singleOrganization}
-            </Link>
-        ) : null;
-
-        const linkElement = organizationLinks || singleLinkElement;
-
-        return (
-            <span className={style.listItemInfo}>
-                <FontAwesomeIcon
-                    key="lock"
-                    className={openDataSymbolClass}
-                    title={openDataSymbolTitle}
-                    icon={openDataSymbolIcon}
-                />
-                {dispatch(getResource("VariableBy", "{0} fra", [listItemType]))} {linkElement}
-            </span>
-        );
-    };
 
     const handleResultClick = () => {
         posthog?.capture("search_result_clicked", {
@@ -241,7 +172,7 @@ const MetadataSearchResult = (props) => {
         ) : null;
     };
 
-        // TESTER UT BILDE
+        
     const renderThumbnail = () => {
     const thumbnailUrl = props.searchResult?.ThumbnailUrl;
     const title = props.searchResult?.Title || "Forhåndsvisning av datasett";
@@ -284,21 +215,29 @@ const MetadataSearchResult = (props) => {
             <Card color="neutral" variant="outline">
                 {props.enableThumbnail ? renderThumbnail() : null}
                 <div className={style.contentWrapper}>
-                    {renderListItemInfo()}
+                    
+                    {renderMetadataOwnership(
+                        props.searchResult,
+                        props.viewMode,
+                        dispatch
+                    )}
                     <span className={style.listItemTitle}>
-                    <ErrorBoundary>{renderLink()}</ErrorBoundary>
+                        <ErrorBoundary>
+                            {renderLink()}
+                        </ErrorBoundary>
                     </span>
                     <div className={style.flex}>
-                    {renderType()} {renderDistributionFormats()}
+                        {renderType()} 
+                        {renderDistributionFormats()}
                     </div>
                 </div>
+                
                 {renderButtons()}
             </Card>
         </div>
     );
    
 };
-
 
 MetadataSearchResult.propTypes = {
     searchResult: PropTypes.object.isRequired,

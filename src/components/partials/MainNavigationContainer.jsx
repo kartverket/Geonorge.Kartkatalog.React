@@ -30,6 +30,13 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
     // Refs
     const userRef = useRef(null);
+    const lastSearchStringRef = useRef(searchData?.searchString || "");
+
+    // Keep the last non-empty search string so navigating away and back
+    // doesn't reopen the autocomplete popup.
+    if (searchData?.searchString) {
+        lastSearchStringRef.current = searchData.searchString;
+    }
 
     const handleSubmitSearch = (searchString, selectedType) => {
         searchString = searchString.toString();
@@ -37,12 +44,13 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         if (searchString.length > 1) {
             const isLoggedIn = !!auth?.user;
+            const view = new URLSearchParams(window.location.search).get("view");
+            const viewParam = view ? `&view=${view}` : "";
             if (isLoggedIn) {
-                //Todo fix problem when navigating https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
-                location.href= `/${selectedType}?text=${searchString}`;
+                location.href = `/${selectedType}?text=${searchString}${viewParam}`;
             }
             else{
-            navigate(`/${selectedType}?text=${searchString}`);
+                navigate(`/${selectedType}?text=${searchString}${viewParam}`);
             }
         }
     };
@@ -50,8 +58,10 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     const handleChangeSearchResultsType = (searchResultsType, searchString) => {
         searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
+        const view = new URLSearchParams(window.location.search).get("view");
+        const viewParam = view ? `${searchString && searchString.length ? "&" : "?"}view=${view}` : "";
         const searchStringParameter = searchString && searchString.length ? `?text=${searchString}` : "";
-        navigate(`/${searchResultsType}${searchStringParameter}`);
+        navigate(`/${searchResultsType}${searchStringParameter}${viewParam}`);
     };
 
     useEffect(() => {
@@ -69,7 +79,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     useEffect(() => {
         const onAccessTokenExpiring = () => {
             // Handle token expiring (e.g., show warning, trigger silent renew, etc.)
-            console.log("Access token is expiring soon!");
             userManager.signinSilent();
         };
 
@@ -101,8 +110,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         var loggedInMenu = Cookies.get('_loggedIn');
         let autoRedirectPath = null;
 
-        console.log("isLoggedIn: " + isLoggedIn);
-        console.log("loggedInMenu: " + loggedInMenu);
 
         if(loggedInCookie === "true" && !isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;
@@ -160,7 +167,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             },
             onSearchTypeChange: (event) => {
                 const searchType = event?.detail?.value || null;
-                handleChangeSearchResultsType(searchType, searchData?.searchString);
+                handleChangeSearchResultsType(searchType, lastSearchStringRef.current);
             },
             onMapItemsChange: (event) => {
                 dispatch(fetchMapItems());
@@ -169,7 +176,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
                 dispatch(fetchItemsToDownload());
             }
         });
-    }, [auth, baatInfo]);
+    }, [auth, baatInfo, searchData?.searchString]);
 
     const metadataResultsFound = searchData?.results?.metadata?.NumFound || 0;
     const articlesResultsFound = searchData?.results?.articles?.NumFound || 0;
@@ -191,7 +198,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         isLoggedIn: !!auth.user,
         language: selectedLanguage,
         environment: getEnvironment(),
-        searchString: searchData?.searchString || "",
+        searchString: lastSearchStringRef.current,
         searchType: params.searchResultsType,
         showsearchtypeselector: true,//showSearchTypeSelector,
         metadataresultsfound: metadataResultsFound,

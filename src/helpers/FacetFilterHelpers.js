@@ -210,5 +210,12 @@ export const getQueryStringFromFacets = (selectedFacets = {}, searchString, opti
                 : `?${options.facetToAdd.facetField}=${options.facetToAdd.facet.Name}`
         }
     }
+
+
+    if (options.view) {
+        queryStringFromFacets += queryStringFromFacets
+            ? `&view=${options.view}`
+            : `?view=${options.view}`;
+}
     return queryStringFromFacets;
 };

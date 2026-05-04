@@ -2709,22 +2709,20 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
-"@posthog/core@1.23.2":
-  version "1.23.2"
-  resolved "https://registry.yarnpkg.com/@posthog/core/-/core-1.23.2.tgz#1b55307755a2b9838d308039e2972395f8d0fd40"
-  integrity sha512-zTDdda9NuSHrnwSOfFMxX/pyXiycF4jtU1kTr8DL61dHhV+7LF6XF1ndRZZTuaGGbfbb/GJYkEsjEX9SXfNZeQ==
-  dependencies:
-    cross-spawn "^7.0.6"
+"@posthog/core@1.25.2":
+  version "1.25.2"
+  resolved "https://registry.yarnpkg.com/@posthog/core/-/core-1.25.2.tgz#94a7b7ae44739fa945eaf688126f9af3435473d7"
+  integrity sha512-h2FO7ut/BbfwpAXWpwdDHTzQgUo9ibDFEs6ZO+3cI3KPWQt5XwczK1OLAuPprcjm8T/jl0SH8jSFo5XdU4RbTg==
 
 "@posthog/react@^1.8.2":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@posthog/react/-/react-1.8.2.tgz#ba3855986a3eb7f698bc70455e5a8b7d536212df"
   integrity sha512-KzUuXIcAR8fAjU7IeDq+XfEcUTNvzgEGB381WRrFUUsu7jFTcKZZ6crx/ukHRCzTnoEuy5EJDkL7b7sJecPlCg==
 
-"@posthog/types@1.360.0":
-  version "1.360.0"
-  resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.360.0.tgz#b52dfee15099104ac07feecdb5c7897b216ac62e"
-  integrity sha512-roypbiJ49V3jWlV/lzhXGf0cKLLRj69L4H4ZHW6YsITHlnjQ12cgdPhPS88Bb9nW9xZTVSGWWDjfNGsdgAxsNg==
+"@posthog/types@1.369.0":
+  version "1.369.0"
+  resolved "https://registry.yarnpkg.com/@posthog/types/-/types-1.369.0.tgz#c6bbe51f9edd6a517df35b1380c7eedf137cecce"
+  integrity sha512-iFkLrg/+QRQHc8KSjO9parN6H3rftM2ld2sCJ/GeBRRO9MJYCdc6jXSFRgF7aGJPzb79syqksz+CrnBzdZnBKg==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -10757,18 +10755,18 @@ postcss@^8.3.5, postcss@^8.4.33, postcss@^8.4.4, postcss@^8.4.47, postcss@^8.5.6
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
-posthog-js@^1.360.0:
-  version "1.360.0"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.360.0.tgz#947a54bd84430d46af3d2fc1c22156a7df246f49"
-  integrity sha512-jkyO+T97yi6RuiexOaXC7AnEGiC+yIfGU5DIUzI5rqBH6MltmtJw/ve2Oxc4jeua2WDr5sXMzo+SS+acbpueAA==
+posthog-js@^1.369.0:
+  version "1.369.0"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.369.0.tgz#0263c3006cfb57a9111ee01642aa1a6fdab84205"
+  integrity sha512-fOJzwpCb/TWxJBsUNKJ5PhHNl0+X7zRrVTuUrIH+EfsIfxJGSkOa0lWPJJGr3xzg810JHCUpuhn5sFBBxfHqIQ==
   dependencies:
     "@opentelemetry/api" "^1.9.0"
     "@opentelemetry/api-logs" "^0.208.0"
     "@opentelemetry/exporter-logs-otlp-http" "^0.208.0"
     "@opentelemetry/resources" "^2.2.0"
     "@opentelemetry/sdk-logs" "^0.208.0"
-    "@posthog/core" "1.23.2"
-    "@posthog/types" "1.360.0"
+    "@posthog/core" "1.25.2"
+    "@posthog/types" "1.369.0"
     core-js "^3.38.1"
     dompurify "^3.3.2"
     fflate "^0.4.8"
@@ -10996,9 +10994,9 @@ quickselect@^3.0.0:
   resolved "https://registry.yarnpkg.com/quickselect/-/quickselect-3.0.0.tgz#a37fc953867d56f095a20ac71c6d27063d2de603"
   integrity sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==
 
-"r_map@https://github.com/kartverket/r_map.git":
+"r_map@https://github.com/kartverket/r_map.git#fix/norgeskart":
   version "2.4.24"
-  resolved "https://github.com/kartverket/r_map.git#2017fb299528192252fa5b9e672cbaa4bca5f0de"
+  resolved "https://github.com/kartverket/r_map.git#986333606d424c29baf505e993d3c5e3ce6f6166"
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.1.1"
     "@fortawesome/free-regular-svg-icons" "^6.1.1"

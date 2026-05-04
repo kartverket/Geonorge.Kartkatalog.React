@@ -11,7 +11,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 // Stylesheets
 import style from "@/components/partials/FacetFilter.module.scss";
 
-export const FacetFilter = ({ searchData }) => {
+export const FacetFilter = ({ searchData, viewMode }) => {
     // State
     const [expanded, setExpanded] = useState();
 
@@ -33,6 +33,7 @@ export const FacetFilter = ({ searchData }) => {
                               <FacetFilterItem
                                   searchData={searchData}
                                   facetFilterItem={searchData.availableFacets[facetField]}
+                                  viewMode={viewMode}
                               />
                           </ErrorBoundary>
                       ) : null;
@@ -58,7 +59,8 @@ export const FacetFilter = ({ searchData }) => {
 
 // Validering av props...
 FacetFilter.propTypes = {
-    searchData: PropTypes.object
+    searchData: PropTypes.object,
+    viewMode: PropTypes.oneOf(["grid", "list"])
 };
 
 export default FacetFilter;

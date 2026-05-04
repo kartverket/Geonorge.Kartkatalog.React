@@ -61,7 +61,7 @@ const addItemToLocalStorage = (itemToAdd => {
     localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
   }
   catch (e) {
-      console.log("Local Storage is full");
+      // Local storage is full, clearing areas to reduce size
       itemToAdd.areas = {};
       localStorage.setItem(itemToAdd.uuid + ".metadata", JSON.stringify(itemToAdd))
   }

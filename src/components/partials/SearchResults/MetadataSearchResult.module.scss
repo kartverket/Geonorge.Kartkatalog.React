@@ -13,9 +13,9 @@
   border: 1px solid #d3d3d3;
   width: 100%;
   padding: 24px;
-  margin-bottom: 24px;
+  
 
-  &:hover:not(:has(.buttonGroupContainer:hover)) {
+   &:hover:not(:has(.buttonGroupContainer:hover)) {
     background: var(--ds-color-neutral-surface-hover);
 
     :global(.ds-button) {
@@ -32,6 +32,7 @@
 :local(.listItemTitle) {
   a {
     text-decoration: none;
+    font-size: 20px;
     color: inherit;
 
     &:hover {
@@ -72,8 +73,8 @@
 :local(.listItemInfo) {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.8em;
+  gap: 3px;
+  font-size: 1em;
 
   a {
     color: black;
@@ -84,7 +85,7 @@
   }
 
   > svg {
-    margin-right: 5px;
+    margin-right: 2px;
     font-size: 1.2em;
 
     &:local(.red) {
@@ -113,7 +114,7 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  margin-top: 0.75rem;
+  margin-top: auto;
 
   &:has(> *:nth-child(2)) {
     justify-content: center;
@@ -129,7 +130,7 @@
   }
 
   a {
-    text-decoration: none;
+    text-decoration: none !important;
   }
 
   span {
@@ -137,10 +138,6 @@
   }
 }
 
-
-:local(.contentWrapper) {
-  min-width: 0;
-}
 
 
 /* 
@@ -156,11 +153,11 @@
   }
 
   :local(.thumbnailContainer) {
-    width: 100%;
-    height: 160px;
-    margin-bottom: 12px;
+    width: calc(100% + 48px);
+    margin: -24px -24px 12px -24px;
+    height: 200px;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 10px 10px 0 0;
     background: #f3f3f3;
     display: flex;
     align-items: center;
@@ -170,14 +167,13 @@
   :local(.listItemTitle) {
     display: block;
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 0.156em;
+    margin-top: 0.156em;
     min-height: 3.2em;
 
     @include breakpoint(tablet) {
       font-size: 19px;
     }
-
-    
   }
 
   :local(.listItemInfo) {
@@ -189,6 +185,11 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+        ul{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
   }
 }
 
@@ -201,13 +202,14 @@
     flex-direction: row;
     align-items: center;
     gap: 1.5rem;
+    margin-bottom: 10px;
   }
 
   :local(.thumbnailContainer) {
     width: 140px;
     height: 140px;
     flex-shrink: 0;
-    margin-bottom: 0;
+    margin: -24px 0 -24px -24px;
   }
 
   :local(.contentWrapper) {
@@ -229,10 +231,28 @@
       gap: 1rem;
     }
 
-    :local(.thumbnailContainer) {
-      width: 100%;
-      height: 120px;
+    :local(.listItemTitle) {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    min-height: 3.2em;
     }
+
+    :local(.listItemInfo) {
+    min-height: 2.4em;
+  }
+
+    :local(.thumbnailContainer) {
+    width: calc(100% + 48px);
+    margin: -24px -24px 12px -24px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+    background: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
     :local(.contentWrapper) {
       width: 100%;

@@ -108,7 +108,7 @@ jobs:
             --arg ref "main" \
             --arg application "kartkatalog-frontend" \
             --arg ghcr_path "ghcr.io/kartverket/geonorge-kartkatalog-frontend" \
-            --arg dev_env "atgcp1" \
+            --arg dev_env "atkv3" \
             --arg namespace "geonorge-kartkatalog-dev" \
             --arg tag "$SHORT_TAG" \
             --arg commit_message "$COMMIT_MESSAGE" \
@@ -148,5 +148,5 @@ jobs:
   #     # identity for the octo-sts action
   #     identity: Geonorge.Kartkatalog.React
   #     ghcr_path: ghcr.io/kartverket/geonorge-kartkatalog-frontend
-  #     dev_env: atgcp1
+  #     dev_env: atkv3
   #     commit_message: ${{ needs.build_image.outputs.commit_message }}
