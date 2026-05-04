@@ -108,7 +108,7 @@ const DownloadButton = (props) => {
                 );
             })
             .catch((error) => {
-                console.error(error.message);
+                setHasError(true);
                 return Promise.reject(error);
             });
         return Promise.resolve(requestAction);

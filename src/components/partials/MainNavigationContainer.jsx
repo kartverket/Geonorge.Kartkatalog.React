@@ -79,7 +79,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     useEffect(() => {
         const onAccessTokenExpiring = () => {
             // Handle token expiring (e.g., show warning, trigger silent renew, etc.)
-            console.log("Access token is expiring soon!");
             userManager.signinSilent();
         };
 
@@ -111,8 +110,6 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         var loggedInMenu = Cookies.get('_loggedIn');
         let autoRedirectPath = null;
 
-        console.log("isLoggedIn: " + isLoggedIn);
-        console.log("loggedInMenu: " + loggedInMenu);
 
         if(loggedInCookie === "true" && !isLoggedIn){
             sessionStorage.autoRedirectPath = window.location.pathname;

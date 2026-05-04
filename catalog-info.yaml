@@ -1,11 +1,11 @@
-apiVersion: "backstage.io/v1alpha1"
-kind: "Component"
+apiVersion: backstage.io/v1alpha1
+kind: Component
 metadata:
-  name: "Geonorge.Kartkatalog.React"
+  name: Geonorge.Kartkatalog.React
   tags:
-  - "public"
+    - public
 spec:
-  type: "website"
-  lifecycle: "production"
-  owner: "datadeling_og_distribusjon"
-  system: "geonorge"
+  type: website
+  lifecycle: production
+  owner: group:default/geonorge
+  system: system:default/geonorge
