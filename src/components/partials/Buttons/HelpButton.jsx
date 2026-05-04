@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getResource } from "@/actions/ResourceActions";
 
 // Stylesheets
-import style from "@/components/partials/Buttons/Buttons.module.scss";
+import style from "@/components/partials/Buttons/Buttons2.module.scss";
 
 const HelpButton = (props) => {
     const dispatch = useDispatch();

@@ -11,8 +11,8 @@ import { getResource } from "@/actions/ResourceActions";
 import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
-import buttonStyle from "@/components/partials/Buttons/Buttons.module.scss";
-import style from "@/components/partials/Buttons/ShowCoverageButton.module.scss";
+import buttonStyle from "@/components/partials/Buttons/Buttons2.module.scss";
+
 
 const ShowCoverageButton = (props) => {
     const dispatch = useDispatch();

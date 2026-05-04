@@ -22,7 +22,7 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 import loadingAnimation from "@/images/gif/loading.gif";
 
 // Stylesheets
-import style from "@/components/partials/Buttons/Buttons.module.scss";
+import style from "@/components/partials/Buttons/Buttons2.module.scss";
 import { Button } from "@digdir/designsystemet-react";
 
 const DownloadButton = (props) => {

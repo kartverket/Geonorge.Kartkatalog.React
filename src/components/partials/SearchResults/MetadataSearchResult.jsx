@@ -34,6 +34,7 @@ import { GnBadgeList } from "@kartverket/geonorge-web-components";
 
 // Stylesheets
 import style from "@/components/partials/SearchResults/MetadataSearchResult.module.scss";
+import buttonStyle from "@/components/partials/Buttons/Buttons2.module.scss";
 
 const MetadataSearchResult = (props) => {
     const dispatch = useDispatch();
@@ -160,9 +161,9 @@ const MetadataSearchResult = (props) => {
             <ErrorBoundary>
                 <CopyToClipboard onCopy={handleCopyUrl} text={props.searchResult.GetCapabilitiesUrl}>
                         <Button variant= "primary"
-                        title={props.searchResult.GetCapabilitiesUrl} className={style.url}>
+                            title={props.searchResult.GetCapabilitiesUrl} className={buttonStyle.listButton}>
 
-                            <span>
+                            <span className={buttonStyle.buttonText}>
                         {copied ? "Lenke kopiert": "Kopier lenke"}
                         </span>
                         </Button>
