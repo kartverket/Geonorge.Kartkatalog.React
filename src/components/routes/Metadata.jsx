@@ -1938,26 +1938,6 @@ const Metadata = () => {
                                 {renderThumbnail()}
                             </div>
                         </div>
-
-
-                    </div>
-
-                    {renderCredits()}
-
-                    <div className={style.openBtns} onClick={() => toggleBtns()}>
-                        Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
-                    </div>
-
-                    <div
-                        className={
-                            showBtns
-                                ? style.openBtnsContainer
-                                : `${style.openBtnsContainer} ${style.closed}`
-                        }
-                    >
-                        <pre></pre>
-
-                        <pre></pre>
                         <div className={style.buttonContainer}>
                             <ErrorBoundary>
                                 <DownloadButton listButton={false} metadata={metadata} />
@@ -1998,6 +1978,7 @@ const Metadata = () => {
                             </ErrorBoundary>
                         </div>
                     </div>
+                    
 
                     <div className={style.flex}>
                         <div className={style.textContent}>
