@@ -37,7 +37,7 @@ const ProductSheetButton = (props) => {
 
     return (
         <Button asChild variant="primary" className={style.detailButton}>
-            <a href={url} onClick={handleButtonClick}>
+            <a href={url} onClick={handleButtonClick} >
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>

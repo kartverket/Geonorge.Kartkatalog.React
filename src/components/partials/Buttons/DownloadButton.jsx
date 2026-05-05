@@ -24,6 +24,7 @@ import loadingAnimation from "@/images/gif/loading.gif";
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons2.module.scss";
 import { Button } from "@digdir/designsystemet-react";
+import { DownloadIcon, XMarkIcon } from "@navikt/aksel-icons";
 
 const DownloadButton = (props) => {
     const dispatch = useDispatch();
@@ -46,6 +47,13 @@ const DownloadButton = (props) => {
             userManager.signinRedirect();
         });
     };
+
+    const renderDownloadIcon = () =>
+        isAdded ? (
+            <XMarkIcon aria-hidden="true" fontSize="100px" />
+        ) : (
+            <DownloadIcon aria-hidden="true" fontSize="1.5rem" />
+        );
 
     const getDownloadItem = (metadata) => {
         return {
@@ -247,7 +255,7 @@ const DownloadButton = (props) => {
                 : isSeries()
                     ? dispatch(getResource("DownloadSeries", "Last ned serie"))
                     : dispatch(getResource("Download", "Last ned"));
-            
+
 
             return (
                 //knapp importert fra digdir sitt designssystem
@@ -318,6 +326,7 @@ const DownloadButton = (props) => {
                 }
                 className={buttonClass}
             >
+                {renderDownloadIcon()}
                 <span className={style.buttonText}>{buttonDescription}</span>
             </Button>
         );
@@ -356,7 +365,7 @@ const DownloadButton = (props) => {
 
     if (hasError) {
         return (
-            <Button variant="secondary" className={buttonClass} disabled>
+            <Button variant="primary" className={buttonClass}>
                 <span className={style.buttonText}>
                     {dispatch(getResource("CanNotBeAddedToBasket", "Kan ikke legges til nedlasting"))}
                 </span>
@@ -366,13 +375,13 @@ const DownloadButton = (props) => {
 
     if (isLoading) {
         return (
-            <Button variant="secondary" className={buttonClass} disabled>
+            <Button variant="secondary" className={buttonClass}>
                 <img src={loadingAnimation} alt="Loading animation" />
             </Button>
         );
     }
 
-return props.listButton ? renderListButton() : renderButton();
+    return props.listButton ? renderListButton() : renderButton();
 };
 
 DownloadButton.propTypes = {

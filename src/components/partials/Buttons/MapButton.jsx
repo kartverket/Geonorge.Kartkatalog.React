@@ -2,18 +2,17 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+;
 import { usePostHog } from "@posthog/react";
 
 // Actions
 import { removeMapItem, addMapItem } from "@/actions/MapItemActions";
 import { getResource } from "@/actions/ResourceActions";
-import { getApiData } from "@/actions/ApiActions";
-import { getServiceStatusApiUrl } from "@/actions/ApiUrlActions";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons2.module.scss";
 import { Button } from "@digdir/designsystemet-react";
+import { LayersPlusIcon, LayerMinusIcon, XMarkIcon } from "@navikt/aksel-icons";
 
 const MapButton = (props) => {
     const dispatch = useDispatch();
@@ -234,6 +233,13 @@ const MapButton = (props) => {
         return null;
     };
 
+    const renderMapIcon = () =>
+        isAdded ? (
+            <LayerMinusIcon aria-hidden="true" />
+        ) : (
+            <LayersPlusIcon aria-hidden="true" />
+        );
+
     const renderButton = () => {
         const buttonDescription = isAdded
             ? dispatch(getResource("RemoveFromMap", "Fjern fra kart"))
@@ -259,6 +265,7 @@ const MapButton = (props) => {
                 className={style.detailButton}
                 onClick={action}
             >
+                {renderMapIcon()}
                 <span className={style.buttonText}>{buttonDescription}</span>
             </Button>
         );
