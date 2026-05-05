@@ -1,19 +1,10 @@
 @use "../../../scss/abstracts/all" as *;
 @import "@digdir/designsystemet-css/index.css";
-
 @import "@digdir/designsystemet-css";
 
-//Buttons for the cards in searchresult. 
-
-
-
-
-
-
-
+// Buttons for the cards in search result.
 :local(.listButton) {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
 
@@ -30,10 +21,6 @@
   background-color: var(--ds-color-neutral-background-hover);
   color: var(--ds-color-neutral-text-default);
 
-  :local(.buttonText) {
-    font-size: 1.2rem;
-  }
-
   &:hover {
     background-color: #f0f0f0;
     color: var(--ds-color-neutral-text-default);
@@ -48,60 +35,58 @@
     outline-offset: 2px;
   }
 
-  >svg {
+  > svg {
     font-size: 1.5em;
     margin-right: 5px;
   }
 
-  >span {
+  > span {
     font-size: 1rem;
     color: inherit;
+  }
+
+  :local(.buttonText) {
+    font-size: 1.2rem;
   }
 
   @include breakpoint(tablet) {
     min-width: 140px;
     font-size: 1.2rem;
 
-    >span {
+    > span {
       font-size: 1.2rem;
     }
   }
 }
 
-
-//Buttons for the metadata detail page. 
+// Buttons for the metadata detail page.
 :local(.detailButton) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
-  border-radius: 3px;
+  gap: 8px;
 
   width: 100%;
   height: 44px;
-  font-size: clamp(0.95rem, 1.2vw, 1.3rem);
+  padding: 10px 16px;
+  border-radius: 3px;
 
+  font-size: clamp(0.95rem, 1.2vw, 1.3rem);
   text-decoration: none;
+
+  svg {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
 
   :local(.buttonText) {
     white-space: normal;
     overflow-wrap: normal;
     line-height: 1.2;
   }
-
-  :local(.secondaryButton) {
-    background-color: #ffffff !important;
-    color: #5a5858 !important;
-    border-color: #5a5858 !important;
-  }
-
-  svg {
-    font-size: 1.5rem;
-    flex-shrink: 0;
-  }
 }
 
-//Workaround, easier than implementing designsystemet. 
+// Workaround, easier than implementing designsystemet.
 :local(.primaryButton) {
   background-color: #5a5858 !important;
   color: #ffffff !important;
@@ -126,4 +111,3 @@
     text-decoration: none !important;
   }
 }
-

@@ -374,6 +374,10 @@ const DownloadButton = (props) => {
     }
 
     if (isLoading) {
+
+        const buttonClass = props.listButton
+            ? style.listButton
+            : `${style.detailButton} ${style.primaryButton}`;
         return (
             <Button variant="secondary" className={buttonClass}>
                 <img src={loadingAnimation} alt="Loading animation" />
