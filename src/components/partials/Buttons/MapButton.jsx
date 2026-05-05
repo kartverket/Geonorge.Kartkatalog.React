@@ -10,7 +10,7 @@ import { removeMapItem, addMapItem } from "@/actions/MapItemActions";
 import { getResource } from "@/actions/ResourceActions";
 
 // Stylesheets
-import style from "@/components/partials/Buttons/Buttons2.module.scss";
+import style from "@/components/partials/Buttons/Buttons.module.scss";
 import { Button } from "@digdir/designsystemet-react";
 import { LayersPlusIcon, LayerMinusIcon, XMarkIcon } from "@navikt/aksel-icons";
 

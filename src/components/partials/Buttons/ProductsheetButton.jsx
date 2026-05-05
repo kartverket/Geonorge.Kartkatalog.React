@@ -11,7 +11,7 @@ import { getResource } from "@/actions/ResourceActions";
 import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
-import style from "@/components/partials/Buttons/Buttons2.module.scss";
+import style from "@/components/partials/Buttons/Buttons.module.scss";
 
 const ProductSheetButton = (props) => {
     const dispatch = useDispatch();

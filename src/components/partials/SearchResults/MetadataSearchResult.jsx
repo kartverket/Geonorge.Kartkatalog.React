@@ -34,7 +34,7 @@ import { GnBadgeList } from "@kartverket/geonorge-web-components";
 
 // Stylesheets
 import style from "@/components/partials/SearchResults/MetadataSearchResult.module.scss";
-import buttonStyle from "@/components/partials/Buttons/Buttons2.module.scss";
+import buttonStyle from "@/components/partials/Buttons/Buttons.module.scss";
 
 const MetadataSearchResult = (props) => {
     const dispatch = useDispatch();
