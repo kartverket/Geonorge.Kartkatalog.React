@@ -1963,6 +1963,9 @@ const Metadata = () => {
                                 <DownloadButton listButton={false} metadata={metadata} />
                             </ErrorBoundary>
                             <ErrorBoundary>
+                                <ApplicationButton listButton={false} metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
                                 <MapButton listButton={false} metadata={metadata} />
                             </ErrorBoundary>
                             <ErrorBoundary>
@@ -1983,9 +1986,7 @@ const Metadata = () => {
                             <ErrorBoundary>
                                 <ShowCoverageButton metadata={metadata} />
                             </ErrorBoundary>
-                            <ErrorBoundary>
-                                <ApplicationButton listButton={false} metadata={metadata} />
-                            </ErrorBoundary>
+                        
                             <ErrorBoundary>
                                 <DownloadXmlButton metadata={metadata} />
                             </ErrorBoundary>

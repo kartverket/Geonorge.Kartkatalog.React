@@ -58,7 +58,7 @@ const ApplicationButton = (props) => {
 
     const buttonClass = props.listButton
         ? `${style.listButton} ${style.ext}`
-        : style.detailButton;
+        : `${style.detailButton} ${style.primaryButton}`;
 
     return (
         <Button asChild variant="primary" className={buttonClass}>
