@@ -219,7 +219,7 @@ const MapButton = (props) => {
                 : `${style.listButton} ${style.on} ${style[serviceStatusCode]}`;
 
             return (
-                //knapp importert fra digdir designssystemet
+                
                 <Button
                     variant='primary'
                     title={buttonTitle}
