@@ -47,29 +47,29 @@ const MapButton = (props) => {
         }
         return datasetService
             ? {
-                  Uuid: datasetService.Uuid,
-                  Title: datasetService.Title,
-                  DistributionProtocol: getProtocol(datasetService),
-                  GetCapabilitiesUrl: datasetService.GetCapabilitiesUrl,
-                  addLayers: []
-              }
+                Uuid: datasetService.Uuid,
+                Title: datasetService.Title,
+                DistributionProtocol: getProtocol(datasetService),
+                GetCapabilitiesUrl: datasetService.GetCapabilitiesUrl,
+                addLayers: []
+            }
             : null;
     };
 
     const getService = () => {
 
         let protocol = props.metadata.ServiceDistributionProtocolForDataset ||
-        props.metadata.Protocol ||
-        props.metadata.DistributionProtocol;
+            props.metadata.Protocol ||
+            props.metadata.DistributionProtocol;
 
         let getCapabilitiesUri = props.metadata.ServiceDistributionUrlForDataset ||
-        props.metadata.GetCapabilitiesUrl ||
-        props.metadata.MapLink;
+            props.metadata.GetCapabilitiesUrl ||
+            props.metadata.MapLink;
 
-        if(protocol == "Tjenestelag")
-            if(getCapabilitiesUri?.toLowerCase().includes("service=wms"))
+        if (protocol == "Tjenestelag")
+            if (getCapabilitiesUri?.toLowerCase().includes("service=wms"))
                 protocol = "OGC:WMS";
-             else if(getCapabilitiesUri?.toLowerCase().includes("service=wfs"))
+            else if (getCapabilitiesUri?.toLowerCase().includes("service=wfs"))
                 protocol = "OGC:WFS"
 
         return {
@@ -82,15 +82,14 @@ const MapButton = (props) => {
     };
 
     const getProtocol = (service) => {
-        let distributionProtocol =  service.DistributionProtocol
-                      ? service.DistributionProtocol
-                      : service.Protocol;
-        if(distributionProtocol == "Tjenestelag")
-        {
-            if(service?.GetCapabilitiesUrl?.toLowerCase().includes("service=wms"))
+        let distributionProtocol = service.DistributionProtocol
+            ? service.DistributionProtocol
+            : service.Protocol;
+        if (distributionProtocol == "Tjenestelag") {
+            if (service?.GetCapabilitiesUrl?.toLowerCase().includes("service=wms"))
                 return "OGC:WMS";
-            else if(service?.GetCapabilitiesUrl?.toLowerCase().includes("service=wfs"))
-            return "OGC:WFS";
+            else if (service?.GetCapabilitiesUrl?.toLowerCase().includes("service=wfs"))
+                return "OGC:WFS";
         }
         return distributionProtocol;
     };
@@ -220,15 +219,15 @@ const MapButton = (props) => {
                 ? `${style.listButton} ${style.off}`
                 : `${style.listButton} ${style.on} ${style[serviceStatusCode]}`;
 
-            return(
+            return (
                 //knapp importert fra digdir designssystemet
-                <Button 
+                <Button
                     variant='primary'
                     title={buttonTitle}
                     className={buttonClass}
                     onClick={action}
-                    >
-                        {buttonDescription}
+                >
+                    {buttonDescription}
                 </Button>
             );
         }
@@ -239,54 +238,38 @@ const MapButton = (props) => {
         const buttonDescription = isAdded
             ? dispatch(getResource("RemoveFromMap", "Fjern fra kart"))
             : dispatch(getResource("AddToMap", "Legg til i kart"));
+
         let buttonTitle = buttonDescription;
+
         if (serviceStatusCode !== "" && serviceStatusLabel !== "") {
             buttonTitle = `${buttonTitle}. ${serviceStatusLabel}`;
         }
 
-        const buttonIcon = isAdded ? ["far", "map-marker-minus"] : ["far", "map-marker-plus"];
-        const icon = <FontAwesomeIcon title={buttonTitle} icon={buttonIcon} key="icon" />;
-        const textContent = React.createElement(
-            "span",
-            {
-                key: "textContent"
-            },
-            buttonDescription
-        );
-        const childElements = [icon, textContent];
-
-        if (props.metadata.CanShowServiceMapUrl || props.metadata.CanShowMapUrl) {
-            const buttonClass = isAdded
-                ? `${style.btn}  ${style.remove}`
-                : `${style.btn}  ${style.download} ${style[serviceStatusCode]}`;
-            const mapItem = getMapItem();
-            const action = isAdded ? () => removeFromMap([mapItem]) : () => addToMap([mapItem]);
-            return React.createElement(
-                "button",
-                {
-                    onClick: action,
-                    className: buttonClass
-                },
-                childElements
-            );
-        } else {
-            const buttonClass = `${style.btn}  ${style.disabled}`;
-            return React.createElement(
-                "button",
-                {
-                    className: buttonClass
-                },
-                childElements
-            );
+        if (!(props.metadata.CanShowServiceMapUrl || props.metadata.CanShowMapUrl)) {
+            return null;
         }
+
+        const mapItem = getMapItem();
+        const action = isAdded ? () => removeFromMap([mapItem]) : () => addToMap([mapItem]);
+
+        return (
+            <Button
+                variant="primary"
+                title={buttonTitle}
+                className={style.detailButton}
+                onClick={action}
+            >
+                <span className={style.buttonText}>{buttonDescription}</span>
+            </Button>
+        );
     };
 
     useEffect(() => {
         const mapItemUuid = getMapItem()?.Uuid || null;
         const isAdded = mapItemUuid
             ? mapItems.filter((mapItem) => {
-                  return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
-              }).length > 0
+                return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
+            }).length > 0
             : false;
         if (isAdded) {
             setIsAdded(isAdded);
@@ -301,8 +284,8 @@ const MapButton = (props) => {
         const mapItemUuid = getMapItem()?.Uuid || null;
         const isAdded = mapItemUuid
             ? mapItems.filter((mapItem) => {
-                  return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
-              }).length > 0
+                return mapItem && mapItem.Uuid && mapItemUuid === mapItem.Uuid;
+            }).length > 0
             : false;
         setIsAdded(isAdded);
     }, [serviceStatusIsFetched, mapItems]);
