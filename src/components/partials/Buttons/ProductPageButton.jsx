@@ -9,7 +9,7 @@ import { getResource } from "@/actions/ResourceActions";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons2.module.scss";
-
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 const ProductPageButton = (props) => {
     const dispatch = useDispatch();
 
@@ -36,6 +36,7 @@ const ProductPageButton = (props) => {
     return (
         <Button asChild variant="primary" className={style.detailButton}>
             <a href={url}>
+                <ExternalLinkIcon aria-hidden="true" />
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>

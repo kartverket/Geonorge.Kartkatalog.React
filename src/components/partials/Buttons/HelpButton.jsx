@@ -10,6 +10,9 @@ import { getResource } from "@/actions/ResourceActions";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons2.module.scss";
+import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
+
+
 
 const HelpButton = (props) => {
     const dispatch = useDispatch();
@@ -24,6 +27,7 @@ const HelpButton = (props) => {
     return (
         <Button asChild variant="primary" className={style.detailButton}>
             <a href={url}>
+                <QuestionmarkCircleIcon title="a11y-title" fontSize="1.5rem" />
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>

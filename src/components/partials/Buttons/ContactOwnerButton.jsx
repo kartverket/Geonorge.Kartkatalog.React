@@ -12,6 +12,7 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons2.module.scss";
+import { EnvelopeClosedIcon } from '@navikt/aksel-icons';
 
 const ContactOwnerButton = (props) => {
     const dispatch = useDispatch();
@@ -37,13 +38,14 @@ const ContactOwnerButton = (props) => {
     if (!email?.trim()) return null;
 
     return (
-        <Button asChild variant="primary" className={style.detailButton}>
+        <Button asChild variant="secondary" className={style.detailButton}>
             <a
                 href={`mailto:${email}`}
                 onClick={handleButtonClick}
                 target="_blank"
                 rel="noopener noreferrer"
             >
+                <EnvelopeClosedIcon title="a11y-title" fontSize="1.5rem" />
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>

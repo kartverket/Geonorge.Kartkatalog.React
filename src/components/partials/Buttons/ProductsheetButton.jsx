@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Button } from "@digdir/designsystemet-react";
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
@@ -38,6 +39,7 @@ const ProductSheetButton = (props) => {
     return (
         <Button asChild variant="primary" className={style.detailButton}>
             <a href={url} onClick={handleButtonClick} >
+                <ExternalLinkIcon aria-hidden="true" />
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>

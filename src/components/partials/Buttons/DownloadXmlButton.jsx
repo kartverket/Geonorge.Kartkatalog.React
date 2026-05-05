@@ -10,6 +10,7 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons2.module.scss";
+import { DownloadIcon} from "@navikt/aksel-icons";
 
 const DownloadXmlButton = (props) => {
     const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const DownloadXmlButton = (props) => {
 
             <Button asChild variant="primary" className={style.detailButton}>
                 <a href={url} onClick={handleButtonClick}>
+                    <DownloadIcon aria-hidden="true" fontSize="1.5rem" />
                     <span className={style.buttonText}>{buttonDescription}</span>
                 </a>
             </Button>

@@ -12,6 +12,7 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons2.module.scss";
+import { PencilIcon } from '@navikt/aksel-icons';
 
 
 
@@ -42,6 +43,7 @@ const EditMetadataButton = (props) => {
         return (
             <Button asChild variant="primary" className={style.detailButton}>
                 <a href={url} onClick={handleButtonClick}>
+                    <PencilIcon title="a11y-title" fontSize="1.5rem" />
                     <span className={style.buttonText}>{buttonDescription}</span>
                 </a>
             </Button>
