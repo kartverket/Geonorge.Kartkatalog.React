@@ -1959,7 +1959,7 @@ const Metadata = () => {
                 <pre></pre>
                 
                 <pre></pre>
-                    <div className={style.btns}>
+                    <div className={style.buttonContainer}>
                         <ErrorBoundary>
                             <MapButton listButton={false} metadata={metadata} />
                         </ErrorBoundary>

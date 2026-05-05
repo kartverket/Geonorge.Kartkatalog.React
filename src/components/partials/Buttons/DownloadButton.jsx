@@ -38,6 +38,8 @@ const DownloadButton = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
 
+    const buttonClass = `${style.listButton} `;
+
     const handleLoginClick = () => {
         userManagerPromise.then((userManagerConfig) => {
             const userManager = userManagerConfig;
@@ -185,7 +187,7 @@ const DownloadButton = (props) => {
 
         if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
             if (metadata.SerieDatasets) {
-                const serieDatasets = metadata.SerieDatasets.filter( (dataset) => dataset.DistributionProtocol.includes('GEONORGE:DOWNLOAD'));
+                const serieDatasets = metadata.SerieDatasets.filter((dataset) => dataset.DistributionProtocol.includes('GEONORGE:DOWNLOAD'));
                 let asyncActions = serieDatasets.map((serieDataset) => {
                     const item = getDownloadItem(serieDataset);
                     return addToDownloadList(item);
@@ -223,9 +225,9 @@ const DownloadButton = (props) => {
         const metadata = props.metadata;
         if (metadata.TypeName === "series_historic" || metadata.TypeName === "series_collection") {
 
-            const serieDatasets = metadata.SerieDatasets.filter( (dataset) => dataset.DistributionProtocol.includes('GEONORGE:DOWNLOAD'));
+            const serieDatasets = metadata.SerieDatasets.filter((dataset) => dataset.DistributionProtocol.includes('GEONORGE:DOWNLOAD'));
 
-                serieDatasets.forEach((serieDataset) => {
+            serieDatasets.forEach((serieDataset) => {
                 const item = getDownloadItem(serieDataset);
                 removeFromDownloadList(item);
             });
@@ -243,105 +245,82 @@ const DownloadButton = (props) => {
             const buttonDescription = isAdded
                 ? dispatch(getResource("RemoveFromBasket", "Fjern nedlasting"))
                 : isSeries()
-                ? dispatch(getResource("DownloadSeries", "Last ned serie"))
-                : dispatch(getResource("Download", "Last ned"));
-            const buttonClass = `${style.listButton} ${isAdded ? style.off : style.on}`;
+                    ? dispatch(getResource("DownloadSeries", "Last ned serie"))
+                    : dispatch(getResource("Download", "Last ned"));
+            
 
             return (
                 //knapp importert fra digdir sitt designssystem
-    
+
                 <Button
-                variant='primary'
-                title={buttonDescription}
-                className={buttonClass}
-                onClick={() =>(isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
-                >   
-                {buttonDescription}
+                    variant='primary'
+                    title={buttonDescription}
+                    className={buttonClass}
+                    onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
+                >
+                    {buttonDescription}
 
                 </Button>
-                
+
             );
 
 
         } else if (showDownloadLink()) {
-            let buttonDescription = (props.metadata.Protocol === "OGC API - Features" || props.metadata.Protocol === "OPeNDAP") ? "Vis API" 
-            : dispatch(getResource("ToBasket", "Til nedlasting"));
-            if(props.metadata.Protocol === "Webside") 
-            {
-                buttonDescription = dispatch(getResource("Webpage", "Webside")); 
+            let buttonDescription = (props.metadata.Protocol === "OGC API - Features" || props.metadata.Protocol === "OPeNDAP") ? "Vis API"
+                : dispatch(getResource("ToBasket", "Til nedlasting"));
+            if (props.metadata.Protocol === "Webside") {
+                buttonDescription = dispatch(getResource("Webpage", "Webside"));
             }
             const distributionUrl = props.metadata.DistributionUrl;
             const buttonClass = `${style.listButton} ${style.on}`;
 
-    
-             return (
+
+            return (
                 <Button
-                asChild variant= "primary" className={buttonClass}
+                    asChild variant="primary" className={buttonClass}
                 >
-                <a href={distributionUrl}
-                    onClick={handleExternalDownloadButtonClick}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    <a href={distributionUrl}
+                        onClick={handleExternalDownloadButtonClick}
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                    
-                
-                    {buttonDescription}
-                </a>
-             
-             
+
+
+                        {buttonDescription}
+                    </a>
+
+
                 </Button>
             );
         } else return null;
     };
 
     const renderButton = () => {
-        if (props.metadata.CanShowDownloadService) {
-            const buttonDescription = isAdded
-                ? dispatch(getResource("RemoveFromBasket", "Fjern nedlasting"))
-                : isSeries()
+        if (!props.metadata.CanShowDownloadService) return null;
+
+        const buttonDescription = isAdded
+            ? dispatch(getResource("RemoveFromBasket", "Fjern nedlasting"))
+            : isSeries()
                 ? dispatch(getResource("DownloadSeries", "Last ned serie"))
                 : dispatch(getResource("Download", "Last ned"));
-            const buttonClass = isAdded ? `${style.btn}  ${style.remove}` : `${style.btn}  ${style.download}`;
 
-            return (
-                <button
-                    onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
-                    className={buttonClass}
-                >
-                    <FontAwesomeIcon
-                        title={buttonDescription}
-                        icon={isAdded ? ["far", "trash"] : ["fas", "cloud-download"]}
-                        key="icon"
-                    />
-                    <span>{buttonDescription}</span>
-                </button>
-            );
-            
+        const buttonClass = props.listButton
+            ? style.listButton
+            : style.detailButton;
 
-
-        } else if (props.metadata.CanShowDownloadUrl) {
-            const buttonDescription = dispatch(getResource("ToBasket", "Til nedlasting"));
-            const distributionUrl = props.metadata.DistributionUrl;
-            const buttonClass = style.btn;
-            return (
-                <a href={distributionUrl} className={buttonClass}>
-                    <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />
-                    <span>{buttonDescription}</span>
-                </a>
-            );
-        } else {
-            const buttonDescription = isSeries()
-                ? dispatch(getResource("DownloadSeries", "Last ned serie"))
-                : dispatch(getResource("Download", "Last ned"));
-            const buttonClass = `${style.btn}  ${style.disabled}`;
-
-            return (
-                <button className={buttonClass}>
-                    <FontAwesomeIcon title={buttonDescription} icon={["fas", "cloud-download"]} key="icon" />
-                    <span>{buttonDescription}</span>
-                </button>
-            );
-        }
+        return (
+            <Button
+                variant="primary"
+                onClick={() =>
+                    isAdded
+                        ? removeFromDownloadListAction()
+                        : addToDownloadListAction()
+                }
+                className={buttonClass}
+            >
+                <span className={style.buttonText}>{buttonDescription}</span>
+            </Button>
+        );
     };
 
     const metadataIsAdded = (metadata) => {
@@ -377,24 +356,23 @@ const DownloadButton = (props) => {
 
     if (hasError) {
         return (
-            <span className={`${style.loading} ${props.listButton ? style.listButton : style.btn}`}>
-                <span className={style.errorMessage}>
+            <Button variant="secondary" className={buttonClass} disabled>
+                <span className={style.buttonText}>
                     {dispatch(getResource("CanNotBeAddedToBasket", "Kan ikke legges til nedlasting"))}
                 </span>
-            </span>
+            </Button>
         );
     }
+
     if (isLoading) {
         return (
-            <span className={`${style.loading} ${props.listButton ? style.listButton : style.btn}`}>
+            <Button variant="secondary" className={buttonClass} disabled>
                 <img src={loadingAnimation} alt="Loading animation" />
-            </span>
+            </Button>
         );
-    } else if (props.listButton) {
-        return renderListButton();
-    } else {
-        return renderButton();
     }
+
+return props.listButton ? renderListButton() : renderButton();
 };
 
 DownloadButton.propTypes = {

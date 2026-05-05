@@ -5,6 +5,12 @@
 
 //Buttons for the cards in searchresult. 
 
+
+
+
+
+
+
 :local(.listButton) {
   display: flex;
   flex-direction: row;
@@ -65,6 +71,59 @@
 
 //Buttons for the metadata detail page. 
 :local(.detailButton) {
-  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 130px;
+  min-height: 44px;
+  box-sizing: border-box;
+
+  white-space: nowrap;
+  text-decoration: none;
+
+  border: 1px solid black;
+  border-radius: 6px;
+
+  background-color: var(--ds-color-neutral-background-hover);
+  color: var(--ds-color-neutral-text-default);
+
+  :local(.buttonText) {
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    background-color: #f0f0f0;
+    color: var(--ds-color-neutral-text-default);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline-color: $anchor-active;
+    outline-style: auto;
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+
+  > svg {
+    font-size: 1.5em;
+    margin-right: 5px;
+  }
+
+  > span {
+    font-size: 1rem;
+    color: inherit;
+  }
+
+  @include breakpoint(tablet) {
+    min-width: 140px;
+    font-size: 1.2rem;
+
+    > span {
+      font-size: 1.2rem;
+    }
+  }
 }
 
