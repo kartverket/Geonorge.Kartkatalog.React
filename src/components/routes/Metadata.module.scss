@@ -372,15 +372,15 @@
 
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  column-gap: 20px;
-  row-gap: 12px;
+  column-gap: 25px;
+  row-gap: 25px;
   align-items: start;
 
   >* {
     min-width: 0;
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1400px) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
