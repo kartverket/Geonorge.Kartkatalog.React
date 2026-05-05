@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@digdir/designsystemet-react";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
@@ -32,25 +32,17 @@ const ProductSpecificationButton = (props) => {
     };
 
     const buttonDescription = dispatch(getResource("DisplayProductSpecification", "Vis produktspesifikasjon"));
-    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "file-spreadsheet"]} key="icon" />;
-    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-    const childElements = [icon, textContent];
-    if (props.metadata.ProductSpecificationUrl) {
-        const url = props.metadata.ProductSpecificationUrl;
-        const buttonClass = style.btn;
-        return (
-            <a href={url} onClick={handleButtonClick} className={buttonClass}>
-                {childElements}
+    const url = props.metadata.ProductSpecificationUrl;
+
+    if (!url?.trim()) return null;
+
+    return (
+        <Button asChild variant="primary" className={style.detailButton}>
+            <a href={url} onClick={handleButtonClick}>
+                <span className={style.buttonText}>{buttonDescription}</span>
             </a>
-        );
-    } else {
-        const buttonClass = `${style.btn}  ${style.disabled}`;
-        return (
-            <button disabled className={buttonClass}>
-                {childElements}
-            </button>
-        );
-    }
+        </Button>
+    );
 };
 
 ProductSpecificationButton.propTypes = {
