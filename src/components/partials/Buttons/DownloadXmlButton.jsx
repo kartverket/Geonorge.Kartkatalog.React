@@ -1,13 +1,10 @@
 // Dependencies
-import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@digdir/designsystemet-react";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
-
 // Reducers
 import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
@@ -34,29 +31,19 @@ const DownloadXmlButton = (props) => {
 
     const buttonDescription = `${dispatch(getResource("Download", "Last ned"))} metadata XML`;
     const url = props.metadata.MetadataXmlUrl;
-    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "file-code"]} key="icon" />;
-    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-    const childElements = [icon, textContent];
 
     if (url?.length) {
         const buttonClass = style.btn;
         return (
 
             <Button asChild variant="primary" className={style.detailButton}>
-                <a href={url} onClick={handleButtonClick} >
-                    {childElements}
+                <a href={url} onClick={handleButtonClick}>
+                    <span className={style.buttonText}>{buttonDescription}</span>
                 </a>
             </Button>
-
         );
     } else {
-        const buttonClass = `${style.btn}  ${style.disabled}`;
-        return (
-            
-            <button disabled className={buttonClass}>
-                {childElements}
-            </button>
-        );
+        return null
     }
 };
 
