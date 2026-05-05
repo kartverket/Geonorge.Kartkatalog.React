@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@digdir/designsystemet-react";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
@@ -40,13 +41,18 @@ const DownloadXmlButton = (props) => {
     if (url?.length) {
         const buttonClass = style.btn;
         return (
-            <a href={url} onClick={handleButtonClick} className={buttonClass}>
-                {childElements}
-            </a>
+
+            <Button asChild variant="primary" className={style.detailButton}>
+                <a href={url} onClick={handleButtonClick} >
+                    {childElements}
+                </a>
+            </Button>
+
         );
     } else {
         const buttonClass = `${style.btn}  ${style.disabled}`;
         return (
+            
             <button disabled className={buttonClass}>
                 {childElements}
             </button>
