@@ -33,11 +33,12 @@ const ProductSheetButton = (props) => {
 
     const buttonDescription = dispatch(getResource("DisplayProductSheet", "Vis produktark"));
     const url = props.metadata.ProductSheetUrl;
+    const buttonClass = `${style.detailButton} ${style.primaryButton}`;
 
     if (!url?.trim()) return null;
-
+    
     return (
-        <Button asChild variant="primary" className={style.detailButton}>
+        <Button asChild variant="primary" className={buttonClass}>
             <a href={url} onClick={handleButtonClick} >
                 <ExternalLinkIcon aria-hidden="true" />
                 <span className={style.buttonText}>{buttonDescription}</span>

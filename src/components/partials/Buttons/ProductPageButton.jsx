@@ -28,13 +28,14 @@ const ProductPageButton = (props) => {
 
     const buttonDescription = dispatch(getResource("DisplayProductPage", "Vis produktside"));
     const rawUrl = props.metadata.ProductPageUrl;
+    const buttonClass = `${style.detailButton} ${style.primaryButton}`;
 
     if (!rawUrl?.trim()) return null;
 
     const url = formatProductPageUrl(rawUrl);
 
     return (
-        <Button asChild variant="primary" className={style.detailButton}>
+        <Button asChild variant="primary" className={buttonClass}>
             <a href={url}>
                 <ExternalLinkIcon aria-hidden="true" />
                 <span className={style.buttonText}>{buttonDescription}</span>

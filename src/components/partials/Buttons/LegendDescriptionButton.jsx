@@ -18,9 +18,10 @@ const LegendDescriptionButton = (props) => {
     const url = props.metadata.LegendDescriptionUrl;
 
     if (!url?.trim()) return null;
-
+    
+    const buttonClass = `${style.detailButton} ${style.primaryButton}`;
     return (
-        <Button asChild variant="primary" className={style.detailButton}>
+        <Button asChild variant="primary" className={buttonClass}>
             <a href={url}>
                 <ExternalLinkIcon aria-hidden="true" />
                 <span className={style.buttonText}>

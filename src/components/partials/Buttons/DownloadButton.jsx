@@ -50,7 +50,7 @@ const DownloadButton = (props) => {
 
     const renderDownloadIcon = () =>
         isAdded ? (
-            <XMarkIcon aria-hidden="true" fontSize="100px" />
+            <XMarkIcon aria-hidden="true" />
         ) : (
             <DownloadIcon aria-hidden="true" fontSize="1.5rem" />
         );
@@ -314,7 +314,7 @@ const DownloadButton = (props) => {
 
         const buttonClass = props.listButton
             ? style.listButton
-            : style.detailButton;
+            : `${style.detailButton} ${style.primaryButton}`;
 
         return (
             <Button

@@ -34,11 +34,12 @@ const ContactOwnerButton = (props) => {
 
     const buttonDescription = dispatch(getResource("ContactDataOwner", "Kontakt dataeier"));
     const email = props.metadata.ContactMetadata?.Email;
+    const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
 
     if (!email?.trim()) return null;
 
     return (
-        <Button asChild variant="secondary" className={style.detailButton}>
+        <Button asChild variant="secondary" className={buttonClass}>
             <a
                 href={`mailto:${email}`}
                 onClick={handleButtonClick}

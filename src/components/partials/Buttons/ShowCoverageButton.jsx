@@ -11,7 +11,8 @@ import { getResource } from "@/actions/ResourceActions";
 import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
-import buttonStyle from "@/components/partials/Buttons/Buttons2.module.scss";
+import style from "@/components/partials/Buttons/Buttons2.module.scss";
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 
 const ShowCoverageButton = (props) => {
     const dispatch = useDispatch();
@@ -47,12 +48,14 @@ const ShowCoverageButton = (props) => {
 
     const renderButton = () => {
         const buttonDescription = dispatch(getResource("DisplayCoverageMap", "Vis dekningskart"));
+        const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
 
         if (!props.metadata.CoverageUrl?.trim()) return null;
 
         return (
-            <Button variant="primary" className={buttonStyle.detailButton} onClick={handleButtonClick}>
-                <span className={buttonStyle.buttonText}>{buttonDescription}</span>
+            <Button variant="secondary" className={buttonClass} onClick={handleButtonClick}>
+                <ExternalLinkIcon aria-hidden="true" />
+                <span className={style.buttonText}>{buttonDescription}</span>
             </Button>
         );
     };

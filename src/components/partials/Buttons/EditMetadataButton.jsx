@@ -38,10 +38,11 @@ const EditMetadataButton = (props) => {
     const url = props.metadata.MetadataEditUrl;
     const metMetadata = props.metadata.MetMetadata;
     const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
+    const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
 
     if (url?.trim() && !metMetadata) {
         return (
-            <Button asChild variant="primary" className={style.detailButton}>
+            <Button asChild variant="primary" className={buttonClass}>
                 <a href={url} onClick={handleButtonClick}>
                     <PencilIcon title="a11y-title" fontSize="1.5rem" />
                     <span className={style.buttonText}>{buttonDescription}</span>

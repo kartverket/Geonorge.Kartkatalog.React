@@ -258,11 +258,13 @@ const MapButton = (props) => {
         const mapItem = getMapItem();
         const action = isAdded ? () => removeFromMap([mapItem]) : () => addToMap([mapItem]);
 
+        const buttonClass = `${style.detailButton} ${style.primaryButton}`;
+
         return (
             <Button
                 variant="primary"
                 title={buttonTitle}
-                className={style.detailButton}
+                className={buttonClass}
                 onClick={action}
             >
                 {renderMapIcon()}

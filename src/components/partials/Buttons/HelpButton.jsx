@@ -22,10 +22,11 @@ const HelpButton = (props) => {
         ? "#help-info"
         : props.metadata.HelpUrl;
 
+    const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
     if (!url) return null;
 
     return (
-        <Button asChild variant="primary" className={style.detailButton}>
+        <Button asChild variant="secondary" className={buttonClass}>
             <a href={url}>
                 <QuestionmarkCircleIcon title="a11y-title" fontSize="1.5rem" />
                 <span className={style.buttonText}>{buttonDescription}</span>

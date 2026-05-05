@@ -30,7 +30,7 @@
   background-color: var(--ds-color-neutral-background-hover);
   color: var(--ds-color-neutral-text-default);
 
- :local(.buttonText) {
+  :local(.buttonText) {
     font-size: 1.2rem;
   }
 
@@ -48,12 +48,12 @@
     outline-offset: 2px;
   }
 
-  > svg {
+  >svg {
     font-size: 1.5em;
     margin-right: 5px;
   }
 
-  > span {
+  >span {
     font-size: 1rem;
     color: inherit;
   }
@@ -62,7 +62,7 @@
     min-width: 140px;
     font-size: 1.2rem;
 
-    > span {
+    >span {
       font-size: 1.2rem;
     }
   }
@@ -71,37 +71,53 @@
 
 //Buttons for the metadata detail page. 
 :local(.detailButton) {
-  background-color: #5a5858;
-  color: #ffffff;
-  border-color: #5a5858; 
-  text-decoration: none;
-  
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
+  padding: px 16px;
   border-radius: 3px;
 
-  width: 200px;
+  width: 340px;
   height: 44px;
-  font-size: 1rem;
+  font-size: 1.3rem;
+
+  text-decoration: none;
+
+  :local(.secondaryButton) {
+    background-color: #ffffff !important;
+    color: #5a5858 !important;
+    border-color: #5a5858 !important;
+  }
 
   svg {
     font-size: 1.5rem;
     flex-shrink: 0;
   }
-  
-  
+}
+
+//Workaround, easier than implementing designsystemet. 
+:local(.primaryButton) {
+  background-color: #5a5858 !important;
+  color: #ffffff !important;
+  border-color: #5a5858 !important;
 
   &:hover {
-    background-color: #444242;
-    color: #ffffff;
-    text-decoration: none;
+    background-color: #444242 !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
   }
 }
 
-//Colors
+:local(.secondaryButton) {
+  background-color: #ffffff !important;
+  color: #5a5858 !important;
+  border-color: #5a5858 !important;
 
-
+  &:hover {
+    background-color: #f5f5f5 !important; // lys grå
+    color: #5a5858 !important;
+    border-color: #5a5858 !important;
+    text-decoration: none !important;
+  }
+}
 

@@ -32,12 +32,13 @@ const DownloadXmlButton = (props) => {
 
     const buttonDescription = `${dispatch(getResource("Download", "Last ned"))} metadata XML`;
     const url = props.metadata.MetadataXmlUrl;
+    const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
 
     if (url?.length) {
-        const buttonClass = style.btn;
+        
         return (
 
-            <Button asChild variant="primary" className={style.detailButton}>
+            <Button asChild variant="primary" className={buttonClass}>
                 <a href={url} onClick={handleButtonClick}>
                     <DownloadIcon aria-hidden="true" fontSize="1.5rem" />
                     <span className={style.buttonText}>{buttonDescription}</span>
