@@ -25,6 +25,7 @@ const ApplicationButton = (props) => {
             name: props.metadata.Title,
             uuid: props.metadata.Uuid
         };
+
         dispatch(
             pushToDataLayer({
                 event: "showMore",
@@ -33,6 +34,7 @@ const ApplicationButton = (props) => {
                 metadata: tagData
             })
         );
+
         posthog?.capture("application_link_clicked", {
             title: props.metadata.Title,
             uuid: props.metadata.Uuid,
@@ -46,67 +48,31 @@ const ApplicationButton = (props) => {
     };
 
     const buttonDescription = dispatch(getResource("WebPage", "Nettside"));
+    const distributionUrl = props.metadata.DistributionUrl || props.metadata.DownloadUrl;
 
-    if (props.listButton) {
-        if (isApplication(props.metadata.Type)) {
-            if (props.metadata.DistributionUrl || props.metadata.DownloadUrl) {
-                let distributionUrl = props.metadata.DistributionUrl
-                    ? props.metadata.DistributionUrl
-                    : props.metadata.DownloadUrl;
+    const shouldRender = props.listButton
+        ? isApplication() && distributionUrl
+        : props.metadata.CanShowWebsiteUrl && distributionUrl;
 
-                let buttonClass = `${style.listButton} ${style.ext}`;
-                //digdir designssystem knapp
-                return (
-                    <Button
-                        asChild variant= "primary" className={buttonClass}
-                        >
-                        <a href={distributionUrl}
-                        onClick={handleButtonClick}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >
-                                        
-                                    
-                            {buttonDescription}
-                        </a>
-                                 
-                                 
-                    </Button>
-                );
-            } else {
-                let buttonClass = `btn btn-sm ${style.listButton} ${style.disabled} ${style.off}`;
-                return (
-                    <Button  
-                    variant="secondary" 
-                    className={buttonClass}
-                    disabled
-                    >
-                        {buttonDescription}
+    if (!shouldRender) return null;
 
-                    </Button>
+    const buttonClass = props.listButton
+        ? `${style.listButton} ${style.ext}`
+        : `${style.detailButton} ${style.primaryButton}`;
 
-                );
-            }
-        }
-        return null;
-    } else {
-        if (props.metadata.CanShowWebsiteUrl && props.metadata.DistributionUrl) {
-            let url = props.metadata.DistributionUrl;
-            //nettside lenke inn til listitem
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />;
-            let buttonClass = style.btn;
-            let textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-
-            let childElements = [icon, textContent];
-            return React.createElement("a", { href: url, className: buttonClass, target: "_blank" }, childElements);
-        } else {
-            let icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />;
-            let buttonClass = `${style.btn}  ${style.disabled}`;
-            let textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-            let childElements = [icon, textContent];
-            return React.createElement("button", { className: buttonClass, disabled: true }, childElements);
-        }
-    }
+    return (
+        <Button asChild variant="primary" className={buttonClass}>
+            <a
+                href={distributionUrl}
+                onClick={handleButtonClick}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                
+                <span className={style.buttonText}>{buttonDescription}</span>
+            </a>
+        </Button>
+    );
 };
 
 ApplicationButton.propTypes = {
