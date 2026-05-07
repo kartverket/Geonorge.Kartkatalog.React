@@ -28,7 +28,7 @@ const HelpButton = (props) => {
     return (
         <Button asChild variant="secondary" className={buttonClass}>
             <a href={url}>
-                <QuestionmarkCircleIcon title="a11y-title" fontSize="1.5rem" />
+                <QuestionmarkCircleIcon title={buttonDescription} fontSize="1.5rem" />
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>

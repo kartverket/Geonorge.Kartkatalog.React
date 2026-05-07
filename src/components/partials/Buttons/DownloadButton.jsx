@@ -364,8 +364,11 @@ const DownloadButton = (props) => {
     }, [props.metadata, itemsToDownload]);
 
     if (hasError) {
+        const errorButtonClass = props.listButton
+            ? style.listButton
+            : `${style.detailButton} ${style.primaryButton}`;
         return (
-            <Button variant="primary" className={buttonClass}>
+            <Button variant="primary" className={errorButtonClass}>
                 <span className={style.buttonText}>
                     {dispatch(getResource("CanNotBeAddedToBasket", "Kan ikke legges til nedlasting"))}
                 </span>

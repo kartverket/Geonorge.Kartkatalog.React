@@ -45,7 +45,6 @@ import { renderMetadataOwnership } from "@/components/partials/SearchResults/par
 import style from "@/components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import "@/scss/mdeOverride.scss";
-import "@/scss/abstracts/mixin/_breakpoints.scss";
 import { Tag } from "@digdir/designsystemet-react";
 
 //navikoner
@@ -1102,7 +1101,7 @@ const Metadata = () => {
             metadata.KeywordsInspire.map((keywordInspire, index) => {
                 return <li key={index}>{keywordInspire.KeywordValue}</li>;
             });
-        return renderKeywordsInspireCategory?.length ? (
+        return keywordsInspireList?.length ? (
             <div>
                 <strong>{dispatch(getResource("Metadata_KeywordsInspire_Label", "Inspire kategorier"))}:</strong>
                 <gn-list>
@@ -1878,7 +1877,7 @@ const Metadata = () => {
         }
     ].filter((item) => item.content);
 
-    return !metadata || !Object.keys(metadata).length === "An error has occurred." ? (
+    return !metadata || !Object.keys(metadata).length ? (
         <div className={style.searchResultContainer}>
             <span>Kunne ikke finne metadata på Uuid "{uuid}"</span>
         </div>

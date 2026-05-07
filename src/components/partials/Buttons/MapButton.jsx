@@ -219,13 +219,13 @@ const MapButton = (props) => {
                 : `${style.listButton} ${style.on} ${style[serviceStatusCode]}`;
 
             return (
-                
                 <Button
                     variant='primary'
                     title={buttonTitle}
                     className={buttonClass}
                     onClick={action}
                 >
+                    {renderMapIcon()}
                     {buttonDescription}
                 </Button>
             );

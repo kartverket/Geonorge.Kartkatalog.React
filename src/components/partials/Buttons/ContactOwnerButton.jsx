@@ -46,7 +46,7 @@ const ContactOwnerButton = (props) => {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <EnvelopeClosedIcon title="a11y-title" fontSize="1.5rem" />
+                <EnvelopeClosedIcon title={buttonDescription} fontSize="1.5rem" />
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>
