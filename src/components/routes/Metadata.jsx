@@ -769,12 +769,13 @@ const Metadata = () => {
         let label = "Sist oppdatert";
         let description = "";
 
+
         if (hierarchy === "dataset") {
             label = "Datasett sist oppdatert";
-            description = "Produksjonsdato for det siste produsert formatet."
+            description = "Produksjonsdato for det siste produserte formatet."
         } else if (hierarchy === "service") {
             label = "Tjeneste sist oppdatert";
-            description = "Dato for når innholdet i tjenesten sist ble oppdatert"
+            description = "Dato for når innholdet i tjenesten sist ble oppdatert."
         }
 
         return (
@@ -847,7 +848,7 @@ const Metadata = () => {
             <div className={style.metadataItem}>
                 <h4 className={style.metadataItemTitle}>
                     Oppdateringshyppighet
-                    <Tooltip content="Frekvens for hvor ofte data blir oppdatert">
+                    <Tooltip content="Frekvens for hvor ofte data blir oppdatert.">
                         <QuestionmarkCircleIcon className={style.helpIcon} fontSize="1.5rem" />
                     </Tooltip>
                 </h4>
