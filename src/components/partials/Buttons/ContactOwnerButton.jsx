@@ -1,8 +1,8 @@
 // Dependencies
-import React from "react";
+
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@digdir/designsystemet-react";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
@@ -12,6 +12,7 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
+import { EnvelopeClosedIcon } from '@navikt/aksel-icons';
 
 const ContactOwnerButton = (props) => {
     const dispatch = useDispatch();
@@ -32,32 +33,24 @@ const ContactOwnerButton = (props) => {
     };
 
     const buttonDescription = dispatch(getResource("ContactDataOwner", "Kontakt dataeier"));
-    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "envelope"]} key="icon" />;
-    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-    const childElements = [icon, textContent];
+    const email = props.metadata.ContactMetadata?.Email;
+    const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
 
-    if (props.metadata.ContactMetadata) {
-        const email = props.metadata.ContactMetadata.Email;
-        const buttonClass = style.btn;
-        return (
+    if (!email?.trim()) return null;
+
+    return (
+        <Button asChild variant="secondary" className={buttonClass}>
             <a
                 href={`mailto:${email}`}
                 onClick={handleButtonClick}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={buttonClass}
             >
-                {childElements}
+                <EnvelopeClosedIcon title={buttonDescription} fontSize="1.5rem" />
+                <span className={style.buttonText}>{buttonDescription}</span>
             </a>
-        );
-    } else {
-        const buttonClass = `${style.btn}  ${style.disabled}`;
-        return (
-            <button disabled className={buttonClass}>
-                {childElements}
-            </button>
-        );
-    }
+        </Button>
+    );
 };
 
 ContactOwnerButton.propTypes = {

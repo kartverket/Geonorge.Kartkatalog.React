@@ -2,14 +2,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@digdir/designsystemet-react";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
-
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 const ProductPageButton = (props) => {
     const dispatch = useDispatch();
 
@@ -27,18 +27,21 @@ const ProductPageButton = (props) => {
     };
 
     const buttonDescription = dispatch(getResource("DisplayProductPage", "Vis produktside"));
-    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "external-link-square"]} key="icon" />;
-    const childElements = [icon, textContent];
+    const rawUrl = props.metadata.ProductPageUrl;
+    const buttonClass = `${style.detailButton} ${style.primaryButton}`;
 
-    if (props.metadata.ProductPageUrl) {
-        const url = formatProductPageUrl(props.metadata.ProductPageUrl);
-        const buttonClass = style.btn;
-        return React.createElement("a", { href: url, className: buttonClass }, childElements);
-    } else {
-        const buttonClass = `${style.btn}  ${style.disabled}`;
-        return React.createElement("button", { className: buttonClass, disabled: true }, childElements);
-    }
+    if (!rawUrl?.trim()) return null;
+
+    const url = formatProductPageUrl(rawUrl);
+
+    return (
+        <Button asChild variant="primary" className={buttonClass}>
+            <a href={url}>
+                <ExternalLinkIcon aria-hidden="true" />
+                <span className={style.buttonText}>{buttonDescription}</span>
+            </a>
+        </Button>
+    );
 };
 
 ProductPageButton.propTypes = {
