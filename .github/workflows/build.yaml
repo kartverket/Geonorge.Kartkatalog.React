@@ -94,59 +94,38 @@ jobs:
         if: always()
         run: rm -f .npmrc.github-actions
 
-  trigger_internal:
-    needs: [build_image]
+  deploy:
     runs-on: ubuntu-latest
+    needs: [build_image]
+    name: Deploy
+    permissions:
+      contents: read
+      id-token: write
+    # if: github.event_name != 'pull_request'
     steps:
-      - name: Trigger internal repo workflow
+      - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05
+        id: octo-sts
+        with:
+          scope: kartverket/geonorge-apps
+          identity: kartkatalog-frontend
+
+      - name: Checkout apps repository
+        uses: actions/checkout@v6
+        with:
+          repository: kartverket/geonorge-apps
+          ref: main
+          token: ${{ steps.octo-sts.outputs.token }}
+
+      - name: Git setup for deploy
+        run: |
+          git config --global user.email "kartkatalog-frontend@kartverket.no"
+          git config --global user.name "kartkatalog-frontend CI"
+
+      - name: Update deployment
         env:
-          INTERNAL_PAT: ${{ secrets.INTERNAL_PAT }}
-          SHORT_TAG: ${{ needs.build_image.outputs.short_tag }}
           COMMIT_MESSAGE: ${{ needs.build_image.outputs.commit_message }}
         run: |
-          payload="$(jq -n \
-            --arg ref "main" \
-            --arg application "kartkatalog-frontend" \
-            --arg ghcr_path "ghcr.io/kartverket/geonorge-kartkatalog-frontend" \
-            --arg dev_env "atkv3" \
-            --arg namespace "geonorge-kartkatalog-dev" \
-            --arg tag "$SHORT_TAG" \
-            --arg commit_message "$COMMIT_MESSAGE" \
-            '{
-              ref: $ref,
-              inputs: {
-                application: $application,
-                ghcr_path: $ghcr_path,
-                dev_env: $dev_env,
-                namespace: $namespace,
-                tag: $tag,
-                commit_message: $commit_message
-              }
-            }'
-          )"
-
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $INTERNAL_PAT" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/kartverket/geonorge-apps/actions/workflows/release-new-dev-public.yml/dispatches \
-            -d "$payload"
-
-  # deploy:
-  #   needs: [build_image]
-  #   name: Deploy
-  #   permissions:
-  #     id-token: write
-  #   uses: kartverket/geonorge-apps/.github/workflows/release-new-dev.yml@main
-  #   with:
-  #     # Apps repo namespace
-  #     namespace: geonorge-kartkatalog
-  #     # Apps repo app name
-  #     application: kartkatalog-frontend
-  #     # Ghrc.io image tag
-  #     tag: ${{ needs.build_image.outputs.tags }}
-  #     # identity for the octo-sts action
-  #     identity: Geonorge.Kartkatalog.React
-  #     ghcr_path: ghcr.io/kartverket/geonorge-kartkatalog-frontend
-  #     dev_env: atkv3
-  #     commit_message: ${{ needs.build_image.outputs.commit_message }}
+          echo "\"ghcr.io/kartverket/geonorge-kartkatalog-frontend:${{ needs.build_image.outputs.short_tag }}"\" > env/atkv3-dev/geonorge-kartkatalog-dev/kartkatalog-frontend-version
+          git add .
+          git commit -m "$COMMIT_MESSAGE"
+          git push
