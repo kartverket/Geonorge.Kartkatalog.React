@@ -24,7 +24,7 @@ import loadingAnimation from "@/images/gif/loading.gif";
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
 import { Button } from "@digdir/designsystemet-react";
-import { DownloadIcon, XMarkIcon } from "@navikt/aksel-icons";
+import { DownloadIcon, XMarkIcon, ExternalLinkIcon } from "@navikt/aksel-icons";
 
 const DownloadButton = (props) => {
     const dispatch = useDispatch();
@@ -292,9 +292,8 @@ const DownloadButton = (props) => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-
-
-                        {buttonDescription}
+                        <ExternalLinkIcon aria-hidden="true" fontSize="1.5rem" />
+                        <span className={style.buttonText}>{buttonDescription}</span>
                     </a>
 
 
