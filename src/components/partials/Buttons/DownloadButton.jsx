@@ -266,8 +266,8 @@ const DownloadButton = (props) => {
                     className={buttonClass}
                     onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
                 >
-                    {buttonDescription}
-
+                    {renderDownloadIcon()}
+                    <span className={style.buttonText}>{buttonDescription}</span>
                 </Button>
 
             );

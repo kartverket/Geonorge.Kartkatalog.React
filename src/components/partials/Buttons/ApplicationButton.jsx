@@ -14,6 +14,7 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
 import { Button } from "@digdir/designsystemet-react";
+import { ExternalLinkIcon } from "@navikt/aksel-icons";
 
 
 const ApplicationButton = (props) => {
@@ -68,7 +69,7 @@ const ApplicationButton = (props) => {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                
+                <ExternalLinkIcon aria-hidden="true" fontSize="1.5rem" />
                 <span className={style.buttonText}>{buttonDescription}</span>
             </a>
         </Button>
