@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { usePostHog } from "@posthog/react";
+import { FilesIcon, CheckmarkIcon } from "@navikt/aksel-icons";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
@@ -163,6 +164,7 @@ const MetadataSearchResult = (props) => {
                         <Button variant= "primary"
                             title={props.searchResult.GetCapabilitiesUrl} className={buttonStyle.listButton}>
 
+                            {copied ? <CheckmarkIcon aria-hidden="true" fontSize="1.5rem" /> : <FilesIcon aria-hidden="true" fontSize="1.5rem" />}
                             <span className={buttonStyle.buttonText}>
                         {copied ? "Lenke kopiert": "Kopier lenke"}
                         </span>
