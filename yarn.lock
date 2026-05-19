@@ -1001,6 +1001,20 @@
   dependencies:
     "@digdir/designsystemet-types" "1.14.0"
 
+"@digdir/designsystemet-react@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@digdir/designsystemet-react/-/designsystemet-react-1.13.0.tgz#50de922ebfc6fbe3a4a4e2128ede6e750d1b2c9d"
+  integrity sha512-4eMUucwLYuSJn5tI3cffB7R/w08sevpj41EjwKHIKS/6u5pF8od0IJgavezXlJOmgT3H0Howhr0y+9s0Fkzqcg==
+  dependencies:
+    "@digdir/designsystemet-types" "^1.13.0"
+    "@digdir/designsystemet-web" "^1.13.0"
+    "@floating-ui/dom" "^1.7.6"
+    "@floating-ui/react" "0.26.23"
+    "@navikt/aksel-icons" "^8.6.0"
+    "@radix-ui/react-slot" "^1.2.4"
+    "@tanstack/react-virtual" "^3.13.21"
+    clsx "^2.1.1"
+
 "@digdir/designsystemet-react@^1.13.0":
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/@digdir/designsystemet-react/-/designsystemet-react-1.14.0.tgz#418368a7187a744f4bc1cdd9b7ff57643e7b0150"
@@ -1015,12 +1029,12 @@
     "@tanstack/react-virtual" "^3.13.24"
     clsx "^2.1.1"
 
-"@digdir/designsystemet-types@1.14.0":
+"@digdir/designsystemet-types@1.14.0", "@digdir/designsystemet-types@^1.13.0":
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/@digdir/designsystemet-types/-/designsystemet-types-1.14.0.tgz#a5d94a2c319c2d5e1836266be52120f7b0c791b6"
   integrity sha512-d/JZhwebAgclFsE7ax0Z8mWotEk3GE4e9+iC8Cq8EN5BQ+bOptwFrVipSrL+NAt8/7AX9WzrnAScPuxCb4vvgQ==
 
-"@digdir/designsystemet-web@1.14.0":
+"@digdir/designsystemet-web@1.14.0", "@digdir/designsystemet-web@^1.13.0":
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/@digdir/designsystemet-web/-/designsystemet-web-1.14.0.tgz#b5c4ce084d27281d742fb3acb3d6f2d25ed194db"
   integrity sha512-dmUnV/0wzTOSPnSGqQwjYyneuO+/QqfugAr2SP1N1m/VzfMal3Y5hD+AkDWWzWhJ7EJrhGtYwG5JVRM8iYuVeQ==
@@ -1388,7 +1402,7 @@
   resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-4.0.11.tgz#39480aa06b2818a3b5bb2a1bdf7f908176f35f6b"
   integrity sha512-zrC2UVVAhIVJJj8n1atDeJGvNxcZMdGQIMXxHjsMb7mjFT0Svjf3JAFmsNn/H0su0E+bGLGw2+iL2gPQdrKySQ==
 
-"@navikt/aksel-icons@^8.10.3", "@navikt/aksel-icons@^8.9.0":
+"@navikt/aksel-icons@^8.10.3", "@navikt/aksel-icons@^8.6.0", "@navikt/aksel-icons@^8.9.0":
   version "8.10.6"
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/8.10.6/3903bc63ecdf7c98f3819fca43cb52fcd8384cb8#3903bc63ecdf7c98f3819fca43cb52fcd8384cb8"
   integrity sha512-aECYww6+luwBfV8tPDDGG++395/dvhUusx9rWB7sSFbAj2rPi9ULMe8Gg9TE42tKqZMz8riXyQoRsQsz2xW45A==
@@ -1936,7 +1950,7 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tanstack/react-virtual@^3.13.24":
+"@tanstack/react-virtual@^3.13.21", "@tanstack/react-virtual@^3.13.24":
   version "3.13.24"
   resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.13.24.tgz#77af3d5dcf77358d805b7b3b06d3221af7bd3f6f"
   integrity sha512-aIJvz5OSkhNIhZIpYivrxrPTKYsjW9Uzy+sP/mx0S3sev2HyvPb7xmjbYvokzEpfgYHy/HjzJ2zFAETuUfgCpg==
