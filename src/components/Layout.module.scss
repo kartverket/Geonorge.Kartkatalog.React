@@ -26,4 +26,7 @@
         margin: 63px 0;
         height: calc(100% - 63px);
       }
+      @include breakpoint(mobileonly){
+        padding: 0 16px;
+      }
 }

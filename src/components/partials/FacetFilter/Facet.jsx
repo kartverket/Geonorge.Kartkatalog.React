@@ -111,12 +111,13 @@ const Facet = (props) => {
     }, [props?.searchData?.selectedFacets]);
 
     const getAddFacetQueryString = () => {
-        return getQueryStringFromFacets(props?.searchData?.selectedFacets, props?.searchData?.searchString, {
-            facetToAdd: {
-                facetField: props.facetField,
-                facet: props.facet
-            }
-        });
+    return getQueryStringFromFacets(props?.searchData?.selectedFacets, props?.searchData?.searchString, {
+        facetToAdd: {
+            facetField: props.facetField,
+            facet: props.facet
+        },
+        view: props.viewMode
+     });
     };
 
     const getRemoveFacetQueryString = () => {
@@ -124,7 +125,8 @@ const Facet = (props) => {
             facetToRemove: {
                 facetField: props.facetField,
                 facet: props.facet
-            }
+            },
+            view: props.viewMode
         });
     };
 
@@ -205,7 +207,8 @@ Facet.propTypes = {
         NameTranslated: PropTypes.string.isRequired
     }),
     labelId: PropTypes.string.isRequired,
-    parentIsExpanded: PropTypes.bool
+    parentIsExpanded: PropTypes.bool,
+    viewMode: PropTypes.oneOf(["grid", "list"])
 };
 
 export default Facet;

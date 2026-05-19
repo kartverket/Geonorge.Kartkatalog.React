@@ -39,11 +39,27 @@ import ShowCoverageButton from "@/components/partials/Buttons/ShowCoverageButton
 import DownloadXmlButton from "@/components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "@/components/partials/Buttons/EditMetadataButton";
 import AlertBox from "@/components/partials/AlertBox";
+import { renderMetadataOwnership } from "@/components/partials/SearchResults/parts/MetadataOwnership"
 
 // Stylesheets
 import style from "@/components/routes/Metadata.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import "@/scss/mdeOverride.scss";
+import { Tag } from "@digdir/designsystemet-react";
+
+//navikoner
+import { QuestionmarkCircleIcon } from '@navikt/aksel-icons';
+import { FaceLaughIcon } from '@navikt/aksel-icons';
+import { FaceSmileIcon } from '@navikt/aksel-icons';
+import { FaceIcon } from '@navikt/aksel-icons';
+import { FaceFrownIcon } from '@navikt/aksel-icons';
+import { Tooltip } from "@digdir/designsystemet-react";
+
+
+
+
+
+
 
 import { registerLocale } from "react-datepicker";
 import nb from "date-fns/locale/nb";
@@ -66,6 +82,9 @@ const Metadata = () => {
     const dateStart = params.dateStart;
     const dateEnd = params.dateEnd;
 
+    const searchParams = new URLSearchParams(location.search);
+    const viewMode = searchParams.get("view") === "list" ? "list" : "grid";
+
     // Redux store
     const auth = useSelector((state) => state.auth);
     const environment = useSelector((state) => state.environment);
@@ -79,7 +98,7 @@ const Metadata = () => {
     const [hasPushedPageViewTag, setHasPushedPageViewTag] = useState();
     const [metadataDistributions, setMetadataDistributions] = useState();
     const [isLoadingMetadataDistributions, setIsLoadingMetadataDistributions] = useState(false);
-    
+
     const handleStartChange = (date) => {
         setStartDate(date);
     };
@@ -181,7 +200,7 @@ const Metadata = () => {
     const toggleExpand = () => {
         setExpanded(!expanded);
     };
-    
+
     const toggleBtns = () => {
         setShowBtns(!showBtns);
     };
@@ -246,6 +265,7 @@ const Metadata = () => {
         });
     };
 
+
     const renderDatasetLanguage = () => {
         return metadata?.DatasetLanguage ? (
             <div>
@@ -283,13 +303,13 @@ const Metadata = () => {
                     {metadata?.ContactMetadata?.Email?.length || metadata?.ContactMetadata?.Organization?.length ? (
                         <div>
                             {metadata?.ContactMetadata?.Email?.length ? (
-                            <a href={"mailto:" + metadata.ContactMetadata.Email.toString().replace(',',';')}>{metadata.ContactMetadata.Email}</a>
+                                <a href={"mailto:" + metadata.ContactMetadata.Email.toString().replace(',', ';')}>{metadata.ContactMetadata.Email}</a>
                             ) : null}
                             {metadata?.ContactMetadata?.Email?.length && metadata?.ContactMetadata?.Organization?.length ? (
-                                 <span> -&nbsp;</span>
-                                ) : null}
+                                <span> -&nbsp;</span>
+                            ) : null}
                             {metadata?.ContactMetadata?.Organization?.length ? (
-                            <span>{metadata.ContactMetadata.Organization}</span>
+                                <span>{metadata.ContactMetadata.Organization}</span>
                             ) : null}
                         </div>
                     ) : null}
@@ -344,13 +364,13 @@ const Metadata = () => {
                     {metadata?.ContactPublisher?.Email?.length || metadata?.ContactPublisher?.Organization?.length ? (
                         <div>
                             {metadata?.ContactPublisher?.Email?.length ? (
-                            <a href={"mailto:" + metadata.ContactPublisher.Email.toString().replace(',',';')}>{metadata.ContactPublisher.Email}</a>
+                                <a href={"mailto:" + metadata.ContactPublisher.Email.toString().replace(',', ';')}>{metadata.ContactPublisher.Email}</a>
                             ) : null}
                             {metadata?.ContactPublisher?.Email?.length && metadata?.ContactPublisher?.Organization?.length ? (
-                                 <span> -&nbsp;</span>
-                                ) : null}
+                                <span> -&nbsp;</span>
+                            ) : null}
                             {metadata?.ContactPublisher?.Organization?.length ? (
-                            <span>{metadata.ContactPublisher.Organization}</span>
+                                <span>{metadata.ContactPublisher.Organization}</span>
                             ) : null}
                         </div>
                     ) : null}
@@ -376,17 +396,23 @@ const Metadata = () => {
             const urls = distributionsFormats
                 .map((item) => item.URL)
                 .filter((value, index, self) => self.indexOf(value) === index);
+
             return urls.map((url, urlIndex) => {
                 const protocolFormats = distributionsFormats.filter((distribution) => {
                     return distribution.URL == url;
                 });
-                const protocolFormatElements = protocolFormats.map((protocolFormat, formatIndex) => {
-                    return (
-                        <li key={formatIndex}>
-                            {protocolFormat.FormatName} {protocolFormat.FormatVersion}
+
+                const protocolFormatElements = protocolFormats
+                    .map((pf) => ({
+                        name: pf?.FormatName?.trim(),
+                        version: pf?.FormatVersion?.trim()
+                    }))
+                    .filter((pf) => pf.name && pf.name !== "{}")
+                    .map((pf, index) => (
+                        <li key={index}>
+                            <Tag>{pf.name} {pf.version}</Tag>
                         </li>
-                    );
-                });
+                    ));
 
                 return (
                     <div key={urlIndex}>
@@ -410,12 +436,17 @@ const Metadata = () => {
                                     : protocolFormats[0].UnitsOfDistribution}
                             </div>
                         ) : null}
-                        <heading-text>
-                            <h3>Format:</h3>
-                        </heading-text>
-                        <gn-badge-list>
-                            <ul>{protocolFormatElements}</ul>
-                        </gn-badge-list>
+                        {protocolFormatElements.length ? (
+                            <>
+                                <heading-text>
+                                    <h3>Format:</h3>
+                                </heading-text>
+
+                                <div className={style.flex3}>
+                                    <ul>{protocolFormatElements}</ul>
+                                </div>
+                            </>
+                        ) : null}
                     </div>
                 );
             });
@@ -424,9 +455,58 @@ const Metadata = () => {
         }
     };
 
+    const renderSimpleDistributionFormats = () => {
+        const formats = metadata?.DistributionFormats;
+        const hierarchy = metadata?.HierarchyLevel?.toLowerCase();
+        let fileformatTitle = "Formater";
+        let description = "Formater";
+
+        if (!formats?.length) return null;
+
+        if (hierarchy === "dataset") {
+            fileformatTitle = "Filformater";
+            description = "Formater datasettet kan lastes ned i.";
+        } else if (hierarchy === "service") {
+            description = "Formater tjenesten leveres i.";
+        }
+
+        const uniqueFormats = Array.from(
+            new Set(
+                formats
+                    .map((f) => f?.Name?.trim())
+                    .filter((name) => name && name !== "{}")
+            )
+        );
+
+        if (!uniqueFormats.length) return null;
+
+        return (
+            <div className={style.metadataItem}>
+                <h4 className={style.metadataItemTitle}>
+                    {fileformatTitle}
+                    <Tooltip content={description}>
+                        <QuestionmarkCircleIcon className={style.helpIcon} fontSize="1.5rem" />
+                    </Tooltip>
+                </h4>
+                <div className={style.metadataContent}>
+                    <ul>
+                        {uniqueFormats.map((name, index) => (
+                            <li key={index}>
+                                <Tag>{name}</Tag>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        );
+    };
+
     const renderOperations = () => {
+
+        const isEmptyOperations = metadata?.Operations?.every(op => Object.keys(op).length === 0);
+
         const operationsList =
-            metadata?.Operations?.length &&
+            metadata?.Operations?.length && !isEmptyOperations &&
             metadata.Operations.map((operation, index) => {
                 return (
                     <li key={index}>
@@ -624,7 +704,7 @@ const Metadata = () => {
                 ) : null}
                 {metadata?.QuantitativeResult?.Performance?.length ? (
                     <div> {metadata.QuantitativeResult.Performance} </div>
-                ) : null}               
+                ) : null}
             </div>
         ) : null;
     };
@@ -637,10 +717,10 @@ const Metadata = () => {
                 ) : null}
                 {metadata?.QuantitativeResult?.Coverage?.length ? (
                     <div> {metadata.QuantitativeResult.Coverage} </div>
-                ) : null}                
+                ) : null}
             </div>
         ) : null;
-    };   
+    };
 
     const renderDateCreated = () => {
         return metadata?.DateCreated?.length ? (
@@ -655,6 +735,7 @@ const Metadata = () => {
         ) : null;
     };
 
+    //Denne må etterhert fjernes. Det er laget en ny versjon. Når denne ble flyttet lengre opp på siden. Den er fortsatt knyttet til noe funksjonalitet som fortsatt er eksisterende. 
     const renderDateUpdated = () => {
         return metadata?.DateUpdated?.length ? (
             <div>
@@ -667,6 +748,52 @@ const Metadata = () => {
             </div>
         ) : null;
     };
+
+    const renderDateUpdated2 = () => {
+        const hierarchy = metadata?.HierarchyLevel?.toLowerCase();
+
+        // Ikke vis for software eller serie
+        if (hierarchy === "software" || hierarchy === "series") return null;
+
+        // Må ha dato
+        if (!metadata?.DateUpdated?.length) return null;
+
+        const formattedDate =
+            moment(metadata.DateUpdated).isValid()
+                ? moment(metadata.DateUpdated).format("DD.MM.YYYY")
+                : null;
+
+        if (!formattedDate) return null;
+
+        // Dynamisk tittel
+        let label = "Sist oppdatert";
+        let description = "";
+
+
+        if (hierarchy === "dataset") {
+            label = "Datasett sist oppdatert";
+            description = "Produksjonsdato for det siste produserte formatet."
+        } else if (hierarchy === "service") {
+            label = "Tjeneste sist oppdatert";
+            description = "Dato for når innholdet i tjenesten sist ble oppdatert."
+        }
+
+        return (
+            <div className={style.metadataItem}>
+                <h4 className={style.metadataItemTitle}>
+                    {label}
+                    <Tooltip content={description}>
+                        <QuestionmarkCircleIcon className={style.helpIcon} fontSize="1.5rem" />
+                    </Tooltip>
+                </h4>
+                <div className={style.value}>{formattedDate}</div>
+            </div>
+        );
+    };
+
+
+
+
 
     const renderMetadataDateUpdated = () => {
         return metadata?.DateMetadataUpdated?.length ? (
@@ -704,6 +831,7 @@ const Metadata = () => {
         ) : null;
     };
 
+    //Denne må etterhert fjernes. Det er laget en ny versjon. Når denne ble flyttet lengre opp på siden. Den er fortsatt knyttet til noe funksjonalitet som fortsatt er eksisterende. 
     const renderMaintenanceFrequency = () => {
         return metadata?.MaintenanceFrequency?.length ? (
             <div>
@@ -711,6 +839,22 @@ const Metadata = () => {
                 {metadata.MaintenanceFrequency}
             </div>
         ) : null;
+    };
+
+    const renderMaintenanceFrequency2 = () => {
+        if (!metadata?.MaintenanceFrequency?.length) return null;
+
+        return (
+            <div className={style.metadataItem}>
+                <h4 className={style.metadataItemTitle}>
+                    Oppdateringshyppighet
+                    <Tooltip content="Frekvens for hvor ofte data blir oppdatert.">
+                        <QuestionmarkCircleIcon className={style.helpIcon} fontSize="1.5rem" />
+                    </Tooltip>
+                </h4>
+                <div className={style.value}>{metadata.MaintenanceFrequency}</div>
+            </div>
+        );
     };
 
     const renderSpatialScope = () => {
@@ -792,6 +936,52 @@ const Metadata = () => {
                 <gn-list>
                     <ul>{keywordsThemeList}</ul>
                 </gn-list>
+            </div>
+        ) : null;
+    };
+
+    const renderKeywordsThemeBadges = () => {
+        const keywords = metadata?.KeywordsTheme;
+        const nationalKeywords = metadata?.KeywordsNationalTheme;
+
+        const nationalThemeValues = nationalKeywords?.length
+            ? nationalKeywords
+                .map((keywordTheme) => keywordTheme?.KeywordValue?.trim())
+                .filter((keyword) => keyword && keyword !== "{}")
+            : [];
+
+        const themeValues = keywords?.length
+            ? keywords
+                .map((keywordTheme) =>
+                    selectedLanguage === "en" &&
+                        keywordTheme.EnglishKeyword &&
+                        keywordTheme.EnglishKeyword.length
+                        ? keywordTheme.EnglishKeyword
+                        : keywordTheme.KeywordValue
+                )
+                .map((keyword) => keyword?.trim())
+                .filter((keyword) => keyword && keyword !== "{}")
+            : [];
+
+        const uniqueKeywords = Array.from(
+            new Set([
+                ...nationalThemeValues,
+                ...themeValues
+            ])
+        );
+
+        return uniqueKeywords.length ? (
+            <div className={style.metadataItem}>
+                <h4 className={style.metadataItemTitle}>Tema</h4>
+                <div className={style.metadataContent}>
+                    <ul>
+                        {uniqueKeywords.map((keyword, index) => (
+                            <li key={index}>
+                                <Tag data-color="success">{keyword}</Tag>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         ) : null;
     };
@@ -912,7 +1102,7 @@ const Metadata = () => {
             metadata.KeywordsInspire.map((keywordInspire, index) => {
                 return <li key={index}>{keywordInspire.KeywordValue}</li>;
             });
-        return renderKeywordsInspireCategory?.length ? (
+        return keywordsInspireList?.length ? (
             <div>
                 <strong>{dispatch(getResource("Metadata_KeywordsInspire_Label", "Inspire kategorier"))}:</strong>
                 <gn-list>
@@ -979,11 +1169,11 @@ const Metadata = () => {
         ) : null;
     };
 
-   const renderHighValueDatasetCategories = () => {
+    const renderHighValueDatasetCategories = () => {
         const keywordsHighValueDatasetCategoriesList =
             metadata?.KeywordsHighValueDatasetCategories?.length &&
             metadata.KeywordsHighValueDatasetCategories.map((keywordHighValueDatasetCategory, index) => {
-                
+
                 return keywordHighValueDatasetCategory?.KeywordLink ? (
                     <li key={index}>
                         <a href={keywordHighValueDatasetCategory.KeywordLink}>{selectedLanguage === "en" && keywordHighValueDatasetCategory?.EnglishKeyword?.length
@@ -998,7 +1188,7 @@ const Metadata = () => {
                     </li>
                 );
             });
-            return keywordsHighValueDatasetCategoriesList?.length ? (
+        return keywordsHighValueDatasetCategoriesList?.length ? (
             <div>
                 <heading-text>
                     <h4>High value dataset:</h4>
@@ -1050,7 +1240,7 @@ const Metadata = () => {
             ) : null;
         let relatedSerieDatasetsList =
             (metadataDistributions?.RelatedSerieDatasets?.length && metadataDistributions?.ShowRelatedSerieDatasets) ||
-            metadata?.TypeName == "series_time" ? (
+                metadata?.TypeName == "series_time" ? (
                 <div>
                     <heading-text>
                         <h3>
@@ -1123,7 +1313,7 @@ const Metadata = () => {
                         )}
                     </ErrorBoundary>
                 </div>
-            ) : null;           
+            ) : null;
         const relatedDatasetSerieList =
             metadataDistributions?.RelatedDatasetSerie?.length && metadataDistributions?.ShowRelatedDatasetSerie ? (
                 <div>
@@ -1183,7 +1373,7 @@ const Metadata = () => {
             ) : null;
         const relatedDownloadServicesList =
             metadataDistributions?.RelatedDownloadServices?.length &&
-            metadataDistributions?.ShowRelatedDownloadServices ? (
+                metadataDistributions?.ShowRelatedDownloadServices ? (
                 <div>
                     <heading-text>
                         <h3>{dispatch(getResource("DownloadServices", "Nedlastingstjenester"))}</h3>
@@ -1192,7 +1382,7 @@ const Metadata = () => {
                         <DistributionsList distributions={metadataDistributions.RelatedDownloadServices} />
                     </ErrorBoundary>
                 </div>
-            ) : null;   
+            ) : null;
 
         const showDistributions =
             !!selfDistributionsList ||
@@ -1361,12 +1551,12 @@ const Metadata = () => {
                         )}
                         {qualitySpecification.QuantitativeResult ? (
                             <p>
-                                <strong>Resultat :</strong>{" "}                            
-                                {qualitySpecification.QuantitativeResult}                            
+                                <strong>Resultat :</strong>{" "}
+                                {qualitySpecification.QuantitativeResult}
                             </p>
                         ) : (
                             ""
-                        )}                        
+                        )}
                         {qualitySpecification.Date ? (
                             <p>
                                 <strong>{dispatch(getResource("Date", "Dato"))}: </strong>
@@ -1385,7 +1575,7 @@ const Metadata = () => {
                             {qualitySpecification.Explanation}
                         </p>
                         {!qualitySpecification.QuantitativeResult ? (
-                        <p>{qualitySpecification.Result ? "Godkjent" : "Ikke godkjent"}</p>
+                            <p>{qualitySpecification.Result ? "Godkjent" : "Ikke godkjent"}</p>
                         ) : (
                             ""
                         )}
@@ -1488,13 +1678,7 @@ const Metadata = () => {
         let thumbnail = "";
         if (thumbnailList !== undefined && thumbnailList?.length) {
             thumbnailList.sort((a, b) => (a.Type > b.Type ? 1 : -1));
-            thumbnail = (
-                <div className={style.thumbnailContent}>
-                    <div>
-                        <img src={thumbnailList[0].URL} alt={getTitle() + " illustrasjon"} />
-                    </div>
-                </div>
-            );
+            thumbnail = (<img src={thumbnailList[0].URL} alt={getTitle() + " illustrasjon"} />);
         }
         return thumbnail;
     };
@@ -1520,9 +1704,21 @@ const Metadata = () => {
 
     const renderType = () => {
         if (metadata?.Type) {
-            return <strong>Type: {metadata?.TypeTranslated}</strong>;
+            return <div>Type: {metadata?.TypeTranslated}</div>;
         }
     };
+
+    const renderDescriptionTitle = () => {
+        const dTitle =
+            <heading-text>
+                <h2 underline="true" className={style.DescTitle}> Beskrivelse </h2>
+            </heading-text>
+        return (
+            <div>
+                {dTitle}
+            </div>
+        );
+    }
 
     const renderCanonicalTags = () => {
         let canonicalTagElements = [];
@@ -1620,29 +1816,31 @@ const Metadata = () => {
         }
     ];
 
-    const getMetadataQualityIconName = (fairStatus) => {
-        switch (fairStatus) {
+    const getFaceIcons = (fairstatus) => {
+        switch (fairstatus) {
             case "deficient":
-                return "status-deficient";
+                return <FaceFrownIcon className={style.faceIconWrapper} fontSize="2rem" />;
+
             case "useable":
-                return "status-useable";
+                return <FaceIcon className={style.faceIconWrapper} fontSize="2rem" />;
+
             case "satisfactory":
-                return "status-satisfactory";
+                return <FaceSmileIcon className={style.faceIconWrapper} fontSize="2rem" />;
+
             case "good":
-                return "status-good";
+                return <FaceLaughIcon className={style.faceIconWrapper} fontSize="2rem" />;
             default:
                 return null;
         }
-    };
+    }
+
 
     const renderMetadataQuality = (metadataQuality) => {
         if (metadataQuality && Object.keys(metadataQuality)?.length) {
-            const iconName = getMetadataQualityIconName(metadataQuality?.FairStatus);
-            const icon = iconName?.length ? <gn-icon icon={iconName} height="21px" width="21px"></gn-icon> : null;
+            const icon = getFaceIcons(metadataQuality?.FairStatus);
             const detailsUrl = metadataQuality?.DetailsPage?.length && metadataQuality?.DetailsPage;
-            const ariaLabel = `FAIR-status: ${
-                metadataQuality.FAIRStatusPerCent
-            }%. Klikk for å se detaljer om FAIR-status for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
+            const ariaLabel = `FAIR-status: ${metadataQuality.FAIRStatusPerCent
+                }%. Klikk for å se detaljer om FAIR-status for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
             return (
                 <div className={style.subTitle}>
                     {detailsUrl ? (
@@ -1660,139 +1858,187 @@ const Metadata = () => {
         }
     };
 
-    return !metadata || !Object.keys(metadata).length === "An error has occurred." ? (
+
+    const metadataItems = [
+        {
+            key: "lastUpdated",
+            content: renderDateUpdated2()
+        },
+        {
+            key: "updateFrequency",
+            content: renderMaintenanceFrequency2()
+        },
+        {
+            key: "fileFormats",
+            content: renderSimpleDistributionFormats()
+        },
+        {
+            key: "themeBadges",
+            content: renderKeywordsThemeBadges()
+        }
+    ].filter((item) => item.content);
+
+    return !metadata || !Object.keys(metadata).length ? (
         <div className={style.searchResultContainer}>
             <span>Kunne ikke finne metadata på Uuid "{uuid}"</span>
         </div>
-    ) : (
-        <div>
-            <Helmet>
-                <title>{getPageTitle()} - Kartkatalogen</title>
-                {renderCanonicalTags()}
-                <meta
-                    name="description"
-                    content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""}
-                />
-                <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
-                {renderOpenGraphTags()}
-                {renderTwitterTags()}
-            </Helmet>
-            {getMetadataLinkedDataSnippet()}
-            <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
-            <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
-            <div className={style.content}>
-                <header>
-                    <heading-text>
-                        <h1>{getTitle()}</h1>
-                    </heading-text>
-                </header>
-                {renderMetadataQuality(metadataQuality)}
-                {renderCredits()}
-                <div className={style.openBtns} onClick={() => toggleBtns()}>
-                    Velg tjeneste <FontAwesomeIcon icon={showBtns ? "angle-up" : "angle-down"} />
-                </div>
-                <div className={showBtns ? style.openBtnsContainer : `${style.openBtnsContainer} ${style.closed}`}>
-                    <div className={style.btns}>
-                        <ErrorBoundary>
-                            <MapButton listButton={false} metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <DownloadButton listButton={false} metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ShowCoverageButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <HelpButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ContactOwnerButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ProductSheetButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ProductSpecificationButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <LegendDescriptionButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ApplicationButton listButton={false} metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <ProductPageButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <DownloadXmlButton metadata={metadata} />
-                        </ErrorBoundary>
-                        <ErrorBoundary>
-                            <EditMetadataButton metadata={metadata} />
-                        </ErrorBoundary>
-                    </div>
-                </div>
-                <pre></pre>
-                <AlertBox key={`${uuid}`} uuid={uuid} />
-                <pre></pre>
-                <div className={style.flex}>
-                    <div className={style.textContent}>
-                        <div>{renderType()}</div>
-                        {metadata?.Abstract ? (
-                            <div data-color-mode="light">
-                                <MDEditor.Markdown id="abstract" source={getAbstract(metadata)} />
+    ) :
+        (
+            <div>
+                <Helmet>
+                    <title>{getPageTitle()} - Kartkatalogen</title>
+                    {renderCanonicalTags()}
+                    <meta
+                        name="description"
+                        content={metadata?.Abstract ? renderMetaDescription(getAbstract(metadata)) : ""}
+                    />
+                    <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
+                    {renderOpenGraphTags()}
+                    {renderTwitterTags()}
+                </Helmet>
+                {getMetadataLinkedDataSnippet()}
+                <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
+                <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
+
+                <div className={style.content}>
+                    <div className={style.topContent}>
+                        <div className={style.fromOrganization}>
+                            {renderMetadataOwnership(metadata, viewMode, dispatch)}
+                        </div>
+
+                        <div className={style.metadataTitle}>
+                            <header>
+                                <h1>{getTitle()}</h1>
+                            </header>
+                        </div>
+
+                        {metadataItems.map((item, index) => (
+                            <div
+                                key={item.key}
+                                className={`${style.metadataGridItem} ${style[`metadataColumn${index + 1}`]}`}
+                            >
+                                {item.content}
+
+                                {index === 0 ? (
+                                    <div className={style.alertBox}>
+                                        <AlertBox key={`${uuid}`} uuid={uuid} />
+                                    </div>
+                                ) : null}
                             </div>
-                        ) : null}
+                        ))}
+
+                        <div className={style.fairStatus}>
+                            <div className={style.fairWrapper}>
+                                {renderMetadataQuality(metadataQuality)}
+                            </div>
+                        </div>
+
+                        <div className={style.metadataImage}>
+                            <div className={style.thumbnailFrame}>
+                                {renderThumbnail()}
+                            </div>
+                        </div>
+                        <div className={style.buttonContainer}>
+                            <ErrorBoundary>
+                                <DownloadButton listButton={false} metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ApplicationButton listButton={false} metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <MapButton listButton={false} metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <LegendDescriptionButton metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ProductSheetButton metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ProductSpecificationButton metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ProductPageButton metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ContactOwnerButton metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <ShowCoverageButton metadata={metadata} />
+                            </ErrorBoundary>
+                        
+                            <ErrorBoundary>
+                                <DownloadXmlButton metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <HelpButton metadata={metadata} />
+                            </ErrorBoundary>
+                            <ErrorBoundary>
+                                <EditMetadataButton metadata={metadata} />
+                            </ErrorBoundary>
+                        </div>
                     </div>
-                    {renderThumbnail()}
-                </div>
+                    
 
-                {renderSpecificUsageSection()}
-                {renderDistributionsListSection()}
-                <div className={style.flex2}>
-                    {renderDistributionSection()}
-                    {renderConstraintsSection()}
-                </div>
-
-                {renderContactSection()}
-
-                {renderSupplementalDescriptionSection()}
-
-                <div
-                    role="button"
-                    aria-expanded={expanded}
-                    aria-controls="detailed-information"
-                    className={style.opendetails}
-                    onClick={() => toggleExpand()}
-                >
-                    <heading-text>
-                        <h2 underline="true">
-                            {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
-                            <FontAwesomeIcon
-                                title={
-                                    expanded
-                                        ? "Trekk sammen"
-                                        : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
-                                              getResource("DetailedInformation", "Detaljert informasjon")
-                                          )}`
-                                }
-                                icon={expanded ? "angle-up" : "angle-down"}
-                            />
-                        </h2>
-                    </heading-text>
-                </div>
-                <div id="detailed-information" className={expanded ? style.open : style.closed}>
-                    {renderGeneral()}
                     <div className={style.flex}>
-                        {renderQualitySection()}
-                        {renderTimeAndSpaceSection()}
-                        {renderKeywordsSection()}
+                        <div className={style.textContent}>
+                            <div>{renderDescriptionTitle()}</div>
+                            {metadata?.Abstract ? (
+                                <div data-color-mode="light">
+                                    <MDEditor.Markdown id="abstract" source={getAbstract(metadata)} />
+                                </div>
+                            ) : null}
+                        </div>
                     </div>
-                    {renderQualitySpecificationsSection()}
-                    {renderPurposeSection()}
+
+                    {renderSpecificUsageSection()}
+                    {renderDistributionsListSection()}
+
+                    <div className={style.flex2}>
+                        {renderDistributionSection()}
+                        {renderConstraintsSection()}
+                    </div>
+
+                    {renderContactSection()}
+                    {renderSupplementalDescriptionSection()}
+
+                    <div
+                        role="button"
+                        aria-expanded={expanded}
+                        aria-controls="detailed-information"
+                        className={style.opendetails}
+                        onClick={() => toggleExpand()}
+                    >
+                        <heading-text>
+                            <h2 underline="true">
+                                {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
+                                <FontAwesomeIcon
+                                    title={
+                                        expanded
+                                            ? "Trekk sammen"
+                                            : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
+                                                getResource("DetailedInformation", "Detaljert informasjon")
+                                            )}`
+                                    }
+                                    icon={expanded ? "angle-up" : "angle-down"}
+                                />
+                            </h2>
+                        </heading-text>
+                    </div>
+
+                    <div id="detailed-information" className={expanded ? style.open : style.closed}>
+                        {renderGeneral()}
+                        <div className={style.flex}>
+                            {renderQualitySection()}
+                            {renderTimeAndSpaceSection()}
+                            {renderKeywordsSection()}
+                        </div>
+                        {renderQualitySpecificationsSection()}
+                        {renderPurposeSection()}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
 };
 
 export default Metadata;

@@ -3,6 +3,7 @@
 :local(.distributionsList) {
   display: grid;
   column-gap: 24px;
+  row-gap: 24px;
   grid-template-columns: 1fr;
   min-width: 350px;
   margin: 0px;

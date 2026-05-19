@@ -66,8 +66,6 @@ const findFacetInArray = (array, facetHierarchyForFacetValueArray, index = 0) =>
         facet.facets = {
             [childFacetValue]: findFacetInArray(facet.FacetResults, facetHierarchyForFacetValueArray, index + 1)
         };
-    }else if (!facet?.FacetResults?.length) {
-        console.log("no facet results for", facet)
     }
     return facet;
 };
@@ -128,8 +126,6 @@ export const updateSelectedFacetsFromUrl =
                             }
                         });
                     }
-                } else {
-                    console.warn("queryArray should have 2 values", queryArray);
                 }
             });
         dispatch({

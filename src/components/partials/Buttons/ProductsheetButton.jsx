@@ -1,8 +1,8 @@
 // Dependencies
-import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@digdir/designsystemet-react";
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
@@ -32,25 +32,19 @@ const ProductSheetButton = (props) => {
     };
 
     const buttonDescription = dispatch(getResource("DisplayProductSheet", "Vis produktark"));
-    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "info-circle"]} key="icon" />;
-    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-    const childElements = [icon, textContent];
-    if (props.metadata.ProductSheetUrl) {
-        const url = props.metadata.ProductSheetUrl;
-        const buttonClass = style.btn;
-        return (
-            <a href={url} onClick={handleButtonClick} className={buttonClass}>
-                {childElements}
+    const url = props.metadata.ProductSheetUrl;
+    const buttonClass = `${style.detailButton} ${style.primaryButton}`;
+
+    if (!url?.trim()) return null;
+    
+    return (
+        <Button asChild variant="primary" className={buttonClass}>
+            <a href={url} onClick={handleButtonClick} >
+                <ExternalLinkIcon aria-hidden="true" />
+                <span className={style.buttonText}>{buttonDescription}</span>
             </a>
-        );
-    } else {
-        const buttonClass = `${style.btn}  ${style.disabled}`;
-        return (
-            <button disabled className={buttonClass}>
-                {childElements}
-            </button>
-        );
-    }
+        </Button>
+    );
 };
 
 ProductSheetButton.propTypes = {

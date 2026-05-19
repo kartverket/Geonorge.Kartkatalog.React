@@ -15,9 +15,12 @@
   padding: 24px;
   
 
-  &:hover {
-    transform: translateY(-6px); // løfter kortet litt
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); // gir dybde
+   &:hover:not(:has(.buttonGroupContainer:hover)) {
+    background: var(--ds-color-neutral-surface-hover);
+
+    :global(.ds-button) {
+      background: var(--ds-color-surface-default, white);
+    }
   }
 }
 
@@ -70,8 +73,8 @@
 :local(.listItemInfo) {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.8em;
+  gap: 3px;
+  font-size: 1em;
 
   a {
     color: black;
@@ -82,7 +85,7 @@
   }
 
   > svg {
-    margin-right: 5px;
+    margin-right: 2px;
     font-size: 1.2em;
 
     &:local(.red) {
@@ -136,10 +139,6 @@
 }
 
 
-:local(.contentWrapper) {
-  min-width: 0;
-}
-
 
 /* 
    GRID MODE
@@ -168,14 +167,13 @@
   :local(.listItemTitle) {
     display: block;
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 0.156em;
+    margin-top: 0.156em;
     min-height: 3.2em;
 
     @include breakpoint(tablet) {
       font-size: 19px;
     }
-
-    
   }
 
   :local(.listItemInfo) {
@@ -187,6 +185,11 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+        ul{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+    }
   }
 }
 

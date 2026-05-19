@@ -13,7 +13,7 @@ import { getQueryStringFromFacets } from "@/helpers/FacetFilterHelpers";
 // Stylesheets
 import style from "@/components/partials/SelectedFacets.module.scss";
 
-const SelectedFacets = ({ searchData }) => {
+const SelectedFacets = ({ searchData, viewMode }) => {
     const renderSelectedFacetsList = (selectedFacets) => {
         if (selectedFacets && Object.keys(selectedFacets).length) {
             return Object.keys(selectedFacets).map((facetTypeName) => {
@@ -53,7 +53,8 @@ const SelectedFacets = ({ searchData }) => {
             facetToRemove: {
                 facetField,
                 facet
-            }
+            },
+            view: viewMode
         });
     };
 

@@ -1,17 +1,16 @@
 // Dependencies
-import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from "@digdir/designsystemet-react";
 
 // Actions
 import { getResource } from "@/actions/ResourceActions";
-
 // Reducers
 import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
+import { DownloadIcon} from "@navikt/aksel-icons";
 
 const DownloadXmlButton = (props) => {
     const dispatch = useDispatch();
@@ -33,24 +32,21 @@ const DownloadXmlButton = (props) => {
 
     const buttonDescription = `${dispatch(getResource("Download", "Last ned"))} metadata XML`;
     const url = props.metadata.MetadataXmlUrl;
-    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "file-code"]} key="icon" />;
-    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-    const childElements = [icon, textContent];
+    const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
 
     if (url?.length) {
-        const buttonClass = style.btn;
+        
         return (
-            <a href={url} onClick={handleButtonClick} className={buttonClass}>
-                {childElements}
-            </a>
+
+            <Button asChild variant="primary" className={buttonClass}>
+                <a href={url} onClick={handleButtonClick}>
+                    <DownloadIcon aria-hidden="true" fontSize="1.5rem" />
+                    <span className={style.buttonText}>{buttonDescription}</span>
+                </a>
+            </Button>
         );
     } else {
-        const buttonClass = `${style.btn}  ${style.disabled}`;
-        return (
-            <button disabled className={buttonClass}>
-                {childElements}
-            </button>
-        );
+        return null
     }
 };
 

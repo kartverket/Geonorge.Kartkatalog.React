@@ -13,7 +13,7 @@ import { updateExpandedFacetFilters } from "@/actions/FacetFilterActions";
 // Stylesheets
 import style from "@/components/partials/FacetFilter/FacetFilterItem.module.scss";
 
-const FacetFilterItem = ({ searchData, facetFilterItem }) => {
+const FacetFilterItem = ({ searchData, facetFilterItem, viewMode }) => {
     const dispatch = useDispatch();
 
     // Redux store
@@ -50,6 +50,7 @@ const FacetFilterItem = ({ searchData, facetFilterItem }) => {
                         searchData={searchData}
                         parentIsExpanded={parentIsExpanded}
                         labelId={labelId}
+                        viewMode={viewMode}
                         key={i}
                     />
                 );
@@ -90,7 +91,9 @@ const FacetFilterItem = ({ searchData, facetFilterItem }) => {
 };
 
 FacetFilterItem.propTypes = {
-    facetFilterItem: PropTypes.object.isRequired
+    facetFilterItem: PropTypes.object.isRequired,
+    searchData: PropTypes.object,
+    viewMode: PropTypes.oneOf("grid","list")
 };
 
 export default FacetFilterItem;

@@ -1,9 +1,8 @@
 // Dependencies
-import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { Button } from "@digdir/designsystemet-react";
 // Actions
 import { getResource } from "@/actions/ResourceActions";
 
@@ -12,6 +11,9 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
+import { PencilIcon } from '@navikt/aksel-icons';
+
+
 
 const EditMetadataButton = (props) => {
     const dispatch = useDispatch();
@@ -34,24 +36,19 @@ const EditMetadataButton = (props) => {
     const buttonDescription = `${dispatch(getResource("Edit", "Rediger"))} metadata`;
     const url = props.metadata.MetadataEditUrl;
     const metMetadata = props.metadata.MetMetadata;
-    const icon = <FontAwesomeIcon title={buttonDescription} icon={["far", "edit"]} key="icon" />;
-    const textContent = React.createElement("span", { key: "textContent" }, buttonDescription);
-    const childElements = [icon, textContent];
+    const buttonClass = `${style.detailButton} ${style.secondaryButton}`;
 
-    if (url && !metMetadata) {
-        let buttonClass = style.btn;
+    if (url?.trim() && !metMetadata) {
         return (
-            <a href={url} onClick={handleButtonClick} className={buttonClass}>
-                {childElements}
-            </a>
+            <Button asChild variant="primary" className={buttonClass}>
+                <a href={url} onClick={handleButtonClick}>
+                    <PencilIcon title={buttonDescription} fontSize="1.5rem" />
+                    <span className={style.buttonText}>{buttonDescription}</span>
+                </a>
+            </Button>
         );
     } else {
-        let buttonClass = `${style.btn}  ${style.disabled}`;
-        return (
-            <button disabled className={buttonClass}>
-                {childElements}
-            </button>
-        );
+        return null;
     }
 };
 
