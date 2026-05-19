@@ -1001,7 +1001,7 @@
   dependencies:
     "@digdir/designsystemet-types" "1.14.0"
 
-gpsup"@digdir/designsystemet-react@1.13.0":
+"@digdir/designsystemet-react@1.13.0":
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/@digdir/designsystemet-react/-/designsystemet-react-1.13.0.tgz#50de922ebfc6fbe3a4a4e2128ede6e750d1b2c9d"
   integrity sha512-4eMUucwLYuSJn5tI3cffB7R/w08sevpj41EjwKHIKS/6u5pF8od0IJgavezXlJOmgT3H0Howhr0y+9s0Fkzqcg==
