@@ -1907,8 +1907,9 @@ const Metadata = () => {
                         </div>
 
                         <div className={style.metadataTitle}>
-                            <header>
+                            <header className={style.titleHeader}>
                                 <h1>{getTitle()}</h1>
+                                <heading-text className={style.shortcutAnchor}></heading-text>
                             </header>
                         </div>
 
