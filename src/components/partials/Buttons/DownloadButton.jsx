@@ -21,6 +21,7 @@ import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 // Assets
 import loadingAnimation from "@/images/gif/loading.gif";
 
+
 // Stylesheets
 import style from "@/components/partials/Buttons/Buttons.module.scss";
 import { Button } from "@digdir/designsystemet-react";
@@ -382,7 +383,7 @@ const DownloadButton = (props) => {
             : `${style.detailButton} ${style.primaryButton}`;
         return (
             <Button variant="secondary" className={buttonClass}>
-                <img src={loadingAnimation} alt="Loading animation" />
+                <img src={loadingAnimation} alt="Loading animation" width={20} height={20}  />
             </Button>
         );
     }
