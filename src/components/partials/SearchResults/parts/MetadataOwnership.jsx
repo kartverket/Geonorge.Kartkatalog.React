@@ -1,5 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PadlockUnlockedFillIcon, PadlockLockedFillIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { getResource } from "@/actions/ResourceActions";
 import style from "@/components/partials/SearchResults/MetadataSearchResult.module.scss";
@@ -31,10 +32,9 @@ export const renderMetadataOwnership = (item, viewMode, dispatch) => {
             ) {
                 openDataSymbolTitle = "Kontakt dataeieren for tilgang";
             }
-        const openDataSymbolIcon =
-            item.IsOpenData || item.AccessIsOpendata
-                ? ["fas", "lock-open"]
-                : ["fas", "lock"];
+
+        const isOpenData = item.IsOpenData || item.AccessIsOpendata;
+        const OpenDataIcon = isOpenData ? PadlockUnlockedFillIcon : PadlockLockedFillIcon;
 
         const listItemType = item.TypeTranslated || item.Type;
         const listItemOrganizations = item.Organizations;
@@ -78,11 +78,11 @@ export const renderMetadataOwnership = (item, viewMode, dispatch) => {
 
         return (
             <span className={style.listItemInfo}>
-                <FontAwesomeIcon
+                <OpenDataIcon
                     key="lock"
                     className={openDataSymbolClass}
                     title={openDataSymbolTitle}
-                    icon={openDataSymbolIcon}
+                    aria-hidden={false}
                 />
                 {dispatch(getResource("VariableBy", "{0} fra", [listItemType]))} {linkElement}
             </span>
