@@ -198,6 +198,18 @@
     grid-column: 1 / 4;
     margin-top: 10px;
     margin-bottom: 40px;
+
+    :local(.titleHeader) {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    :local(.shortcutAnchor) {
+      font-size: 0;
+      line-height: 0;
+    }
   }
 
   :local(.alertBox) {

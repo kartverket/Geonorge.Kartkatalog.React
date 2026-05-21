@@ -147,6 +147,7 @@ const DownloadButton = (props) => {
         const distributionProtocolIsDownload =
             distributionProtocol === "WWW:DOWNLOAD-1.0-http--download" ||
             distributionProtocol === "GEONORGE:FILEDOWNLOAD" ||
+            protocol === "Geonorge filnedlastning" || protocol === "Geonorge file download"
             protocol === "Egen nedlastningsside" ||
             protocol === "OPeNDAP" ||
             distributionProtocol === "OPENDAP:OPENDAP" ||
@@ -304,7 +305,7 @@ const DownloadButton = (props) => {
     };
 
     const renderButton = () => {
-        if (!props.metadata.CanShowDownloadService) return null;
+        if (props.metadata.CanShowDownloadService){
 
         const buttonDescription = isAdded
             ? dispatch(getResource("RemoveFromBasket", "Fjern nedlasting"))
@@ -330,6 +331,36 @@ const DownloadButton = (props) => {
                 <span className={style.buttonText}>{buttonDescription}</span>
             </Button>
         );
+        }
+        else if (showDownloadLink()) {
+            let buttonDescription = (props.metadata.Protocol === "OGC API - Features" || props.metadata.Protocol === "OPeNDAP") ? "Vis API"
+                : dispatch(getResource("ToBasket", "Til nedlasting"));
+            if (props.metadata.Protocol === "Webside") {
+                buttonDescription = dispatch(getResource("Webpage", "Webside"));
+            }
+            const distributionUrl = props.metadata.DistributionUrl;
+            const buttonClass = props.listButton
+            ? style.listButton
+            : `${style.detailButton} ${style.primaryButton}`;
+
+
+            return (
+                <Button
+                    asChild variant="primary" className={buttonClass}
+                >
+                    <a href={distributionUrl}
+                        onClick={handleExternalDownloadButtonClick}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <ExternalLinkIcon aria-hidden="true" fontSize="1.5rem" />
+                        <span className={style.buttonText}>{buttonDescription}</span>
+                    </a>
+
+
+                </Button>
+            );
+        } else return null;
     };
 
     const metadataIsAdded = (metadata) => {
