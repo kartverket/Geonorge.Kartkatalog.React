@@ -1402,15 +1402,10 @@
   resolved "https://registry.yarnpkg.com/@kartverket/geonorge-web-components/-/geonorge-web-components-4.0.11.tgz#39480aa06b2818a3b5bb2a1bdf7f908176f35f6b"
   integrity sha512-zrC2UVVAhIVJJj8n1atDeJGvNxcZMdGQIMXxHjsMb7mjFT0Svjf3JAFmsNn/H0su0E+bGLGw2+iL2gPQdrKySQ==
 
-"@navikt/aksel-icons@^8.10.3", "@navikt/aksel-icons@^8.6.0":
+"@navikt/aksel-icons@^8.10.3", "@navikt/aksel-icons@^8.6.0", "@navikt/aksel-icons@^8.9.0":
   version "8.10.6"
   resolved "https://registry.yarnpkg.com/@navikt/aksel-icons/-/aksel-icons-8.10.6.tgz#3903bc63ecdf7c98f3819fca43cb52fcd8384cb8"
   integrity sha512-aECYww6+luwBfV8tPDDGG++395/dvhUusx9rWB7sSFbAj2rPi9ULMe8Gg9TE42tKqZMz8riXyQoRsQsz2xW45A==
-
-"@navikt/aksel-icons@^8.9.0":
-  version "8.9.0"
-  resolved "https://registry.yarnpkg.com/@navikt/aksel-icons/-/aksel-icons-8.9.0.tgz#6aa76719a9783fd0de5c01291adc8b920d2cf065"
-  integrity sha512-AaHoHwSlULrQxNPLV1tmWNdx4RL6QTdzhkM7NcKrnaq0hUPvcUbHyVLiecubiDmjEiAAPVQQboo6/QRuw2UvXg==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
