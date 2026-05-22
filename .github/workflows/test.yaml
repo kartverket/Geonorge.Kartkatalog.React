@@ -1,0 +1,42 @@
+name: Test
+
+on:
+  pull_request:
+  workflow_call:
+    secrets:
+      FONTAWESOME_NPM_AUTH_TOKEN:
+        required: true
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Add FontAwesome auth token to npmrc
+        run: |
+          echo "::add-mask::${FONTAWESOME_NPM_AUTH_TOKEN}"
+          echo "//npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}" >> .npmrc
+        env:
+          FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Remove FontAwesome auth token from npmrc
+        if: always()
+        run: git checkout .npmrc
+
+      - name: Run tests
+        run: yarn test
