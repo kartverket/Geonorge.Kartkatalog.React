@@ -24,19 +24,23 @@ jobs:
           node-version: 24
           cache: yarn
 
-      - name: Add FontAwesome auth token to npmrc
+      - name: Create temporary npmrc secret
         run: |
           echo "::add-mask::${FONTAWESOME_NPM_AUTH_TOKEN}"
-          echo "//npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}" >> .npmrc
+          umask 077
+          cat <<EOF > .npmrc
+          @fortawesome:registry=https://npm.fontawesome.com/
+          //npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}
+          EOF
         env:
           FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Remove FontAwesome auth token from npmrc
+      - name: Remove temporary npmrc secret
         if: always()
-        run: git checkout .npmrc
+        run: rm -f .npmrc
 
       - name: Run tests
         run: yarn test
