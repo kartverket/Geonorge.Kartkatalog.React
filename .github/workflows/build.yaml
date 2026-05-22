@@ -6,6 +6,8 @@ on:
       - main
   workflow_dispatch:
 
+permissions: {}
+
 env:
   DOCKER_REGISTRY: ghcr.io
   NAME: kartverket/geonorge-kartkatalog-frontend
