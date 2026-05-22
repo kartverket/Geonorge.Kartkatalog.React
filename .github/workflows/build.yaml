@@ -6,14 +6,22 @@ on:
       - main
   workflow_dispatch:
 
+permissions: {}
+
 env:
   DOCKER_REGISTRY: ghcr.io
   NAME: kartverket/geonorge-kartkatalog-frontend
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yaml
+    secrets:
+      FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
   build_image:
     name: Build image
     runs-on: ubuntu-latest
+    needs: [test]
     permissions:
       contents: read
       packages: write
@@ -21,16 +29,14 @@ jobs:
       id-token: write
 
     outputs:
-      version: ${{ steps.set_output.outputs.version }}
-      tags: ${{ steps.meta.outputs.tags }}
       short_tag: ${{ steps.short_tag.outputs.value }}
       commit_message: ${{ steps.get_commit_message.outputs.frontend_commit_message }}
+      image_url: ${{ steps.set_output.outputs.image_url }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Extract the latest commit message from the current repo
       - name: Get commit message
         id: get_commit_message
         run: |
@@ -88,11 +94,29 @@ jobs:
         run: |
           echo "Tags: ${{ steps.meta.outputs.tags }}" >> "$GITHUB_STEP_SUMMARY"
           echo "Digest: ${{ steps.build_image.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "version=${{ github.ref_name }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_OUTPUT"
+          echo "Full Image URL: ${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ steps.meta.outputs.version }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "image_url=${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ steps.meta.outputs.version }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_OUTPUT"
 
       - name: Remove temporary npmrc secret
         if: always()
         run: rm -f .npmrc.github-actions
+
+  run-pharos:
+    name: Run Pharos
+    runs-on: ubuntu-latest
+    needs: [build_image]
+    if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
+    permissions:
+      actions: read
+      packages: read
+      contents: read
+      security-events: write
+    steps:
+      - name: "Run Pharos"
+        uses: kartverket/pharos@v0.6.3
+        with:
+          image_url: ${{ needs.build_image.outputs.image_url }}
+
 
   deploy:
     runs-on: ubuntu-latest
@@ -110,7 +134,7 @@ jobs:
           identity: kartkatalog-frontend
 
       - name: Checkout apps repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           repository: kartverket/geonorge-apps
           ref: main
@@ -125,7 +149,7 @@ jobs:
         env:
           COMMIT_MESSAGE: ${{ needs.build_image.outputs.commit_message }}
         run: |
-          echo "\"ghcr.io/kartverket/geonorge-kartkatalog-frontend:${{ needs.build_image.outputs.short_tag }}"\" > env/atkv3-dev/geonorge-kartkatalog-dev/kartkatalog-frontend-version
+          echo "\"${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ needs.build_image.outputs.short_tag }}"\" > env/atkv3-dev/geonorge-kartkatalog-dev/kartkatalog-frontend-version
           git add .
           git commit -m "$COMMIT_MESSAGE"
           git push
