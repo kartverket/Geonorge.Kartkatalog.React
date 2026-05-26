@@ -19,7 +19,7 @@ import { getResource } from "@/actions/ResourceActions";
 import { pushToDataLayer } from "@/reducers/TagManagerReducer";
 
 // Assets
-import loadingAnimation from "@/images/gif/loading.gif";
+import { Spinner } from "@digdir/designsystemet-react";
 
 
 // Stylesheets
@@ -414,7 +414,7 @@ const DownloadButton = (props) => {
             : `${style.detailButton} ${style.primaryButton}`;
         return (
             <Button variant="secondary" className={buttonClass}>
-                <img src={loadingAnimation} alt="Loading animation" width={20} height={20}  />
+               <Spinner aria-label="Laster" />
             </Button>
         );
     }
