@@ -112,7 +112,7 @@
 
 :local(.buttonGroupContainer) {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1rem;
   align-items: center;
   margin-top: auto;
@@ -139,6 +139,21 @@
   }
 }
 
+
+@include breakpoint(mobileonly) {
+  :local(.buttonGroupContainer) {
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: wrap;  /* wrap er ikke nødvendig */
+    gap: 1rem;
+    margin-top: 0;
+  }
+
+  :local(.buttonGroupContainer) > * {
+    width: 100%;
+    min-width: 0;
+  }
+}
 
 
 /* 

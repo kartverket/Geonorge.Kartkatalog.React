@@ -71,7 +71,13 @@
     @include breakpoint(mobileonly) {
     min-width: 170px;
     flex-shrink: 0;
+    flex-grow: 1;
     font-size: 1.2rem;
+    width: 80% !important;
+    min-width: 0 !important;
+    margin-left: auto;
+    margin-right: auto;
+
 
     > span {
       font-size: 1.2rem;
