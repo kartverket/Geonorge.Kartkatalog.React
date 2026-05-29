@@ -48,8 +48,36 @@
   }
 
   @include breakpoint(tablet) {
-    min-width: 140px;
+    min-width: 170px;
+    flex-shrink: 0;
     font-size: 1.2rem;
+
+    > span {
+      font-size: 1.2rem;
+    }
+  }
+
+    @include breakpoint(phablet) {
+    min-width: 170px;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    
+
+    > span {
+      font-size: 1.2rem;
+    }
+  }
+
+    @include breakpoint(mobileonly) {
+    min-width: 170px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    font-size: 1.2rem;
+    width: 80% !important;
+    min-width: 0 !important;
+    margin-left: auto;
+    margin-right: auto;
+
 
     > span {
       font-size: 1.2rem;
