@@ -43,9 +43,46 @@ server.use(prerender.addMetaTags());
 server.use(prerender.removeScriptTags());
 server.use(prerender.httpHeaders());
 
+const CHROME_DEBUG_PORT = 9222;
+
+function checkChromeAlive() {
+  return new Promise((resolve) => {
+    const req = require('http').get(
+      `http://127.0.0.1:${CHROME_DEBUG_PORT}/json/version`,
+      { timeout: 3000 },
+      (res) => {
+        let data = '';
+        res.on('data', (chunk) => { data += chunk; });
+        res.on('end', () => resolve(res.statusCode === 200));
+      }
+    );
+    req.on('error', () => resolve(false));
+    req.on('timeout', () => { req.destroy(); resolve(false); });
+  });
+}
+
 server.use({
   requestReceived(req, res, next) {
-    if ((req.url || '') === '/health') {
+    const url = req.url || '';
+
+    if (url === '/health/live') {
+      return send(res, 200, 'ok', {
+        'Content-Type': 'text/plain; charset=UTF-8'
+      });
+    }
+
+    if (url === '/health/ready') {
+      return checkChromeAlive().then((alive) => {
+        if (alive) {
+          send(res, 200, 'ok', { 'Content-Type': 'text/plain; charset=UTF-8' });
+        } else {
+          send(res, 503, 'chrome not ready', { 'Content-Type': 'text/plain; charset=UTF-8' });
+        }
+      });
+    }
+
+    // Legacy endpoint
+    if (url === '/health') {
       return send(res, 200, 'ok', {
         'Content-Type': 'text/plain; charset=UTF-8'
       });

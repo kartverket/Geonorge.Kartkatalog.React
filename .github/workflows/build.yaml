@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - 'prerender/**'
+      - '.github/agents/**'
   workflow_dispatch:
 
 permissions:
