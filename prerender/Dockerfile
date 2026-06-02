@@ -1,6 +1,7 @@
 FROM node:24-bookworm-slim
 
 ENV NODE_ENV=production \
+    HOME=/tmp \
     PORT=3000 \
     CHROME_BIN=/usr/bin/chromium \
     EXTRA_CHROME_FLAGS=--no-sandbox,--disable-setuid-sandbox,--disable-dev-shm-usage,--user-data-dir=/tmp/chrome,--disk-cache-dir=/tmp/chrome-cache \

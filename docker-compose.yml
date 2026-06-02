@@ -49,6 +49,12 @@ configs:
         ~*Prerender 1;
       }
 
+      map $$http_x_forwarded_proto $$prerender_request_scheme {
+        default $$scheme;
+        ~*^https(?:\s*,.*)?$$ https;
+        ~*^http(?:\s*,.*)?$$ http;
+      }
+
       map $$uri $$prerender_static_asset {
         default 0;
         ~*\.(js|json|css|xml|less|png|jpg|jpeg|gif|pdf|doc|txt|ico|rss|zip|mp3|rar|exe|wmv|avi|ppt|mpg|mpeg|tif|wav|mov|psd|ai|xls|mp4|m4a|swf|dat|dmg|iso|flv|m4v|torrent|ttf|woff|woff2|svg|eot)$ 1;
@@ -93,10 +99,9 @@ configs:
 
         location = /prerender-proxy {
           internal;
-          rewrite ^ /http://kartkatalog$$request_uri break;
-          proxy_set_header Host $$host;
+          rewrite ^ /$$prerender_request_scheme://kartkatalog$$request_uri break;
           proxy_set_header X-Forwarded-For $$proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $$scheme;
+          proxy_set_header X-Forwarded-Proto $$prerender_request_scheme;
           proxy_pass http://prerender:3000;
         }
 
