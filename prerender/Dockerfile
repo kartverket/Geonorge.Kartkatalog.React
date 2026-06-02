@@ -3,7 +3,7 @@ FROM node:24-bookworm-slim
 ENV NODE_ENV=production \
     PORT=3000 \
     CHROME_BIN=/usr/bin/chromium \
-    EXTRA_CHROME_FLAGS=--no-sandbox,--disable-setuid-sandbox,--disable-dev-shm-usage \
+    EXTRA_CHROME_FLAGS=--no-sandbox,--disable-setuid-sandbox,--disable-dev-shm-usage,--user-data-dir=/tmp/chrome,--disk-cache-dir=/tmp/chrome-cache \
     PAGE_LOAD_TIMEOUT=20000 \
     WAIT_AFTER_LAST_REQUEST=500
 
@@ -23,7 +23,9 @@ RUN npm install --omit=dev && npm cache clean --force
 
 COPY server.js ./
 
-USER node
+RUN groupadd --gid 150 appuser && useradd --uid 150 --gid 150 --no-create-home appuser
+
+USER 150
 
 EXPOSE 3000
 
