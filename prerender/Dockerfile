@@ -4,11 +4,14 @@ ENV NODE_ENV=production \
     HOME=/tmp \
     PORT=3000 \
     CHROME_BIN=/usr/bin/chromium \
+    CHROME_DEBUG_PORT=9222 \
+    CHROME_HEALTH_TIMEOUT_MS=1500 \
+    MAX_RENDER_CONCURRENCY=1 \
+    RENDER_SLOT_TIMEOUT_MS=70000 \
     EXTRA_CHROME_FLAGS=--headless=new,--no-sandbox,--disable-setuid-sandbox,--disable-dev-shm-usage,--user-data-dir=/tmp/chrome,--disk-cache-dir=/tmp/chrome-cache,--disable-extensions,--disable-background-networking,--disable-default-apps,--disable-translate,--disable-breakpad,--disable-component-update,--disable-sync,--metrics-recording-only,--mute-audio,--no-first-run,--no-default-browser-check,--crash-dumps-dir=/tmp/chrome-crashes \
     PAGE_LOAD_TIMEOUT=10000 \
     WAIT_AFTER_LAST_REQUEST=1000 \
-    PAGE_DONE_CHECK_INTERVAL=250 \
-    MAX_RENDER_CONCURRENCY=1
+    PAGE_DONE_CHECK_INTERVAL=250
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
