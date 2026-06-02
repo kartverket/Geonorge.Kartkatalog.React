@@ -1,0 +1,100 @@
+name: PrerenderImageBuild
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'prerender/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOCKER_REGISTRY: ghcr.io
+  NAME: kartverket/geonorge-kartkatalog-frontend-prerender
+
+jobs:
+
+  build_image:
+    name: Build image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      id-token: write
+
+    outputs:
+      short_tag: ${{ steps.short_tag.outputs.value }}
+      commit_message: ${{ steps.get_commit_message.outputs.frontend_commit_message }}
+      image_url: ${{ steps.set_output.outputs.image_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get commit message
+        id: get_commit_message
+        run: |
+          {
+            echo 'frontend_commit_message<<EOF'
+            git log -1 --pretty=%B
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,format=short
+
+      - name: Compute short tag
+        id: short_tag
+        run: echo "value=sha-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Build docker image and push
+        id: build_image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./prerender
+          file: ./Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+
+      - name: Summarize image digest and set output
+        id: set_output
+        run: |
+          echo "Tags: ${{ steps.meta.outputs.tags }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Digest: ${{ steps.build_image.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Full Image URL: ${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ steps.meta.outputs.version }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "image_url=${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ steps.meta.outputs.version }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_OUTPUT"
+
+
+  run-pharos:
+    name: Run Pharos
+    runs-on: ubuntu-latest
+    needs: [build_image]
+    if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
+    permissions:
+      actions: read
+      packages: read
+      contents: read
+      security-events: write
+    steps:
+      - name: "Run Pharos"
+        uses: kartverket/pharos@v0.6.3
+        with:
+          image_url: ${{ needs.build_image.outputs.image_url }}
