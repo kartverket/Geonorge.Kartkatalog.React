@@ -1,3 +1,4 @@
+const http = require('http');
 const prerender = require('prerender');
 
 function parseBoolean(value) {
@@ -21,10 +22,12 @@ function send(res, statusCode, message, headers = {}) {
     res.setHeader(headerName, headerValue);
   });
 
-  res.send(statusCode, message);
+  res.statusCode = statusCode;
+  res.send(message);
 }
 
 const extraChromeFlags = parseChromeFlags(process.env.EXTRA_CHROME_FLAGS);
+const maxRenderConcurrency = parseInteger(process.env.MAX_RENDER_CONCURRENCY, 1);
 
 const server = prerender({
   chromeLocation: process.env.CHROME_BIN || null,
@@ -32,9 +35,87 @@ const server = prerender({
   extraChromeFlags,
   followRedirects: parseBoolean(process.env.FOLLOW_REDIRECTS),
   logRequests: parseBoolean(process.env.LOG_REQUESTS),
-  pageDoneCheckInterval: parseInteger(process.env.PAGE_DONE_CHECK_INTERVAL, 500),
-  pageLoadTimeout: parseInteger(process.env.PAGE_LOAD_TIMEOUT, 20000),
-  waitAfterLastRequest: parseInteger(process.env.WAIT_AFTER_LAST_REQUEST, 500)
+  pageDoneCheckInterval: parseInteger(process.env.PAGE_DONE_CHECK_INTERVAL, 250),
+  pageLoadTimeout: parseInteger(process.env.PAGE_LOAD_TIMEOUT, 10000),
+  waitAfterLastRequest: parseInteger(process.env.WAIT_AFTER_LAST_REQUEST, 1000)
+});
+
+const CHROME_DEBUG_PORT = 9222;
+
+function checkChromeAlive(timeoutMs = 1500) {
+  return new Promise((resolve) => {
+    const req = http.get(
+      `http://127.0.0.1:${CHROME_DEBUG_PORT}/json/version`,
+      { timeout: timeoutMs },
+      (res) => {
+        res.resume();
+        res.on('end', () => resolve(res.statusCode === 200));
+      }
+    );
+
+    req.on('error', () => resolve(false));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(false);
+    });
+  });
+}
+
+let activeRenderRequests = 0;
+
+server.use({
+  requestReceived(req, res, next) {
+    const url = req.url || '';
+
+    if (url === '/health/live' || url === '/health') {
+      return send(res, 200, 'ok', {
+        'Content-Type': 'text/plain; charset=UTF-8'
+      });
+    }
+
+    if (url === '/health/ready') {
+      return checkChromeAlive().then((alive) => {
+        if (!alive) {
+          return send(res, 503, 'chrome not ready', {
+            'Content-Type': 'text/plain; charset=UTF-8'
+          });
+        }
+
+        if (activeRenderRequests >= maxRenderConcurrency) {
+          return send(res, 503, 'render worker busy', {
+            'Content-Type': 'text/plain; charset=UTF-8'
+          });
+        }
+
+        return send(res, 200, 'ok', {
+          'Content-Type': 'text/plain; charset=UTF-8'
+        });
+      });
+    }
+
+    if (activeRenderRequests >= maxRenderConcurrency) {
+      return send(res, 429, 'too many concurrent render requests', {
+        'Content-Type': 'text/plain; charset=UTF-8',
+        'Retry-After': '2'
+      });
+    }
+
+    activeRenderRequests += 1;
+
+    let released = false;
+    const release = () => {
+      if (!released) {
+        released = true;
+        activeRenderRequests = Math.max(0, activeRenderRequests - 1);
+      }
+    };
+
+    res.on('finish', release);
+    res.on('close', release);
+    res.on('error', release);
+
+    return next();
+  }
 });
 
 server.use(prerender.sendPrerenderHeader());
@@ -43,58 +124,10 @@ server.use(prerender.addMetaTags());
 server.use(prerender.removeScriptTags());
 server.use(prerender.httpHeaders());
 
-const CHROME_DEBUG_PORT = 9222;
-
-function checkChromeAlive() {
-  return new Promise((resolve) => {
-    const req = require('http').get(
-      `http://127.0.0.1:${CHROME_DEBUG_PORT}/json/version`,
-      { timeout: 3000 },
-      (res) => {
-        let data = '';
-        res.on('data', (chunk) => { data += chunk; });
-        res.on('end', () => resolve(res.statusCode === 200));
-      }
-    );
-    req.on('error', () => resolve(false));
-    req.on('timeout', () => { req.destroy(); resolve(false); });
-  });
-}
-
-server.use({
-  requestReceived(req, res, next) {
-    const url = req.url || '';
-
-    if (url === '/health/live') {
-      return send(res, 200, 'ok', {
-        'Content-Type': 'text/plain; charset=UTF-8'
-      });
-    }
-
-    if (url === '/health/ready') {
-      return checkChromeAlive().then((alive) => {
-        if (alive) {
-          send(res, 200, 'ok', { 'Content-Type': 'text/plain; charset=UTF-8' });
-        } else {
-          send(res, 503, 'chrome not ready', { 'Content-Type': 'text/plain; charset=UTF-8' });
-        }
-      });
-    }
-
-    // Legacy endpoint
-    if (url === '/health') {
-      return send(res, 200, 'ok', {
-        'Content-Type': 'text/plain; charset=UTF-8'
-      });
-    }
-
-    return next();
-  }
-});
-
 console.log('Starting prerender service', {
   chromeBin: process.env.CHROME_BIN || null,
   extraChromeFlags,
+  maxRenderConcurrency,
   port: process.env.PORT || 3000
 });
 
