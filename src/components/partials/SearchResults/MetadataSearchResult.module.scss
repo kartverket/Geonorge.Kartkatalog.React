@@ -116,14 +116,13 @@
   gap: 1rem;
   align-items: center;
   margin-top: auto;
-   
 
   &:has(> *:nth-child(2)) {
     justify-content: center;
   }
 
   &:local(.stretch) > * {
-    width: calc(50% - 0.5rem);   
+    width: calc(50% - 0.5rem);
   }
 
   &:local(.forceLeft) {
