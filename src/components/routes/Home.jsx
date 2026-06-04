@@ -229,6 +229,15 @@ const Home = () => {
 
             <div id="main-content">
                 <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
+
+                <div className={style.alertWrapper}>
+                    <Alert className={style.alertBanner} data-color="info">
+                        Vi prøver ut endringer i visningen av Kartkatalogen! Det vil komme mindre justeringer fortløpende.
+                        Innholdet er det samme. Gi oss gjerne tilbakemelding{" "}
+                        <a target="_blank" href="https://response.questback.com/kartverket/yupv1rvfve">her</a>.
+                    </Alert>
+                </div>
+
                 <header className={style.header}>
                     <div className={style.headerContent}>
                         <div className={style.headerLeft}>
