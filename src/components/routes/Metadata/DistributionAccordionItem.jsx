@@ -107,12 +107,15 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                 <DownloadButton listButton={true} metadata={metadata} />
                             </div>
                         )}
-                        {protocol === "W3C:REST" && urls.length > 0 && (
+                        {(protocol === "W3C:REST" || protocol === "OGC:WMS" || protocol === "OGC:WFS" ||
+                            protocol === "OGC:WCS" || protocol === "OGC:API-Features" || protocol === "OGC:API-Tiles" ||
+                            protocol === "OPENDAP:OPENDAP" || protocol === "OGC:WMTS" || protocol === "OGC:CSW" ||
+                            protocol === "W3C:WS") && urls.length > 0 && (
                             <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
                                 <CopyLinkHeaderButton url={urls[0]} />
                             </div>
                         )}
-                        {(protocol === "WWW:DOWNLOAD-1.0-http--download" || protocol === "GEONORGE:FILEDOWNLOAD") && urls.length > 0 && (
+                        {(protocol === "WWW:DOWNLOAD-1.0-http--download" || protocol === "GEONORGE:FILEDOWNLOAD" || protocol === "download") && urls.length > 0 && (
                             <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
                                 <Button asChild variant="primary" className={buttonStyle.listButton}>
                                     <a href={urls[0]} target="_blank" rel="noopener noreferrer">
