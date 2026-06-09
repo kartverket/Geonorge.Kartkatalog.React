@@ -26,6 +26,7 @@ import { convertTextToUrlSlug, convertUrlSlugToText } from "@/helpers/UrlHelpers
 // Components
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import DistributionsList from "@/components/routes/Metadata/DistributionsList";
+import DistributionFormatsAccordion from "@/components/routes/Metadata/DistributionFormatsAccordion";
 import ProductSheetButton from "@/components/partials/Buttons/ProductsheetButton";
 import ProductSpecificationButton from "@/components/partials/Buttons/ProductSpecificationButton";
 import LegendDescriptionButton from "@/components/partials/Buttons/LegendDescriptionButton";
@@ -1993,6 +1994,15 @@ const Metadata = () => {
                     </div>
 
                     {renderSpecificUsageSection()}
+
+                    {metadata?.DistributionFormatsGrouped?.length > 0 && (
+                        <div className={style.distributionFormatsSection}>
+                            <heading-text>
+                                <h2 underline="true">{dispatch(getResource("DistributionsForDataset", "Distribusjoner for datasett"))}</h2>
+                            </heading-text>
+                            <DistributionFormatsAccordion distributionFormatsGrouped={metadata.DistributionFormatsGrouped} metadata={metadata} />
+                        </div>
+                    )}
                     {renderDistributionsListSection()}
 
                     <div className={style.flex2}>
