@@ -58,12 +58,6 @@
 
 :local(.detailsTable) {
   width: 100%;
-
-  a {
-    color: inherit;
-    word-break: break-all;
-  }
-
 }
 
 :local(.labelCell) {
@@ -78,9 +72,18 @@
 }
 
 
+:local(.urlCell) {
+  // Forces the cell to shrink and let overflow/ellipsis work
+  max-width: 1px;
+  width: 100%;
+  overflow: hidden;
+}
+
 :local(.copyUrlField) {
   display: flex;
   width: 100%;
+  overflow: hidden;
+  min-width: 0;
 }
 
 :local(.copyUrlLink) {

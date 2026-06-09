@@ -1,14 +1,17 @@
 import React, { useState, useCallback, useEffect } from "react";
 import moment from "moment";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import { Details, Tag, Table, Button } from "@digdir/designsystemet-react";
 import { CheckmarkCircleIcon, FilesIcon, CheckmarkIcon, ExternalLinkIcon } from "@navikt/aksel-icons";
 import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import buttonStyle from "@/components/partials/Buttons/Buttons.module.scss";
+import { getResource } from "@/actions/ResourceActions";
 import "@digdir/designsystemet-css";
 import style from "@/components/routes/Metadata/DistributionAccordionItem.module.scss";
 
 const CopyUrlField = ({ url }) => {
+    const dispatch = useDispatch();
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -33,7 +36,10 @@ const CopyUrlField = ({ url }) => {
                 {url}
             </a>
             <button className={style.copyUrlButton} onClick={handleCopy}>
-                {copied ? <>Kopiert <CheckmarkCircleIcon title="Kopiert" fontSize="1.5rem" /></> : "Kopier lenke"}
+                {copied
+                    ? <>{dispatch(getResource("Copied", "Kopiert"))} <CheckmarkCircleIcon title="Kopiert" fontSize="1.5rem" /></>
+                    : dispatch(getResource("CopyLink", "Kopier lenke"))
+                }
             </button>
         </div>
     );
@@ -42,6 +48,7 @@ const CopyUrlField = ({ url }) => {
 CopyUrlField.propTypes = { url: PropTypes.string.isRequired };
 
 const CopyLinkHeaderButton = ({ url }) => {
+    const dispatch = useDispatch();
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -54,10 +61,16 @@ const CopyLinkHeaderButton = ({ url }) => {
         navigator.clipboard.writeText(url).catch(() => {});
         setCopied(true);
     }, [url]);
+
     return (
         <Button variant="primary" className={buttonStyle.listButton} onClick={handleCopy}>
             {copied ? <CheckmarkIcon aria-hidden="true" fontSize="1.5rem" /> : <FilesIcon aria-hidden="true" fontSize="1.5rem" />}
-            <span className={buttonStyle.buttonText}>{copied ? "Lenke kopiert" : "Kopier lenke"}</span>
+            <span className={buttonStyle.buttonText}>
+                {copied
+                    ? dispatch(getResource("LinkCopied", "Lenke kopiert"))
+                    : dispatch(getResource("CopyLink", "Kopier lenke"))
+                }
+            </span>
         </Button>
     );
 };
@@ -65,6 +78,8 @@ const CopyLinkHeaderButton = ({ url }) => {
 CopyLinkHeaderButton.propTypes = { url: PropTypes.string.isRequired };
 
 const DistributionAccordionItem = ({ item, metadata }) => {
+    const dispatch = useDispatch();
+
     const title = item.ProtocolName ?? "";
     const protocol = item.Protocol ?? "";
     const protocolDescription = item.ProtocolDescription ?? null;
@@ -97,12 +112,26 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                 <CopyLinkHeaderButton url={urls[0]} />
                             </div>
                         )}
+                        {(protocol === "WWW:DOWNLOAD-1.0-http--download" || protocol === "GEONORGE:FILEDOWNLOAD") && urls.length > 0 && (
+                            <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
+                                <Button asChild variant="primary" className={buttonStyle.listButton}>
+                                    <a href={urls[0]} target="_blank" rel="noopener noreferrer">
+                                        <ExternalLinkIcon aria-hidden="true" fontSize="1.5rem" />
+                                        <span className={buttonStyle.buttonText}>
+                                            {dispatch(getResource("ToBasket", "Åpne nedlastinger"))}
+                                        </span>
+                                    </a>
+                                </Button>
+                            </div>
+                        )}
                         {protocol === "WWW:LINK-1.0-http--link" && urls.length > 0 && (
                             <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
                                 <Button asChild variant="primary" className={buttonStyle.listButton}>
                                     <a href={urls[0]} target="_blank" rel="noopener noreferrer">
                                         <ExternalLinkIcon aria-hidden="true" fontSize="1.5rem" />
-                                        <span className={buttonStyle.buttonText}>Nettside</span>
+                                        <span className={buttonStyle.buttonText}>
+                                            {dispatch(getResource("Nettside", "Nettside"))}
+                                        </span>
                                     </a>
                                 </Button>
                             </div>
@@ -115,13 +144,17 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                             <Table.Body>
                                 {protocolDescription && (
                                     <Table.Row>
-                                        <Table.Cell className={style.labelCell}>Beskrivelse</Table.Cell>
+                                        <Table.Cell className={style.labelCell}>
+                                            {dispatch(getResource("Description", "Beskrivelse"))}
+                                        </Table.Cell>
                                         <Table.Cell>{protocolDescription}</Table.Cell>
                                     </Table.Row>
                                 )}
                                 {formats.length > 0 && (
                                     <Table.Row>
-                                        <Table.Cell className={style.labelCell}>Formater</Table.Cell>
+                                        <Table.Cell className={style.labelCell}>
+                                            {dispatch(getResource("Formater", "Formater"))}
+                                        </Table.Cell>
                                         <Table.Cell>
                                             <div className={style.formats}>
                                                 {formats.map((name, index) => (
@@ -133,8 +166,10 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                 )}
                                 {urls.length > 0 && (singleUrl ? (
                                     <Table.Row>
-                                        <Table.Cell className={style.labelCell}>Tilgangs-URL</Table.Cell>
-                                        <Table.Cell>
+                                        <Table.Cell className={style.labelCell}>
+                                            {dispatch(getResource("AccessUrl", "Tilgangs-URL"))}
+                                        </Table.Cell>
+                                        <Table.Cell className={style.urlCell}>
                                             <CopyUrlField url={urls[0]} />
                                         </Table.Cell>
                                     </Table.Row>
@@ -144,7 +179,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                             <Table.Cell className={`${style.labelCell} ${style.indentedLabelCell}`}>
                                                 {formats[index] ?? ""}
                                             </Table.Cell>
-                                            <Table.Cell>
+                                            <Table.Cell className={style.urlCell}>
                                                 <CopyUrlField url={url} />
                                             </Table.Cell>
                                         </Table.Row>
@@ -152,13 +187,17 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                 ))}
                                 {unitsOfDistribution && (
                                     <Table.Row>
-                                        <Table.Cell className={style.labelCell}>Geografisk distribusjonsinndeling</Table.Cell>
+                                        <Table.Cell className={style.labelCell}>
+                                            {dispatch(getResource("UnitsOfDistribution", "Geografisk distribusjonsinndeling"))}
+                                        </Table.Cell>
                                         <Table.Cell>{unitsOfDistribution}</Table.Cell>
                                     </Table.Row>
                                 )}
                                 {referenceSystems.length > 0 && (
                                     <Table.Row>
-                                        <Table.Cell className={style.labelCell}>Referansesystem</Table.Cell>
+                                        <Table.Cell className={style.labelCell}>
+                                            {dispatch(getResource("ReferenceSystems", "Referansesystem"))}
+                                        </Table.Cell>
                                         <Table.Cell>
                                             <div className={style.formats}>
                                                 {referenceSystems.map((rs, index) => (
@@ -170,13 +209,17 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                 )}
                                 {dateUpdated && (
                                     <Table.Row>
-                                        <Table.Cell className={style.labelCell}>Datasett sist oppdatert</Table.Cell>
+                                        <Table.Cell className={style.labelCell}>
+                                            {dispatch(getResource("DatasetUpdated", "Datasett sist oppdatert"))}
+                                        </Table.Cell>
                                         <Table.Cell>{dateUpdated}</Table.Cell>
                                     </Table.Row>
                                 )}
                                 {maintenanceFrequency && (
                                     <Table.Row>
-                                        <Table.Cell className={style.labelCell}>Oppdateringshyppighet</Table.Cell>
+                                        <Table.Cell className={style.labelCell}>
+                                            {dispatch(getResource("MaintenanceFrequency", "Oppdateringshyppighet"))}
+                                        </Table.Cell>
                                         <Table.Cell>{maintenanceFrequency}</Table.Cell>
                                     </Table.Row>
                                 )}
