@@ -1,0 +1,122 @@
+@use "../../../scss/abstracts/all" as *;
+
+:local(.accordionWrapper) {
+  display: flex;
+}
+
+:local(.accordionItem) {
+  flex: 1 1 0%;
+  min-width: 0;
+  background-color: #ffffff;
+  border-color: #cccccc;
+  border-radius: 4px;
+
+  :global(summary) {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+}
+
+:local(.headerContent) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+:local(.title) {
+  flex: 1;
+  font-weight: 500;
+  min-width: 0;
+}
+
+:local(.formats) {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+}
+
+:local(.actionButton) {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  button, a {
+    width: auto !important;
+    min-width: unset !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+:local(.detailsTable) {
+  width: 100%;
+
+  a {
+    color: inherit;
+    word-break: break-all;
+  }
+
+}
+
+:local(.labelCell) {
+  white-space: nowrap;
+  font-size: 16px !important;
+  width: 1%;
+  padding-right: 32px !important;
+}
+
+:local(.indentedLabelCell) {
+  padding-left: 24px !important;
+}
+
+
+:local(.copyUrlField) {
+  display: flex;
+  width: 100%;
+}
+
+:local(.copyUrlLink) {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background: white;
+  font-size: 14px;
+  color: #0062ba;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: underline;
+  display: block;
+
+  &:hover {
+    color: #004f99;
+  }
+}
+
+:local(.copyUrlButton) {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+  background: #f5f5f5;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 14px;
+  font-family: inherit;
+
+  &:hover {
+    background: #e8e8e8;
+  }
+}
+

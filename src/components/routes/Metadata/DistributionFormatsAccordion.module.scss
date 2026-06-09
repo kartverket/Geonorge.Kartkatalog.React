@@ -1,0 +1,27 @@
+@use "../../../scss/abstracts/all" as *;
+
+:local(.accordionList) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+:local(.columnHeader) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px 6px 32px; /* 32px left: clears the Details chevron */
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #555;
+  border-bottom: 1px solid #ddd;
+}
+
+:local(.columnHeaderTitle) {
+  flex: 1;
+}
+
+:local(.columnHeaderFormats) {
+  flex: 0 0 auto;
+}
