@@ -1999,7 +1999,7 @@ const Metadata = () => {
                     {metadata?.DistributionFormatsGrouped?.length > 0 && (
                         <div className={style.distributionFormatsSection}>
                             <heading-text>
-                                <h2 underline="true">{dispatch(getResource("DistributionsForDataset", "Distribusjoner for datasett"))}</h2>
+                                <h2 underline="true">{dispatch(getResource("Distributions", "Distribusjoner"))} for {metadata.TypeTranslated?.toLowerCase()}</h2>
                             </heading-text>
                             <DistributionFormatsAccordion distributionFormatsGrouped={metadata.DistributionFormatsGrouped} metadata={metadata} />
                         </div>
