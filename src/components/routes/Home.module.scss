@@ -1,3 +1,5 @@
+@use "../../scss/abstracts/all" as *;
+
 :local(.header) {
   background-color: #f8f8f7;
   padding: 20px 0 20px 20px;
@@ -13,6 +15,17 @@
   align-items: flex-start;
   gap: 16px;
   width: 100%;
+
+    @include breakpoint(mobileonly) {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    gap: 12px;
+
+    > span {
+      font-size: 1.2rem;
+    }
+  }
 }
 
 :local(.headerLeft) {
@@ -64,6 +77,11 @@
 :local(.viewModeToggle) button:hover {
   background: #f3f3f3;
 }
+
+:local(.viewModeToggle) select {
+  width: 160px;
+  height: 50px;
+} 
 
 :local(.viewModeToggle) {
   button {

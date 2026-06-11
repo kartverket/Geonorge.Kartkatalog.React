@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useRouteLoaderData, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BulletListIcon, MenuGridIcon } from "@navikt/aksel-icons";
+import { Select } from "@digdir/designsystemet-react";
 import { usePostHog } from "@posthog/react";
 
 // Geonorge WebComponents
@@ -34,6 +35,19 @@ const Home = () => {
     const [searchParams] = useSearchParams();
     const location = useLocation();
     const navigate = useNavigate();
+
+    const orderBy = searchParams.get("orderBy") || "";
+
+    const setOrderBy = (order) => {
+        const params = new URLSearchParams(location.search);
+        if (!order) {
+            params.delete("orderBy");
+        } else {
+            params.set("orderBy", order);
+        }
+        const nextSearch = params.toString() ? `?${params.toString()}` : "";
+        navigate(`${location.pathname}${nextSearch}`);
+    };
 
     // ViewMode - Grid/List
     const viewMode = searchParams.get("view") === "list" ? "list" : "grid";
@@ -70,6 +84,14 @@ const Home = () => {
             >
                 <MenuGridIcon title="Gridvisning" />
             </button>
+
+            <Select value={orderBy} onChange={(e) => setOrderBy(e.target.value)}>
+                <Select.Option value='score'>Mest relevant</Select.Option>
+                <Select.Option value='title'>A - Å</Select.Option>
+                <Select.Option value='title_desc'>Å - A</Select.Option>
+                {/* <Select.Option value='newest'>Nyeste</Select.Option>
+                <Select.Option value='updated'>Sist oppdatert</Select.Option> */}
+            </Select>
         </div>
     );
 
@@ -256,7 +278,7 @@ const Home = () => {
                 </header>
 
                 <ErrorBoundary>
-                    <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} />
+                    <SearchResults searchData={searchData} searchResultsType={params.searchResultsType} viewMode={viewMode} orderBy={orderBy} />
                 </ErrorBoundary>
             </div>
         </div>

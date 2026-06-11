@@ -109,6 +109,7 @@ const App = () => {
         const searchStringParam = new URL(request.url).searchParams.get("text") || "";
         const offsetParam = new URL(request.url).searchParams.get("offset");
         const appendParam = new URL(request.url).searchParams.get("append");
+        const orderByParam = new URL(request.url).searchParams.get("orderBy") || "";
         const selectedResultsTypeParam = params.category || "metadata";
 
         params = {
@@ -143,7 +144,8 @@ const App = () => {
                             searchStringParam,
                             searchData.selectedFacets,
                             searchData.offset,
-                            true
+                            true,
+                            orderByParam
                         )
                     )
                     .then((metadata) => {
@@ -173,7 +175,7 @@ const App = () => {
         } else {
             store.dispatch(updateSelectedSearchResultsType(selectedResultsTypeParam));
             return await Promise.all([
-                store.dispatch(fetchMetadataSearchResults(searchStringParam)).then((metadata) => {
+                store.dispatch(fetchMetadataSearchResults(searchStringParam, null, 1, false, orderByParam)).then((metadata) => {
                     searchData.results.metadata = metadata.payload;
                     return metadata?.payload;
                 }),
@@ -191,7 +193,7 @@ const App = () => {
                 searchData.selectedFacets = selectedFacets;
                 if (!!selectedFacets && !!Object.keys(selectedFacets)?.length) {
                     return store
-                        .dispatch(fetchMetadataSearchResults(searchStringParam, selectedFacets))
+                        .dispatch(fetchMetadataSearchResults(searchStringParam, selectedFacets, 1, false, orderByParam))
                         .then((metadata) => {
                             searchData.results.metadata = metadata.payload;
 
