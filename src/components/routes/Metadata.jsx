@@ -1398,9 +1398,10 @@ const Metadata = () => {
         return showDistributions ? (
             <div>
                 <heading-text>
-                    <h2 underline="true">{dispatch(getResource("Distributions", "Distribusjoner"))}</h2>
+                    <h2 underline="true">{dispatch(getResource("DistributionsLinked", "Distribusjoner koblede"))}</h2>
                 </heading-text>
-                {selfDistributionsList}
+                {/*Det er valgt å ikke vise distribusjonene knyttet til eget datasett i denne listen, da de allerede vises i en egen seksjon tidligere på siden. Dette for å unngå for mye gjentakelse av samme distribusjoner.*/}
+                {/*selfDistributionsList*/}
                 {relatedDatasetList}
                 {relatedSerieDatasetsList}
                 {relatedDatasetSerieList}
@@ -1433,13 +1434,13 @@ const Metadata = () => {
         const hasChildren = renderSpatialRepresentation() || renderDistributionsFormats() || renderReferenceSystems();
         return hasChildren ? (
             <div>
-                <heading-text>
-                    <h2 underline="true">{dispatch(getResource("Distribution", "Distribusjon"))}</h2>
-                </heading-text>
+                {<heading-text>
+                    <h2 underline="true">Diverse</h2>
+                </heading-text>}
                 {renderSpatialRepresentation()}
-                {renderDistributionsFormats()}
+                {/*renderDistributionsFormats()*/}
                 {renderOperations()}
-                {renderReferenceSystems()}
+                {/*renderReferenceSystems()*/}
             </div>
         ) : null;
     };
@@ -1998,7 +1999,7 @@ const Metadata = () => {
                     {metadata?.DistributionFormatsGrouped?.length > 0 && (
                         <div className={style.distributionFormatsSection}>
                             <heading-text>
-                                <h2 underline="true">{dispatch(getResource("DistributionsForDataset", "Distribusjoner for datasett"))}</h2>
+                                <h2 underline="true">{dispatch(getResource("Distributions", "Distribusjoner"))} for {metadata.TypeTranslated?.toLowerCase()}</h2>
                             </heading-text>
                             <DistributionFormatsAccordion distributionFormatsGrouped={metadata.DistributionFormatsGrouped} metadata={metadata} />
                         </div>
