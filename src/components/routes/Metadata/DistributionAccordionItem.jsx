@@ -94,8 +94,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
     const singleUrl = urls.length === 1;
 
     return (
-        <div className={style.accordionWrapper}>
-            <Details className={style.accordionItem}>
+        <Details className={style.accordionItem}>
                 <Details.Summary>
                     <div className={style.headerContent}>
                         <span className={style.title}>{title}</span>
@@ -161,7 +160,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                         <Table.Cell>
                                             <div className={style.formats}>
                                                 {formats.map((name, index) => (
-                                                    <Tag key={index + "-" + name} data-size="sm">{name}</Tag>
+                                                    <Tag key={index + "-" + name} data-size="sm" data-color="accent">{name}</Tag>
                                                 ))}
                                             </div>
                                         </Table.Cell>
@@ -180,7 +179,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                     urls.map((url, index) => (
                                         <Table.Row key={index + "-" + url}>
                                             <Table.Cell className={`${style.labelCell} ${style.indentedLabelCell}`}>
-                                                {formats[index] ?? ""}
+                                                {item.Formats?.[index]?.FormatName ?? ""}
                                             </Table.Cell>
                                             <Table.Cell className={style.urlCell}>
                                                 <CopyUrlField url={url} />
@@ -231,7 +230,6 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                     ) : null}
                 </Details.Content>
             </Details>
-        </div>
     );
 };
 

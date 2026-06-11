@@ -1820,16 +1820,13 @@ const Metadata = () => {
     const getFaceIcons = (fairstatus) => {
         switch (fairstatus) {
             case "deficient":
-                return <FaceFrownIcon className={style.faceIconWrapper} fontSize="2rem" />;
-
+                return <FaceFrownIcon className={style.faceIconWrapper} fontSize="1em" />;
             case "useable":
-                return <FaceIcon className={style.faceIconWrapper} fontSize="2rem" />;
-
+                return <FaceIcon className={style.faceIconWrapper} fontSize="1em" />;
             case "satisfactory":
-                return <FaceSmileIcon className={style.faceIconWrapper} fontSize="2rem" />;
-
+                return <FaceSmileIcon className={style.faceIconWrapper} fontSize="1em" />;
             case "good":
-                return <FaceLaughIcon className={style.faceIconWrapper} fontSize="2rem" />;
+                return <FaceLaughIcon className={style.faceIconWrapper} fontSize="1em" />;
             default:
                 return null;
         }
@@ -1840,19 +1837,22 @@ const Metadata = () => {
         if (metadataQuality && Object.keys(metadataQuality)?.length) {
             const icon = getFaceIcons(metadataQuality?.FairStatus);
             const detailsUrl = metadataQuality?.DetailsPage?.length && metadataQuality?.DetailsPage;
-            const ariaLabel = `FAIR-status: ${metadataQuality.FAIRStatusPerCent
-                }%. Klikk for å se detaljer om FAIR-status for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
+            const percent = metadataQuality?.FAIRStatusPerCent ?? "";
+            const ariaLabel = `FAIR-status: ${percent}%. Klikk for å se detaljer om FAIR-status for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
+            const content = (
+                <span className={style.fairTagContent}>
+                    <span className={style.fairTagText}>FAIR-status: {percent}%</span>
+                    {icon && <span className={style.fairTagIcon} aria-hidden="true">{icon}</span>}
+                </span>
+            );
             return (
-                <div className={style.subTitle}>
+                <Tag data-color="accent" data-size="sm" className={style.fairTag}>
                     {detailsUrl ? (
-                        <a href={detailsUrl} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel}>
-                            FAIR-status: {metadataQuality.FAIRStatusPerCent}%
+                        <a href={detailsUrl} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel} className={style.fairTagLink}>
+                            {content}
                         </a>
-                    ) : (
-                        <span>FAIR-status: {metadataQuality.FAIRStatusPerCent}%</span>
-                    )}
-                    {icon}
-                </div>
+                    ) : content}
+                </Tag>
             );
         } else {
             return null;

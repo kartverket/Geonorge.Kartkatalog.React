@@ -1,15 +1,7 @@
 @use "../../../scss/abstracts/all" as *;
 
-:local(.accordionWrapper) {
-  display: flex;
-}
-
 :local(.accordionItem) {
-  flex: 1 1 0%;
   min-width: 0;
-  background-color: #ffffff;
-  border-color: #cccccc;
-  border-radius: 4px;
 
   :global(summary) {
     display: flex;
@@ -18,7 +10,6 @@
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     background-color: #f0f0f0;
-    border-radius: 4px;
   }
 }
 
@@ -49,21 +40,33 @@
   margin-left: auto;
 
   button, a {
-    width: auto !important;
+    width: 185px !important;
     min-width: unset !important;
     padding-left: 12px !important;
     padding-right: 12px !important;
+    background-color: #f0f0f0 !important;
+    color: var(--ds-color-neutral-text-default) !important;
+
+    &:hover {
+      background-color: #e0e0e0 !important;
+    }
   }
 }
 
 :local(.detailsTable) {
   width: 100%;
+
+  td {
+    vertical-align: top;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
 }
 
 :local(.labelCell) {
   white-space: nowrap;
-  font-size: 16px !important;
   width: 1%;
+  min-width: 292px;
   padding-right: 32px !important;
 }
 
@@ -101,6 +104,7 @@
   white-space: nowrap;
   text-decoration: underline;
   display: block;
+  line-height: 1.4;
 
   &:hover {
     color: #004f99;

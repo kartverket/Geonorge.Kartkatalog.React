@@ -342,8 +342,6 @@
   }
 
   :local(.fairWrapper) {
-    background-color: #e6effc;
-    border-radius: 8px;
     justify-self: start;
 
     a {
@@ -357,11 +355,38 @@
 }
 
 :local(.faceIconWrapper) {
-  margin-left: 5px;
+  display: inline-flex;
+  align-items: center;
 
   @include breakpoint('mobileonly') {
     display: none;
   }
+}
+
+:local(.fairTag) {
+  font-size: 15px !important;
+  padding: 2px 6px !important;
+}
+
+:local(.fairTagContent) {
+  display: inline-flex;
+  align-items: center;
+}
+
+:local(.fairTagIcon) {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  margin-right: 2px;
+}
+
+:local(.fairTagLink) {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+:local(.fairTagText) {
+  border-bottom: 1px solid currentColor;
 }
 
 :local(.thumbnailFrame) {
