@@ -228,6 +228,14 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                         </Table.Row>
                                     ))
                                 ))}
+                                {renderOperations(metadata?.Operations) && (
+                                    <Table.Row>
+                                        <Table.Cell className={style.labelCell}>
+                                            Kall som tjenesten tilbyr
+                                        </Table.Cell>
+                                        <Table.Cell>{renderOperations(metadata?.Operations)}</Table.Cell>
+                                    </Table.Row>
+                                )}
                                 {unitsOfDistribution && (
                                     <Table.Row>
                                         <Table.Cell className={style.labelCell}>
@@ -266,14 +274,6 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                         <Table.Cell>{maintenanceFrequency}</Table.Cell>
                                     </Table.Row>
                                 )}                              
-                                {renderOperations(metadata?.Operations) && (
-                                    <Table.Row>
-                                        <Table.Cell className={style.labelCell}>
-                                            Kall som tjenesten tilbyr
-                                        </Table.Cell>
-                                        <Table.Cell>{renderOperations(metadata?.Operations)}</Table.Cell>
-                                    </Table.Row>
-                                )}
                             </Table.Body>
                         </Table>
                     ) : null}
