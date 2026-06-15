@@ -45,6 +45,38 @@ const CopyUrlField = ({ url }) => {
     );
 };
 
+const renderOperations = (operations) => {
+
+    const isEmptyOperations = operations?.every(op => Object.keys(op).length === 0);
+
+    const operationsList =
+        operations?.length && !isEmptyOperations &&
+        operations.map((operation, index) => {
+            return (
+                <li key={index}>
+                    <a href={operation.URL} target="_blank" title={operation.Description}>
+                        {operation.Name}
+                    </a>
+                </li>
+            );
+        });
+    return operationsList?.length ? (
+        <gn-list style={{ marginLeft: -9, }}>
+            <ul>{operationsList}</ul>
+        </gn-list>
+    ) : null;
+};
+
+
+const renderSpatialRepresentation = (SpatialRepresentation) => {
+    return SpatialRepresentation ? (
+        <div>
+            <strong>{dispatch(getResource("SpatialRepresentation", "Representasjonsform"))}: </strong>
+            {metadata.SpatialRepresentation}
+        </div>
+    ) : null;
+};
+
 CopyUrlField.propTypes = { url: PropTypes.string.isRequired };
 
 const CopyLinkHeaderButton = ({ url }) => {
@@ -92,6 +124,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
         : null;
     const maintenanceFrequency = metadata?.MaintenanceFrequency ?? null;
     const singleUrl = urls.length === 1;
+    const operations = metadata?.Operations ?? [];
 
     return (
         <Details className={style.accordionItem}>
@@ -152,6 +185,14 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                         <Table.Cell>{protocolDescription}</Table.Cell>
                                     </Table.Row>
                                 )}
+                                {metadata?.SpatialRepresentation && (
+                                    <Table.Row>
+                                        <Table.Cell className={style.labelCell}>
+                                           {dispatch(getResource("SpatialRepresentation", "Representasjonsform"))}
+                                        </Table.Cell>
+                                        <Table.Cell>{metadata.SpatialRepresentation}</Table.Cell>
+                                    </Table.Row>
+                                )}  
                                 {formats.length > 0 && (
                                     <Table.Row>
                                         <Table.Cell className={style.labelCell}>
@@ -223,6 +264,14 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                             {dispatch(getResource("MaintenanceFrequency", "Oppdateringshyppighet"))}
                                         </Table.Cell>
                                         <Table.Cell>{maintenanceFrequency}</Table.Cell>
+                                    </Table.Row>
+                                )}                              
+                                {renderOperations(metadata?.Operations) && (
+                                    <Table.Row>
+                                        <Table.Cell className={style.labelCell}>
+                                            Kall som tjenesten tilbyr
+                                        </Table.Cell>
+                                        <Table.Cell>{renderOperations(metadata?.Operations)}</Table.Cell>
                                     </Table.Row>
                                 )}
                             </Table.Body>
