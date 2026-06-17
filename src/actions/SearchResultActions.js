@@ -20,7 +20,7 @@ const createChildFacetsArray = (selectedFacet, childFacetsArray = []) => {
 };
 
 export const fetchMetadataSearchResults =
-    (searchString = "", facets = null, Offset = 1, append = false) =>
+    (searchString = "", facets = null, Offset = 1, append = false, orderBy = "") =>
     (dispatch, getState) => {
         let facetsParameter = [];
         if (facets) {
@@ -62,15 +62,16 @@ export const fetchMetadataSearchResults =
             })
         };
         const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
+        const orderByParam = orderBy ? `&orderby=${orderBy}` : "";
         return fetch(
-            `${kartkatalogApiUrl}/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}`,
+            `${kartkatalogApiUrl}/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}${orderByParam}`,
             fetchOptions
         )
             .then((res) => res.json())
             .then((searchResults) => {
                 localStorage.setItem(
                     "urlDownloadCsv",
-                    `${kartkatalogApiUrl}/search?limit=10000&text=${searchString}${facetsParameterString}&mediatype=csv`
+                    `${kartkatalogApiUrl}/search?limit=10000&text=${searchString}${facetsParameterString}${orderByParam}&mediatype=csv`
                 );
                 return dispatch({
                     type: append ? APPEND_TO_METADATASEARCHRESULTS : FETCH_METADATASEARCHRESULTS,
