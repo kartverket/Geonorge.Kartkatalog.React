@@ -1359,7 +1359,7 @@ const Metadata = () => {
             ) : null;
 
         const showDistributions =
-            !!selfDistributionsList ||
+            //!!selfDistributionsList ||
             !!relatedDatasetList ||
             !!relatedSerieDatasetsList ||
             !!relatedDatasetSerieList ||
