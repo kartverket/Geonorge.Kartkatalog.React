@@ -502,33 +502,6 @@ const Metadata = () => {
         );
     };
 
-    const renderOperations = () => {
-
-        const isEmptyOperations = metadata?.Operations?.every(op => Object.keys(op).length === 0);
-
-        const operationsList =
-            metadata?.Operations?.length && !isEmptyOperations &&
-            metadata.Operations.map((operation, index) => {
-                return (
-                    <li key={index}>
-                        <a href={operation.URL} target="_blank" title={operation.Description}>
-                            {operation.Name}
-                        </a>
-                    </li>
-                );
-            });
-        return operationsList?.length ? (
-            <div>
-                <heading-text>
-                    <h3>Kall som tjenesten tilbyr:</h3>
-                </heading-text>
-                <gn-list>
-                    <ul>{operationsList}</ul>
-                </gn-list>
-            </div>
-        ) : null;
-    };
-
     const renderDistributionDetails = () => {
         return metadata?.DistributionDetails?.ProtocolName?.length ? (
             <div>
@@ -1430,21 +1403,6 @@ const Metadata = () => {
         ) : null;
     };
 
-    const renderDistributionSection = () => {
-        const hasChildren = renderSpatialRepresentation() || renderDistributionsFormats() || renderReferenceSystems();
-        return hasChildren ? (
-            <div>
-                {<heading-text>
-                    <h2 underline="true">Diverse</h2>
-                </heading-text>}
-                {renderSpatialRepresentation()}
-                {/*renderDistributionsFormats()*/}
-                {renderOperations()}
-                {/*renderReferenceSystems()*/}
-            </div>
-        ) : null;
-    };
-
     const renderConstraintsSection = () => {
         const hasChildren =
             renderUseLimitations() ||
@@ -2007,7 +1965,6 @@ const Metadata = () => {
                     {renderDistributionsListSection()}
 
                     <div className={style.flex2}>
-                        {renderDistributionSection()}
                         {renderConstraintsSection()}
                     </div>
 
