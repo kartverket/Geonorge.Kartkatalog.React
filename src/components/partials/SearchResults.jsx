@@ -27,9 +27,21 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
     const posthog = usePostHog();
 
     const getShowMoreLink = () => {
-        const newOffset = searchData?.offset + 25;
+        // The API offset is 1-based and inclusive (offset=N returns the Nth result), so the
+        // next page must start one past what is already loaded. Using the loaded count alone
+        // would re-fetch the last loaded result, producing a duplicate Uuid in the list (which
+        // breaks React reconciliation on re-sort). Basing this on the actual loaded count also
+        // stays correct after a re-sort, where the offset URL param no longer reflects how many
+        // results are on screen.
+        const currentResults =
+            searchResultsType === "articles"
+                ? searchData?.results?.articles?.Results
+                : searchData?.results?.metadata?.Results;
+        const newOffset = (currentResults?.length || 0) + 1;
         const activeSearchParameters = new URL(searchData?.request?.url)?.search || "";
         const urlParams = new URLSearchParams(activeSearchParameters);
+        // Drop any re-sort limit so the next page loads the normal page size.
+        urlParams.delete("limit");
         urlParams.set("offset", newOffset);
         urlParams.set("append", true);
         return `?${decodeURIComponent(urlParams.toString())}`;
@@ -130,7 +142,8 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
                                 {dispatch(getResource("SaveResultsAsCSV", "Lagre listen som CSV"))}
                             </a>
                         </div>
-                        {searchData?.results?.metadata?.Offset < searchData?.results?.metadata?.NumFound
+                        {(searchData?.results?.metadata?.Results?.length || 0) <
+                        (searchData?.results?.metadata?.NumFound || 0)
                             ? renderShowMoreLink()
                             : null}
                     </div>
@@ -140,7 +153,8 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
             return (
                 <div className={style.searchResultContainer}>
                     {renderArticleSearchResults()}
-                    {searchData?.results?.articles?.Offset < searchData?.results?.articles?.NumFound
+                    {(searchData?.results?.articles?.Results?.length || 0) <
+                    (searchData?.results?.articles?.NumFound || 0)
                         ? renderShowMoreLink()
                         : null}
                 </div>

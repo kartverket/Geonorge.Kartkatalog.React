@@ -45,6 +45,18 @@ const Home = () => {
         } else {
             params.set("orderBy", order);
         }
+        // Re-sorting must re-fetch the whole set of currently loaded results in the new
+        // order. Otherwise the append-branch would only re-sort the current page and
+        // concatenate it onto the previously (differently sorted) results. We therefore
+        // reset paging and ask for everything loaded so far from the top in one request.
+        const loadedCount = searchData?.results?.metadata?.Results?.length || 0;
+        params.delete("append");
+        params.delete("offset");
+        if (loadedCount > 25) {
+            params.set("limit", loadedCount);
+        } else {
+            params.delete("limit");
+        }
         const nextSearch = params.toString() ? `?${params.toString()}` : "";
         navigate(`${location.pathname}${nextSearch}`);
     };

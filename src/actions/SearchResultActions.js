@@ -20,7 +20,7 @@ const createChildFacetsArray = (selectedFacet, childFacetsArray = []) => {
 };
 
 export const fetchMetadataSearchResults =
-    (searchString = "", facets = null, Offset = 1, append = false, orderBy = "") =>
+    (searchString = "", facets = null, Offset = 1, append = false, orderBy = "", limit = 25) =>
     (dispatch, getState) => {
         let facetsParameter = [];
         if (facets) {
@@ -64,7 +64,7 @@ export const fetchMetadataSearchResults =
         const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
         const orderByParam = orderBy ? `&orderby=${orderBy}` : "";
         return fetch(
-            `${kartkatalogApiUrl}/search?limit=25&offset=${Offset}&text=${searchString}${facetsParameterString}${orderByParam}`,
+            `${kartkatalogApiUrl}/search?limit=${limit}&offset=${Offset}&text=${searchString}${facetsParameterString}${orderByParam}`,
             fetchOptions
         )
             .then((res) => res.json())
@@ -82,7 +82,7 @@ export const fetchMetadataSearchResults =
     };
 
 export const fetchArticleSearchResults =
-    (searchString = "", Offset = 1, append = false) =>
+    (searchString = "", Offset = 1, append = false, limit = 25) =>
     (dispatch, getState) => {
         const selectedLanguage = getState() && getState().selectedLanguage ? getState().selectedLanguage : "no";
         const fetchOptions = {
@@ -91,7 +91,7 @@ export const fetchArticleSearchResults =
             })
         };
         const kartkatalogApiUrl = dispatch(getKartkatalogApiUrl());
-        return fetch(`${kartkatalogApiUrl}/articles?limit=25&offset=${Offset}&text=${searchString}`, fetchOptions)
+        return fetch(`${kartkatalogApiUrl}/articles?limit=${limit}&offset=${Offset}&text=${searchString}`, fetchOptions)
             .then((res) => res.json())
             .then((searchResults) =>
                 dispatch({

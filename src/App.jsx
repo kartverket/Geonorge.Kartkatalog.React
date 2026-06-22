@@ -110,6 +110,8 @@ const App = () => {
         const offsetParam = new URL(request.url).searchParams.get("offset");
         const appendParam = new URL(request.url).searchParams.get("append");
         const orderByParam = new URL(request.url).searchParams.get("orderBy") || "";
+        const limitParam = new URL(request.url).searchParams.get("limit");
+        const limit = !!limitParam && !isNaN(limitParam) ? parseInt(limitParam) : 25;
         const selectedResultsTypeParam = params.category || "metadata";
 
         params = {
@@ -175,11 +177,11 @@ const App = () => {
         } else {
             store.dispatch(updateSelectedSearchResultsType(selectedResultsTypeParam));
             return await Promise.all([
-                store.dispatch(fetchMetadataSearchResults(searchStringParam, null, 1, false, orderByParam)).then((metadata) => {
+                store.dispatch(fetchMetadataSearchResults(searchStringParam, null, 1, false, orderByParam, limit)).then((metadata) => {
                     searchData.results.metadata = metadata.payload;
                     return metadata?.payload;
                 }),
-                store.dispatch(fetchArticleSearchResults(searchStringParam)).then((articles) => {
+                store.dispatch(fetchArticleSearchResults(searchStringParam, 1, false, limit)).then((articles) => {
                     searchData.results.articles = articles.payload;
                     return articles?.payload;
                 })
@@ -193,7 +195,7 @@ const App = () => {
                 searchData.selectedFacets = selectedFacets;
                 if (!!selectedFacets && !!Object.keys(selectedFacets)?.length) {
                     return store
-                        .dispatch(fetchMetadataSearchResults(searchStringParam, selectedFacets, 1, false, orderByParam))
+                        .dispatch(fetchMetadataSearchResults(searchStringParam, selectedFacets, 1, false, orderByParam, limit))
                         .then((metadata) => {
                             searchData.results.metadata = metadata.payload;
 
