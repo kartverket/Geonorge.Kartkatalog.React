@@ -116,7 +116,15 @@ const DistributionAccordionItem = ({ item, metadata }) => {
     const protocol = item.Protocol ?? "";
     const protocolDescription = item.ProtocolDescription ?? null;
     const formats = (item.Formats ?? []).map((f) => f.FormatName).filter(Boolean);
-    const urls = item.URL ?? [];
+    const appendUuid = (url, uuid) => {
+        const base = url.replace(/\/+$/, "");
+        return base.endsWith(`/${uuid}`) ? base : `${base}/${uuid}`;
+    };
+    const rawUrls = item.URL ?? [];
+    const urls =
+        protocol === "GEONORGE:DOWNLOAD" && metadata?.Uuid
+            ? rawUrls.map((url) => appendUuid(url, metadata.Uuid))
+            : rawUrls;
     const unitsOfDistribution = item.UnitsOfDistribution ?? null;
     const referenceSystems = metadata?.ReferenceSystems ?? [];
     const dateUpdated = metadata?.DateUpdated && moment(metadata.DateUpdated).isValid()
