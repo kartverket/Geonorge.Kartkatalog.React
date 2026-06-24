@@ -131,6 +131,7 @@ const DownloadButton = (props) => {
 
     const isGeonorgeDownload = () => {
         return (
+            props.distribution?.Protocol === "GEONORGE:DOWNLOAD" ||
             props.metadata.DistributionProtocol === "GEONORGE:DOWNLOAD" ||
             props.metadata.Protocol === "Geonorge nedlastning" ||
             props.metadata.Protocol === "Geonorge download"
@@ -424,6 +425,7 @@ const DownloadButton = (props) => {
 
 DownloadButton.propTypes = {
     metadata: PropTypes.object.isRequired,
+    distribution: PropTypes.object,
     listButton: PropTypes.bool
 };
 

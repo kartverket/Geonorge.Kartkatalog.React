@@ -136,7 +136,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                 className={style.actionButton}
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <DownloadButton listButton={true} metadata={metadata} />
+                                <DownloadButton listButton={true} metadata={metadata} distribution={item} />
                             </div>
                         )}
                         {(protocol === "W3C:REST" || protocol === "OGC:WMS" || protocol === "OGC:WFS" ||
