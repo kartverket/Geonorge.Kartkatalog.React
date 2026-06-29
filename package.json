@@ -45,7 +45,7 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-react": "^7.28.5",
     "@vitejs/plugin-basic-ssl": "^2.1.4",
