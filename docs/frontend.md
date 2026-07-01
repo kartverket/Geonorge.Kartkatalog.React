@@ -53,12 +53,6 @@ Produksjonsbygget lages med `yarn build` og pakkes i et Docker-image (multi-stag
 
 Miljøkonfigurasjon injiseres dynamisk av Nginx via `/config.js` ved oppstart, slik at samme image kan brukes i alle miljøer.
 
-## Prerender
-
-For at søkemotorer skal kunne indeksere innhold som rendres klient-side, kjøres en selvhostet [Prerender](https://github.com/prerender/prerender)-tjeneste (`prerender/`-mappen). Nginx oppdager bottrafikk via user-agent og proxyer slike forespørsler til prerender-tjenesten på port 3000, som returnerer ferdigrendret HTML.
-
-Tjenesten kjøres som en egen container og konfigureres gjennom `docker-compose.yml`.
-
 ## Systemarkitektur
 
 ```mermaid
