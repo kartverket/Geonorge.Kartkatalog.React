@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
     paths-ignore:
       - '.github/agents/**'
   workflow_dispatch:
@@ -14,6 +15,8 @@ permissions:
 env:
   DOCKER_REGISTRY: ghcr.io
   NAME: kartverket/geonorge-kartkatalog-frontend
+  ENV_SUFFIX: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+  DEPLOY_PATH: ${{ github.ref_name == 'main' && 'env/atkv3-prod/geonorge-kartkatalog/kartkatalog-frontend-version' || 'env/atkv3-dev/geonorge-kartkatalog-dev/kartkatalog-frontend-version' }}
 
 jobs:
   test:
@@ -34,7 +37,8 @@ jobs:
     outputs:
       short_tag: ${{ steps.short_tag.outputs.value }}
       commit_message: ${{ steps.get_commit_message.outputs.frontend_commit_message }}
-      image_url: ${{ steps.set_output.outputs.image_url }}
+      commit_author_name: ${{ steps.get_commit_author.outputs.name }}
+      commit_author_email: ${{ steps.get_commit_author.outputs.email }}
 
     steps:
       - name: Checkout repository
@@ -48,6 +52,12 @@ jobs:
             git log -1 --pretty=%B
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
+
+      - name: Get commit author
+        id: get_commit_author
+        run: |
+          echo "name=$(git log -1 --pretty=%an)" >> "$GITHUB_OUTPUT"
+          echo "email=$(git log -1 --pretty=%ae)" >> "$GITHUB_OUTPUT"
 
       - name: Extract Docker metadata
         id: meta
@@ -92,13 +102,10 @@ jobs:
           secret-files: |
             npmrc=.npmrc.github-actions
 
-      - name: Summarize image digest and set output
-        id: set_output
+      - name: Summarize image digest
         run: |
           echo "Tags: ${{ steps.meta.outputs.tags }}" >> "$GITHUB_STEP_SUMMARY"
           echo "Digest: ${{ steps.build_image.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "Full Image URL: ${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ steps.meta.outputs.version }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "image_url=${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ steps.meta.outputs.version }}@${{ steps.build_image.outputs.digest }}" >> "$GITHUB_OUTPUT"
 
       - name: Remove temporary npmrc secret
         if: always()
@@ -108,7 +115,6 @@ jobs:
     name: Run Pharos
     runs-on: ubuntu-latest
     needs: [build_image]
-    if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
     permissions:
       actions: read
       packages: read
@@ -116,19 +122,19 @@ jobs:
       security-events: write
     steps:
       - name: "Run Pharos"
-        uses: kartverket/pharos@v0.6.3
+        uses: kartverket/pharos@v0.6.4
         with:
-          image_url: ${{ needs.build_image.outputs.image_url }}
+          image_url: ${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ needs.build_image.outputs.short_tag }}
 
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [build_image]
+    needs: [build_image, run-pharos]
     name: Deploy
     permissions:
       contents: read
       id-token: write
-    # if: github.event_name != 'pull_request'
+    if: always() && needs.build_image.result == 'success' && needs.run-pharos.result != 'cancelled' && (github.ref_name == 'dev' || needs.run-pharos.result == 'success')
     steps:
       - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05
         id: octo-sts
@@ -145,14 +151,15 @@ jobs:
 
       - name: Git setup for deploy
         run: |
-          git config --global user.email "kartkatalog-frontend@kartverket.no"
-          git config --global user.name "kartkatalog-frontend CI"
+          git config --global user.email "${{ needs.build_image.outputs.commit_author_email }}"
+          git config --global user.name "${{ needs.build_image.outputs.commit_author_name }}"
 
       - name: Update deployment
         env:
           COMMIT_MESSAGE: ${{ needs.build_image.outputs.commit_message }}
+          IMAGE: "${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ needs.build_image.outputs.short_tag }}"
         run: |
-          echo "\"${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ needs.build_image.outputs.short_tag }}"\" > env/atkv3-dev/geonorge-kartkatalog-dev/kartkatalog-frontend-version
+          echo "\"${IMAGE}\"" > "${{ env.DEPLOY_PATH }}"
           git add .
           git commit -m "$COMMIT_MESSAGE"
           git push
