@@ -9,9 +9,12 @@ import buttonStyle from "@/components/partials/Buttons/Buttons.module.scss";
 import { getResource } from "@/actions/ResourceActions";
 import "@digdir/designsystemet-css";
 import style from "@/components/routes/Metadata/DistributionAccordionItem.module.scss";
+import { usePostHog } from "@posthog/react";
 
-const CopyUrlField = ({ url }) => {
+
+const CopyUrlField = ({ url, metadataUuid, metadataTitle }) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -21,9 +24,14 @@ const CopyUrlField = ({ url }) => {
     }, [copied]);
 
     const handleCopy = useCallback(() => {
+        posthog?.capture("url_field_link_copied", {
+            url: url,
+            uuid: metadataUuid,
+            title: metadataTitle,
+        });
         navigator.clipboard.writeText(url).catch(() => {});
         setCopied(true);
-    }, [url]);
+    }, [url, metadataUuid, metadataTitle]);
 
     return (
         <div className={style.copyUrlField}>
@@ -77,10 +85,15 @@ const renderSpatialRepresentation = (SpatialRepresentation) => {
     ) : null;
 };
 
-CopyUrlField.propTypes = { url: PropTypes.string.isRequired };
+CopyUrlField.propTypes = {
+    url: PropTypes.string.isRequired,
+    metadataUuid: PropTypes.string,
+    metadataTitle: PropTypes.string,
+};
 
-const CopyLinkHeaderButton = ({ url }) => {
+const CopyLinkHeaderButton = ({ url, metadataUuid, metadataTitle }) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -90,9 +103,14 @@ const CopyLinkHeaderButton = ({ url }) => {
     }, [copied]);
 
     const handleCopy = useCallback(() => {
+        posthog?.capture("header_link_copied", {
+            url: url,
+            uuid: metadataUuid,
+            title: metadataTitle,
+        });
         navigator.clipboard.writeText(url).catch(() => {});
         setCopied(true);
-    }, [url]);
+    }, [url, metadataUuid, metadataTitle]);
 
     return (
         <Button variant="primary" className={buttonStyle.listButton} onClick={handleCopy}>
@@ -107,7 +125,11 @@ const CopyLinkHeaderButton = ({ url }) => {
     );
 };
 
-CopyLinkHeaderButton.propTypes = { url: PropTypes.string.isRequired };
+CopyLinkHeaderButton.propTypes = {
+    url: PropTypes.string.isRequired,
+    metadataUuid: PropTypes.string,
+    metadataTitle: PropTypes.string,
+};
 
 const DistributionAccordionItem = ({ item, metadata }) => {
     const dispatch = useDispatch();
@@ -152,7 +174,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                             protocol === "OPENDAP:OPENDAP" || protocol === "OGC:WMTS" || protocol === "OGC:CSW" ||
                             protocol === "W3C:WS") && urls.length > 0 && (
                             <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
-                                <CopyLinkHeaderButton url={urls[0]} />
+                                <CopyLinkHeaderButton url={urls[0]} metadataUuid={metadata?.Uuid} metadataTitle={metadata?.Title} />
                             </div>
                         )}
                         {(protocol === "WWW:DOWNLOAD-1.0-http--download" || protocol === "GEONORGE:FILEDOWNLOAD" || protocol === "download") && urls.length > 0 && (
@@ -221,7 +243,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                             {dispatch(getResource("AccessUrl", "Tilgangs-URL"))}
                                         </Table.Cell>
                                         <Table.Cell className={style.urlCell}>
-                                            <CopyUrlField url={urls[0]} />
+                                            <CopyUrlField url={urls[0]} metadataUuid={metadata?.Uuid} metadataTitle={metadata?.Title} />
                                         </Table.Cell>
                                     </Table.Row>
                                 ) : (
@@ -231,7 +253,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                                 {item.Formats?.[index]?.FormatName ?? ""}
                                             </Table.Cell>
                                             <Table.Cell className={style.urlCell}>
-                                                <CopyUrlField url={url} />
+                                                <CopyUrlField url={url} metadataUuid={metadata?.Uuid} metadataTitle={metadata?.Title} />
                                             </Table.Cell>
                                         </Table.Row>
                                     ))
