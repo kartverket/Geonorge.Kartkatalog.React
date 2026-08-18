@@ -4,19 +4,16 @@ on:
   push:
     branches:
       - main
-      - dev
     paths-ignore:
       - '.github/agents/**'
-  workflow_dispatch:
 
 permissions:
   contents: read
 
 env:
   DOCKER_REGISTRY: ghcr.io
-  NAME: kartverket/geonorge-kartkatalog-frontend
-  ENV_SUFFIX: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
-  DEPLOY_PATH: ${{ github.ref_name == 'main' && 'env/atkv3-prod/geonorge-kartkatalog/kartkatalog-frontend-version' || 'env/atkv3-dev/geonorge-kartkatalog-dev/kartkatalog-frontend-version' }}
+  NAME: kartverket/geonorge-kartkatalog-frontend-tilgangsstyring-poc
+  DEPLOY_PATH: env/atkv3-dev/geonorge-kartkatalog-dev-tilgangsstyring/tilgangstyring-kartkatalog-frontend-version
 
 jobs:
   test:
@@ -111,36 +108,19 @@ jobs:
         if: always()
         run: rm -f .npmrc.github-actions
 
-  run-pharos:
-    name: Run Pharos
-    runs-on: ubuntu-latest
-    needs: [build_image]
-    permissions:
-      actions: read
-      packages: read
-      contents: read
-      security-events: write
-    steps:
-      - name: "Run Pharos"
-        uses: kartverket/pharos@v0.6.4
-        with:
-          image_url: ${{ env.DOCKER_REGISTRY }}/${{ env.NAME }}:${{ needs.build_image.outputs.short_tag }}
-
-
   deploy:
     runs-on: ubuntu-latest
-    needs: [build_image, run-pharos]
+    needs: [build_image]
     name: Deploy
     permissions:
       contents: read
       id-token: write
-    if: always() && needs.build_image.result == 'success' && needs.run-pharos.result != 'cancelled' && (github.ref_name == 'dev' || needs.run-pharos.result == 'success')
     steps:
       - uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05
         id: octo-sts
         with:
           scope: kartverket/geonorge-apps
-          identity: kartkatalog-frontend
+          identity: kartkatalog-fe-tilgangsstyring-poc
 
       - name: Checkout apps repository
         uses: actions/checkout@v4
