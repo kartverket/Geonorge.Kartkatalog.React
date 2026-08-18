@@ -16,7 +16,7 @@ env:
   DOCKER_REGISTRY: ghcr.io
   NAME: kartverket/tilgangstyring-kartkatalog-frontend
   ENV_SUFFIX: dev
-  DEPLOY_PATH: env/atkv3-dev/tilgangsstyring-kartkatalog-dev/tilgangstyring-kartkatalog-frontend-version
+  DEPLOY_PATH: env/atkv3-dev/geonorge-kartkatalog-dev-tilgangsstyring/tilgangstyring-kartkatalog-frontend-version
 
 jobs:
   test:
