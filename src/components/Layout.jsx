@@ -14,17 +14,11 @@ import style from "./Layout.module.scss";
 
 const Layout = (props) => {
     // Redux store
-    const auth = useSelector((state) => state.auth);
     const layoutLoaderData = useLoaderData();
     const location = useLocation();
 
     // Refs
-    const userRef = useRef(null);
     const previousUrlRef = useRef(window.location.href);
-
-    useEffect(() => {
-        userRef.current = auth?.user;
-    }, [auth]);
 
     useEffect(() => {
         const currentUrl = window.location.href;
@@ -49,7 +43,7 @@ const Layout = (props) => {
 
     return (
         <ErrorBoundary>
-            <MainNavigationContainer layoutLoaderData={layoutLoaderData} userManager={props.userManager} />
+            <MainNavigationContainer layoutLoaderData={layoutLoaderData} />
             <content-container fullwidth class={style.test} id="main-content">
                 <Outlet />
                 <Footer />

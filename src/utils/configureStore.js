@@ -12,7 +12,7 @@ const composeEnhancers = composeWithDevTools({
   // options like actionSanitizer, stateSanitizer
 });
 
-export default function configureStore(preloadedState, userManagerPromise) {
+export default function configureStore(preloadedState) {
   const middleware = [googleTagManager, thunk];
   const history = createBrowserHistory();
   const store = createStore(
@@ -26,10 +26,5 @@ export default function configureStore(preloadedState, userManagerPromise) {
     )
   );
 
-  return userManagerPromise.then((userManager) => {
-    userManager.getUser().then((user) => {
-      store.dispatch({ type: 'SET_USER', payload: user });
-    });
-    return store;
-  });
+  return store;
 }

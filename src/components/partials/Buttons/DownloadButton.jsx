@@ -6,10 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePostHog } from "@posthog/react";
 
-// Utils
-import userManager from "@/utils/userManager";
-import userManagerPromise from "@/utils/userManager";
-
 // Actions
 import { removeItemSelectedForDownload, addItemSelectedForDownload } from "@/actions/DownloadItemActions";
 import { getApiData } from "@/actions/ApiActions";
@@ -43,10 +39,7 @@ const DownloadButton = (props) => {
     const buttonClass = `${style.listButton} `;
 
     const handleLoginClick = () => {
-        userManagerPromise.then((userManagerConfig) => {
-            const userManager = userManagerConfig;
-            userManager.signinRedirect();
-        });
+       console.log("[DownloadButton] LOGIN") //TODO
     };
 
     const renderDownloadIcon = () =>
