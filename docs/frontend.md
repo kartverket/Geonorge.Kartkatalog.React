@@ -1,6 +1,8 @@
 ---
 sidebar_position: 1
 ---
+> [!CAUTION]
+> Dette repoet er IKKE Kartkatalog-modulen til Geonorge. Dette er en eksperimentell omskriving av autentisering og autorisasjon basert på arbeidet til "Tilgangsstyring i Landdivisjonen" for å finne nye og moderne metoder for å gjøre tilgangsstyring. Repo til Kartkatalogen finner du [her](https://github.com/kartverket/Geonorge.Kartkatalog.React)
 
 # Kartkatalog-frontend
 
@@ -10,15 +12,15 @@ Kildekode og oppsettsinstruksjoner finnes i [GitHub-repoet](https://github.com/k
 
 ## Tech stack
 
-| Kategori | Teknologi |
-|---|---|
-| Rammeverk | React 18, React Router 6 |
-| State management | Redux 4 + Redux Thunk |
-| Byggverktøy | Vite 7 |
-| Styling | SCSS, Digdir Designsystem |
-| Autentisering | GeoID via OIDC (`oidc-client-ts`) |
-| Analyse | PostHog, Google Tag Manager |
-| Testing | Jest |
+| Kategori          | Teknologi                           |
+|-------------------|-------------------------------------|
+| Rammeverk         | React 18, React Router 6            |
+| State management  | Redux 4 + Redux Thunk               |
+| Byggverktøy       | Vite 7                              |
+| Styling           | SCSS, Digdir Designsystem           |
+| **Autentisering** | **Under utvikling (Ansattporten)**  |
+| Analyse           | PostHog, Google Tag Manager         |
+| Testing           | Jest                                |
 
 ## Prosjektstruktur
 
@@ -41,11 +43,10 @@ src/
 | `/` | Søkeside med fasettfiltre |
 | `/metadata/{uuid}` | Detaljvisning av metadata |
 | `/kart/{id}` | Interaktivt kartviser |
-| `/login-oidc` | OIDC-callback fra GeoID |
 
 ## Autentisering
 
-Innlogging håndteres via [GeoID](https://www.kartverket.no/om-kartverket/it-tjenester/geoid) (OpenID Connect). Konfigureres med `VITE_GEOID_*`-variabler i `.env`. Autorisasjon skjer mot BAAT via `VITE_GEOID_BAATAUTHZ_APIURL`.
+Skal skje med Ansattporten som henter informasjon fra Altinn. Mer info etterhvert som det kommer på plass.
 
 ## Bygg og deployment
 
@@ -55,13 +56,13 @@ Miljøkonfigurasjon injiseres dynamisk av Nginx via `/config.js` ved oppstart, s
 
 ## Systemarkitektur
 
+TODO, få inn den nye autentiseringen her
+
 ```mermaid
 flowchart TD
     GN["GeoNetwork\n(metadatakatalog)"]
     NS{Notification\nservice}
     CSW{CSW}
-    GeoID["GeoID\n(autentisering)"]
-    BAAT["BAAT\n(autorisasjon)"]
 
     subgraph core["Kartkatalogen"]
         API["Geonorge-API"]
@@ -80,8 +81,6 @@ flowchart TD
     API --- KK
     Solr --- KK
     rMap --- KK
-    GeoID <--> KK
-    BAAT <--> KK
     KK --> GKart
     KK --> RestAPI
     KK --> Nedlasting["Nedlastnings-\nløsning"]

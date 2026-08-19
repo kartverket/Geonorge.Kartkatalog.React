@@ -1,6 +1,8 @@
-# Geonorge.Kartkatalog.React
+> [!CAUTION]
+> Dette repoet er IKKE Kartkatalog-modulen til Geonorge. Dette er en eksperimentell omskriving av autentisering og autorisasjon basert på arbeidet til "Tilgangsstyring i Landdivisjonen" for å finne nye og moderne metoder for å gjøre tilgangsstyring. Repo til Kartkatalogen finner du [her](https://github.com/kartverket/Geonorge.Kartkatalog.React)
 
-[![Build Status](https://github.com/kartverket/Geonorge.Kartkatalog.React/actions/workflows/build.yaml/badge.svg)](https://github.com/kartverket/Geonorge.Kartkatalog.React/actions)
+# Geonorge.Kartkatalog.React.Tilgangstyring.Poc
+[![Build Status](https://github.com/kartverket/Geonorge.Kartkatalog.React.Tilgangstyring.Poc/actions/workflows/build.yaml/badge.svg)](https://github.com/kartverket/Geonorge.Kartkatalog.React.Tilgangstyring.Poc/actions)
 
 Kartkatalogen er en tjeneste for å søke i og vise metadata registrert i GeoNetwork.
 
