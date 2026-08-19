@@ -108,7 +108,6 @@ const Home = () => {
     );
 
     // Redux store
-    const auth = useSelector((state) => state.auth);
     const environment = useSelector((state) => state.environment);
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
 
@@ -130,19 +129,6 @@ const Home = () => {
             }
         }
     }, [searchData, params, posthog]);
-
-    // Todo fix problem navigation from MainNavigationContainer https://medium.com/@fabrizio.azzarri/fixing-the-next-js-15-react-19-removechild-dom-error-a33b57cbc3b1
-    useEffect(() => {
-        const isLoggedIn = !!auth?.user?.access_token?.length;
-        if (isLoggedIn) {
-            GnShortcutButton.setup("gn-shortcut-button", {
-                getAuthToken: () => {
-                    const token = auth?.user?.access_token;
-                    return token?.length ? token : null;
-                }
-            });
-        }
-    }, [auth]);
 
     const clearSearchPath = viewMode === "list" ? "/?view=list" : "/";
 

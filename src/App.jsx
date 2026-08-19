@@ -6,7 +6,6 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 
 // Utils
 import configureStore from "@/utils/configureStore";
-import userManagerPromise from "@/utils/userManager";
 
 // Actions
 import { fetchResources } from "@/actions/ResourceActions";
@@ -28,8 +27,6 @@ import { fetchMetadataQuality } from "@/actions/MetadataQualityActions";
 import Layout from "@/components/Layout";
 import NotFound from "@/components/routes/NotFound";
 import Home from "@/components/routes/Home";
-import OidcCallback from "@/components/routes/OidcCallback";
-import OidcSignoutCallback from "@/components/routes/OidcSignoutCallback";
 import MapContainer from "@/components/routes/MapContainer";
 import Metadata from "@/components/routes/Metadata";
 
@@ -39,25 +36,17 @@ import { getEnvironment as getRuntimeEnvironment } from "@/utils/runtimeConfig";
 import "@/scss/theme.scss";
 
 const initialState = {};
-const storePromise = configureStore(initialState, userManagerPromise);
 
 const App = () => {
     // State
-
     const [store, setStore] = useState(null);
-    const [userManager, setUserManager] = useState(null);
     const [storeIsLoaded, setStoreIsLoaded] = useState(false);
-    const [userManagerIsLoaded, setUserManagerIsLoaded] = useState(false);
 
     useEffect(() => {
-        storePromise.then((storeConfig) => {
-            setStore(storeConfig);
-            setStoreIsLoaded(true);
-        });
-        userManagerPromise.then((userManagerConfig) => {
-            setUserManager(userManagerConfig);
-            setUserManagerIsLoaded(true);
-        });
+        const _store = configureStore(initialState);
+
+        setStore(_store);
+        setStoreIsLoaded(true);
     }, []);
 
     useEffect(() => {
@@ -242,7 +231,7 @@ const App = () => {
 
     const router = createBrowserRouter([
         {
-            element: <Layout userManager={userManager} />,
+            element: <Layout />,
             path: "/:searchResultsType?",
             id: "root",
             loader: searchDataLoader,
@@ -269,14 +258,6 @@ const App = () => {
                 {
                     element: <MapContainer />,
                     path: "kart"
-                },
-                {
-                    element: <OidcCallback userManager={userManager} />,
-                    path: "login-oidc"
-                },
-                {
-                    element: <OidcSignoutCallback userManager={userManager} />,
-                    path: "logout-callback-oidc"
                 }
             ]
         },
@@ -286,7 +267,7 @@ const App = () => {
         }
     ]);
 
-    if (userManager && store && userManagerIsLoaded && storeIsLoaded && router) {
+    if (store && storeIsLoaded && router) {
         return (
             <Provider store={store}>
                 <HelmetProvider>
