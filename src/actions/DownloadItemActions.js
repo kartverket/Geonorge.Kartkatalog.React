@@ -82,9 +82,9 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
             pushToDataLayer({ event: "updateCart", category: "download", activity: "addToCart", metadata: tagData })
         );
         dispatch(fetchItemsToDownload());
-    } else if (itemToAdd?.accessIsRestricted) {
-        const baatInfo = getState() && getState().baatInfo ? getState().baatInfo : null;
-        if (baatInfo) {
+    } else if (itemToAdd?.accessIsRestricted) { //TODO
+       /* const baatInfo = getState() && getState().baatInfo ? getState().baatInfo : null;
+        if (false) {
             const roles = baatInfo.baat_services ? baatInfo.baat_services : null;
             const constraintRequiredRole = itemToAdd?.capabilities?.accessConstraintRequiredRole;
             let addDatasetIsAllowed = true;
@@ -116,7 +116,7 @@ export const addItemSelectedForDownload = (itemToAdd) => (dispatch, getState) =>
             } else {
                 alert("Du har ikke tilgang til å legge datasett til nedlasting");
             }
-        }
+        }*/
     }
 };
 
@@ -127,9 +127,9 @@ export const autoAddItemFromLocalStorage = () => (dispatch, getState) => {
         localStorage.autoAddDownloadItemOnLoad !== "undefined" &&
         localStorage.autoAddDownloadItemOnLoad !== "null";
     const itemToAdd = hasItemToAdd ? JSON.parse(localStorage.autoAddDownloadItemOnLoad) : null;
-    const isLoggedIn = getState().auth && getState().auth.user;
-    const hasBaatInfo = getState().baatInfo && getState().baatInfo.user;
-    if (itemToAdd && isLoggedIn && hasBaatInfo) {
+    const isLoggedIn = false;
+    //const hasBaatInfo = getState().baatInfo && getState().baatInfo.user;
+    if (itemToAdd && isLoggedIn /* && hasBaatInfo */) { //TODO
         dispatch(addItemSelectedForDownload(itemToAdd));
         localStorage.removeItem("autoAddDownloadItemOnLoad");
     }

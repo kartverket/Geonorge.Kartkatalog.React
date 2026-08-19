@@ -16,7 +16,6 @@ import GeonorgeMenuReducer from "@/reducers/GeonorgeMenuReducer";
 import SelectedLanguageReducer from "@/reducers/SelectedLanguageReducer";
 import ResourceReducer from "@/reducers/ResourceReducer";
 import EnvironmentReducer from '@/reducers/EnvironmentReducer';
-import BaatInfoReducer from '@/reducers/BaatInfoReducer';
 import TagManagerReducer from '@/reducers/TagManagerReducer';
 import AvailableWFSServiceStatusesForReducer from '@/reducers/AvailableWFSServiceStatusesReducer';
 import AvailableWMSServiceStatusesForReducer from '@/reducers/AvailableWMSServiceStatusesReducer';
@@ -25,7 +24,6 @@ export default (history) => combineReducers({ //FJERN - Gjør om til export defa
     dataLayer: TagManagerReducer,
     router: connectRouter(history), //FJERN - Hele kan fjernes
     auth: authReducer,
-    baatInfo: BaatInfoReducer,
     searchResults: SearchResultReducer,
     selectedSearchResultsType: SelectedSearchResultsTypeReducer,
     mapItems: MapItemReducer,
