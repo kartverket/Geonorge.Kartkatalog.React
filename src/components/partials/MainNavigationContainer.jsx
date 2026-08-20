@@ -1,23 +1,20 @@
 // Dependencies
 import React, { Fragment, useEffect, useRef } from "react";
-import { useNavigate } from "react-router";
+import {redirect, useNavigate} from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet-async";
-import { userLoaded } from "@/reducers/authActions";
 
 // Actions
 import { fetchMapItems } from "@/actions/MapItemActions";
 import { updateSelectedLanguage } from "@/actions/SelectedLanguageActions";
 import { fetchItemsToDownload, autoAddItemFromLocalStorage } from "@/actions/DownloadItemActions";
-import { updateOidcCookie, updateBaatInfo } from "@/actions/AuthenticationActions";
 
 // Components
 import { MainNavigation } from "@kartverket/geonorge-web-components/MainNavigation";
 import '@kartverket/geonorge-web-components/index.css';
-import Cookies from 'js-cookie';
 import { getEnvironment } from "@/utils/runtimeConfig";
 
-const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
+const MainNavigationContainer = ({ layoutLoaderData }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -25,11 +22,8 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
     // Redux store
     const selectedLanguage = useSelector((state) => state.selectedLanguage);
-    const auth = useSelector((state) => state.auth);
-    const baatInfo = useSelector((state) => state.baatInfo);
 
     // Refs
-    const userRef = useRef(null);
     const lastSearchStringRef = useRef(searchData?.searchString || "");
 
     // Keep the last non-empty search string so navigating away and back
@@ -43,7 +37,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
         searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         if (searchString.length > 1) {
-            const isLoggedIn = !!auth?.user;
+            const isLoggedIn = false; //TODO
             const view = new URLSearchParams(window.location.search).get("view");
             const viewParam = view ? `&view=${view}` : "";
             if (isLoggedIn) {
@@ -67,74 +61,10 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     useEffect(() => {
         dispatch(fetchMapItems());
         dispatch(fetchItemsToDownload());
-        dispatch(updateOidcCookie());
-        dispatch(updateBaatInfo());
         dispatch(autoAddItemFromLocalStorage());
     }, []);
 
     useEffect(() => {
-        userRef.current = auth?.user;
-    }, [auth]);
-
-    useEffect(() => {
-        const onAccessTokenExpiring = () => {
-            // Handle token expiring (e.g., show warning, trigger silent renew, etc.)
-            userManager.signinSilent();
-        };
-
-        userManager.events.addAccessTokenExpiring(onAccessTokenExpiring);
-
-        return () => {
-            userManager.events.removeAccessTokenExpiring(onAccessTokenExpiring);
-        };
-    }, [userManager]);  
-    
-    useEffect(() => {
-        const onUserLoaded = (user) => {
-            // Handle user loaded event (e.g., dispatch to Redux, log, etc.)
-            dispatch(userLoaded(user));
-        };
-
-        userManager.events.addUserLoaded(onUserLoaded);
-
-        return () => {
-            userManager.events.removeUserLoaded(onUserLoaded);
-        };
-    }, [userManager, dispatch]);    
-
-    useEffect(() => {
-        const isLoggedIn = !!auth?.user;
-        const hasBaatInfo = !!baatInfo?.user;
-
-        var loggedInCookie = Cookies.get('_loggedInOtherApp');
-        var loggedInMenu = Cookies.get('_loggedIn');
-        let autoRedirectPath = null;
-
-
-        if(loggedInCookie === "true" && !isLoggedIn){
-            sessionStorage.autoRedirectPath = window.location.pathname;
-            userManager.signinRedirect(); 
-        }
-        else if(loggedInMenu == "false" && isLoggedIn){
-            sessionStorage.autoRedirectPath = window.location.pathname;
-            userManager.signoutRedirect();
-        }
-        else if(sessionStorage?.autoRedirectPath){
-                autoRedirectPath = sessionStorage.autoRedirectPath; 
-        }
-
-        if (isLoggedIn || hasBaatInfo) {
-            dispatch(autoAddItemFromLocalStorage());
-            dispatch(fetchItemsToDownload());
-            dispatch(updateOidcCookie());
-            dispatch(updateBaatInfo());
-        }
-
-        if(autoRedirectPath !== null){
-            navigate(autoRedirectPath);
-        }
-
-
         MainNavigation.setup("main-navigation", {
             onSearch: (event) => {
                 const searchEvent = event.detail || null;
@@ -144,18 +74,11 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
             },
             onSignInClick: (event) => {
                 event.preventDefault();
-                sessionStorage.autoRedirectPath = window.location.pathname;
-                userManager.signinRedirect();
+                navigate("/login")
             },
             onSignOutClick: (event) => {
                 event.preventDefault();
-                sessionStorage.autoRedirectPath = window.location.pathname;
-                if (isLocalhost) 
-                    Cookies.set('_loggedIn', 'false');
-                else
-                    Cookies.set('_loggedIn', 'false', { domain: 'geonorge.no' });
-                userManager.signoutRedirect({ id_token_hint: userRef?.current?.id_token });
-                userManager.removeUser();
+                navigate("/logout")
             },
             onNorwegianLanguageSelect: async () => {
                 await dispatch(updateSelectedLanguage("no"));
@@ -176,26 +99,26 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
                 dispatch(fetchItemsToDownload());
             }
         });
-    }, [auth, baatInfo, searchData?.searchString]);
+    }, [searchData?.searchString]);
 
     const metadataResultsFound = searchData?.results?.metadata?.NumFound || 0;
     const articlesResultsFound = searchData?.results?.articles?.NumFound || 0;
 
     const userinfo = {
-        name: auth?.user?.profile?.name,
-        email: auth?.user?.profile?.email,
+        name: "Navn Navnesen", //TODO
+        email: "navn.navnesen@eksempel.no",
     };
 
     const orginfo = {
-        organizationNumber: baatInfo?.organizationNumber,
-        organizationName: baatInfo?.organizationName
+        organizationNumber: 915000000, //TODO
+        organizationName: "Orgnavn"
 
     }
 
     const mainNavigationProps = {
         userinfo: JSON.stringify(userinfo),
         orginfo: JSON.stringify(orginfo),
-        isLoggedIn: !!auth.user,
+        isLoggedIn: false, //TODO
         language: selectedLanguage,
         environment: getEnvironment(),
         searchString: lastSearchStringRef.current,
