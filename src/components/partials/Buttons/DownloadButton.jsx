@@ -39,6 +39,7 @@ const DownloadButton = (props) => {
     const [isAdded, setIsAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const [isFlyingAway, setIsFlyingAway] = useState(false);
 
     const buttonClass = `${style.listButton} `;
 
@@ -53,8 +54,20 @@ const DownloadButton = (props) => {
         isAdded ? (
             <XMarkIcon aria-hidden="true" />
         ) : (
-            <DownloadIcon aria-hidden="true" fontSize="1.5rem" />
+            <DownloadIcon
+                aria-hidden="true"
+                fontSize="1.5rem"
+                className={isFlyingAway ? style.flyAway : ""}
+            />
         );
+
+    const handleAddClick = () => {
+        setIsFlyingAway(true);
+        setTimeout(() => {
+            setIsFlyingAway(false);
+            addToDownloadListAction();
+        }, 600);
+    };
 
     const getDownloadItem = (metadata) => {
         return {
@@ -269,7 +282,7 @@ const DownloadButton = (props) => {
                     variant='primary'
                     title={buttonDescription}
                     className={buttonClass}
-                    onClick={() => (isAdded ? removeFromDownloadListAction() : addToDownloadListAction())}
+                    onClick={() => (isAdded ? removeFromDownloadListAction() : handleAddClick())}
                 >
                     {renderDownloadIcon()}
                     <span className={style.buttonText}>{buttonDescription}</span>
@@ -326,7 +339,7 @@ const DownloadButton = (props) => {
                 onClick={() =>
                     isAdded
                         ? removeFromDownloadListAction()
-                        : addToDownloadListAction()
+                        : handleAddClick()
                 }
                 className={buttonClass}
             >

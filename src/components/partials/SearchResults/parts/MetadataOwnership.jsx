@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PadlockUnlockedFillIcon, PadlockLockedFillIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
@@ -20,11 +20,12 @@ const restrictionsClassnames = (item) => {
         }
     };
 
-export const renderMetadataOwnership = (item, viewMode, dispatch) => {
-        const openDataSymbolClass = restrictionsClassnames(item);
+const MetadataOwnership = ({ item, viewMode, dispatch }) => {
+        // const openDataSymbolClass = restrictionsClassnames(item);
+        const restrictionClass = restrictionsClassnames(item);
         let openDataSymbolTitle =
             item.IsOpenData || item.AccessIsOpendata
-                ? "Åpne datasett"
+                ? "Velg selv!"
                 : "Krever innlogging";
             if (item.AccessConstraint && (item.AccessConstraint === "Personvern begrenset" || item.AccessConstraint === "Privacy restricted")
             || item.DataAccess &&(item.DataAccess === "Personvern begrenset" || item.DataAccess === "Privacy restricted")
@@ -33,8 +34,14 @@ export const renderMetadataOwnership = (item, viewMode, dispatch) => {
                 openDataSymbolTitle = "Kontakt dataeieren for tilgang";
             }
 
-        const isOpenData = item.IsOpenData || item.AccessIsOpendata;
+        // const isOpenData = item.IsOpenData || item.AccessIsOpendata;
+        const [isOpenData, setIsOpenData] = useState(item.IsOpenData || item.AccessIsOpendata);
         const OpenDataIcon = isOpenData ? PadlockUnlockedFillIcon : PadlockLockedFillIcon;
+        const openDataSymbolClass = isOpenData
+            ? style.green
+            : restrictionClass === style.green
+                ? style.red
+                : restrictionClass;
 
         const listItemType = item.TypeTranslated || item.Type;
         const listItemOrganizations = item.Organizations;
@@ -83,8 +90,12 @@ export const renderMetadataOwnership = (item, viewMode, dispatch) => {
                     className={openDataSymbolClass}
                     title={openDataSymbolTitle}
                     aria-hidden={false}
+                    onClick={() => setIsOpenData((current) => !current)}
+                    style={{ cursor: "pointer" }}
                 />
                 {dispatch(getResource("VariableBy", "{0} fra", [listItemType]))} {linkElement}
             </span>
         );
     };
+
+export default MetadataOwnership;

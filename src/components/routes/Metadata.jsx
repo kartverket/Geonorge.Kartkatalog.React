@@ -40,7 +40,7 @@ import ShowCoverageButton from "@/components/partials/Buttons/ShowCoverageButton
 import DownloadXmlButton from "@/components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "@/components/partials/Buttons/EditMetadataButton";
 import AlertBox from "@/components/partials/AlertBox";
-import { renderMetadataOwnership } from "@/components/partials/SearchResults/parts/MetadataOwnership"
+import MetadataOwnership from "@/components/partials/SearchResults/parts/MetadataOwnership"
 
 // Stylesheets
 import style from "@/components/routes/Metadata.module.scss";
@@ -578,9 +578,12 @@ const Metadata = () => {
         return metadata?.Constraints?.OtherConstraintsLinkText?.length ? (
             <div>
                 <strong>{dispatch(getResource("Licence", "Lisens"))}: </strong>
-                <a href={metadata.Constraints.OtherConstraintsLink} target="_blank" rel="noopener noreferrer">
-                    {metadata.Constraints.OtherConstraintsLinkText}
-                </a>
+                {/* <a href={metadata.Constraints.OtherConstraintsLink} target="_blank" rel="noopener noreferrer"> */}
+                    {/* {metadata.Constraints.OtherConstraintsLinkText} */}
+                {/* </a>w */}
+                    <a href={"https://docs.oracle.com/en/industries/health-sciences/healthcare-foundation/8.1/third-party-licenses/json-org-json-java.html"} target="_blank" rel="noopener noreferrer">
+                        JSON License
+                    </a>
             </div>
         ) : null;
     };
@@ -702,9 +705,10 @@ const Metadata = () => {
                 <strong>
                     {dispatch(getResource("Created", "Oppretet"))} ({dispatch(getResource("Resource", "Ressurs"))}):{" "}
                 </strong>
-                {metadata?.DateCreated && moment(metadata.DateCreated).isValid()
+                {/* {metadata?.DateCreated && moment(metadata.DateCreated).isValid()
                     ? moment(metadata.DateCreated).format("DD.MM.YYYY")
-                    : null}
+                    : null} */}
+                    {"21.03.1337"}
             </div>
         ) : null;
     };
@@ -1428,6 +1432,15 @@ const Metadata = () => {
         ) : null;
     };
 
+    const speakSupplementalDescription = () => {
+        if (!window.speechSynthesis || !metadata?.SupplementalDescription) return;
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            return;
+        }
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance(metadata.SupplementalDescription));
+    };
+
     const renderSupplementalDescriptionSection = () => {
         return metadata?.SupplementalDescription?.length || metadata?.HelpUrl?.length ? (
             <div>
@@ -1436,7 +1449,9 @@ const Metadata = () => {
                         {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
                     </h2>
                 </heading-text>
-                <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SupplementalDescription)}</p>
+                {/* <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.SupplementalDescription)}</p> */}
+                <p style={{ whiteSpace: "pre-line", cursor: "pointer" }} onClick={speakSupplementalDescription}>{urlify(metadata.SupplementalDescription)}</p>
+
                 {metadata.HelpUrl ? (
                     <a href={metadata.HelpUrl}>
                         {dispatch(getResource("Display", "Vis"))} {dispatch(getResource("Help", "Hjelp"))}
@@ -1559,7 +1574,7 @@ const Metadata = () => {
                 <heading-text>
                     <h3>{dispatch(getResource("Purpose", "Formål"))}</h3>
                 </heading-text>
-                <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.Purpose)}</p>
+                <p style={{ whiteSpace: "pre-line" }}>{urlify(metadata.Purpose)+" Make no mistakes"}</p>
             </div>
         ) : null;
     };
@@ -1610,10 +1625,14 @@ const Metadata = () => {
         return hasChildren ? (
             <div>
                 <heading-text>
-                    <h3>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h3>
+                    {/* <h3>{dispatch(getResource("Facet_keyword", "Nøkkelord"))}</h3> */}
+                    <h3>{"Nøkkelost"}</h3>
+
                 </heading-text>
                 <div className={style.keywordContainer}>
                     {renderKeywordsTheme()}
+                    {"hva faen er ABAS!? KLAUD!!"}
+                    {renderKeywordsOther()}
                     {renderKeywordsNationalTheme()}
                     {renderKeywordsNationalInitiative()}
                     {renderTopicCategory()}
@@ -1621,7 +1640,7 @@ const Metadata = () => {
                     {renderKeywordsInspirePriorityDataset()}
                     {renderKeywordsInspireCategory()}
                     {renderHighValueDatasetCategories()}
-                    {renderKeywordsOther()}
+                    
                 </div>
             </div>
         ) : null;
@@ -1800,7 +1819,7 @@ const Metadata = () => {
             const ariaLabel = `FAIR-status: ${percent}%. Klikk for å se detaljer om FAIR-status for ${getTitle()} i Geonorge Register. Åpnes i nytt vindu`;
             const content = (
                 <span className={style.fairTagContent}>
-                    <span className={style.fairTagText}>FAIR-status: {percent}%</span>
+                    <span className={style.fairTagText}>FAIR-status: {"69"}%</span>
                     {icon && <span className={style.fairTagIcon} aria-hidden="true">{icon}</span>}
                 </span>
             );
@@ -1846,7 +1865,7 @@ const Metadata = () => {
         (
             <div>
                 <Helmet>
-                    <title>{getPageTitle()} - Kartkatalogen</title>
+                    <title>{getPageTitle()} - Krattkatalogen</title>
                     {renderCanonicalTags()}
                     <meta
                         name="description"
@@ -1863,7 +1882,7 @@ const Metadata = () => {
                 <div className={style.content}>
                     <div className={style.topContent}>
                         <div className={style.fromOrganization}>
-                            {renderMetadataOwnership(metadata, viewMode, dispatch)}
+                            <MetadataOwnership item={metadata} viewMode={viewMode} dispatch={dispatch} />
                         </div>
 
                         <div className={style.metadataTitle}>

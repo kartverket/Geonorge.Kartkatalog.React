@@ -249,7 +249,7 @@ const Home = () => {
                     {searchData?.searchString?.length
                         ? `${searchResultsTypeText} på '${searchData.searchString}' - `
                         : ""}
-                    Kartkatalogen
+                    Krattkatalogen
                 </title>
                 <link rel="canonical" href={`${document.location.origin}/${params.searchResultsType || "metadata"}`} />
                 <meta

@@ -25,7 +25,8 @@ const ShowCoverageButton = (props) => {
             const top = (window.screen.height - windowHeight) / 2;
 
             window.open(
-                props.metadata.CoverageUrl,
+                // props.metadata.CoverageUrl,
+                "https://www.telia.no/nett/dekning/",
                 "dekningskart",
                 `width=${windowWidth},height=${windowHeight},left=${left},top=${top},scrollbars=yes,resizable=yes,menubar=no,toolbar=no,location=no,status=no`
             );

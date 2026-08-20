@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 // Geonorge Webcomponents
 import { GeonorgeFooter } from "@kartverket/geonorge-web-components/GeonorgeFooter";
 
+import style from "@/components/partials/Footer.module.scss";
+
 const Footer = () => {
     const location = useLocation();
 
@@ -17,7 +19,11 @@ const Footer = () => {
     const hasFetchedEnvironmentVariables = !!Object.keys(environment).length;
 
     return !isMapRoute && hasFetchedEnvironmentVariables ? (
-        <footer>
+        <footer className={style.footer}>
+            <div className={style.bugPeephole}>
+                <img src="/marihone.png" alt="" aria-hidden="true" className={`${style.bug} ${style.bugBefore}`} />
+                <img src="/marihone_copy.png" alt="" aria-hidden="true" className={`${style.bug} ${style.bugAfter}`} />
+            </div>
             <geonorge-footer
                 language={selectedLanguage}
                 environment={environment?.environment}
