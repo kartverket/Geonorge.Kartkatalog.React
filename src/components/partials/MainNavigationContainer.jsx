@@ -1,6 +1,6 @@
 // Dependencies
 import React, { Fragment, useEffect, useRef } from "react";
-import { useNavigate } from "react-router";
+import {redirect, useNavigate} from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from "react-helmet-async";
 
@@ -74,11 +74,11 @@ const MainNavigationContainer = ({ layoutLoaderData }) => {
             },
             onSignInClick: (event) => {
                 event.preventDefault();
-                console.log("LOGIN") //TODO
+                navigate("/login")
             },
             onSignOutClick: (event) => {
                 event.preventDefault();
-                console.log("LOGUT") //TODO
+                navigate("/logout")
             },
             onNorwegianLanguageSelect: async () => {
                 await dispatch(updateSelectedLanguage("no"));

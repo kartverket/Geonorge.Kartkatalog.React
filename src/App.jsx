@@ -34,6 +34,8 @@ import Metadata from "@/components/routes/Metadata";
 import "@/scss/styles.scss";
 import { getEnvironment as getRuntimeEnvironment } from "@/utils/runtimeConfig";
 import "@/scss/theme.scss";
+import Login from "@/components/routes/Login";
+import Logout from "@/components/routes/Logout";
 
 const initialState = {};
 
@@ -258,6 +260,14 @@ const App = () => {
                 {
                     element: <MapContainer />,
                     path: "kart"
+                },
+                {
+                    element: <Login />,
+                    path: "login"
+                },
+                {
+                    element: <Logout />,
+                    path: "logout"
                 }
             ]
         },
