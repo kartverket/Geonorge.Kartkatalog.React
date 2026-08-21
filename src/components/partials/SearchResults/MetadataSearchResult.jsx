@@ -19,7 +19,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import MapButton from "@/components/partials/Buttons/MapButton";
 import DownloadButton from "@/components/partials/Buttons/DownloadButton";
 import ApplicationButton from "@/components/partials/Buttons/ApplicationButton";
-import MetadataOwnership from "./parts/MetadataOwnership";
+import { renderMetadataOwnership } from "./parts/MetadataOwnership";
 
 //Designsystemet
 import {Card, Heading} from "@digdir/designsystemet-react";
@@ -219,11 +219,11 @@ const MetadataSearchResult = (props) => {
                 {props.enableThumbnail ? renderThumbnail() : null}
                 <div className={style.contentWrapper}>
                     
-                    <MetadataOwnership
-                        item={props.searchResult}
-                        viewMode={props.viewMode}
-                        dispatch={dispatch}
-                    />
+                    {renderMetadataOwnership(
+                        props.searchResult,
+                        props.viewMode,
+                        dispatch
+                    )}
                     <span className={style.listItemTitle}>
                         <ErrorBoundary>
                             {renderLink()}

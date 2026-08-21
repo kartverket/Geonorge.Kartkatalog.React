@@ -125,24 +125,6 @@
   }
 }
 
-@keyframes flyDownOut {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(100vh) rotate(35deg);
-    opacity: 0;
-  }
-}
-
-:local(.flyAway) {
-  animation: flyDownOut 0.6s ease-in forwards;
-  position: relative;
-  z-index: 1;
-}
-
 :local(.secondaryButton) {
   background-color: #ffffff !important;
   color: #5a5858 !important;
