@@ -38,7 +38,7 @@ Kartkatalogen er en tjeneste for å søke i og vise metadata registrert i GeoNet
 
 ### Docker Compose
 
-For å kjøre appen med prerender-tjenesten lokalt:
+For å kjøre appen lokalt:
 
 ```bash
 docker-compose up

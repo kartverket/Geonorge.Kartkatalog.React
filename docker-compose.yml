@@ -3,14 +3,6 @@
 
 
 services:
-  prerender:
-    build:
-      context: ./prerender
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    networks:
-      - default
 
   kartkatalog:
     build:
@@ -34,38 +26,6 @@ services:
 configs:
   nginx_local_conf:
     content: |
-      map $$http_user_agent $$prerender_bot {
-        default 0;
-        ~*(googlebot|bingbot|yandex|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly) 1;
-      }
-
-      map $$args $$prerender_escaped_fragment {
-        default 0;
-        ~(^|&)_escaped_fragment_= 1;
-      }
-
-      map $$http_user_agent $$prerender_service_agent {
-        default 0;
-        ~*Prerender 1;
-      }
-
-      map $$http_x_forwarded_proto $$prerender_request_scheme {
-        default $$scheme;
-        ~*^https(?:\s*,.*)?$$ https;
-        ~*^http(?:\s*,.*)?$$ http;
-      }
-
-      map $$uri $$prerender_static_asset {
-        default 0;
-        ~*\.(js|json|css|xml|less|png|jpg|jpeg|gif|pdf|doc|txt|ico|rss|zip|mp3|rar|exe|wmv|avi|ppt|mpg|mpeg|tif|wav|mov|psd|ai|xls|mp4|m4a|swf|dat|dmg|iso|flv|m4v|torrent|ttf|woff|woff2|svg|eot)$ 1;
-      }
-
-      map "$$prerender_bot:$$prerender_escaped_fragment:$$prerender_service_agent:$$prerender_static_asset" $$prerender {
-        default 0;
-        ~^1:[01]:0:0$ 1;
-        ~^[01]:1:0:0$ 1;
-      }
-
       server {
         listen 80;
         listen 443 ssl;
@@ -88,21 +48,7 @@ configs:
         }
 
         location / {
-          error_page 418 = /prerender-proxy;
-
-          if ($$prerender = 1) {
-            return 418;
-          }
-
           try_files $$uri $$uri/ /index.html;
-        }
-
-        location = /prerender-proxy {
-          internal;
-          rewrite ^ /$$prerender_request_scheme://kartkatalog$$request_uri break;
-          proxy_set_header X-Forwarded-For $$proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $$prerender_request_scheme;
-          proxy_pass http://prerender:3000;
         }
 
         location /assets/ {

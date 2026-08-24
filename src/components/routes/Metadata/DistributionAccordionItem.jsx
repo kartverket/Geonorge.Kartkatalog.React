@@ -9,9 +9,12 @@ import buttonStyle from "@/components/partials/Buttons/Buttons.module.scss";
 import { getResource } from "@/actions/ResourceActions";
 import "@digdir/designsystemet-css";
 import style from "@/components/routes/Metadata/DistributionAccordionItem.module.scss";
+import { usePostHog } from "@posthog/react";
 
-const CopyUrlField = ({ url }) => {
+
+const CopyUrlField = ({ url, metadataUuid, metadataTitle }) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -21,9 +24,14 @@ const CopyUrlField = ({ url }) => {
     }, [copied]);
 
     const handleCopy = useCallback(() => {
+        posthog?.capture("url_field_link_copied", {
+            url: url,
+            uuid: metadataUuid,
+            title: metadataTitle,
+        });
         navigator.clipboard.writeText(url).catch(() => {});
         setCopied(true);
-    }, [url]);
+    }, [url, metadataUuid, metadataTitle]);
 
     return (
         <div className={style.copyUrlField}>
@@ -77,10 +85,15 @@ const renderSpatialRepresentation = (SpatialRepresentation) => {
     ) : null;
 };
 
-CopyUrlField.propTypes = { url: PropTypes.string.isRequired };
+CopyUrlField.propTypes = {
+    url: PropTypes.string.isRequired,
+    metadataUuid: PropTypes.string,
+    metadataTitle: PropTypes.string,
+};
 
-const CopyLinkHeaderButton = ({ url }) => {
+const CopyLinkHeaderButton = ({ url, metadataUuid, metadataTitle }) => {
     const dispatch = useDispatch();
+    const posthog = usePostHog();
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
@@ -90,9 +103,14 @@ const CopyLinkHeaderButton = ({ url }) => {
     }, [copied]);
 
     const handleCopy = useCallback(() => {
+        posthog?.capture("header_link_copied", {
+            url: url,
+            uuid: metadataUuid,
+            title: metadataTitle,
+        });
         navigator.clipboard.writeText(url).catch(() => {});
         setCopied(true);
-    }, [url]);
+    }, [url, metadataUuid, metadataTitle]);
 
     return (
         <Button variant="primary" className={buttonStyle.listButton} onClick={handleCopy}>
@@ -107,7 +125,11 @@ const CopyLinkHeaderButton = ({ url }) => {
     );
 };
 
-CopyLinkHeaderButton.propTypes = { url: PropTypes.string.isRequired };
+CopyLinkHeaderButton.propTypes = {
+    url: PropTypes.string.isRequired,
+    metadataUuid: PropTypes.string,
+    metadataTitle: PropTypes.string,
+};
 
 const DistributionAccordionItem = ({ item, metadata }) => {
     const dispatch = useDispatch();
@@ -120,18 +142,32 @@ const DistributionAccordionItem = ({ item, metadata }) => {
         const base = url.replace(/\/+$/, "");
         return base.endsWith(`/${uuid}`) ? base : `${base}/${uuid}`;
     };
-    const rawUrls = item.URL ?? [];
-    const urls =
-        protocol === "GEONORGE:DOWNLOAD" && metadata?.Uuid
-            ? rawUrls.map((url) => appendUuid(url, metadata.Uuid))
-            : rawUrls;
+    const resolveUrl = (url) =>
+        protocol === "GEONORGE:DOWNLOAD" && metadata?.Uuid ? appendUuid(url, metadata.Uuid) : url;
+    // Hvert format har sin egen URL. Formater som deler URL samles i én rad.
+    const formatUrls = (item.Formats ?? []).reduce((groups, format) => {
+        if (!format.URL) return groups;
+        const url = resolveUrl(format.URL);
+        const group = groups.find((existing) => existing.url === url);
+        if (group) {
+            if (format.FormatName) group.names.push(format.FormatName);
+        } else {
+            groups.push({ url, names: format.FormatName ? [format.FormatName] : [] });
+        }
+        return groups;
+    }, []);
+    const rawUrls = (item.URL ?? []).map(resolveUrl);
+    const urls = formatUrls.length ? formatUrls.map((format) => format.url) : rawUrls;
     const unitsOfDistribution = item.UnitsOfDistribution ?? null;
     const referenceSystems = metadata?.ReferenceSystems ?? [];
     const dateUpdated = metadata?.DateUpdated && moment(metadata.DateUpdated).isValid()
         ? moment(metadata.DateUpdated).format("DD.MM.YYYY")
         : null;
     const maintenanceFrequency = metadata?.MaintenanceFrequency ?? null;
-    const singleUrl = urls.length === 1;
+    // Deler alle formatene samme URL, vises den som én "Tilgangs-URL" i stedet for én rad per format.
+    const singleUrl = new Set(urls).size === 1;
+    // Knappene i overskriften peker på distribusjonen som helhet, ikke på et enkelt format.
+    const headerUrl = rawUrls[0] ?? urls[0];
     const operations = metadata?.Operations ?? [];
 
     return (
@@ -152,13 +188,13 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                             protocol === "OPENDAP:OPENDAP" || protocol === "OGC:WMTS" || protocol === "OGC:CSW" ||
                             protocol === "W3C:WS") && urls.length > 0 && (
                             <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
-                                <CopyLinkHeaderButton url={urls[0]} />
+                                <CopyLinkHeaderButton url={headerUrl} metadataUuid={metadata?.Uuid} metadataTitle={metadata?.Title} />
                             </div>
                         )}
                         {(protocol === "WWW:DOWNLOAD-1.0-http--download" || protocol === "GEONORGE:FILEDOWNLOAD" || protocol === "download") && urls.length > 0 && (
                             <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
                                 <Button asChild variant="primary" className={buttonStyle.listButton}>
-                                    <a href={urls[0]} target="_blank" rel="noopener noreferrer">
+                                    <a href={headerUrl} target="_blank" rel="noopener noreferrer">
                                         <ExternalLinkIcon aria-hidden="true" fontSize="1.5rem" />
                                         <span className={buttonStyle.buttonText}>
                                             {dispatch(getResource("ToBasket", "Åpne nedlastinger"))}
@@ -170,7 +206,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                         {protocol === "WWW:LINK-1.0-http--link" && urls.length > 0 && (
                             <div className={style.actionButton} onClick={(e) => e.stopPropagation()}>
                                 <Button asChild variant="primary" className={buttonStyle.listButton}>
-                                    <a href={urls[0]} target="_blank" rel="noopener noreferrer">
+                                    <a href={headerUrl} target="_blank" rel="noopener noreferrer">
                                         <ExternalLinkIcon aria-hidden="true" fontSize="1.5rem" />
                                         <span className={buttonStyle.buttonText}>
                                             {dispatch(getResource("Nettside", "Nettside"))}
@@ -221,9 +257,20 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                             {dispatch(getResource("AccessUrl", "Tilgangs-URL"))}
                                         </Table.Cell>
                                         <Table.Cell className={style.urlCell}>
-                                            <CopyUrlField url={urls[0]} />
+                                            <CopyUrlField url={urls[0]} metadataUuid={metadata?.Uuid} metadataTitle={metadata?.Title} />
                                         </Table.Cell>
                                     </Table.Row>
+                                ) : formatUrls.length ? (
+                                    formatUrls.map((format) => (
+                                        <Table.Row key={format.url}>
+                                            <Table.Cell className={`${style.labelCell} ${style.indentedLabelCell}`}>
+                                                {format.names.join(", ")}
+                                            </Table.Cell>
+                                            <Table.Cell className={style.urlCell}>
+                                                <CopyUrlField url={format.url} metadataUuid={metadata?.Uuid} metadataTitle={metadata?.Title} />
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    ))
                                 ) : (
                                     urls.map((url, index) => (
                                         <Table.Row key={index + "-" + url}>
@@ -231,7 +278,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                                 {item.Formats?.[index]?.FormatName ?? ""}
                                             </Table.Cell>
                                             <Table.Cell className={style.urlCell}>
-                                                <CopyUrlField url={url} />
+                                                <CopyUrlField url={url} metadataUuid={metadata?.Uuid} metadataTitle={metadata?.Title} />
                                             </Table.Cell>
                                         </Table.Row>
                                     ))
@@ -296,7 +343,13 @@ DistributionAccordionItem.propTypes = {
         Protocol: PropTypes.string,
         ProtocolDescription: PropTypes.string,
         Organization: PropTypes.string,
-        Formats: PropTypes.arrayOf(PropTypes.shape({ FormatName: PropTypes.string })),
+        Formats: PropTypes.arrayOf(
+            PropTypes.shape({
+                FormatName: PropTypes.string,
+                FormatVersion: PropTypes.string,
+                URL: PropTypes.string,
+            })
+        ),
         URL: PropTypes.arrayOf(PropTypes.string),
         UnitsOfDistribution: PropTypes.string,
     }).isRequired,

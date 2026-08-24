@@ -40,7 +40,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
 
     const handleSubmitSearch = (searchString, selectedType) => {
         searchString = searchString.toString();
-        searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
+        //searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         if (searchString.length > 1) {
             const isLoggedIn = !!auth?.user;
@@ -56,7 +56,7 @@ const MainNavigationContainer = ({ userManager, layoutLoaderData }) => {
     };
 
     const handleChangeSearchResultsType = (searchResultsType, searchString) => {
-        searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
+        //searchString = searchString.replace(/[^a-å0-9- ]+/gi, ""); // Removes unwanted characters
         searchString = searchString.replace(/\s\s+/g, " "); // Remove redundant whitespace
         const view = new URLSearchParams(window.location.search).get("view");
         const viewParam = view ? `${searchString && searchString.length ? "&" : "?"}view=${view}` : "";
