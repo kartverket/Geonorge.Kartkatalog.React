@@ -17,15 +17,19 @@ import { ExternalLinkIcon } from '@navikt/aksel-icons';
 const ShowCoverageButton = (props) => {
     const dispatch = useDispatch();
 
-    const handleButtonClick = () => {
+    const handleButtonClick = (event) => {
         if (props.metadata.CoverageUrl) {
+            const isSurveyArea = event.shiftKey && event.altKey && props.metadata.SurveyAreaMap;
+            const url = isSurveyArea
+                ? props.metadata.SurveyAreaMap
+                : props.metadata.CoverageUrl;
             const windowWidth = 1400;
             const windowHeight = 900;
             const left = (window.screen.width - windowWidth) / 2;
             const top = (window.screen.height - windowHeight) / 2;
 
             window.open(
-                props.metadata.CoverageUrl,
+                url,
                 "dekningskart",
                 `width=${windowWidth},height=${windowHeight},left=${left},top=${top},scrollbars=yes,resizable=yes,menubar=no,toolbar=no,location=no,status=no`
             );
