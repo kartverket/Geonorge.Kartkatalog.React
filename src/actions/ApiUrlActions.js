@@ -1,9 +1,9 @@
 import { getEnvironment } from '@/utils/runtimeConfig';
 
 export const getKartkatalogApiUrl = () => () => {
-    const environment = getEnvironment();
-    const environmentSlug = environment === 'dev' || environment === 'test' ? environment + '.' : '';
-    return `https://kartkatalog.${environmentSlug}geonorge.no/api`;
+   //const environment = getEnvironment();
+    //const environmentSlug = environment === 'dev' || environment === 'test' ? environment + '.' : '';
+    return `https://tilgangstyring-kartkatalog-api-dev.atkv3-dev.kartverket-intern.cloud/api`;
 };
 
 export const getGeonorgeRegisterApiUrl = () => () => {
