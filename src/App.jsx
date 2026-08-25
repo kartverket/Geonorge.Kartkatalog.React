@@ -36,6 +36,7 @@ import { getEnvironment as getRuntimeEnvironment } from "@/utils/runtimeConfig";
 import "@/scss/theme.scss";
 import Login from "@/components/routes/Login";
 import Logout from "@/components/routes/Logout";
+import User from "@/components/routes/User";
 
 const initialState = {};
 
@@ -260,6 +261,10 @@ const App = () => {
                 {
                     element: <MapContainer />,
                     path: "kart"
+                },
+                {
+                    element: <User />,
+                    path: "user"
                 },
                 {
                     element: <Login />,
