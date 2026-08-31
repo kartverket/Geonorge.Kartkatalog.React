@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePostHog } from "@posthog/react";
 
 // Utils

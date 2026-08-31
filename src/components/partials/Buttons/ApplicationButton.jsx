@@ -2,7 +2,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePostHog } from "@posthog/react";
 
 // Actions

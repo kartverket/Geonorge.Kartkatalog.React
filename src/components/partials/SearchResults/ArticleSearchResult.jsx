@@ -1,26 +1,25 @@
 // Dependencies
 import React from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FileTextIcon, NewspaperIcon } from "@navikt/aksel-icons";
 import moment from "moment";
 
 // Stylesheets
 import style from "@/components/partials/SearchResults/ArticleSearchResult.module.scss";
 
 const ArticleSearchResult = (props) => {
-    const getArticleTypeIcon = () => {
-        const iconClasses = {
-            StandardPage: ["fal", "file-alt"],
-            NewsPage: ["fal", "newspaper"]
-        };
-        return iconClasses[props.searchResult.Type];
+    const renderArticleTypeIcon = () => {
+        if (props.searchResult.Type === "NewsPage") {
+            return <NewspaperIcon aria-hidden="true" className={style.icon} />;
+        }
+        return <FileTextIcon aria-hidden="true" className={style.icon} />;
     };
     return (
         <div className={style.listItem}>
             <span className={style.listItemTitle}>
                 <a href={props.searchResult.ShowDetailsUrl}>{props.searchResult.Title}</a>
                 <span title={props.searchResult.Type}>
-                    <FontAwesomeIcon className={style.icon} icon={getArticleTypeIcon()} />
+                    {renderArticleTypeIcon()}
                 </span>
             </span>
             <span className={style.listItemInfo}>{props.searchResult.Intro}</span>

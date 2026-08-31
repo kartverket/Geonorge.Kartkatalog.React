@@ -5,7 +5,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData, useLocation, useParams } from "react-router-dom";
 import { usePostHog } from "@posthog/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import DatePicker from "react-datepicker";
 import MDEditor from "@uiw/react-md-editor";
 
@@ -1981,16 +1981,10 @@ const Metadata = () => {
                         <heading-text>
                             <h2 underline="true">
                                 {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
-                                <FontAwesomeIcon
-                                    title={
-                                        expanded
-                                            ? "Trekk sammen"
-                                            : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
-                                                getResource("DetailedInformation", "Detaljert informasjon")
-                                            )}`
-                                    }
-                                    icon={expanded ? "angle-up" : "angle-down"}
-                                />
+                                {expanded
+                                    ? <ChevronUpIcon aria-hidden="true" title="Trekk sammen" />
+                                    : <ChevronDownIcon aria-hidden="true" title={`${dispatch(getResource("Display", "Vis"))} ${dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}`} />
+                                }
                             </h2>
                         </heading-text>
                     </div>

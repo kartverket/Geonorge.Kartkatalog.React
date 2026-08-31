@@ -147,7 +147,7 @@ const DistributionAccordionItem = ({ item, metadata }) => {
                                 <DownloadButton listButton={true} metadata={metadata} distribution={item} />
                             </div>
                         )}
-                        {(protocol === "W3C:REST" || protocol === "OGC:WMS" || protocol === "OGC:WFS" ||
+                            {(protocol === "W3C:REST" || protocol === "OGC:WMS" || protocol === "OGC:WFS" ||
                             protocol === "OGC:WCS" || protocol === "OGC:API-Features" || protocol === "OGC:API-Tiles" ||
                             protocol === "OPENDAP:OPENDAP" || protocol === "OGC:WMTS" || protocol === "OGC:CSW" ||
                             protocol === "W3C:WS") && urls.length > 0 && (
