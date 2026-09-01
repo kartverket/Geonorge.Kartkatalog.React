@@ -40,6 +40,7 @@ import ShowCoverageButton from "@/components/partials/Buttons/ShowCoverageButton
 import DownloadXmlButton from "@/components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "@/components/partials/Buttons/EditMetadataButton";
 import AlertBox from "@/components/partials/AlertBox";
+import BetaBanner from "@/components/partials/BetaBanner";
 import { renderMetadataOwnership } from "@/components/partials/SearchResults/parts/MetadataOwnership"
 
 // Stylesheets
@@ -1857,6 +1858,7 @@ const Metadata = () => {
                     {renderTwitterTags()}
                 </Helmet>
                 {getMetadataLinkedDataSnippet()}
+                <BetaBanner uuid={uuid} />
                 <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
                 <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
 
