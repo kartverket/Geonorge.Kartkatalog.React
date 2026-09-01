@@ -3,8 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useRouteLoaderData, useSearchParams } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BulletListIcon, MenuGridIcon } from "@navikt/aksel-icons";
+import { BulletListIcon, MenuGridIcon, XMarkIcon } from "@navikt/aksel-icons";
 import { Select } from "@digdir/designsystemet-react";
 import { usePostHog } from "@posthog/react";
 
@@ -178,10 +177,10 @@ const Home = () => {
                                 <Link to={clearSearchPath}>
                                     {" "}
                                     {dispatch(getResource("ClearSearch", "Nullstill søk"))}
-                                    <FontAwesomeIcon
+                                    <XMarkIcon
                                         title={dispatch(getResource("ClearSearch", "Nullstill søk"))}
                                         className={style.resetSearchResults}
-                                        icon={"times"}
+                                        aria-hidden="true"
                                     />
                                 </Link>
                             </span>
@@ -214,10 +213,10 @@ const Home = () => {
                         <span className={searchData?.searchString !== "" ? style.show : style.hide}>
                             <Link to={clearSearchPath}>
                                 {dispatch(getResource("ClearSearch", "Nullstill søk"))}
-                                <FontAwesomeIcon
+                                <XMarkIcon
                                     title={dispatch(getResource("ClearSearch", "Nullstill søk"))}
                                     className={style.resetSearchResults}
-                                    icon={"times"}
+                                    aria-hidden="true"
                                 />
                             </Link>
                         </span>

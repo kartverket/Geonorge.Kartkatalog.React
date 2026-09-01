@@ -1,7 +1,7 @@
 // Dependencies
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { XMarkIcon } from "@navikt/aksel-icons";
 
 // Geonorge WebComponents
 // eslint-disable-next-line no-unused-vars
@@ -34,7 +34,7 @@ const SelectedFacets = ({ searchData, viewMode }) => {
                               {facet.NameTranslated}{" "}
                               <Link to={getRemoveFacetQueryString(facet, facet.Name)}>
                                   <gn-sr-only>Fjern filter {facet.NameTranslated}</gn-sr-only>
-                                  <FontAwesomeIcon alt="" icon={["fas", "times"]} />
+                                   <XMarkIcon aria-hidden="true" />
                               </Link>
                           </div>
                           {hasChildren ? renderFacets(facet.facets) : null}
