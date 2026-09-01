@@ -1,0 +1,30 @@
+.banner {
+    width: 100%;
+    background-color: var(--ds-color-info-background-tinted);
+    border: 1px solid var(--ds-color-info-border-default);
+    border-top: none;
+    padding: 12px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.icon {
+    font-size: 1.25em;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.textWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    p {
+        margin: 0;
+    }
+}
+
+.line1 {
+    font-weight: 600;
+}

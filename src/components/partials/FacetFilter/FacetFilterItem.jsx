@@ -1,7 +1,7 @@
 // Dependencies
 import React from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import { useDispatch, useSelector } from "react-redux";
 
 // Components
@@ -80,7 +80,7 @@ const FacetFilterItem = ({ searchData, facetFilterItem, viewMode }) => {
     return (
         <li className={isExpanded() ? style.filterItem : style.filterItem + " " + style.closed}>
             <button onClick={toggleExpand} className={style.expandButton} aria-expanded={isExpanded()}>
-                <FontAwesomeIcon icon={isExpanded() ? "angle-up" : "angle-down"} className={style.expandArrow} />
+                {isExpanded() ? <ChevronUpIcon aria-hidden="true" className={style.expandArrow} /> : <ChevronDownIcon aria-hidden="true" className={style.expandArrow} />}
                 <p className={style.filterName}>
                     <span className={style.expandArrow}></span> <span id={labelId}>{facetFilterItem.NameTranslated}</span>
                 </p>

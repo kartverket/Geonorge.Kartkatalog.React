@@ -7,7 +7,6 @@ import { ConsentProvider } from "@/utils/consentContext";
 
 // Components
 import App from "@/App.jsx";
-import "@/layout/icons";
 
 // Helpers
 import { convertSearchParams, convertPath } from "@/helpers/UrlHelpers";

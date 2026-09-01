@@ -5,7 +5,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData, useLocation, useParams } from "react-router-dom";
 import { usePostHog } from "@posthog/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import DatePicker from "react-datepicker";
 import MDEditor from "@uiw/react-md-editor";
 
@@ -40,6 +40,7 @@ import ShowCoverageButton from "@/components/partials/Buttons/ShowCoverageButton
 import DownloadXmlButton from "@/components/partials/Buttons/DownloadXmlButton";
 import EditMetadataButton from "@/components/partials/Buttons/EditMetadataButton";
 import AlertBox from "@/components/partials/AlertBox";
+import BetaBanner from "@/components/partials/BetaBanner";
 import { renderMetadataOwnership } from "@/components/partials/SearchResults/parts/MetadataOwnership"
 
 // Stylesheets
@@ -1857,6 +1858,7 @@ const Metadata = () => {
                     {renderTwitterTags()}
                 </Helmet>
                 {getMetadataLinkedDataSnippet()}
+                <BetaBanner uuid={uuid} />
                 <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
                 <gn-shortcut-button language={selectedLanguage} environment={environment?.environment}></gn-shortcut-button>
 
@@ -1981,16 +1983,10 @@ const Metadata = () => {
                         <heading-text>
                             <h2 underline="true">
                                 {dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}
-                                <FontAwesomeIcon
-                                    title={
-                                        expanded
-                                            ? "Trekk sammen"
-                                            : `${dispatch(getResource("Display", "Vis"))} ${dispatch(
-                                                getResource("DetailedInformation", "Detaljert informasjon")
-                                            )}`
-                                    }
-                                    icon={expanded ? "angle-up" : "angle-down"}
-                                />
+                                {expanded
+                                    ? <ChevronUpIcon aria-hidden="true" title="Trekk sammen" />
+                                    : <ChevronDownIcon aria-hidden="true" title={`${dispatch(getResource("Display", "Vis"))} ${dispatch(getResource("DetailedInformation", "Detaljert informasjon"))}`} />
+                                }
                             </h2>
                         </heading-text>
                     </div>

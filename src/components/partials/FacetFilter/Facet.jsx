@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import classNames from "classnames/bind";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CheckmarkIcon, SquareIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { usePostHog } from "@posthog/react";
 
@@ -181,10 +181,10 @@ const Facet = (props) => {
                     to={checked ? getRemoveFacetQueryString() : getAddFacetQueryString()}
                     onClick={handleFacetClick}
                 >
-                    <FontAwesomeIcon
-                        className={style.facetCheckbox}
-                        icon={checked ? ["far", "check-square"] : ["far", "square"]}
-                    />
+                     {checked
+                        ? <CheckmarkIcon aria-hidden="true" className={style.facetCheckbox} />
+                        : <SquareIcon aria-hidden="true" className={style.facetCheckbox} />
+                    }
                     <div className={style.facetName}>
                         <span>{props.facet.NameTranslated} </span>
                         <span>({props.facet.Count})</span>

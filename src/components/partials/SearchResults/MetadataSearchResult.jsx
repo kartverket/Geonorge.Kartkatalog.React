@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { usePostHog } from "@posthog/react";

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames/bind";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { XMarkIcon, FilterIcon } from "@navikt/aksel-icons";
 
 // Components
 import FacetFilterItem from "@/components/partials/FacetFilter/FacetFilterItem";
@@ -50,7 +50,7 @@ export const FacetFilter = ({ searchData, viewMode }) => {
     return (
         <div>
             <div className={style.togglefacet} onClick={() => toggleFacets()}>
-                <FontAwesomeIcon icon={expanded ? ["fas", "times"] : ["far", "filter"]} />
+                {expanded ? <XMarkIcon aria-hidden="true" /> : <FilterIcon aria-hidden="true" />}
             </div>
             {renderFacets()}
         </div>

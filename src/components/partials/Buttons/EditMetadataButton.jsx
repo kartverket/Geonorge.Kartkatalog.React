@@ -1,7 +1,6 @@
 // Dependencies
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@digdir/designsystemet-react";
 // Actions
 import { getResource } from "@/actions/ResourceActions";

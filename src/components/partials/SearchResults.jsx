@@ -1,7 +1,7 @@
 // Dependencies
 import React from "react";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ChevronDownIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { usePostHog } from "@posthog/react";
 
@@ -119,7 +119,7 @@ export const SearchResults = ({ searchData, searchResultsType, viewMode }) => {
                 <gn-button color="default">
                     <Link to={{ search: getShowMoreLink() }} replace className={style.morebtn} onClick={handleShowMoreClick}>
                         <span>{dispatch(getResource("ShowMoreResults", "Vis flere"))}</span>
-                        <FontAwesomeIcon icon={"angle-down"} key="icon" />
+                        <ChevronDownIcon aria-hidden="true" key="icon" />
                     </Link>
                 </gn-button>
             </div>
