@@ -180,6 +180,8 @@ const DownloadButton = (props) => {
             distribution_url: props.metadata.DistributionUrl,
             protocol: props.metadata.Protocol,
             organization: props.metadata.Organization,
+            basket_items: itemsToDownload,
+            basket_count: itemsToDownload?.length ?? 0,
         });
     };
 

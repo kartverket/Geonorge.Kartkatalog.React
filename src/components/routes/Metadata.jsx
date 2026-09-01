@@ -1820,10 +1820,10 @@ const Metadata = () => {
 
 
     const metadataItems = [
-        {
+        /*{
             key: "lastUpdated",
             content: renderDateUpdated2()
-        },
+        },*/
         {
             key: "updateFrequency",
             content: renderMaintenanceFrequency2()
