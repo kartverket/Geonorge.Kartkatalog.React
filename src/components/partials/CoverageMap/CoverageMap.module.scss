@@ -1,0 +1,278 @@
+@use "../../../scss/abstracts/all" as *;
+
+// ── Container ──────────────────────────────────────────────────────
+
+:local(.coverageMapContainer) {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+
+:local(.mapTarget) {
+  width: 100%;
+  height: 100%;
+}
+
+// ── Layer Panel ────────────────────────────────────────────────────
+
+:local(.layerPanel) {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 14px;
+  max-height: calc(100% - 20px);
+  max-width: min(380px, 45%);
+  min-width: 240px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 1rem;
+}
+
+:local(.layerPanelHeader) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid $primary-border;
+  font-weight: 600;
+}
+
+:local(.panelToggle) {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+  padding: 2px 6px;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+:local(.layerGroup) {
+  & + & {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid $primary-border;
+  }
+}
+
+:local(.layerGroupName) {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: $default-text;
+}
+
+:local(.layerNode) {
+  margin: 2px 0;
+}
+
+:local(.groupHeader) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+:local(.groupChildren) {
+  padding-left: 16px;
+  border-left: 2px solid $primary-border;
+  margin-left: 8px;
+}
+
+:local(.leafRow) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+:local(.detailsBtn) {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  color: #999;
+  margin-left: auto;
+  flex-shrink: 0;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+:local(.leafDetails) {
+  padding: 4px 0 8px 40px;
+  font-size: 0.9rem;
+}
+
+:local(.expandBtn) {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: 0.85rem;
+  color: #666;
+  width: 16px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+:local(.opacityLabel) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+:local(.opacitySlider) {
+  flex: 1;
+  accent-color: var(--ds-color-accent-surface-default, #0062ba);
+  height: 4px;
+}
+
+:local(.legendImage) {
+  max-width: 100%;
+  display: block;
+  margin-top: 4px;
+}
+
+:local(.legendSwatch) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  font-size: 0.9rem;
+}
+
+:local(.swatchColor) {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+// ── Info Box ───────────────────────────────────────────────────────
+
+:local(.infoBox) {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 12px;
+  max-height: calc(100% - 20px);
+  max-width: 350px;
+  min-width: 220px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 0.875rem;
+}
+
+:local(.infoHeader) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid $primary-border;
+  font-weight: 600;
+}
+
+:local(.closeBtn) {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #666;
+  padding: 0 4px;
+  line-height: 1;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+:local(.infoCoords) {
+  margin-bottom: 8px;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+:local(.infoLoading) {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+:local(.infoResult) {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid $primary-border;
+
+  dl {
+    margin: 4px 0 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2px 8px;
+    font-size: 0.8rem;
+  }
+
+  dt {
+    font-weight: 600;
+    color: #555;
+  }
+
+  dd {
+    margin: 0;
+    word-break: break-word;
+  }
+}
+
+:local(.noInfo) {
+  color: #888;
+  font-style: italic;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+// ── Modal ──────────────────────────────────────────────────────────
+
+:local(.modalContent) {
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+}
+
+:local(.modalDialog) {
+  max-width: 66vw !important;
+  width: 66vw !important;
+  padding: 0 !important;
+  padding-block: 0 !important;
+  margin: auto;
+  overflow: hidden;
+  border: none;
+
+  > button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 20;
+  }
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
