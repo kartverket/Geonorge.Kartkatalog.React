@@ -5,7 +5,8 @@ import { usePostHog } from "posthog-js/react";
 import style from "./BetaBanner.module.scss";
 
 const BetaBanner = ({ uuid }) => {
-    const betaUrl = `${window.location.origin}/beta/metadata/${uuid}`;
+    const betaPath = uuid ? `/beta/metadata/${uuid}` : "/beta";
+    const betaUrl = `${window.location.origin}${betaPath}`;
     const posthog = usePostHog();
 
     const handleBetaLinkClick = () => {
@@ -27,7 +28,7 @@ const BetaBanner = ({ uuid }) => {
 };
 
 BetaBanner.propTypes = {
-    uuid: PropTypes.string.isRequired
+    uuid: PropTypes.string
 };
 
 export default BetaBanner;
