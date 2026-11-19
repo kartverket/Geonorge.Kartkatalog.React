@@ -1,6 +1,4 @@
-# syntax=docker/dockerfile:1.7
-
-FROM node:24-alpine3.23 AS build
+FROM node:24-alpine3.24 AS build
 WORKDIR /app
 
 RUN apk add --no-cache git
@@ -14,7 +12,7 @@ COPY . .
 
 RUN yarn build
 
-FROM nginxinc/nginx-unprivileged:1.31.0-alpine3.23 AS runtime
+FROM nginx/nginx-unprivileged:1.31.9-alpine3.24 AS runtime
 USER root
 RUN apk add --no-cache gettext
 COPY nginx.conf /etc/nginx/conf.d/default.conf
