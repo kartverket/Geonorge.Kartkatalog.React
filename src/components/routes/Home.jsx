@@ -20,6 +20,7 @@ import { getActiveFiltersFromSelectedFacets } from "@/helpers/FacetFilterHelpers
 // Components
 import SelectedFacets from "@/components/partials/SelectedFacets";
 import SearchResults from "@/components/partials/SearchResults";
+import BetaBanner from "@/components/partials/BetaBanner";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Stylesheets
@@ -258,6 +259,7 @@ const Home = () => {
                 <meta name="keywords" content="kartverket, geonorge, kartkatalog, kartkatalogen" />
             </Helmet>
 
+            <BetaBanner />
             <breadcrumb-list id="breadcrumb-list" breadcrumbs={JSON.stringify(breadcrumbs)}></breadcrumb-list>
 
             <div id="main-content">
