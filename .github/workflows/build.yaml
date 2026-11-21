@@ -16,7 +16,7 @@ env:
   DOCKER_REGISTRY: ghcr.io
   NAME: kartverket/geonorge-kartkatalog-frontend
   ENV_SUFFIX: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
-  DEPLOY_PATH: ${{ github.ref_name == 'main' && 'env/atkv3-prod/geonorge-kartkatalog/kartkatalog-frontend-version' || 'env/atkv3-dev/geonorge-kartkatalog-dev/kartkatalog-frontend-version' }}
+  DEPLOY_PATH: ${{ github.ref_name == 'main' && 'env/atkv3-prod/geonorge-kartkatalog/old-kartkatalog-frontend-version' || 'env/atkv3-dev/geonorge-kartkatalog/old-kartkatalog-frontend-version' }}
 
 jobs:
   test:
